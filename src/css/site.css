@@ -325,3 +325,13 @@ dialog.zoom button{display:block;margin:0 0 .5rem auto;padding:.5rem 1rem;font:i
 .series-card .lead{color:var(--on-band-muted)}
 .series-side{display:flex;flex-direction:column;gap:1rem;align-items:flex-start;padding:1.25rem;border:1px solid var(--band-line);border-radius:var(--r);background:var(--band2)}
 .sfacts{color:var(--on-band-muted);font-size:.97rem}.sfacts strong{color:var(--on-band);font-weight:650}
+
+/* ---------- home: dark enterprise look (always dark on the homepage) ---------- */
+.home{--bg:#070d19;--surface:#0f172a;--surface2:#0b1424;--ink:#f8fafc;--muted:#94a3b8;--line:#1e293b;--line2:#2b3b55;--brand:#38bdf8;--brand-ink:#38bdf8;--brand-soft:rgba(56,189,248,.12);--grid:rgba(56,189,248,.05);--band:#0b1527;--band2:#0e1e38;--band-line:#1e3a5f;color-scheme:dark}
+.home .btn.primary{background:#0284c7;color:#fff}.home .btn.primary:hover{background:#0369a1}
+.home .plate::before,.home .plate::after{border-color:var(--brand)}
+.hbadge{display:inline-block;margin-bottom:1rem;padding:.25rem .75rem;border-radius:999px;font-size:.8rem;font-weight:600;color:#38bdf8;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3)}
+.arch-head{display:flex;justify-content:space-between;gap:1rem;margin:-.25rem 0 .75rem;padding-bottom:.6rem;border-bottom:1px solid var(--line);font-size:.8rem;color:var(--muted)}
+.pillar{transition:transform .2s,border-color .2s}.pillar:hover{transform:translateY(-4px);border-color:var(--brand)}
+.home .sec.alt{background:#0a1220}
+@media (prefers-reduced-motion:reduce){.pillar:hover{transform:none}}

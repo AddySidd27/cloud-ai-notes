@@ -10,15 +10,16 @@ permalink: "/"
 <section class="hero">
   <div class="wrap hero-grid">
     <div class="hero-text">
-      <h1>Architecting Enterprise Cloud &amp; Digital Workspaces</h1>
-      <p class="lead">Production-grade architectural blueprints, Cloud Adoption Framework (CAF) implementations, and scalable virtualization solutions across Azure, AVD, Windows 365, Citrix, and Intune.</p>
+      <span class="hbadge">Enterprise Cloud &amp; Workspace Solutions</span>
+      <h1>Architecting Enterprise Azure &amp; End-User Computing</h1>
+      <p class="lead">Production blueprints, Cloud Adoption Framework landing zones, and hands-on architectures across Azure, AVD, Windows 365, Citrix, and Intune.</p>
       <div class="cta">
-        <a class="btn primary" href="/azure-landing-zone/">Explore ALZ Blueprint ({{ list.length }} Parts)</a>
+        <a class="btn primary" href="/azure-landing-zone/">Azure Landing Zone Series</a>
         <a class="btn ghost" href="https://github.com/AddySidd27">GitHub Repositories</a>
       </div>
     </div>
     <figure class="plate hero-fig">
-      <span class="badge">Aligned with Microsoft Learn guidance</span>
+      <div class="arch-head"><span>Redrawn after Microsoft Learn</span><span>Hub &amp; Spoke / vWAN</span></div>
       <a class="fig-img" href="/azure-landing-zone/network-topology-and-connectivity/"><img src="/diagrams/post-10-hub-spoke-and-virtual-wan.svg" alt="Two network topologies: traditional hub-and-spoke with two regional hub virtual networks peered to spoke virtual networks, and Azure Virtual WAN with two Virtual WAN hubs connected to the same spokes" width="640" height="400" fetchpriority="high"></a>
       <figcaption><b>Fig. 1</b> Hub-and-spoke and Virtual WAN, from <a href="/azure-landing-zone/network-topology-and-connectivity/">Part 10</a>. Redrawn after Microsoft Learn; not an official Microsoft diagram.</figcaption>
     </figure>
@@ -26,27 +27,27 @@ permalink: "/"
 </section>
 
 <section class="sec" aria-labelledby="pil-h"><div class="wrap">
-  <div class="sec-head"><h2 id="pil-h">Specializations</h2></div>
+  <div class="sec-head"><h2 id="pil-h">Core Technology Pillars</h2></div>
   <div class="pillars">
     <a class="pillar live" href="/azure-landing-zone/">
-      <span class="ptag">{{ list.length }} parts published</span>
+      <span class="ptag">{{ list.length }} parts complete</span>
       <h3>Azure Landing Zones (CAF)</h3>
-      <p>Enterprise-scale foundation, governance, hub-and-spoke connectivity, and Entra ID security baselines.</p>
+      <p>Enterprise subscription models, governance, hub-spoke network design, and Microsoft Entra ID controls.</p>
     </a>
     <div class="pillar">
-      <span class="ptag soon">Next series</span>
+      <span class="ptag soon">Active track</span>
       <h3>Azure Virtual Desktop (AVD)</h3>
-      <p>Host pool architectures, FSLogix containers, golden image management, and RDP Shortpath tuning.</p>
+      <p>Host pool architectures, FSLogix profile storage, golden image pipelines, and RDP Shortpath tuning.</p>
     </div>
     <div class="pillar">
-      <span class="ptag soon">Planned</span>
+      <span class="ptag soon">Implementation track</span>
       <h3>Windows 365 &amp; Cloud PC</h3>
-      <p>Cloud PC provisioning policies, Frontline deployment, zero-trust endpoint compliance via Intune.</p>
+      <p>Enterprise provisioning baselines, Frontline sizing, Intune policy compliance, and zero-trust onboarding.</p>
     </div>
     <div class="pillar">
-      <span class="ptag soon">Planned</span>
+      <span class="ptag soon">Hybrid solutions</span>
       <h3>Citrix &amp; Hybrid Workspace</h3>
-      <p>DaaS control planes, Cloud Connectors, and hybrid workspace continuity.</p>
+      <p>Citrix DaaS control planes, Cloud Connector high-availability, and cross-platform multi-session integration.</p>
     </div>
   </div>
 </div></section>
@@ -56,17 +57,17 @@ permalink: "/"
     <div>
       <p class="chip">Flagship series<span>{{ list.length }} articles</span></p>
       <h2 id="ser-h">{{ ser.title }}</h2>
-      <p class="lead">{{ ser.blurb }}</p>
+      <p class="lead">A zero-to-production walk through designing an enterprise Azure landing zone: identity, resource organization, network topology, and governance.</p>
     </div>
     <div class="series-side">
       <p class="sfacts">From <strong>What Is an Azure Landing Zone</strong> to <strong>Network Topology and Connectivity</strong>, in reading order.</p>
-      <a class="btn primary" href="/{{ ser.slug }}/">View the full index</a>
+      <a class="btn primary" href="/{{ ser.slug }}/">Open {{ list.length }}-Part Series</a>
     </div>
   </div>
 </div></section>
 
 <section class="sec" aria-labelledby="new-h"><div class="wrap">
-  <div class="sec-head"><h2 id="new-h">Latest technical guides</h2><a class="more" href="/articles/">All articles</a></div>
+  <div class="sec-head"><h2 id="new-h">Recent Architecture Guides</h2><a class="more" href="/articles/">All articles</a></div>
   <div class="grid3">
     {%- for p in list | latest(3) %}{% include "card.njk" %}{% endfor %}
   </div>
