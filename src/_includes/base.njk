@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% if title and not home %}{{ title }} | {% endif %}{{ site.name }}{% if home %}: {{ site.tagline }}{% endif %}</title>
+<meta name="description" content="{{ (deck or site.description) | striptags | truncate(190) }}">
+<link rel="canonical" href="{{ page.url | absUrl(site.url) }}">
+<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+<meta property="og:site_name" content="{{ site.name }}">
+<meta property="og:type" content="{% if home %}website{% else %}article{% endif %}">
+<meta property="og:title" content="{{ title or site.name }}">
+<meta property="og:description" content="{{ (deck or site.description) | striptags | truncate(190) }}">
+<meta property="og:url" content="{{ page.url | absUrl(site.url) }}">
+<meta property="og:image" content="{{ '/img/og.png' | absUrl(site.url) }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F3F5F2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1512" media="(prefers-color-scheme: dark)">
+<link rel="preload" href="/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/source-serif-4-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/site.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="masthead"><div class="wrap">
+  <a class="brand" href="/" aria-label="{{ site.name }}, home">{% include "mark.njk" %}<span>{{ site.name }}</span></a>
+  <nav class="nav" aria-label="Main">
+    <a href="/start-here/"{% if page.url == '/start-here/' %} aria-current="page"{% endif %}>Start here</a>
+    <a href="/azure-landing-zone/"{% if page.url == '/azure-landing-zone/' %} aria-current="page"{% endif %}>Azure Landing Zone</a>
+    <a href="{{ site.repo }}">GitHub</a>
+    <button class="theme" type="button" aria-label="Switch between light and dark theme">Dark theme</button>
+  </nav>
+</div></header>
+<main id="main">
+{{ content | safe }}
+</main>
+<footer class="foot"><div class="wrap">
+  <nav aria-label="Footer"><a href="/start-here/">Start here</a><a href="/azure-landing-zone/">Azure Landing Zone</a><a href="{{ site.repo }}">GitHub repo</a></nav>
+  <p>{{ site.name }} is written by {{ site.author }}. This is an independent site and is not published by or affiliated with Microsoft. Azure facts are checked against Microsoft Learn. Diagrams are simplified redraws that use Microsoft's official Azure and Microsoft Entra icons under Microsoft's icon terms, and each one names the Learn page it follows.</p>
+</div></footer>
+<script src="/js/site.js" defer></script>
+</body>
+</html>

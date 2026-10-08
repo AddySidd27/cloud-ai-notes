@@ -1,0 +1,20 @@
+---
+layout: base.njk
+---
+{%- set nb = collections.alz | neighbors(page.url) -%}
+<article class="wrap article">
+  <header>
+    {% if order == 0 %}<p class="crumb">Start here</p>{% else %}<p class="crumb"><a href="/azure-landing-zone/">Azure Landing Zone</a>, post {{ order }}</p>{% endif %}
+    <h1>{{ title }}</h1>
+    {% if deck %}<p class="deck">{{ deck }}</p>{% endif %}
+  </header>
+  <div class="prose">
+    {{ content | safe }}
+  </div>
+  {%- if order == 0 %}{% else %}
+  <nav class="pager" aria-label="Posts in this series">
+    <div class="prevp">{% if nb.prev %}<small>Previous</small><a href="{{ nb.prev.url }}">{{ nb.prev.data.title }}</a>{% endif %}</div>
+    <div class="nextp"><small>Next in the series</small>{% if nb.next %}<a href="{{ nb.next.url }}">Post {{ nb.next.data.order }}: {{ nb.next.data.title }}</a>{% else %}{% if next_title %}<span class="t">Post {{ next_num }}: {{ next_title }}</span>{% endif %}{% endif %}</div>
+  </nav>
+  {%- endif %}
+</article>

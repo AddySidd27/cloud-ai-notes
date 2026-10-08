@@ -1,0 +1,58 @@
+---
+layout: base.njk
+title: "Addy's Cloud & AI Notes"
+home: true
+permalink: "/"
+---
+<section class="hero"><div class="wrap">
+  <div>
+    <h1>Cloud and AI architecture, explained from zero.</h1>
+    <p>Every post defines its words first, shows one diagram, and points to the lab in the repo. Azure facts are checked against Microsoft Learn.</p>
+    <div class="cta">
+      <a class="btn primary" href="/start-here/">Start here</a>
+      <a class="btn ghost" href="/azure-landing-zone/what-is-an-azure-landing-zone/">Read post 1</a>
+    </div>
+  </div>
+  <div class="map">
+    <svg viewBox="-20 0 600 460" role="img" aria-label="A hub-and-spoke map. The hub is the Azure landing zone, which is published now. Azure Virtual Desktop is the next spoke. Windows 365, Citrix, AWS, Google Cloud and AI are planned spokes.">
+      <line class="spoke next" style="--i:0" pathLength="1" x1="280" y1="230" x2="280" y2="85"/>
+      <line class="spoke later" style="--i:1" x1="280" y1="230" x2="406" y2="157"/>
+      <line class="spoke later" style="--i:2" x1="280" y1="230" x2="406" y2="303"/>
+      <line class="spoke later" style="--i:3" x1="280" y1="230" x2="280" y2="376"/>
+      <line class="spoke later" style="--i:4" x1="280" y1="230" x2="154" y2="303"/>
+      <line class="spoke later" style="--i:5" x1="280" y1="230" x2="154" y2="157"/>
+      <g class="lbl" style="--i:0"><circle class="node next" cx="280" cy="70" r="15"/><text x="280" y="42" text-anchor="middle">Azure Virtual Desktop</text></g>
+      <g class="lbl" style="--i:1"><circle class="node" cx="418" cy="150" r="13"/><text class="later" x="440" y="155">Windows 365</text></g>
+      <g class="lbl" style="--i:2"><circle class="node" cx="418" cy="310" r="13"/><text class="later" x="440" y="315">Citrix</text></g>
+      <g class="lbl" style="--i:3"><circle class="node" cx="280" cy="390" r="13"/><text class="later" x="280" y="430" text-anchor="middle">AWS</text></g>
+      <g class="lbl" style="--i:4"><circle class="node" cx="142" cy="310" r="13"/><text class="later" x="120" y="315" text-anchor="end">Google Cloud</text></g>
+      <g class="lbl" style="--i:5"><circle class="node" cx="142" cy="150" r="13"/><text class="later" x="120" y="155" text-anchor="end">AI</text></g>
+      <a href="/azure-landing-zone/" aria-label="Azure landing zone series"><circle class="hubdot" cx="280" cy="230" r="44"/><text class="hubtext" x="280" y="227" text-anchor="middle">Landing</text><text class="hubtext" x="280" y="245" text-anchor="middle">zone</text></a>
+    </svg>
+    <p class="map-note">Filled: published now. Outlined: next. Dashed: planned.</p>
+  </div>
+</div></section>
+
+<section class="section"><div class="wrap">
+  <h2>Azure Landing Zone</h2>
+  <p class="lead">{{ collections.alz.length }} posts so far. Read them in order: each post uses only words that an earlier post, or its own opening list, has already defined.</p>
+  <ol class="toc">
+  {%- for p in collections.alz %}
+    <li><a href="{{ p.url }}">{{ p.data.title }}</a></li>
+  {%- endfor %}
+  </ol>
+  <p class="more"><a href="/azure-landing-zone/">Read the summary of each post</a></p>
+</div></section>
+
+<section class="section"><div class="wrap">
+  <h2>How each post is built</h2>
+  <p class="lead">Every post has the same six parts, so you always know where to look.</p>
+  <ol class="steps">
+    <li>The problem the topic solves.</li>
+    <li>A plain explanation that starts with the words you need first.</li>
+    <li>One diagram.</li>
+    <li>What I have seen in production, and which mistakes to check for first.</li>
+    <li>The exact file in the repo with the lab or reference.</li>
+    <li>Sources: up to three Microsoft Learn pages.</li>
+  </ol>
+</div></section>
