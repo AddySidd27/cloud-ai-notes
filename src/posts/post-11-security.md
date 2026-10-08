@@ -45,8 +45,8 @@ layout: post.njk
 permalink: "/azure-landing-zone/security/"
 order: 11
 deck: "The Security design area of an Azure landing zone sets up the tools for security operations and the controls for access. It lists what the platform team needs to decide: who gets security alerts, where logs are kept, how access is controlled, and how keys are managed, so every workload starts on the same baseline."
-next_num: "12"
-next_title: "Security Operations"
+next_num: "13"
+next_title: "Management and Monitoring"
 tags: [alz]
 ---
 
@@ -58,7 +58,7 @@ In Post 7 you saw who can sign in and what they can change. In Post 8 you saw ho
 
 Microsoft says security is a core consideration for all customers, in every environment, and that it should be considered throughout the process of designing and implementing a landing zone. Microsoft also says an organization must have visibility into what is happening inside everything it runs in the cloud, and that security monitoring and audit logging of Azure platform services is a key part of a scalable framework.
 
-This post follows Microsoft's Security design area. Its stated goal is to understand security requirements and implement them consistently across all workloads in your cloud platform. Microsoft says the primary scope is security operations tooling and access control, and that this scope includes Zero Trust and advanced network security. The Cloud Adoption Framework (CAF) is Microsoft's guidance for adopting the cloud. To streamline the conversation, Microsoft says this design area does not address some disciplines of CAF's Secure methodology: security operations, asset protection and innovation security. Those build on your landing zone deployment. So here only the tools for security operations (alerts, logs, controls) are in scope. Running security operations day to day is Post 12. This series does not cover asset protection or innovation security.
+This post follows Microsoft's Security design area. Its stated goal is to understand security requirements and implement them consistently across all workloads in your cloud platform. Microsoft says the primary scope is security operations tooling and access control, and that this scope includes Zero Trust and advanced network security. The Cloud Adoption Framework (CAF) is Microsoft's guidance for adopting the cloud. To streamline the conversation, Microsoft says this design area does not address some disciplines of CAF's Secure methodology: security operations, asset protection and innovation security. Those build on your landing zone deployment. So here only the tools for security operations (alerts, logs, controls) are in scope. This series does not cover running security operations day to day, asset protection or innovation security.
 
 ## 2. Simple explanation
 
@@ -74,7 +74,7 @@ The words below are new, or are explained more fully here. Each is in plain word
 | Greenfield and brownfield | Microsoft's headings for two starting points: a new (greenfield) cloud environment and an existing (brownfield) one. |
 | Azure Monitor Logs | The part of Azure Monitor that stores log data in a Log Analytics workspace (Post 1), where you can query it. |
 | VM | Short for virtual machine: a computer that runs in Azure. |
-| Security operations | My plain words: watching for security problems and responding to them. In this design area only the tools for it are in scope. Running it day to day is Post 12. |
+| Security operations | My plain words: watching for security problems and responding to them. In this design area only the tools for it are in scope. Running it day to day is not covered in this series. |
 | SIEM and SOAR | SIEM means security information and event management: a tool that collects security data and finds threats. Microsoft calls Microsoft Sentinel a cloud-native SIEM solution. SOAR means security orchestration, automation and response: a tool that reacts to threats automatically. Microsoft describes the two as one combined solution for hybrid and multicloud environments (hybrid means on-premises plus cloud; multicloud means more than one cloud). In Sentinel, a playbook is a collection of remediation actions that can run on demand or automatically, when an automation rule triggers it. |
 | Security alert | A real-time notice of an event that threatens your environment. In Microsoft Defender for Cloud, alerts are categorized and given severity levels, so you can plan the right response. |
 | Activity log | My plain words: a record of operations on Azure resources. Learn recommends exporting Azure activity logs to Azure Monitor Logs for long-term retention. |
@@ -164,7 +164,7 @@ Microsoft's recommendations for access control are:
 
 - Review each service you need against your requirements. If you want to bring your own keys, not every service may support it, so put a mitigation in place. Choose region pairs and disaster recovery regions that keep latency low.
 - Make a security allowlist plan to assess services such as security configuration, monitoring and alerts, and then a plan to connect them to existing systems.
-- Decide the incident response plan for Azure services before they move to production. (This is Microsoft's recommendation here. Running incident response day to day is Post 12.)
+- Decide the incident response plan for Azure services before they move to production. (This is Microsoft's recommendation here. Running incident response day to day is not covered in this series.)
 - Align your security requirements with the Azure platform roadmaps, to stay current with new security controls.
 - Use a Zero Trust approach for access to the Azure platform where it is appropriate.
 
