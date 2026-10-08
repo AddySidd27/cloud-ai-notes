@@ -3,7 +3,7 @@
 and rewriting relative links. The Markdown posts stay the source of truth and are never edited here."""
 import re, json, shutil, pathlib, sys
 ROOT = pathlib.Path("/home/claude/blog")
-SRC = ROOT / "site" / "src"
+SRC = pathlib.Path(__file__).resolve().parent / "src"
 POSTS = ROOT / "posts"
 out_posts = SRC / "posts"; out_diag = SRC / "diagrams"
 for d in (out_posts, out_diag):

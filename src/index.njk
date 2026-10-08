@@ -4,55 +4,54 @@ title: "Addy's Cloud & AI Notes"
 home: true
 permalink: "/"
 ---
-<section class="hero"><div class="wrap">
-  <div>
+{%- set alz = collections.topic_alz -%}
+<section class="band hero">
+  {% include "clouds.njk" %}
+  <div class="wrap band-in">
+    <p class="chip">Cloud and AI architecture blog</p>
     <h1>Cloud and AI architecture, explained from zero.</h1>
-    <p>Every post defines its words first, shows one diagram, and points to the lab in the repo. Azure facts are checked against Microsoft Learn.</p>
+    <p class="band-deck">Every post defines its words first, shows one diagram, and points to the lab in the repo. Azure facts are checked against Microsoft Learn.</p>
     <div class="cta">
-      <a class="btn primary" href="/start-here/">Start here</a>
-      <a class="btn ghost" href="/azure-landing-zone/what-is-an-azure-landing-zone/">Read post 1</a>
+      <a class="btn amber" href="/start-here/">Start here</a>
+      <a class="btn outline" href="#topics">Browse topics</a>
     </div>
+    <p class="byline"><span>By {{ site.author }}</span><span>{{ site.role }}</span></p>
   </div>
-  <div class="map">
-    <svg viewBox="-20 0 600 460" role="img" aria-label="A hub-and-spoke map. The hub is the Azure landing zone, which is published now. Azure Virtual Desktop is the next spoke. Windows 365, Citrix, AWS, Google Cloud and AI are planned spokes.">
-      <line class="spoke next" style="--i:0" pathLength="1" x1="280" y1="230" x2="280" y2="85"/>
-      <line class="spoke later" style="--i:1" x1="280" y1="230" x2="406" y2="157"/>
-      <line class="spoke later" style="--i:2" x1="280" y1="230" x2="406" y2="303"/>
-      <line class="spoke later" style="--i:3" x1="280" y1="230" x2="280" y2="376"/>
-      <line class="spoke later" style="--i:4" x1="280" y1="230" x2="154" y2="303"/>
-      <line class="spoke later" style="--i:5" x1="280" y1="230" x2="154" y2="157"/>
-      <g class="lbl" style="--i:0"><circle class="node next" cx="280" cy="70" r="15"/><text x="280" y="42" text-anchor="middle">Azure Virtual Desktop</text></g>
-      <g class="lbl" style="--i:1"><circle class="node" cx="418" cy="150" r="13"/><text class="later" x="440" y="155">Windows 365</text></g>
-      <g class="lbl" style="--i:2"><circle class="node" cx="418" cy="310" r="13"/><text class="later" x="440" y="315">Citrix</text></g>
-      <g class="lbl" style="--i:3"><circle class="node" cx="280" cy="390" r="13"/><text class="later" x="280" y="430" text-anchor="middle">AWS</text></g>
-      <g class="lbl" style="--i:4"><circle class="node" cx="142" cy="310" r="13"/><text class="later" x="120" y="315" text-anchor="end">Google Cloud</text></g>
-      <g class="lbl" style="--i:5"><circle class="node" cx="142" cy="150" r="13"/><text class="later" x="120" y="155" text-anchor="end">AI</text></g>
-      <a href="/azure-landing-zone/" aria-label="Azure landing zone series"><circle class="hubdot" cx="280" cy="230" r="44"/><text class="hubtext" x="280" y="227" text-anchor="middle">Landing</text><text class="hubtext" x="280" y="245" text-anchor="middle">zone</text></a>
-    </svg>
-    <p class="map-note">Filled: published now. Outlined: next. Dashed: planned.</p>
-  </div>
-</div></section>
+</section>
 
-<section class="section"><div class="wrap">
-  <h2>Azure Landing Zone</h2>
-  <p class="lead">{{ collections.alz.length }} posts so far. Read them in order: each post uses only words that an earlier post, or its own opening list, has already defined.</p>
-  <ol class="toc">
-  {%- for p in collections.alz %}
-    <li><a href="{{ p.url }}">{{ p.data.title }}</a></li>
+<section class="section-pad" id="topics"><div class="wrap">
+  <h2 class="sh">Browse by topic</h2>
+  <p class="lead">Pick a topic to see all of its posts.</p>
+  <div class="tiles">
+  {%- for t in topics %}
+    {%- set n = collections["topic_" + t.tag].length %}
+    <a class="tile{% if not n %} soon{% endif %}" href="/{{ t.slug }}/">
+      <span class="tile-ico">{% set g = t.glyph %}{% include "glyph.njk" %}</span>
+      <span class="tile-name">{{ t.name }}</span>
+      <span class="tile-text">{{ t.blurb | clip(88) }}</span>
+      <span class="tile-state">{% if n %}{{ n }} posts{% else %}Coming soon{% endif %}</span>
+    </a>
   {%- endfor %}
-  </ol>
-  <p class="more"><a href="/azure-landing-zone/">Read the summary of each post</a></p>
+  </div>
 </div></section>
 
-<section class="section"><div class="wrap">
-  <h2>How each post is built</h2>
+<section class="section-pad alt"><div class="wrap">
+  <div class="sh-row"><h2 class="sh">Latest posts</h2><a class="all" href="/azure-landing-zone/">All Azure Landing Zone posts</a></div>
+  <div class="plist">
+  {%- set tp = topics | topicByTag(["alz"]) %}
+  {%- for p in alz | latest(5) %}{% include "card.njk" %}{% endfor %}
+  </div>
+</div></section>
+
+<section class="section-pad"><div class="wrap">
+  <h2 class="sh">How each post is built</h2>
   <p class="lead">Every post has the same six parts, so you always know where to look.</p>
   <ol class="steps">
-    <li>The problem the topic solves.</li>
-    <li>A plain explanation that starts with the words you need first.</li>
-    <li>One diagram.</li>
-    <li>What I have seen in production, and which mistakes to check for first.</li>
-    <li>The exact file in the repo with the lab or reference.</li>
-    <li>Sources: up to three Microsoft Learn pages.</li>
+    <li><b>The problem</b><span>What the topic solves.</span></li>
+    <li><b>A plain explanation</b><span>It starts with the words you need first.</span></li>
+    <li><b>One diagram</b><span>Simplified, with the Microsoft Learn page named.</span></li>
+    <li><b>What I have seen in production</b><span>And which mistakes to check for first.</span></li>
+    <li><b>The repo file</b><span>The lab or reference that goes with the post.</span></li>
+    <li><b>Sources</b><span>Up to three Microsoft Learn pages.</span></li>
   </ol>
 </div></section>

@@ -4,6 +4,8 @@
   function current(){var t=root.getAttribute('data-theme');if(t)return t;return matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}
   function label(){if(btn)btn.textContent=current()==='dark'?'Light theme':'Dark theme'}
   if(btn){label();btn.addEventListener('click',function(){var n=current()==='dark'?'light':'dark';root.setAttribute('data-theme',n);try{localStorage.setItem('theme',n)}catch(e){}label()})}
+  var tb=document.querySelector('.tocbox');
+  if(tb&&matchMedia('(max-width:63.99rem)').matches)tb.removeAttribute('open');
   var imgs=document.querySelectorAll('.prose img');
   if(imgs.length&&typeof HTMLDialogElement==='function'){
     var d=document.createElement('dialog');d.className='zoom';d.setAttribute('aria-label','Enlarged diagram');
