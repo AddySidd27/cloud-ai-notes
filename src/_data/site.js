@@ -5,5 +5,6 @@ export default {
   url: process.env.SITE_URL || "https://adnanasiddiqui.com",
   repo: "https://github.com/AddySidd27/Azure_landing_zone",
   author: "Adnan Ahmed",
+  role: "Senior Solutions Architect",
   year: new Date().getFullYear(),
 };

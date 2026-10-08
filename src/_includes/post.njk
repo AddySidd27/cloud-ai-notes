@@ -1,20 +1,39 @@
 ---
 layout: base.njk
 ---
-{%- set nb = collections.alz | neighbors(page.url) -%}
-<article class="wrap article">
-  <header>
-    {% if order == 0 %}<p class="crumb">Start here</p>{% else %}<p class="crumb"><a href="/azure-landing-zone/">Azure Landing Zone</a>, post {{ order }}</p>{% endif %}
+{%- set tp = topics | topicByTag(tags) -%}
+{%- set heads = content | toc -%}
+<section class="band">
+  {% include "clouds.njk" %}
+  <div class="wrap band-in">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a>{% if tp %}<span aria-hidden="true">/</span><a href="/{{ tp.slug }}/">{{ tp.name }}</a>{% else %}<span aria-hidden="true">/</span><span>Start here</span>{% endif %}</nav>
+    {% if tp %}<p class="chip">{{ tp.name }}</p>{% endif %}
     <h1>{{ title }}</h1>
-    {% if deck %}<p class="deck">{{ deck }}</p>{% endif %}
-  </header>
-  <div class="prose">
-    {{ content | safe }}
+    {% if deck %}<p class="band-deck">{{ deck }}</p>{% endif %}
+    <p class="byline"><span>By {{ site.author }}</span>{% if order %}<span>Post {{ order }}</span>{% endif %}<span>{{ content | readingTime }} min read</span></p>
   </div>
-  {%- if order == 0 %}{% else %}
-  <nav class="pager" aria-label="Posts in this series">
-    <div class="prevp">{% if nb.prev %}<small>Previous</small><a href="{{ nb.prev.url }}">{{ nb.prev.data.title }}</a>{% endif %}</div>
-    <div class="nextp"><small>Next in the series</small>{% if nb.next %}<a href="{{ nb.next.url }}">Post {{ nb.next.data.order }}: {{ nb.next.data.title }}</a>{% else %}{% if next_title %}<span class="t">Post {{ next_num }}: {{ next_title }}</span>{% endif %}{% endif %}</div>
-  </nav>
+</section>
+<div class="wrap post-grid">
+  <article class="prose">
+    {{ content | safe }}
+    {%- if tp %}
+    {%- set nb = collections["topic_" + tp.tag] | neighbors(page.url) %}
+    <nav class="pager" aria-label="Posts in this series">
+      <div class="prevp">{% if nb.prev %}<small>Previous</small><a href="{{ nb.prev.url }}">{{ nb.prev.data.title }}</a>{% endif %}</div>
+      <div class="nextp"><small>Next in the series</small>{% if nb.next %}<a href="{{ nb.next.url }}">Post {{ nb.next.data.order }}: {{ nb.next.data.title }}</a>{% elif next_title %}<span class="t">Post {{ next_num }}: {{ next_title }}</span>{% endif %}</div>
+    </nav>
+    {%- endif %}
+    <aside class="author" aria-label="About the author">
+      <p><strong>{{ site.author }}</strong>, {{ site.role }}.</p>
+      <p>Labs and reference files for the posts are in the <a href="{{ site.repo }}">GitHub repo</a>.</p>
+    </aside>
+  </article>
+  {%- if heads.length > 1 %}
+  <aside class="side" aria-label="On this page">
+    <details class="tocbox" open>
+      <summary>On this page</summary>
+      <ol>{% for h in heads %}<li><a href="#{{ h.id }}">{{ h.text }}</a></li>{% endfor %}</ol>
+    </details>
+  </aside>
   {%- endif %}
-</article>
+</div>
