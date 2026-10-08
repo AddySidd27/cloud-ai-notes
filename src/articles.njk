@@ -1,0 +1,18 @@
+---
+layout: base.njk
+title: "All articles"
+deck: "Every article on the site, in one list. Use search to find a word inside an article."
+permalink: "/articles/"
+---
+{%- set list = collections.articles -%}
+<header class="band"><div class="wrap band-in">
+  <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">Articles</li></ol></nav>
+  <h1>All articles</h1>
+  <p class="band-deck">{{ deck }}</p>
+  <p class="byline"><span>{{ list.length }} articles</span><a href="/search/">Search</a></p>
+</div></header>
+<div class="wrap sec">
+  <div class="grid2">
+    {%- for p in list | latest(99) %}{% set ser = p.data.tags | seriesOf %}{% set tp = ser | topicOf %}{% include "card.njk" %}{% endfor %}
+  </div>
+</div>

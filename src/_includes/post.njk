@@ -1,32 +1,41 @@
 ---
 layout: base.njk
 ---
-{%- set tp = topics | topicByTag(tags) -%}
+{%- set ser = tags | seriesOf -%}{%- set tp = ser | topicOf -%}
+{%- set isArticle = (order and order > 0) -%}
 {%- set heads = content | toc -%}
-<section class="band">
-  {% include "clouds.njk" %}
+{%- set meta = articleMeta[order] -%}
+{%- set list = collections.articles -%}
+<header class="band art-head">
   <div class="wrap band-in">
-    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a>{% if tp %}<span aria-hidden="true">/</span><a href="/{{ tp.slug }}/">{{ tp.name }}</a>{% else %}<span aria-hidden="true">/</span><span>Start here</span>{% endif %}</nav>
-    {% if tp %}<p class="chip">{{ tp.name }}</p>{% endif %}
+    {%- if isArticle %}
+    <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/{{ tp.slug }}/">{{ tp.name }}</a></li><li><a href="/{{ ser.slug }}/">{{ ser.name }}</a></li><li aria-current="page">Part {{ order }}</li></ol></nav>
+    <p class="chip"><a href="/{{ ser.slug }}/">{{ ser.title }}</a><span>Part {{ order }} of {{ list.length }}</span></p>
+    {%- else %}
+    <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">Start here</li></ol></nav>
+    <p class="chip"><a href="/azure-landing-zone/">Azure Landing Zone — Engineering Series</a><span>Read this first</span></p>
+    {%- endif %}
     <h1>{{ title }}</h1>
     {% if deck %}<p class="band-deck">{{ deck }}</p>{% endif %}
-    <p class="byline"><span>By {{ site.author }}</span>{% if order %}<span>Post {{ order }}</span>{% endif %}<span>{{ content | readingTime }} min read</span></p>
+    <p class="byline"><span>By <a href="/about/">{{ site.author }}</a></span>{% if meta %}<time datetime="{{ meta.published }}">{{ meta.published | longDate }}</time>{% endif %}<span>{{ content | readingTime }} min read</span></p>
+    {%- if meta %}<ul class="tags" aria-label="Tags">{% for t in meta.tags %}<li><a href="/search/?q={{ t | urlencode }}">{{ t }}</a></li>{% endfor %}</ul>{% endif %}
   </div>
-</section>
+  <div class="art-cover" aria-hidden="true">{% set cat = tp.slug if tp else 'azure' %}{% set cn = '' %}{% include "cover.njk" %}</div>
+</header>
 <div class="wrap post-grid">
-  <article class="prose">
-    {{ content | safe }}
-    {%- if tp %}
-    {%- set nb = collections["topic_" + tp.tag] | neighbors(page.url) %}
-    <nav class="pager" aria-label="Posts in this series">
-      <div class="prevp">{% if nb.prev %}<small>Previous</small><a href="{{ nb.prev.url }}">{{ nb.prev.data.title }}</a>{% endif %}</div>
-      <div class="nextp"><small>Next in the series</small>{% if nb.next %}<a href="{{ nb.next.url }}">Post {{ nb.next.data.order }}: {{ nb.next.data.title }}</a>{% elif next_title %}<span class="t">Post {{ next_num }}: {{ next_title }}</span>{% endif %}</div>
+  <article class="prose" aria-label="{{ title }}">
+<!--article-body-->
+{{ content | safe }}
+<!--/article-body-->
+    {%- if isArticle %}
+    {%- set nb = list | neighbors(page.url) %}
+    <nav class="pager" aria-label="More in the series">
+      {% if nb.prev %}<a class="pg prev" href="{{ nb.prev.url }}"><small>Previous</small><span>Part {{ nb.prev.data.order }}: {{ nb.prev.data.title }}</span></a>{% else %}<span></span>{% endif %}
+      {% if nb.next %}<a class="pg next" href="{{ nb.next.url }}"><small>Next</small><span>Part {{ nb.next.data.order }}: {{ nb.next.data.title }}</span></a>{% elif next_title %}<span class="pg next soon"><small>Next, in progress</small><span>Part {{ next_num }}: {{ next_title }}</span></span>{% endif %}
     </nav>
+    {%- else %}
+    <nav class="pager" aria-label="Start reading"><span></span><a class="pg next" href="/azure-landing-zone/what-is-an-azure-landing-zone/"><small>Begin</small><span>Part 1: What Is an Azure Landing Zone</span></a></nav>
     {%- endif %}
-    <aside class="author" aria-label="About the author">
-      <p><strong>{{ site.author }}</strong>, {{ site.role }}.</p>
-      <p>Labs and reference files for the posts are in the <a href="{{ site.repo }}">GitHub repo</a>.</p>
-    </aside>
   </article>
   {%- if heads.length > 1 %}
   <aside class="side" aria-label="On this page">
@@ -37,3 +46,14 @@ layout: base.njk
   </aside>
   {%- endif %}
 </div>
+{%- if isArticle %}
+{%- set rel = list | related(page.url, articleMeta, 3) %}
+<section class="wrap related" aria-labelledby="rel-h">
+  <h2 id="rel-h">Related articles</h2>
+  <div class="grid3">{% for p in rel %}{% include "card.njk" %}{% endfor %}</div>
+</section>
+{%- endif %}
+<section class="wrap author-wrap" aria-label="About the author"><div class="author">
+  <span class="av" aria-hidden="true">{% include "mark.njk" %}</span>
+  <div><p class="an"><a href="/about/">{{ site.author }}</a></p><p>{{ site.role }}. Writes about cloud architecture and engineering. Labs and reference files for the articles are in the <a href="{{ site.repo }}">GitHub repo</a>.</p></div>
+</div></section>
