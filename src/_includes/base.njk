@@ -26,19 +26,21 @@
   <nav class="nav" aria-label="Main">
     <a href="/#topics">Topics</a>
     <a href="/start-here/"{% if page.url == '/start-here/' %} aria-current="page"{% endif %}>Start here</a>
-    <a href="{{ site.repo }}">GitHub</a>
-    <button class="theme" type="button" aria-label="Switch between light and dark theme">Dark theme</button>
   </nav>
 </div></header>
 <main id="main">
 {{ content | safe }}
 </main>
 <footer class="foot"><div class="wrap">
-  <div class="foot-top">
-    <a class="brand" href="/">{% include "mark.njk" %}<span>{{ site.name }}</span></a>
-    <nav aria-label="Footer"><a href="/start-here/">Start here</a>{% for t in topics %}<a href="/{{ t.slug }}/">{{ t.name }}</a>{% endfor %}<a href="{{ site.repo }}">GitHub</a></nav>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a class="brand" href="/">{% include "mark.njk" %}<span>{{ site.name }}</span></a>
+      <p>{{ site.tagline }}</p>
+    </div>
+    <nav aria-label="Topics"><h2>Topics</h2>{% for t in topics %}<a href="/{{ t.slug }}/">{{ t.name }}</a>{% endfor %}</nav>
+    <nav aria-label="Quick links"><h2>Quick links</h2><a href="/">Home</a><a href="/start-here/">Start here</a><a href="{{ site.repo }}">GitHub</a></nav>
   </div>
-  <p>{{ site.name }} is written by {{ site.author }}. This is an independent site and is not published by or affiliated with Microsoft. Azure facts are checked against Microsoft Learn. Diagrams are simplified redraws that use Microsoft's official Azure and Microsoft Entra icons under Microsoft's icon terms, and each one names the Learn page it follows.</p>
+  <p class="copy">&copy; {{ site.year }} {{ site.author }}. Personal blog, opinions are my own. Not affiliated with Microsoft.</p>
 </div></footer>
 <script src="/js/site.js" defer></script>
 </body>
