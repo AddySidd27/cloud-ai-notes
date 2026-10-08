@@ -1,0 +1,37 @@
+---
+layout: base.njk
+pagination:
+  data: topics
+  size: 1
+  alias: topic
+permalink: "/{{ topic.slug }}/"
+eleventyComputed:
+  title: "{{ topic.name }}"
+  deck: "{{ topic.blurb }}"
+---
+{%- set list = collections["topic_" + topic.tag] -%}
+<section class="band">
+  {% include "clouds.njk" %}
+  <div class="wrap band-in">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>{{ topic.name }}</span></nav>
+    <div class="topic-head">
+      <span class="tile-ico">{% set g = topic.glyph %}{% include "glyph.njk" %}</span>
+      <h1>{{ topic.name }}</h1>
+    </div>
+    <p class="band-deck">{{ topic.blurb }}</p>
+    <p class="byline"><span>{% if list.length %}{{ list.length }} post{% if list.length != 1 %}s{% endif %}{% else %}No posts yet{% endif %}</span>{% if list.length %}<span>Read in order</span>{% endif %}</p>
+  </div>
+</section>
+<div class="wrap section-pad">
+  {%- if list.length %}
+  <div class="plist">
+    {%- for p in list %}{% set tp = topic %}{% include "card.njk" %}{% endfor %}
+  </div>
+  {%- else %}
+  <div class="empty">
+    <h2>Posts for {{ topic.name }} are planned</h2>
+    <p>There is nothing to read here yet. You can start with the Azure Landing Zone series, which is published and explains every term it uses.</p>
+    <p><a class="btn solid" href="/azure-landing-zone/">Open Azure Landing Zone</a></p>
+  </div>
+  {%- endif %}
+</div>

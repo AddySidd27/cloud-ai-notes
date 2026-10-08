@@ -1,0 +1,10 @@
+{# expects: p (post page), tp (topic) #}
+<a class="pcard" href="{{ p.url }}" style="--n:'{{ p.data.order }}'">
+  <span class="cover" aria-hidden="true"><b>{{ p.data.order }}</b></span>
+  <span class="pbody">
+    <span class="kicker">{{ tp.name }}</span>
+    <span class="ptitle">{{ p.data.title }}</span>
+    <span class="pdeck">{{ p.data.deck | clip(170) }}</span>
+    <span class="meta">Post {{ p.data.order }} · {{ p.templateContent | readingTime }} min read</span>
+  </span>
+</a>
