@@ -1,0 +1,11 @@
+---
+permalink: "/feed.xml"
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"><channel>
+<title>{{ site.name }}</title><link>{{ site.url }}/</link><description>{{ site.description }}</description><language>en</language>
+{%- for p in collections.articles | latest(50) %}
+<item><title>{{ p.data.title | escape }}</title><link>{{ p.url | absUrl(site.url) }}</link><guid>{{ p.url | absUrl(site.url) }}</guid><pubDate>{{ articleMeta[p.data.order].published }}T12:00:00Z</pubDate><description>{{ p.data.deck | escape }}</description></item>
+{%- endfor %}
+</channel></rss>

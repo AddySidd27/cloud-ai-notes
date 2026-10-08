@@ -1,0 +1,20 @@
+---
+layout: base.njk
+title: "Search"
+deck: "Search article titles, summaries, tags and full text."
+permalink: "/search/"
+---
+<header class="band"><div class="wrap band-in">
+  <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">Search</li></ol></nav>
+  <h1>Search</h1>
+  <form class="sform" role="search" action="/search/" method="get">
+    <label for="q">Search articles</label>
+    <input id="q" name="q" type="search" placeholder="Try: conditional access, hub-spoke, management group" autocomplete="off" autofocus>
+    <button class="btn primary" type="submit">Search</button>
+  </form>
+</div></header>
+<div class="wrap sec">
+  <p id="sstatus" class="note-line" role="status" aria-live="polite">Type to search {{ collections.articles.length }} articles.</p>
+  <ol id="sresults" class="sres"></ol>
+  <noscript><p>Search needs JavaScript. You can browse the <a href="/articles/">full article list</a> instead.</p></noscript>
+</div>

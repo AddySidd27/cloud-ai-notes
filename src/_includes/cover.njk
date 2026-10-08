@@ -1,0 +1,28 @@
+{# expects: cat (category slug) and optional cn (number label). Reusable branded cover, one pattern per category. #}
+<svg class="cv cv-{{ cat }}" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+<rect class="cv-bg" width="320" height="180"/>
+<g class="cv-grid" stroke-width="1"><path d="M0 45h320M0 90h320M0 135h320M80 0v180M160 0v180M240 0v180"/></g>
+<g class="cv-ln" fill="none" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
+{%- if cat == 'azure' %}
+<rect x="130" y="22" width="60" height="22" rx="3"/><path d="M160 44v14M70 58h180M70 58v14M160 58v14M250 58v14"/>
+<rect x="40" y="72" width="60" height="22" rx="3"/><rect x="130" y="72" width="60" height="22" rx="3"/><rect x="220" y="72" width="60" height="22" rx="3"/>
+<path d="M70 94v12M55 106h30M55 106v10M85 106v10M160 94v12M145 106h30M145 106v10M175 106v10M250 94v12M235 106h30M235 106v10M265 106v10"/>
+<rect x="46" y="116" width="18" height="14" rx="2"/><rect x="76" y="116" width="18" height="14" rx="2"/><rect x="136" y="116" width="18" height="14" rx="2"/><rect x="166" y="116" width="18" height="14" rx="2"/><rect x="226" y="116" width="18" height="14" rx="2"/><rect x="256" y="116" width="18" height="14" rx="2"/>
+{%- elif cat == 'avd' %}
+<rect x="40" y="30" width="86" height="56" rx="4"/><path d="M70 100h26M83 86v14"/><rect x="150" y="30" width="86" height="56" rx="4"/><path d="M180 100h26M193 86v14"/><rect x="260" y="48" width="36" height="52" rx="4"/>
+<path d="M126 58h24M236 58h24M83 120v18M193 120v18M83 138h110M278 100v38h-85"/><rect x="60" y="116" width="46" height="8" rx="2"/><rect x="170" y="116" width="46" height="8" rx="2"/>
+{%- elif cat == 'citrix' %}
+<circle cx="160" cy="90" r="22"/><path d="M160 68V36M160 112v32M138 90H70M182 90h68"/><rect x="40" y="76" width="30" height="28" rx="3"/><rect x="250" y="76" width="30" height="28" rx="3"/><rect x="145" y="14" width="30" height="22" rx="3"/><rect x="145" y="144" width="30" height="22" rx="3"/>
+{%- elif cat == 'aws' %}
+<rect x="30" y="24" width="260" height="132" rx="6" stroke-dasharray="5 5"/><rect x="50" y="44" width="100" height="92" rx="4"/><rect x="170" y="44" width="100" height="92" rx="4"/>
+<rect x="64" y="60" width="32" height="24" rx="3"/><rect x="104" y="60" width="32" height="24" rx="3"/><rect x="64" y="100" width="72" height="22" rx="3"/><rect x="184" y="60" width="32" height="24" rx="3"/><rect x="224" y="60" width="32" height="24" rx="3"/><rect x="184" y="100" width="72" height="22" rx="3"/>
+{%- elif cat == 'ai' %}
+<circle cx="60" cy="50" r="9"/><circle cx="60" cy="90" r="9"/><circle cx="60" cy="130" r="9"/><circle cx="160" cy="40" r="9"/><circle cx="160" cy="80" r="9"/><circle cx="160" cy="120" r="9"/><circle cx="260" cy="70" r="9"/><circle cx="260" cy="110" r="9"/>
+<path d="M69 50 151 40M69 50 151 80M69 90 151 40M69 90 151 120M69 130 151 80M69 130 151 120M169 40 251 70M169 80 251 70M169 80 251 110M169 120 251 110"/>
+{%- else %}
+<rect x="60" y="40" width="200" height="100" rx="6"/><path d="M60 80h200M140 40v100"/>
+{%- endif %}
+</g>
+{%- if cn %}{% set hi = (cn | int - 1) % 6 %}<rect class="cv-hi" x="{{ [46,76,136,166,226,256][hi] }}" y="116" width="18" height="14" rx="2"/>{% endif %}
+{%- if cn %}<text class="cv-n" x="22" y="162">{{ cn }}</text>{% endif %}
+</svg>
