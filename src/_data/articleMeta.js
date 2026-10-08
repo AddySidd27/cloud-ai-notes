@@ -11,6 +11,7 @@ export default {
   8: { tags: ["MFA", "Conditional Access", "PIM", "Privileged access"], published },
   9: { tags: ["Management groups", "Resource organization"], published },
   10: { tags: ["Networking", "Hub-and-spoke", "Virtual WAN"], published },
+  11: { tags: ["Security", "Zero Trust", "Key Vault"], published: "2026-10-08" },
   // Which articles sit on the homepage in "Featured". Edit the numbers to change it.
   featured: [10, 1, 8],
   // Homepage "Architecture and engineering" plates: area label and the article whose diagram is shown.
