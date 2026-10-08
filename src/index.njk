@@ -5,17 +5,45 @@ home: true
 permalink: "/"
 ---
 {%- set alz = collections.topic_alz -%}
+{%- macro pill(cx, cy, w, label, i, hot) -%}
+<g class="pill{% if hot %} hot{% endif %}" style="--i:{{ i }}"><rect x="{{ cx - w / 2 }}" y="{{ cy - 20 }}" width="{{ w }}" height="40" rx="20"/><text x="{{ cx }}" y="{{ cy }}" text-anchor="middle" dominant-baseline="central">{{ label }}</text></g>
+{%- endmacro -%}
 <section class="band hero">
-  {% include "clouds.njk" %}
-  <div class="wrap band-in">
-    <p class="chip">Cloud and AI architecture blog</p>
-    <h1>Cloud and AI architecture, explained from zero.</h1>
-    <p class="band-deck">Every post defines its words first, shows one diagram, and points to the lab in the repo. Azure facts are checked against Microsoft Learn.</p>
-    <div class="cta">
-      <a class="btn amber" href="/start-here/">Start here</a>
-      <a class="btn outline" href="#topics">Browse topics</a>
+  <div class="wrap hero-grid">
+    <div class="hero-text">
+      <p class="chip">Cloud and AI architecture blog</p>
+      <h1>From zero to <span class="nb">production-grade</span> cloud and AI architecture.</h1>
+      <p class="band-deck">Every post defines its words first, shows one diagram, and points to the lab in the repo. Azure facts are checked against Microsoft Learn.</p>
+      <div class="cta">
+        <a class="btn amber" href="/start-here/">Start here</a>
+        <a class="btn outline" href="#topics">Browse topics</a>
+      </div>
     </div>
-    <p class="byline"><span>By {{ site.author }}</span><span>{{ site.role }}</span></p>
+    <div class="hero-art">
+      <svg viewBox="0 0 560 440" role="img" aria-label="A cloud at the centre connected to the topics of this blog: Azure Landing Zone, Azure Virtual Desktop, Windows 365, Citrix, AWS, Google Cloud and AI.">
+        <defs>
+          <radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#3C8DF0" stop-opacity=".55"/><stop offset="1" stop-color="#3C8DF0" stop-opacity="0"/></radialGradient>
+          <linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9BDAFF"/><stop offset=".55" stop-color="#3C8DF0"/><stop offset="1" stop-color="#1B4FBF"/></linearGradient>
+        </defs>
+        <circle cx="280" cy="222" r="215" fill="url(#glow)"/>
+        <g fill="none" stroke="#8ED0FF" stroke-opacity=".12"><circle cx="280" cy="222" r="105"/><circle cx="280" cy="222" r="165"/><circle cx="280" cy="222" r="215"/></g>
+        <g class="wires" fill="none" stroke="#8ED0FF" stroke-opacity=".55" stroke-width="1.6" stroke-dasharray="4 7">
+          <line x1="280" y1="222" x2="280" y2="38"/><line x1="280" y1="222" x2="425" y2="111"/><line x1="280" y1="222" x2="463" y2="264"/><line x1="280" y1="222" x2="360" y2="374"/><line x1="280" y1="222" x2="200" y2="374"/><line x1="280" y1="222" x2="96" y2="264"/><line x1="280" y1="222" x2="134" y2="111"/>
+        </g>
+        <g transform="translate(195 172) scale(3.7)">
+          <path d="M38.5 27H12a9 9 0 0 1-1.6-17.86A12 12 0 0 1 33.6 8.4 10 10 0 0 1 38.5 27Z" fill="url(#hg)"/>
+          <path d="M16.2 23.2 23 7.8l6.8 15.4M18.9 18h8.2" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path class="spark" d="M33.5 3.5l1 2.6 2.6 1-2.6 1-1 2.6-1-2.6-2.6-1 2.6-1z" fill="#FFB000"/>
+        </g>
+        {{ pill(280, 38, 64, "AI", 0, false) }}
+        {{ pill(425, 111, 252, "Azure Virtual Desktop", 1, false) }}
+        {{ pill(463, 264, 150, "Windows 365", 2, false) }}
+        {{ pill(360, 374, 98, "Citrix", 3, false) }}
+        {{ pill(200, 374, 70, "AWS", 4, false) }}
+        {{ pill(96, 264, 160, "Google Cloud", 5, false) }}
+        {{ pill(134, 111, 224, "Azure Landing Zone", 6, true) }}
+      </svg>
+    </div>
   </div>
 </section>
 
