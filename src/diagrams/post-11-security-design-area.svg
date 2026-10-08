@@ -108,5 +108,5 @@
   <text x="944" y="624" font-size="11.5" text-anchor="start" fill="#1f2933">Ensure subnets are associated with NSG</text>
   <rect x="30" y="676" width="1260" height="60" rx="6" fill="#fff7e0" stroke="#8a6d00" stroke-width="1"/>
   <text x="660.0" y="700" font-size="11.5" text-anchor="middle" fill="#1f2933">Out of scope for this design area: the Secure methodology disciplines of security operations,</text>
-  <text x="660.0" y="720" font-size="11.5" font-weight="600" text-anchor="middle" fill="#1f2933">asset protection and innovation security. Running security operations day to day is Post 12.</text>
+  <text x="660.0" y="720" font-size="11.5" font-weight="600" text-anchor="middle" fill="#1f2933">asset protection and innovation security. Running security operations day to day is not in this series.</text>
 </svg>
