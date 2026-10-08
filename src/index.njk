@@ -1,94 +1,80 @@
 ---
 layout: base.njk
-title: "AdnanSiddiqui.com"
+title: "Adnan Ahmed Siddiqui | Cloud & EUC Architecture"
 home: true
 permalink: "/"
 ---
 {%- set list = collections.articles -%}
 {%- set ser = collections.liveSeries[0] -%}
 {%- set tp = ser | topicOf -%}
-{%- macro nd(x, y, w, label, cls) -%}
-<g class="nd {{ cls }}"><rect x="{{ x }}" y="{{ y }}" width="{{ w }}" height="28" rx="4"/><text x="{{ x + w / 2 }}" y="{{ y + 14 }}" text-anchor="middle" dominant-baseline="central">{{ label }}</text></g>
-{%- endmacro -%}
 <section class="hero">
   <div class="wrap hero-grid">
     <div class="hero-text">
-      <h1><span>Cloud Architecture.</span> <span>Engineering.</span> <span>Real-World Technology.</span></h1>
-      <p class="lead">Deep technical guides, architecture insights, hands-on engineering and practical solutions across Azure, AVD, Windows 365, Citrix, AWS and modern infrastructure.</p>
+      <h1>Architecting Enterprise Cloud &amp; Digital Workspaces</h1>
+      <p class="lead">Production-grade architectural blueprints, Cloud Adoption Framework (CAF) implementations, and scalable virtualization solutions across Azure, AVD, Windows 365, Citrix, and Intune.</p>
       <div class="cta">
-        <a class="btn primary" href="/{{ ser.slug }}/">Read the {{ ser.name }} series</a>
-        <a class="btn ghost" href="/articles/">Browse all articles</a>
+        <a class="btn primary" href="/azure-landing-zone/">Explore ALZ Blueprint ({{ list.length }} Parts)</a>
+        <a class="btn ghost" href="https://github.com/AddySidd27">GitHub Repositories</a>
       </div>
     </div>
-    <figure class="plate" aria-labelledby="fig1">
-      <svg viewBox="0 0 544 340" role="img" aria-label="Diagram of an Azure management group hierarchy. The tenant root group contains an intermediate root group. Under it are Platform, with Identity, Connectivity, Management and Security; Landing zones, with Corp, Online and Local; Sandboxes; and Decommissioned.">
-        <g class="wire" fill="none" stroke-width="1.5"><path d="M272 44v18M272 90v28M85 118h400M85 118v14M251 118v14M384 118v14M485 118v14M85 160v20M251 160v20"/><path d="M28 180v102M28 194h-0M28 194h8M28 228h8M28 262h8M28 296h8"/><path d="M194 180v102M194 194h8M194 228h8M194 262h8" /></g>
-        {{ nd(202, 16, 140, "Tenant root group", "") }}
-        {{ nd(202, 62, 140, "Intermediate root", "k") }}
-        {{ nd(10, 132, 150, "Platform", "k") }}
-        {{ nd(176, 132, 150, "Landing zones", "k") }}
-        {{ nd(342, 132, 84, "Sandboxes", "") }}
-        {{ nd(436, 132, 98, "Decommissioned", "s") }}
-        {{ nd(36, 180, 124, "Identity", "a") }}
-        {{ nd(36, 214, 124, "Connectivity", "a") }}
-        {{ nd(36, 248, 124, "Management", "a") }}
-        {{ nd(36, 282, 124, "Security", "a") }}
-        {{ nd(202, 180, 124, "Corp", "") }}
-        {{ nd(202, 214, 124, "Online", "") }}
-        {{ nd(202, 248, 124, "Local", "") }}
-      </svg>
-      <figcaption id="fig1"><b>Fig. 1</b> Management groups in an Azure landing zone, simplified. <a href="/azure-landing-zone/resource-organization/">Part 9</a></figcaption>
+    <figure class="plate hero-fig">
+      <span class="badge">Aligned with Microsoft Learn guidance</span>
+      <a class="fig-img" href="/azure-landing-zone/network-topology-and-connectivity/"><img src="/diagrams/post-10-hub-spoke-and-virtual-wan.svg" alt="Two network topologies: traditional hub-and-spoke with two regional hub virtual networks peered to spoke virtual networks, and Azure Virtual WAN with two Virtual WAN hubs connected to the same spokes" width="640" height="400" fetchpriority="high"></a>
+      <figcaption><b>Fig. 1</b> Hub-and-spoke and Virtual WAN, from <a href="/azure-landing-zone/network-topology-and-connectivity/">Part 10</a>. Redrawn after Microsoft Learn; not an official Microsoft diagram.</figcaption>
     </figure>
   </div>
 </section>
 
-<section class="sec" aria-labelledby="feat-h"><div class="wrap">
-  <div class="sec-head"><h2 id="feat-h">Featured articles</h2><a class="more" href="/articles/">All articles</a></div>
-  {%- set f = list | pick(articleMeta.featured) %}
-  <div class="feat">
-    {%- for p in f %}{% set big = loop.first %}{% include "card.njk" %}{% endfor %}
+<section class="sec" aria-labelledby="pil-h"><div class="wrap">
+  <div class="sec-head"><h2 id="pil-h">Specializations</h2></div>
+  <div class="pillars">
+    <a class="pillar live" href="/azure-landing-zone/">
+      <span class="ptag">{{ list.length }} parts published</span>
+      <h3>Azure Landing Zones (CAF)</h3>
+      <p>Enterprise-scale foundation, governance, hub-and-spoke connectivity, and Entra ID security baselines.</p>
+    </a>
+    <div class="pillar">
+      <span class="ptag soon">Next series</span>
+      <h3>Azure Virtual Desktop (AVD)</h3>
+      <p>Host pool architectures, FSLogix containers, golden image management, and RDP Shortpath tuning.</p>
+    </div>
+    <div class="pillar">
+      <span class="ptag soon">Planned</span>
+      <h3>Windows 365 &amp; Cloud PC</h3>
+      <p>Cloud PC provisioning policies, Frontline deployment, zero-trust endpoint compliance via Intune.</p>
+    </div>
+    <div class="pillar">
+      <span class="ptag soon">Planned</span>
+      <h3>Citrix &amp; Hybrid Workspace</h3>
+      <p>DaaS control planes, Cloud Connectors, and hybrid workspace continuity.</p>
+    </div>
   </div>
 </div></section>
 
 <section class="series-band" aria-labelledby="ser-h"><div class="wrap">
-  <div class="series-head">
+  <div class="series-card">
     <div>
       <p class="chip">Flagship series<span>{{ list.length }} articles</span></p>
       <h2 id="ser-h">{{ ser.title }}</h2>
       <p class="lead">{{ ser.blurb }}</p>
     </div>
-    <p><a class="btn primary" href="/{{ ser.slug }}/">Open the series</a></p>
+    <div class="series-side">
+      <p class="sfacts">From <strong>What Is an Azure Landing Zone</strong> to <strong>Network Topology and Connectivity</strong>, in reading order.</p>
+      <a class="btn primary" href="/{{ ser.slug }}/">View the full index</a>
+    </div>
   </div>
-  <ol class="series-list">
-    {%- for p in list %}
-    <li><a href="{{ p.url }}"><span class="no">{{ p.data.order | pad }}</span><span class="st"><strong>{{ p.data.title }}</strong><span class="sd">{{ p.data.deck | clip(120) }}</span></span><span class="sm">{{ p.templateContent | readingTime }} min</span></a></li>
-    {%- endfor %}
-  </ol>
 </div></section>
 
 <section class="sec" aria-labelledby="new-h"><div class="wrap">
-  <div class="sec-head"><h2 id="new-h">Latest articles</h2><a class="more" href="/articles/">All articles</a></div>
-  <div class="grid2">
-    {%- for p in list | latest(4) %}{% include "card.njk" %}{% endfor %}
+  <div class="sec-head"><h2 id="new-h">Latest technical guides</h2><a class="more" href="/articles/">All articles</a></div>
+  <div class="grid3">
+    {%- for p in list | latest(3) %}{% include "card.njk" %}{% endfor %}
   </div>
 </div></section>
 
-<section class="sec alt" aria-labelledby="top-h"><div class="wrap">
-  <div class="sec-head"><h2 id="top-h">Topics</h2></div>
-  <div class="topics">
-    {%- for t in collections.liveTopics %}
-    <a class="topic" href="/{{ t.slug }}/"><span class="tn">{{ t.name }}</span><span class="tb">{{ t.blurb }}</span><span class="tc">{{ t.posts.length }} article{% if t.posts.length != 1 %}s{% endif %}</span></a>
-    {%- endfor %}
-    {%- for s in collections.liveSeries %}
-    <a class="topic" href="/{{ s.slug }}/"><span class="tn">{{ s.name }}</span><span class="tb">Series: {{ s.title }}</span><span class="tc">{{ s.posts.length }} article{% if s.posts.length != 1 %}s{% endif %}</span></a>
-    {%- endfor %}
-  </div>
-  <p class="note-line">New topics appear here when their first article is published.</p>
-</div></section>
-
-<section class="sec" aria-labelledby="arch-h"><div class="wrap">
+<section class="sec alt" aria-labelledby="arch-h"><div class="wrap">
   <div class="sec-head"><h2 id="arch-h">Architecture and engineering</h2></div>
-  <p class="lead dim">Diagrams from the articles, drawn in the same layout as the Microsoft Learn reference architectures. Click an article to read how each one works.</p>
+  <p class="lead dim">Diagrams from the articles, drawn in the same layout as the Microsoft Learn reference architectures. Open an article to read how each one works.</p>
   <div class="plates">
     {%- for pl in articleMeta.plates %}{% set pp = list | pick([pl.order]) %}
     <a class="plate-card" href="{{ pp[0].url }}">
@@ -99,17 +85,17 @@ permalink: "/"
   </div>
 </div></section>
 
-<section class="sec alt" aria-labelledby="labs-h"><div class="wrap">
+<section class="sec" aria-labelledby="labs-h"><div class="wrap">
   <div class="labs-card">
     <div><h2 id="labs-h">Labs and experiments</h2>
-    <p class="lead dim">Hands-on material lives in a public GitHub repo next to the articles: reference files and lab steps that go with each post.</p></div>
-    <p><a class="btn ghost" href="/labs/">About the labs</a></p>
+    <p class="lead dim">Reference files and lab steps that go with the articles live in a public GitHub repo.</p></div>
+    <p><a class="btn ghost" href="{{ site.repo }}">Open the Azure_landing_zone repo</a></p>
   </div>
 </div></section>
 
-<section class="sec" aria-label="About the author"><div class="wrap">
+<section class="sec alt" aria-label="About the author"><div class="wrap">
   <div class="author wide">
     <span class="av" aria-hidden="true">{% include "mark.njk" %}</span>
-    <div><p class="an">{{ site.author }}</p><p>{{ site.role }}. This site is a technical publication: each article is checked against Microsoft Learn before it goes out. <a href="/about/">More about the site and the author</a>.</p></div>
+    <div><p class="an">{{ site.author }}</p><p>{{ site.role }}. Each article is checked against Microsoft Learn before it goes out. <a href="/about/">More about the site and the author</a>.</p></div>
   </div>
 </div></section>
