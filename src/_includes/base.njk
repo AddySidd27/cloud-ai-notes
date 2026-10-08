@@ -44,7 +44,7 @@
 <script type="application/ld+json">{{ { site: site, title: title, deck: deck, url: canon, img: (ogPath | absUrl(site.url)), meta: articleMeta[order], ser: ser, tp: tp } | ldArticle | safe }}</script>
 {%- endif %}
 </head>
-<body class="{% if isArticle %}is-article{% endif %}{% if home %} home{% endif %}">
+<body{% if isArticle %} class="is-article"{% endif %}>
 <a class="skip" href="#main">Skip to content</a>
 {%- if isArticle %}<div class="progress" aria-hidden="true"><i></i></div>{% endif %}
 <header class="masthead"><div class="wrap mast-in">
