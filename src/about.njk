@@ -1,0 +1,22 @@
+---
+layout: base.njk
+title: "About"
+deck: "About this publication and its author."
+permalink: "/about/"
+---
+<header class="band"><div class="wrap band-in">
+  <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">About</li></ol></nav>
+  <h1>About</h1>
+  <p class="band-deck">{{ deck }}</p>
+</div></header>
+<div class="wrap sec"><div class="prose narrow">
+  <h2>About the author</h2>
+  <p><strong>{{ site.author }}</strong> is a {{ site.role }}. He writes this site to explain cloud and infrastructure architecture from zero, in plain language.</p>
+  <h2>About this site</h2>
+  <p>AdnanSiddiqui.com is a technical publication. Articles are written in a fixed format: the problem, a simple explanation, a diagram, what has been seen in production, the repo files, and the sources.</p>
+  <p>Azure facts are checked against Microsoft Learn before an article is published. Examples use made-up organizations, never real company names. This is a personal blog: opinions are my own and the site is not affiliated with Microsoft.</p>
+  <h2>Where to start</h2>
+  <p><a href="/start-here/">Start here</a> explains how the site is organized. The <a href="/azure-landing-zone/">Azure Landing Zone series</a> is the first full series.</p>
+  <p>Source files and labs are in the <a href="{{ site.repo }}">GitHub repo</a>.</p>
+</div></div>
+<script type="application/ld+json">{{ site | ldPerson | safe }}</script>

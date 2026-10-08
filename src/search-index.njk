@@ -1,0 +1,10 @@
+---
+permalink: "/search.json"
+eleventyExcludeFromCollections: true
+---
+{%- set out = [] -%}
+{%- for p in collections.articles -%}
+{%- set ser = p.data.tags | seriesOf -%}{%- set tp = ser | topicOf -%}
+{%- set out = (out.push({"t": p.data.title, "u": p.url, "d": p.data.deck, "c": tp.name, "s": ser.name, "g": articleMeta[p.data.order].tags, "x": p.templateContent | striptags | replace("\n", " ")}), out) -%}
+{%- endfor -%}
+{{ out | dump | safe }}

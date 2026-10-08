@@ -1,85 +1,115 @@
 ---
 layout: base.njk
-title: "Addy's Cloud & AI Notes"
+title: "AdnanSiddiqui.com"
 home: true
 permalink: "/"
 ---
-{%- set alz = collections.topic_alz -%}
-{%- macro pill(cx, cy, w, label, i, hot) -%}
-<g class="pill{% if hot %} hot{% endif %}" style="--i:{{ i }}"><rect x="{{ cx - w / 2 }}" y="{{ cy - 20 }}" width="{{ w }}" height="40" rx="20"/><text x="{{ cx }}" y="{{ cy }}" text-anchor="middle" dominant-baseline="central">{{ label }}</text></g>
+{%- set list = collections.articles -%}
+{%- set ser = collections.liveSeries[0] -%}
+{%- set tp = ser | topicOf -%}
+{%- macro nd(x, y, w, label, cls) -%}
+<g class="nd {{ cls }}"><rect x="{{ x }}" y="{{ y }}" width="{{ w }}" height="28" rx="4"/><text x="{{ x + w / 2 }}" y="{{ y + 14 }}" text-anchor="middle" dominant-baseline="central">{{ label }}</text></g>
 {%- endmacro -%}
-<section class="band hero">
+<section class="hero">
   <div class="wrap hero-grid">
     <div class="hero-text">
-      <p class="chip">Cloud and AI architecture blog</p>
-      <h1>From zero to <span class="nb">production-grade</span> cloud and AI architecture.</h1>
-      <p class="band-deck">Every post defines its words first, shows one diagram, and points to the lab in the repo. Azure facts are checked against Microsoft Learn.</p>
+      <h1><span>Cloud Architecture.</span> <span>Engineering.</span> <span>Real-World Technology.</span></h1>
+      <p class="lead">Deep technical guides, architecture insights, hands-on engineering and practical solutions across Azure, AVD, Windows 365, Citrix, AWS and modern infrastructure.</p>
       <div class="cta">
-        <a class="btn amber" href="/start-here/">Start here</a>
-        <a class="btn outline" href="#topics">Browse topics</a>
+        <a class="btn primary" href="/{{ ser.slug }}/">Read the {{ ser.name }} series</a>
+        <a class="btn ghost" href="/articles/">Browse all articles</a>
       </div>
     </div>
-    <div class="hero-art">
-      <svg viewBox="0 0 560 440" role="img" aria-label="A cloud at the centre connected to the topics of this blog: Azure Landing Zone, Azure Virtual Desktop, Windows 365, Citrix, AWS, Google Cloud and AI.">
-        <defs>
-          <radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#3C8DF0" stop-opacity=".55"/><stop offset="1" stop-color="#3C8DF0" stop-opacity="0"/></radialGradient>
-          <linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9BDAFF"/><stop offset=".55" stop-color="#3C8DF0"/><stop offset="1" stop-color="#1B4FBF"/></linearGradient>
-        </defs>
-        <circle cx="280" cy="222" r="215" fill="url(#glow)"/>
-        <g fill="none" stroke="#8ED0FF" stroke-opacity=".12"><circle cx="280" cy="222" r="105"/><circle cx="280" cy="222" r="165"/><circle cx="280" cy="222" r="215"/></g>
-        <g class="wires" fill="none" stroke="#8ED0FF" stroke-opacity=".55" stroke-width="1.6" stroke-dasharray="4 7">
-          <line x1="280" y1="222" x2="280" y2="38"/><line x1="280" y1="222" x2="425" y2="111"/><line x1="280" y1="222" x2="463" y2="264"/><line x1="280" y1="222" x2="360" y2="374"/><line x1="280" y1="222" x2="200" y2="374"/><line x1="280" y1="222" x2="96" y2="264"/><line x1="280" y1="222" x2="134" y2="111"/>
-        </g>
-        <g transform="translate(195 172) scale(3.7)">
-          <path d="M38.5 27H12a9 9 0 0 1-1.6-17.86A12 12 0 0 1 33.6 8.4 10 10 0 0 1 38.5 27Z" fill="url(#hg)"/>
-          <path d="M16.2 23.2 23 7.8l6.8 15.4M18.9 18h8.2" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
-          <path class="spark" d="M33.5 3.5l1 2.6 2.6 1-2.6 1-1 2.6-1-2.6-2.6-1 2.6-1z" fill="#FFB000"/>
-        </g>
-        {{ pill(280, 38, 64, "AI", 0, false) }}
-        {{ pill(425, 111, 252, "Azure Virtual Desktop", 1, false) }}
-        {{ pill(463, 264, 150, "Windows 365", 2, false) }}
-        {{ pill(360, 374, 98, "Citrix", 3, false) }}
-        {{ pill(200, 374, 70, "AWS", 4, false) }}
-        {{ pill(96, 264, 160, "Google Cloud", 5, false) }}
-        {{ pill(134, 111, 224, "Azure Landing Zone", 6, true) }}
+    <figure class="plate" aria-labelledby="fig1">
+      <svg viewBox="0 0 544 340" role="img" aria-label="Diagram of an Azure management group hierarchy. The tenant root group contains an intermediate root group. Under it are Platform, with Identity, Connectivity, Management and Security; Landing zones, with Corp, Online and Local; Sandboxes; and Decommissioned.">
+        <g class="wire" fill="none" stroke-width="1.5"><path d="M272 44v18M272 90v28M85 118h400M85 118v14M251 118v14M384 118v14M485 118v14M85 160v20M251 160v20"/><path d="M28 180v102M28 194h-0M28 194h8M28 228h8M28 262h8M28 296h8"/><path d="M194 180v102M194 194h8M194 228h8M194 262h8" /></g>
+        {{ nd(202, 16, 140, "Tenant root group", "") }}
+        {{ nd(202, 62, 140, "Intermediate root", "k") }}
+        {{ nd(10, 132, 150, "Platform", "k") }}
+        {{ nd(176, 132, 150, "Landing zones", "k") }}
+        {{ nd(342, 132, 84, "Sandboxes", "") }}
+        {{ nd(436, 132, 98, "Decommissioned", "s") }}
+        {{ nd(36, 180, 124, "Identity", "a") }}
+        {{ nd(36, 214, 124, "Connectivity", "a") }}
+        {{ nd(36, 248, 124, "Management", "a") }}
+        {{ nd(36, 282, 124, "Security", "a") }}
+        {{ nd(202, 180, 124, "Corp", "") }}
+        {{ nd(202, 214, 124, "Online", "") }}
+        {{ nd(202, 248, 124, "Local", "") }}
       </svg>
-    </div>
+      <figcaption id="fig1"><b>Fig. 1</b> Management groups in an Azure landing zone, simplified. <a href="/azure-landing-zone/resource-organization/">Part 9</a></figcaption>
+    </figure>
   </div>
 </section>
 
-<section class="section-pad" id="topics"><div class="wrap">
-  <h2 class="sh">Browse by topic</h2>
-  <p class="lead">Pick a topic to see all of its posts.</p>
-  <div class="tiles">
-  {%- for t in topics %}
-    {%- set n = collections["topic_" + t.tag].length %}
-    <a class="tile{% if not n %} soon{% endif %}" href="/{{ t.slug }}/">
-      <span class="tile-ico">{% set g = t.glyph %}{% include "glyph.njk" %}</span>
-      <span class="tile-name">{{ t.name }}</span>
-      <span class="tile-text">{{ t.blurb | clip(88) }}</span>
-      <span class="tile-state">{% if n %}{{ n }} posts{% else %}Coming soon{% endif %}</span>
-    </a>
-  {%- endfor %}
+<section class="sec" aria-labelledby="feat-h"><div class="wrap">
+  <div class="sec-head"><h2 id="feat-h">Featured articles</h2><a class="more" href="/articles/">All articles</a></div>
+  {%- set f = list | pick(articleMeta.featured) %}
+  <div class="feat">
+    {%- for p in f %}{% set big = loop.first %}{% include "card.njk" %}{% endfor %}
   </div>
 </div></section>
 
-<section class="section-pad alt"><div class="wrap">
-  <div class="sh-row"><h2 class="sh">Latest posts</h2><a class="all" href="/azure-landing-zone/">All Azure Landing Zone posts</a></div>
-  <div class="plist">
-  {%- set tp = topics | topicByTag(["alz"]) %}
-  {%- for p in alz | latest(5) %}{% include "card.njk" %}{% endfor %}
+<section class="series-band" aria-labelledby="ser-h"><div class="wrap">
+  <div class="series-head">
+    <div>
+      <p class="chip">Flagship series<span>{{ list.length }} articles</span></p>
+      <h2 id="ser-h">{{ ser.title }}</h2>
+      <p class="lead">{{ ser.blurb }}</p>
+    </div>
+    <p><a class="btn primary" href="/{{ ser.slug }}/">Open the series</a></p>
   </div>
-</div></section>
-
-<section class="section-pad"><div class="wrap">
-  <h2 class="sh">How each post is built</h2>
-  <p class="lead">Every post has the same six parts, so you always know where to look.</p>
-  <ol class="steps">
-    <li><b>The problem</b><span>What the topic solves.</span></li>
-    <li><b>A plain explanation</b><span>It starts with the words you need first.</span></li>
-    <li><b>One diagram</b><span>Simplified, with the Microsoft Learn page named.</span></li>
-    <li><b>What I have seen in production</b><span>And which mistakes to check for first.</span></li>
-    <li><b>The repo file</b><span>The lab or reference that goes with the post.</span></li>
-    <li><b>Sources</b><span>Up to three Microsoft Learn pages.</span></li>
+  <ol class="series-list">
+    {%- for p in list %}
+    <li><a href="{{ p.url }}"><span class="no">{{ p.data.order | pad }}</span><span class="st"><strong>{{ p.data.title }}</strong><span class="sd">{{ p.data.deck | clip(120) }}</span></span><span class="sm">{{ p.templateContent | readingTime }} min</span></a></li>
+    {%- endfor %}
   </ol>
+</div></section>
+
+<section class="sec" aria-labelledby="new-h"><div class="wrap">
+  <div class="sec-head"><h2 id="new-h">Latest articles</h2><a class="more" href="/articles/">All articles</a></div>
+  <div class="grid2">
+    {%- for p in list | latest(4) %}{% include "card.njk" %}{% endfor %}
+  </div>
+</div></section>
+
+<section class="sec alt" aria-labelledby="top-h"><div class="wrap">
+  <div class="sec-head"><h2 id="top-h">Topics</h2></div>
+  <div class="topics">
+    {%- for t in collections.liveTopics %}
+    <a class="topic" href="/{{ t.slug }}/"><span class="tn">{{ t.name }}</span><span class="tb">{{ t.blurb }}</span><span class="tc">{{ t.posts.length }} article{% if t.posts.length != 1 %}s{% endif %}</span></a>
+    {%- endfor %}
+    {%- for s in collections.liveSeries %}
+    <a class="topic" href="/{{ s.slug }}/"><span class="tn">{{ s.name }}</span><span class="tb">Series: {{ s.title }}</span><span class="tc">{{ s.posts.length }} article{% if s.posts.length != 1 %}s{% endif %}</span></a>
+    {%- endfor %}
+  </div>
+  <p class="note-line">New topics appear here when their first article is published.</p>
+</div></section>
+
+<section class="sec" aria-labelledby="arch-h"><div class="wrap">
+  <div class="sec-head"><h2 id="arch-h">Architecture and engineering</h2></div>
+  <p class="lead dim">Diagrams from the articles, drawn in the same layout as the Microsoft Learn reference architectures. Click an article to read how each one works.</p>
+  <div class="plates">
+    {%- for pl in articleMeta.plates %}{% set pp = list | pick([pl.order]) %}
+    <a class="plate-card" href="{{ pp[0].url }}">
+      <span class="pimg"><img src="/diagrams/{{ pl.img }}" alt="Diagram from Part {{ pl.order }}: {{ pp[0].data.title }}" loading="lazy" width="640" height="400"></span>
+      <span class="pt"><small>{{ pl.area }}</small><strong>{{ pp[0].data.title }}</strong></span>
+    </a>
+    {%- endfor %}
+  </div>
+</div></section>
+
+<section class="sec alt" aria-labelledby="labs-h"><div class="wrap">
+  <div class="labs-card">
+    <div><h2 id="labs-h">Labs and experiments</h2>
+    <p class="lead dim">Hands-on material lives in a public GitHub repo next to the articles: reference files and lab steps that go with each post.</p></div>
+    <p><a class="btn ghost" href="/labs/">About the labs</a></p>
+  </div>
+</div></section>
+
+<section class="sec" aria-label="About the author"><div class="wrap">
+  <div class="author wide">
+    <span class="av" aria-hidden="true">{% include "mark.njk" %}</span>
+    <div><p class="an">{{ site.author }}</p><p>{{ site.role }}. This site is a technical publication: each article is checked against Microsoft Learn before it goes out. <a href="/about/">More about the site and the author</a>.</p></div>
+  </div>
 </div></section>

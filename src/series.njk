@@ -1,0 +1,28 @@
+---
+layout: base.njk
+pagination:
+  data: collections.liveSeries
+  size: 1
+  alias: ser
+permalink: "/{{ ser.slug }}/"
+eleventyComputed:
+  title: "{{ ser.title }}"
+  deck: "{{ ser.blurb }}"
+---
+{%- set tp = ser | topicOf -%}
+{%- set list = ser.posts -%}
+<header class="band"><div class="wrap band-in">
+  <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/{{ tp.slug }}/">{{ tp.name }}</a></li><li aria-current="page">{{ ser.name }}</li></ol></nav>
+  <p class="chip">Series<span>{{ list.length }} articles</span></p>
+  <h1>{{ ser.title }}</h1>
+  <p class="band-deck">{{ ser.blurb }}</p>
+  <p class="cta"><a class="btn primary" href="{{ list[0].url }}">Start with Part 1</a><a class="btn ghost-on" href="/start-here/">Read the introduction</a></p>
+</div><div class="art-cover" aria-hidden="true">{% set cat = tp.slug %}{% set cn = '' %}{% include "cover.njk" %}</div></header>
+<div class="wrap sec">
+  <ol class="series-list page">
+    {%- for p in list %}
+    <li><a href="{{ p.url }}"><span class="no">{{ p.data.order | pad }}</span><span class="st"><strong>{{ p.data.title }}</strong><span class="sd">{{ p.data.deck | clip(210) }}</span><span class="tg">{% for t in articleMeta[p.data.order].tags %}<i>{{ t }}</i>{% endfor %}</span></span><span class="sm">{{ p.templateContent | readingTime }} min read</span></a></li>
+    {%- endfor %}
+  </ol>
+  <p class="note-line">More parts are written and published in order. This list grows as each one passes the Microsoft Learn check.</p>
+</div>
