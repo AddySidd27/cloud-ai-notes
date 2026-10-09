@@ -1,82 +1,76 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1150 680" width="1150" height="680" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1356" width="1000" height="1356" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
   <title id="t">Privileged access: Conditional Access sets the rule, MFA is the proof, PIM switches the role on for a limited time, emergency accounts are the safety net</title>
-  <desc id="d">Top row, five steps. 1, Administrator: a separate cloud-only account for admin work, eligible for a role, not always active. 2, Conditional Access, the rule: signals are user or role, location, device, application and risk; the decision is to block or grant access and require MFA or an authentication strength; for admin roles, start in report-only mode then turn on, and exclude emergency accounts. 3, Multifactor authentication, the proof: two or more of something you know, something you have and something you are, with three built-in strengths, multifactor, passwordless and phishing-resistant, where phishing-resistant is the most restrictive and recommended for admins; register methods first or risk lockout. 4, PIM activation, the switch: the role is eligible, and to activate there is an MFA check, a business reason and approval if required. 5, Active then ends: the role works for a set time only, with notifications, audit history and access reviews. Bottom row. Emergency access accounts: two or more cloud-only accounts, a passkey different from normal admins, Global Administrator permanent active in PIM, excluded from Conditional Access policies that block or restrict sign-in. Monitor and test: alert on every sign-in, test at least every 90 days, review after any use. Footer: register sign-in methods before turning a policy on. Icons are official: Microsoft Entra ID and Log Analytics workspaces.</desc>
+  <desc id="d">From top to bottom, five numbered boxes joined by down arrows. 1, Administrator: a separate cloud-only account for admin work, eligible for a role, not always active. 2, Conditional Access, the rule: signals are user or role, location, device, application and risk; the decision is to block or grant access and require MFA or an authentication strength; for admin roles, start in report-only mode then turn on, and exclude emergency accounts. 3, Multifactor authentication, the proof: two or more of something you know, something you have and something you are, with three built-in strengths, multifactor, passwordless and phishing-resistant, where phishing-resistant is the most restrictive and recommended for admins; register methods first or risk lockout. 4, PIM activation, the switch: the role is eligible, and to activate there is an MFA check, a business reason and approval if required. 5, Active then ends: the role works for a set time only, with notifications, audit history and access reviews. Below them, the safety net, as stacked boxes. Emergency access accounts: two or more cloud-only accounts, a passkey different from normal admins, Global Administrator permanent active in PIM, excluded from Conditional Access policies that block or restrict sign-in. Monitor and test: alert on every sign-in, test at least every 90 days, review after any use. Footer: register sign-in methods before turning a policy on. Icons are official: Microsoft Entra ID and Log Analytics workspaces.</desc>
   <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
-  <rect x="10" y="10" width="1130" height="660" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
-  <text x="575" y="38" font-size="17" font-weight="600" text-anchor="middle" fill="#1f2933">Privileged access: the rule, the proof, the switch and the safety net</text>
-  <text x="575" y="64" font-size="12" font-weight="600" text-anchor="middle" fill="#3a3a3a">Everyday administrator access</text>
-  <rect x="20" y="80" width="130" height="360" rx="6" fill="#e8f0fe" stroke="#3b6fb6" stroke-width="2"/>
-  <image x="34" y="90" width="28" height="28" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0idXVpZC1mOGQ0ZDM5Mi03YzEyLTRiZDktYmFmZi02NmZiZjc4MTRiOTEiIGRhdGEtbmFtZT0iTGF5ZXIgMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCI+CiAgPHBhdGggZD0ibTMuODAyLDE0LjAzMmMuMzg4LjI0MiwxLjAzMy41MTEsMS43MTUuNTExLjYyMSwwLDEuMTk4LS4xOCwxLjY3Ni0uNDg3LDAsMCwuMDAxLDAsLjAwMi0uMDAxbDEuODA1LTEuMTI4djQuMDczYy0uMjg2LDAtLjU3NC0uMDc4LS44MjQtLjIzNGwtNC4zNzQtMi43MzRaIiBmaWxsPSIjMjI1MDg2Ii8+CiAgPHBhdGggZD0ibTcuODUzLDEuNTA3TC4zNTMsOS45NjdjLS41NzkuNjU0LS40MjgsMS42NDIuMzIzLDIuMTExLDAsMCwyLjc3NiwxLjczNSwzLjEyNiwxLjk1NC4zODguMjQyLDEuMDMzLjUxMSwxLjcxNS41MTEuNjIxLDAsMS4xOTgtLjE4LDEuNjc2LS40ODcsMCwwLC4wMDEsMCwuMDAyLS4wMDFsMS44MDUtMS4xMjgtNC4zNjQtMi43MjgsNC4zNjUtNC45MjRWMXMwLDAsMCwwYy0uNDI0LDAtLjg0Ny4xNjktMS4xNDcuNTA3WiIgZmlsbD0iIzZkZiIvPgogIDxwb2x5Z29uIHBvaW50cz0iNC42MzYgMTAuMTk5IDQuNjg4IDEwLjIzMSA5IDEyLjkyNyA5LjAwMSAxMi45MjcgOS4wMDEgMTIuOTI3IDkuMDAxIDUuMjc2IDkgNS4yNzUgNC42MzYgMTAuMTk5IiBmaWxsPSIjY2JmOGZmIi8+CiAgPHBhdGggZD0ibTE3LjMyNCwxMi4wNzhjLjc1MS0uNDY5LjkwMi0xLjQ1Ny4zMjMtMi4xMTFsLTQuOTIxLTUuNTUxYy0uMzk3LS4xODUtLjg0Mi0uMjkxLTEuMzEzLS4yOTEtLjkyNSwwLTEuNzUyLjM5OS0yLjMwMiwxLjAyNmwtLjEwOS4xMjNoMHM0LjM2NCw0LjkyNCw0LjM2NCw0LjkyNGgwczAsMCwwLDBsLTQuMzY1LDIuNzI4djQuMDczYy4yODcsMCwuNTczLS4wNzguODIzLS4yMzRsNy41LTQuNjg4WiIgZmlsbD0iIzA3NDc5MyIvPgogIDxwYXRoIGQ9Im05LjAwMSwxdjQuMjc1cy4xMDktLjEyMy4xMDktLjEyM2MuNTUtLjYyNywxLjM3Ny0xLjAyNiwyLjMwMi0xLjAyNi40NzIsMCwuOTE2LjEwNywxLjMxMy4yOTFsLTIuNTc5LTIuOTA5Yy0uMjk5LS4zMzgtLjcyMy0uNTA3LTEuMTQ2LS41MDdaIiBmaWxsPSIjMDI5NGU0Ii8+CiAgPHBvbHlnb24gcG9pbnRzPSIxMy4zNjUgMTAuMTk5IDEzLjM2NSAxMC4xOTkgMTMuMzY1IDEwLjE5OSA5LjAwMSA1LjI3NiA5LjAwMSAxMi45MjYgMTMuMzY1IDEwLjE5OSIgZmlsbD0iIzk2YmNjMiIvPgo8L3N2Zz4="/>
-  <text x="34" y="146" font-size="12" font-weight="600" text-anchor="start" fill="#1f2933">1. Administrator</text>
-  <text x="34" y="176" font-size="11" text-anchor="start" fill="#1f2933">Separate</text>
-  <text x="34" y="193" font-size="11" text-anchor="start" fill="#1f2933">cloud-only account</text>
-  <text x="34" y="210" font-size="11" text-anchor="start" fill="#1f2933">for admin work</text>
-  <text x="34" y="244" font-size="11" text-anchor="start" fill="#1f2933">Eligible for a role,</text>
-  <text x="34" y="261" font-size="11" text-anchor="start" fill="#1f2933">not always active</text>
-  <rect x="180" y="80" width="250" height="360" rx="6" fill="#e8f5e9" stroke="#3c8d40" stroke-width="2"/>
-  <text x="194" y="134" font-size="13" font-weight="600" text-anchor="start" fill="#1f2933">2. Conditional Access</text>
-  <text x="194" y="152" font-size="11" text-anchor="start" fill="#3a3a3a">The rule: if this, then that</text>
-  <text x="194" y="176" font-size="11" font-weight="600" text-anchor="start" fill="#1f2933">Signals</text>
-  <text x="194" y="193" font-size="11" text-anchor="start" fill="#1f2933">User or group, location,</text>
-  <text x="194" y="210" font-size="11" text-anchor="start" fill="#1f2933">device, application, risk</text>
-  <text x="194" y="235" font-size="11" font-weight="600" text-anchor="start" fill="#1f2933">Decision</text>
-  <text x="194" y="252" font-size="11" text-anchor="start" fill="#1f2933">Block, or grant access and</text>
-  <text x="194" y="269" font-size="11" text-anchor="start" fill="#1f2933">require MFA or an</text>
-  <text x="194" y="286" font-size="11" text-anchor="start" fill="#1f2933">authentication strength</text>
-  <text x="194" y="311" font-size="11" font-weight="600" text-anchor="start" fill="#1f2933">Policy for admin roles</text>
-  <text x="194" y="328" font-size="11" text-anchor="start" fill="#1f2933">Start in report-only, then On</text>
-  <text x="194" y="345" font-size="11" text-anchor="start" fill="#1f2933">Exclude emergency accounts</text>
-  <rect x="460" y="80" width="250" height="360" rx="6" fill="#e8f5e9" stroke="#3c8d40" stroke-width="2"/>
-  <text x="474" y="134" font-size="13" font-weight="600" text-anchor="start" fill="#1f2933">3. Multifactor authentication</text>
-  <text x="474" y="152" font-size="11" text-anchor="start" fill="#3a3a3a">The proof: two or more factors</text>
-  <text x="474" y="180" font-size="11" font-weight="600" text-anchor="start" fill="#1f2933">Two or more of these:</text>
-  <text x="474" y="198" font-size="11" text-anchor="start" fill="#1f2933">Something you know (password)</text>
-  <text x="474" y="215" font-size="11" text-anchor="start" fill="#1f2933">Something you have (phone, key)</text>
-  <text x="474" y="232" font-size="11" text-anchor="start" fill="#1f2933">Something you are (fingerprint)</text>
-  <text x="474" y="262" font-size="11" font-weight="600" text-anchor="start" fill="#1f2933">Three built-in strengths</text>
-  <text x="474" y="280" font-size="11" text-anchor="start" fill="#1f2933">Multifactor (less restrictive)</text>
-  <text x="474" y="297" font-size="11" text-anchor="start" fill="#1f2933">Passwordless MFA</text>
-  <rect x="468" y="304" width="234" height="24" rx="4" fill="#c8e6c9" stroke="#3c8d40" stroke-width="1"/>
-  <text x="474" y="320" font-size="11" font-weight="600" text-anchor="start" fill="#1f2933">Phishing-resistant (most restrictive)</text>
-  <text x="474" y="348" font-size="11" font-weight="600" text-anchor="start" fill="#1f2933">Recommended for admins:</text>
-  <text x="474" y="365" font-size="11" text-anchor="start" fill="#1f2933">phishing-resistant MFA</text>
-  <text x="474" y="390" font-size="11" font-weight="600" text-anchor="start" fill="#1f2933">Register methods first,</text>
-  <text x="474" y="407" font-size="11" text-anchor="start" fill="#1f2933">or you risk a lockout</text>
-  <rect x="740" y="80" width="210" height="360" rx="6" fill="#e8f0fe" stroke="#3b6fb6" stroke-width="2"/>
-  <text x="754" y="134" font-size="13" font-weight="600" text-anchor="start" fill="#1f2933">4. PIM activation</text>
-  <text x="754" y="152" font-size="11" text-anchor="start" fill="#3a3a3a">The switch: only when needed</text>
-  <text x="754" y="180" font-size="11" font-weight="600" text-anchor="start" fill="#1f2933">Role is eligible,</text>
-  <text x="754" y="197" font-size="11" text-anchor="start" fill="#1f2933">not always active</text>
-  <text x="754" y="231" font-size="11" font-weight="600" text-anchor="start" fill="#1f2933">To activate:</text>
-  <text x="754" y="248" font-size="11" text-anchor="start" fill="#1f2933">MFA check</text>
-  <text x="754" y="265" font-size="11" text-anchor="start" fill="#1f2933">A business reason</text>
-  <text x="754" y="282" font-size="11" text-anchor="start" fill="#1f2933">Approval, if required</text>
-  <rect x="980" y="80" width="150" height="360" rx="6" fill="#e8f0fe" stroke="#3b6fb6" stroke-width="2"/>
-  <text x="994" y="134" font-size="13" font-weight="600" text-anchor="start" fill="#1f2933">5. Active,</text>
-  <text x="994" y="152" font-size="13" font-weight="600" text-anchor="start" fill="#1f2933">then it ends</text>
-  <text x="994" y="184" font-size="11" text-anchor="start" fill="#1f2933">Works for a set</text>
-  <text x="994" y="201" font-size="11" text-anchor="start" fill="#1f2933">time only</text>
-  <text x="994" y="235" font-size="11" text-anchor="start" fill="#1f2933">Notifications,</text>
-  <text x="994" y="252" font-size="11" text-anchor="start" fill="#1f2933">audit history and</text>
-  <text x="994" y="269" font-size="11" text-anchor="start" fill="#1f2933">access reviews</text>
-  <line x1="150" y1="250" x2="180" y2="250" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="430" y1="250" x2="460" y2="250" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="710" y1="250" x2="740" y2="250" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="950" y1="250" x2="980" y2="250" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
-  <text x="575" y="468" font-size="12" font-weight="600" text-anchor="middle" fill="#3a3a3a">Safety net</text>
-  <rect x="20" y="480" width="555" height="140" rx="6" fill="#fff7e0" stroke="#8a6d00" stroke-width="2"/>
-  <image x="32" y="490" width="28" height="28" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0idXVpZC1mOGQ0ZDM5Mi03YzEyLTRiZDktYmFmZi02NmZiZjc4MTRiOTEiIGRhdGEtbmFtZT0iTGF5ZXIgMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCI+CiAgPHBhdGggZD0ibTMuODAyLDE0LjAzMmMuMzg4LjI0MiwxLjAzMy41MTEsMS43MTUuNTExLjYyMSwwLDEuMTk4LS4xOCwxLjY3Ni0uNDg3LDAsMCwuMDAxLDAsLjAwMi0uMDAxbDEuODA1LTEuMTI4djQuMDczYy0uMjg2LDAtLjU3NC0uMDc4LS44MjQtLjIzNGwtNC4zNzQtMi43MzRaIiBmaWxsPSIjMjI1MDg2Ii8+CiAgPHBhdGggZD0ibTcuODUzLDEuNTA3TC4zNTMsOS45NjdjLS41NzkuNjU0LS40MjgsMS42NDIuMzIzLDIuMTExLDAsMCwyLjc3NiwxLjczNSwzLjEyNiwxLjk1NC4zODguMjQyLDEuMDMzLjUxMSwxLjcxNS41MTEuNjIxLDAsMS4xOTgtLjE4LDEuNjc2LS40ODcsMCwwLC4wMDEsMCwuMDAyLS4wMDFsMS44MDUtMS4xMjgtNC4zNjQtMi43MjgsNC4zNjUtNC45MjRWMXMwLDAsMCwwYy0uNDI0LDAtLjg0Ny4xNjktMS4xNDcuNTA3WiIgZmlsbD0iIzZkZiIvPgogIDxwb2x5Z29uIHBvaW50cz0iNC42MzYgMTAuMTk5IDQuNjg4IDEwLjIzMSA5IDEyLjkyNyA5LjAwMSAxMi45MjcgOS4wMDEgMTIuOTI3IDkuMDAxIDUuMjc2IDkgNS4yNzUgNC42MzYgMTAuMTk5IiBmaWxsPSIjY2JmOGZmIi8+CiAgPHBhdGggZD0ibTE3LjMyNCwxMi4wNzhjLjc1MS0uNDY5LjkwMi0xLjQ1Ny4zMjMtMi4xMTFsLTQuOTIxLTUuNTUxYy0uMzk3LS4xODUtLjg0Mi0uMjkxLTEuMzEzLS4yOTEtLjkyNSwwLTEuNzUyLjM5OS0yLjMwMiwxLjAyNmwtLjEwOS4xMjNoMHM0LjM2NCw0LjkyNCw0LjM2NCw0LjkyNGgwczAsMCwwLDBsLTQuMzY1LDIuNzI4djQuMDczYy4yODcsMCwuNTczLS4wNzguODIzLS4yMzRsNy41LTQuNjg4WiIgZmlsbD0iIzA3NDc5MyIvPgogIDxwYXRoIGQ9Im05LjAwMSwxdjQuMjc1cy4xMDktLjEyMy4xMDktLjEyM2MuNTUtLjYyNywxLjM3Ny0xLjAyNiwyLjMwMi0xLjAyNi40NzIsMCwuOTE2LjEwNywxLjMxMy4yOTFsLTIuNTc5LTIuOTA5Yy0uMjk5LS4zMzgtLjcyMy0uNTA3LTEuMTQ2LS41MDdaIiBmaWxsPSIjMDI5NGU0Ii8+CiAgPHBvbHlnb24gcG9pbnRzPSIxMy4zNjUgMTAuMTk5IDEzLjM2NSAxMC4xOTkgMTMuMzY1IDEwLjE5OSA5LjAwMSA1LjI3NiA5LjAwMSAxMi45MjYgMTMuMzY1IDEwLjE5OSIgZmlsbD0iIzk2YmNjMiIvPgo8L3N2Zz4="/>
-  <text x="70" y="510" font-size="12" font-weight="600" text-anchor="start" fill="#1f2933">Emergency access (break-glass) accounts</text>
-  <text x="36" y="542" font-size="11" text-anchor="start" fill="#1f2933">Two or more, cloud-only (*.onmicrosoft.com)</text>
-  <text x="36" y="562" font-size="11" text-anchor="start" fill="#1f2933">Passkey (FIDO2), different from normal admins</text>
-  <text x="36" y="582" font-size="11" text-anchor="start" fill="#1f2933">Global Administrator, permanent active in PIM</text>
-  <text x="36" y="602" font-size="11" text-anchor="start" fill="#1f2933">Excluded from Conditional Access policies that block or restrict sign-in</text>
-  <rect x="595" y="480" width="535" height="140" rx="6" fill="#f5f7fa" stroke="#5f6b7a" stroke-width="2"/>
-  <image x="607" y="490" width="28" height="28" href="data:image/svg+xml;base64,PHN2ZyBpZD0iYjM4OGU5NDQtNTUwOS00OWM5LTg0ZDctZjM4YmZmYTk5NWIyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImE5OTdlMjAzLTFkN2QtNGNiOS1iMTMxLTVkYzQ0ZTAyOWI0NiIgeDE9IjUuMjMiIHkxPSIxNy40NSIgeDI9IjUuMjMiIHkyPSI4LjA5IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMTk4OGQ5IiAvPjxzdG9wIG9mZnNldD0iMC45IiBzdG9wLWNvbG9yPSIjNTRhZWYwIiAvPjwvbGluZWFyR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IGlkPSJlMTIyZTlkOC1hZWU1LTRmMWEtYTYwZS1iMWVhZTM1NWRhYTUiIHgxPSIxMS41IiB5MT0iMTIuNDUiIHgyPSIxMS41IiB5Mj0iMC41NSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzE5OGFiMyIgLz48c3RvcCBvZmZzZXQ9IjAuMDEiIHN0b3AtY29sb3I9IiMxOThiYjQiIC8+PHN0b3Agb2Zmc2V0PSIwLjQ0IiBzdG9wLWNvbG9yPSIjMjdiMmQ3IiAvPjxzdG9wIG9mZnNldD0iMC43OSIgc3RvcC1jb2xvcj0iIzJmY2JlZCIgLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMzMmQ0ZjUiIC8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHRpdGxlPkljb24tbWFuYWdlLTMwNzwvdGl0bGU+PHBhdGggZD0iTTUuNTksMTMuMTNIOS45MXY0LjMySDUuNTlaTTEuMTUsMTcuNDVINC44N1YxMy4xM0guNTV2My43MkEuNi42LDAsMCwwLDEuMTUsMTcuNDVabS0uNi01SDQuODdWOC4wOUguNTVaIiBmaWxsPSJ1cmwoI2E5OTdlMjAzLTFkN2QtNGNiOS1iMTMxLTVkYzQ0ZTAyOWI0NikiIC8+PHBhdGggZD0iTTExLjUuNTVhNS44OSw1Ljg5LDAsMCwxLDUuOTUsNiw1Ljg5LDUuODksMCwwLDEtNS45NSw1Ljk1SDUuNTVWNi41QTUuODksNS44OSwwLDAsMSwxMS41LjU1WiIgZmlsbC1ydWxlPSJldmVub2RkIiBmaWxsPSJ1cmwoI2UxMjJlOWQ4LWFlZTUtNGYxYS1hNjBlLWIxZWFlMzU1ZGFhNSkiIC8+PHJlY3QgeD0iNy41OSIgeT0iNS42NSIgd2lkdGg9IjEuMzYiIGhlaWdodD0iNC4wOCIgZmlsbD0iI2ZmZiIgLz48cmVjdCB4PSIxMC4zMSIgeT0iNy4wMSIgd2lkdGg9IjEuMzYiIGhlaWdodD0iMi43MiIgZmlsbD0iI2ZmZiIgLz48cmVjdCB4PSIxMy4wMyIgeT0iNC4yOSIgd2lkdGg9IjEuMzYiIGhlaWdodD0iNS40NCIgZmlsbD0iI2ZmZiIgLz48L3N2Zz4="/>
-  <text x="645" y="510" font-size="12" font-weight="600" text-anchor="start" fill="#1f2933">Monitor and test the emergency accounts</text>
-  <text x="611" y="542" font-size="11" text-anchor="start" fill="#1f2933">Alert on every sign-in (for example Microsoft Sentinel)</text>
-  <text x="611" y="562" font-size="11" text-anchor="start" fill="#1f2933">Test that they work at least every 90 days</text>
-  <text x="611" y="582" font-size="11" text-anchor="start" fill="#1f2933">Review after any use: drill, emergency or misuse</text>
-  <rect x="20" y="636" width="1110" height="34" rx="6" fill="#fff7e0" stroke="#8a6d00" stroke-width="1"/>
-  <text x="575" y="658" font-size="11" font-weight="600" text-anchor="middle" fill="#1f2933">Before turning a policy On: administrators must have registered their sign-in methods, or you risk locking yourself out.</text>
+  <rect x="6" y="6" width="988" height="1344" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
+  <text x="500" y="40" font-size="18" font-weight="600" text-anchor="middle" fill="#1f2933">Privileged access: the rule, the proof, the switch and the safety net</text>
+  <text x="500" y="68" font-size="14" font-weight="600" text-anchor="middle" fill="#3a3a3a">Everyday administrator access</text>
+  <rect x="30" y="86" width="940" height="104" rx="6" fill="#e8f0fe" stroke="#3b6fb6" stroke-width="2"/>
+  <image x="46" y="98" width="28" height="28" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0idXVpZC1mOGQ0ZDM5Mi03YzEyLTRiZDktYmFmZi02NmZiZjc4MTRiOTEiIGRhdGEtbmFtZT0iTGF5ZXIgMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCI+CiAgPHBhdGggZD0ibTMuODAyLDE0LjAzMmMuMzg4LjI0MiwxLjAzMy41MTEsMS43MTUuNTExLjYyMSwwLDEuMTk4LS4xOCwxLjY3Ni0uNDg3LDAsMCwuMDAxLDAsLjAwMi0uMDAxbDEuODA1LTEuMTI4djQuMDczYy0uMjg2LDAtLjU3NC0uMDc4LS44MjQtLjIzNGwtNC4zNzQtMi43MzRaIiBmaWxsPSIjMjI1MDg2Ii8+CiAgPHBhdGggZD0ibTcuODUzLDEuNTA3TC4zNTMsOS45NjdjLS41NzkuNjU0LS40MjgsMS42NDIuMzIzLDIuMTExLDAsMCwyLjc3NiwxLjczNSwzLjEyNiwxLjk1NC4zODguMjQyLDEuMDMzLjUxMSwxLjcxNS41MTEuNjIxLDAsMS4xOTgtLjE4LDEuNjc2LS40ODcsMCwwLC4wMDEsMCwuMDAyLS4wMDFsMS44MDUtMS4xMjgtNC4zNjQtMi43MjgsNC4zNjUtNC45MjRWMXMwLDAsMCwwYy0uNDI0LDAtLjg0Ny4xNjktMS4xNDcuNTA3WiIgZmlsbD0iIzZkZiIvPgogIDxwb2x5Z29uIHBvaW50cz0iNC42MzYgMTAuMTk5IDQuNjg4IDEwLjIzMSA5IDEyLjkyNyA5LjAwMSAxMi45MjcgOS4wMDEgMTIuOTI3IDkuMDAxIDUuMjc2IDkgNS4yNzUgNC42MzYgMTAuMTk5IiBmaWxsPSIjY2JmOGZmIi8+CiAgPHBhdGggZD0ibTE3LjMyNCwxMi4wNzhjLjc1MS0uNDY5LjkwMi0xLjQ1Ny4zMjMtMi4xMTFsLTQuOTIxLTUuNTUxYy0uMzk3LS4xODUtLjg0Mi0uMjkxLTEuMzEzLS4yOTEtLjkyNSwwLTEuNzUyLjM5OS0yLjMwMiwxLjAyNmwtLjEwOS4xMjNoMHM0LjM2NCw0LjkyNCw0LjM2NCw0LjkyNGgwczAsMCwwLDBsLTQuMzY1LDIuNzI4djQuMDczYy4yODcsMCwuNTczLS4wNzguODIzLS4yMzRsNy41LTQuNjg4WiIgZmlsbD0iIzA3NDc5MyIvPgogIDxwYXRoIGQ9Im05LjAwMSwxdjQuMjc1cy4xMDktLjEyMy4xMDktLjEyM2MuNTUtLjYyNywxLjM3Ny0xLjAyNiwyLjMwMi0xLjAyNi40NzIsMCwuOTE2LjEwNywxLjMxMy4yOTFsLTIuNTc5LTIuOTA5Yy0uMjk5LS4zMzgtLjcyMy0uNTA3LTEuMTQ2LS41MDdaIiBmaWxsPSIjMDI5NGU0Ii8+CiAgPHBvbHlnb24gcG9pbnRzPSIxMy4zNjUgMTAuMTk5IDEzLjM2NSAxMC4xOTkgMTMuMzY1IDEwLjE5OSA5LjAwMSA1LjI3NiA5LjAwMSAxMi45MjYgMTMuMzY1IDEwLjE5OSIgZmlsbD0iIzk2YmNjMiIvPgo8L3N2Zz4="/>
+  <text x="86" y="119" font-size="15" font-weight="600" text-anchor="start" fill="#1f2933">1. Administrator</text>
+  <text x="46" y="154" font-size="13" text-anchor="start" fill="#1f2933">Separate cloud-only account for admin work</text>
+  <text x="46" y="174" font-size="13" text-anchor="start" fill="#1f2933">Eligible for a role, not always active</text>
+  <line x1="500" y1="190" x2="500" y2="218" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="30" y="218" width="940" height="166" rx="6" fill="#e8f5e9" stroke="#3c8d40" stroke-width="2"/>
+  <text x="46" y="246" font-size="15" font-weight="600" text-anchor="start" fill="#1f2933">2. Conditional Access</text>
+  <text x="46" y="266" font-size="13" text-anchor="start" fill="#3a3a3a">The rule: if this, then that</text>
+  <text x="46" y="300" font-size="13" font-weight="600" text-anchor="start" fill="#1f2933">Signals</text>
+  <text x="46" y="320" font-size="13" text-anchor="start" fill="#1f2933">User or group, location,</text>
+  <text x="46" y="340" font-size="13" text-anchor="start" fill="#1f2933">device, application, risk</text>
+  <text x="356" y="300" font-size="13" font-weight="600" text-anchor="start" fill="#1f2933">Decision</text>
+  <text x="356" y="320" font-size="13" text-anchor="start" fill="#1f2933">Block, or grant access and</text>
+  <text x="356" y="340" font-size="13" text-anchor="start" fill="#1f2933">require MFA or an</text>
+  <text x="356" y="360" font-size="13" text-anchor="start" fill="#1f2933">authentication strength</text>
+  <text x="666" y="300" font-size="13" font-weight="600" text-anchor="start" fill="#1f2933">Policy for admin roles</text>
+  <text x="666" y="320" font-size="13" text-anchor="start" fill="#1f2933">Start in report-only, then On</text>
+  <text x="666" y="340" font-size="13" text-anchor="start" fill="#1f2933">Exclude emergency accounts</text>
+  <line x1="500" y1="384" x2="500" y2="412" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="30" y="412" width="940" height="184" rx="6" fill="#e8f5e9" stroke="#3c8d40" stroke-width="2"/>
+  <text x="46" y="440" font-size="15" font-weight="600" text-anchor="start" fill="#1f2933">3. Multifactor authentication</text>
+  <text x="46" y="460" font-size="13" text-anchor="start" fill="#3a3a3a">The proof: two or more factors</text>
+  <text x="46" y="494" font-size="13" font-weight="600" text-anchor="start" fill="#1f2933">Two or more of these:</text>
+  <text x="46" y="514" font-size="13" text-anchor="start" fill="#1f2933">Something you know (password)</text>
+  <text x="46" y="534" font-size="13" text-anchor="start" fill="#1f2933">Something you have (phone, key)</text>
+  <text x="46" y="554" font-size="13" text-anchor="start" fill="#1f2933">Something you are (fingerprint)</text>
+  <text x="356" y="494" font-size="13" font-weight="600" text-anchor="start" fill="#1f2933">Three built-in strengths</text>
+  <text x="356" y="514" font-size="13" text-anchor="start" fill="#1f2933">Multifactor (less restrictive)</text>
+  <text x="356" y="534" font-size="13" text-anchor="start" fill="#1f2933">Passwordless MFA</text>
+  <rect x="350" y="546" width="292" height="26" rx="4" fill="#c8e6c9" stroke="#3c8d40" stroke-width="1"/>
+  <text x="356" y="564" font-size="13" font-weight="600" text-anchor="start" fill="#1f2933">Phishing-resistant (most restrictive)</text>
+  <text x="666" y="494" font-size="13" font-weight="600" text-anchor="start" fill="#1f2933">Recommended for admins:</text>
+  <text x="666" y="514" font-size="13" text-anchor="start" fill="#1f2933">phishing-resistant MFA</text>
+  <text x="666" y="542" font-size="13" font-weight="600" text-anchor="start" fill="#1f2933">Register methods first,</text>
+  <text x="666" y="562" font-size="13" text-anchor="start" fill="#1f2933">or you risk a lockout</text>
+  <line x1="500" y1="596" x2="500" y2="624" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="30" y="624" width="940" height="166" rx="6" fill="#e8f0fe" stroke="#3b6fb6" stroke-width="2"/>
+  <text x="46" y="652" font-size="15" font-weight="600" text-anchor="start" fill="#1f2933">4. PIM activation</text>
+  <text x="46" y="672" font-size="13" text-anchor="start" fill="#3a3a3a">The switch: only when needed</text>
+  <text x="46" y="706" font-size="13" font-weight="600" text-anchor="start" fill="#1f2933">Role is eligible,</text>
+  <text x="46" y="726" font-size="13" text-anchor="start" fill="#1f2933">not always active</text>
+  <text x="356" y="706" font-size="13" font-weight="600" text-anchor="start" fill="#1f2933">To activate:</text>
+  <text x="356" y="726" font-size="13" text-anchor="start" fill="#1f2933">MFA check</text>
+  <text x="356" y="746" font-size="13" text-anchor="start" fill="#1f2933">A business reason</text>
+  <text x="356" y="766" font-size="13" text-anchor="start" fill="#1f2933">Approval, if required</text>
+  <line x1="500" y1="790" x2="500" y2="818" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="30" y="818" width="940" height="106" rx="6" fill="#e8f0fe" stroke="#3b6fb6" stroke-width="2"/>
+  <text x="46" y="848" font-size="15" font-weight="600" text-anchor="start" fill="#1f2933">5. Active, then it ends</text>
+  <text x="46" y="880" font-size="13" text-anchor="start" fill="#1f2933">Works for a set time only</text>
+  <text x="46" y="902" font-size="13" text-anchor="start" fill="#1f2933">Notifications, audit history and access reviews</text>
+  <text x="500" y="954" font-size="14" font-weight="600" text-anchor="middle" fill="#3a3a3a">Safety net</text>
+  <rect x="30" y="970" width="940" height="150" rx="6" fill="#fff7e0" stroke="#8a6d00" stroke-width="2"/>
+  <image x="46" y="980" width="28" height="28" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0idXVpZC1mOGQ0ZDM5Mi03YzEyLTRiZDktYmFmZi02NmZiZjc4MTRiOTEiIGRhdGEtbmFtZT0iTGF5ZXIgMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCI+CiAgPHBhdGggZD0ibTMuODAyLDE0LjAzMmMuMzg4LjI0MiwxLjAzMy41MTEsMS43MTUuNTExLjYyMSwwLDEuMTk4LS4xOCwxLjY3Ni0uNDg3LDAsMCwuMDAxLDAsLjAwMi0uMDAxbDEuODA1LTEuMTI4djQuMDczYy0uMjg2LDAtLjU3NC0uMDc4LS44MjQtLjIzNGwtNC4zNzQtMi43MzRaIiBmaWxsPSIjMjI1MDg2Ii8+CiAgPHBhdGggZD0ibTcuODUzLDEuNTA3TC4zNTMsOS45NjdjLS41NzkuNjU0LS40MjgsMS42NDIuMzIzLDIuMTExLDAsMCwyLjc3NiwxLjczNSwzLjEyNiwxLjk1NC4zODguMjQyLDEuMDMzLjUxMSwxLjcxNS41MTEuNjIxLDAsMS4xOTgtLjE4LDEuNjc2LS40ODcsMCwwLC4wMDEsMCwuMDAyLS4wMDFsMS44MDUtMS4xMjgtNC4zNjQtMi43MjgsNC4zNjUtNC45MjRWMXMwLDAsMCwwYy0uNDI0LDAtLjg0Ny4xNjktMS4xNDcuNTA3WiIgZmlsbD0iIzZkZiIvPgogIDxwb2x5Z29uIHBvaW50cz0iNC42MzYgMTAuMTk5IDQuNjg4IDEwLjIzMSA5IDEyLjkyNyA5LjAwMSAxMi45MjcgOS4wMDEgMTIuOTI3IDkuMDAxIDUuMjc2IDkgNS4yNzUgNC42MzYgMTAuMTk5IiBmaWxsPSIjY2JmOGZmIi8+CiAgPHBhdGggZD0ibTE3LjMyNCwxMi4wNzhjLjc1MS0uNDY5LjkwMi0xLjQ1Ny4zMjMtMi4xMTFsLTQuOTIxLTUuNTUxYy0uMzk3LS4xODUtLjg0Mi0uMjkxLTEuMzEzLS4yOTEtLjkyNSwwLTEuNzUyLjM5OS0yLjMwMiwxLjAyNmwtLjEwOS4xMjNoMHM0LjM2NCw0LjkyNCw0LjM2NCw0LjkyNGgwczAsMCwwLDBsLTQuMzY1LDIuNzI4djQuMDczYy4yODcsMCwuNTczLS4wNzguODIzLS4yMzRsNy41LTQuNjg4WiIgZmlsbD0iIzA3NDc5MyIvPgogIDxwYXRoIGQ9Im05LjAwMSwxdjQuMjc1cy4xMDktLjEyMy4xMDktLjEyM2MuNTUtLjYyNywxLjM3Ny0xLjAyNiwyLjMwMi0xLjAyNi40NzIsMCwuOTE2LjEwNywxLjMxMy4yOTFsLTIuNTc5LTIuOTA5Yy0uMjk5LS4zMzgtLjcyMy0uNTA3LTEuMTQ2LS41MDdaIiBmaWxsPSIjMDI5NGU0Ii8+CiAgPHBvbHlnb24gcG9pbnRzPSIxMy4zNjUgMTAuMTk5IDEzLjM2NSAxMC4xOTkgMTMuMzY1IDEwLjE5OSA5LjAwMSA1LjI3NiA5LjAwMSAxMi45MjYgMTMuMzY1IDEwLjE5OSIgZmlsbD0iIzk2YmNjMiIvPgo8L3N2Zz4="/>
+  <text x="86" y="1001" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Emergency access (break-glass) accounts</text>
+  <text x="46" y="1034" font-size="13" text-anchor="start" fill="#1f2933">Two or more, cloud-only (*.onmicrosoft.com)</text>
+  <text x="46" y="1054" font-size="13" text-anchor="start" fill="#1f2933">Passkey (FIDO2), different from normal admins</text>
+  <text x="46" y="1074" font-size="13" text-anchor="start" fill="#1f2933">Global Administrator, permanent active in PIM</text>
+  <text x="46" y="1094" font-size="13" text-anchor="start" fill="#1f2933">Excluded from Conditional Access policies that block or restrict sign-in</text>
+  <rect x="30" y="1136" width="940" height="130" rx="6" fill="#f5f7fa" stroke="#5f6b7a" stroke-width="2"/>
+  <image x="46" y="1146" width="28" height="28" href="data:image/svg+xml;base64,PHN2ZyBpZD0iYjM4OGU5NDQtNTUwOS00OWM5LTg0ZDctZjM4YmZmYTk5NWIyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImE5OTdlMjAzLTFkN2QtNGNiOS1iMTMxLTVkYzQ0ZTAyOWI0NiIgeDE9IjUuMjMiIHkxPSIxNy40NSIgeDI9IjUuMjMiIHkyPSI4LjA5IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMTk4OGQ5IiAvPjxzdG9wIG9mZnNldD0iMC45IiBzdG9wLWNvbG9yPSIjNTRhZWYwIiAvPjwvbGluZWFyR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IGlkPSJlMTIyZTlkOC1hZWU1LTRmMWEtYTYwZS1iMWVhZTM1NWRhYTUiIHgxPSIxMS41IiB5MT0iMTIuNDUiIHgyPSIxMS41IiB5Mj0iMC41NSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzE5OGFiMyIgLz48c3RvcCBvZmZzZXQ9IjAuMDEiIHN0b3AtY29sb3I9IiMxOThiYjQiIC8+PHN0b3Agb2Zmc2V0PSIwLjQ0IiBzdG9wLWNvbG9yPSIjMjdiMmQ3IiAvPjxzdG9wIG9mZnNldD0iMC43OSIgc3RvcC1jb2xvcj0iIzJmY2JlZCIgLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMzMmQ0ZjUiIC8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHRpdGxlPkljb24tbWFuYWdlLTMwNzwvdGl0bGU+PHBhdGggZD0iTTUuNTksMTMuMTNIOS45MXY0LjMySDUuNTlaTTEuMTUsMTcuNDVINC44N1YxMy4xM0guNTV2My43MkEuNi42LDAsMCwwLDEuMTUsMTcuNDVabS0uNi01SDQuODdWOC4wOUguNTVaIiBmaWxsPSJ1cmwoI2E5OTdlMjAzLTFkN2QtNGNiOS1iMTMxLTVkYzQ0ZTAyOWI0NikiIC8+PHBhdGggZD0iTTExLjUuNTVhNS44OSw1Ljg5LDAsMCwxLDUuOTUsNiw1Ljg5LDUuODksMCwwLDEtNS45NSw1Ljk1SDUuNTVWNi41QTUuODksNS44OSwwLDAsMSwxMS41LjU1WiIgZmlsbC1ydWxlPSJldmVub2RkIiBmaWxsPSJ1cmwoI2UxMjJlOWQ4LWFlZTUtNGYxYS1hNjBlLWIxZWFlMzU1ZGFhNSkiIC8+PHJlY3QgeD0iNy41OSIgeT0iNS42NSIgd2lkdGg9IjEuMzYiIGhlaWdodD0iNC4wOCIgZmlsbD0iI2ZmZiIgLz48cmVjdCB4PSIxMC4zMSIgeT0iNy4wMSIgd2lkdGg9IjEuMzYiIGhlaWdodD0iMi43MiIgZmlsbD0iI2ZmZiIgLz48cmVjdCB4PSIxMy4wMyIgeT0iNC4yOSIgd2lkdGg9IjEuMzYiIGhlaWdodD0iNS40NCIgZmlsbD0iI2ZmZiIgLz48L3N2Zz4="/>
+  <text x="86" y="1167" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Monitor and test the emergency accounts</text>
+  <text x="46" y="1200" font-size="13" text-anchor="start" fill="#1f2933">Alert on every sign-in (for example Microsoft Sentinel)</text>
+  <text x="46" y="1220" font-size="13" text-anchor="start" fill="#1f2933">Test that they work at least every 90 days</text>
+  <text x="46" y="1240" font-size="13" text-anchor="start" fill="#1f2933">Review after any use: drill, emergency or misuse</text>
+  <rect x="30" y="1282" width="940" height="54" rx="6" fill="#fff7e0" stroke="#8a6d00" stroke-width="1"/>
+  <text x="500" y="1304" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">Before turning a policy On: administrators must have registered their sign-in methods,</text>
+  <text x="500" y="1324" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">or you risk locking yourself out.</text>
 </svg>

@@ -15,6 +15,7 @@ export default {
   13: { tags: ["Monitoring", "Azure Monitor", "Backup and recovery"], published: "2026-10-08" },
   14: { tags: ["Governance", "Azure Policy", "Cost management"], published: "2026-10-08" },
   15: { tags: ["DevOps", "Infrastructure as code", "CI/CD"], published: "2026-10-08" },
+  16: { tags: ["Landing zone", "Migration", "Platform engineering"], published: "2026-10-08" },
   // Which articles sit on the homepage in "Featured". Edit the numbers to change it.
   featured: [10, 1, 8],
   // Homepage "Architecture and engineering" plates: area label and the article whose diagram is shown.

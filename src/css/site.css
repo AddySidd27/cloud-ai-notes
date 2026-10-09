@@ -224,7 +224,9 @@ p{margin:0}
 .tocbox ol{margin:0;padding:0 1rem 1rem 2.2rem}.tocbox li{margin:.35rem 0;line-height:1.35}
 .tocbox a{color:var(--muted);text-decoration:none}.tocbox a:hover,.tocbox a[aria-current=true]{color:var(--brand-ink);text-decoration:underline}
 .tocbox a[aria-current=true]{font-weight:600}
-.prose{font:400 1.1rem/1.75 var(--serif);min-width:0;max-width:44rem}
+.prose{font:400 1.1rem/1.75 var(--serif);min-width:0;max-width:none}
+.prose>*{max-width:44rem}
+.prose>p:has(>img:only-child){max-width:none}
 .prose.narrow{max-width:42rem}
 .prose>*+*{margin-top:1.2em}
 .prose h2{font:700 clamp(1.4rem,1.15rem + 1vw,1.8rem)/1.2 var(--sans);letter-spacing:-.015em;margin-top:2.4em;padding-top:1.4rem;border-top:1px solid var(--line)}

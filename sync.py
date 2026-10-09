@@ -36,10 +36,10 @@ for fname, (fm, body, num, title, slug) in meta.items():
     if dm:
         deck = plain(dm.group(1)); body = body.replace(dm.group(0), "", 1)
     # next-in-series section -> front matter
-    nxt = re.search(r"\n## Next in the series\s*\n+Post (\d+): (.+?)\.\s*$", body)
+    nxt = re.search(r"\n## Next in the series\s*\n+Next: (.+?)\.\s*$", body)
     next_num = next_title = ""
     if nxt:
-        next_num, next_title = nxt.group(1), nxt.group(2); body = body[:nxt.start()] + "\n"
+        next_num, next_title = "", nxt.group(1); body = body[:nxt.start()] + "\n"
     # links and images
     body = body.replace("](../diagrams/", "](/diagrams/")
     def link(m):

@@ -21,7 +21,7 @@ permalink: "/"
     <figure class="plate hero-fig">
       <div class="arch-head"><span>Redrawn after Microsoft Learn</span><span>Hub &amp; Spoke / vWAN</span></div>
       <a class="fig-img" href="/azure-landing-zone/network-topology-and-connectivity/"><img src="/diagrams/post-10-hub-spoke-and-virtual-wan.svg" alt="Two network topologies: traditional hub-and-spoke with two regional hub virtual networks peered to spoke virtual networks, and Azure Virtual WAN with two Virtual WAN hubs connected to the same spokes" width="640" height="400" fetchpriority="high"></a>
-      <figcaption><b>Fig. 1</b> Hub-and-spoke and Virtual WAN, from <a href="/azure-landing-zone/network-topology-and-connectivity/">Part 10</a>. Redrawn after Microsoft Learn; not an official Microsoft diagram.</figcaption>
+      <figcaption><b>Fig. 1</b> Hub-and-spoke and Virtual WAN, from <a href="/azure-landing-zone/network-topology-and-connectivity/">Network Topology and Connectivity</a>. Redrawn after Microsoft Learn; not an official Microsoft diagram.</figcaption>
     </figure>
   </div>
 </section>
@@ -63,7 +63,7 @@ permalink: "/"
   <div class="plates">
     {%- for pl in articleMeta.plates %}{% set pp = list | pick([pl.order]) %}
     <a class="plate-card" href="{{ pp[0].url }}">
-      <span class="pimg"><img src="/diagrams/{{ pl.img }}" alt="Diagram from Part {{ pl.order }}: {{ pp[0].data.title }}" loading="lazy" width="640" height="400"></span>
+      <span class="pimg"><img src="/diagrams/{{ pl.img }}" alt="Diagram from {{ pp[0].data.title }}" loading="lazy" width="640" height="400"></span>
       <span class="pt"><small>{{ pl.area }}</small><strong>{{ pp[0].data.title }}</strong></span>
     </a>
     {%- endfor %}

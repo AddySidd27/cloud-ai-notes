@@ -5,6 +5,6 @@
     <p class="kick"><a href="/{{ tp.slug }}/">{{ tp.name }}</a><span aria-hidden="true">/</span><a href="/{{ ser.slug }}/">{{ ser.name }}</a></p>
     <h3 class="atitle"><a href="{{ p.url }}">{{ p.data.title }}</a></h3>
     <p class="adeck">{{ p.data.deck | clip(big and 230 or 150) }}</p>
-    <p class="ameta"><span>Part {{ p.data.order }}</span><span>{{ p.templateContent | readingTime }} min read</span></p>
+    <p class="ameta"><span>{{ p.templateContent | readingTime }} min read</span></p>
   </div>
 </article>
