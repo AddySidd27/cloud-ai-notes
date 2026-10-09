@@ -33,7 +33,7 @@ permalink: "/azure-landing-zone/minimum-viable-platform-landing-zone/"
 order: 16
 deck: "Start with a small first version of the platform landing zone, with seven capabilities, check that it works, and add more pieces only when workloads need them."
 next_num: ""
-next_title: "Day-2 Operations"
+next_title: "Greenfield Rollout"
 tags: [alz]
 ---
 

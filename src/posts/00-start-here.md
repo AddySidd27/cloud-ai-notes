@@ -40,7 +40,7 @@ A workload is an application or service you run in the cloud, and AVD is one. An
 
 - **Azure Landing Zone.** What it is, the eight design areas, and what to build first.
 - **Azure Virtual Desktop.** Planned topics: fundamentals, identity, network, host pools, user profiles, images and apps, then operating AVD.
-- **Azure Landing Zone: operate it.** Day-2 operations (running the environment after it is built), a greenfield rollout (a new environment) and a brownfield rollout (an environment that already exists).
+- **Azure Landing Zone: operate it.** A greenfield rollout (a new environment), a brownfield rollout (an environment that already exists) and keeping the landing zone up to date (running and improving it after it is built).
 
 The order of the landing zone posts is fixed. The Azure Virtual Desktop series gets its own check against the official documentation before it starts, and any change will be noted here.
 
