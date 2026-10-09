@@ -1,35 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" width="960" height="600" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" width="900" height="600" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
   <title id="t">Test-driven development cycle for an Azure landing zone</title>
   <desc id="d">Redraw of the Learn picture. A box, Definition of done, with an arrow labelled Acceptance criteria points into a cycle of five circles that go clockwise: create a test, test the landing zone, expand and refactor the landing zone, deploy the landing zone, test the landing zone, and back to create a test.</desc>
-  <polygon points="302.0,75.0 452.0,75.0 452.0,35.0 518.0,100.0 452.0,165.0 452.0,125.0 302.0,125.0" fill="#adbde8"/>
-  <circle cx="665" cy="115" r="80" fill="#0078d4"/>
-  <circle cx="863" cy="258" r="80" fill="#0078d4"/>
-  <circle cx="788" cy="490" r="80" fill="#0078d4"/>
-  <circle cx="543" cy="490" r="80" fill="#0078d4"/>
-  <circle cx="468" cy="258" r="80" fill="#0078d4"/>
-  <polygon points="749.7,164.1 770.5,184.9 775.8,179.6 775.6,200.6 754.6,200.8 759.9,195.5 739.1,174.7" fill="#adbde8"/>
-  <polygon points="843.2,351.6 838.1,380.5 845.5,381.8 828.2,393.7 816.0,376.6 823.3,377.9 828.4,349.0" fill="#adbde8"/>
-  <polygon points="688.0,497.5 658.7,497.5 658.7,505.0 644.0,490.0 658.7,475.0 658.7,482.5 688.0,482.5" fill="#adbde8"/>
-  <polygon points="498.4,395.0 493.3,366.1 486.0,367.4 498.2,350.3 515.5,362.2 508.1,363.5 513.2,392.4" fill="#adbde8"/>
-  <polygon points="539.1,195.3 559.9,174.5 554.6,169.2 575.6,169.4 575.8,190.4 570.5,185.1 549.7,205.9" fill="#adbde8"/>
-  <rect x="70" y="52" width="198" height="95" rx="0" fill="#0078d4" stroke="#0078d4" stroke-width="0"/>
-  <text x="169" y="98" font-size="26" text-anchor="middle" fill="#ffffff">Definition</text>
-  <text x="169" y="128" font-size="26" text-anchor="middle" fill="#ffffff">of done</text>
-  <text x="393" y="98" font-size="13" font-weight="600" text-anchor="middle" fill="#333333">Acceptance</text>
-  <text x="393" y="114" font-size="13" font-weight="600" text-anchor="middle" fill="#333333">criteria</text>
-  <text x="665" y="110" font-size="17" text-anchor="middle" fill="#ffffff">Create a</text>
-  <text x="665" y="132" font-size="17" text-anchor="middle" fill="#ffffff">test</text>
-  <text x="863" y="242" font-size="17" text-anchor="middle" fill="#ffffff">Test the</text>
-  <text x="863" y="264" font-size="17" text-anchor="middle" fill="#ffffff">landing</text>
-  <text x="863" y="286" font-size="17" text-anchor="middle" fill="#ffffff">zone</text>
-  <text x="788" y="463" font-size="17" text-anchor="middle" fill="#ffffff">Expand and</text>
-  <text x="788" y="485" font-size="17" text-anchor="middle" fill="#ffffff">refactor the</text>
-  <text x="788" y="507" font-size="17" text-anchor="middle" fill="#ffffff">landing</text>
-  <text x="788" y="529" font-size="17" text-anchor="middle" fill="#ffffff">zone</text>
-  <text x="543" y="474" font-size="17" text-anchor="middle" fill="#ffffff">Deploy the</text>
-  <text x="543" y="496" font-size="17" text-anchor="middle" fill="#ffffff">landing</text>
-  <text x="543" y="518" font-size="17" text-anchor="middle" fill="#ffffff">zone</text>
-  <text x="468" y="242" font-size="17" text-anchor="middle" fill="#ffffff">Test the</text>
-  <text x="468" y="264" font-size="17" text-anchor="middle" fill="#ffffff">landing</text>
-  <text x="468" y="286" font-size="17" text-anchor="middle" fill="#ffffff">zone</text>
+  <polygon points="215.0,118.0 430.0,118.0 430.0,84.0 500.0,140.0 430.0,196.0 430.0,162.0 215.0,162.0" fill="#adbde8"/>
+  <circle cx="630" cy="140" r="72" fill="#0078d4"/>
+  <circle cx="811" cy="271" r="72" fill="#0078d4"/>
+  <circle cx="742" cy="484" r="72" fill="#0078d4"/>
+  <circle cx="518" cy="484" r="72" fill="#0078d4"/>
+  <circle cx="449" cy="271" r="72" fill="#0078d4"/>
+  <polygon points="705.1,184.1 732.1,203.7 737.1,196.8 740.6,220.3 717.1,224.3 722.1,217.4 695.1,197.8" fill="#adbde8"/>
+  <polygon points="792.0,356.4 781.7,388.1 789.8,390.7 768.5,401.3 757.4,380.2 765.5,382.8 775.8,351.1" fill="#adbde8"/>
+  <polygon points="655.0,492.2 621.7,492.2 621.7,500.7 605.0,483.7 621.7,466.7 621.7,475.2 655.0,475.2" fill="#adbde8"/>
+  <polygon points="483.5,403.9 473.2,372.2 465.1,374.8 476.1,353.7 497.4,364.3 489.3,366.9 499.6,398.6" fill="#adbde8"/>
+  <polygon points="514.4,213.5 541.4,193.9 536.4,187.0 559.9,190.9 556.4,214.5 551.4,207.6 524.4,227.2" fill="#adbde8"/>
+  <rect x="20" y="92" width="170" height="96" rx="0" fill="#0078d4" stroke="#0078d4" stroke-width="0"/>
+  <text x="105" y="134" font-size="24" text-anchor="middle" fill="#ffffff">Definition</text>
+  <text x="105" y="164" font-size="24" text-anchor="middle" fill="#ffffff">of done</text>
+  <text x="322" y="134" font-size="16" font-weight="600" text-anchor="middle" fill="#333333">Acceptance</text>
+  <text x="322" y="153" font-size="16" font-weight="600" text-anchor="middle" fill="#333333">criteria</text>
+  <text x="630" y="135" font-size="16" text-anchor="middle" fill="#ffffff">Create a</text>
+  <text x="630" y="157" font-size="16" text-anchor="middle" fill="#ffffff">test</text>
+  <text x="811" y="255" font-size="16" text-anchor="middle" fill="#ffffff">Test the</text>
+  <text x="811" y="277" font-size="16" text-anchor="middle" fill="#ffffff">landing</text>
+  <text x="811" y="299" font-size="16" text-anchor="middle" fill="#ffffff">zone</text>
+  <text x="742" y="457" font-size="16" text-anchor="middle" fill="#ffffff">Expand and</text>
+  <text x="742" y="479" font-size="16" text-anchor="middle" fill="#ffffff">refactor the</text>
+  <text x="742" y="501" font-size="16" text-anchor="middle" fill="#ffffff">landing</text>
+  <text x="742" y="523" font-size="16" text-anchor="middle" fill="#ffffff">zone</text>
+  <text x="518" y="468" font-size="16" text-anchor="middle" fill="#ffffff">Deploy the</text>
+  <text x="518" y="490" font-size="16" text-anchor="middle" fill="#ffffff">landing</text>
+  <text x="518" y="512" font-size="16" text-anchor="middle" fill="#ffffff">zone</text>
+  <text x="449" y="255" font-size="16" text-anchor="middle" fill="#ffffff">Test the</text>
+  <text x="449" y="277" font-size="16" text-anchor="middle" fill="#ffffff">landing</text>
+  <text x="449" y="299" font-size="16" text-anchor="middle" fill="#ffffff">zone</text>
 </svg>

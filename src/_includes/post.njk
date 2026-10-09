@@ -9,8 +9,8 @@ layout: base.njk
 <header class="band art-head">
   <div class="wrap band-in">
     {%- if isArticle %}
-    <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/{{ tp.slug }}/">{{ tp.name }}</a></li><li><a href="/{{ ser.slug }}/">{{ ser.name }}</a></li><li aria-current="page">Part {{ order }}</li></ol></nav>
-    <p class="chip"><a href="/{{ ser.slug }}/">{{ ser.title }}</a><span>Part {{ order }} of {{ list.length }}</span></p>
+    <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/{{ tp.slug }}/">{{ tp.name }}</a></li><li><a href="/{{ ser.slug }}/">{{ ser.name }}</a></li><li aria-current="page">{{ title }}</li></ol></nav>
+    <p class="chip"><a href="/{{ ser.slug }}/">{{ ser.title }}</a></p>
     {%- else %}
     <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">Start here</li></ol></nav>
     <p class="chip"><a href="/azure-landing-zone/">Azure Landing Zone — Engineering Series</a><span>Read this first</span></p>
@@ -30,11 +30,11 @@ layout: base.njk
     {%- if isArticle %}
     {%- set nb = list | neighbors(page.url) %}
     <nav class="pager" aria-label="More in the series">
-      {% if nb.prev %}<a class="pg prev" href="{{ nb.prev.url }}"><small>Previous</small><span>Part {{ nb.prev.data.order }}: {{ nb.prev.data.title }}</span></a>{% else %}<span></span>{% endif %}
-      {% if nb.next %}<a class="pg next" href="{{ nb.next.url }}"><small>Next</small><span>Part {{ nb.next.data.order }}: {{ nb.next.data.title }}</span></a>{% elif next_title %}<span class="pg next soon"><small>Next, in progress</small><span>Part {{ next_num }}: {{ next_title }}</span></span>{% endif %}
+      {% if nb.prev %}<a class="pg prev" href="{{ nb.prev.url }}"><small>Previous</small><span>{{ nb.prev.data.title }}</span></a>{% else %}<span></span>{% endif %}
+      {% if nb.next %}<a class="pg next" href="{{ nb.next.url }}"><small>Next</small><span>{{ nb.next.data.title }}</span></a>{% elif next_title %}<span class="pg next soon"><small>Next, in progress</small><span>{{ next_title }}</span></span>{% endif %}
     </nav>
     {%- else %}
-    <nav class="pager" aria-label="Start reading"><span></span><a class="pg next" href="/azure-landing-zone/what-is-an-azure-landing-zone/"><small>Begin</small><span>Part 1: What Is an Azure Landing Zone</span></a></nav>
+    <nav class="pager" aria-label="Start reading"><span></span><a class="pg next" href="/azure-landing-zone/what-is-an-azure-landing-zone/"><small>Begin</small><span>What Is an Azure Landing Zone</span></a></nav>
     {%- endif %}
   </article>
   {%- if heads.length > 1 %}
