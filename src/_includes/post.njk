@@ -5,7 +5,7 @@ layout: base.njk
 {%- set isArticle = (order and order > 0) -%}
 {%- set heads = content | toc -%}
 {%- set meta = articleMeta[order] -%}
-{%- set list = collections.articles -%}
+{%- set list = collections.articles | inSeries(ser.tag) -%}
 <header class="band art-head">
   <div class="wrap band-in">
     {%- if isArticle %}
@@ -55,5 +55,5 @@ layout: base.njk
 {%- endif %}
 <section class="wrap author-wrap" aria-label="About the author"><div class="author">
   <span class="av" aria-hidden="true">{% include "mark.njk" %}</span>
-  <div><p class="an"><a href="/about/">{{ site.author }}</a></p><p>{{ site.role }}. Writes about cloud architecture and engineering. Labs and reference files for the articles are in the <a href="{{ site.repo }}">GitHub repo</a>.</p></div>
+  <div><p class="an"><a href="/about/">{{ site.author }}</a></p><p>{{ site.role }}. Writes about cloud architecture and engineering. Labs and reference files for the articles are in the <a href="{{ "https://github.com/AddySidd27/azure-virtual-desktop-architect" if ser.tag == "avd-series" else site.repo }}">GitHub repo</a>.</p></div>
 </div></section>
