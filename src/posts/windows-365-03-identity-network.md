@@ -33,6 +33,16 @@ My isolated East US Microsoft Entra join ANC lab used a VNet and private subnet.
 
 The [editable architecture diagrams](https://github.com/AddySidd27/Windows365-enterprise-engineering/tree/main/architecture) accompany the Microsoft-hosted and ANC descriptions. Compare their paths with the linked Microsoft documentation before adapting them to your tenant.
 
+## Two editable network diagrams
+
+The first diagram depicts the Microsoft-hosted network path. Its [draw.io source](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/architecture/diagrams/source/02-microsoft-hosted-network.drawio) is editable.
+
+![Microsoft-hosted Cloud PC network architecture](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/architecture/diagrams/exported/02-microsoft-hosted-network.png)
+
+The second diagram depicts Microsoft Entra join with an ANC to a customer VNet. Its [draw.io source](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/architecture/diagrams/source/03-entra-join-azure-network-connection.drawio) is editable. The drawing explains the supported topology; it is not a claim that my failed ANC health test provisioned a Cloud PC.
+
+![Microsoft Entra joined Cloud PC with Azure network connection](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/architecture/diagrams/exported/03-entra-join-azure-network-connection.png)
+
 ## Decision checkpoint
 
 Write one sentence explaining why the pilot needs an ANC. If you cannot identify an application, security or routing requirement, proceed with the Microsoft-hosted option. For ANC, require a healthy check, a dedicated pilot policy and a recovery plan before changing any production assignment.
