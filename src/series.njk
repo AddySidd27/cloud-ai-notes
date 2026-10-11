@@ -21,7 +21,7 @@ eleventyComputed:
 <div class="wrap sec">
   <ol class="series-list page">
     {%- for p in list %}
-    <li><a href="{{ p.url }}"><span class="no">{{ p.data.order | pad }}</span><span class="st"><strong>{{ p.data.title }}</strong><span class="sd">{{ p.data.deck | clip(210) }}</span><span class="tg">{% for t in articleMeta[p.data.order].tags %}<i>{{ t }}</i>{% endfor %}</span></span><span class="sm">{{ p.templateContent | readingTime }} min read</span></a></li>
+    <li><a href="{{ p.url }}"><span class="no">{{ (p.data.part or p.data.order) | pad }}</span><span class="st"><strong>{{ p.data.title }}</strong><span class="sd">{{ p.data.deck | clip(210) }}</span><span class="tg">{% for t in articleMeta[p.data.order].tags %}<i>{{ t }}</i>{% endfor %}</span></span><span class="sm">{{ p.templateContent | readingTime }} min read</span></a></li>
     {%- endfor %}
   </ol>
   <p class="note-line">More parts are written and published in order. This list grows as each one passes the Microsoft Learn check.</p>
