@@ -373,3 +373,9 @@ a.topic:hover .tn{text-decoration:underline}
 /* Keep heading and body rhythm compact and aligned. */
 @media(min-width:64rem){:is(.article-header,.avd-header) .band-in{max-width:68rem;padding-inline:2rem}}
 @media(max-width:40rem){:is(.article-header,.avd-header) .art-cover{display:none}:is(.article-header,.avd-header) h1{font-size:1.85rem;line-height:1.22}:is(.article-header,.avd-header) .band-deck{font-size:1rem}:is(.article-reading,.avd-reading) .prose h2{margin-top:1.4rem;padding-top:0}}
+
+/* Detailed diagrams can be enlarged without shrinking to the viewport. */
+dialog.zoom .zoom-tools{display:flex;justify-content:flex-end;gap:.5rem;margin-bottom:.5rem}
+dialog.zoom .zoom-tools button{margin:0}
+dialog.zoom .zoom-image{max-width:96vw;max-height:84vh;overflow:auto;background:#fff;border-radius:4px}
+dialog.zoom.expanded .zoom-image img{width:var(--zoom-width);max-width:none;max-height:none;border-radius:0}
