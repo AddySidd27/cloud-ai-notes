@@ -64,6 +64,8 @@ AVD has both Azure resource costs and licensing requirements. An estimate needs 
 
 ## Read the architecture diagram
 
+![AVD components grouped by Microsoft and customer responsibilities](/img/avd/AVD-Post-01-Components.png)
+
 The diagram groups components by who manages them. The upper group is Microsoft's service infrastructure. The lower group contains the session hosts and user identities you manage.
 
 | Component | Role |
