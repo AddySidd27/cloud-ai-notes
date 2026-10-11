@@ -6,7 +6,8 @@ layout: base.njk
 {%- set heads = content | toc -%}
 {%- set meta = articleMeta[order] -%}
 {%- set list = collections.articles | inSeries(ser.tag) -%}
-<header class="band art-head{% if ser.tag == 'avd-series' %} avd-header{% endif %}">
+{%- set polished = isArticle and (ser.tag == "avd-series" or ser.tag == "alz") -%}
+<header class="band art-head{% if polished %} article-header{% endif %}">
   <div class="wrap band-in">
     {%- if isArticle %}
     <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/{{ tp.slug }}/">{{ tp.name }}</a></li><li><a href="/{{ ser.slug }}/">{{ ser.name }}</a></li><li aria-current="page">{{ title }}</li></ol></nav>
@@ -18,14 +19,14 @@ layout: base.njk
     <h1>{{ title }}</h1>
     {% if deck %}<p class="band-deck">{{ deck }}</p>{% endif %}
     <p class="byline"><span>By <a href="/about/">{{ site.author }}</a></span>{% if meta %}<time datetime="{{ meta.published }}">{{ meta.published | longDate }}</time>{% endif %}<span>{{ content | readingTime }} min read</span></p>
-    {%- if meta and ser.tag != "avd-series" %}<ul class="tags" aria-label="Tags">{% for t in meta.tags %}<li><a href="/search/?q={{ t | urlencode }}">{{ t }}</a></li>{% endfor %}</ul>{% endif %}
+    {%- if meta and not polished %}<ul class="tags" aria-label="Tags">{% for t in meta.tags %}<li><a href="/search/?q={{ t | urlencode }}">{{ t }}</a></li>{% endfor %}</ul>{% endif %}
   </div>
   <div class="art-cover" aria-hidden="true">{% set cat = tp.slug if tp else 'azure' %}{% set cn = '' %}{% include "cover.njk" %}</div>
 </header>
-<div class="wrap post-grid{% if ser.tag == 'avd-series' %} avd-reading{% endif %}">
+<div class="wrap post-grid{% if polished %} article-reading{% endif %}">
   <article class="prose" aria-label="{{ title }}">
 <!--article-body-->
-{% if ser.tag == "avd-series" %}{{ content | avdFigures | safe }}{% else %}{{ content | safe }}{% endif %}
+{% if polished %}{{ content | articleFigures | safe }}{% else %}{{ content | safe }}{% endif %}
 <!--/article-body-->
     {%- if isArticle %}
     {%- set nb = list | neighbors(page.url) %}
@@ -39,8 +40,8 @@ layout: base.njk
   </article>
   {%- if heads.length > 1 %}
   <aside class="side" aria-label="On this page">
-    {% if ser.tag == "avd-series" %}
-    <section class="article-topics" aria-label="Article topics"><h2>Topics in this article</h2><ul class="tags">{% for t in meta.tags %}<li><a href="/search/?q={{ t | urlencode }}">{{ t }}</a></li>{% endfor %}</ul><a class="series-back" href="/{{ ser.slug }}/">All 5 articles in reading order &rarr;</a></section>
+    {% if polished %}
+    <section class="article-topics" aria-label="Article topics"><h2>Topics in this article</h2><ul class="tags">{% for t in meta.tags %}<li><a href="/search/?q={{ t | urlencode }}">{{ t }}</a></li>{% endfor %}</ul><a class="series-back" href="/{{ ser.slug }}/">All {{ list.length }} articles in reading order &rarr;</a></section>
     {% endif %}
     <details class="tocbox" open>
       <summary>On this page</summary>
