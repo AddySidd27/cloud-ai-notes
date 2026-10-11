@@ -18,7 +18,7 @@ layout: base.njk
     <h1>{{ title }}</h1>
     {% if deck %}<p class="band-deck">{{ deck }}</p>{% endif %}
     <p class="byline"><span>By <a href="/about/">{{ site.author }}</a></span>{% if meta %}<time datetime="{{ meta.published }}">{{ meta.published | longDate }}</time>{% endif %}<span>{{ content | readingTime }} min read</span></p>
-    {%- if meta %}<ul class="tags" aria-label="Tags">{% for t in meta.tags %}<li><a href="/search/?q={{ t | urlencode }}">{{ t }}</a></li>{% endfor %}</ul>{% endif %}
+    {%- if meta and ser.tag != "avd-series" %}<ul class="tags" aria-label="Tags">{% for t in meta.tags %}<li><a href="/search/?q={{ t | urlencode }}">{{ t }}</a></li>{% endfor %}</ul>{% endif %}
   </div>
   <div class="art-cover" aria-hidden="true">{% set cat = tp.slug if tp else 'azure' %}{% set cn = '' %}{% include "cover.njk" %}</div>
 </header>
