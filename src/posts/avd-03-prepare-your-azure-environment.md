@@ -204,6 +204,8 @@ The account you inspect below is the human administrator. Later, we will separat
 
 
 
+![Direct and inherited Azure role assignments](/img/avd/AVD-Post-03-iam.png)
+
 *The current view shows direct Owner, inherited Owner and inherited User Access Administrator assignments. Read the Scope column, not just the role name.*
 
 **What this tells us:** this lab administrator has broad access. The portal also flags elevated access at root scope. These existing assignments are evidence of the current environment, not a production permission template. Have the access owner review unnecessary elevation; grant the deployment identity only the operations and scope it needs.
