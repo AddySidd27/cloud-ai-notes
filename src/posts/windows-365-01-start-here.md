@@ -64,9 +64,19 @@ For each action, record the date, pilot group, intended setting, assignment stat
 
 For this project, [UC-01](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-01-tenant-readiness-and-pilot-design.md) covers readiness, [UC-03](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-03-network-architecture.md) explains the network choices, [UC-02](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-02-enterprise-provisioning.md) covers provisioning, and the [first Cloud PC lab](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/docs/02-first-cloud-pc-lab.md) gives a focused exercise. The use-case IDs are topic identifiers, so read network and image decisions before provisioning even though their numbers are higher.
 
-## What comes next
+## Read the complete series
 
-The following articles will unpack prerequisites, network and identity decisions, provisioning, connection, Intune management, security, lifecycle and support. Optional Boot, Switch and Offline experiences require their own current eligibility checks and supported devices. I will publish those as tested labs only when I can show the outcome.
+1. [Start Here](/windows-365/start-here/) — terminology and the full route.
+2. [Plan the Pilot](/windows-365/plan-the-pilot/) — licenses, groups, roles and proof.
+3. [Identity and Network](/windows-365/identity-network/) — Microsoft-hosted and ANC decisions.
+4. [Image and Provisioning](/windows-365/provision/) — create a small policy and check the result.
+5. [Connect and Verify](/windows-365/connect-verify/) — session, join and enrollment.
+6. [Manage with Intune](/windows-365/manage-intune/) — settings, apps and updates.
+7. [Security and Recovery](/windows-365/security-recovery/) — safe access tests and lifecycle choices.
+8. [ANC Troubleshooting](/windows-365/anc-troubleshooting/) — the isolated lab's observed failure.
+9. [Operate and Extend](/windows-365/operate-and-extend/) — rollout, support and optional experiences.
+
+Optional Boot, Switch and Offline experiences require their own current eligibility checks and supported devices. I will describe them as tested labs only after recording the outcome.
 
 ### References
 
