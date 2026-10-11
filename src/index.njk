@@ -29,8 +29,8 @@ permalink: "/"
 <section class="sec" aria-labelledby="pil-h"><div class="wrap">
   <div class="sec-head"><h2 id="pil-h">Core Technology Pillars</h2></div>
   <div class="topics cols4">
-    <a class="topic live" href="/azure-landing-zone/"><span class="tn">Azure Landing Zones (CAF)</span><span class="tb">Enterprise subscription models, governance, hub-spoke network design, and Microsoft Entra ID controls.</span><span class="tc">{{ list.length }} parts complete</span></a>
-    <div class="topic"><span class="tn">Azure Virtual Desktop (AVD)</span><span class="tb">Host pool architectures, FSLogix profile storage, golden image pipelines, and RDP Shortpath tuning.</span><span class="tc">Active track</span></div>
+    <a class="topic live" href="/azure-landing-zone/"><span class="tn">Azure Landing Zones (CAF)</span><span class="tb">Enterprise subscription models, governance, hub-spoke network design, and Microsoft Entra ID controls.</span><span class="tc">16 parts complete</span></a>
+    <a class="topic live" href="/azure-virtual-desktop/"><span class="tn">Azure Virtual Desktop (AVD)</span><span class="tb">Host pool architectures, FSLogix profile storage, golden image pipelines, and RDP Shortpath tuning.</span><span class="tc">5 articles available</span></a>
     <div class="topic"><span class="tn">Windows 365 &amp; Cloud PC</span><span class="tb">Enterprise provisioning baselines, Frontline sizing, Intune policy compliance, and zero-trust onboarding.</span><span class="tc">Implementation track</span></div>
     <div class="topic"><span class="tn">Citrix &amp; Hybrid Workspace</span><span class="tb">Citrix DaaS control planes, Cloud Connector high-availability, and cross-platform multi-session integration.</span><span class="tc">Hybrid solutions</span></div>
   </div>
@@ -39,13 +39,13 @@ permalink: "/"
 <section class="series-band" aria-labelledby="ser-h"><div class="wrap">
   <div class="series-card">
     <div>
-      <p class="chip">Flagship series<span>{{ list.length }} articles</span></p>
+      <p class="chip">Flagship series<span>{{ ser.posts.length }} articles</span></p>
       <h2 id="ser-h">{{ ser.title }}</h2>
       <p class="lead">A zero-to-production walk through designing an enterprise Azure landing zone: identity, resource organization, network topology, and governance.</p>
     </div>
     <div class="series-side">
       <p class="sfacts">From <strong>What Is an Azure Landing Zone</strong> to <strong>Network Topology and Connectivity</strong>, in reading order.</p>
-      <a class="btn primary" href="/{{ ser.slug }}/">Open {{ list.length }}-Part Series</a>
+      <a class="btn primary" href="/{{ ser.slug }}/">Open {{ ser.posts.length }}-Part Series</a>
     </div>
   </div>
 </div></section>
@@ -53,7 +53,7 @@ permalink: "/"
 <section class="sec" aria-labelledby="new-h"><div class="wrap">
   <div class="sec-head"><h2 id="new-h">Recent Architecture Guides</h2><a class="more" href="/articles/">All articles</a></div>
   <div class="grid3">
-    {%- for p in list | latest(3) %}{% include "card.njk" %}{% endfor %}
+    {%- for p in list | latest(3) %}{% set ser = p.data.tags | seriesOf %}{% set tp = ser | topicOf %}{% include "card.njk" %}{% endfor %}
   </div>
 </div></section>
 
