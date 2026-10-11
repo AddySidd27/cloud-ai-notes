@@ -23,6 +23,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addCollection("liveTopics", (api) =>
     topics.map((t) => ({ ...t, posts: articles(api).filter((p) => seriesOf(p)?.category === t.slug) })).filter((t) => t.posts.length));
 
+  eleventyConfig.addFilter("inSeries", (list, tag) => list.filter((p) => (p.data.tags || []).includes(tag)));
   eleventyConfig.addFilter("seriesOf", (tags) => series.find((s) => (tags || []).includes(s.tag)));
   eleventyConfig.addFilter("topicOf", (ser) => ser && topics.find((t) => t.slug === ser.category));
   const abs = (base, path) => base.replace(/\/$/, "") + path;
