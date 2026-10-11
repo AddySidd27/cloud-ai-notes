@@ -1,11 +1,13 @@
 // Presentation metadata only. Keyed by article order. The article text itself is never edited here.
 const published = "2026-10-07";
 export default {
+  201: { tags: ["Windows 365", "Cloud PC", "Fundamentals"], published: "2026-10-11" },
   101: { tags: ["AVD", "Fundamentals"], published: "2026-10-11" },
   102: { tags: ["AVD", "Architecture"], published: "2026-10-11" },
   103: { tags: ["AVD", "Deployment preparation"], published: "2026-10-11" },
   104: { tags: ["AVD", "Identity", "Microsoft Entra"], published: "2026-10-11" },
   105: { tags: ["AVD", "Networking", "Hub-and-spoke"], published: "2026-10-11" },
+
 
   1: { tags: ["Landing zone", "Fundamentals"], published },
   2: { tags: ["Platform landing zone", "Ownership"], published },
@@ -32,3 +34,4 @@ export default {
     { area: "Resource organization", order: 9, img: "post-09-management-group-hierarchy.svg" },
   ],
 };
+
