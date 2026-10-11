@@ -1,6 +1,6 @@
 {# expects: p (article page), ser (series), tp (topic), optional big #}
 <article class="acard{% if big %} big{% endif %}">
-  <a class="cover" href="{{ p.url }}" tabindex="-1" aria-hidden="true">{% set cat = tp.slug %}{% set cn = p.data.order | pad %}{% include "cover.njk" %}</a>
+  <a class="cover" href="{{ p.url }}" tabindex="-1" aria-hidden="true">{% set cat = tp.slug %}{% set cn = (p.data.part or p.data.order) | pad %}{% include "cover.njk" %}</a>
   <div class="abody">
     <p class="kick"><a href="/{{ tp.slug }}/">{{ tp.name }}</a><span aria-hidden="true">/</span><a href="/{{ ser.slug }}/">{{ ser.name }}</a></p>
     <h3 class="atitle"><a href="{{ p.url }}">{{ p.data.title }}</a></h3>
