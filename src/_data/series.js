@@ -8,4 +8,5 @@ export default [
     title: "Azure Landing Zone — Engineering Series",
     blurb: "A zero-to-production walk through designing an Azure landing zone: what it is, who owns what, identity, resource organization and networking. Every article defines its words first, shows one diagram and is checked against Microsoft Learn.",
   },
+  { slug: "azure-virtual-desktop", tag: "avd-series", category: "avd", name: "Azure Virtual Desktop", title: "Azure Virtual Desktop — Engineering Series", blurb: "Understand the architecture, prepare the environment and plan identity and networking in reading order. Configuration screenshots and validation checks are kept separate so you can see what has been verified." },
 ];
