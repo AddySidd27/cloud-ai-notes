@@ -2,11 +2,21 @@
 const published = "2026-10-07";
 export default {
   201: { tags: ["Windows 365", "Cloud PC", "Fundamentals"], published: "2026-10-11" },
+  202: { tags: ["Windows 365", "Pilot planning"], published: "2026-10-11" },
+  203: { tags: ["Windows 365", "Networking"], published: "2026-10-11" },
+  204: { tags: ["Windows 365", "Provisioning"], published: "2026-10-11" },
+  205: { tags: ["Windows 365", "Connection"], published: "2026-10-11" },
+  206: { tags: ["Windows 365", "Intune"], published: "2026-10-11" },
+  207: { tags: ["Windows 365", "Security"], published: "2026-10-11" },
+  208: { tags: ["Windows 365", "ANC troubleshooting"], published: "2026-10-11" },
+  209: { tags: ["Windows 365", "Operations"], published: "2026-10-11" },
   101: { tags: ["AVD", "Fundamentals"], published: "2026-10-11" },
   102: { tags: ["AVD", "Architecture"], published: "2026-10-11" },
   103: { tags: ["AVD", "Deployment preparation"], published: "2026-10-11" },
   104: { tags: ["AVD", "Identity", "Microsoft Entra"], published: "2026-10-11" },
   105: { tags: ["AVD", "Networking", "Hub-and-spoke"], published: "2026-10-11" },
+
+
 
 
   1: { tags: ["Landing zone", "Fundamentals"], published },
@@ -34,4 +44,3 @@ export default {
     { area: "Resource organization", order: 9, img: "post-09-management-group-hierarchy.svg" },
   ],
 };
-
