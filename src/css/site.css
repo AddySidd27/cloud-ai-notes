@@ -326,48 +326,50 @@ dialog.zoom button{display:block;margin:0 0 .5rem auto;padding:.5rem 1rem;font:i
 .topic.live{border-color:var(--brand);box-shadow:var(--shadow)}
 a.topic:hover .tn{text-decoration:underline}
 
-/* AVD article reading layout */
-.avd-header .band-in{padding-top:2.4rem;padding-bottom:2.4rem}
-.avd-header h1{max-width:27ch;font-size:clamp(1.9rem,1.2rem + 2.3vw,2.8rem);line-height:1.16;letter-spacing:-.025em}
-.avd-header .band-deck{max-width:65ch;font-size:1.08rem;line-height:1.6;margin-top:1rem}
-.avd-header .art-cover{opacity:.35}
-.avd-reading{max-width:74rem;gap:2rem;padding-top:2rem;align-items:start}
-.avd-reading .prose{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:2rem;font:400 1.0625rem/1.7 var(--sans);letter-spacing:0;text-align:left;overflow-wrap:break-word}
-.avd-reading .prose>*{max-width:100%}
-.avd-reading .prose>p{max-width:none;text-align:justify;text-align-last:left;text-justify:inter-word;hyphens:auto}
-.avd-reading .prose li>p{text-align:justify;text-align-last:left;hyphens:auto}
-.avd-reading .prose>*+*{margin-top:.85rem}
-.avd-reading .prose h2{font-size:1.45rem;font-weight:650;line-height:1.35;margin-top:1.6rem;padding-top:0;border-top:0;scroll-margin-top:5rem}
-.avd-reading .prose h3{font-size:1.12rem;font-weight:650;line-height:1.4;margin-top:1.4rem;scroll-margin-top:5rem}
-.avd-reading .prose li{padding-left:.2rem;margin:.4rem 0}
-.avd-reading .prose li>p+p{margin-top:.65rem}
-.avd-reading .prose strong{font-weight:650}
-.avd-reading .prose table{display:table;width:100%;font-size:.93rem;line-height:1.6;table-layout:auto;margin:1.4rem 0}
-.avd-reading .prose th,.avd-reading .prose td{padding:.8rem .9rem;overflow-wrap:anywhere}
-.avd-reading .prose th{font-weight:700}
-.avd-reading .prose tbody tr:nth-child(even){background:var(--surface2)}
-.avd-reading .article-figure{margin:1.2rem 0;padding:.65rem;background:#fff;border:1px solid var(--line2);border-radius:8px;width:100%}
-.avd-reading .article-figure img{width:100%;height:auto;max-width:100%;border:0;border-radius:3px;margin:0}
-.avd-reading .article-figure.compact{max-width:38rem;margin-inline:auto}
-.avd-reading .article-figure figcaption{display:flex;flex-direction:column;gap:.35rem;padding-top:.5rem;margin-top:.5rem;color:#334155;font:500 .81rem/1.5 var(--sans)}
-.avd-reading .article-figure .figure-caption{font-weight:400;color:#334155;white-space:normal}
-.avd-reading .article-figure .figure-caption em{font-style:normal}
-.avd-reading .article-figure .figure-zoom{font-size:.74rem;font-weight:400;color:#64748b;white-space:normal}
-.avd-reading .side{display:grid;gap:1rem}
+/* Shared engineering-series reading layout */
+:is(.article-header,.avd-header) .band-in{padding-top:2.4rem;padding-bottom:2.4rem}
+:is(.article-header,.avd-header) h1{max-width:27ch;font-size:clamp(1.9rem,1.2rem + 2.3vw,2.8rem);line-height:1.16;letter-spacing:-.025em}
+:is(.article-header,.avd-header) .band-deck{max-width:65ch;font-size:1.08rem;line-height:1.6;margin-top:1rem}
+:is(.article-header,.avd-header) .art-cover{opacity:.35}
+:is(.article-reading,.avd-reading){max-width:74rem;gap:2rem;padding-top:2rem;align-items:start}
+:is(.article-reading,.avd-reading) .prose{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:2rem;font:400 1.0625rem/1.7 var(--sans);letter-spacing:0;text-align:left;overflow-wrap:break-word}
+:is(.article-reading,.avd-reading) .prose>*{max-width:100%}
+:is(.article-reading,.avd-reading) .prose>p{max-width:none;text-align:justify;text-align-last:left;text-justify:inter-word;hyphens:auto}
+:is(.article-reading,.avd-reading) .prose li>p{text-align:justify;text-align-last:left;hyphens:auto}
+:is(.article-reading,.avd-reading) .prose>*+*{margin-top:.85rem}
+:is(.article-reading,.avd-reading) .prose h2{font-size:1.45rem;font-weight:650;line-height:1.35;margin-top:1.6rem;padding-top:0;border-top:0;scroll-margin-top:5rem}
+:is(.article-reading,.avd-reading) .prose h3{font-size:1.12rem;font-weight:650;line-height:1.4;margin-top:1.4rem;scroll-margin-top:5rem}
+:is(.article-reading,.avd-reading) .prose li{padding-left:.2rem;margin:.4rem 0}
+:is(.article-reading,.avd-reading) .prose li>p+p{margin-top:.65rem}
+:is(.article-reading,.avd-reading) .prose strong{font-weight:650}
+:is(.article-reading,.avd-reading) .prose table{display:table;width:100%;font-size:.93rem;line-height:1.6;table-layout:auto;margin:1.4rem 0}
+:is(.article-reading,.avd-reading) .prose th,:is(.article-reading,.avd-reading) .prose td{padding:.8rem .9rem;overflow-wrap:anywhere}
+:is(.article-reading,.avd-reading) .prose th{font-weight:700}
+:is(.article-reading,.avd-reading) .prose tbody tr:nth-child(even){background:var(--surface2)}
+:is(.article-reading,.avd-reading) .article-figure{margin:1.2rem 0;padding:.65rem;background:#fff;border:1px solid var(--line2);border-radius:8px;width:100%}
+:is(.article-reading,.avd-reading) .article-figure img{width:100%;height:auto;max-width:100%;border:0;border-radius:3px;margin:0}
+:is(.article-reading,.avd-reading) .article-figure.compact{max-width:38rem;margin-inline:auto}
+:is(.article-reading,.avd-reading) .article-figure figcaption{display:flex;flex-direction:column;gap:.35rem;padding-top:.5rem;margin-top:.5rem;color:#334155;font:500 .81rem/1.5 var(--sans)}
+:is(.article-reading,.avd-reading) .article-figure .figure-caption{font-weight:400;color:#334155;white-space:normal}
+:is(.article-reading,.avd-reading) .article-figure .figure-caption em{font-style:normal}
+:is(.article-reading,.avd-reading) .article-figure .figure-caption:empty{display:none}
+:is(.article-reading,.avd-reading) .article-figure figcaption a{color:#1858b0}
+:is(.article-reading,.avd-reading) .article-figure .figure-zoom{font-size:.74rem;font-weight:400;color:#64748b;white-space:normal}
+:is(.article-reading,.avd-reading) .side{display:grid;gap:1rem}
 .article-topics{padding:1rem;background:var(--surface);border:1px solid var(--line);border-radius:10px}
 .article-topics h2{font-size:.9rem;line-height:1.4;margin:0 0 .8rem}
 .article-topics .tags{display:flex;flex-wrap:wrap;gap:.45rem;margin:0;padding:0;list-style:none}
 .article-topics .tags a{display:block;font-family:var(--sans);font-size:.8rem;line-height:1.4;padding:.35rem .6rem;border-radius:5px;background:var(--brand-soft);color:var(--brand-ink);text-decoration:none;border:1px solid var(--line)}
 .series-back{display:block;font-size:.8rem;line-height:1.5;margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line);color:var(--brand-ink)}
-.avd-reading .tocbox{border-radius:10px}
-.avd-reading .tocbox ol{max-height:calc(100dvh - 22rem);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding-bottom:1rem}
-.avd-reading .tocbox li{margin:.55rem 0;font-size:.82rem;line-height:1.5}
-.avd-reading .pager{max-width:100%;gap:.8rem}
-.avd-reading .prose pre{max-width:100%;font-size:.8rem}
-.avd-reading .prose>p:has(>em:only-child){font-size:.88rem;line-height:1.65;color:var(--muted);margin-top:.75rem}
-@media(min-width:64rem){.avd-reading{grid-template-columns:minmax(0,50rem) minmax(13rem,16rem);justify-content:center}}
-@media(max-width:63.99rem){.avd-reading .side{display:block}.avd-reading .article-topics{margin-bottom:.75rem}.avd-reading .tocbox ol{max-height:22rem}.avd-reading .prose{padding:1.5rem}.avd-header .band-in{padding-block:2rem}}
-@media(max-width:40rem){.avd-reading{padding-top:1rem;gap:1rem}.avd-reading .prose{padding:1.1rem;font-size:1rem;line-height:1.65;border-radius:8px}.avd-reading .prose h2{font-size:1.3rem}.avd-reading .prose table{display:block;overflow-x:auto;max-width:100%;font-size:.85rem}.avd-reading .prose th,.avd-reading .prose td{min-width:9rem;padding:.65rem}.avd-reading .article-figure{padding:.5rem;margin-block:1.4rem}.avd-reading .article-figure figcaption{display:block;font-size:.75rem}.avd-reading .article-figure figcaption span{display:block;margin-top:.25rem}.avd-header .crumbs{font-size:.75rem}}
+:is(.article-reading,.avd-reading) .tocbox{border-radius:10px}
+:is(.article-reading,.avd-reading) .tocbox ol{max-height:calc(100dvh - 22rem);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding-bottom:1rem}
+:is(.article-reading,.avd-reading) .tocbox li{margin:.55rem 0;font-size:.82rem;line-height:1.5}
+:is(.article-reading,.avd-reading) .pager{max-width:100%;gap:.8rem}
+:is(.article-reading,.avd-reading) .prose pre{max-width:100%;font-size:.8rem}
+:is(.article-reading,.avd-reading) .prose>p:has(>em:only-child){font-size:.88rem;line-height:1.65;color:var(--muted);margin-top:.75rem}
+@media(min-width:64rem){:is(.article-reading,.avd-reading){grid-template-columns:minmax(0,50rem) minmax(13rem,16rem);justify-content:center}}
+@media(max-width:63.99rem){:is(.article-reading,.avd-reading) .side{display:block}:is(.article-reading,.avd-reading) .article-topics{margin-bottom:.75rem}:is(.article-reading,.avd-reading) .tocbox ol{max-height:22rem}:is(.article-reading,.avd-reading) .prose{padding:1.5rem}:is(.article-header,.avd-header) .band-in{padding-block:2rem}}
+@media(max-width:40rem){:is(.article-reading,.avd-reading){padding-top:1rem;gap:1rem}:is(.article-reading,.avd-reading) .prose{padding:1.1rem;font-size:1rem;line-height:1.65;border-radius:8px}:is(.article-reading,.avd-reading) .prose h2{font-size:1.3rem}:is(.article-reading,.avd-reading) .prose table{display:block;overflow-x:auto;max-width:100%;font-size:.85rem}:is(.article-reading,.avd-reading) .prose th,:is(.article-reading,.avd-reading) .prose td{min-width:9rem;padding:.65rem}:is(.article-reading,.avd-reading) .article-figure{padding:.5rem;margin-block:1.4rem}:is(.article-reading,.avd-reading) .article-figure figcaption{display:block;font-size:.75rem}:is(.article-reading,.avd-reading) .article-figure figcaption span{display:block;margin-top:.25rem}:is(.article-header,.avd-header) .crumbs{font-size:.75rem}}
 /* Keep heading and body rhythm compact and aligned. */
-@media(min-width:64rem){.avd-header .band-in{max-width:68rem;padding-inline:2rem}}
-@media(max-width:40rem){.avd-header .art-cover{display:none}.avd-header h1{font-size:1.85rem;line-height:1.22}.avd-header .band-deck{font-size:1rem}.avd-reading .prose h2{margin-top:1.4rem;padding-top:0}}
+@media(min-width:64rem){:is(.article-header,.avd-header) .band-in{max-width:68rem;padding-inline:2rem}}
+@media(max-width:40rem){:is(.article-header,.avd-header) .art-cover{display:none}:is(.article-header,.avd-header) h1{font-size:1.85rem;line-height:1.22}:is(.article-header,.avd-header) .band-deck{font-size:1rem}:is(.article-reading,.avd-reading) .prose h2{margin-top:1.4rem;padding-top:0}}
