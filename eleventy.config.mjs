@@ -23,11 +23,13 @@ export default function (eleventyConfig) {
   eleventyConfig.addCollection("liveTopics", (api) =>
     topics.map((t) => ({ ...t, posts: articles(api).filter((p) => seriesOf(p)?.category === t.slug) })).filter((t) => t.posts.length));
 
-  eleventyConfig.addFilter("avdFigures", (html) => String(html).replace(/<p>\s*(<img[^>]*src="([^"]+)"[^>]*>)\s*<\/p>(?:\s*<p>((?:<em>[\s\S]*?<\/em>)|(?:Figure \d+\.[\s\S]*?))<\/p>)?/g, (_, image, src, caption) => {
+  const articleFigures = (html) => String(html).replace(/<p>\s*(<img[^>]*src="([^"]+)"[^>]*>)\s*<\/p>(?:\s*<p>((?:<em>[\s\S]*?<\/em>)|(?:Figure \d+\.[\s\S]*?))<\/p>)?/g, (_, image, src, caption) => {
     const alt = (image.match(/alt="([^"]*)"/) || [])[1] || "Article illustration";
     const compact = src.includes("AVD-Post-01-Components") ? " compact" : "";
-    return `<figure class="article-figure${compact}">${image}<figcaption><span class="figure-caption">${caption || alt}</span><span class="figure-zoom">Click the image to enlarge</span></figcaption></figure>`;
-  }));
+    return `<figure class="article-figure${compact}">${image}<figcaption><span class="figure-caption">${caption || (src.startsWith("/diagrams/") ? "" : alt)}</span><span class="figure-zoom">Click the image to enlarge</span></figcaption></figure>`;
+  });
+  eleventyConfig.addFilter("articleFigures", articleFigures);
+  eleventyConfig.addFilter("avdFigures", articleFigures);
   eleventyConfig.addFilter("inSeries", (list, tag) => list.filter((p) => (p.data.tags || []).includes(tag)));
   eleventyConfig.addFilter("seriesOf", (tags) => series.find((s) => (tags || []).includes(s.tag)));
   eleventyConfig.addFilter("topicOf", (ser) => ser && topics.find((t) => t.slug === ser.category));
