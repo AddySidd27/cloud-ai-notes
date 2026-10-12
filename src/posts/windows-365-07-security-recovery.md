@@ -19,6 +19,20 @@ Security controls need a test plan because a policy can block the administrator 
 
 A report-only prediction is evidence about the proposed rule, not proof that enforcement worked. Likewise, a configured compliance policy is not proof that the Cloud PC is compliant. Check the device's actual compliance state and the sign-in decision independently. Microsoft's [security overview](https://learn.microsoft.com/en-us/windows-365/enterprise/security-guidelines) covers Defender, compliance and endpoint controls.
 
+My October 6 record contains three resource simulations and one gateway sign-in with a sanitized report-only result. The screenshot below shows that report-only evaluation. It does **not** demonstrate a user being blocked by an enforced rule. Read the [validation record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-09-2026-10-06-conditional-access-validation.md) before drawing a broader conclusion.
+
+![Sanitized Conditional Access report-only result](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-09-2026-10-06-report-only-result.jpg)
+
+## Inspect device security separately
+
+Open the Cloud PC in Intune and check its compliance rule results. Then connect to the device and compare Windows Security's firewall, Defender and real-time protection views. A local security screen and a compliance decision have different meanings; note both. My September 24 captures show the displayed device security and protection states, while the [device security check](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-06-2026-09-24-device-security-check.md) identifies policy freshness and other open checks.
+
+![Intune compliance view in the pilot](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-06-2026-09-24-compliance.jpg)
+
+![Windows Security firewall view on the Cloud PC](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-06-2026-09-24-device-firewall.jpg)
+
+![Windows Security real-time protection view on the Cloud PC](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-06-2026-09-24-real-time-protection.jpg)
+
 ## Choose the least disruptive support action
 
 | Action | Before you use it |
@@ -32,6 +46,8 @@ A report-only prediction is evidence about the proposed rule, not proof that enf
 Read [restore overview](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-overview), [resize guidance](https://learn.microsoft.com/en-us/windows-365/enterprise/resize-cloud-pc) and [reprovision guidance](https://learn.microsoft.com/en-us/windows-365/enterprise/reprovision-cloud-pc) before taking these actions. Preserve user data through the organization's approved storage and backup practices. Never experiment with reset or reprovision on the only working demonstration Cloud PC.
 
 The [security](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-09-conditional-access.md) and [lifecycle](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-10-cloud-pc-lifecycle-operations.md) use cases in my repository are procedures with explicitly limited live validation. A sanitized report-only result was recorded, but there is no evidence of an enforced Conditional Access block or a completed restore.
+
+A controlled restart and reconnect were observed on October 7; that is a narrower result than a restore. The [restart record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-10-2026-10-07-controlled-restart.md) describes what was checked and what still needs a post-action report.
 
 Next: [read the ANC failure as a troubleshooting case](/windows-365/anc-troubleshooting/).
 
