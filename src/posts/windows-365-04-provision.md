@@ -49,6 +49,8 @@ Have the assigned user open [windows365.microsoft.com](https://windows365.micros
 
 My [dated Enterprise portal check](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-02-2026-09-24-portal-check.md) records an existing Provisioned Cloud PC, a pilot-user web session, Intune record and join output. That verifies the state seen on September 24. It cannot reconstruct the original license assignment or policy wizard. [Part 5](/windows-365/connect-verify/) covers the connection check.
 
+On October 12, I checked the live policy and inventory again. The existing policy showed Microsoft Entra join, the US Central geography, a gallery image labelled Windows 11 Enterprise with Microsoft 365 Apps 25H2, and an Enterprise assignment. **All Cloud PCs showed one Provisioned Enterprise Cloud PC under this policy** with a 2 vCPU, 4 GB RAM and 64 GB storage size. It used the Microsoft-hosted path; the row showed no ANC. The separate policy **Devices** action view showed zero entries, so I relied on All Cloud PCs for the provisioning count. See the [dated, sanitized inventory record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-02-2026-10-12-enterprise-policy-inventory.md). I did not publish that portal screenshot because the visible header and table included account identifiers.
+
 ## Troubleshoot in order
 
 | Symptom | First check |
