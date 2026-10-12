@@ -14,9 +14,15 @@ An Azure network connection is worth testing when an application requires a cust
 
 The test used a Visual Studio Enterprise Azure subscription and `rg-w365-anc-lab`. An isolated East US VNet, `vnet-w365-anc-eastus-lab`, contained the private subnet `snet-cloudpcs`. A temporary NAT gateway and Standard public IP supplied outbound access during the test. The ANC, `anc-w365-entra-eastus-lab`, used Microsoft Entra join and that subnet. The existing working Enterprise Cloud PC stayed on its Microsoft-hosted network and was not moved.
 
+The diagram below shows the intended Entra join ANC path. It is an architecture drawing, not a screenshot of a healthy connection. The [draw.io source](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/architecture/diagrams/source/03-entra-join-azure-network-connection.drawio) is editable.
+
+![Intended Microsoft Entra join ANC network path](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/architecture/diagrams/exported/03-entra-join-azure-network-connection.png)
+
 The October 1, 2026 health result failed a check involving `*.infra.windows365.microsoft.com:443`. That is the endpoint pattern in the observation, not a confirmed diagnosis of DNS, firewall, NAT or routing. A health failure blocks a credible claim of successful ANC provisioning. The [detailed lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/docs/live-validation-status.md) keeps the status current.
 
 ![Sanitized failed ANC health check](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-03-2026-10-01-anc-health.jpg)
+
+**Reading the result:** the check did not pass. The screenshot identifies an endpoint pattern and port. It does not tell us whether DNS, a route, firewall, proxy or NAT was the root cause. Preserve that uncertainty in a troubleshooting write-up.
 
 ## How to investigate this case
 
@@ -27,6 +33,16 @@ The October 1, 2026 health result failed a check involving `*.infra.windows365.m
 5. Only after all relevant checks pass should a separate pilot policy and user test this ANC. Keep a restoration plan before changing a working Cloud PC's assignment.
 
 The investigation steps are a procedure; I did not capture a successful retry. After this attempt, the temporary NAT gateway and public IP were removed, so do not assume paid egress infrastructure remains available. The isolated VNet/subnet and failed ANC record are distinct from the removed resources. Check current Azure resource and billing state before any new test.
+
+| Resource or test | Recorded result |
+| --- | --- |
+| Entra join ANC | Created; health checks failed |
+| Outbound endpoint check | Error observed for the documented infrastructure pattern on TCP 443 |
+| Temporary NAT gateway and public IP | Removed after the lab |
+| Existing Microsoft-hosted Cloud PC | Kept in place; no network move performed |
+| Fresh Cloud PC using this ANC | Not provisioned or validated |
+
+The [October 4 egress retry record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-03-2026-10-04-anc-egress-retry.md) gives the precise observations and cleanup. Do not rebuild paid Azure egress just to recreate a screenshot without a test plan and a cleanup time.
 
 ## What counts as completion
 
