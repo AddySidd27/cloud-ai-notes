@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net">
+  <diagram name="published-resource-relationships" id="published-resource-relationships">
+    <mxGraphModel page="1" pageWidth="1150" pageHeight="500">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="edge0" value="Assign access" edge="1" parent="1" style="edgeStyle=none;endArrow=block;strokeColor=#527d9e;fontSize=18;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1">
+            <mxPoint as="sourcePoint" x="285" y="250" />
+            <mxPoint as="targetPoint" x="423" y="250" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge1" value="Associate" edge="1" parent="1" style="edgeStyle=none;endArrow=block;strokeColor=#527d9e;fontSize=18;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1">
+            <mxPoint as="sourcePoint" x="570" y="200" />
+            <mxPoint as="targetPoint" x="828" y="90" />
+            <Array as="points">
+              <mxPoint x="570" y="90" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge2" value="Resources from" edge="1" parent="1" style="edgeStyle=none;endArrow=block;strokeColor=#527d9e;fontSize=18;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1">
+            <mxPoint as="sourcePoint" x="570" y="300" />
+            <mxPoint as="targetPoint" x="828" y="395" />
+            <Array as="points">
+              <mxPoint x="570" y="395" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="users" value="User group&lt;br&gt;Employees needing access" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf5fc;strokeColor=#7e9ab0;fontSize=19;fontColor=#17324d;">
+          <mxGeometry as="geometry" x="25" y="200" width="260" height="100" />
+        </mxCell>
+        <mxCell id="ag" value="Application group&lt;br&gt;Desktop or RemoteApps" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf5fc;strokeColor=#7e9ab0;fontSize=19;fontColor=#17324d;">
+          <mxGeometry as="geometry" x="425" y="200" width="290" height="100" />
+        </mxCell>
+        <mxCell id="workspace" value="Workspace&lt;br&gt;Published resource feed" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eaf5ee;strokeColor=#7e9ab0;fontSize=19;fontColor=#17324d;">
+          <mxGeometry as="geometry" x="830" y="40" width="290" height="100" />
+        </mxCell>
+        <mxCell id="pool" value="Host pool&lt;br&gt;Session-host VMs&lt;br&gt;Windows + applications" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf5fc;strokeColor=#7e9ab0;fontSize=19;fontColor=#17324d;">
+          <mxGeometry as="geometry" x="830" y="335" width="290" height="130" />
+        </mxCell>
+        <mxCell id="note0" value="These are resource relationships used for publication and access." vertex="1" parent="1" style="text;html=0;strokeColor=none;fillColor=none;fontSize=18;">
+          <mxGeometry as="geometry" x="20" y="465" width="1110" height="40" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
