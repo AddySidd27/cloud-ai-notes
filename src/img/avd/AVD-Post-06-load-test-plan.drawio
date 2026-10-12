@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net">
+  <diagram name="load-test-plan" id="load-test-plan">
+    <mxGraphModel page="1" pageWidth="1150" pageHeight="660">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="edge0" value="" edge="1" parent="1" style="edgeStyle=none;endArrow=block;strokeColor=#527d9e;fontSize=18;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1">
+            <mxPoint as="sourcePoint" x="345" y="90" />
+            <mxPoint as="targetPoint" x="413" y="90" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge1" value="" edge="1" parent="1" style="edgeStyle=none;endArrow=block;strokeColor=#527d9e;fontSize=18;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1">
+            <mxPoint as="sourcePoint" x="735" y="90" />
+            <mxPoint as="targetPoint" x="803" y="90" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge2" value="Workload access" edge="1" parent="1" style="edgeStyle=none;endArrow=block;strokeColor=#527d9e;fontSize=18;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1">
+            <mxPoint as="sourcePoint" x="965" y="145" />
+            <mxPoint as="targetPoint" x="965" y="328" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge3" value="" edge="1" parent="1" style="edgeStyle=none;endArrow=block;strokeColor=#527d9e;fontSize=18;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1">
+            <mxPoint as="sourcePoint" x="805" y="385" />
+            <mxPoint as="targetPoint" x="737" y="385" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge4" value="" edge="1" parent="1" style="edgeStyle=none;endArrow=block;strokeColor=#527d9e;fontSize=18;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1">
+            <mxPoint as="sourcePoint" x="415" y="385" />
+            <mxPoint as="targetPoint" x="347" y="385" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge5" value="Retest changes" edge="1" parent="1" style="edgeStyle=none;endArrow=block;strokeColor=#527d9e;fontSize=18;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1">
+            <mxPoint as="sourcePoint" x="185" y="330" />
+            <mxPoint as="targetPoint" x="185" y="147" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="plan" value="Agreed test plan&lt;br&gt;Persona tasks + test accounts&lt;br&gt;Acceptance targets" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf5fc;strokeColor=#7e9ab0;fontSize=19;fontColor=#17324d;">
+          <mxGeometry as="geometry" x="25" y="35" width="320" height="110" />
+        </mxCell>
+        <mxCell id="launch" value="Test system&lt;br&gt;Appliance + separate launchers&lt;br&gt;Ramp AVD sessions via connector" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf5fc;strokeColor=#7e9ab0;fontSize=19;fontColor=#17324d;">
+          <mxGeometry as="geometry" x="415" y="35" width="320" height="110" />
+        </mxCell>
+        <mxCell id="pool" value="Representative host pool&lt;br&gt;Image + business applications&lt;br&gt;Candidate VM and OS disk" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf5fc;strokeColor=#7e9ab0;fontSize=19;fontColor=#17324d;">
+          <mxGeometry as="geometry" x="805" y="35" width="320" height="110" />
+        </mxCell>
+        <mxCell id="deps" value="Shared dependencies&lt;br&gt;Profile storage + backends&lt;br&gt;Planned identity/network paths" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf5fc;strokeColor=#7e9ab0;fontSize=19;fontColor=#17324d;">
+          <mxGeometry as="geometry" x="805" y="330" width="320" height="110" />
+        </mxCell>
+        <mxCell id="measure" value="Collect measurements&lt;br&gt;Task timings + errors&lt;br&gt;Host and session metrics" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eaf5ee;strokeColor=#7e9ab0;fontSize=19;fontColor=#17324d;">
+          <mxGeometry as="geometry" x="415" y="330" width="320" height="110" />
+        </mxCell>
+        <mxCell id="accept" value="Business-owner review&lt;br&gt;Accept or revise configuration&lt;br&gt;Record usable session density" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eaf5ee;strokeColor=#7e9ab0;fontSize=19;fontColor=#17324d;">
+          <mxGeometry as="geometry" x="25" y="330" width="320" height="110" />
+        </mxCell>
+        <mxCell id="note0" value="Simulation generates work; Insights and PerfMon help explain the observed performance." vertex="1" parent="1" style="text;html=0;strokeColor=none;fillColor=none;fontSize=18;">
+          <mxGeometry as="geometry" x="20" y="495" width="1110" height="40" />
+        </mxCell>
+        <mxCell id="note1" value="Confirm the load-test platform can generate the intended ramp and concurrent session count." vertex="1" parent="1" style="text;html=0;strokeColor=none;fillColor=none;fontSize=18;">
+          <mxGeometry as="geometry" x="20" y="525" width="1110" height="40" />
+        </mxCell>
+        <mxCell id="note2" value="Personal desktop workloads need their own performance and recovery acceptance." vertex="1" parent="1" style="text;html=0;strokeColor=none;fillColor=none;fontSize=18;">
+          <mxGeometry as="geometry" x="20" y="555" width="1110" height="40" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
