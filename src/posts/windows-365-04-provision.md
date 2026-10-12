@@ -13,6 +13,10 @@ In [Part 3](/windows-365/identity-network/), we chose an identity and network pa
 
 **What you will build:** one licensed pilot user in one Microsoft Entra group, targeted by one provisioning policy. The intended result is a provisioned Cloud PC that the user can open and that an administrator can inspect in Intune.
 
+![Illustrated pilot provisioning sequence for example user AVDtest](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/architecture/diagrams/exported/windows-365-provisioning-illustration.svg)
+
+*Illustration 1. Example user AVDtest. This is an original workflow diagram, not an Intune screenshot or proof of a completed lab. [Edit the draw.io source](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/architecture/diagrams/exported/windows-365-provisioning-illustration.drawio).*
+
 **Evidence boundary:** My tenant already has a Provisioned Enterprise Cloud PC. I verified its current policy and inventory on October 12, 2026. I did not record its original five wizard pages or the initial license-to-first-sign-in sequence. The portal steps below are a reproducible walkthrough, and the images are identified by what they actually prove.
 
 ## 1. Check the prerequisites
