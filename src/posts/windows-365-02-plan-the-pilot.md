@@ -27,13 +27,21 @@ Choose a descriptive pilot group such as `W365-Pilot-Users` and record its membe
 
 ## Walk through the checks
 
-1. Review the license inventory and the pilot user's actual license assignment in Microsoft 365 admin center or Microsoft Entra admin center.
-2. Verify the pilot group membership in Microsoft Entra. Record the time, because group and policy assignments can take time to apply.
-3. Check the administrator role before opening the Intune Windows 365 provisioning area. Use the permissions your organization grants for the task.
-4. Choose the identity, network and image using the next chapter. Write down the application or connectivity requirement behind each choice.
-5. Define a pass result: the named pilot user sees one Cloud PC, connects, signs in, and its device appears in Intune with the expected join state.
+### Step 1: inventory the Enterprise seat
 
-The [tenant readiness use case](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-01-tenant-readiness-and-pilot-design.md) contains a longer worksheet. My sanitized [license inventory capture](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-01-2026-09-24-license-inventory.jpg) is real, but it shows inventory, not a new end-to-end assignment. Treat the five checks above as a procedure until you record them in your own tenant.
+In Microsoft 365 admin center, open the Windows 365 Enterprise licensing view. Record the total, assigned and available counts. Then open the intended pilot user's license details and verify the actual assignment. In my September 24 capture, one Enterprise seat was assigned and none were available. The crop does not identify the assigned user.
+
+![Sanitized Windows 365 Enterprise license inventory](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-01-2026-09-24-license-inventory.jpg)
+
+### Step 2: make a narrow pilot group
+
+In Microsoft Entra admin center, create or select a dedicated **user** group for the pilot and add the licensed test user. Note the group name and membership time. Do not target all users. Save a sanitized group membership image in your own lab; this repository does not contain a public group membership screenshot.
+
+### Step 3: check the administrator and success result
+
+Verify the administrator's Windows 365 and Intune permissions before opening the provisioning wizard. Write a pass condition: the targeted user sees one Cloud PC, signs in, disconnects and reconnects, and the device appears in Intune with the expected join type. Record the identity, network and image decisions from [Part 3](/windows-365/identity-network/) before creating a policy.
+
+The [tenant readiness use case](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-01-tenant-readiness-and-pilot-design.md) contains a longer worksheet. The screenshot above is real, but it shows inventory, not a new end-to-end assignment. Treat the missing group and assignee screens as checks to capture when you reproduce the lab.
 
 ## Evidence to save
 
