@@ -14,6 +14,7 @@ export default {
   102: { tags: ["AVD", "Architecture"], published: "2026-10-11" },
   103: { tags: ["AVD", "Deployment preparation"], published: "2026-10-11" },
   104: { tags: ["AVD", "Identity", "Microsoft Entra"], published: "2026-10-11" },
+  106: { tags: ["AVD", "Host pools", "Capacity planning", "Images"], published: "2026-10-12" },
   105: { tags: ["AVD", "Networking", "Hub-and-spoke"], published: "2026-10-11" },
 
 
