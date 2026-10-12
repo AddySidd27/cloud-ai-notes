@@ -23,6 +23,17 @@ A Cloud PC pilot becomes a service when someone owns assignment, support, update
 
 When a new user joins, check the license and group, then watch provisioning and first connection. When a user leaves, follow the organization's retention and offboarding process before changing licensing. Do not treat a portal deletion as a harmless housekeeping step: it may affect data and recovery windows. Test the support process with one real ticket before expanding to the next group.
 
+## Walk one user through the service
+
+1. **Joiner:** approve the user and license, add the user to the intended pilot group, and check the provisioning and first-session result. Save timestamps and owner.
+2. **Mover:** document the new requirements before changing group or policy targeting. Check the effect on the existing Cloud PC and data first; a network or region move is a separate planned action.
+3. **Support:** ask the user for the exact client, error, time and last successful sign-in. Check service status, Cloud PC state, device check-in and the matching sign-in event before taking a remote action.
+4. **Leaver:** follow the organization's retention and recovery policy, record the license and Cloud PC state, then deprovision only through an approved offboarding workflow.
+
+The [editable joiner/mover/leaver draw.io source](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/architecture/diagrams/source/09-joiner-mover-leaver-lifecycle.drawio) and [Cloud PC operations source](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/architecture/diagrams/source/10-cloud-pc-lifecycle-operations.drawio) show the decision paths. They are design diagrams, not evidence of a completed leaver or restore test.
+
+In my pilot, a [controlled restart and reconnect](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-10-2026-10-07-controlled-restart.md) was recorded on October 7. This verifies the specific user-facing action described there. It does not prove point-in-time restore, resize, reprovision or a full offboarding sequence. Microsoft's [remote actions reference](https://learn.microsoft.com/en-us/windows-365/enterprise/remotely-manage-cloud-pc) explains the supported actions and where to check their statuses.
+
 ## Roll out in waves
 
 Start with the pilot user, add a small group with varied applications, then widen only after connection, management and support results are recorded. For each wave, track assigned licenses, provisioned Cloud PCs, connection failures, policy conflicts and time to resolve. Keep known gaps visible. A progress dashboard should distinguish **planned**, **configured**, **observed** and **blocked**; it should not convert a written procedure into a completed lab.
