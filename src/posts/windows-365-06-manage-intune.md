@@ -10,6 +10,18 @@ deck: "A three-step Intune lab that checks assignment, device reporting and the 
 
 After the Cloud PC works, manage it like a Windows endpoint through Microsoft Intune. Test one change at a time. This makes a mismatch between the Intune report and the desktop easier to diagnose.
 
+## Before you run the labs
+
+Use one assigned Enterprise Cloud PC and a pilot group. Record the Cloud PC name and the test account in a private lab log. Keep the published captures free of tenant IDs, user names and other private data. For each change, save the assignment, the Intune status with time, and the device-side result with time. These are three different checks; a green service report alone does not prove the user sees the intended result.
+
+| Lab | Admin-side check | Cloud PC check | Existing pilot evidence |
+| --- | --- | --- | --- |
+| A: Edge setting | Settings catalog assignment and device report | Effective Edge setting | Both views captured on September 24; the follow-up explains the comparison limit. |
+| B: application | Required app installation status | Company Portal Installed view and app launch | Required app and launch views captured; an Available assignment and uninstall were not tested. |
+| C: updates | Ring assignment and reporting | Windows Update history and build | Update history captured; a controlled ring rollout and restart were not demonstrated. |
+
+The steps below let a reader repeat each lab. The status in the last column describes only my existing pilot evidence.
+
 ## Lab A: a visible setting
 
 1. Open **Devices > Configuration** in Intune and select the pilot settings catalog profile. Record the target group and configured Edge setting.
@@ -54,6 +66,14 @@ This screenshot establishes the installed update history visible on September 24
 
 ![Windows Update history on the Enterprise pilot](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-08-2026-09-24-update-history.jpg)
 
+## What counts as a completed test
+
+- **Setting:** Match the exact configured Edge value to the effective value in the Cloud PC. Preserve both timestamps and the policy assignment. The screenshots here show a report and a setting; review the linked follow-up before calling the full change cycle proven.
+- **Application:** Record the app's assignment type and target group, installation status, a successful launch and the time of each check. **Required** installs to its targeted devices; **Available for enrolled devices** lets the targeted user choose it in Company Portal. My pilot did not complete the Available or uninstall paths.
+- **Update:** Record ring settings, target, reporting, installed KB/build, restart and after-state. Update history by itself cannot attribute an installed update to a particular ring. My pilot does not prove that full sequence.
+
+When a result differs, note the exact status, last check-in, error and time. Review assignment and device sync before changing the profile. Keep a failure in the log even if a later attempt works.
+
 Use Microsoft's [Windows 365 management guidance](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-deployment-guidance-management) to check current Intune options. The [engineering use cases](https://github.com/AddySidd27/Windows365-enterprise-engineering/tree/main/use-cases) provide the project-specific records. In your evidence log, preserve a failure with its timestamp rather than replacing it with a later success screenshot without explanation.
 
 Next: [secure access and plan recovery](/windows-365/security-recovery/).
@@ -61,4 +81,6 @@ Next: [secure access and plan recovery](/windows-365/security-recovery/).
 ### Microsoft Learn
 
 - [Intune as the management plane for Windows 365](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-deployment-guidance-management)
+- [Assign apps to groups in Intune](https://learn.microsoft.com/en-us/intune/app-management/deployment/assign-groups)
+- [Manage Windows update rings](https://learn.microsoft.com/en-us/intune/device-updates/windows/manage-update-rings)
 - [Security overview](https://learn.microsoft.com/en-us/windows-365/enterprise/security-guidelines)
