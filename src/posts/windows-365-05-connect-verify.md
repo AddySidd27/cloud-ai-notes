@@ -12,12 +12,37 @@ The portal's **Provisioned** status is an important milestone, but the pilot is 
 
 ## User connection test
 
-1. Ask the assigned user to open [windows365.microsoft.com](https://windows365.microsoft.com/) and sign in with the account that received the Enterprise license.
+1. Ask the assigned user to open [windows.cloud.microsoft](https://windows.cloud.microsoft/) and sign in with the account that received the Enterprise license.
 2. Confirm the expected Cloud PC tile appears. Record its displayed state and the connection method. A tile is an assignment check, not a successful desktop test.
 3. Select **Open in browser**, complete the Windows sign-in, and open a basic application. Record whether the desktop is responsive. Keep the user name and tenant details out of a public capture.
 4. Disconnect, return to the portal and reconnect. Record the browser or Windows App version and the result. A reconnect test detects a problem the initial tile cannot show.
 
 If the Cloud PC does not appear, recheck license, group and provisioning status. If it appears but cannot connect, capture the full connection error and test again after checking the [Windows 365 troubleshooting guide](https://learn.microsoft.com/en-us/windows-365/enterprise/troubleshooting). Do not reset or reprovision a working pilot just to clear an unexplained error.
+
+## Choose a supported connection method
+
+The current [Microsoft access guide](https://learn.microsoft.com/en-us/windows-365/end-user-access-cloud-pc) lists Windows App and the [Windows 365 web client](https://windows.cloud.microsoft/) for Enterprise Cloud PCs. Windows App is available on Windows, macOS, iOS/iPadOS and Android/ChromeOS; its features differ by platform. The web client is for a supported browser on a desktop or laptop, not a mobile browser. Review the [platform comparison](https://learn.microsoft.com/en-us/windows-app/compare-platforms-features) before promising a feature such as device redirection on every client. The classic Remote Desktop Connection tool (mstsc.exe) is not a supported daily Windows 365 connection method.
+
+| Pilot device | Reader action | What this article proves |
+| --- | --- | --- |
+| Desktop or laptop browser | Sign in at [windows.cloud.microsoft](https://windows.cloud.microsoft/), select the assigned Cloud PC and open it in the browser. | The existing Enterprise pilot reached an interactive web desktop on October 12, 2026. |
+| Windows or macOS with Windows App | Install Windows App from the official platform source, sign in with the assigned work account and select the Cloud PC. | Procedure only. A native Windows or macOS app session was not tested in this lab. |
+| iOS/iPadOS or Android/ChromeOS with Windows App | Install the official Windows App, sign in with the work account and select the Cloud PC. | Procedure only. No mobile client session was tested. |
+
+Follow Microsoft's [Windows App connection walkthrough](https://learn.microsoft.com/en-us/windows-app/get-started-connect-devices-desktops-apps?pivots=windows-365) for your platform. It supplies the current client requirements and screens. Use a work or school account assigned the Cloud PC. A personal Microsoft account is not the Windows App sign-in for this resource. The same Cloud PC can be tested by different supported connection methods, but record each method as a separate result.
+
+### A small repeatable user test
+
+1. Before connecting, record the device platform, browser or app version, work account (privately), Cloud PC tile and start time.
+2. Connect. Confirm that the Windows desktop appears, open a harmless built-in app and record whether keyboard, mouse and display respond. Test a business app only if it is part of the pilot's agreed success criteria.
+3. Disconnect using the client control, return to the Cloud PC card, then reconnect. Record the second result and time. If you did not perform this step, leave **reconnect: untested** in the lab record.
+4. Repeat on another client only when you have that device. Note platform-specific prompts and features separately; do not use a web result as proof of a mobile or native app result.
+
+**My evidence:** The [October 12 connection record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-02-2026-10-12-enterprise-web-connection.md) confirms the browser client reached the desktop. It does not document a completed disconnect/reconnect or native app test. A public desktop image is still pending because the captured session showed private information and was not suitable to publish.
+
+### If the user cannot connect
+
+First separate **no Cloud PC tile** from **tile visible but connection fails**. For the first, inspect assignment, license and provisioning. For the second, record the exact error and time, check the supported client and network, then use the Cloud PC's **Troubleshoot** option or Windows App **Inspect Connection** where offered. Microsoft's [connection error guide](https://learn.microsoft.com/en-us/troubleshoot/windows-365/connection-errors) explains these checks. For a pattern affecting many users, inspect the Intune [Cloud PC connection quality report](https://learn.microsoft.com/en-us/windows-365/enterprise/report-cloud-pc-connection-quality) alongside service health. These are diagnostic paths, not results I measured in this pilot.
 
 ## Administrator verification
 
@@ -64,3 +89,6 @@ Next: [manage settings, applications and updates](/windows-365/manage-intune/).
 
 - [What is Windows 365 Enterprise?](https://learn.microsoft.com/en-us/windows-365/enterprise/overview)
 - [Troubleshooting Windows 365](https://learn.microsoft.com/en-us/windows-365/enterprise/troubleshooting)
+- [Access a Cloud PC](https://learn.microsoft.com/en-us/windows-365/end-user-access-cloud-pc)
+- [Connect with Windows App](https://learn.microsoft.com/en-us/windows-app/get-started-connect-devices-desktops-apps?pivots=windows-365)
+- [Compare Windows App platforms](https://learn.microsoft.com/en-us/windows-app/compare-platforms-features)
