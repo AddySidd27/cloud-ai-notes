@@ -33,6 +33,10 @@ Open the Cloud PC in Intune and check its compliance rule results. Then connect 
 
 ![Windows Security real-time protection view on the Cloud PC](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-06-2026-09-24-real-time-protection.jpg)
 
+### Cloud PC policy exceptions to check
+
+Microsoft's [security guidelines](https://learn.microsoft.com/en-us/windows-365/enterprise/security-guidelines) state that Cloud PCs do not support BitLocker. Exclude a BitLocker requirement from compliance policies that target Cloud PCs. The same guidance says **Administrator protection** is unsupported on Cloud PCs; use an assignment filter to exclude them from a policy that enables it. Check the current guidance before applying an endpoint baseline unchanged. These are design checks, not controls I deployed in this pilot.
+
 ## Choose the least disruptive support action
 
 | Action | Before you use it |
@@ -45,6 +49,12 @@ Open the Cloud PC in Intune and check its compliance rule results. Then connect 
 
 Read [restore overview](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-overview), [resize guidance](https://learn.microsoft.com/en-us/windows-365/enterprise/resize-cloud-pc) and [reprovision guidance](https://learn.microsoft.com/en-us/windows-365/enterprise/reprovision-cloud-pc) before taking these actions. Preserve user data through the organization's approved storage and backup practices. Never experiment with reset or reprovision on the only working demonstration Cloud PC.
 
+### Plan a point-in-time restore before you need one
+
+Windows 365 Enterprise supports short-term, long-term and on-demand restore points. The administrator can configure intervals and inspect the available points before choosing one. A restore returns the Cloud PC to the selected earlier state. Changes made after that point, including local files, installed apps and settings, can be lost; changes held in an external cloud service such as OneDrive are outside that restored disk. Rolling passwords, certificates or keys may also be out of date after a restore. Select a recent healthy point, inform the user of the exact data window, and verify sign-in and required apps afterwards. Follow the [point-in-time restore guidance](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-overview).
+
+**Pilot status:** No restore was executed on the existing Enterprise Cloud PC. The October 7 record covers a controlled restart and reconnect only.
+
 The [security](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-09-conditional-access.md) and [lifecycle](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-10-cloud-pc-lifecycle-operations.md) use cases in my repository are procedures with explicitly limited live validation. A sanitized report-only result was recorded, but there is no evidence of an enforced Conditional Access block or a completed restore.
 
 A controlled restart and reconnect were observed on October 7; that is a narrower result than a restore. The [restart record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-10-2026-10-07-controlled-restart.md) describes what was checked and what still needs a post-action report.
@@ -54,5 +64,6 @@ Next: [read the ANC failure as a troubleshooting case](/windows-365/anc-troubles
 ### Microsoft Learn
 
 - [Set Conditional Access policies for Windows 365](https://learn.microsoft.com/en-us/windows-365/enterprise/set-conditional-access-policies)
+- [Security guidelines](https://learn.microsoft.com/en-us/windows-365/enterprise/security-guidelines)
 - [Restore overview](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-overview)
 - [Reprovision a Cloud PC](https://learn.microsoft.com/en-us/windows-365/enterprise/reprovision-cloud-pc)
