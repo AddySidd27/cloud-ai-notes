@@ -66,17 +66,20 @@ For this project, [UC-01](https://github.com/AddySidd27/Windows365-enterprise-en
 
 ## Read the complete series
 
-1. [Start Here](/windows-365/start-here/) — terminology and the full route.
-2. [Plan the Pilot](/windows-365/plan-the-pilot/) — licenses, groups, roles and proof.
-3. [Identity and Network](/windows-365/identity-network/) — Microsoft-hosted and ANC decisions.
-4. [Image and Provisioning](/windows-365/provision/) — create a small policy and check the result.
-5. [Connect and Verify](/windows-365/connect-verify/) — session, join and enrollment.
-6. [Manage with Intune](/windows-365/manage-intune/) — settings, apps and updates.
-7. [Security and Recovery](/windows-365/security-recovery/) — safe access tests and lifecycle choices.
-8. [ANC Troubleshooting](/windows-365/anc-troubleshooting/) — the isolated lab's observed failure.
-9. [Operate and Extend](/windows-365/operate-and-extend/) — rollout, support and optional experiences.
+The reading path follows the ten topics in the [Windows-Noob getting-started series](https://www.windows-noob.com/forums/topic/23040-getting-started-with-windows-365-part-1-introduction/). The lab steps, writing, diagrams and evidence here are my own. The earlier articles were published in 2022–2023, so use the current Microsoft Learn links in each chapter for present-day requirements. A linked chapter can cover only part of a topic; the status below states what the pilot proves.
 
-Optional Boot, Switch and Offline experiences require their own current eligibility checks and supported devices. I will describe them as tested labs only after recording the outcome.
+1. **Introduction and edition choice.** [Start Here](/windows-365/start-here/) and [Plan the Pilot](/windows-365/plan-the-pilot/) explain licensing, groups, requirements and the first pilot. Enterprise seat inventory is captured; a fresh assignment sequence is pending.
+2. **Provision a Microsoft Entra joined Cloud PC.** [Identity and Network](/windows-365/identity-network/), [Provisioning](/windows-365/provision/) and [ANC Troubleshooting](/windows-365/anc-troubleshooting/) cover the network decision and wizard. Six original unassigned Intune wizard screens illustrate the steps. The existing Cloud PC is provisioned; its original creation was not captured. The separate ANC health test failed.
+3. **Provision a hybrid joined Cloud PC.** Dedicated AD DS, DNS, sync, customer network and join lab is pending. The Entra joined pilot does not demonstrate hybrid join.
+4. **Connect to the Cloud PC.** [Connect and Verify](/windows-365/connect-verify/) includes the verified Enterprise browser session. Windows, macOS and mobile client walkthroughs still need device tests; a new sanitized public desktop capture is pending.
+5. **Manage the Cloud PC.** [Manage with Intune](/windows-365/manage-intune/) covers policy, application and update checks. Some observations have dated evidence; follow each linked record before treating a procedure as a completed lab.
+6. **Point-in-time restore.** [Security and Recovery](/windows-365/security-recovery/) explains the decision and precautions. A controlled restore of the only working Enterprise Cloud PC has not been performed.
+7. **Windows Autopatch.** The [update section](/windows-365/manage-intune/) introduces servicing. Autopatch registration, deployment and patch result are pending.
+8. **Windows 365 Boot.** [Operations](/windows-365/operate-and-extend/) introduces the feature. A suitable endpoint lab is pending.
+9. **Windows 365 Switch.** [Operations](/windows-365/operate-and-extend/) introduces the feature. A suitable endpoint lab is pending.
+10. **Windows 365 Offline.** [Operations](/windows-365/operate-and-extend/) introduces the feature. Eligibility and a supported endpoint lab are pending.
+
+The [engineering series map](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/docs/blog-series-sequence.md) tracks the same sequence and the exact open checks. These are nine published working chapters across ten topics, not ten completed labs.
 
 ### References
 
