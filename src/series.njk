@@ -19,10 +19,27 @@ eleventyComputed:
   <p class="cta"><a class="btn primary" href="{{ list[0].url }}">Start with the first post</a>{% if ser.tag == "alz" %}<a class="btn ghost-on" href="/start-here/">Read the introduction</a>{% endif %}</p>
 </div><div class="art-cover" aria-hidden="true">{% set cat = tp.slug %}{% set cn = '' %}{% include "cover.njk" %}</div></header>
 <div class="wrap sec">
+  {% if ser.slug == "windows-365-enterprise" %}
+  <h2>Ten-topic learning path</h2>
+  <p>Follow the topic order below. The nine article cards are working chapters, not nine completed end-to-end labs. Each chapter says which observations are verified and which exercises remain open. The progression follows the <a href="https://www.windows-noob.com/forums/topic/23040-getting-started-with-windows-365-part-1-introduction/">Windows-Noob getting-started series</a>; the writing and lab records here are original.</p>
+  <ol>
+    <li>Introduction and edition choice — <a href="/windows-365/start-here/">Start Here</a> and <a href="/windows-365/plan-the-pilot/">Plan the Pilot</a>.</li>
+    <li>Microsoft Entra joined provisioning — <a href="/windows-365/provision/">Provisioning</a> and <a href="/windows-365/anc-troubleshooting/">ANC Troubleshooting</a>. The separate ANC health test failed.</li>
+    <li>Hybrid joined provisioning — AD DS, DNS, sync and join lab pending.</li>
+    <li>Connect — <a href="/windows-365/connect-verify/">Connect and Verify</a> includes an observed Enterprise browser session; other client tests are pending.</li>
+    <li>Manage — <a href="/windows-365/manage-intune/">Manage with Intune</a> covers policies, apps and updates with scoped evidence.</li>
+    <li>Point-in-time restore — <a href="/windows-365/security-recovery/">Security and Recovery</a> explains the procedure; a restore lab is pending.</li>
+    <li>Windows Autopatch — the <a href="/windows-365/manage-intune/">update chapter</a> introduces servicing; deployment results are pending.</li>
+    <li>Windows 365 Boot — <a href="/windows-365/operate-and-extend/">Operations</a> introduces it; endpoint lab pending.</li>
+    <li>Windows 365 Switch — <a href="/windows-365/operate-and-extend/">Operations</a> introduces it; endpoint lab pending.</li>
+    <li>Windows 365 Offline — <a href="/windows-365/operate-and-extend/">Operations</a> introduces it; eligibility and endpoint lab pending.</li>
+  </ol>
+  <h2>Published working chapters</h2>
+  {% endif %}
   <ol class="series-list page">
     {%- for p in list %}
     <li><a href="{{ p.url }}"><span class="no">{{ (p.data.part or p.data.order) | pad }}</span><span class="st"><strong>{{ p.data.title }}</strong><span class="sd">{{ p.data.deck | clip(210) }}</span><span class="tg">{% for t in articleMeta[p.data.order].tags %}<i>{{ t }}</i>{% endfor %}</span></span><span class="sm">{{ p.templateContent | readingTime }} min read</span></a></li>
     {%- endfor %}
   </ol>
-  <p class="note-line">More parts are written and published in order. This list grows as each one passes the Microsoft Learn check.</p>
+  {% if ser.slug == "windows-365-enterprise" %}<p class="note-line">Read the <a href="/windows-365/start-here/#read-the-complete-series">full status and evidence notes</a> before treating a procedure as a completed lab.</p>{% else %}<p class="note-line">More parts are written and published in order. This list grows as each one passes the Microsoft Learn check.</p>{% endif %}
 </div>
