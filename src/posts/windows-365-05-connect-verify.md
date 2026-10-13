@@ -37,6 +37,12 @@ My existing Enterprise pilot was observed as provisioned, Microsoft Entra joined
 
 The [September 24 portal check](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-02-2026-09-24-portal-check.md) records the observed Cloud PC state, web session, Intune device and sanitized join output. Its public evidence is a dated text record, not a publishable screenshot of every portal screen. I have not filled the gap with a simulated Windows 365 page or another writer's image.
 
+## Verified pilot connection — 12 October 2026
+
+In Intune, the existing Enterprise Cloud PC showed **Provisioned** in All Cloud PCs. Its device record showed **Compliant**. I signed in to Windows App as the assigned pilot user, selected the Enterprise Cloud PC card and chose **Connect**. The browser client progressed through **Connecting** to **Connected**, and the Windows desktop appeared. This confirms an interactive web session for the existing pilot.
+
+The [dated connection lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-02-2026-10-12-enterprise-web-connection.md) separates the administrator and user observations. A safe public desktop capture is still pending. This run did not validate a new provisioning cycle, a disconnect and reconnect cycle, every application, or the Azure network connection path.
+
 ## When one checkpoint fails
 
 | Symptom | What to inspect next |
