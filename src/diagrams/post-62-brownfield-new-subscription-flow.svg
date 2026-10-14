@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 722" width="1000" height="722" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+  <title id="t">A new subscription, request to workload</title>
+  <desc id="d">Five steps, each with who does it. 1 The workload team asks for a subscription and gives budget, owner, network needs and how critical it is. 2 The central cloud team, the CCoE, approves against its rules. 3 The platform team creates the subscription, places it in the right management group, sets tags, budget, owner and access groups. 4 The platform team hands it to the workload team. 5 The workload team updates the budget, deploys and runs the workload. Own layout by the author, not an official Microsoft diagram.</desc>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
+  <text x="500" y="36" font-size="24" font-weight="600" text-anchor="middle" fill="#1f2933">A new subscription, from request to workload</text>
+  <text x="500" y="64" font-size="16" text-anchor="middle" fill="#3a3a3a">Who does each step, and what exists afterwards.</text>
+  <rect x="20" y="94" width="960" height="104" rx="10" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="2"/>
+  <rect x="34" y="108" width="170" height="76" rx="8" fill="#ffffff" stroke="#3b6fb6" stroke-width="1.2"/>
+  <text x="119" y="152" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Workload team</text>
+  <rect x="224" y="132" width="28" height="28" rx="14" fill="#1f2933" stroke="#1f2933" stroke-width="1"/>
+  <text x="238" y="152" font-size="16" font-weight="600" text-anchor="middle" fill="#ffffff">1</text>
+  <text x="268" y="128" font-size="19" font-weight="600" text-anchor="start" fill="#1f2933">Ask</text>
+  <text x="268" y="152" font-size="15" text-anchor="start" fill="#3a3a3a">Names a budget, an owner, network needs</text>
+  <text x="268" y="173" font-size="15" text-anchor="start" fill="#3a3a3a">and how critical the workload is.</text>
+  <rect x="690" y="114" width="276" height="64" rx="8" fill="#ffffff" stroke="#8a8f98" stroke-width="1.2"/>
+  <text x="704" y="136" font-size="14" font-weight="600" text-anchor="start" fill="#3a3a3a">Result</text>
+  <text x="704" y="160" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">A request with all the facts</text>
+  <line x1="238" y1="198" x2="238" y2="222" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="20" y="222" width="960" height="104" rx="10" fill="#fdf3e3" stroke="#c98a1b" stroke-width="2"/>
+  <rect x="34" y="236" width="170" height="76" rx="8" fill="#ffffff" stroke="#c98a1b" stroke-width="1.2"/>
+  <text x="119" y="280" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Central cloud team</text>
+  <rect x="224" y="260" width="28" height="28" rx="14" fill="#1f2933" stroke="#1f2933" stroke-width="1"/>
+  <text x="238" y="280" font-size="16" font-weight="600" text-anchor="middle" fill="#ffffff">2</text>
+  <text x="268" y="256" font-size="19" font-weight="600" text-anchor="start" fill="#1f2933">Approve</text>
+  <text x="268" y="280" font-size="15" text-anchor="start" fill="#3a3a3a">The request goes through the approval</text>
+  <text x="268" y="301" font-size="15" text-anchor="start" fill="#3a3a3a">process this team built in advance.</text>
+  <rect x="690" y="242" width="276" height="64" rx="8" fill="#ffffff" stroke="#8a8f98" stroke-width="1.2"/>
+  <text x="704" y="264" font-size="14" font-weight="600" text-anchor="start" fill="#3a3a3a">Result</text>
+  <text x="704" y="288" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">An approved request</text>
+  <line x1="238" y1="326" x2="238" y2="350" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="20" y="350" width="960" height="104" rx="10" fill="#eaf5ea" stroke="#3c8d40" stroke-width="2"/>
+  <rect x="34" y="364" width="170" height="76" rx="8" fill="#ffffff" stroke="#3c8d40" stroke-width="1.2"/>
+  <text x="119" y="408" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Platform team</text>
+  <rect x="224" y="388" width="28" height="28" rx="14" fill="#1f2933" stroke="#1f2933" stroke-width="1"/>
+  <text x="238" y="408" font-size="16" font-weight="600" text-anchor="middle" fill="#ffffff">3</text>
+  <text x="268" y="384" font-size="19" font-weight="600" text-anchor="start" fill="#1f2933">Create and place</text>
+  <text x="268" y="408" font-size="15" text-anchor="start" fill="#3a3a3a">Creates it, puts it in the right management</text>
+  <text x="268" y="429" font-size="15" text-anchor="start" fill="#3a3a3a">group, sets tags, budget, owner, access groups.</text>
+  <rect x="690" y="370" width="276" height="64" rx="8" fill="#ffffff" stroke="#8a8f98" stroke-width="1.2"/>
+  <text x="704" y="392" font-size="14" font-weight="600" text-anchor="start" fill="#3a3a3a">Result</text>
+  <text x="704" y="416" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">A governed subscription</text>
+  <line x1="238" y1="454" x2="238" y2="478" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="20" y="478" width="960" height="104" rx="10" fill="#eaf5ea" stroke="#3c8d40" stroke-width="2"/>
+  <rect x="34" y="492" width="170" height="76" rx="8" fill="#ffffff" stroke="#3c8d40" stroke-width="1.2"/>
+  <text x="119" y="536" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Platform team</text>
+  <rect x="224" y="516" width="28" height="28" rx="14" fill="#1f2933" stroke="#1f2933" stroke-width="1"/>
+  <text x="238" y="536" font-size="16" font-weight="600" text-anchor="middle" fill="#ffffff">4</text>
+  <text x="268" y="512" font-size="19" font-weight="600" text-anchor="start" fill="#1f2933">Hand over</text>
+  <text x="268" y="536" font-size="15" text-anchor="start" fill="#3a3a3a">Gives the subscription to the workload team.</text>
+  <text x="268" y="557" font-size="15" text-anchor="start" fill="#3a3a3a">The platform team keeps the governance.</text>
+  <rect x="690" y="498" width="276" height="64" rx="8" fill="#ffffff" stroke="#8a8f98" stroke-width="1.2"/>
+  <text x="704" y="520" font-size="14" font-weight="600" text-anchor="start" fill="#3a3a3a">Result</text>
+  <text x="704" y="544" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">An owner with a named role</text>
+  <line x1="238" y1="582" x2="238" y2="606" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="20" y="606" width="960" height="104" rx="10" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="2"/>
+  <rect x="34" y="620" width="170" height="76" rx="8" fill="#ffffff" stroke="#3b6fb6" stroke-width="1.2"/>
+  <text x="119" y="664" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Workload team</text>
+  <rect x="224" y="644" width="28" height="28" rx="14" fill="#1f2933" stroke="#1f2933" stroke-width="1"/>
+  <text x="238" y="664" font-size="16" font-weight="600" text-anchor="middle" fill="#ffffff">5</text>
+  <text x="268" y="640" font-size="19" font-weight="600" text-anchor="start" fill="#1f2933">Deploy</text>
+  <text x="268" y="664" font-size="15" text-anchor="start" fill="#3a3a3a">Adjusts the budget, deploys the workload,</text>
+  <text x="268" y="685" font-size="15" text-anchor="start" fill="#3a3a3a">sets up day-to-day operations.</text>
+  <rect x="690" y="626" width="276" height="64" rx="8" fill="#ffffff" stroke="#8a8f98" stroke-width="1.2"/>
+  <text x="704" y="648" font-size="14" font-weight="600" text-anchor="start" fill="#3a3a3a">Result</text>
+  <text x="704" y="672" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">A workload that runs</text>
+</svg>
