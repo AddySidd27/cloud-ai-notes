@@ -35,6 +35,9 @@
 <meta name="theme-color" content="#0A1B33">
 <link rel="preload" href="/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/css/site.css?v=20261011-series-editorial-v5">
+{%- if interactive %}
+<link rel="stylesheet" href="/css/interactive.css">
+{%- endif %}
 <script>try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 {%- if home %}
 <script type="application/ld+json">{{ site | ldHome | safe }}</script>
@@ -76,5 +79,8 @@
   <p class="copy">&copy; {{ site.year }} {{ site.author }}. Personal blog, opinions are my own. Not affiliated with Microsoft.</p>
 </div></footer>
 <script src="/js/site.js?v=20261011-diagram-zoom" defer></script>
+{%- if interactive %}
+<script src="/js/interactive.js" defer></script>
+{%- endif %}
 </body>
 </html>

@@ -72,6 +72,30 @@ learn_pages:
     checked_on: "2026-10-09"
   - url: "https://learn.microsoft.com/en-us/azure/architecture/landing-zones/landing-zone-deploy"
     checked_on: "2026-10-09"
+  - url: "https://learn.microsoft.com/en-us/azure/governance/management-groups/create-management-group-azure-cli"
+    checked_on: "2026-10-13"
+  - url: "https://learn.microsoft.com/en-us/azure/governance/policy/assign-policy-azurecli"
+    checked_on: "2026-10-13"
+  - url: "https://learn.microsoft.com/en-us/cli/azure/policy/assignment"
+    checked_on: "2026-10-13"
+  - url: "https://learn.microsoft.com/en-us/azure/governance/policy/how-to/get-compliance-data"
+    checked_on: "2026-10-13"
+  - url: "https://learn.microsoft.com/en-us/azure/governance/resource-graph/first-query-azurecli"
+    checked_on: "2026-10-13"
+  - url: "https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-list-cli"
+    checked_on: "2026-10-13"
+  - url: "https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-machines/windows/move-resources-blocked-by-destination-policy"
+    checked_on: "2026-10-13"
+  - url: "https://learn.microsoft.com/en-us/cli/azure/policy/state"
+    checked_on: "2026-10-13"
+  - url: "https://learn.microsoft.com/en-us/azure/governance/policy/how-to/remediate-resources"
+    checked_on: "2026-10-13"
+  - url: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/subscription-vending"
+    checked_on: "2026-10-13"
+  - url: "https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/understand-ea-roles"
+    checked_on: "2026-10-14"
+  - url: "https://learn.microsoft.com/en-us/azure/role-based-access-control/elevate-access-global-admin"
+    checked_on: "2026-10-14"
 repo_links:
   - "https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/05-use-cases/brownfield.md"
   - "https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/05-use-cases/use-cases.md"
@@ -84,16 +108,27 @@ diagrams:
     based_on: "No official picture shows this sequence. The stages are my grouping of the Align on-ramp (landing-zone-journey), the transition page, the three scenario pages and the duplicate-landing-zone-group approach page, the policy-driven guardrails page, and the migration preparation pages."
     icons: "Azure Public Service Icons V24 (Resource Graph Explorer, Guide, Management groups, Templates, Policy, Subscriptions, Compliance), unmodified"
     source: "../diagrams/post-62-brownfield-path.drawio"
+  - file: "../diagrams/post-62-brownfield-billing-and-access.svg"
+    type: own-layout
+    based_on: "The Enterprise Agreement roles page (enrollment, departments, accounts, subscriptions; billing roles are separate from Azure roles; the pricing table) and the management groups overview (root group, subscriptions fold up). The official hierarchy picture could not be opened, so the layout is my own."
+    icons: "Azure Public Service Icons V24 (Microsoft Entra ID, Management groups, Subscriptions, Resource groups), unmodified"
+    source: "../diagrams/post-62-brownfield-billing-and-access.drawio"
+  - file: "../diagrams/post-62-brownfield-new-subscription-flow.svg"
+    type: own-layout
+    based_on: "The subscription vending page: the central cloud team sets approval rules, workload teams request, the platform team creates, places and hands over, and the workload team updates the budget and deploys. The official pictures could not be opened, so the layout is my own."
+    icons: "none"
+    source: "../diagrams/post-62-brownfield-new-subscription-flow.drawio"
   - file: "../diagrams/post-62-brownfield-existing-subscriptions.svg"
     type: redraw-own-layout-official-icons
     based_on: "The duplicate-landing-zone-group approach page (align-approach-duplicate-brownfield-audit-only), the transition page and the management groups design area table. The official pictures could not be opened, so the layout is my own."
     icons: "Azure Public Service Icons V24 (Management groups, Subscriptions), unmodified"
     source: "../diagrams/post-62-brownfield-existing-subscriptions.drawio"
 production_section_written_by_addy: true
+interactive: true
 layout: post.njk
 permalink: "/azure-landing-zone/brownfield-rollout/"
 order: 62
-deck: "To bring an existing Azure environment to a landing zone, list what you have, choose one of the documented approaches, build the landing zone beside the old environment in the same tenant, try its policies in audit-only mode, and then move workloads and subscriptions in step by step."
+deck: "To bring an existing Azure environment to a landing zone, list what you have, build the landing zone beside it in the same tenant, try its policies in audit-only mode, and then move subscriptions in wave by wave, with a check and a stop rule at every step."
 next_num: ""
 next_title: "Keeping the Landing Zone Up to Date"
 tags: [alz]
@@ -101,211 +136,528 @@ tags: [alz]
 
 
 
-"Brownfield" means an environment that already exists. It has subscriptions, resources and running workloads, so you cannot start from a blank page. You may have adopted Azure before landing zone guidance existed, or teams may have created their own subscriptions. This post is for you if that is your case and you want a landing zone without breaking what already runs. If you have nothing yet, read [the greenfield rollout post](/azure-landing-zone/greenfield-rollout/) instead.
+"Brownfield" means an environment that already exists, with subscriptions, resources and running workloads; its opposite, "greenfield", is a new one where nothing is built yet. If you have nothing yet, read [the greenfield rollout post](/azure-landing-zone/greenfield-rollout/).
 
-No documentation page is named "brownfield rollout". The page "Journey toward the target architecture" uses the word for its Align on-ramp, and links to a transition page, three scenario pages and one approach page. This post follows those, plus the pages on moving subscriptions and resources, policy roll-out and migration preparation. The link named "Refactor a landing zone" now opens the page on deployment options, which I use in the build section. Where the order or the reading is mine, I say so.
+No documentation page is named "brownfield rollout". The page "Journey toward the target architecture" names three starting points, Start (new), Align (existing, needs changes) and Enhance (already in line), and uses the word for Align. It links to a transition page, three scenario pages and one approach page. This post turns those, plus the moving, policy and Azure CLI pages, into a playbook. Where the order or reading is mine, I say so.
+
+**How to read this post.** The top of each section is the short version. Commands, runbooks and tables sit in boxes you can open. If you only have five minutes, read the manager summary and the company case.
+
+## For managers: the summary
+
+For the people who approve the work. Items marked "my suggestion" are mine. Words used here: a *policy* is a rule Azure checks resources against; *audit-only* means a policy only reports and blocks nothing; *Decommissioned* is the group where retired subscriptions wait; a *tenant* is your organization's one Microsoft Entra directory; a *subscription* is a billing and access container for Azure resources; a *management group* is a folder that holds subscriptions and passes policy and access down to them.
+
+- **What changes.** A new group structure and policy set is built beside the current environment in the same tenant. Then existing subscriptions move in, one wave (a small batch) at a time. Moving workloads into new subscriptions is optional.
+- **What does not change.** A subscription move does not change resource IDs or touch running resources. The subscription does inherit the group's access and policy, which apply to new changes. Existing resources that break a policy are only reported; new deployments are denied only by a policy with the Deny effect.
+- **Main risk.** A new deployment can be denied by policy. Control: run the policies in audit-only mode first.
+- **Second risk.** Moving individual resources changes their IDs and locks resource groups for up to four hours. Control: move subscriptions, not resources, where you can.
+- **Cost (my reading).** The audit-only copies add no resources of their own. The new platform resources do.
+- **Approve (my suggestion):** a named owner and a rollback owner per subscription, a change window per wave, and the right to stop a wave at the first policy denial.
+- **Done means:** every subscription is in its planned group, every non-compliant resource has an owner, and retired subscriptions sit in Decommissioned.
 
 ## Key terms
 
-Earlier posts defined these words: [landing zone, platform landing zone, workload landing zone, workload, platform team, workload team, guardrail and subscription vending](/azure-landing-zone/what-is-an-azure-landing-zone/); [subscription, management group and Microsoft Entra tenant](/azure-landing-zone/tenant-billing-subscriptions-and-management-groups/); [Enterprise Agreement and shadow IT](/azure-landing-zone/billing-and-tenant-in-depth/); [Azure RBAC, Microsoft Entra Connect and domain controller](/azure-landing-zone/identity-and-access-in-the-landing-zone/); [intermediate root management group, Corp, Online, Sandbox and Decommissioned](/azure-landing-zone/resource-organization/); [hub network, VPN Gateway, ExpressRoute, virtual network peering and overlapping address spaces](/azure-landing-zone/network-topology-and-connectivity/); [diagnostic settings and Azure Monitor baseline alerts](/azure-landing-zone/management-and-monitoring/); and, in [the governance post](/azure-landing-zone/governance-and-azure-policy/), policy effects, DeployIfNotExists (DINE), Modify, enforcement mode, remediation task and non-compliant. Other new words are explained where they first appear.
+Earlier posts defined [landing zone and guardrail](/azure-landing-zone/what-is-an-azure-landing-zone/), [subscription and management group](/azure-landing-zone/tenant-billing-subscriptions-and-management-groups/), [Corp, Online, Sandboxes and Decommissioned](/azure-landing-zone/resource-organization/), [hub network and peering](/azure-landing-zone/network-topology-and-connectivity/), and, in [the governance post](/azure-landing-zone/governance-and-azure-policy/), policy effects, DeployIfNotExists (DINE), Modify and non-compliant.
 
 | Word | What it means |
 |---|---|
-| Brownfield | An environment that already exists, with subscriptions, resources and running workloads. Its opposite, greenfield, is a new environment where nothing is built yet. |
-| Align on-ramp | The starting point for an existing environment that needs changes to match the landing zone target architecture. The other two on-ramps are Start (a new environment) and Enhance (an environment already in line, to which you add more controls). |
-| Parallel deployment | Building the landing zone in the same Microsoft Entra tenant as your current environment, beside it. It creates a new management group structure and does not affect the existing environment. |
-| Duplicate landing zone group | The documented approach marked as recommended. You copy the Landing zones management group, its children Corp and Online, and all their policy assignments, and set the copies to audit only. |
-| Audit only mode | A policy assignment whose enforcement mode is DoNotEnforce (called Disabled in the portal). It reports compliance but does not enforce its effect when resources are created or updated. |
-| Azure Resource Graph | An Azure service that queries resources across many subscriptions at once, with a query language based on Kusto Query Language (KQL). You need at least read access to what you query. |
-| Resource ID | The full address of a resource. It contains the subscription and resource group names, so it changes when you move the resource to another resource group or subscription. |
-| Move a subscription, move a resource | Two different actions. Moving a subscription to another management group does not change its resource IDs. Moving a resource to another resource group or subscription does. |
+| Intermediate root | The management group directly under the tenant root that holds your whole landing zone design. |
+| Global Administrator | A Microsoft Entra admin role. It gives no Azure access by itself; the person must first turn on elevation, described in the company case. |
+| Deny, DINE, Modify | Policy effects. Deny rejects a change. DeployIfNotExists (DINE) adds a missing setting. Modify changes a resource's settings. |
+| Wave | A small batch of subscriptions moved together. The pilot wave is the first one, on a low-risk subscription, to prove the steps. |
+| Duplicate landing zone group | The recommended approach for an existing environment: copy the Landing zones group, its children Corp and Online and their policy assignments, and set the copies to audit only. |
+| Audit-only mode | A policy assignment whose enforcement mode is DoNotEnforce (called Disabled in the portal). It reports compliance but does not enforce its effect. |
+| Enterprise Agreement (EA) | A type of Microsoft contract. Under it, billing roles (enterprise administrator, department administrator, account owner) are separate from Azure access roles. |
+| Account owner | An EA billing role. It can create and manage subscriptions. Each account has one account owner. |
+| Subscription Owner | The Azure access role Owner on a subscription. It controls access and resources inside it, not the contract. |
+| Azure Resource Graph | An Azure service that queries resources across many subscriptions at once, in a language based on Kusto Query Language (KQL). |
+
+## Your starting point at a glance
+
+Pick the line that matches you. The steps after it are the same for every line.
+
+<div class="path-picker" data-path-picker>
+<p class="path-picker__label">Pick your situation</p>
+<div class="path-picker__buttons"><button type="button" data-path="none">No subscriptions yet</button> <button type="button" data-path="single">One subscription</button> <button type="button" data-path="groups">Existing groups</button> <button type="button" data-path="regional">Regional groups</button> <button type="button" data-path="unsure">Not sure</button></div>
+<div class="path-picker__panel" data-path-panel="none"><p>Nothing exists yet, so read the greenfield rollout post linked at the top.</p></div>
+<div class="path-picker__panel" data-path-panel="single"><p><a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/align-scenario-single-subscription">One subscription, no management groups</a>: platform and workload resources share it. Read "Take stock of what you have", then "Build beside the old environment".</p></div>
+<div class="path-picker__panel" data-path-panel="groups"><p><a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/align-scenario-multiple-management-groups">Management groups already exist</a>, following your organization or geography, with a hub network. Use the shared steps, plus the <a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/faq#how-do-we-handle-devtestproduction-workload-landing-zones-in-azure-landing-zone-architecture">FAQ on development, test and production</a>. Read "Plan the target" first.</p></div>
+<div class="path-picker__panel" data-path-panel="regional"><p><a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/align-scenario-regional-org">Regional organization</a>: groups by environment, then by region. Use the shared steps, the same FAQ, the sandbox guidance and the policy-driven guardrails guidance. Read the policy roll-out row in "Plan the target" first.</p></div>
+<div class="path-picker__panel" data-path-panel="unsure"><p>Take the default, which the transition page marks as recommended: <a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/align-approach-duplicate-brownfield-audit-only">duplicate the landing zone group</a>. Read "Take stock of what you have", then "Build beside the old environment".</p></div>
+</div>
+
+The three scenarios share the same steps: deploy in parallel in the same tenant, optionally migrate workloads into new subscriptions under Corp or Online, and create new subscriptions for new landing zones.
 
 ## The brownfield path at a glance
 
-The sections below cover these seven stages in order. Stage 5, see the effect, is the audit-only part of "Build beside the old environment". Stage 7, finish, is the last part of "Move in" plus "Check that it worked". Stages 5 and 6 repeat for each wave of subscriptions you move.
+Seven stages; the two stages "See the effect" and "Move in" repeat for each wave.
 
 **Figure 1. The brownfield path, from today's environment to governed workloads.**
 
 ![A path of seven numbered stages in three grouped panels. Look and decide: 1 Take stock, 2 Choose a path, 3 Plan the target. Build beside, then test: 4 Build beside, 5 See the effect. Move and finish: 6 Move in, 7 Finish. Each stage shows what you decide and what you end up with, ending in governed workloads and retired subscriptions waiting in the Decommissioned group. A loop arrow from stage 6 back to stage 5 is labelled "Repeat for each wave".](/diagrams/post-62-brownfield-path.svg)
 
-*Simplified diagram, drawn by me with my own layout. No official picture shows this sequence. The stages are my grouping of the Align on-ramp, the transition guidance, the scenario and approach pages and the policy roll-out guidance. Not an official Microsoft diagram. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) architecture icon set, unmodified.*
+*Simplified diagram, drawn by me with my own layout; the stages are my grouping of the guidance. Not an official Microsoft diagram. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) architecture icon set, unmodified.*
 
-## What you will have at the end
+The end state is the architecture in [the greenfield rollout](post-61-greenfield-rollout.md#what-you-will-have-at-the-end), built beside your old environment. The old environment keeps running, and old subscriptions can retire into Decommissioned.
 
-A brownfield transition is not a rebuild. You end with the reference architecture described in [the greenfield rollout](post-61-greenfield-rollout.md#what-you-will-have-at-the-end), built beside your old environment: a new management group structure under one intermediate root, platform subscriptions (the shared subscriptions for management, security, connectivity and identity), and policy assigned on the groups. Three things are special to an existing environment.
+## A company case: one tenant, many subscriptions
 
-- **Your old environment keeps running.** The landing zone is deployed in the same Microsoft Entra tenant, in parallel. This gives a phased transition with minimal disruption to active workloads, and the new structure does not affect the existing environment.
-- **Moving workloads is optional.** You do not have to migrate every existing application into new landing zones or subscriptions. New subscriptions for new workloads, or for migration projects, go under the right management group, such as Corp or Online.
-- **Old subscriptions can retire.** You can eventually cancel an existing subscription and place it in the Decommissioned group, where Azure deletes it after 30 to 60 days.
+This is a made-up manufacturer with made-up numbers, but the situation is a typical one.
 
-The journey takes time. How long depends on the size of the organization, its current technical footprint and the skills of its teams.
+- One Microsoft Entra tenant and an Enterprise Agreement.
+- 38 subscriptions, all directly under the tenant root group.
+- Four departments, each with its own Enterprise Agreement account and an account owner who creates subscriptions when a team asks.
+- Owner rights were given to individual people, one subscription at a time. Nobody can name the owner of 9 subscriptions.
+- No policy at group level. Approval for a new subscription is an email to the account owner.
 
-## Take stock of what you already have
+My reading: the problem is not technical. **Billing and access are two separate systems, and nobody owns the whole picture.**
 
-You cannot judge what a policy or a move will do to a running workload without knowing what runs. Two tools help. Azure Resource Graph inventories existing resources, so you can compare their configuration with the policies at the destination, and it can assess the effect of applying policies across a large environment. Azure Governance Visualizer, an open-source PowerShell script, walks your management group hierarchy down to the subscriptions and records Azure Policy, Azure RBAC and Microsoft Entra settings as HTML, Markdown or CSV files. Keep its output private: it describes your security controls, and it needs a service principal with Microsoft Entra permissions.
+### Who controls what
 
-**A first step you can take today.** In the Azure portal, search for "resource graph" and select Resource Graph Explorer. To change what you query, select Directory and pick the directory, a management group or a subscription. Paste this query and select Run query; it lists five resources by name and type:
+An account owner creates subscriptions. That role is a billing role, set in the Enterprise Agreement. It can also manage role assignments on the subscriptions it owns. In my reading, it does not control policy or the management group tree; those come from Azure roles and management groups. The two systems meet at the subscription.
 
-```kusto
-resources
-| project name, type
-| limit 5
+**Figure 2. Billing and access meet at the subscription.**
+
+![Two stacks join at one subscription box. Left, billing under an Enterprise Agreement: enrollment, then departments, then accounts, where each account has one account owner who creates subscriptions. Right, access: the Microsoft Entra tenant, then management groups, then role assignments and policy, passed down from the groups. Below the subscription sit resource groups and resources. A note says billing roles and Azure roles are separate systems.](/diagrams/post-62-brownfield-billing-and-access.svg)
+
+*Simplified diagram, drawn by me with my own layout; the official hierarchy picture could not be opened. Not an official Microsoft diagram. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) architecture icon set, unmodified.*
+
+What matters here:
+
+- An enterprise administrator or an account owner can create subscriptions. A department administrator can add accounts in their own department, but cannot create subscriptions.
+- There is one account owner per account. Billing roles go to individual users, not to groups.
+- For an account owner or department administrator, seeing EA prices needs the view-charges policy turned on and the Azure Owner role. An enterprise administrator always sees them.
+
+If your contract is a Microsoft Customer Agreement or a partner (CSP) agreement, the billing roles differ. I did not cover them here.
+
+### Who does what in the rollout
+
+All roles below are my suggestion; the documentation gives roles only for new subscriptions.
+
+| Who | What they do in the rollout |
+|---|---|
+| Global Administrator | Turns on "Access management for Azure resources" for themselves (sign out and in afterwards). That gives User Access Administrator at the root. Then grants the builder Owner at the top and **removes the elevation afterwards.** |
+| Platform team | Builds the groups and policies, runs the waves, answers for the result. |
+| Account owner or enterprise administrator | Told before each wave (my suggestion). Keeps creating subscriptions only until the request flow below is live. |
+| Workload owner (the person who holds the Owner role) | Approves the move of their subscription, owns non-compliant resources and the budget. |
+| Security or governance | Decides policy roll-out, exemptions and the stop rules. |
+| Rollback owner (one named per wave) | May stop a wave at any time. |
+| Workload owner and platform team together | Agree the change window, and approve any exemption that lets a move pass a Deny policy. |
+
+Subscription owners should be told their duties: take full ownership of budget and resources, keep the subscription policy-compliant, and have their privileged access reviewed every quarter or year. The designated owner of a new subscription must be a user or service principal in the same directory, not a guest.
+
+### The 38 subscriptions as waves
+
+My illustration of how the made-up manufacturer could sort them:
+
+| Wave | What goes in | Why this order |
+|---|---|---|
+| 1 (pilot, explained in "Move in") | 1 platform-team lab subscription, to Sandboxes | Known owner, no production users, no hub peering |
+| 2 | About 12 development and test subscriptions | Low risk; teaches the team the waits |
+| 3 | Production subscriptions of one department | One owner group, one change window |
+| 4 | Remaining production subscriptions, by department | Use what waves 2 and 3 taught |
+| Last | Unowned and unused subscriptions: find the owner, or cancel into Decommissioned | Nothing moves without an owner (my practice) |
+| Not now | The shared hub network | The documentation gives no steps for merging a hub, so decide it separately and test the decision |
+
+**Do this:** list your subscriptions by department, add the owner and where each subscription's Owner role comes from, and mark the ones nobody can name. The enterprise agreement shows which account created each subscription, which is a good first lead for finding the unowned ones (my suggestion).
+
+**What else a company must decide (my suggestion):**
+
+- **Which subscriptions are the platform.** The identity, connectivity and management subscriptions come from the platform build, not from the 38. Decide whether the hub stays in an existing subscription (my reading of the documented checks) or gets replaced.
+- **Corp or Online, per workload.** Corp is for workloads that need private access to the hub; Online is for workloads that do not. The platform team and the workload owner decide each one, not the department.
+- **Departments stay in billing, not in the tree.** Do not mirror the four departments as management groups. Keep cost by department in the Enterprise Agreement and in tags.
+- **Elevation with Privileged Identity Management.** If the Global Administrator role is activated through it, activate first, turn the toggle on, and set the toggle back to No before you deactivate the role.
+
+## Take stock of what you have
+
+You cannot judge what a policy or a move will do without knowing what runs. Fill one sheet with a row per subscription: owner, where the Owner role comes from, policy assignments, peering, identity needs, and "dependency unknown" where you do not know.
+
+<details>
+<summary>Commands for taking stock</summary>
+
+Replace the values in angle brackets with your own.
+
+**1. Subscriptions.**
+
+```bash
+az login
+az account list --output table
 ```
 
-The schema browser on the left lists the resource types that exist in your tenant and adds them to your query when you select them, and Download as CSV saves results (up to 55,000 records). In my reading, this is a way to see what kinds of resources you have before you build the checklist below; the page shows only this starter query, not a full inventory query.
+Write down each name and ID. In my reading, a subscription missing from the list is one you cannot access, so ask its owner.
 
-The table is my checklist, built from the move, policy and readiness guidance. No page gives one single inventory list.
+**2. Management groups.**
 
-| What to list | Why it matters |
+```bash
+az account management-group list
+az account management-group show --name '<groupId>' -e -r
+```
+
+The second shows one group and every level under it. When management groups are first set up, all existing subscriptions become children of the root group.
+
+**3. Access.**
+
+```bash
+az role assignment list --scope "/subscriptions/<subscriptionId>" --include-inherited --output json --query '[].{principalName:principalName, roleDefinitionName:roleDefinitionName, scope:scope}'
+```
+
+`--include-inherited` adds assignments from parent scopes. Note who has Owner, and whether the role comes from a management group, which limits where you can move the subscription.
+
+**4. Policy.**
+
+```bash
+az policy assignment list --scope "/subscriptions/<subscriptionId>" --query "[].{Name:name, DisplayName:displayName, Id:id}" -o table
+```
+
+Compare these with the policies at the destination.
+
+**5. Resources.** Azure Resource Graph needs Azure CLI 2.22.0 or higher and an extension:
+
+```bash
+az extension add --name resource-graph
+az graph query --graph-query 'Resources | project name, type | limit 5'
+```
+
+This proves the tool works. Add `--subscriptions` or `--management-groups` to narrow the scope. The portal's Resource Graph Explorer has a schema browser and Download as CSV (up to 55,000 records).
+
+**6. What the commands cannot show.** What to look for:
+
+- **Tenant.** A subscription trusts one tenant. Moving one to a new tenant is mainly a billing transfer.
+- **Dependencies.** Not every resource type supports a move.
+- **Networks.** Nothing may overlap the address range you plan to use. Note VPN Gateway and ExpressRoute links.
+- **Identity.** Note your Active Directory domains and whether Microsoft Entra Connect is in place. Workloads that need legacy sign-in (LDAP, Kerberos, Group Policy) need an early decision.
+- **Owners.** My practice: every subscription has a named owner, and no production subscription stays ownerless before its first move.
+
+For a partial or mature existing platform, start with the readiness checks in [the minimum viable platform post](/azure-landing-zone/minimum-viable-platform-landing-zone/).
+
+</details>
+
+## Plan the target and the owners
+
+Plan the same design areas as for a new environment, in the same tenant. Four decisions matter most for an existing one.
+
+| Decision | How to decide |
 |---|---|
-| Tenant and billing | A subscription trusts one tenant, and the landing zone is deployed to one tenant. An Enterprise Agreement enrollment can hold subscriptions in different tenants. Moving a subscription to a new tenant is mainly done to transfer billing ownership. |
-| Subscriptions and their management groups | New subscriptions land in the tenant root group by default. A subscription has only one parent management group. |
-| Policy assignments, direct and on groups | Before a move, assess the policies on the subscription now and the policies in the new group and above it. |
-| Role assignments | A moved subscription inherits access from its new parent. Inherited Owner limits where you can move it (see "Move in"). |
-| Resources and their dependencies | Not every resource type supports a move. Check dependencies first: moving a peered virtual network needs the peering disabled, then enabled again. |
-| Networks and connections | Confirm that no on-premises or existing Azure virtual network overlaps the address range you plan to use. Note existing VPN Gateway or ExpressRoute links. |
-| Identity | Note your Active Directory domains and whether Microsoft Entra Connect is in place. Workloads that need legacy Active Directory sign-in (Lightweight Directory Access Protocol, Kerberos, Group Policy) need an early decision. |
-| Alerts and dashboards | A resource move changes resource IDs, which affects existing monitoring, alerts and control plane operations (management actions on a resource). |
-| Owners and budgets | Set budgets and alerts at group or subscription level, and name an owner to review them. Tell subscription owners what they are responsible for. |
+| Group layout | Do not copy a structure that follows departments, regions or environments. Keep to three or four levels; six is the limit (management groups design area). No groups only for environments or regions, unless a regulation ties data to a location. |
+| Environments | Ideally one subscription per environment, in the same Corp or Online group. |
+| Policy roll-out | Most customers can and should use DINE and Modify. A three-phase approach (audit only, a reduced scope, then everywhere) is for those who cannot yet, for reasons such as regulation. |
+| Identity | Most workloads migrating from on premises already join an Active Directory domain, so you typically deploy domain controllers into the identity area. |
 
-Two kinds of existing platform are named. A **partial** platform has Azure infrastructure that nobody assembled as one platform, often through shadow IT, with fragmented subscriptions, overlapping address spaces, partial policy coverage, misdirected connectivity and mixed identity patterns. The task is remediation. A **mature** platform already has clear subscription boundaries, working connectivity, policy assignments and an access model, and the task is to check that the controls match the workloads about to arrive. For either one, start with the readiness checks in [the minimum viable platform post](/azure-landing-zone/minimum-viable-platform-landing-zone/), then fill the gaps.
+**What I could not find.** The documentation gives no steps for merging an existing hub network into the new connectivity subscription, only checks (overlap, peering, routing). Treat the hub as a decision you test.
 
-In my repo case I add a habit that is mine, not the documentation's: every subscription gets a named owner, and no production subscription may stay "ownerless" or "dependency unknown" before the first move.
+**Who may call a stop:** the rollback owner named for the wave may stop it at any time. Restarting needs the platform team and the workload owner to agree. The wave operator does the work, the platform team lead answers for the result, and security and finance are told.
 
-## Decide your path
+### A small example to follow
 
-Start with the on-ramp. Start is for a new environment. Align is for an existing one that needs changes to match the target architecture, and this post covers it. Enhance is for an environment already in line that wants more controls, with pages on improving operations, governance and security.
+A second made-up company, small enough to follow every move: one tenant, six subscriptions, all under the root group.
 
-The Align pages offer three scenarios, named for the state your environment is in today, and one approach, which the transition page marks as recommended.
-
-| Option | Fits when | What the page adds |
+| Subscription | What is in it | Target |
 |---|---|---|
-| [Single subscription, no management groups](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/align-scenario-single-subscription) | One subscription and no custom management groups. Platform and workload resources share it. Policy is assigned per resource group, with exceptions. One virtual network, no hybrid connection. Applications sit in their own resource groups, run by different teams. | Nothing beyond the shared steps. |
-| [Existing management groups](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/align-scenario-multiple-management-groups) | Management groups that follow your organization or geography. A subscription for each environment (development, test, production), with platform and workload resources together. Policy at group and subscription level. A hub virtual network for hybrid connectivity and a central IT team. | A link to the [FAQ on development, test and production landing zones](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/faq#how-do-we-handle-devtestproduction-workload-landing-zones-in-azure-landing-zone-architecture). |
-| [Regional organization](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/align-scenario-regional-org) | Groups organized by environment first, then by region, with a subscription for each region and environment. Some critical workloads need the same governance in every environment. A central IT team per region struggles with consistency. | Links to the same [FAQ on development, test and production landing zones](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/faq#how-do-we-handle-devtestproduction-workload-landing-zones-in-azure-landing-zone-architecture), to the sandbox guidance and to the policy-driven guardrails guidance. |
-| [Duplicate the landing zone group](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/align-approach-duplicate-brownfield-audit-only) (recommended) | You want quick access to the target architecture, and you want to check workload subscriptions for compliance without risk to the teams. | Copies of Corp and Online with audit-only policy; the page names its example copies "corporate brownfield" and "online brownfield" (see "Build beside the old environment"). |
+| net-shared | A hub virtual network with a VPN Gateway, peered to the spokes (network team) | Stays; no steps exist for merging a hub |
+| app1-prod | Production workload of team 1, peered to the hub | Corp |
+| app2-mixed | Production and test resources of team 2 in one subscription | Corp, as it is; team 2 creates new test resources in dev-test, and the old ones retire |
+| dev-test | Development and test for team 1 | Corp |
+| lab | Experiments by the platform team | Sandboxes |
+| old-pilot | An unused proof of concept, no known owner | Decommissioned |
 
-The three scenarios share the same steps. First, deploy the landing zone into the same tenant, in parallel with the current environment. Second, optionally work with the application teams to migrate workloads from the original subscriptions into new subscriptions, placed under the right group, such as Corp or Online, and eventually cancel the old subscription and place it in Decommissioned. Third, create new subscriptions for new landing zones. The scenarios differ in their description of today's state and in the pages they link, not in these steps.
-
-In my reading, because the steps are the same, pick the scenario that matches your state for its extra reading, and use the duplicate approach on top of it: it is the one marked as recommended, and it removes the risk to workload teams.
-
-## Plan the target
-
-Plan the same design areas as for a new environment. The table lists the decisions an existing environment adds, and only where the documentation guides.
-
-| Decision | Choices | How to decide |
-|---|---|---|
-| Tenant | One tenant or several. | Deploy into the same tenant as the current environment. Avoid several tenants for one organization unless a specific business need requires it. A subscription trusts one tenant at a time. |
-| Group layout | The standard hierarchy, or a tailored one. | Do not copy your current structure if it follows departments, regions or environments. Keep to three or four levels, and never more than six. Do not create groups for production, test and development, or only for regions, unless a regulation ties data to a location. See [the resource organization post](/azure-landing-zone/resource-organization/). |
-| Environments | One subscription for each environment in the same group, or one subscription for several environments. | Ideally each environment has its own subscription, in the same Corp or Online group. Use one subscription for several environments only if they cannot be isolated, have the same teams in the functional roles and can use the same policies. |
-| Platform subscriptions | Separate management, security, connectivity and identity subscriptions. | Do not combine platform roles in one subscription: you can then apply different policies and roles to each, and bill each separately. In my reading, the scenarios list platform and workload resources sharing subscriptions as a weakness, so the platform pieces get their own subscriptions in the new structure. |
-| Policy roll-out | Audit-only copies first. DINE and Modify from the start. A staged roll-out of DINE and Modify. | Most customers can and should use DINE and Modify policies. The three-phase approach (audit only, then a reduced scope, then everywhere) is for those who cannot yet, for reasons such as regulation or change control. See [the governance post](/azure-landing-zone/governance-and-azure-policy/). |
-| Address ranges and links | VPN Gateway or ExpressRoute. | Confirm that nothing overlaps first. Choose between the two by throughput, latency, compliance, lead time and routing complexity, not by whether your organization is new to Azure. ExpressRoute can take weeks or months, so run a VPN Gateway in parallel if dates cannot wait. |
-| Identity | Microsoft Entra only, with Active Directory, or domain controllers in Azure. | For workloads migrating from on-premises, most already join an Active Directory domain, so you typically deploy domain controllers into the identity area. Decide early if a workload needs legacy sign-in. |
-| Monitoring | Policy-driven baseline alerts. | Import the relevant policies and initiatives from the Azure Monitor baseline alerts repository, assign them and remediate the non-compliant ones. If you are not aligned to a landing zone, import them to the top-most group where you want to assign them. |
-
-**What I could not find.** The documentation gives no steps for merging an existing hub network into the new connectivity subscription, or for deciding whether to keep both. They give the checks above: overlap, peering and routing. Treat the hub as a decision you test, not a step you copy.
+app2-mixed moves as it is, with its test resources inside it, because moving individual test resources would mean moving its peered virtual network and every dependent resource together. Team 2 creates new test resources in dev-test instead, and the old ones retire later.
 
 ## Build beside the old environment
 
-### Before you start
+**Before you start.** The builder needs the Owner role on the intermediate root, because the build creates groups and assigns access and policy (my reading). By default no one has access to the root group. A Global Administrator can grant it, as shown in [before you start](post-61-greenfield-rollout.md#before-you-start). Portal, Bicep and Terraform work in Azure public clouds; sovereign clouds need manual changes to Bicep or Terraform ([Deploy Azure landing zones](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/refactor); [choose how to implement it](post-61-greenfield-rollout.md#choose-how-to-implement-it)). The build creates the same billable platform resources as a new environment ([cost note](post-61-greenfield-rollout.md#build-the-platform-then-check-it)); the audit-only copies add none.
 
-The tools, rights and cost are the same as for a new environment, so I only summarize them here.
+1. **Deploy the landing zone in parallel**, in the same tenant, by following [the greenfield rollout post](/azure-landing-zone/greenfield-rollout/). This does not affect the existing environment. *Check:* the new groups appear in `az account management-group list`, and no existing subscription has moved.
+2. **Protect the top of the hierarchy.** By default any user in the tenant can create a management group, and new subscriptions land under the root. Set a default group for new subscriptions, because the setting exists to give new subscriptions a more restrictive set of controls. My suggestion: a dedicated holding group with restrictive policy, not Sandboxes, whose policy is lighter. Then turn on require authorization (in the portal, "Permissions for creating new management groups"). You need the Hierarchy Settings Administrator role or the same permissions. Use the portal (Management groups, root group, Settings) or the REST API; the documentation gives no `az` command: [protect your resource hierarchy](https://learn.microsoft.com/en-us/azure/governance/management-groups/how-to/protect-resource-hierarchy). *Check:* open the root group's Settings in the portal and confirm both.
+3. **Create the duplicate groups.** *Check:* `az account management-group show --name 'lz-brownfield' -e -r` shows both children.
+4. **Assign the same policies to the copies in audit-only mode.** *Check:* `az policy assignment show` prints `"enforcementMode": "DoNotEnforce"`. If it prints `Default`, the policy will enforce.
 
-| What you need | Why |
+<details>
+<summary>Commands for steps 3 and 4</summary>
+
+The first group in a directory can take up to 15 minutes. A group's name is its ID and cannot change later. The IDs below are mine. In my reading, the Landing zones copy sits under your intermediate root; the documentation does not say.
+
+```bash
+az account management-group create --name 'lz-brownfield' --display-name 'Landing zones (duplicate)' --parent '<intermediateRootId>'
+az account management-group create --name 'corp-brownfield' --display-name 'Corp (duplicate)' --parent 'lz-brownfield'
+az account management-group create --name 'online-brownfield' --display-name 'Online (duplicate)' --parent 'lz-brownfield'
+```
+
+List what the real Landing zones group has assigned, then repeat the create for each policy or initiative:
+
+```bash
+az policy assignment list --management-group '<landingZonesId>' --filter atScope()
+az policy assignment create --name '<assignmentName>' --scope "/providers/Microsoft.Management/managementGroups/corp-brownfield" --policy <policyNameOrId> --enforcement-mode DoNotEnforce
+```
+
+`--policy` takes a name or a full resource ID. In the portal, open Policy, Assignments, Assign policy; on the Basics tab set Policy enforcement to Disabled, the portal name for DoNotEnforce. Add `--params` for parameters. With code, in my reading, you redeploy the same assignments at the new scope with that one property changed.
+
+Check one assignment, and fix it if it shows `Default`:
+
+```bash
+az policy assignment show --name '<assignmentName>' --scope "/providers/Microsoft.Management/managementGroups/corp-brownfield"
+az policy assignment update --name '<assignmentName>' --scope <scope> --enforcement-mode DoNotEnforce
+```
+
+For DeployIfNotExists and Modify policies the assignment needs a managed identity. The portal creates it and grants the roles in the definition's `roleDefinitionIds`. With the command line you grant them yourself: add `--mi-system-assigned --location <region> --role <roleName> --identity-scope <scope>`, taking the roles from `az policy definition show --name '<policyName>'`, as narrow as the definition allows.
+
+</details>
+
+**Figure 3. How existing subscriptions meet the new groups.**
+
+![Left, the existing environment with its existing subscriptions, which keeps running. Right, the new landing zone hierarchy, built beside it in the same Microsoft Entra tenant: an intermediate root management group above duplicate landing zones (Corp and Online, policy assignments copied and set to audit only) and landing zones (Corp and Online, policies as designed). Below them, Decommissioned, Platform and Sandboxes. Arrow 1: existing subscriptions, or new ones that hold migrated workloads, go into the duplicate groups. Arrow 2: when compliance is in the required state, the subscription moves to the matching group. Arrow 3: eventually cancel the old subscription and place it in Decommissioned.](/diagrams/post-62-brownfield-existing-subscriptions.svg)
+
+*Simplified diagram, drawn by me, based on [the duplicate landing zone group approach](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/align-approach-duplicate-brownfield-audit-only) and [the transition guidance](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/transition). The layout is mine, including where the duplicate groups sit. Decommissioned, Platform and Sandboxes also sit under the intermediate root; their connectors are left out to keep the picture readable. Not an official Microsoft diagram. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) architecture icon set, unmodified.*
+
+## See the effect in audit-only mode
+
+A new assignment takes about five minutes to apply, and then evaluation begins. The result is a list of existing resources that meet a policy's condition, each non-compliant. **Give each one an owner and a plan.**
+
+<details>
+<summary>Commands to read the effect</summary>
+
+```bash
+az policy state summarize -m 'corp-brownfield'
+az policy state list -m 'corp-brownfield' --filter "(isCompliant eq false)"
+```
+
+Combining `-m` with `--filter` is my reading. In the portal, open Policy, Compliance.
+
+Audit-only mode writes no Activity log entries, so the log will not tell you when a non-compliant resource appears. An optional canary hierarchy, a full copy of the production group structure, tests platform changes first ([testing approach](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/testing-approach)).
+
+</details>
+
+## Move in: pilot, then waves
+
+The documentation gives no wave order and does not describe a pilot. In my suggestion, wave 1 is a pilot on one low-risk subscription, so the first mistake costs little. After it, the order is: development and test, then production, then subscriptions with complex network, regulatory or vendor dependencies.
+
+**Pick for the pilot:** a subscription with a known owner, no production users, no hub peering and no resource move. In the small example, that is lab, going to Sandboxes. The duplicate groups cover only Corp and Online, so Sandboxes has no audit-only copy, and its policy set is less restrictive, not empty. List its assignments first (`az policy assignment list --management-group '<sandboxesId>' --filter atScope()`) and run the pilot only if none has a Deny effect that could block the owner's pipeline; otherwise set those to `DoNotEnforce` or pick another subscription.
+
+**What the pilot must prove (my suggestion):**
+
+- The placement command works and the portal shows the subscription under the right group.
+- After the 30-minute wait, access works and the owner's pipeline runs.
+- The compliance commands return data, and every non-compliant record has an owner.
+- If a Deny policy applies, one test deployment that should be denied is denied.
+- You can put the subscription back in its previous group (my reading; the documentation shows no rollback).
+
+**Exit criteria before wave 2 (my suggestion):** every item above is proven and written down, no stop rule fired, you recorded how long the waits really took, and the rollback owner and the workload owner agree.
+
+### Place a subscription
+
+A subscription that moves to a management group inherits all access and policy from its new parent. Its resource IDs do not change, so the move itself leaves the resources inside untouched.
+
+```bash
+az account management-group subscription add --name 'corp-brownfield' --subscription '<subscriptionId>'
+```
+
+Confirm in the portal (All services, Management groups) that it sits under the group. Changes can take up to 30 minutes to show; signing out and in is faster. Existing resources that break a policy show as non-compliant, and a person must fix them. New writes are judged in real time, so in my reading a redeploying pipeline can fail right after a move into a group that enforces. That is why the first stop is the audit-only copy.
+
+<details>
+<summary>Rights you need to move a subscription</summary>
+
+On the subscription you need `Microsoft.management/managementgroups/write`, `.../managementgroups/subscriptions/write`, `Microsoft.Authorization/roleAssignments/write` and `/delete`, and `Microsoft.Management/register/action`. On the target and the current parent group you need `Microsoft.management/managementgroups/write`. To see which permissions you hold, select the group in the portal and then select Access control (IAM). The simple case is Owner assigned directly on the subscription plus write on both the target group and the current parent group. The root group needs none of these.
+
+</details>
+
+<details>
+<summary>Only if you move resources: validate, move, check</summary>
+
+The small example moves no resources. If you do, validate first; the portal does it for you. In the command line:
+
+```bash
+az resource invoke-action --action validateMoveResources \
+  --ids "/subscriptions/{subscription-id}/resourceGroups/{source-rg}" \
+  --request-body "{  \"resources\": [\"<resourceId1>\", \"<resourceId2>\"],\"targetResourceGroup\":\"/subscriptions/{subscription-id}/resourceGroups/{destination-rg}\" }"
+```
+
+If validation passes you see `{} Finished ..`; if it fails, the error says why. Then move, adding `--destination-subscription-id` to cross subscriptions:
+
+```bash
+az resource move --destination-group <destination-rg> --ids <resourceId1> <resourceId2>
+```
+
+Check before the move (each failure is in the known issues table):
+
+- The type supports a move ([the list](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/move-resource-group-and-subscription) I did not open), and both subscriptions are active and in the same Microsoft Entra tenant. The two commands must print the same tenant ID:
+
+  ```bash
+  az account show --subscription <source-subscription> --query tenantId
+  az account show --subscription <destination-subscription> --query tenantId
+  ```
+- Across subscriptions, a resource and its dependent resources are in one resource group and move together. A peered virtual network needs its peering disabled first and re-enabled after.
+- The destination has quota and the resource provider registered (`az provider register --namespace <provider>`), and no read-only lock exists.
+- You hold `Microsoft.Resources/subscriptions/resourceGroups/moveResources/action` on the source group and `.../resourceGroups/write` on the destination, and you name only top-level resources.
+- Role assignments are listed (`az role assignment list --resource-group <source-rg>`), and fewer than 800 resources are in one operation. A resource group cannot move to another subscription.
+
+The resource ID changes, so update dashboards, scripts and templates. Both resource groups are locked for up to four hours.
+
+</details>
+
+### The runbook for each wave
+
+<details>
+<summary>Runbook checklist: before, during, after</summary>
+
+Tick each item as you go.
+
+**Before**
+
+- [ ] Owner and rollback owner named (my practice).
+- [ ] Inventory row complete.
+- [ ] Destination policies listed: `az policy assignment list --management-group <groupId> --filter atScope()`.
+- [ ] Audit-only results read, every non-compliant resource owned.
+- [ ] For a resource move, validation passed.
+
+**During**
+
+- [ ] One command at a time.
+- [ ] No second move involving the same resource groups.
+
+**After**
+
+- [ ] Waited out the cache and evaluation times (see the waits table).
+- [ ] The portal shows the subscription under the right group, and access works.
+- [ ] The pipeline runs, and alerts and dashboards use the new resource IDs after a resource move.
+- [ ] `az policy state list` shows compliance.
+- [ ] My practice: one test deployment that should succeed does, one that should be denied is denied, and you observe for an agreed time before the next wave.
+
+</details>
+
+<details>
+<summary>Stop rules and ways back</summary>
+
+The stop rules are mine. The documentation describes no rollback for a subscription move; ways back it does not state are marked as my reading.
+
+| Risky step | What can break | Stop rule | Way back |
+|---|---|---|---|
+| Subscription move into a group that enforces | A redeploy is denied by policy. | Stop the wave on the first policy denial. | `az policy assignment update --name '<assignmentName>' --scope <scope> --enforcement-mode DoNotEnforce`. In my reading, moving the subscription back to its previous group also works. |
+| Subscription move | Access looks missing (cache). | Change no roles until the cache wait has passed. | Sign out and in, or request a new token. |
+
+For a resource move, the stop rule is mine: edit nothing, start no second move, and do not weaken a production policy without its owner. The ways back are in the known issues table.
+
+</details>
+
+<details>
+<summary>When to stop and ask</summary>
+
+Stop and ask the owner or platform team when:
+
+- Your Owner role comes through the current group and the target group does not give you Owner.
+- A subscription is in another tenant, a resource type is unsupported, or validation fails and you do not understand why.
+- You need to merge an existing hub network. The documentation gives no steps.
+- Address ranges overlap, or a workload needs legacy Active Directory sign-in.
+- A Deny policy blocks a move and the fix would be an exemption or exclusion.
+- A production subscription has no known owner, or a resource group stays locked past four hours.
+- A subscription appears under the root group that nobody placed there.
+
+</details>
+
+### The small example as a plan
+
+| Wave | Subscription | Goes to | Check |
+|---|---|---|---|
+| 1 (pilot) | lab | Sandboxes | Access works; the platform team's pipeline runs. |
+| 2 | dev-test | Corp (duplicate), then Corp | `az policy state list -m 'corp-brownfield' --filter "(isCompliant eq false)"` shows no record without an owner. |
+| 3 | app2-mixed | New test resources in dev-test; the old ones stay | Team 2's test pipeline deploys to dev-test; the old test resources are on a retire list. |
+| 4 | app1-prod | Corp (duplicate), then Corp | Team 1's pipeline deploys a test change to production; one expected alert arrives. |
+| 5 | app2-mixed | Corp (duplicate), then Corp | Team 2's pipeline deploys a test change; one expected alert arrives; every non-compliant record has an owner. |
+| Last | old-pilot | Cancel it and place it in Decommissioned | Owner confirms it is unused; final approval. |
+| Not now | net-shared | Stays | A written, tested hub decision. |
+
+In my reading, moving an existing subscription into a duplicate group (waves 2, 4 and 5) shows its compliance in audit-only mode; the approach page describes new subscriptions there, so confirm with your platform team.
+
+### How long the waits are
+
+No page gives an overall schedule. These are the waits it gives (plus four hours if you move resources, and 30 to 60 days before a cancelled subscription is deleted):
+
+| What | Wait |
 |---|---|
-| Rights to build the top of the hierarchy | In my reading, an Owner at the top of the hierarchy, because setting up the platform creates management groups and assigns access and policy. By default no one has access to the root management group; how a Global Administrator grants it is in [before you start](post-61-greenfield-rollout.md#before-you-start). |
-| A tool | The portal, Bicep and Terraform deployment options all work in Azure public clouds. Azure sovereign clouds (such as US Government and 21Vianet) are not supported by those options as they are: only Bicep and Terraform can be modified, after manual changes. A sovereign landing zone variant exists for strict sovereignty rules. The options are on [Deploy Azure landing zones](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/refactor) (the page behind the link named "Refactor a landing zone"). See also [choose how to implement it](post-61-greenfield-rollout.md#choose-how-to-implement-it). |
-| A cost note | The parallel build creates the same billable platform resources as a new environment, so read the cost note in [the greenfield build section](post-61-greenfield-rollout.md#build-the-platform-then-check-it). The audit-only copies add no cost: they duplicate only the management groups and the policy assignments. |
-| The inventory from the section above | You need to know which subscriptions you will move first. |
+| A new or updated policy assignment | About five minutes to apply, then evaluation with no set end |
+| A subscription moved, for policy that targets the subscription | Around 30 minutes |
+| Management group cache and access tokens | Up to 30 minutes |
+| Re-evaluation of all assignments | Every 24 hours; `az policy state trigger-scan` starts one by hand |
 
-### Steps
+## Finish and retire
 
-1. **Deploy the landing zone in parallel.** Use the portal, Bicep or Terraform in the same Microsoft Entra tenant as your current environment. This creates the new management group structure and does not affect the existing environment.
-2. **Protect the top of the hierarchy.** Two hierarchy settings on the tenant root group help where other people already create subscriptions. Set a default, dedicated management group for new subscriptions, so none land under the root; this is especially important if users have Visual Studio or Microsoft Developer Network (MSDN) subscriptions (developer benefit subscriptions), and a sandbox group is a good candidate. Also turn on the require-authorization setting, because by default any user in the tenant can create management groups. You need the Hierarchy Settings Administrator role, or the same permissions. See [protect your resource hierarchy](https://learn.microsoft.com/en-us/azure/governance/management-groups/how-to/protect-resource-hierarchy).
-3. **Create the duplicate groups.** Under the new hierarchy, create a copy of the Landing zones group and of its children Corp and Online. The approach page calls its example copies "corporate brownfield" and "online brownfield". Management group IDs must be unique in a tenant. In my reading, that applies to your copies, so give them distinct IDs and a visible suffix in the name.
-4. **Assign the same policies to the copies, in audit-only mode.** In the portal, open Policy, select Assignments, then Assign policy. On the Basics tab, set the scope to the duplicate group. The field named Policy enforcement defaults to Enabled; change it to Disabled, which is the portal name for `DoNotEnforce`. If a policy uses DeployIfNotExists or Modify, check Create a managed identity on the Remediation tab. In code, set the assignment's `enforcementMode` property to `DoNotEnforce`. In my reading, with Bicep or Terraform you deploy the same assignments again at the new scope with that one property changed; the page does not describe how to copy assignments.
-5. **Read the results.** A few minutes after you create an assignment, open Compliance in Azure Policy. An existing resource that meets the rule's condition is marked non-compliant.
-6. **Optionally, move a first workload into the duplicate groups,** then continue in "Move in" for each wave.
+When the workload team and platform team bring compliance into the required state, move the subscription to the matching real group:
 
-Audit-only mode has three consequences. The assignment evaluates compliance but does not enforce its effect when resources are created or updated. No Azure Activity log entries are written, so you cannot rely on the log to tell you when a non-compliant resource is created. And you can still start remediation tasks by hand.
+```bash
+az account management-group subscription add --name '<corpGroupId>' --subscription '<subscriptionId>'
+```
 
-Subscription vending, the standard way to give workload teams new subscriptions, is covered on the same deployment page, with Bicep and Terraform modules; the hand-over section below links the steps.
+A subscription has one parent, so this replaces the duplicate group, and the full policies now cover it. For DINE and Modify, the [policy-driven guardrails page](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/dine-guidance) enables them in stages: a reduced scope such as Sandbox first, then everywhere. Cancel subscriptions you no longer need and place them in Decommissioned; my practice adds a holding period and a final approval.
 
-To test changes to the platform itself, there is also a canary hierarchy: a full copy of the production group structure under the tenant root group, used to try platform changes before they reach production. It is not a common approach and it is not mandatory. Sandbox subscriptions are the alternative, but they cannot test inheritance from the hierarchy. See [testing approach](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/testing-approach).
+Before its wave starts, tell each team its group, the policies that apply, its non-compliant resources and who fixes them. New subscriptions follow [the subscription vending steps](post-61-greenfield-rollout.md#hand-over-the-first-workload).
 
-## Subscription placement at a glance
+## How new subscriptions get approved afterwards
 
-**Figure 2. How existing subscriptions meet the new groups.**
+Today, approval is an email. In the target state, a central group (the documentation calls it the Cloud Center of Excellence) builds the approval process, and new subscriptions come through a request flow. The documentation calls this subscription vending.
 
-![Left, the existing environment with its existing subscriptions, which keeps running. Right, the new landing zone hierarchy, built beside it in the same Microsoft Entra tenant: an intermediate root management group above duplicate landing zones (Corp and Online, policy assignments copied and set to audit only) and landing zones (Corp and Online, policies as designed). Below them, Decommissioned and Platform. Arrow 1: migrate workloads into new subscriptions in the duplicate groups (optional). Arrow 2: when compliance is in the required state, the subscription moves to the matching group. Arrow 3: eventually cancel the old subscription and place it in Decommissioned.](/diagrams/post-62-brownfield-existing-subscriptions.svg)
+**Figure 4. A new subscription, from request to workload.**
 
-*Simplified diagram, drawn by me, based on [Scenario: Transition an environment by duplicating a landing zone management group](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/align-approach-duplicate-brownfield-audit-only), [Transition an existing Azure environment](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/transition) and [Management groups](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups). I could not open the official pictures, so the layout is mine, including where the duplicate groups sit. Not an official Microsoft diagram. I left out Sandboxes, Local and the platform subscriptions in detail. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) architecture icon set, unmodified.*
+![Five steps, each with who does it. 1 The workload team asks, naming budget, owner, network needs and how critical the workload is. 2 The approval runs through the process the Cloud Center of Excellence built. 3 The platform team creates the subscription, places it in the right management group and sets tags, budget, owner and access groups. 4 The platform team hands it over. 5 The workload team adjusts the budget, deploys and runs the workload.](/diagrams/post-62-brownfield-new-subscription-flow.svg)
 
-## Move in: what happens to running workloads
+*Simplified diagram, drawn by me with my own layout, based on the subscription vending guidance. Not an official Microsoft diagram.*
 
-**Move a subscription.** A subscription that moves to another management group inherits all access and policy from its new parent. Resource IDs do not change, so the move itself has no effect on the resources inside. You need permissions on the subscription, on the target group and on the current group. The simple case is Owner assigned directly on the subscription, plus write permission on the target group (Owner, Contributor and Management Group Contributor all have it). If you hold Owner only through the current group, you can move the subscription only to a group where you also hold Owner. If the target or current parent is the tenant root group (the root management group), you need no permissions on it to move an item. The [management group guide](https://learn.microsoft.com/en-us/azure/governance/management-groups/manage#move-management-groups-and-subscriptions) shows the portal, PowerShell, Azure CLI, and Azure Resource Manager (ARM) or Bicep template methods. Inherited access can take up to 30 minutes to appear. Signing out and in, or requesting a new token (a fresh proof of your sign-in), shows it sooner.
+Two settings protect the root: a default management group for new subscriptions, so one an account owner creates does not land under the root, and require authorization, so people cannot create management groups freely. Both are in "Build beside the old environment". They do not stop an account owner from creating a subscription outside this flow. That is a billing-role decision (my suggestion: keep the account owner role with the platform team's automation, and ask other account owners to use the request).
 
-What the new group's policies do to the resources already there:
+<details>
+<summary>Known issues and fixes (9 rows)</summary>
 
-| Effect on an existing resource | After the move |
-|---|---|
-| DeployIfNotExists | Shown as non-compliant. Not fixed automatically: a person must remediate it. |
-| Deny | Shown as non-compliant. Not rejected: a person must decide how to fix it. |
-| Append and Modify | Shown as non-compliant, and a person must fix it. |
-| Audit and AuditIfNotExists | Shown as non-compliant, and a person must fix it. |
+Every row is stated in the documentation; error names are quoted as printed. The first five rows apply only if you move resources.
 
-Running resources are not blocked. But all new writes to resources in the moved subscription are judged by the assigned policies in real time. In my reading, this means a pipeline that redeploys a running workload can start failing right after the move. That is why audit-only copies come first.
+| Issue | Cause | Fix |
+|---|---|---|
+| `RequestDisallowedByPolicy` or `ResourceMovePolicyValidationFailed` on a resource move | A Deny policy at the destination, for example a missing required tag. | Make the resources comply; or a temporary exemption (Mitigated) or exclusion, removed afterward; or another destination. |
+| `MissingMoveDependentResources` | A dependent resource is neither in the destination nor in the request. | Add it to the request. A virtual network gateway must sit in its network's resource group. |
+| Nothing can be changed in two resource groups | The move lock, up to four hours. | Wait. Existing resources keep running. |
+| Move refused | A read-only lock on source, destination or subscription. | Remove the lock first (my reading). |
+| Role assignments gone after a resource move | They do not move and become orphaned. | List them before, create them again after. |
+| Group placement or access does not show | Tokens and the management group cache last 30 minutes. | Sign out and in, or request a new token. |
+| A subscription cannot move to the group you chose | Your Owner role is inherited from the current group, so you can move only to a group where you also hold Owner. | Get Owner on the target, or ask someone who has it. |
+| Many resources non-compliant after a move; nothing fixed | Existing resources are only audited; nothing is remediated or rejected. | The owner mitigates; start remediation tasks for DeployIfNotExists and Modify. |
+| Remediation fails | The assignment's identity lacks roles. Only the portal grants them automatically, and roles added later need a manual grant. | Grant the roles in `roleDefinitionIds`, as narrow as possible. |
 
-**Move resources.** You move resources to group them by lifecycle, or to put them in another subscription for cost, ownership or access reasons. Validate first: the portal checks that the resources can be moved before it starts, and Azure CLI, PowerShell, Python and the REST API each offer a validate-only call that moves nothing. Then check these:
+</details>
 
-- The resource type must support a move. The [move guide](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/move-resource-group-and-subscription) links the list of supported types. I did not open that list.
-- For a move across subscriptions, both subscriptions must be active and in the same Microsoft Entra tenant. A resource and its dependent resources must sit in the same resource group and move together, like a virtual machine and its disks.
-- The destination subscription must be registered for the resource provider of what you move (the service that owns the resource type). If it is not, you get an error that the subscription is not registered for a resource type.
-- Check the destination subscription's quota before you start.
-- A read-only lock on the source or destination resource group, or on the subscription, blocks the move.
-- You need permission to move resources on the source resource group (`Microsoft.Resources/subscriptions/resourceGroups/moveResources/action`) and permission to write on the destination resource group (`Microsoft.Resources/subscriptions/resourceGroups/write`).
-- Name only top-level resources in the request. Child resources, such as a virtual machine's extensions, move with their parent and cannot move alone.
-- A move can fail on the destination's policy. Resource Manager checks policies during validation, so a policy that denies a type of resource in the target resource group makes the move fail with the error code `RequestDisallowedByPolicy`.
-- A resource's role assignment does not move. It is orphaned, so create it again afterward.
-- The resource ID changes. Update dashboards, scripts and templates that use it.
-- The source and target resource groups are locked during the move, for up to four hours. You cannot add, update or delete resources in them, but the resources already there keep running without downtime.
-- A peered virtual network needs its peering disabled before the move and enabled again after it.
-- A single operation of more than 800 resources fails at once, so split large moves.
-- You cannot move a resource group to a new subscription. You move its resources instead, and tags, role assignments and policies do not follow.
+<details>
+<summary>Validation checklist: proof that it worked</summary>
 
-**Order of moves.** The documentation gives no order. My own practice, not an official method, is to move in waves (small batches), starting with a low-risk pilot. After it: sandbox and development, test and shared services, low-risk production, business-critical production, and last the subscriptions with complex network, regulatory or vendor dependencies. Before each move I record inherited roles and policies, routes, DNS behavior, log flow and application health, and name a rollback owner. Afterward I observe for an agreed time.
+Each item is an end state you can verify. The runbook is the order of work; this is the proof.
 
-**Finish the policy side.** When a workload team and the platform team bring that team's policy compliance into the required state, its subscription moves from the audit-only copy to the matching real group, here Corp or Online. From then on the full policies cover it. If you use DINE and Modify policies, the [policy-driven guardrails page](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/dine-guidance) describes how to enable them in stages: first on a reduced scope such as Sandbox or a non-production subscription, with tests of the whole workload life, then everywhere.
+**Before the wave**
 
-## Check that it worked
+- [ ] Every audit-only assignment shows `"enforcementMode": "DoNotEnforce"` in `az policy assignment show`.
+- [ ] Every record in `az policy state list -m 'corp-brownfield' --filter "(isCompliant eq false)"` has an owner.
+- [ ] The Owner role source is known: `az role assignment list --scope "/subscriptions/<subscriptionId>" --include-inherited`.
+- [ ] For a resource move, both tenant ID commands print the same ID and validation printed `{} Finished ..`.
 
-The checks are adapted from the readiness checks in [the minimum viable platform post](/azure-landing-zone/minimum-viable-platform-landing-zone/) and from the move guidance. The owner-and-plan check, the pipeline check and the last row are my own additions.
+**After the wave**
 
-| After | Check |
-|---|---|
-| The parallel build | The platform subscriptions and groups exist. The policy that sends diagnostic settings to the central workspace works, and one expected alert reaches the right place. |
-| Audit-only assignments | The Compliance page shows results for each subscription. Every non-compliant resource has an owner and a plan. |
-| A subscription move | The subscription is in the right group. Access through Microsoft Entra groups works on the new scopes (allow up to 30 minutes). The workload's deployment pipeline still runs. |
-| A resource move | Dashboards, alerts and scripts use the new resource IDs. Role assignments are recreated. Peering is enabled again. Policy and access at the destination are validated. |
-| Enforcement (my practice) | One test deployment that should succeed does, and one that should be denied is denied. |
+- [ ] After the wait, `az account management-group show --name 'corp-brownfield' -e -r` lists the subscription.
+- [ ] After a resource move, both groups accept changes again, role assignments exist again, peering is enabled, and dashboards use the new IDs.
 
-## Hand the workloads over
+**Before enforcing policy**
 
-Moving in is a talk with each team, not only a click. The optional migration step in each scenario means working with the application or service teams. For each team, say which group its subscription is in, which policies now apply, which of its resources are non-compliant, and who fixes them: existing resources are not fixed automatically after a move. Agree on a management model for each workload. Three are described: the central team runs the landing zone, the workload team runs it inside the platform's guardrails, or the two share it, as with a hosting platform such as Azure Kubernetes Service. New subscriptions follow [the subscription vending steps](post-61-greenfield-rollout.md#hand-over-the-first-workload). Also review the security recommendations in Microsoft Defender for Cloud and plan to improve your posture as resources move.
+- [ ] Each non-compliant resource is fixed or has an owner and a plan.
+- [ ] Every DeployIfNotExists and Modify assignment has an identity with the roles from `az policy definition show --name '<policyName>'`.
+- [ ] You switched to `Default` first on a reduced scope such as Sandboxes, and tested deployment, code deployment, day-two operations and decommissioning there.
+- [ ] You decided how you will hear about new non-compliant resources, because DoNotEnforce writes no Activity log entries.
+
+**Before decommissioning**
+
+- [ ] The owner confirmed that the subscription is unused, the holding period passed, and the final approval is recorded (my practice).
+
+</details>
 
 ## What comes next
 
-A landing zone is not finished when the last subscription is in place. The next post covers keeping it up to date. Once your environment is in line, the Enhance on-ramp (pages on improving operations, governance and security) is where you add more controls.
+A landing zone is not finished when the last subscription is in place. The next post covers keeping it up to date; the Enhance starting point is where you add controls.
 
 ## Common mistakes
 
-- **Treating "non-compliant, not rejected" as safe.** After a move, existing resources keep running. But new writes are judged in real time, so a routine redeploy can be denied. Test with audit-only first.
-- **Moving a resource without planning the side effects.** A move changes the resource ID, orphans role assignments, locks both resource groups and needs peering turned off and on again.
-- **Copying today's structure into management groups.** Departments, regions and environments belong in subscriptions and tags, not in a deep management group tree.
-- **Leaving new subscriptions under the root.** Set a default management group, or others' new subscriptions pick up whatever you assign at the top.
-- **Checking access too soon.** Inherited access can take up to 30 minutes to show after a move.
-- **Cancelling the old subscription first.** Migrate, check and only then cancel. In my practice I add a holding period in Decommissioned and a final approval.
+- **Copying today's structure into management groups.** Departments, regions and environments belong in subscriptions and tags.
+- **Leaving billing and access with different people and no shared list.** The account owner who creates a subscription and the Owner who runs it can be different people. Keep one sheet that names both.
+- **Starting the next wave before the checks pass.** The documentation gives no order; the pilot exit criteria and the checklist are my guard against this.
 
 ## From my own projects
 
@@ -315,13 +667,13 @@ I have not marked any item in the list above as something I saw in my own projec
 
 My repo is a learning implementation, and its own order and habits are my practice, not the documentation's.
 
-- Govern an existing Azure environment: an end-to-end case for a fictional company with 45 subscriptions made by different teams, in thirteen phases, each with evidence and an exit condition. My habits: inventory first, audit mode before enforcement, a low-risk pilot wave and a rollback path for every wave. It ends with an example migration record. The phases are my own process, not an official one: [brownfield.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/05-use-cases/brownfield.md)
-- Landing zone use cases: ten short cases, including this one: [use-cases.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/05-use-cases/use-cases.md)
-- Policy exemptions: what I record for a time-limited exception: [policy-exemptions.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/06-operations/policy-exemptions.md)
-- Subscription decommissioning: a ten-step process that ends with cancelling the subscription and says not to cancel first: [decommissioning.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/05-use-cases/decommissioning.md)
-- Cost and safety: which services keep charging while idle, and the controls I use in the lab, such as a dedicated lab subscription and audit-mode policies: [cost-and-safety.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/03-implementation/cost-and-safety.md)
+- Govern an existing Azure environment: a fictional company with 45 subscriptions, thirteen phases with evidence and an exit condition each. My habits: inventory first, audit mode before enforcement, a low-risk pilot wave, a rollback path per wave: [brownfield.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/05-use-cases/brownfield.md)
+- Ten short use cases: [use-cases.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/05-use-cases/use-cases.md)
+- What I record for a time-limited policy exception: [policy-exemptions.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/06-operations/policy-exemptions.md)
+- A ten-step decommissioning process, cancelling last: [decommissioning.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/05-use-cases/decommissioning.md)
+- Which services charge while idle: [cost-and-safety.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/03-implementation/cost-and-safety.md)
 
 ## Sources
 
-Microsoft Learn, checked October 2026: [Journey toward the target architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/landing-zone-journey) · [Transition an existing Azure environment to the Azure landing zone reference architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/transition) · [Scenario: Transition an environment by duplicating a landing zone management group](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/align-approach-duplicate-brownfield-audit-only)
+Microsoft Learn, checked October 2026: [Transition an existing Azure environment to the Azure landing zone reference architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/transition) · [Scenario: Transition an environment by duplicating a landing zone management group](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/align-approach-duplicate-brownfield-audit-only) · [Manage Azure Enterprise Agreement roles](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/understand-ea-roles)
 
