@@ -66,6 +66,3 @@
 
 /* tables inside an open <details>: fill the box minus its side margins instead of overflowing it */
 .prose details>table{width:auto;max-width:100%}
-
-/* diagram-scroll: keep diagram text readable on phones; scroll sideways inside the figure */
-@media (max-width:640px){.prose p:has(>img[src*="diagrams/"]){overflow-x:auto;-webkit-overflow-scrolling:touch}.prose p>img[src*="diagrams/"]{width:720px;max-width:none}}
