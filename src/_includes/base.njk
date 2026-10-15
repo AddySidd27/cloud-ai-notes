@@ -2,7 +2,7 @@
 {%- set isArticle = (order and order > 0) -%}
 {%- set slugPart = page.url.split('/')[1] if page.url == '/start-here/' else page.url.split('/')[2] -%}
 {%- set ogPath = ('/img/og/' + slugPart + '.png') if (isArticle or page.url == '/start-here/') else '/img/og/default.png' -%}
-{%- set desc = (deck or site.description) | striptags | truncate(190) -%}
+{%- set desc = (description or deck or site.description) | striptags | truncate(190) -%}
 {%- set canon = page.url | absUrl(site.url) -%}
 <html lang="en">
 <head>
@@ -44,7 +44,7 @@
 {%- endif %}
 {%- if isArticle %}
 {%- set ser = tags | seriesOf %}{% set tp = ser | topicOf %}
-<script type="application/ld+json">{{ { site: site, title: title, deck: deck, url: canon, img: (ogPath | absUrl(site.url)), meta: articleMeta[order], ser: ser, tp: tp } | ldArticle | safe }}</script>
+<script type="application/ld+json">{{ { site: site, title: title, deck: (description or deck), url: canon, img: (ogPath | absUrl(site.url)), meta: articleMeta[order], ser: ser, tp: tp } | ldArticle | safe }}</script>
 {%- endif %}
 </head>
 <body{% if isArticle %} class="is-article"{% endif %}>

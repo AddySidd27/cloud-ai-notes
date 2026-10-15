@@ -1,5 +1,6 @@
 ---
 title: "Resource Organization"
+description: "Management groups, subscriptions, subscription vending, naming and tags for an Azure landing zone, and when to tailor the default hierarchy."
 slug: "resource-organization"
 series: "Azure Landing Zone"
 part: ""

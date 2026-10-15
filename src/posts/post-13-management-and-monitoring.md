@@ -1,5 +1,6 @@
 ---
 title: "Management and Monitoring"
+description: "Logs, alerts, patching, backup and disaster recovery for an Azure landing zone: the operations baseline, and how high availability differs from recovery."
 slug: "management-and-monitoring"
 series: "Azure Landing Zone"
 part: ""
