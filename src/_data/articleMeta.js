@@ -37,6 +37,7 @@ export default {
   16: { tags: ["Landing zone", "Migration", "Platform engineering"], published: "2026-10-08" },
   61: { tags: ["Rollout", "Landing zone", "Platform engineering"], published: "2026-10-09" },
   62: { tags: ["Rollout", "Migration", "Landing zone"], published: "2026-10-09" },
+  63: { tags: ["Use cases", "Landing zone", "Management groups"], published: "2026-10-14" },
   // Which articles sit on the homepage in "Featured". Edit the numbers to change it.
   featured: [10, 1, 8],
   // Homepage "Architecture and engineering" plates: area label and the article whose diagram is shown.

@@ -120,7 +120,7 @@ diagrams:
     source: "../diagrams/post-62-brownfield-new-subscription-flow.drawio"
   - file: "../diagrams/post-62-brownfield-existing-subscriptions.svg"
     type: redraw-own-layout-official-icons
-    based_on: "The duplicate-landing-zone-group approach page (align-approach-duplicate-brownfield-audit-only), the transition page and the management groups design area table. The official pictures could not be opened, so the layout is my own."
+    based_on: "The duplicate-landing-zone-group approach page (align-approach-duplicate-brownfield-audit-only), the transition page and the management groups design area table. Learn has pictures for this approach, but I could only read their text descriptions, not view them, so the layout is my own."
     icons: "Azure Public Service Icons V24 (Management groups, Subscriptions), unmodified"
     source: "../diagrams/post-62-brownfield-existing-subscriptions.drawio"
 production_section_written_by_addy: true
@@ -130,7 +130,7 @@ permalink: "/azure-landing-zone/brownfield-rollout/"
 order: 62
 deck: "To bring an existing Azure environment to a landing zone, list what you have, build the landing zone beside it in the same tenant, try its policies in audit-only mode, and then move subscriptions in wave by wave, with a check and a stop rule at every step."
 next_num: ""
-next_title: "Keeping the Landing Zone Up to Date"
+next_title: "Landing Zone Use Cases"
 tags: [alz]
 ---
 
@@ -138,7 +138,7 @@ tags: [alz]
 
 "Brownfield" means an environment that already exists, with subscriptions, resources and running workloads; its opposite, "greenfield", is a new one where nothing is built yet. If you have nothing yet, read [the greenfield rollout post](/azure-landing-zone/greenfield-rollout/).
 
-No documentation page is named "brownfield rollout". The page "Journey toward the target architecture" names three starting points, Start (new), Align (existing, needs changes) and Enhance (already in line), and uses the word for Align. It links to a transition page, three scenario pages and one approach page. This post turns those, plus the moving, policy and Azure CLI pages, into a playbook. Where the order or reading is mine, I say so.
+No documentation page is named "brownfield rollout". The page "Journey toward the target architecture" names three starting points, Start (new), Align (existing, needs changes) and Enhance (already in line), and uses the word for Align. It links to a transition page, three scenario pages, an approach page and a page on refactoring a landing zone. This post turns those, plus the moving, policy and Azure CLI pages, into a playbook. Where the order or reading is mine, I say so.
 
 **How to read this post.** The top of each section is the short version. Commands, runbooks and tables sit in boxes you can open. If you only have five minutes, read the manager summary and the company case.
 
@@ -224,7 +224,7 @@ An account owner creates subscriptions. That role is a billing role, set in the 
 What matters here:
 
 - An enterprise administrator or an account owner can create subscriptions. A department administrator can add accounts in their own department, but cannot create subscriptions.
-- There is one account owner per account. Billing roles go to individual users, not to groups.
+- There is one account owner per account. Billing roles go to individual users, not to groups. From 16 November 2026, new billing role assignments must use work or school accounts.
 - For an account owner or department administrator, seeing EA prices needs the view-charges policy turned on and the Azure Owner role. An enterprise administrator always sees them.
 
 If your contract is a Microsoft Customer Agreement or a partner (CSP) agreement, the billing roles differ. I did not cover them here.
@@ -363,10 +363,10 @@ app2-mixed moves as it is, with its test resources inside it, because moving ind
 
 ## Build beside the old environment
 
-**Before you start.** The builder needs the Owner role on the intermediate root, because the build creates groups and assigns access and policy (my reading). By default no one has access to the root group. A Global Administrator can grant it, as shown in [before you start](post-61-greenfield-rollout.md#before-you-start). Portal, Bicep and Terraform work in Azure public clouds; sovereign clouds need manual changes to Bicep or Terraform ([Deploy Azure landing zones](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/refactor); [choose how to implement it](post-61-greenfield-rollout.md#choose-how-to-implement-it)). The build creates the same billable platform resources as a new environment ([cost note](post-61-greenfield-rollout.md#build-the-platform-then-check-it)); the audit-only copies add none.
+**Before you start.** The builder needs the Owner role on the intermediate root, because the build creates groups and assigns access and policy (my reading). By default no one has access to the root group. A Global Administrator can grant it, as shown in [before you start](post-61-greenfield-rollout.md#before-you-start). Portal, Bicep and Terraform work in Azure public clouds; sovereign clouds need manual changes to Bicep or Terraform ([Deploy Azure landing zones](https://learn.microsoft.com/en-us/azure/architecture/landing-zones/landing-zone-deploy); [choose how to implement it](post-61-greenfield-rollout.md#choose-how-to-implement-it)). The build creates the same billable platform resources as a new environment ([cost note](post-61-greenfield-rollout.md#build-the-platform-then-check-it)); the audit-only copies add none.
 
 1. **Deploy the landing zone in parallel**, in the same tenant, by following [the greenfield rollout post](/azure-landing-zone/greenfield-rollout/). This does not affect the existing environment. *Check:* the new groups appear in `az account management-group list`, and no existing subscription has moved.
-2. **Protect the top of the hierarchy.** By default any user in the tenant can create a management group, and new subscriptions land under the root. Set a default group for new subscriptions, because the setting exists to give new subscriptions a more restrictive set of controls. My suggestion: a dedicated holding group with restrictive policy, not Sandboxes, whose policy is lighter. Then turn on require authorization (in the portal, "Permissions for creating new management groups"). You need the Hierarchy Settings Administrator role or the same permissions. Use the portal (Management groups, root group, Settings) or the REST API; the documentation gives no `az` command: [protect your resource hierarchy](https://learn.microsoft.com/en-us/azure/governance/management-groups/how-to/protect-resource-hierarchy). *Check:* open the root group's Settings in the portal and confirm both.
+2. **Protect the top of the hierarchy.** By default any user in the tenant can create a management group, and new subscriptions land under the root. Set a default group for new subscriptions, because the setting exists to give new subscriptions a more restrictive set of controls. The management groups design area page names a sandbox group as a good candidate for this default. My reading: a dedicated holding group with restrictive policy is also reasonable, because new subscriptions then start with strict controls until someone places them. Then turn on require authorization (in the portal, "Permissions for creating new management groups"). You need the Hierarchy Settings Administrator role or the same permissions. Use the portal (Management groups, root group, Settings) or the REST API; the documentation gives no `az` command: [protect your resource hierarchy](https://learn.microsoft.com/en-us/azure/governance/management-groups/how-to/protect-resource-hierarchy). *Check:* open the root group's Settings in the portal and confirm both.
 3. **Create the duplicate groups.** *Check:* `az account management-group show --name 'lz-brownfield' -e -r` shows both children.
 4. **Assign the same policies to the copies in audit-only mode.** *Check:* `az policy assignment show` prints `"enforcementMode": "DoNotEnforce"`. If it prints `Default`, the policy will enforce.
 
@@ -477,7 +477,7 @@ az resource move --destination-group <destination-rg> --ids <resourceId1> <resou
 
 Check before the move (each failure is in the known issues table):
 
-- The type supports a move ([the list](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/move-resource-group-and-subscription) I did not open), and both subscriptions are active and in the same Microsoft Entra tenant. The two commands must print the same tenant ID:
+- The type supports a move ([check the list of resource types that support a move](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/move-support-resources)), and both subscriptions are active and in the same Microsoft Entra tenant. The two commands must print the same tenant ID:
 
   ```bash
   az account show --subscription <source-subscription> --query tenantId
@@ -486,7 +486,7 @@ Check before the move (each failure is in the known issues table):
 - Across subscriptions, a resource and its dependent resources are in one resource group and move together. A peered virtual network needs its peering disabled first and re-enabled after.
 - The destination has quota and the resource provider registered (`az provider register --namespace <provider>`), and no read-only lock exists.
 - You hold `Microsoft.Resources/subscriptions/resourceGroups/moveResources/action` on the source group and `.../resourceGroups/write` on the destination, and you name only top-level resources.
-- Role assignments are listed (`az role assignment list --resource-group <source-rg>`), and fewer than 800 resources are in one operation. A resource group cannot move to another subscription.
+- Role assignments are listed (`az role assignment list --resource-group <source-rg>`), and no more than 800 resources are in one operation (more than 800 returns an error, and a smaller move can still time out, so split large moves). A resource group cannot move to another subscription.
 
 The resource ID changes, so update dashboards, scripts and templates. Both resource groups are locked for up to four hours.
 
