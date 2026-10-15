@@ -40,7 +40,7 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/security (no diagram on that page; the Zero Trust page has a large architecture diagram that is not redrawn here)"
     icons: "Azure Public Service Icons V24 (Microsoft Defender for Cloud, Azure Sentinel, Log Analytics Workspaces, Key Vaults, Firewalls, Network Security Groups, DDoS Protection Plans, Web Application Firewall Policies, Entra Privileged Identity Management, Policy), unmodified"
     source: "../diagrams/post-11-security-design-area.drawio"
-production_section_written_by_addy: true
+production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
 layout: post.njk
 permalink: "/azure-landing-zone/security/"
 order: 11
@@ -108,8 +108,8 @@ A few words in the Attestation row need a gloss. Bootkit and rootkit infections 
 Recommendations for security operations:
 
 - Use Microsoft Entra ID reporting to produce access control audit reports.
-- Export Azure activity logs to Azure Monitor Logs (the part of Azure Monitor that stores log data in a Log Analytics workspace, where you can query it) for long-term retention. Export to Azure Storage (which holds data such as files and blobs) for long-term storage beyond two years, if necessary.
-- Enable Defender for Cloud standard for all subscriptions, and use Azure Policy to ensure compliance. ("Standard" is the wording used in the design area guidance. In Azure Policy definitions, a subscription with a Defender plan enabled is "standard" and a disabled one is "free". The newer Defender for Cloud overview talks about free Foundational CSPM capabilities and additional plans, so check which plans you need.)
+- Export Azure activity logs to Azure Monitor Logs (the part of Azure Monitor that stores log data in a Log Analytics workspace, where you can query it) for long-term retention. Azure keeps activity log events for 90 days. In a Log Analytics workspace you can extend a table's total retention up to 12 years. Use Azure Storage (which holds data such as files and blobs) when you want a separate archive, for example immutable storage. My suggestion: check the current retention limits when you plan.
+- Onboard every subscription to Defender for Cloud and use Azure Policy to check coverage. (In Azure Policy definitions, a subscription with a Defender plan enabled is "standard" and one with plans off is "free". The supplied onboarding policy turns on only the basic functionality unless you change its `pricingTier` parameter, and it counts both settings as compliant. My suggestion: decide which plans you need and verify that they are on. Defender for Servers, for example, has paid plans.)
 - Watch the patching of the base operating system for drift, using Azure Monitor Logs and Defender for Cloud. Drift means a machine moving away from the baseline you set.
 - Use Azure policies to deploy software settings through virtual machine extensions and to enforce a compliant baseline virtual machine configuration, and watch for security configuration drift with Azure Policy.
 - Connect default resource settings to one central Azure Monitor Log Analytics workspace.
@@ -187,12 +187,14 @@ Encryption is a vital step toward data privacy, compliance and data residency in
 Recommendations:
 
 - Use a federated Key Vault model to avoid the transaction limits. That means several vaults, one per application or workload, not one central vault.
+- Plan for regional behavior ([Reliability in Azure Key Vault](https://learn.microsoft.com/azure/reliability/reliability-key-vault), checked October 2026). A vault lives in one region. Microsoft-managed replication and failover to the paired region is asynchronous, is started by Microsoft, and does not cover every region; after a failover the vault is read-only. Recovery at application level is your design: vaults in more than one region, backup and restore, and application logic to switch vaults. Service replication keeps your data durable. It does not make your application fail over.
+- With a private endpoint, a connection can take up to 20 minutes to re-establish after a regional failover. My reading: a private endpoint is an address in one virtual network, so check that your recovery design still reaches the vault by name from the secondary network.
 - Use Azure RBAC to authorize the data plane of Key Vault. The data plane is working with the keys and secrets inside a vault ([the identity and access post](/azure-landing-zone/identity-and-access-in-the-landing-zone/) defined control plane and data plane).
-- Create vaults with soft delete and purge policies turned on. Soft delete keeps a deleted key or secret recoverable for a set time, and purge protection stops it being permanently erased before that time ends.
+- Turn on purge protection for the vaults that matter. Soft delete is on by default for new vaults and cannot be turned off; it keeps a deleted key or secret recoverable for 7 to 90 days (default 90). Purge protection is optional and off by default; it stops a deleted item being permanently erased before that time ends.
 - Follow least privilege: limit permission to permanently delete keys, secrets and certificates to specialized custom Microsoft Entra roles.
 - Automate certificate renewal with public certificate authorities, and automate key and certificate rotation.
-- Turn on the firewall and virtual network service endpoints on the vault to control access to it.
-- Use the platform's central Azure Monitor Log Analytics workspace to audit key, certificate and secret use in each vault.
+- Restrict network access to the vault. Prefer a private endpoint (a private IP address in your virtual network for the service) with public network access disabled. Otherwise use the Key Vault firewall with virtual network rules.
+- Create a diagnostic setting on each vault (resource logs are not collected by default) and send its audit logs to the platform's central Azure Monitor Log Analytics workspace, so you can audit key, certificate and secret use.
 - Delegate vault creation and privileged access, and use Azure Policy to enforce a consistent, compliant configuration.
 - Default to Microsoft-managed keys for the main encryption functions, and use customer-managed keys when required.
 - Do not use centralized Key Vault instances for application keys or secrets, unless you use a Managed HSM instance (a Key Vault option with HSM-protected keys). Several vaults reduce the blast radius, can improve performance, and are easier to manage when they match application or workload boundaries.
@@ -226,7 +228,7 @@ Policies included for the Online and Corp (corporate-connected) landing zones ([
 
 ## New and existing environments
 
-For a new environment (called greenfield), start by creating your initial subscriptions and use the Bicep deployment templates. The templates work for greenfield and for existing (brownfield) environments, and they have proven-practice security guidance built in. For a brownfield environment, four services bring the same principles to it:
+For a new environment (called greenfield), start by creating your initial subscriptions and deploy with an infrastructure-as-code accelerator for Bicep or Terraform, built on Azure Verified Modules (reusable, customizable building blocks). The templates carry Microsoft's proven-practice security guidance as a starting baseline. My suggestion: still review every setting against your own requirements. For a brownfield environment, four services bring the same principles to it:
 
 - Microsoft Entra Connect cloud sync, for hybrid identity. With hybrid identity you can also enforce MFA and Microsoft Entra Password Protection.
 - Conditional Access.
@@ -242,26 +244,19 @@ For a new environment (called greenfield), start by creating your initial subscr
 
 ## Common mistakes
 
-The next part says which ones I saw myself.
-
 - **Alerts with no owner.** Ask which teams need alerts and whether some services need alerts routed to different teams.
 - **Logs kept too short.** Microsoft Entra ID P1 or P2 reports keep data for 30 days, so export activity logs for long-term retention.
-- **Defender for Cloud left off some subscriptions.** Enable it for all subscriptions and use Azure Policy to ensure compliance.
+- **Defender for Cloud left off some subscriptions, or left on the free level.** Onboard every subscription with Azure Policy, then check which Defender plans are actually enabled.
 - **Drift left unwatched.** Watch operating system patching and security configuration drift.
 - **One central key vault for everything.** Do not use centralized Key Vault instances for application keys or secrets, and do not share vaults between applications.
-- **Deleted keys that can be lost for good.** Create vaults with soft delete and purge policies on, and limit permanent deletion to specialized roles.
+- **Deleted keys that can be lost for good.** Turn on purge protection (soft delete is on by default for new vaults), and limit permanent deletion to specialized roles.
 - **Keys and certificates that are never rotated, or that expire without warning.** Automate rotation and certificate renewal.
 - **Zero Trust treated as an identity-only job.** Zero Trust can go beyond identity and access management, across pillars such as infrastructure, data and networking, and many objectives are for individual workloads, not the landing zone.
 - **Treating hosted applications as trusted.** Do not trust applications your organization hosts any more than third-party applications.
 
 ## From my own projects
 
-In my own projects, two of the points above were real problems:
-
-- **Key Vault sprawl.** This was a real problem.
-- **Logs and alerts.** This was a real problem.
-
-I leave out project details.
+This post has no items from my own projects.
 
 ## The files in my repo
 

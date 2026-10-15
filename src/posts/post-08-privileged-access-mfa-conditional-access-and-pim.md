@@ -50,7 +50,7 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-admin-phish-resistant-mfa and https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/security-emergency-access"
     icons: "Azure Public Service Icons V24 (Log Analytics workspaces) and Microsoft Entra architecture icons Oct 2023 (Microsoft Entra ID, color), all unmodified"
     source: "../diagrams/post-08-privileged-access-flow.drawio"
-production_section_written_by_addy: true  # from Addy's own answers, 2026-10-07; wording drafted by Claude, Addy to review
+production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
 layout: post.njk
 permalink: "/azure-landing-zone/privileged-access-mfa-conditional-access-and-pim/"
 order: 8
@@ -149,7 +149,7 @@ Privileged Identity Management is a service in Microsoft Entra ID to manage, con
 | Time-bound | The assignment works only between a start date and an end date |
 | Just-in-time (JIT) | Temporary permissions, so access exists only while it is needed |
 
-What PIM can do: just-in-time access to Microsoft Entra ID and Azure resources, time-bound assignments, approval before activation, MFA to activate any role, a reason (justification) for each activation, notifications when privileged roles are activated, access reviews to check that people still need roles, audit history, and protection against removing the last active Global Administrator and Privileged Role Administrator. PIM needs licenses.
+What PIM can do: just-in-time access to Microsoft Entra ID and Azure resources, time-bound assignments, approval before activation, MFA to activate any role, a reason (justification) for each activation, notifications when privileged roles are activated, access reviews to check that people still need roles, audit history, and protection against removing the last active Global Administrator and Privileged Role Administrator. PIM needs licenses (the PIM documentation describes it as included in Microsoft Entra ID P2; check current licensing for your tenant).
 
 In the landing zone, also follow these points:
 
@@ -173,7 +173,7 @@ Rules for these accounts:
 
 - Create **two or more**. They are cloud-only accounts (created only in Microsoft Entra ID) on the `*.onmicrosoft.com` domain, not federated and not synchronized from on-premises.
 - Assign the **Global Administrator** role, and in PIM make it **permanent active** (not eligible).
-- Use a **passkey (FIDO2)**, the recommended method. Use a method that is different from your other administrator accounts.
+- Use a **passkey (FIDO2)**, the recommended method (or certificate-based authentication if you already run a public key infrastructure). Use a method that is different from your other administrator accounts. Microsoft's mandatory MFA for Azure and admin portals applies to emergency access accounts too, which is why a password alone is not enough.
 - Do not tie them to one person or to a personal device. Store credentials securely, in a place several authorized people can reach. (Individual emergency accounts per administrator are also allowed, which adds accountability.)
 - **Exclude them from Conditional Access policies that block or restrict sign-in.** A dedicated security group, for example named EmergencyAccess, makes this easy. Report-only policies do not need the exclusion.
 - **Monitor** every sign-in, with alerts through a monitoring tool such as Microsoft Sentinel.
@@ -182,7 +182,7 @@ Rules for these accounts:
 
 If you use federation, keep emergency access for on-premises systems and for cloud services separate, with no dependency on each other.
 
-## A safe order to roll this out
+## A careful order to roll this out
 
 The roadmap for securing privileged access has four stages. The timelines are approximations. These are the main actions of each.
 
@@ -220,9 +220,7 @@ Here is a safe order for turning on a Conditional Access policy for administrato
 
 ## From my own projects
 
-I have seen environments with permanent admin access and no PIM, and environments where MFA was not enforced for administrators. I have also seen a Conditional Access policy cause a lockout, and emergency access accounts that were untested or blocked. These showed up as lockouts or delays in getting access, and as a security risk.
-
-Starting in report-only mode, excluding the emergency accounts, and testing them regularly helps avoid problems like these.
+This post has no items from my own projects.
 
 ## The files in my repo
 
