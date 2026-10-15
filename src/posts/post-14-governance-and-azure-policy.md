@@ -41,7 +41,7 @@ diagrams:
     type: learn-layout-redraw
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/migrate-azure-landing-zone-policies (picture azure-landing-zone-policy-to-built-in.png)"
     source: "../diagrams/post-14-migrate-to-built-in.drawio"
-production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
+production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/governance-and-azure-policy/"
 order: 14
@@ -281,7 +281,7 @@ I redrew four pictures from the official documentation with the same layout. The
 
 ## From my own projects
 
-This post has no items from my own projects.
+From the list above, these came up in my own work: rules only in a document, policies defined too low, too many assignments at the root, custom policies when a built-in one exists, landing zone policies never updated, no tags for cost, and treating cost as someone else's job. I did not mark the other two items from the list. I leave out project details.
 
 ## The files in my repo
 

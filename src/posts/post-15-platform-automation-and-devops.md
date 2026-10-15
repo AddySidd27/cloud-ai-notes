@@ -42,7 +42,7 @@ diagrams:
     type: learn-layout-redraw
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/considerations/development-strategy-test-driven-development (picture test-driven-development-process.png, read from the MicrosoftDocs GitHub source)"
     source: "../diagrams/post-15-test-driven-development-cycle.drawio"
-production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
+production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/platform-automation-and-devops/"
 order: 15
@@ -310,7 +310,7 @@ These are checks, one line each.
 
 ## From my own projects
 
-This post has no items from my own projects.
+From the list above, these came up in my own work: staying on portal clicks, deploying from a laptop, no test environment, one identity for plan and apply or for all environments, approvals only on the environment in Azure DevOps, changes made outside the code, and no policy exemption process. I did not mark the other three items from the list. I leave out project details.
 
 ## The files in my repo
 

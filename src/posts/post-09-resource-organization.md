@@ -49,7 +49,7 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups"
     icons: "Azure Public Service Icons V24 (Management groups, Subscriptions), unmodified"
     source: "../diagrams/post-09-management-group-hierarchy.drawio"
-production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
+production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/resource-organization/"
 order: 9
@@ -241,7 +241,7 @@ Useful tags fall into five categories:
 
 ## From my own projects
 
-This post has no items from my own projects.
+These situations came up in my own work: management groups created for each environment, more subscriptions than the design needed, no naming standard, and tags missing or inconsistent. Typical results are policy exceptions, hard cost reporting, and rework to reorganize later.
 
 ## The files in my repo
 

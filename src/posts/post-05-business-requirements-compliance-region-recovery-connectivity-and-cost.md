@@ -84,7 +84,7 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/"
     icons: "Azure Public Service Icons V24 (Management groups, Policy, Virtual networks), unmodified"
     source: "../diagrams/post-05-requirements-to-landing-zone.drawio"
-production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
+production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/business-requirements-compliance-region-recovery-connectivity-and-cost/"
 order: 5
@@ -231,7 +231,7 @@ One more warning: do not spend months or years designing the landing zone withou
 
 ## From my own projects
 
-This post has no items from my own projects.
+These situations came up in my own work: requirements not collected first, region or data residency rules decided late, recovery targets (RTO and RPO) never defined, and hybrid connectivity that delayed workloads. Typical results are rework or redesign, compliance or audit findings, and unexpected cost.
 
 ## The files in my repo
 

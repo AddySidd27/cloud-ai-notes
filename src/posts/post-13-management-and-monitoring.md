@@ -42,7 +42,7 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management and management-monitor (the monitor page has an alert-topology diagram, described in the post text and not redrawn; this picture is an own-layout summary of the whole design area. Deliberate exception to the follow-Learn-layout rule, because the Learn diagram covers only alert topology, not the design area)"
     icons: "Azure Public Service Icons V24 (Log Analytics Workspaces, Monitor, Policy, Update Management Center, Recovery Services Vaults, Alerts), unmodified. Update Manager uses the Update Management Center icon file; Site Recovery has no icon in the set"
     source: "../diagrams/post-13-management-and-monitoring.drawio"
-production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
+production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/management-and-monitoring/"
 order: 13
@@ -218,7 +218,7 @@ Centralized logging in the reference architecture is mainly about platform opera
 
 ## From my own projects
 
-This post has no items from my own projects.
+From the list above, these came up in my own work: alerts that nobody gets, patching gaps, and disaster recovery and backup. I leave out project details.
 
 ## The files in my repo
 

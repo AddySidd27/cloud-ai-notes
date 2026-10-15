@@ -51,7 +51,7 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-admin-phish-resistant-mfa and https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/security-emergency-access"
     icons: "Azure Public Service Icons V24 (Log Analytics workspaces) and Microsoft Entra architecture icons Oct 2023 (Microsoft Entra ID, color), all unmodified"
     source: "../diagrams/post-08-privileged-access-flow.drawio"
-production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
+production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/privileged-access-mfa-conditional-access-and-pim/"
 order: 8
@@ -221,7 +221,7 @@ Here is a safe order for turning on a Conditional Access policy for administrato
 
 ## From my own projects
 
-This post has no items from my own projects.
+These situations came up in my own work: permanent admin access with no PIM, MFA not enforced for administrators, a Conditional Access policy that caused a lockout, and emergency access accounts that were untested or blocked. Typical results are lockouts or delays in getting access, and a security risk.
 
 ## The files in my repo
 
