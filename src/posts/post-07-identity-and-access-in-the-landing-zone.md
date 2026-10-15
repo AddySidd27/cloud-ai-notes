@@ -64,7 +64,7 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/identity-access (and its three child articles)"
     icons: "Azure Public Service Icons V24 (Management groups, Subscriptions, Resource groups, Microsoft Entra Domain Services) and Microsoft Entra architecture icons Oct 2023 (Microsoft Entra ID, color), all unmodified"
     source: "../diagrams/post-07-roles-groups-scopes.drawio"
-production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
+production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/identity-and-access-in-the-landing-zone/"
 order: 7
@@ -237,7 +237,7 @@ When you request a landing zone from the platform team, work through seven quest
 
 ## From my own projects
 
-This post has no items from my own projects.
+This situation came up in my own work: too many Global Administrators and Owners. Typical results are access that is hard to manage at scale, and a security risk.
 
 ## The files in my repo
 

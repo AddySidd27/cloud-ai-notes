@@ -27,7 +27,7 @@ diagrams:
     type: own-layout
     based_on: "The official documentation has no picture for this topic. The boxes follow the article's list of seven capabilities and its readiness table (migrate-from-on-premises-platform-landing-zone)."
     source: "../diagrams/post-16-minimum-viable-platform-landing-zone.drawio"
-production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
+production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/minimum-viable-platform-landing-zone/"
 order: 16
@@ -262,7 +262,7 @@ The seven capabilities are a list in the documentation, with no picture. So this
 
 ## From my own projects
 
-This post has no items from my own projects.
+From the list above, these came up in my own work: building the foundation by hand in the portal, no readiness check before the first workload, budgets and alerts added late, one virtual network with one subnet and everything inside, region rules added late, and public endpoints with no owner. I did not mark the other items from the list. I leave out project details.
 
 ## The files in my repo
 

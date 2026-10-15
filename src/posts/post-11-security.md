@@ -41,7 +41,7 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/security (no diagram on that page; the Zero Trust page has a large architecture diagram that is not redrawn here)"
     icons: "Azure Public Service Icons V24 (Microsoft Defender for Cloud, Azure Sentinel, Log Analytics Workspaces, Key Vaults, Firewalls, Network Security Groups, DDoS Protection Plans, Web Application Firewall Policies, Entra Privileged Identity Management, Policy), unmodified"
     source: "../diagrams/post-11-security-design-area.drawio"
-production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
+production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/security/"
 order: 11
@@ -257,7 +257,7 @@ For a new environment (called greenfield), start by creating your initial subscr
 
 ## From my own projects
 
-This post has no items from my own projects.
+From the list above, these came up in my own work: Key Vault sprawl, and logs and alerts. I leave out project details.
 
 ## The files in my repo
 

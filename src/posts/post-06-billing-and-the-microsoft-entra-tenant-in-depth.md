@@ -85,7 +85,7 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/multi-tenant/considerations-recommendations and https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/plan-connect-topologies"
     icons: "Azure Public Service Icons V24 (Azure Lighthouse), Microsoft Entra architecture icons Oct 2023 (Microsoft Entra ID, Microsoft Entra Connect Sync), all unmodified"
     source: "../diagrams/post-06-two-brand-shapes.drawio"
-production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
+production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/billing-and-tenant-in-depth/"
 order: 6
@@ -268,7 +268,7 @@ My own rule of thumb, based on the default of one tenant: start with Shape 1. Mo
 
 ## From my own projects
 
-This post has no items from my own projects.
+These situations came up in my own work: no emergency (break-glass) access plan, and a partner (CSP) managing subscriptions or access. Typical results are billing confusion, slow subscription creation, and access or security gaps.
 
 ## The files in my repo
 
