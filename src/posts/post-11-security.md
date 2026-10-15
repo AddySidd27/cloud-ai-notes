@@ -1,5 +1,6 @@
 ---
 title: "Security"
+description: "The Security design area of an Azure landing zone: security operations tooling, access control, Zero Trust, and encryption and keys with Azure Key Vault."
 slug: "security"
 series: "Azure Landing Zone"
 part: ""

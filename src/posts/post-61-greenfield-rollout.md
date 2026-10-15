@@ -1,5 +1,6 @@
 ---
 title: "Greenfield Rollout"
+description: "Build a new Azure landing zone: prerequisites, decisions per design area, deployment options, checks and the first workload handover, based on Cloud Adoption Framework guidance."
 slug: "greenfield-rollout"
 series: "Azure Landing Zone"
 part: ""
@@ -132,7 +133,7 @@ The sections below follow these six stages in order.
 
 The Start on-ramp begins with the reference architecture, so look at the end state first. The deployment options differ in technology and in how you customize them, so the result might not be identical for each option.
 
-- **Management groups.** One intermediate root management group sits below the tenant root group, named with your organization's prefix (Learn's example is Contoso) so you do not build on the tenant root group. Below it: Platform (Security, Management, Identity and Connectivity), Landing zones (Corp, Online and Local), Sandboxes, and Decommissioned. For many organizations, Corp, Online and Local are an ideal starting point.
+- **Management groups.** One intermediate root management group sits below the tenant root group, named with your organization's prefix (the Microsoft example is Contoso) so you do not build on the tenant root group. Below it: Platform (Security, Management, Identity and Connectivity), Landing zones (Corp, Online and Local), Sandboxes, and Decommissioned. For many organizations, Corp, Online and Local are an ideal starting point.
 - **Platform subscriptions.** One dedicated subscription under each Platform group. Security holds Microsoft Sentinel and other security tooling. Management holds the central Azure Monitor Logs workspace (the Log Analytics workspace, where logs are stored). Connectivity holds the shared network: a hub network or Virtual WAN, Azure Firewall, private DNS zones and gateways. Identity is a placeholder for Active Directory Domain Services (AD DS) virtual machines or Microsoft Entra Domain Services. Large deployments can have quota limits and may add dedicated connectivity subscriptions per region.
 - **Policy.** Azure Policy is assigned at management group level and inherited downward. Rules for all workloads go on the intermediate root. Landing zones get rules that fit every kind of workload. Sandboxes get a less restrictive set.
 
@@ -166,7 +167,7 @@ When the set-up is done, set the toggle back to No, as the same user, and sign o
 
 ## Plan the decisions in each design area
 
-Define your organization's requirements across the design areas before you build the platform landing zone. The [design principles](/azure-landing-zone/what-is-an-azure-landing-zone/) are a compass for these decisions. You may deviate from them, but know what you give up. In my reading, a new environment has settled none of the eight areas, so expect to work through all of them. The table gives the main decisions, the simple choices, and what to pick if you are unsure. The last column is my reading of the Learn recommendations, not a default set by Learn. Where Learn gives no default, the table says so.
+Define your organization's requirements across the design areas before you build the platform landing zone. The [design principles](/azure-landing-zone/what-is-an-azure-landing-zone/) are a compass for these decisions. You may deviate from them, but know what you give up. In my reading, a new environment has settled none of the eight areas, so expect to work through all of them. The table gives the main decisions, the simple choices, and what to pick if you are unsure. The last column is my reading of the Microsoft recommendations, not a default set by Microsoft. Where Microsoft gives no default, the table says so.
 
 | Design area | Decide | Simple choices | If unsure (my reading) |
 |---|---|---|---|

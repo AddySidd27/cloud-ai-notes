@@ -1,5 +1,6 @@
 ---
 title: "Governance and Azure Policy"
+description: "The Governance design area of an Azure landing zone: Azure Policy effects, phased DeployIfNotExists rollout, exemptions, policy as code and cost management."
 slug: "governance-and-azure-policy"
 series: "Azure Landing Zone"
 part: ""
