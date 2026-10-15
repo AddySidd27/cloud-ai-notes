@@ -18,6 +18,13 @@ permalink: "/about/"
     <li><span class="cert-badge" aria-hidden="true">{{ c.code }}</span><span class="cert-text"><strong>{{ c.name }}</strong><span>{{ c.issuer }}</span></span></li>
     {%- endfor %}
   </ul>
+  <h2>Areas of work</h2>
+  <p>These are areas I work in. They are not certifications.</p>
+  <ul>
+    {%- for a in site.workAreas %}
+    <li><strong>{{ a.name }}.</strong> {{ a.text }}</li>
+    {%- endfor %}
+  </ul>
   <h2>About this site</h2>
   <p>AdnanSiddiqui.com is a technical publication. Articles are written in a fixed format: the problem, a simple explanation, a diagram, what has been seen in production, the repo files, and the sources.</p>
   <p>Azure facts are checked against Microsoft Learn before an article is published. Examples use made-up organizations, never real company names. This is a personal blog: opinions are my own and the site is not affiliated with Microsoft.</p>
