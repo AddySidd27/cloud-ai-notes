@@ -38,7 +38,7 @@ Follow Microsoft's [Windows App connection walkthrough](https://learn.microsoft.
 3. Disconnect using the client control, return to the Cloud PC card, then reconnect. Record the second result and time. If you did not perform this step, leave **reconnect: untested** in the lab record.
 4. Repeat on another client only when you have that device. Note platform-specific prompts and features separately; do not use a web result as proof of a mobile or native app result.
 
-**My evidence:** The [October 12 connection record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-02-2026-10-12-enterprise-web-connection.md) confirms the browser client reached the desktop. It does not document a completed disconnect/reconnect or native app test. A public desktop image is still pending because the captured session showed private information and was not suitable to publish.
+**My evidence:** The [October 12 connection record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-02-2026-10-12-enterprise-web-connection.md) confirms the browser client reached the desktop. It does not document a completed disconnect/reconnect or native app test. A sanitized desktop capture from a separate October 15 browser connection is now published below. Disconnect/reconnect and native app tests remain unverified.
 
 ### If the user cannot connect
 
@@ -66,7 +66,11 @@ The [September 24 portal check](https://github.com/AddySidd27/Windows365-enterpr
 
 In Intune, the existing Enterprise Cloud PC showed **Provisioned** in All Cloud PCs. Its device record showed **Compliant**. I signed in to Windows App as the assigned pilot user, selected the Enterprise Cloud PC card and chose **Connect**. The browser client progressed through **Connecting** to **Connected**, and the Windows desktop appeared. This confirms an interactive web session for the existing pilot.
 
-The [dated connection lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-02-2026-10-12-enterprise-web-connection.md) separates the administrator and user observations. A safe public desktop capture is still pending. This run did not validate a new provisioning cycle, a disconnect and reconnect cycle, every application, or the Azure network connection path.
+The [dated connection lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-02-2026-10-12-enterprise-web-connection.md) separates the administrator and user observations. On October 15, I connected again to the existing Enterprise Cloud PC. The browser client reached the desktop and reported **Connection quality is good**. I collapsed its toolbar before taking this original capture, so account and device identifiers are outside the image. The image shows the desktop and taskbar. It does not prove Intune compliance, a fresh provisioning cycle, a complete disconnect/reconnect, every application, or the Azure network connection path.
+
+![Existing Enterprise Cloud PC desktop opened in the Windows App browser client](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/windows365-enterprise-desktop-20261015.jpg?raw=true)
+
+*Figure: Original October 15 browser capture of the connected Enterprise Cloud PC desktop. The client toolbar was collapsed before capture.*
 
 ## When one checkpoint fails
 
