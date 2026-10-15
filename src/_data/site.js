@@ -6,5 +6,8 @@ export default {
   repo: "https://github.com/AddySidd27/Azure_landing_zone",
   author: "Adnan Ahmed",
   role: "Senior Solutions Architect",
+  featured: 63, // article order number shown as the feature on the home page; it needs a diagram
+  credentials: [],
+  bio: "I design and explain Azure landing zones and end-user computing platforms. Each article starts from the basics, defines every term, and is checked against Microsoft Learn before it goes out.",
   year: new Date().getFullYear(),
 };

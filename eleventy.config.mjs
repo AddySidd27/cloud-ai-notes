@@ -80,6 +80,11 @@ export default function (eleventyConfig) {
     }
     return out;
   });
+  // First diagram used in an article, for list thumbnails. Empty when the article has no diagram.
+  eleventyConfig.addFilter("firstDiagram", (html) => {
+    const m = String(html).match(/<img[^>]+src="(\/diagrams\/[^"]+\.svg)"/);
+    return m ? m[1] : "";
+  });
   eleventyConfig.addFilter("pad", (n) => String(n).padStart(2, "0"));
   eleventyConfig.addFilter("longDate", (d) => new Date(d + "T12:00:00Z").toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" }));
   eleventyConfig.addFilter("toc", (html) =>

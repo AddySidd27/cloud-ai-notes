@@ -11,6 +11,7 @@ permalink: "/"
     <h1>Architecting Enterprise Azure &amp; End-User Computing</h1>
     <p class="band-deck">Production blueprints, Cloud Adoption Framework landing zones and hands-on architectures across Azure, AVD, Windows 365, Citrix and Intune. Every Azure fact is checked against Microsoft Learn.</p>
     <p class="cta"><a class="btn primary" href="/azure-landing-zone/">Read the Landing Zone series</a><a class="btn ghost-on" href="{{ site.repo }}">GitHub repositories</a></p>
+    <p class="home-links"><a href="/feed.xml">Subscribe by RSS</a><a href="/search/">Search the articles</a><a href="/about/">About the author</a></p>
   </div>
   <nav class="home-start" aria-label="Where to start">
     <p class="hs-h">Where to start</p>
@@ -19,6 +20,21 @@ permalink: "/"
     <a href="/labs/"><strong>Labs and code</strong><span>Reference files that go with the articles</span></a>
   </nav>
 </div></header>
+
+{%- set fpick = list | pick([site.featured]) -%}{%- set fa = fpick[0] -%}
+{%- if fa %}{% set fser = fa.data.tags | seriesOf %}{% set fmeta = articleMeta[fa.data.order] %}
+<section class="sec feature-sec" aria-labelledby="feat-h"><div class="wrap">
+  <a class="feature" href="{{ fa.url }}">
+    <span class="feat-text">
+      <span class="feat-k" id="feat-h">Featured · {{ fser.name }}{% if fmeta %} · <time datetime="{{ fmeta.published }}">{{ fmeta.published | longDate }}</time>{% endif %}</span>
+      <strong>{{ fa.data.title }}</strong>
+      <span class="feat-d">{{ fa.data.deck | clip(260) }}</span>
+      <span class="feat-m">{{ fa.templateContent | readingTime }} min read<span class="feat-go">Read the article</span></span>
+    </span>
+    <span class="feat-fig"><img src="{{ fa.templateContent | firstDiagram }}" alt="Diagram from the article {{ fa.data.title }}" width="1000" height="640" fetchpriority="high"></span>
+  </a>
+</div></section>
+{%- endif %}
 
 <section class="sec" aria-labelledby="ser-h"><div class="wrap">
   <div class="sec-head"><h2 id="ser-h">Series</h2><a class="more" href="/articles/">All articles</a></div>
@@ -34,11 +50,22 @@ permalink: "/"
   </div>
 </div></section>
 
+<section class="sec" aria-labelledby="top-h"><div class="wrap">
+  <div class="sec-head"><h2 id="top-h">Browse by topic</h2></div>
+  <ul class="topic-chips">
+    {%- for t in collections.liveTopics %}<li><a href="/{{ t.slug }}/">{{ t.name }}<span>{{ t.posts.length }}</span></a></li>{% endfor %}
+    <li><a href="/labs/">Labs and code</a></li>
+  </ul>
+</div></section>
+
 <section class="sec alt" aria-labelledby="new-h"><div class="wrap">
   <div class="sec-head"><h2 id="new-h">Latest articles</h2><a class="more" href="/articles/">All articles</a></div>
   <ul class="alist">
     {%- for p in list | mixLatest(articleMeta, 6, 2) %}{% set ser = p.data.tags | seriesOf %}{% set meta = articleMeta[p.data.order] %}
-    <li><a href="{{ p.url }}">
+    {%- set thumb = p.templateContent | firstDiagram %}
+    {%- set tpp = ser | topicOf %}
+    <li><a href="{{ p.url }}" class="has-thumb">
+      {%- if thumb %}<span class="at"><img src="{{ thumb }}" alt="" loading="lazy" width="320" height="200"></span>{% else %}<span class="at at-cover" aria-hidden="true">{% set cat = tpp.slug %}{% set cn = (p.data.part or p.data.order) | pad %}{% include "cover.njk" %}</span>{% endif %}
       <span class="ak">{{ ser.name }}{% if meta %} · <time datetime="{{ meta.published }}">{{ meta.published | longDate }}</time>{% endif %}</span>
       <strong>{{ p.data.title }}</strong>
       <span class="ad">{{ p.data.deck | clip(190) }}</span>
@@ -48,15 +75,13 @@ permalink: "/"
   </ul>
 </div></section>
 
-<section class="sec" aria-label="Labs and about"><div class="wrap duo">
-  <div class="duo-card">
-    <h2>Labs and code</h2>
-    <p>Reference files and lab steps that go with the articles live in a public GitHub repo.</p>
-    <p><a class="btn ghost" href="{{ site.repo }}">Open the Azure_landing_zone repo</a></p>
-  </div>
-  <div class="duo-card">
-    <h2>About the author</h2>
-    <p><strong>{{ site.author }}</strong>, {{ site.role }}. Each article is checked against Microsoft Learn before it goes out.</p>
-    <p><a class="btn ghost" href="/about/">About the site and the author</a></p>
+<section class="sec" aria-label="About the author"><div class="wrap author-hero">
+  <span class="av-lg" aria-hidden="true">{% include "mark.njk" %}</span>
+  <div class="ah-text">
+    <h2>{{ site.author }}</h2>
+    <p class="ah-role">{{ site.role }}</p>
+    <p>{{ site.bio }}</p>
+    {%- if site.credentials.length %}<ul class="ah-creds">{% for c in site.credentials %}<li>{{ c }}</li>{% endfor %}</ul>{% endif %}
+    <p class="ah-links"><a class="btn primary" href="/about/">About the author</a><a class="btn ghost" href="{{ site.repo }}">GitHub repo</a><a class="btn ghost" href="/feed.xml">RSS feed</a></p>
   </div>
 </div></section>
