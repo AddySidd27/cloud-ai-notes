@@ -1,5 +1,6 @@
 ---
 title: "Platform Automation and DevOps"
+description: "Infrastructure as code, Git branching, CI/CD pipelines, Terraform state and DevOps security for an Azure landing zone, with checks to run before you deploy."
 slug: "platform-automation-and-devops"
 series: "Azure Landing Zone"
 part: ""

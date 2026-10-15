@@ -1,5 +1,6 @@
 ---
 title: "Billing and the Microsoft Entra Tenant, in Depth"
+description: "Billing agreements (EA, MCA, CSP), why billing roles are not Azure roles, and when one Microsoft Entra tenant is enough, with a tenant checklist."
 slug: "billing-and-tenant-in-depth"
 series: "Azure Landing Zone"
 part: ""

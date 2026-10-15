@@ -1,5 +1,6 @@
 ---
 title: "Tenant, Billing, Subscriptions and Management Groups"
+description: "The four building blocks of an Azure environment: Microsoft Entra tenant, billing offer, subscriptions and management groups, how they fit together and common mix-ups."
 slug: "tenant-billing-subscriptions-and-management-groups"
 series: "Azure Landing Zone"
 part: ""

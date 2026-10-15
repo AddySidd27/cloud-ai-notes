@@ -1,5 +1,6 @@
 ---
 title: "Network Topology and Connectivity"
+description: "Hub-and-spoke or Virtual WAN for an Azure landing zone: when to choose each, plus IP planning, private endpoint DNS and Azure Firewall and VPN Gateway checks."
 slug: "network-topology-and-connectivity"
 series: "Azure Landing Zone"
 part: ""

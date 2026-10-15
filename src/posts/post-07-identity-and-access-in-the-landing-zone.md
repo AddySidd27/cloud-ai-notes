@@ -1,5 +1,6 @@
 ---
 title: "Identity and Access in the Landing Zone"
+description: "Identity and access for an Azure landing zone: where identities live, roles for groups, least privilege, hybrid identity and managed identities for apps."
 slug: "identity-and-access-in-the-landing-zone"
 series: "Azure Landing Zone"
 part: ""

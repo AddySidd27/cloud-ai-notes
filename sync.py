@@ -43,12 +43,12 @@ for fname, (fm, body, num, title, slug) in meta.items():
     # links and images
     body = body.replace("](../diagrams/", "](/diagrams/")
     def link(m):
-        name = m.group(1)
+        name, frag = m.group(1), m.group(2) or ""
         if name in slug_of:
             s, n = slug_of[name]
-            return "](/start-here/)" if n == 0 else f"](/azure-landing-zone/{s}/)"
+            return f"](/start-here/{frag})" if n == 0 else f"](/azure-landing-zone/{s}/{frag})"
         return m.group(0)
-    body = re.sub(r"\]\(([^)/#]+\.md)\)", link, body)
+    body = re.sub(r"\]\(([^)/#]+\.md)(#[^)]*)?\)", link, body)
     add = []
     s, n = slug_of[fname]
     add.append("layout: post.njk")

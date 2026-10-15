@@ -1,5 +1,6 @@
 ---
 title: "Privileged Access: MFA, Conditional Access and PIM"
+description: "MFA, Conditional Access, Privileged Identity Management and emergency access accounts for administrators, with a safe order to roll them out."
 slug: "privileged-access-mfa-conditional-access-and-pim"
 series: "Azure Landing Zone"
 part: ""

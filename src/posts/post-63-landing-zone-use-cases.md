@@ -1,5 +1,6 @@
 ---
 title: "Landing Zone Use Cases"
+description: "Short cards for common Azure landing zone situations: where a workload goes, one tenant or several, many countries, software vendors, sovereignty and on-premises servers."
 slug: "landing-zone-use-cases"
 series: "Azure Landing Zone"
 part: ""

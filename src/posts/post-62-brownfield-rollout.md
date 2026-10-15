@@ -1,5 +1,6 @@
 ---
 title: "Brownfield Rollout"
+description: "Bring an existing Azure environment into a landing zone: take stock, build beside it, test policies in audit-only mode, then move subscriptions in a pilot and waves."
 slug: "brownfield-rollout"
 series: "Azure Landing Zone"
 part: ""
@@ -197,7 +198,7 @@ Seven stages; the two stages "See the effect" and "Move in" repeat for each wave
 
 *Simplified diagram, drawn by me with my own layout; the stages are my grouping of the guidance. Not an official Microsoft diagram. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) architecture icon set, unmodified.*
 
-The end state is the architecture in [the greenfield rollout](post-61-greenfield-rollout.md#what-you-will-have-at-the-end), built beside your old environment. The old environment keeps running, and old subscriptions can retire into Decommissioned.
+The end state is the architecture in [the greenfield rollout](/azure-landing-zone/greenfield-rollout/#what-you-will-have-at-the-end), built beside your old environment. The old environment keeps running, and old subscriptions can retire into Decommissioned.
 
 ## A company case: one tenant, many subscriptions
 
@@ -363,7 +364,7 @@ app2-mixed moves as it is, with its test resources inside it, because moving ind
 
 ## Build beside the old environment
 
-**Before you start.** The builder needs the Owner role on the intermediate root, because the build creates groups and assigns access and policy (my reading). By default no one has access to the root group. A Global Administrator can grant it, as shown in [before you start](post-61-greenfield-rollout.md#before-you-start). Portal, Bicep and Terraform work in Azure public clouds; sovereign clouds need manual changes to Bicep or Terraform ([Deploy Azure landing zones](https://learn.microsoft.com/en-us/azure/architecture/landing-zones/landing-zone-deploy); [choose how to implement it](post-61-greenfield-rollout.md#choose-how-to-implement-it)). The build creates the same billable platform resources as a new environment ([cost note](post-61-greenfield-rollout.md#build-the-platform-then-check-it)); the audit-only copies add none.
+**Before you start.** The builder needs the Owner role on the intermediate root, because the build creates groups and assigns access and policy (my reading). By default no one has access to the root group. A Global Administrator can grant it, as shown in [before you start](/azure-landing-zone/greenfield-rollout/#before-you-start). Portal, Bicep and Terraform work in Azure public clouds; sovereign clouds need manual changes to Bicep or Terraform ([Deploy Azure landing zones](https://learn.microsoft.com/en-us/azure/architecture/landing-zones/landing-zone-deploy); [choose how to implement it](/azure-landing-zone/greenfield-rollout/#choose-how-to-implement-it)). The build creates the same billable platform resources as a new environment ([cost note](/azure-landing-zone/greenfield-rollout/#build-the-platform%2C-then-check-it)); the audit-only copies add none.
 
 1. **Deploy the landing zone in parallel**, in the same tenant, by following [the greenfield rollout post](/azure-landing-zone/greenfield-rollout/). This does not affect the existing environment. *Check:* the new groups appear in `az account management-group list`, and no existing subscription has moved.
 2. **Protect the top of the hierarchy.** By default any user in the tenant can create a management group, and new subscriptions land under the root. Set a default group for new subscriptions, because the setting exists to give new subscriptions a more restrictive set of controls. The management groups design area page names a sandbox group as a good candidate for this default. My reading: a dedicated holding group with restrictive policy is also reasonable, because new subscriptions then start with strict controls until someone places them. Then turn on require authorization (in the portal, "Permissions for creating new management groups"). You need the Hierarchy Settings Administrator role or the same permissions. Use the portal (Management groups, root group, Settings) or the REST API; the documentation gives no `az` command: [protect your resource hierarchy](https://learn.microsoft.com/en-us/azure/governance/management-groups/how-to/protect-resource-hierarchy). *Check:* open the root group's Settings in the portal and confirm both.
@@ -586,7 +587,7 @@ az account management-group subscription add --name '<corpGroupId>' --subscripti
 
 A subscription has one parent, so this replaces the duplicate group, and the full policies now cover it. For DINE and Modify, the [policy-driven guardrails page](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/dine-guidance) enables them in stages: a reduced scope such as Sandbox first, then everywhere. Cancel subscriptions you no longer need and place them in Decommissioned; the repository's approach adds a holding period and a final approval.
 
-Before its wave starts, tell each team its group, the policies that apply, its non-compliant resources and who fixes them. New subscriptions follow [the subscription vending steps](post-61-greenfield-rollout.md#hand-over-the-first-workload).
+Before its wave starts, tell each team its group, the policies that apply, its non-compliant resources and who fixes them. New subscriptions follow [the subscription vending steps](/azure-landing-zone/greenfield-rollout/#hand-over-the-first-workload).
 
 ## How new subscriptions get approved afterwards
 
