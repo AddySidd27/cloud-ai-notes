@@ -74,7 +74,7 @@
     </div>
     <nav aria-label="Read"><h2>Read</h2><a href="/articles/">All articles</a><a href="/start-here/">Start here</a>{% for s in collections.liveSeries %}<a href="/{{ s.slug }}/">{{ s.name }} series</a>{% endfor %}<a href="/search/">Search</a></nav>
     <nav aria-label="Topics"><h2>Topics</h2>{% for t in collections.liveTopics %}<a href="/{{ t.slug }}/">{{ t.name }}</a>{% endfor %}<a href="/labs/">Labs</a></nav>
-    <nav aria-label="Site"><h2>Site</h2><a href="/about/">About</a><a href="{{ site.repo }}">GitHub</a><a href="/feed.xml">RSS feed</a></nav>
+    <nav aria-label="Site"><h2>Site</h2><a href="/about/">About</a><a href="{{ site.repo }}">GitHub</a><a href="{{ site.linkedin }}" rel="me noopener">LinkedIn</a><a href="/feed.xml">RSS feed</a></nav>
   </div>
   <p class="copy">&copy; {{ site.year }} {{ site.author }}. Personal blog, opinions are my own. Not affiliated with Microsoft.</p>
 </div></footer>
