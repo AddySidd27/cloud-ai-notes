@@ -7,6 +7,7 @@ export default {
   204: { tags: ["Windows 365", "Provisioning"], published: "2026-10-11" },
   205: { tags: ["Windows 365", "Connection"], published: "2026-10-11" },
   206: { tags: ["Windows 365", "Intune"], published: "2026-10-11" },
+  "206.5": { tags: ["Windows 365", "Restore", "Recovery"], published: "2026-10-15" },
   207: { tags: ["Windows 365", "Security"], published: "2026-10-11" },
   208: { tags: ["Windows 365", "ANC troubleshooting"], published: "2026-10-11" },
   209: { tags: ["Windows 365", "Operations"], published: "2026-10-11" },
