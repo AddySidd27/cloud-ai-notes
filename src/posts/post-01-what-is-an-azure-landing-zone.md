@@ -55,7 +55,7 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/"
     icons: "Azure Public Service Icons V24 (Management groups, Subscriptions, Virtual networks, Microsoft Sentinel, Microsoft Entra Domain Services, Log Analytics workspaces, Azure Policy), unmodified"
     source: "../diagrams/post-01-platform-vs-workload.drawio"
-production_section_written_by_addy: true  # from Addy's own answers, 2026-10-07; wording drafted by Claude, Addy to review
+production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
 layout: post.njk
 permalink: "/azure-landing-zone/what-is-an-azure-landing-zone/"
 order: 1
@@ -67,12 +67,28 @@ tags: [alz]
 
 
 
-Imagine an Azure environment where every project team made its own subscription (a container for a team's Azure resources, explained below). One team built its own network. Another chose its own logging, which means its own records of what happens in a system. A third decided its own access rules.
+As an illustration, not a real case, imagine an Azure environment where every project team made its own subscription (a container for a team's Azure resources, explained below). One team built its own network. Another chose its own logging, which means its own records of what happens in a system. A third decided its own access rules.
 
-A year later, simple questions are hard to answer. Who can see what? Which networks connect to which? Where do the logs go? Who pays for this? Moving resources into different subscriptions later can lead to complicated technical migrations.
+A year later, simple questions are hard to answer. Who can see what? Which networks connect to which? Where do the logs go? Who pays for this?
 
-An Azure landing zone (defined below) avoids this by preparing the environment first. Its platform part sets up governance, security and shared resources for everything your teams run in Azure. Teams then start from a known place with shared rules, instead of from nothing.
+An Azure landing zone helps avoid this by preparing the environment first. Its platform part sets up governance, security and shared resources for everything your teams run in Azure. In my framing, teams then start from a known place with shared rules, instead of from nothing.
 
+## The five-minute version
+
+- A landing zone is an architecture for governing, securing and scaling an Azure environment with many subscriptions (containers for a team's Azure resources).
+- It has two parts: a platform landing zone (the shared foundation) and workload landing zones (where teams run workloads, meaning sets of Azure resources, code and data that deliver one business result).
+- The platform has two components, a management group hierarchy (a tree that groups subscriptions) and centralized resources (as needed), plus an important function: a repeatable way to hand out workload landing zones (subscription vending).
+- Azure Policy rules set high on the tree are inherited, meaning they also apply to everything below, so every workload gets the same guardrails (rules for what is acceptable).
+- Before you build, define your requirements across eight design areas (topics such as identity, network and security); five design principles guide the decisions.
+- Accelerators (Microsoft-provided tools that use infrastructure as code, meaning machine-readable definition files, to deploy based on recommended practices) are the fastest path for most organizations; the alternative is a custom build.
+
+## Do this today
+
+Each action only looks at your environment, so you can do all three without changing any of your resources.
+
+1. **See how your subscriptions are organized.** Sign in to the Azure portal, select All services, type "Management groups" in the filter box and open it. You see the management groups and subscriptions you have access to, and selecting a group name takes you one level down, like a file explorer. If you see only the "Tenant root group", that is the built-in top group of your tenant (your organization's own Microsoft Entra instance, which holds its users and groups). Compare what you see with the diagram below.
+2. **Find your area on the [design areas page](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-areas).** It names all eight areas, which this series follows. Read the one-line objective of the area you work in, such as network or identity.
+3. **Learn the platform and workload split, the main idea of everything that follows.** Open the [landing zone overview](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/), look at the tab "Platform vs. workload landing zones", then read the sections "Platform landing zone" and "Workload landing zone". Then pick one subscription you know and ask whether it is platform or workload.
 
 ## Key terms
 
@@ -98,20 +114,22 @@ This post uses a few terms that may be new. Here they are in short, plain words.
 | Microsoft Sentinel | A Microsoft cloud service that helps security teams find, investigate and respond to threats. |
 | Microsoft Entra Domain Services | A managed service that lets Azure workloads sign in with older (legacy) methods, without you building and running your own domain servers. |
 
-The last four rows appear as examples in the diagram below. There, the Platform management group has four child groups (Security, Management, Identity and Connectivity). They match the kinds of centralized resources listed later in this post: security monitoring, management services, identity services, and connectivity and networking. [The platform scope post](/azure-landing-zone/platform-scope-and-workload-boundaries/) explains them.
+The last four rows (virtual network, Log Analytics workspace, Microsoft Sentinel and Microsoft Entra Domain Services) appear as example icons in the diagram below. In the diagram, the Platform management group has four child groups: Security, Management, Identity and Connectivity. They match the kinds of centralized resources listed later in this post: security monitoring, management services, identity services, and connectivity and networking. [The platform scope post](/azure-landing-zone/platform-scope-and-workload-boundaries/) explains them.
 
-An Azure landing zone is an architecture for governing, securing and scaling an Azure environment that uses many subscriptions. It has two parts:
+## The two parts of a landing zone
+
+An Azure landing zone has two parts:
 
 1. **The platform landing zone.** The shared foundation.
 2. **Workload landing zones.** The places where teams run their workloads.
 
-A rough way to picture it: an apartment building has shared things, such as water, power and fire rules. Each apartment is a workload. Residents live their own lives, but inside the building's rules.
+My own way to picture it: an apartment building has shared things, such as water, power and fire rules. Each apartment is a workload. Residents live their own lives, but inside the building's rules.
 
 ## The platform landing zone
 
 The platform landing zone is the central foundation. It sets up governance, security and shared resources for all your Azure workloads. Most organizations should have only one platform landing zone per Microsoft Entra tenant.
 
-It has two parts, plus one important job:
+It consists of two components, plus an important function:
 
 - **A management group hierarchy.** This organizes your subscriptions and applies governance standards to them. It keeps platform resources and workload resources apart.
 - **Centralized resources, only as needed.** Common examples are connectivity and networking, security monitoring, identity services and management services. Centralize something only when it gives a clear benefit across several workloads.
@@ -123,9 +141,9 @@ Each workload has one workload landing zone. It holds all the environments the w
 
 Based on what the workload needs, the platform team places each workload subscription in one of three management groups. These sit under the "(Application) Landing zones" management group:
 
-- **Online:** for workloads that might need direct internet access, or that might not need a virtual network.
-- **Internal (also called "Corp"):** for workloads that need a connection to the organization's own network.
-- **Local:** for workloads that run on Azure Local, which is Microsoft's solution for bringing Azure to environments you own, such as your own datacenter.
+- **Online:** for workloads that might need direct inbound or outbound internet connectivity, or that might not need a virtual network.
+- **Internal (also called "Corp"):** for workloads that need connectivity, or hybrid connectivity, with the organization's own network.
+- **Local:** for workloads that run on Azure Local clusters, and for the clusters themselves. Azure Local is Microsoft's solution that extends Azure to environments you own, running on validated hardware in your own facilities.
 
 [The platform scope post](/azure-landing-zone/platform-scope-and-workload-boundaries/) explains what each one is for. The subscriptions inherit the Azure Policy rules applied higher in the hierarchy. That is how workloads get consistent guardrails, while still having room for their own needs.
 
@@ -158,7 +176,7 @@ For most organizations, accelerators are the fastest route. We cover the options
 
 Define your requirements across the design areas before you build a platform landing zone. There are eight:
 
-1. Azure billing and Active Directory tenant (the design-areas page uses this name; the page for this area is now titled "Azure billing offers and Microsoft Entra tenants", so the tenant here is a Microsoft Entra tenant, defined above)
+1. Azure billing and Active Directory tenant (the name on the design areas page; the area's own page is now titled "Azure billing offers and Microsoft Entra tenants", and the tenant is a Microsoft Entra tenant)
 2. Identity and access management
 3. Resource organization
 4. Network topology and connectivity
@@ -169,11 +187,11 @@ Define your requirements across the design areas before you build a platform lan
 
 Area 8 has "DevOps" in its name (defined above). That area is about aligning the best tools and templates to deploy your landing zones and supporting resources.
 
-There are also five design principles that guide these decisions. We cover them, and the design areas one by one, in later posts.
+Five design principles guide these decisions: subscription democratization, policy-driven governance, a single control and management plane, an application-centric service model, and alignment with Azure-native design and roadmaps. This series covers them, and each design area, in later posts.
 
 ## What a landing zone is not
 
-It is not one resource, one subscription or one script. It is the combination of the design areas above, working together.
+In my words: it is not one resource, one subscription or one script. It is the combination of the design areas above, working together.
 
 ## The landing zone at a glance
 
@@ -191,11 +209,11 @@ It is not one resource, one subscription or one script. It is the combination of
 
 ## From my own projects
 
-I have seen environments where teams created their own subscriptions, and each project had its own network, logging and access rules. Nobody could say clearly what things cost. The effects were slower delivery, security and audit issues, and confusion about who pays.
-
-Where a landing zone was in place, things moved faster. New projects started in an environment that was already prepared, instead of building the basics themselves.
+This post has no items from my own projects.
 
 ## The files in my repo
+
+My repo is a learning and reference lab. It is not production-ready and it is not the official accelerator.
 
 - This post: [what-is-an-azure-landing-zone.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/01-foundations/what-is-an-azure-landing-zone.md)
 - Suggested reading order for the whole repo: [learning-path.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/00-start-here/learning-path.md)
