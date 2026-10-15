@@ -46,7 +46,7 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/prepare-organization-for-cloud"
     icons: "Azure Public Service Icons V24 (Subscriptions, Azure Policy), unmodified"
     source: "../diagrams/post-04-cloud-operating-models.drawio"
-production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
+production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/the-cloud-operating-model/"
 order: 4
@@ -142,7 +142,7 @@ The full table also covers compliance, deployment, development, reliability and 
 
 ## From my own projects
 
-This post has no items from my own projects.
+These situations came up in my own work: a central team that became a bottleneck for everyone else, and, in other cases, platform and workload teams that worked well together. Typical results of the bottleneck are slow delivery and confusion during incidents about who should act.
 
 ## The files in my repo
 

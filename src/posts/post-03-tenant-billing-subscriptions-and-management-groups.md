@@ -49,7 +49,7 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-ad-tenant"
     icons: "Azure Public Service Icons V24 (Management groups, Subscriptions, Resource groups) and Microsoft Entra architecture icons Oct 2023 (Microsoft Entra ID, color), all unmodified"
     source: "../diagrams/post-03-azure-building-blocks.drawio"
-production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
+production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/tenant-billing-subscriptions-and-management-groups/"
 order: 3
@@ -148,7 +148,7 @@ Azure has four levels of management scope: management groups, subscriptions, res
 
 ## From my own projects
 
-This post has no items from my own projects.
+These situations came up in my own work: more than one tenant, a large workload that ran into subscription limits, and subscriptions where nobody was clear who owned the cost. Typical results are extra admin work, security and access gaps, slower delivery, and confusion about billing.
 
 ## The files in my repo
 

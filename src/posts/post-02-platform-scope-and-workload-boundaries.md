@@ -60,7 +60,7 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups"
     icons: "Azure Public Service Icons V24 (Management groups, Subscriptions, Microsoft Entra Domain Services, Virtual networks, Azure Firewall, DNS zones, Log Analytics workspaces, Microsoft Sentinel), unmodified"
     source: "../diagrams/post-02-ownership-boundary.drawio"
-production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
+production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/platform-scope-and-workload-boundaries/"
 order: 2
@@ -164,7 +164,7 @@ The lab teaches the workflow. The enterprise column shows what a real design add
 
 ## From my own projects
 
-This post has no items from my own projects.
+These situations came up in my own work: platform and workload resources in the same subscription, and broad access given high up in the hierarchy. Typical results are slower delivery, security and audit issues, and confusion about cost.
 
 ## The files in my repo
 
