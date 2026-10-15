@@ -46,7 +46,7 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/prepare-organization-for-cloud"
     icons: "Azure Public Service Icons V24 (Subscriptions, Azure Policy), unmodified"
     source: "../diagrams/post-04-cloud-operating-models.drawio"
-production_section_written_by_addy: true  # from Addy's own answers, 2026-10-07; wording drafted by Claude, Addy to review
+production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
 layout: post.njk
 permalink: "/azure-landing-zone/the-cloud-operating-model/"
 order: 4
@@ -142,9 +142,7 @@ The full table also covers compliance, deployment, development, reliability and 
 
 ## From my own projects
 
-I have seen a central team become a bottleneck for everyone else. I have also seen platform and workload teams work well together. The problems showed up as slow delivery and confusion during incidents about who should act.
-
-In my experience, writing down who owns what before the first workload arrives helps.
+This post has no items from my own projects.
 
 ## The files in my repo
 

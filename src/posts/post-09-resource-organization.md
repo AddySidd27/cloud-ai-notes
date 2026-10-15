@@ -48,7 +48,7 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups"
     icons: "Azure Public Service Icons V24 (Management groups, Subscriptions), unmodified"
     source: "../diagrams/post-09-management-group-hierarchy.drawio"
-production_section_written_by_addy: true  # from Addy's own taps, 2026-10-07; wording drafted by Claude, Addy to review
+production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
 layout: post.njk
 permalink: "/azure-landing-zone/resource-organization/"
 order: 9
@@ -62,7 +62,7 @@ tags: [alz]
 
 In [the tenant and subscriptions post](/azure-landing-zone/tenant-billing-subscriptions-and-management-groups/) you met the four levels Azure uses to organize things: management groups, subscriptions, resource groups and resources. [The business requirements post](/azure-landing-zone/business-requirements-compliance-region-recovery-connectivity-and-cost/) covered the business requirements (compliance, region, recovery, connectivity and cost) that come first. This post answers the next question: where does everything go?
 
-The answer matters early. Think through your management group structure when you plan Azure adoption at scale. If your operating model changes as the organization grows, moving resources into separate subscriptions can lead to complicated technical migrations. Do not copy your organization chart into a deeply nested hierarchy. If you group workloads differently from the management group hierarchy, governance policies and access control become more complex.
+The answer matters early. Think through your management group structure when you plan Azure adoption at scale. My reading: reorganizing later is costly, because moving a subscription between management groups changes the Azure RBAC and Azure Policy it inherits. Do not copy your organization chart into a deeply nested hierarchy.
 
 
 ## Key terms
@@ -240,9 +240,7 @@ Useful tags fall into five categories:
 
 ## From my own projects
 
-I have seen management groups created for each environment, and more subscriptions than the design needed. I have also seen environments with no naming standard, and with tags missing or inconsistent. These showed up as policy exceptions, hard cost reporting, and rework to reorganize later.
-
-Agreeing the hierarchy, the subscription rules, the naming convention and the core tags before the first workload arrives helps avoid problems like these.
+This post has no items from my own projects.
 
 ## The files in my repo
 

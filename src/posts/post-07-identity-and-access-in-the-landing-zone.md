@@ -63,7 +63,7 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/identity-access (and its three child articles)"
     icons: "Azure Public Service Icons V24 (Management groups, Subscriptions, Resource groups, Microsoft Entra Domain Services) and Microsoft Entra architecture icons Oct 2023 (Microsoft Entra ID, color), all unmodified"
     source: "../diagrams/post-07-roles-groups-scopes.drawio"
-production_section_written_by_addy: true  # from Addy's own answers, 2026-10-07; wording drafted by Claude, Addy to review
+production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
 layout: post.njk
 permalink: "/azure-landing-zone/identity-and-access-in-the-landing-zone/"
 order: 7
@@ -161,7 +161,7 @@ Two more Azure roles appear below. Reader lets you view Azure resources. User Ac
 
 The Azure RBAC Owner and User Access Administrator roles can change role assignments on Azure resources. Global Administrator does not manage access to Azure resources by default. First, a term. Each directory (tenant) has a single top-level management group called the root management group. By default its display name is Tenant root group ([Platform scope](/azure-landing-zone/platform-scope-and-workload-boundaries/)). Anything assigned there applies to the whole tenant, so keep assignments at this scope to a minimum. An explicit step, elevating access, enables Global Administrator to manage access. Only a Global Administrator can take this step, to give themselves access to all Azure subscriptions and management groups in the tenant. It assigns the User Access Administrator role at the root management group. Remove the elevated access when the changes are made.
 
-Before Azure RBAC existed, access to a subscription was managed with three older roles called classic administrators: Account Administrator, Service Administrator and Co-Administrator. The Service Administrator and Co-Administrators had the same access as the Owner role at the subscription scope. Classic resources (the older kind of Azure resources) and classic administrators retired on August 31, 2024, so remove unnecessary co-administrators and use Azure RBAC.
+Before Azure RBAC existed, access to a subscription was managed with three older roles called classic administrators: Account Administrator, Service Administrator and Co-Administrator. The Service Administrator and Co-Administrators had the same access as the Owner role at the subscription scope. Classic resources (the older kind of Azure resources) and classic administrators retired on August 31, 2024. Azure has since given the Owner role at subscription scope to users who still held the Service Administrator or Co-Administrator role, so review those Owner assignments and use Azure RBAC with least privilege.
 
 ## Who owns what
 
@@ -172,7 +172,7 @@ In the landing zone, identity infrastructure is a core platform responsibility. 
 1. **Assign roles to groups, not to users.** It keeps the number of role assignments down (there is a limit per subscription). And when someone moves teams, group membership changes, while a role given directly to the user stays with them.
 2. **Give the least privilege, at a scope that fits the job.** Think about whether someone needs a narrow scope (one application) or a broad one (a network administrator across many workloads), and give only the roles they need. Azure includes several built-in roles that you can use, such as Virtual Machine Contributor. Use them where possible, and create custom roles (roles you create yourself) only when necessary.
 3. **Give each landing zone its own groups.** Do not create generic groups and assign them to several landing zones. Keep separate groups and role assignments for environments such as dev/test and production.
-4. **Create role assignments at subscription or resource group scope.** Azure Policy (the service that sets rules for what is allowed in Azure) is assigned at the management group. With landing zone role assignments at a lower scope, landing zone administrators have full control of their resources but cannot change the policies that govern them.
+4. **Create role assignments at subscription or resource group scope.** Azure Policy (the service that sets rules for what is allowed in Azure) is assigned at the management group in the reference architecture. Give landing zone teams roles at subscription or resource group scope, and use roles that exclude `Microsoft.Authorization` write (like the reference architecture's Application Owner custom role), so they have full control of their resources but cannot change the policies assigned above them.
 5. **Use Microsoft Entra-only (cloud-only) groups for Azure control-plane access.** These are groups that exist only in Microsoft Entra ID. Synchronized users and groups can be members. This helps protect the cloud control plane from unauthorized changes to the on-premises directory.
 
 A PIM group is a group managed with Privileged Identity Management (PIM for Groups), a feature that lets people hold a role only when they need it. It gives users just-in-time membership of the group, which means a role is active only when it is needed, and the permissions are removed when the task is done. For example, a user can request the Owner role when required, and at all other times has only the permissions needed for typical activities.
@@ -192,9 +192,9 @@ A few example rows from a role assignment table (names are illustrative):
 
 - **Multifactor authentication (MFA)** for everyone with rights to the Azure environment, including the platform subscription, the application subscriptions and the Microsoft Entra tenant. Include users with the Reader role, and use phishing-resistant MFA (MFA that is hard for an attacker to trick you into) instead of SMS, email or push. Text messages, email codes and push approvals are less effective, because they can be intercepted or spoofed.
 - **Conditional Access** policies that fit the risk of the role, for example admin work only from certain locations or workstations.
-- **Privileged Identity Management (PIM)** for just-in-time access, so privileged roles are active only when needed. Use PIM for groups for highly privileged Azure roles such as Owner and User Access Administrator.
+- **Privileged Identity Management (PIM)** for just-in-time access, so privileged roles are active only when needed. Use PIM for groups for highly privileged Azure roles such as Owner and User Access Administrator. PIM needs licenses (the PIM documentation describes it as included in Microsoft Entra ID P2; check current licensing for your tenant).
 - **Emergency access (break-glass) accounts.** These are highly privileged accounts kept for emergencies, so you do not lock yourself out of your Microsoft Entra organization. Use them only when normal administrator accounts cannot be used. Store their credentials securely, monitor their use, and test them regularly. [The privileged access post](/azure-landing-zone/privileged-access-mfa-conditional-access-and-pim/) has the details.
-- **Fewest permissions.** Do not give a higher-privileged role for a task that a lower-privileged role can do, for example the User Administrator role to manage users, not Global Administrator. Limit Global Administrator to emergencies, with no more than five people.
+- **Fewest permissions.** Do not give a higher-privileged role for a task that a lower-privileged role can do, for example the User Administrator role to manage users, not Global Administrator. Limit Global Administrator to cases where no less-privileged role can do the task, and assign it to no more than five people.
 - **Administrative units** let a team manage only part of the directory, for example a service desk that manages users in only one business unit. They can help remove the need for separate tenants as a security boundary, for example when different teams manage Microsoft 365 and Azure in the same organization.
 - **Delegation with conditions.** If workload teams can assign roles, use delegated role assignments with conditions, so they can only assign certain roles, or only to certain types of identity. Anything more privileged goes to the platform team.
 
@@ -236,9 +236,7 @@ When you request a landing zone from the platform team, work through seven quest
 
 ## From my own projects
 
-I have seen environments with too many Global Administrators and Owners. These showed up as access that was hard to manage at scale, and as a security risk.
-
-Keeping Global Administrator for emergencies, and giving each team a group with the lowest role at the lowest scope, helps avoid this.
+This post has no items from my own projects.
 
 ## The files in my repo
 

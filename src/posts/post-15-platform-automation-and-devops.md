@@ -41,7 +41,7 @@ diagrams:
     type: learn-layout-redraw
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/considerations/development-strategy-test-driven-development (picture test-driven-development-process.png, read from the MicrosoftDocs GitHub source)"
     source: "../diagrams/post-15-test-driven-development-cycle.drawio"
-production_section_written_by_addy: true
+production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
 layout: post.njk
 permalink: "/azure-landing-zone/platform-automation-and-devops/"
 order: 15
@@ -106,9 +106,9 @@ The ability to make changes at scale through a set, automated process helps the 
 - **Emergency fixes.** Teams can use PIM eligible permissions (permissions you must ask for first) to get access for a fix, and later bring the fix back to code to limit drift. Or they can use code for a quick fix. Always put quick fixes in the backlog (the list of work the team plans to do) and rework them later.
 - **Azure Policy as code.** Policies can automate things such as log collection. Many Policy as Code frameworks have an exemption process (a way for a workload team to ask to skip one policy rule, after approval), so plan for workload teams to ask for exemptions.
 
-*A note on [the governance post](/azure-landing-zone/governance-and-azure-policy/).* Two documentation pages give different advice here. [The governance post](/azure-landing-zone/governance-and-azure-policy/) says the DINE guidance tells most customers to use DINE and Modify policies. The automation page says something that sounds different. It says to use policy-driven governance to tell workload teams when they deploy something that breaks a security control, and to consider the `deny` effect for this. It says to avoid `modify` effects here, because a policy that changes a setting at deployment makes the real resource differ from what the team's code says.
+*A note on [the governance post](/azure-landing-zone/governance-and-azure-policy/).* Deny and Modify affect a workload team's code differently. Deny blocks a deployment that breaks a security control, so the code and the deployed resource stay the same. Modify changes a setting during deployment, so the deployed resource no longer matches the team's code. For that reason, tell workload teams they broke a control with Deny, not Modify. [The governance post](/azure-landing-zone/governance-and-azure-policy/) covers DINE and Modify for platform settings.
 
-The pages do not say how the two fit. I read it this way: the DINE page says DINE and Modify deploy only supporting settings, never the workload resources themselves, and the automation page is about a workload team's own code drifting from what is deployed. Check both pages when you choose.
+My reading: the DINE and Modify policies in the landing zone reference implementation are a different case, because they deploy or configure supporting settings, never the workload resources themselves.
 
 **Platform automation recommendations:**
 
@@ -217,6 +217,19 @@ The development lifecycle has five topics: repository, branches, automated build
 - Use environments. They give deployment history, traceability of commits and work items (the tasks linked to each change), resource health and security.
 - Add IaC pre-deployment checks (Bicep what-if, ARM what-if or Terraform plan) to preview what a resource would create, modify or delete.
 
+### Terraform state
+
+If you use Terraform, decide early where its state lives. State is how Terraform matches your configuration to the resources that exist. By default it is stored locally, which suits teams badly: shared work is hard, the state can hold sensitive information, and local files are easy to delete by accident ([Store Terraform state in Azure Storage](https://learn.microsoft.com/azure/developer/terraform/get-started/store-state-in-azure-storage), checked October 2026).
+
+- **Where.** Use a blob container in an Azure Storage account as the backend. State is stored in plain text and may contain secrets, so treat the storage account as sensitive.
+- **Locking.** Azure Storage blobs are locked automatically before any operation that writes state, which stops two runs writing at once. The lock is a lease on the state blob.
+- **Authentication.** The Microsoft example uses a storage access key, and says that in production you should evaluate the other authentication options of the `azurerm` backend and use the most secure one for your case. My suggestion: prefer Microsoft Entra ID authentication with the pipeline's identity over account keys, after checking the backend documentation for your Terraform version. If you must use a key, keep it in Key Vault and not in code.
+- **Network.** In production, restrict the storage account with the storage firewall, a service endpoint or a private endpoint. My reading: your pipeline agents then need a network path to it.
+- **Encryption.** Blob data is encrypted at rest, and Terraform reads state into memory instead of writing it to local disk.
+- **My suggestion:** keep a separate state file per environment, so a problem in one cannot block or damage another.
+
+**If a run says the state blob is already locked.** There are two usual causes: a Terraform command is still running against that state, or a connection was interrupted and left the lock behind ([Troubleshoot Terraform on Azure](https://learn.microsoft.com/azure/developer/terraform/troubleshoot#error-acquiring-the-state-lock)). First check that nothing is running against the state, in terminals and in pipelines. Only if nothing is, the troubleshooting page says you can find the state file in the storage container and use **Break lease**. Breaking a lease while a run is still writing can let two runs write state at the same time and damage it, so be sure the earlier run has really ended. My suggestion: make sure you can restore the state first, for example with blob versioning or soft delete turned on, and prefer fixing the cause over repeating the break. A broken lease also cannot be taken again straight away ([blob leases](https://learn.microsoft.com/azure/storage/blobs/storage-blob-lease#break-a-lease)), so a retry may need a short wait. The error message itself says that turning locking off with `-lock=false` is not recommended.
+
 ### Rollback
 - Have a rollback plan, which means going back to a known good state. This is a consideration. The recommendation is to use Git's undo features to revert changes to committed files, discard uncommitted changes or reset a branch.
 
@@ -254,7 +267,7 @@ Microsoft keeps the underlying cloud infrastructure secure, but you must configu
 - **In GitHub Actions:** use OpenID Connect and create approvals on a GitHub Actions environment. Also add the `environment` claim (a claim is a piece of information about who or what is signing in; GitHub's claims include the environment and the workflow) and the `job_workflow_ref` claim to the identity's federated credential. Also use `repository_owner_id` and `repository_id` instead of `repository`. This limits the identity to one environment, one workflow and one repository, even if the repository is renamed.
 - **Use a secret store.** Avoid secrets where you can. If you cannot, never hard-code them in code or documents. Keep them in a store such as Azure Key Vault.
 
-*A note on two pages:* the development lifecycle page speaks of service connections and GitHub secrets, while the security page says to avoid secrets and use OpenID Connect. Follow the security page.
+*A note on secrets:* my suggestion is to sign in with OpenID Connect and a federated credential. Keep a secret in Key Vault only when you cannot avoid one.
 
 ### Checks and watching
 - **Use hardened workstations.** Use secure admin workstations (SAWs: hardened, or locked down, machines) to deploy changes to high-risk and production environments.
@@ -276,7 +289,7 @@ The official pages have other pictures: a map of Azure tools for test-driven dev
 
 ## Common mistakes
 
-These are checks, one line each. The next part says which ones I saw myself.
+These are checks, one line each.
 
 **Deployments**
 - **Staying on portal clicks.** The portal accelerator is less flexible and scalable, and updates and version control are hard without IaC.
@@ -296,21 +309,11 @@ These are checks, one line each. The next part says which ones I saw myself.
 
 ## From my own projects
 
-I saw these from the list above in my own projects:
-
-- Staying on portal clicks. This was a real problem.
-- Deploying from a laptop. This was a real problem.
-- No test environment. This was a real problem.
-- One identity for plan and apply, or for all environments. This was a real problem.
-- Approvals only on the environment in Azure DevOps. This was a real problem.
-- Changes made outside the code. This was a real problem.
-- No policy exemption process. This was a real problem.
-
-I did not mark the other three items from the list as something I saw. I leave out project details.
+This post has no items from my own projects.
 
 ## The files in my repo
 
-- Platform automation and DevOps: the decisions to make, my delivery flow, the key controls, and my own practice: [platform-automation-devops.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/platform-automation-devops.md)
+- Platform automation and DevOps: the decisions to make, the repository's delivery flow, the key controls, and its recommended practice: [platform-automation-devops.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/platform-automation-devops.md)
 
 ## Sources
 

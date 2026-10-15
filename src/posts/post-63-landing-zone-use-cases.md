@@ -270,7 +270,7 @@ This post has no items from my own projects.
 
 ## The files in my repo
 
-My repo is a learning implementation, and its own order and habits are my practice, not the documentation's.
+The repository is a learning implementation, and its structure and conventions are intended as an educational approach, not as official Microsoft guidance.
 
 - Ten short use cases in my own words: [use-cases.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/05-use-cases/use-cases.md)
 - How I would hand a new subscription to a workload team: [subscription-vending.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/05-use-cases/subscription-vending.md)

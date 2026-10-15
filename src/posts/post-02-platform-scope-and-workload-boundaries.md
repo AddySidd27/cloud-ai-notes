@@ -60,7 +60,7 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups"
     icons: "Azure Public Service Icons V24 (Management groups, Subscriptions, Microsoft Entra Domain Services, Virtual networks, Azure Firewall, DNS zones, Log Analytics workspaces, Microsoft Sentinel), unmodified"
     source: "../diagrams/post-02-ownership-boundary.drawio"
-production_section_written_by_addy: true  # from Addy's own answers, 2026-10-07; wording drafted by Claude, Addy to review
+production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
 layout: post.njk
 permalink: "/azure-landing-zone/platform-scope-and-workload-boundaries/"
 order: 2
@@ -104,7 +104,7 @@ In [the landing zone introduction post](/azure-landing-zone/what-is-an-azure-lan
 
 ## Where the platform lives
 
-Use a platform management group that holds the common platform policies and role assignments. In the baseline hierarchy, each shared job has its own management group, and each one hosts a dedicated subscription:
+Use a platform management group that holds the common platform policies and role assignments. In the baseline hierarchy, each shared job has its own management group, with a dedicated subscription when that job is needed:
 
 | Management group | What its subscription hosts |
 |---|---|
@@ -164,9 +164,7 @@ The lab teaches the workflow. The enterprise column shows what a real design add
 
 ## From my own projects
 
-I have seen platform and workload resources sitting in the same subscription, and broad access given high up in the hierarchy. Problems like these showed up as slower delivery, security and audit issues, and confusion about cost.
-
-Keeping the platform and the workloads apart, and giving access at the level where it is needed, makes these problems much easier to avoid.
+This post has no items from my own projects.
 
 ## The files in my repo
 
