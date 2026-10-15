@@ -83,7 +83,7 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/"
     icons: "Azure Public Service Icons V24 (Management groups, Policy, Virtual networks), unmodified"
     source: "../diagrams/post-05-requirements-to-landing-zone.drawio"
-production_section_written_by_addy: true  # from Addy's own taps, 2026-10-07; wording drafted by Claude, Addy to review
+production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
 layout: post.njk
 permalink: "/azure-landing-zone/business-requirements-compliance-region-recovery-connectivity-and-cost/"
 order: 5
@@ -149,7 +149,7 @@ Scope matters. If a rule applies to only some workloads, it should not apply to 
 
 Some organizations must meet conflicting rules in several countries. You do not need to change the landing zone when the rules need identical policy assignments, when one rule's controls are a superset of the other's, when the assignments do not overlap, or when you can choose the implementation that suits you. If the rules produce conflicting policy controls, you must adjust the landing zone architecture and the policy assignments. The more conditions a regulation has, the more the landing zone needs to change.
 
-Use one Microsoft Entra tenant (one instance of Microsoft Entra ID, Microsoft's cloud service for identities and access, for one organization, holding its users, groups and devices) for most scenarios, including multinational ones. If you do not need separate tenants for strict isolation, consider deploying more than one landing zone in the same tenant and adjusting the management group hierarchy. Whatever you choose, keep policy assignments, exceptions and exemptions (ways to leave a resource out of a policy's checks) as few as possible.
+Use one Microsoft Entra tenant (one instance of Microsoft Entra ID, Microsoft's cloud service for identities and access, for one organization, holding its users, groups and devices) for most scenarios, including multinational ones. If you do not need separate tenants for strict isolation, consider deploying more than one landing zone in the same tenant and adjusting the management group hierarchy. This is the exception: the usual pattern is one platform landing zone per tenant. Whatever you choose, keep policy assignments, exceptions and exemptions (ways to leave a resource out of a policy's checks) as few as possible.
 
 ## Region: where data lives, and where you deploy
 
@@ -158,6 +158,9 @@ The landing zone architecture is region-agnostic, but you must choose the region
 - **Put region rules in the baseline.** If data residency rules apply, region restriction is a compliance control, so build it into the baseline policy, for example with an allowed locations policy, instead of adding it later.
 - **Design the platform for more than one region.** Even if your workloads use one region today, design the platform to support several, especially connectivity, identity and management, so you can enable multi-region workloads quickly.
 - **Do not build management groups by region.** Do not create a management group structure based on regions. Subscriptions are not tied to a region either.
+- **Know whether a region is paired.** Azure pairs some regions (for example East US with West US), and a small number of services use the pair for geo-replication. Many newer regions are not paired and use availability zones as their main redundancy. Deploying to a paired region does not by itself give you high availability, disaster recovery or failover, so you still need your own plan ([region pairs and nonpaired regions](https://learn.microsoft.com/azure/reliability/regions-paired)).
+- **Residency limits the choice of a secondary region.** If data may not leave a country or a geography, choose a secondary region inside the same boundary. Almost all pairs are inside one geography, with documented exceptions (for example Brazil South is paired with South Central US, which is outside Brazil), so check the pair for your region. You are not limited to the pair: many services can replicate to a region you choose, and nonpaired regions can be part of a resilient design.
+- **Deploy each region the same way, then check the result.** Using the same infrastructure as code (IaC, a way of describing the setup in code files) in each region reduces recovery time and errors compared with manual setup ([business continuity, high availability and disaster recovery](https://learn.microsoft.com/azure/reliability/concept-business-continuity-high-availability-disaster-recovery)). My suggestion: do not assume it guarantees identical state. Manual changes, failed or partial runs and later edits can still cause configuration drift, which is a difference between what the code says and what is deployed. Run the same pipeline against every region, compare what is deployed with the code regularly, and test the secondary region.
 
 When you add a region later, two of the changes are: update the allowed locations policy to allow the new region, and add a network hub in the new region, in your existing Connectivity subscription.
 
@@ -227,9 +230,7 @@ One more warning: do not spend months or years designing the landing zone withou
 
 ## From my own projects
 
-I have seen environments where the requirements were not collected first, where region or data residency rules were decided late, where recovery targets (RTO and RPO) were never defined, and where hybrid connectivity delayed workloads. The effects were rework or redesign, compliance or audit findings, and unexpected cost.
-
-In my view, writing the five requirements down first, with a named owner for each, helps avoid problems like these.
+This post has no items from my own projects.
 
 ## The files in my repo
 

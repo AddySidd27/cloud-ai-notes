@@ -40,7 +40,7 @@ diagrams:
     type: learn-layout-redraw
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/migrate-azure-landing-zone-policies (picture azure-landing-zone-policy-to-built-in.png)"
     source: "../diagrams/post-14-migrate-to-built-in.drawio"
-production_section_written_by_addy: true
+production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
 layout: post.njk
 permalink: "/azure-landing-zone/governance-and-azure-policy/"
 order: 14
@@ -74,12 +74,12 @@ The words below are new, or are explained more fully here. Each is in plain word
 | Policy effect | What a policy does when a resource matches the rule's condition. The main ones: Deny blocks the request. Append adds settings to a resource as it is created or updated. Modify adds, updates or removes settings or tags. DeployIfNotExists (DINE) deploys a missing supporting setting. Audit and AuditIfNotExists (AINE) only record that a resource is not compliant. Disabled switches the rule off. |
 | Compliant and non-compliant | A resource that follows the rule is compliant. One that does not is non-compliant. |
 | DINE and Modify policies | DINE and Modify policies are part of the landing zone reference implementation (Microsoft's ready-made deployment of the reference architecture). They help make sure landing zones (subscriptions) and the resources in them follow the rules, and they remove work from the platform and landing zone teams. |
-| Enforcement mode | A setting on a policy assignment. The two values are called Enabled and Disabled in the portal, and Default and DoNotEnforce in templates and APIs. Enabled and Default mean the same thing: the effect runs. With DoNotEnforce, the assignment effectively becomes audit-only without changing the policy definition. |
+| Enforcement mode | A setting on a policy assignment. The two values are called Enabled and Disabled in the portal, and Default and DoNotEnforce in templates and APIs. Enabled and Default mean the same thing: the effect is enforced when a resource is created or updated. Azure Policy now also has a third value, Enroll, which this post does not cover. With DoNotEnforce, the assignment effectively becomes audit-only without changing the policy definition. |
 | Remediation task | A task that brings non-compliant resources into compliance. You can start one by hand even when the enforcement mode is DoNotEnforce. |
 | Built-in policy and custom policy | A built-in policy is one that Azure already provides. A custom policy is one you or the landing zone reference implementation define yourself. The landing zone custom policies sit in the intermediate root management group, and some may later be replaced by built-in policies. |
 | Diagnostic settings | The setting on a resource that sends its logs and metrics to a place such as a Log Analytics workspace. |
 | Infrastructure as code | Describing Azure resources in code files, so they can be deployed the same way every time. Bicep and Terraform are two languages for this. |
-| Canary environment | A separate, smaller environment where you try a change before it reaches everything. Testing in a separate management group hierarchy in the same tenant is also called a "canary" deployment. |
+| Canary environment | A full copy of the production management group hierarchy, in the same tenant, used to test platform changes such as policy, role assignments and management groups before production. A sandbox subscription is the lighter option. |
 | Change advisory review board | A group that reviews changes before they happen. |
 | Regulatory compliance policies | Policies that match a regulation or standard. Examples are HIPAA, PCI-DSS and SOC 2 Trust Services Criteria. |
 | Resource provider registration | Switching on an Azure service type for a subscription so that its resources can be created. |
@@ -139,9 +139,9 @@ Microsoft Cost Management (its tool for cost oversight, with billing scopes, bud
 
 For deployment:
 
-- Identify the tags you need and enforce them with Azure Policy. Two Microsoft pages give different advice here. The Governance page says to use the append policy mode. The policy effects page says append is meant for non-tag properties and recommends Modify for tags, so check both pages when you choose.
+- Identify the tags you need and enforce them with Azure Policy. My suggestion: use the Modify effect for tags. It has more operation types and can fix existing resources. Use Append for tags only if you cannot create a managed identity, or Modify does not support the property.
 - Map regulatory and compliance requirements to Azure Policy definitions and Azure role assignments.
-- Create Azure Policy definitions at the top-level root management group, because they might be assigned at inherited scopes. The Governance page says "top-level root" and the update pages say "intermediate root". [The resource organization post](/azure-landing-zone/resource-organization/) explains the levels.
+- Create Azure Policy definitions at a management group above every scope that may get an assignment, because they might be assigned at inherited scopes. My suggestion: use the intermediate root management group, the top of your landing zone hierarchy below the tenant root. [The resource organization post](/azure-landing-zone/resource-organization/) explains the levels.
 - Manage policy assignments at the highest appropriate level, with exclusions (places where the assignment does not apply) at lower levels if needed.
 - Use Azure Policy to control resource provider registrations at the subscription or management group level.
 - Use built-in policies to reduce day-to-day work.
@@ -200,6 +200,20 @@ This table summarizes the combinations. "Enabled or Default" means the effect ru
 
 Resource selectors also help. They let you roll out a policy assignment step by step, based on resource location, resource type, or whether the resource has a location.
 
+## Evaluation, exemptions and policy as code
+
+**When policy is evaluated.** Azure Policy does not check everything at once. It evaluates when a resource is created or updated, when an assignment is created or changed, when an exemption changes, on a standard cycle that repeats daily, and on demand ([Get compliance data of Azure resources](https://learn.microsoft.com/azure/governance/policy/how-to/get-compliance-data#evaluation-triggers)). Results are therefore not instant, so wait before you judge a new policy. [The brownfield rollout post](/azure-landing-zone/brownfield-rollout/) has the timings and the on-demand scan.
+
+**Exclusion and exemption are different.** An exclusion (`notScopes` on an assignment) removes a scope from the assignment: those resources are not evaluated or counted. An exemption keeps the resource tracked and shows it as Exempt in compliance reports ([exemption structure](https://learn.microsoft.com/azure/governance/policy/concepts/exemption-structure), checked October 2026).
+
+- An exemption has a category: *waiver* (non-compliance is accepted for now) or *mitigated* (the policy's aim is met another way).
+- It can have an expiry date. After that date it is no longer honored, and the object stays for record keeping.
+- To create one you need write permission on the exemptions and the `exempt/Action` permission on the assignment, so exemptions are not open to everyone.
+- The exemption has a `metadata` field. The documentation's example uses it to record who asked, who approved and a ticket reference.
+- Exemptions are meant for time-bound or specific cases. Review them regularly and remove the ones that no longer qualify.
+
+**Policy as code.** The [policy-as-code workflow](https://learn.microsoft.com/azure/governance/policy/concepts/policy-as-code) treats policy definitions, initiatives and exemptions as files in source control. My suggestion: deploy them through the same pipeline as your other infrastructure as code, test a new assignment with enforcement mode disabled first, and then enable it, which is the same order as the three phases in the section above. [The platform automation post](/azure-landing-zone/platform-automation-and-devops/) covers the pipeline side.
+
 ## Keeping the landing zone policies up to date
 
 The landing zone custom policies and initiatives are updated to newer versions over time, and some may be replaced by built-in Azure policies. The manual, high-level steps are below. Separate update guides exist for Microsoft's ready-made Terraform and Bicep modules.
@@ -219,7 +233,7 @@ After you delete assignments, your environment is not protected until you reassi
 
 ## New and existing environments
 
-For a new (greenfield) environment, start by creating a small set of subscriptions and use the Bicep deployment templates for the landing zones. For an existing (brownfield) environment, do five things:
+For a new (greenfield) environment, start by creating a small set of subscriptions and deploy with the platform landing zone accelerator, using Azure Verified Modules for Bicep or Terraform. Older guidance still points to the first-generation ALZ-Bicep templates; those are being retired, so I would not start a new deployment on them. For an existing (brownfield) environment, do five things:
 
 - Set up a management baseline ([the management and monitoring post](/azure-landing-zone/management-and-monitoring/)).
 - Use Microsoft Cost Management features, such as billing scopes, budgets and alerts, so you do not exceed your expense limit.
@@ -254,8 +268,6 @@ I redrew four pictures from the official documentation with the same layout. The
 
 ## Common mistakes
 
-The next part says which ones I saw myself.
-
 - **Rules only in a document.** Azure Policy replaces review boards with automated guardrails and checks.
 - **Policies defined too low.** Create definitions at the top-level root management group, because they may be assigned at inherited scopes.
 - **Too many assignments at the root.** Limit them, to avoid managing exclusions at inherited scopes.
@@ -268,17 +280,7 @@ The next part says which ones I saw myself.
 
 ## From my own projects
 
-I saw these from the list above in my own projects:
-
-- Rules only in a document. This was a real problem.
-- Policies defined too low. This was a real problem.
-- Too many assignments at the root. This was a real problem.
-- Custom policies when a built-in one exists. This was a real problem.
-- Never updating landing zone policies. This was a real problem.
-- No tags for cost. This was a real problem.
-- Treating cost as someone else's job. This was a real problem.
-
-I did not mark the other two items from the list as something I saw. I leave out project details.
+This post has no items from my own projects.
 
 ## The files in my repo
 

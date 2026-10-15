@@ -84,7 +84,7 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/multi-tenant/considerations-recommendations and https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/plan-connect-topologies"
     icons: "Azure Public Service Icons V24 (Azure Lighthouse), Microsoft Entra architecture icons Oct 2023 (Microsoft Entra ID, Microsoft Entra Connect Sync), all unmodified"
     source: "../diagrams/post-06-two-brand-shapes.drawio"
-production_section_written_by_addy: true  # from Addy's own answers, 2026-10-07; wording drafted by Claude, Addy to review
+production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
 layout: post.njk
 permalink: "/azure-landing-zone/billing-and-tenant-in-depth/"
 order: 6
@@ -138,7 +138,7 @@ For an Enterprise Agreement, apart from the account owner, enrollment roles do n
 
 The person who can see or pay the bill is not automatically the person who can change the resources, and the reverse is also true. The Owner role is an Azure RBAC role that grants full access to manage all resources, including the ability to assign roles in Azure RBAC. Microsoft Entra roles are used to manage Microsoft Entra resources in a directory, for example to create or edit users, assign administrative roles to others and manage domains.
 
-## What to do for all three
+## What to do for EA and MCA, and what carries over to CSP
 
 - **Plan subscription vending.** Subscription vending is a standard, automated way for the platform team to hand out subscriptions to workload teams. Automate subscription creation as a self-service function, from the start of the landing zone journey.
 - **Protect subscription creators.** Anyone who can create subscriptions must use multifactor authentication (MFA), like any privileged account. With MFA, the user is asked at sign-in for an extra form of identification, such as a code on a phone or a fingerprint scan. [Privileged access](/azure-landing-zone/privileged-access-mfa-conditional-access-and-pim/) covers it in full.
@@ -149,7 +149,7 @@ The person who can see or pay the bill is not automatically the person who can c
 
 Agreement-specific points:
 
-- **EA:** use the *Work or school account* type (a sign-in managed by an organization), not a personal Microsoft account. Do not move, rename or delete the Microsoft Entra user tied to the enrollment account.
+- **EA:** use the *Work or school account* type (a sign-in managed by an organization), not a personal Microsoft account. From November 16, 2026, new EA billing role assignments cannot use personal Microsoft accounts (existing ones are not affected yet). Do not move, rename or delete the Microsoft Entra user tied to the enrollment account.
 - **CSP:** the partner should create subscriptions in your own Microsoft Entra tenant, not in a partner-managed one. Also use Azure Lighthouse for most support access. Azure Lighthouse lets one tenant manage resources that belong to another tenant. The owner delegates subscriptions or resource groups to chosen users in the managing tenant, and can remove that access at any time.
 
 ## The tenant: one is the default
@@ -188,7 +188,7 @@ If your organization has several brands, the question is whether each brand need
 
 Three cautions about brand-level tenants:
 
-- If you do create separate tenants, the business unit often runs its own tenant, and the Azure team and the identity team need a clear RACI (who is responsible, accountable, consulted and informed).
+- Separate brand tenants are often handed over in full to the business unit, and the central team loses its view. Whatever you choose, the Azure team and the identity team need a clear RACI (who is responsible, accountable, consulted and informed).
 - Do not use more tenants to escape friction between the cloud team and the identity team. Fix the operating problem instead.
 - Microsoft Entra ID P1 and P2 licenses do not span tenants, so costs can grow.
 
@@ -244,7 +244,7 @@ My own rule of thumb, based on the default of one tenant: start with Shape 1. Mo
 
 ![Top, Enterprise Agreement: a Microsoft Entra tenant above the Azure RBAC tree of management groups, subscriptions, resource groups and resources, beside the EA roles. The EA enrollment leads to an optional EA department and then the EA account owner, and the roles run Enterprise Administrator, Department Administrator, Account Owner. Dashed arrows show the EA account owner getting the Azure RBAC Owner role on its subscriptions. Bottom, Microsoft customer agreement: a billing account holds a billing profile, then invoice sections, then subscriptions](/diagrams/post-06-billing-and-tenant.svg)
 
-*First diagram: simplified, redrawn by me to follow the layout of two diagrams in the official documentation: the Enterprise Agreement relationship diagram and the Microsoft customer agreement hierarchy diagram, both from [Azure billing offers and Microsoft Entra tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-ad-tenant) and its linked pages. The official pages have no diagram for Cloud Solution Provider, so it is not drawn. Names such as invoice section A are generic. Not an official Microsoft diagram. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) and [Microsoft Entra](https://learn.microsoft.com/en-us/entra/architecture/architecture-icons) architecture icon sets.*
+*First diagram: simplified, redrawn by me to follow the layout of two diagrams in the official documentation: the Enterprise Agreement relationship diagram and the Microsoft customer agreement hierarchy diagram, both from [Azure billing offers and Microsoft Entra tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-ad-tenant) and its linked pages. The Cloud Solution Provider hierarchy (the partner's Microsoft Partner Agreement) is not drawn here; see the official page. Names such as invoice section A are generic. Not an official Microsoft diagram. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) and [Microsoft Entra](https://learn.microsoft.com/en-us/entra/architecture/architecture-icons) architecture icon sets.*
 
 ![One Microsoft Entra tenant holds a management group such as Corp. Brand A and Brand B each have Production, Test and Development subscriptions. A billing unit per brand, a department and account for EA or an invoice section for MCA, sits on the left](/diagrams/post-06-brands-one-tenant.svg)
 
@@ -267,9 +267,7 @@ My own rule of thumb, based on the default of one tenant: start with Shape 1. Mo
 
 ## From my own projects
 
-I have seen environments with no emergency (break-glass) access plan, and environments where a partner (CSP) managed subscriptions or access. These showed up as billing confusion, slow subscription creation and access or security gaps.
-
-Naming a billing owner, a tenant owner and an emergency access plan early helps avoid problems like these.
+This post has no items from my own projects.
 
 ## The files in my repo
 

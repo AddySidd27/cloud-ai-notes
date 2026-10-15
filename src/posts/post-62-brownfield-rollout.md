@@ -255,7 +255,7 @@ My illustration of how the made-up manufacturer could sort them:
 | 2 | About 12 development and test subscriptions | Low risk; teaches the team the waits |
 | 3 | Production subscriptions of one department | One owner group, one change window |
 | 4 | Remaining production subscriptions, by department | Use what waves 2 and 3 taught |
-| Last | Unowned and unused subscriptions: find the owner, or cancel into Decommissioned | Nothing moves without an owner (my practice) |
+| Last | Unowned and unused subscriptions: find the owner, or cancel into Decommissioned | Nothing moves without an owner (the repository's approach) |
 | Not now | The shared hub network | The documentation gives no steps for merging a hub, so decide it separately and test the decision |
 
 **Do this:** list your subscriptions by department, add the owner and where each subscription's Owner role comes from, and mark the ones nobody can name. The enterprise agreement shows which account created each subscription, which is a good first lead for finding the unowned ones (my suggestion).
@@ -325,7 +325,7 @@ This proves the tool works. Add `--subscriptions` or `--management-groups` to na
 - **Dependencies.** Not every resource type supports a move.
 - **Networks.** Nothing may overlap the address range you plan to use. Note VPN Gateway and ExpressRoute links.
 - **Identity.** Note your Active Directory domains and whether Microsoft Entra Connect is in place. Workloads that need legacy sign-in (LDAP, Kerberos, Group Policy) need an early decision.
-- **Owners.** My practice: every subscription has a named owner, and no production subscription stays ownerless before its first move.
+- **Owners.** The repository's approach: every subscription has a named owner, and no production subscription stays ownerless before its first move.
 
 For a partial or mature existing platform, start with the readiness checks in [the minimum viable platform post](/azure-landing-zone/minimum-viable-platform-landing-zone/).
 
@@ -501,7 +501,7 @@ Tick each item as you go.
 
 **Before**
 
-- [ ] Owner and rollback owner named (my practice).
+- [ ] Owner and rollback owner named (the repository's approach).
 - [ ] Inventory row complete.
 - [ ] Destination policies listed: `az policy assignment list --management-group <groupId> --filter atScope()`.
 - [ ] Audit-only results read, every non-compliant resource owned.
@@ -518,7 +518,7 @@ Tick each item as you go.
 - [ ] The portal shows the subscription under the right group, and access works.
 - [ ] The pipeline runs, and alerts and dashboards use the new resource IDs after a resource move.
 - [ ] `az policy state list` shows compliance.
-- [ ] My practice: one test deployment that should succeed does, one that should be denied is denied, and you observe for an agreed time before the next wave.
+- [ ] The repository's approach: one test deployment that should succeed does, one that should be denied is denied, and you observe for an agreed time before the next wave.
 
 </details>
 
@@ -584,7 +584,7 @@ When the workload team and platform team bring compliance into the required stat
 az account management-group subscription add --name '<corpGroupId>' --subscription '<subscriptionId>'
 ```
 
-A subscription has one parent, so this replaces the duplicate group, and the full policies now cover it. For DINE and Modify, the [policy-driven guardrails page](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/dine-guidance) enables them in stages: a reduced scope such as Sandbox first, then everywhere. Cancel subscriptions you no longer need and place them in Decommissioned; my practice adds a holding period and a final approval.
+A subscription has one parent, so this replaces the duplicate group, and the full policies now cover it. For DINE and Modify, the [policy-driven guardrails page](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/dine-guidance) enables them in stages: a reduced scope such as Sandbox first, then everywhere. Cancel subscriptions you no longer need and place them in Decommissioned; the repository's approach adds a holding period and a final approval.
 
 Before its wave starts, tell each team its group, the policies that apply, its non-compliant resources and who fixes them. New subscriptions follow [the subscription vending steps](post-61-greenfield-rollout.md#hand-over-the-first-workload).
 
@@ -645,7 +645,7 @@ Each item is an end state you can verify. The runbook is the order of work; this
 
 **Before decommissioning**
 
-- [ ] The owner confirmed that the subscription is unused, the holding period passed, and the final approval is recorded (my practice).
+- [ ] The owner confirmed that the subscription is unused, the holding period passed, and the final approval is recorded (the repository's approach).
 
 </details>
 
@@ -657,7 +657,7 @@ A landing zone is not finished when the last subscription is in place. The next 
 
 - **Copying today's structure into management groups.** Departments, regions and environments belong in subscriptions and tags.
 - **Leaving billing and access with different people and no shared list.** The account owner who creates a subscription and the Owner who runs it can be different people. Keep one sheet that names both.
-- **Starting the next wave before the checks pass.** The documentation gives no order; the pilot exit criteria and the checklist are my guard against this.
+- **Starting the next wave before the checks pass.** The documentation gives no order; the pilot exit criteria and the checklist are the repository's guard against this.
 
 ## From my own projects
 
@@ -665,11 +665,11 @@ I have not marked any item in the list above as something I saw in my own projec
 
 ## The files in my repo
 
-My repo is a learning implementation, and its own order and habits are my practice, not the documentation's.
+My repo is a learning implementation, and its own order and habits are the repository's approach, not the documentation's.
 
-- Govern an existing Azure environment: a fictional company with 45 subscriptions, thirteen phases with evidence and an exit condition each. My habits: inventory first, audit mode before enforcement, a low-risk pilot wave, a rollback path per wave: [brownfield.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/05-use-cases/brownfield.md)
+- Govern an existing Azure environment: a fictional company with 45 subscriptions, thirteen phases with evidence and an exit condition each. The repository's habits: inventory first, audit mode before enforcement, a low-risk pilot wave, a rollback path per wave: [brownfield.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/05-use-cases/brownfield.md)
 - Ten short use cases: [use-cases.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/05-use-cases/use-cases.md)
-- What I record for a time-limited policy exception: [policy-exemptions.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/06-operations/policy-exemptions.md)
+- A template for recording a time-limited policy exception: [policy-exemptions.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/06-operations/policy-exemptions.md)
 - A ten-step decommissioning process, cancelling last: [decommissioning.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/05-use-cases/decommissioning.md)
 - Which services charge while idle: [cost-and-safety.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/03-implementation/cost-and-safety.md)
 

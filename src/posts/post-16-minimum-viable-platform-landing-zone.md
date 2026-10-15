@@ -27,7 +27,7 @@ diagrams:
     type: own-layout
     based_on: "The official documentation has no picture for this topic. The boxes follow the article's list of seven capabilities and its readiness table (migrate-from-on-premises-platform-landing-zone)."
     source: "../diagrams/post-16-minimum-viable-platform-landing-zone.drawio"
-production_section_written_by_addy: true
+production_section_written_by_addy: false  # no personal-experience claims; Addy to confirm any item individually (2026-10-15)
 layout: post.njk
 permalink: "/azure-landing-zone/minimum-viable-platform-landing-zone/"
 order: 16
@@ -56,7 +56,7 @@ The words below are the central ones for this post. Each is in plain words. Othe
 
 | Word | What it means |
 |---|---|
-| Platform landing zone | The shared foundation for the whole organization. It covers the whole organization, the platform team or central IT (the organization's main IT group) owns it, and you build it once, before any workload moves. |
+| Platform landing zone | The shared foundation for the whole organization. It covers the whole organization, the platform team or central IT (the organization's main IT group) owns it, and you build the first version before any workload moves. |
 | Workload landing zone | The place for one workload. It is per workload, the workload team owns it, and it is prepared per workload during the execution phase of the migration. The execution phase is the part of a migration project where workloads are actually moved. |
 | Minimum viable platform landing zone | The foundation needed to land and operate the first workload. |
 | Capability | One thing the platform must be able to do, such as connect to your on-premises network. |
@@ -117,7 +117,7 @@ The management group and subscription hierarchy control Azure Policy, RBAC and c
 
 If any workload has data residency, sovereignty (control of data by a country's laws) or regulatory requirements, region restriction becomes a compliance control, not only a readiness control. Build those requirements into the baseline policy set from the start, for example with allowed locations policies, and do not add them later. If an organization has conflicting regional requirements, they may also need to show up in the management group structure. The documentation has a page on multiple locations for that case.
 
-**Cost governance (a related decision, not one of the seven).** Set budgets (spending limits) and alerts (messages that tell someone when spending gets near or over a budget) at the management group or subscription level before migration, and give someone the job of reviewing them. Cost allocation (working out which part of the bill belongs to which workload) is easier when each workload has its own subscription, but not every organization works that way.
+**Cost governance (a related decision, not one of the seven).** Set budgets (planned spending amounts that send alerts but do not stop spending) and alerts (messages that tell someone when spending gets near or over a budget) at the management group or subscription level before migration, and give someone the job of reviewing them. Cost allocation (working out which part of the bill belongs to which workload) is easier when each workload has its own subscription, but not every organization works that way.
 
 **Subscription vending (a related decision, not one of the seven).** This is a platform decision: how workload subscriptions are requested, created with the right first settings, and attached to the right management group before the first migration. After you create the platform landing zone and your governance strategy, set up a consistent way to create subscriptions for workload owners. There are two infrastructure as code module options for subscription vending, one for Bicep and one for Terraform. They are most effective as part of an automated process.
 
@@ -131,7 +131,7 @@ What you need is narrow: a working hub network in the connectivity subscription,
 
 | Option | What to know |
 |---|---|
-| VPN Gateway | Often the fastest way to get working connectivity. It can stay the right long-term answer for lower-bandwidth or less latency-sensitive workloads. For smaller organizations it may be enough for the whole migration. Pick the gateway SKU by expected migration throughput before you deploy. A SKU (stock-keeping unit) is a size or tier of a product, so the gateway SKU is the size you pick for the VPN gateway. The Basic SKU caps at around 100 Mbps in total. Mbps means megabits per second, a measure of network speed. The Basic SKU does not support active-active mode, which is a VPN gateway with two active instances for resilience. It also does not support BGP. This rules it out for most production migration workloads. |
+| VPN Gateway | Often the fastest way to get working connectivity. It can stay the right long-term answer for lower-bandwidth or less latency-sensitive workloads. For smaller organizations it may be enough for the whole migration. Pick the gateway SKU by expected migration throughput before you deploy. A SKU (stock-keeping unit) is a size or tier of a product, so the gateway SKU is the size you pick for the VPN gateway. The Basic SKU caps at around 100 Mbps in total. Mbps means megabits per second, a measure of network speed. The Basic SKU does not support active-active mode, which is a VPN gateway with two active instances for resilience. It also does not support BGP. This rules it out for most production migration workloads. For a new gateway, choose a zone SKU (the name ends in AZ, for example VpnGw1AZ). You can no longer create new non-zone VpnGw1 to VpnGw5 gateways, and Microsoft's pages word the retirement of those SKUs differently ("after September, 2026" on the consolidation page, 30 September 2026 in an announcement), so check the state of any such gateway you own; existing non-zone gateways no longer allow configuration changes until they are migrated ([VPN Gateway SKU consolidation](https://learn.microsoft.com/azure/vpn-gateway/gateway-sku-consolidation), checked October 2026; timelines can change). The Basic SKU is not retiring. |
 | ExpressRoute | Can be the day-one path when dedicated private connectivity, predictable routing or regulatory requirements matter more than speed of setup. Delivery depends on the provider and on buying it, so treat it as planning work, not a fixed promise. Plan for weeks or months, not days. Run a VPN Gateway in parallel if migration dates cannot wait. |
 | Both | After ExpressRoute is live, many teams keep a route-based VPN Gateway as a failover path (a backup path to switch to when the main path fails). The ExpressRoute circuit is the primary path, and the VPN carries traffic only if the circuit fails. |
 
@@ -262,16 +262,7 @@ The seven capabilities are a list in the documentation, with no picture. So this
 
 ## From my own projects
 
-I saw these from the list above in my own projects:
-
-- Building the foundation by hand in the portal. This was a real problem.
-- No readiness check before the first workload. This was a real problem.
-- Budgets and alerts added late. This was a real problem.
-- One virtual network, one subnet, everything inside. This was a real problem.
-- Region rules added late. This was a real problem.
-- Public endpoints with no owner. This was a real problem.
-
-I did not mark the other items from the list as something I saw. I leave out project details.
+This post has no items from my own projects.
 
 ## The files in my repo
 
