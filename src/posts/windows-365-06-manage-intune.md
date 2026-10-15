@@ -1,11 +1,11 @@
 ---
-title: "Windows 365 Enterprise: Manage Settings, Apps and Updates"
+title: "Windows 365 Enterprise: Manage Settings, Apps, Updates and Restart"
 layout: post.njk
 permalink: /windows-365/manage-intune/
 order: 206
 part: 6
 tags: w365-series
-deck: "A three-step Intune lab that checks assignment, device reporting and the visible result inside the Cloud PC."
+deck: "Four practical management checks: settings, apps, updates and a controlled restart, with evidence limits."
 ---
 
 After the Cloud PC works, manage it like a Windows endpoint through Microsoft Intune. Test one change at a time. This makes a mismatch between the Intune report and the desktop easier to diagnose.
@@ -19,6 +19,7 @@ Use one assigned Enterprise Cloud PC and a pilot group. Record the Cloud PC name
 | A: Edge setting | Settings catalog assignment and device report | Effective Edge setting | Both views captured on September 24; the follow-up explains the comparison limit. |
 | B: application | Required app installation status | Company Portal Installed view and app launch | Required app and launch views captured; an Available assignment and uninstall were not tested. |
 | C: updates | Ring assignment and reporting | Windows Update history and build | Update history captured; a controlled ring rollout and restart were not demonstrated. |
+| D: restart | Action status and later Intune check-in | Reconnect, desktop and Edge policy | Restart and reconnect passed on October 7; Intune action report and new check-in were not captured. |
 
 The steps below let a reader repeat each lab. The status in the last column describes only my existing pilot evidence.
 
@@ -65,6 +66,19 @@ An app launch view was also captured, but a full Available assignment and contro
 This screenshot establishes the installed update history visible on September 24. The [October 6 ring review](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-08-2026-10-06-update-ring-review.md) does not demonstrate a controlled ring deployment and restart.
 
 ![Windows Update history on the Enterprise pilot](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-08-2026-09-24-update-history.jpg)
+
+## Lab D: controlled restart and remote actions
+
+A remote action can interrupt a user's work. Read the action's impact before selecting it. In this pilot, only **Restart** was tested. Resize, Move, Restore and Reprovision are separate lifecycle tests, not a completed part of this lab. The [lifecycle decision guide](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-10-cloud-pc-lifecycle-operations.md) includes a draw.io diagram and explains the data impact of each choice.
+
+1. Ask the user to save work. Confirm the Cloud PC, its owner and the intended action. Record the starting state and time.
+2. In [Windows App](https://windows.cloud.microsoft/), open **Devices**, select the Cloud PC's **More options**, then **Restart**. Read the confirmation before proceeding. In an Intune-managed workflow, check the available remote actions on the Cloud PC device record; the exact menu depends on role and device state.
+3. Watch for the restart state. Wait until **Connect** returns. Open a fresh session and check sign-in, desktop and the setting or app that matters to the user.
+4. In Intune, review **Devices > Monitor > Cloud PC actions** and the device's last check-in when those views are available. Record their time separately from the user reconnect. A browser reconnect by itself does not prove the Intune report or app health.
+
+**Observed on 7 October 2026:** The existing Enterprise Cloud PC showed **Restarting**; the active session disconnected; **Connect** returned; a new web session reached the signed-in desktop. Edge still reported the device's HomepageLocation policy as OK. See the [dated restart record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-10-2026-10-07-controlled-restart.md). That test did not capture the Cloud PC actions report, a new Intune check-in or post-restart app status, so the full management validation remains open. The original lab record is the evidence for this result; no portal screenshot of that restart sequence is published here.
+
+**Do not try the other actions on the sole working Cloud PC to fill a blog gap.** Restore rolls back local changes after the selected point, and Reprovision rebuilds the Cloud PC. A separate disposable device and a recorded recovery path are needed before those labs. See Microsoft's [remote management action reference](https://learn.microsoft.com/en-us/windows-365/enterprise/remotely-manage-cloud-pc).
 
 ## What counts as a completed test
 
