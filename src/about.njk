@@ -25,13 +25,34 @@ permalink: "/about/"
     <li><strong>{{ a.name }}.</strong> {{ a.text }}</li>
     {%- endfor %}
   </ul>
+  <h2>Agentic AI for IT operations</h2>
+  <p>Agentic AI means an AI model that does more than answer questions: it chooses which tools to call, reads what they return and decides what to check next. The Model Context Protocol (MCP) is an open standard for giving a model a set of tools like this. A RAG pipeline (retrieval-augmented generation) lets a model look up your own documents before it answers.</p>
+  <p>I build this kind of tooling for end-user computing operations: MCP servers, RAG pipelines and diagnostic agents for Azure Virtual Desktop and Citrix environments. An example is an agent that follows one user problem from the session, through the session host and FSLogix, down to the profile storage, to find the root cause.</p>
+  <p>The rules I build by:</p>
+  <ul>
+    <li><strong>Read-only first.</strong> A diagnostic tool reads and reports. Fixing things comes later, in a controlled way, if at all.</li>
+    <li><strong>Real APIs, checked against official documentation.</strong> Every call is verified before it is used, and no tool runs arbitrary commands.</li>
+    <li><strong>One tool at a time.</strong> Each tool is built, tested and approved before the next one starts.</li>
+    <li><strong>No production claims without evidence.</strong> A tool is not called production-ready until it has been tested in a real, authorized environment.</li>
+  </ul>
+  <p>These projects are in development and are not published as public repositories yet. I will link them here when they are.</p>
   <h2>About this site</h2>
   <p>AdnanSiddiqui.com is a technical publication. Articles are written in a fixed format: the problem, a simple explanation, a diagram, what has been seen in production, the repo files, and the sources.</p>
   <p>Azure facts are checked against Microsoft Learn before an article is published. Examples use made-up organizations, never real company names. This is a personal blog: opinions are my own and the site is not affiliated with Microsoft.</p>
   <h2>Where to start</h2>
   <p><a href="/start-here/">Start here</a> explains how the site is organized. The <a href="/azure-landing-zone/">Azure Landing Zone series</a> is the first full series.</p>
+  <h2>Repositories</h2>
+  <ul>
+    <li><a href="https://github.com/AddySidd27/Azure_landing_zone">Azure_landing_zone</a>: build and operate an Azure landing zone with Terraform.</li>
+    <li><a href="https://github.com/AddySidd27/azure-virtual-desktop-enterprise-architecture">azure-virtual-desktop-enterprise-architecture</a>: enterprise Azure Virtual Desktop architecture with Terraform, labs, diagrams and runbooks.</li>
+    <li><a href="https://github.com/AddySidd27/Windows365-enterprise-engineering">Windows365-enterprise-engineering</a>: Windows 365 design and operations labs.</li>
+    <li><a href="https://github.com/AddySidd27/terraform-azure-avd-autoscaling-cost-optimization">terraform-azure-avd-autoscaling-cost-optimization</a>: Terraform for Azure Virtual Desktop scaling plans and cost.</li>
+    <li><a href="https://github.com/AddySidd27/Linux-essentials-for-cloud-engineer">Linux-essentials-for-cloud-engineer</a>: Linux on Azure, AWS and Google Cloud, tested on real systems.</li>
+  </ul>
   <h2>About the repository</h2>
   <p>The <a href="{{ site.repo }}">Azure Landing Zone repository</a> lets you learn, build and operate an Azure landing zone with Terraform. It covers the Cloud Adoption Framework design areas, Corp and Online archetypes, a policy model, labs and day-2 operations.</p>
   <p>It is an independent learning repository. Its Terraform checks run in public GitHub Actions, and the <a href="{{ site.repo }}/blob/main/docs/03-implementation/release-evidence.md">release evidence page</a> says what those checks do and do not prove.</p>
+  <h2>Connect</h2>
+  <p><a href="{{ site.linkedin }}" rel="me noopener">LinkedIn</a>.</p>
 </div></div>
 <script type="application/ld+json">{{ site | ldPerson | safe }}</script>

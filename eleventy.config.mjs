@@ -38,7 +38,7 @@ export default function (eleventyConfig) {
     { "@type": "WebSite", "@id": site.url + "/#website", url: site.url + "/", name: site.name, description: site.description, publisher: { "@id": site.url + "/#author" },
       potentialAction: { "@type": "SearchAction", target: site.url + "/search/?q={search_term_string}", "query-input": "required name=search_term_string" } },
     { "@type": "Person", "@id": site.url + "/#author", name: site.author, jobTitle: site.role, url: site.url + "/about/" } ] }));
-  eleventyConfig.addFilter("ldPerson", (site) => JSON.stringify({ "@context": "https://schema.org", "@type": "Person", name: site.author, jobTitle: site.role, url: site.url + "/about/" }));
+  eleventyConfig.addFilter("ldPerson", (site) => JSON.stringify({ "@context": "https://schema.org", "@type": "Person", name: site.author, jobTitle: site.role, url: site.url + "/about/", sameAs: [site.linkedin, "https://github.com/AddySidd27"].filter(Boolean) }));
   eleventyConfig.addFilter("ldArticle", (c) => {
     const { site, title, deck, url, img, meta, ser, tp } = c;
     return JSON.stringify({ "@context": "https://schema.org", "@graph": [

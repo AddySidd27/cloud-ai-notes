@@ -7,6 +7,7 @@ export default {
   author: "Adnan Ahmed",
   role: "Senior Solutions Architect",
   featured: 63, // article order number shown as the feature on the home page; it needs a diagram
+  linkedin: "https://www.linkedin.com/in/adnan-a-siddiqui-768b5714",
   credentials: [],
   certifications: [
     { code: "MCT", name: "Microsoft Certified Trainer", issuer: "Microsoft" },
@@ -15,12 +16,13 @@ export default {
     { code: "AZ-104", name: "Microsoft Certified: Azure Administrator Associate", issuer: "Microsoft" },
     { code: "CCP-V", name: "Citrix Certified Professional – Virtualization (CCP-V)", issuer: "Citrix" },
     { code: "CCA-V", name: "Citrix Certified Associate – Virtualization (CCA-V)", issuer: "Citrix" },
-    { code: "NME", name: "Nerdio Engineer certification", issuer: "Nerdio" },
+    { code: "CVAD", name: "Citrix Virtual Apps and Desktops 7 on Citrix Cloud", issuer: "Citrix" },
+    { code: "NCE", name: "Nerdio Certified Engineer (NCE)", issuer: "Nerdio" },
   ],
   workAreas: [
     { name: "Azure and hybrid infrastructure", text: "Azure landing zones, Azure Virtual Desktop, Windows 365, and Citrix environments that run in Azure and on-premises." },
     { name: "AWS", text: "Hybrid Azure and AWS infrastructure." },
-    { name: "AI and agentic AI", text: "Building tools where an AI model calls real systems through the Model Context Protocol (MCP), such as a read-only troubleshooting agent for Azure Virtual Desktop and FSLogix." },
+    { name: "AI and agentic AI", text: "MCP servers, RAG pipelines and diagnostic agents for Azure Virtual Desktop and Citrix environments. See the next section." },
     { name: "Automation with n8n", text: "Workflow automation, including a voice assistant that answers questions about Azure Virtual Desktop and Windows 365." },
   ],
   bio: "I design and explain Azure landing zones and end-user computing platforms. Each article starts from the basics, defines every term, and is checked against Microsoft Learn before it goes out.",
