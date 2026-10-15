@@ -499,3 +499,58 @@ dialog.zoom.expanded .zoom-image img{width:var(--zoom-width);max-width:none;max-
 .foot nav a{color:#A9BCD3}.foot nav a:hover{color:#fff}
 .foot .m-a{stroke:#EAF1F9}
 :root[data-theme=dark] .foot,:root:not([data-theme=light]) .foot{}
+
+/* ---------- v8: author presence, real diagram thumbnails, browse and subscribe ---------- */
+.home-links{display:flex;flex-wrap:wrap;gap:.4rem 1.25rem;margin-top:1.25rem;font-size:.95rem}
+.home-links a{color:var(--band-accent);font-weight:600}
+.topic-chips{list-style:none;display:flex;flex-wrap:wrap;gap:.6rem;margin:0;padding:0}
+.topic-chips a{display:inline-flex;align-items:center;gap:.55rem;padding:.55rem .95rem;border:1px solid var(--line2);border-radius:999px;background:var(--surface);color:var(--ink);text-decoration:none;font-weight:600;font-size:.95rem}
+.topic-chips a:hover{border-color:var(--brand);color:var(--brand-ink)}
+.topic-chips span{font:400 .75rem/1 var(--mono);color:var(--muted)}
+
+.alist a.has-thumb{grid-template-columns:1fr}
+.at{display:none}
+@media (min-width:48rem){
+  .alist a.has-thumb{grid-template-columns:minmax(0,1fr) 11.5rem;column-gap:1.75rem;align-items:start}
+  .alist a.has-thumb>*:not(.at){grid-column:1}
+  .at{display:block;grid-column:2;grid-row:1/span 4;background:#fff;border:1px solid var(--line);border-radius:6px;padding:.4rem;aspect-ratio:16/10}
+  .at img{display:block;width:100%;height:100%;object-fit:contain}
+}
+.acard .cover.has-img{background:#fff;padding:.5rem;border-bottom:1px solid var(--line)}
+.acard .cover.has-img img{display:block;width:100%;height:100%;object-fit:contain}
+
+.author-hero{display:grid;gap:1.5rem;align-items:start;padding:2rem;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.av-lg{display:grid;place-items:center;width:5.5rem;height:5.5rem;border-radius:50%;background:var(--band);border:1px solid var(--line2)}
+.av-lg .mark{width:56px;height:56px}
+.ah-text h2{font-family:var(--hl);font-size:1.7rem;font-weight:650;letter-spacing:-.012em}
+.ah-role{margin-top:.15rem;color:var(--brand-ink);font-weight:600}
+.ah-text>p:not(.ah-role):not(.ah-links){margin-top:.85rem;max-width:62ch;color:var(--muted);line-height:1.65}
+.ah-creds{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0 0;padding:0}
+.ah-creds li{padding:.35rem .7rem;border:1px solid var(--line2);border-radius:999px;font-size:.85rem;font-weight:600;background:var(--surface2)}
+.ah-links{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.25rem}
+@media (min-width:48rem){.author-hero{grid-template-columns:auto 1fr;gap:2rem;padding:2.25rem}}
+
+/* ---------- v9: featured article and uniform list thumbnails ---------- */
+.feature-sec{padding-bottom:0}
+.feature{display:grid;gap:1.5rem;padding:1.5rem;background:var(--surface);border:1px solid var(--line);border-radius:14px;text-decoration:none;color:var(--ink);box-shadow:var(--shadow);transition:border-color .15s}
+.feature:hover{border-color:var(--brand)}
+.feat-text{display:flex;flex-direction:column;gap:.85rem;justify-content:center}
+.feat-k{font-size:.82rem;font-weight:650;color:var(--brand-ink)}
+.feat-k time{font-weight:500;color:var(--muted)}
+.feature strong{font-family:var(--hl);font-size:clamp(1.7rem,1.2rem + 1.8vw,2.5rem);font-weight:650;letter-spacing:-.015em;line-height:1.15}
+.feature:hover strong{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.18em}
+.feat-d{color:var(--muted);font-size:1.05rem;line-height:1.6;max-width:52ch}
+.feat-m{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1.25rem;margin-top:.35rem;font:400 .8rem/1 var(--mono);color:var(--muted)}
+.feat-go{font:650 .95rem/1 var(--sans);color:var(--brand-ink)}
+.feat-go::after{content:" →"}
+.feat-fig{display:block;background:#fff;border:1px solid var(--line2);border-radius:8px;padding:.6rem}
+.feat-fig img{display:block;width:100%;height:auto}
+@media (min-width:62rem){.feature{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:2.5rem;padding:2rem;align-items:center}}
+
+.at.at-cover{padding:0;border:0;background:var(--band);overflow:hidden}
+.at.at-cover svg{display:block;width:100%;height:100%}
+:root:not([data-theme=dark]) .at.at-cover{background:#0A2A5E}
+.alist a.has-thumb .at{display:none}
+@media (min-width:48rem){.alist a.has-thumb .at{display:block}}
+.cv:where(:not([class*=" cv-"])){--c1:#0A2A5E;--c2:#8ED0FF}
+.cv-windows-365,.cv-w365{--c1:#10305A;--c2:#9CD2FF}

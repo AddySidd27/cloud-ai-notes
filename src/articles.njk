@@ -13,8 +13,11 @@ permalink: "/articles/"
 </div></header>
 <div class="wrap sec">
   <ul class="alist plain">
-    {%- for p in list | latest(99) %}{% set ser = p.data.tags | seriesOf %}{% set meta = articleMeta[p.data.order] %}
-    <li><a href="{{ p.url }}">
+    {%- for p in list | mixLatest(articleMeta, 99, 99) %}{% set ser = p.data.tags | seriesOf %}{% set meta = articleMeta[p.data.order] %}
+    {%- set thumb = p.templateContent | firstDiagram %}
+    {%- set tpp = ser | topicOf %}
+    <li><a href="{{ p.url }}" class="has-thumb">
+      {%- if thumb %}<span class="at"><img src="{{ thumb }}" alt="" loading="lazy" width="320" height="200"></span>{% else %}<span class="at at-cover" aria-hidden="true">{% set cat = tpp.slug %}{% set cn = (p.data.part or p.data.order) | pad %}{% include "cover.njk" %}</span>{% endif %}
       <span class="ak">{{ ser.name }}{% if meta %} · <time datetime="{{ meta.published }}">{{ meta.published | longDate }}</time>{% endif %}</span>
       <strong>{{ p.data.title }}</strong>
       <span class="ad">{{ p.data.deck | clip(210) }}</span>
