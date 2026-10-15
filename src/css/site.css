@@ -554,3 +554,12 @@ dialog.zoom.expanded .zoom-image img{width:var(--zoom-width);max-width:none;max-
 @media (min-width:48rem){.alist a.has-thumb .at{display:block}}
 .cv:where(:not([class*=" cv-"])){--c1:#0A2A5E;--c2:#8ED0FF}
 .cv-windows-365,.cv-w365{--c1:#10305A;--c2:#9CD2FF}
+
+/* ---------- About: certifications ---------- */
+.prose .cert-grid{list-style:none;display:grid;grid-template-columns:1fr;gap:.75rem;margin:1rem 0 1.5rem;padding:0;margin-left:0}
+.prose .cert-grid li{margin:0;display:flex;align-items:center;gap:.85rem;padding:.75rem .9rem;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+.cert-badge{flex:none;display:grid;place-items:center;min-width:3.4rem;height:3.4rem;padding:0 .4rem;border-radius:50%;border:2px solid var(--brand);color:var(--brand-ink);background:var(--brand-soft);font:700 .72rem/1 var(--sans);text-align:center}
+.cert-text{display:flex;flex-direction:column;gap:.15rem;min-width:0}
+.cert-text strong{font-size:.95rem;line-height:1.3}
+.cert-text span{font-size:.82rem;color:var(--muted)}
+@media (min-width:48rem){.prose .cert-grid{grid-template-columns:1fr 1fr}}
