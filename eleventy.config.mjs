@@ -67,6 +67,19 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("pick", (list, orders) => orders.map((o) => list.find((p) => p.data.order === o)).filter(Boolean));
   eleventyConfig.addFilter("absUrl", (path, base) => base.replace(/\/$/, "") + path);
   eleventyConfig.addFilter("latest", (list, n) => [...list].reverse().slice(0, n));
+  // Newest first by publish date, at most `per` articles from one series, so one busy series cannot fill the list.
+  eleventyConfig.addFilter("mixLatest", (list, meta, n, per) => {
+    const seen = {}; const out = [];
+    const day = (p) => (meta[p.data.order] || {}).published || "";
+    const sorted = [...list].sort((x, y) => day(y).localeCompare(day(x)) || y.data.order - x.data.order);
+    for (const p of sorted) {
+      const s = seriesOf(p); const k = s ? s.slug : "none";
+      if ((seen[k] || 0) >= per) continue;
+      seen[k] = (seen[k] || 0) + 1; out.push(p);
+      if (out.length >= n) break;
+    }
+    return out;
+  });
   eleventyConfig.addFilter("pad", (n) => String(n).padStart(2, "0"));
   eleventyConfig.addFilter("longDate", (d) => new Date(d + "T12:00:00Z").toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" }));
   eleventyConfig.addFilter("toc", (html) =>

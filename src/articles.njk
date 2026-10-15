@@ -12,7 +12,14 @@ permalink: "/articles/"
   <p class="byline"><span>{{ list.length }} articles</span><a href="/search/">Search</a></p>
 </div></header>
 <div class="wrap sec">
-  <div class="grid2">
-    {%- for p in list | latest(99) %}{% set ser = p.data.tags | seriesOf %}{% set tp = ser | topicOf %}{% include "card.njk" %}{% endfor %}
-  </div>
+  <ul class="alist plain">
+    {%- for p in list | latest(99) %}{% set ser = p.data.tags | seriesOf %}{% set meta = articleMeta[p.data.order] %}
+    <li><a href="{{ p.url }}">
+      <span class="ak">{{ ser.name }}{% if meta %} · <time datetime="{{ meta.published }}">{{ meta.published | longDate }}</time>{% endif %}</span>
+      <strong>{{ p.data.title }}</strong>
+      <span class="ad">{{ p.data.deck | clip(210) }}</span>
+      <span class="am">{{ p.templateContent | readingTime }} min read</span>
+    </a></li>
+    {%- endfor %}
+  </ul>
 </div>
