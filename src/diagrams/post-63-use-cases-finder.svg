@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" width="1000" height="640" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+  <title id="t">Find your use case at a glance</title>
+  <desc id="d">A box at the top asks what you are deciding. Three columns follow. First column, where does this workload go: internet-facing or internal app, development test and production, experiments, an extra compliance rule, more than one region, an AI workload, a platform shared by teams, retiring a subscription. Second column, what shape is my organization: one tenant with many subscriptions, several tenants after mergers, many countries with conflicting rules, a software company. Third column, do special rules apply: sovereignty controls, servers that stay on premises. Own layout by the author, not an official Microsoft diagram.</desc>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
+  <text x="500" y="36" font-size="24" font-weight="600" text-anchor="middle" fill="#1f2933">Find your use case at a glance</text>
+  <text x="500" y="64" font-size="16" text-anchor="middle" fill="#3a3a3a">Pick the question you are asking. Each line is a card in this post.</text>
+  <rect x="330" y="86" width="340" height="50" rx="8" fill="#ffffff" stroke="#8a8f98" stroke-width="1.5"/>
+  <text x="500" y="117" font-size="18" font-weight="600" text-anchor="middle" fill="#1f2933">What are you deciding?</text>
+  <line x1="500" y1="136" x2="175" y2="168" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="20" y="168" width="310" height="440" rx="10" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="2"/>
+  <text x="36" y="202" font-size="18" font-weight="600" text-anchor="start" fill="#1f2933">Where does this workload go?</text>
+  <rect x="34" y="224" width="282" height="36" rx="6" fill="#ffffff" stroke="#8a8f98" stroke-width="1.2"/>
+  <text x="46" y="248" font-size="15" text-anchor="start" fill="#1f2933">Internet-facing or internal app</text>
+  <rect x="34" y="266" width="282" height="36" rx="6" fill="#ffffff" stroke="#8a8f98" stroke-width="1.2"/>
+  <text x="46" y="290" font-size="15" text-anchor="start" fill="#1f2933">Development, test, production</text>
+  <rect x="34" y="308" width="282" height="36" rx="6" fill="#ffffff" stroke="#8a8f98" stroke-width="1.2"/>
+  <text x="46" y="332" font-size="15" text-anchor="start" fill="#1f2933">Experiments and learning</text>
+  <rect x="34" y="350" width="282" height="36" rx="6" fill="#ffffff" stroke="#8a8f98" stroke-width="1.2"/>
+  <text x="46" y="374" font-size="15" text-anchor="start" fill="#1f2933">An extra compliance rule</text>
+  <rect x="34" y="392" width="282" height="36" rx="6" fill="#ffffff" stroke="#8a8f98" stroke-width="1.2"/>
+  <text x="46" y="416" font-size="15" text-anchor="start" fill="#1f2933">More than one region</text>
+  <rect x="34" y="434" width="282" height="36" rx="6" fill="#ffffff" stroke="#8a8f98" stroke-width="1.2"/>
+  <text x="46" y="458" font-size="15" text-anchor="start" fill="#1f2933">An AI workload</text>
+  <rect x="34" y="476" width="282" height="36" rx="6" fill="#ffffff" stroke="#8a8f98" stroke-width="1.2"/>
+  <text x="46" y="500" font-size="15" text-anchor="start" fill="#1f2933">A platform shared by teams</text>
+  <rect x="34" y="518" width="282" height="36" rx="6" fill="#ffffff" stroke="#8a8f98" stroke-width="1.2"/>
+  <text x="46" y="542" font-size="15" text-anchor="start" fill="#1f2933">Retiring a subscription</text>
+  <line x1="34" y1="566" x2="316" y2="566" stroke="#3b6fb6" stroke-width="1.2"/>
+  <text x="36" y="592" font-size="15" font-weight="600" text-anchor="start" fill="#1f2933">Answer: a management group</text>
+  <line x1="500" y1="136" x2="500" y2="168" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="345" y="168" width="310" height="440" rx="10" fill="#eaf5ea" stroke="#3c8d40" stroke-width="2"/>
+  <text x="361" y="202" font-size="18" font-weight="600" text-anchor="start" fill="#1f2933">What shape is my company?</text>
+  <rect x="359" y="224" width="282" height="36" rx="6" fill="#ffffff" stroke="#8a8f98" stroke-width="1.2"/>
+  <text x="371" y="248" font-size="15" text-anchor="start" fill="#1f2933">One tenant, many subscriptions</text>
+  <rect x="359" y="266" width="282" height="36" rx="6" fill="#ffffff" stroke="#8a8f98" stroke-width="1.2"/>
+  <text x="371" y="290" font-size="15" text-anchor="start" fill="#1f2933">Several tenants after mergers</text>
+  <rect x="359" y="308" width="282" height="36" rx="6" fill="#ffffff" stroke="#8a8f98" stroke-width="1.2"/>
+  <text x="371" y="332" font-size="15" text-anchor="start" fill="#1f2933">Many countries, conflicting rules</text>
+  <rect x="359" y="350" width="282" height="36" rx="6" fill="#ffffff" stroke="#8a8f98" stroke-width="1.2"/>
+  <text x="371" y="374" font-size="15" text-anchor="start" fill="#1f2933">A software company (ISV)</text>
+  <line x1="359" y1="566" x2="641" y2="566" stroke="#3c8d40" stroke-width="1.2"/>
+  <text x="361" y="592" font-size="15" font-weight="600" text-anchor="start" fill="#1f2933">Answer: tenants and groups</text>
+  <line x1="500" y1="136" x2="825" y2="168" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="670" y="168" width="310" height="440" rx="10" fill="#fdf3e3" stroke="#c98a1b" stroke-width="2"/>
+  <text x="686" y="202" font-size="18" font-weight="600" text-anchor="start" fill="#1f2933">Do special rules apply?</text>
+  <rect x="684" y="224" width="282" height="36" rx="6" fill="#ffffff" stroke="#8a8f98" stroke-width="1.2"/>
+  <text x="696" y="248" font-size="15" text-anchor="start" fill="#1f2933">Sovereignty controls</text>
+  <rect x="684" y="266" width="282" height="36" rx="6" fill="#ffffff" stroke="#8a8f98" stroke-width="1.2"/>
+  <text x="696" y="290" font-size="15" text-anchor="start" fill="#1f2933">Servers that stay on premises</text>
+  <line x1="684" y1="566" x2="966" y2="566" stroke="#c98a1b" stroke-width="1.2"/>
+  <text x="686" y="592" font-size="15" font-weight="600" text-anchor="start" fill="#1f2933">Answer: a variant or Azure Arc</text>
+</svg>

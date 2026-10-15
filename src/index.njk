@@ -5,82 +5,58 @@ home: true
 permalink: "/"
 ---
 {%- set list = collections.articles -%}
-{%- set ser = collections.liveSeries[0] -%}
-{%- set tp = ser | topicOf -%}
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div class="hero-text">
-      <span class="hbadge">Enterprise Cloud &amp; Workspace Solutions</span>
-      <h1>Architecting Enterprise Azure &amp; End-User Computing</h1>
-      <p class="lead">Production blueprints, Cloud Adoption Framework landing zones, and hands-on architectures across Azure, AVD, Windows 365, Citrix, and Intune.</p>
-      <div class="cta">
-        <a class="btn primary" href="/azure-landing-zone/">Azure Landing Zone Series</a>
-        <a class="btn ghost" href="https://github.com/AddySidd27">GitHub Repositories</a>
-      </div>
-    </div>
-    <figure class="plate hero-fig">
-      <div class="arch-head"><span>Redrawn after Microsoft Learn</span><span>Hub &amp; Spoke / vWAN</span></div>
-      <a class="fig-img" href="/azure-landing-zone/network-topology-and-connectivity/"><img src="/diagrams/post-10-hub-spoke-and-virtual-wan.svg" alt="Two network topologies: traditional hub-and-spoke with two regional hub virtual networks peered to spoke virtual networks, and Azure Virtual WAN with two Virtual WAN hubs connected to the same spokes" width="640" height="400" fetchpriority="high"></a>
-      <figcaption><b>Fig. 1</b> Hub-and-spoke and Virtual WAN, from <a href="/azure-landing-zone/network-topology-and-connectivity/">Network Topology and Connectivity</a>. Redrawn after Microsoft Learn; not an official Microsoft diagram.</figcaption>
-    </figure>
+<header class="band home-band"><div class="wrap band-in home-in">
+  <div class="home-text">
+    <p class="chip">Cloud architecture<span>Azure, AVD, Windows 365</span></p>
+    <h1>Architecting Enterprise Azure &amp; End-User Computing</h1>
+    <p class="band-deck">Production blueprints, Cloud Adoption Framework landing zones and hands-on architectures across Azure, AVD, Windows 365, Citrix and Intune. Every Azure fact is checked against Microsoft Learn.</p>
+    <p class="cta"><a class="btn primary" href="/azure-landing-zone/">Read the Landing Zone series</a><a class="btn ghost-on" href="{{ site.repo }}">GitHub repositories</a></p>
   </div>
-</section>
+  <nav class="home-start" aria-label="Where to start">
+    <p class="hs-h">Where to start</p>
+    <a href="/start-here/"><strong>Start here</strong><span>How the site is organized and in which order to read</span></a>
+    <a href="/azure-landing-zone/"><strong>Azure Landing Zone</strong><span>{{ collections.liveSeries[0].posts.length }} articles, from first idea to a working platform</span></a>
+    <a href="/labs/"><strong>Labs and code</strong><span>Reference files that go with the articles</span></a>
+  </nav>
+</div></header>
 
-<section class="sec" aria-labelledby="pil-h"><div class="wrap">
-  <div class="sec-head"><h2 id="pil-h">Core Technology Pillars</h2></div>
-  <div class="topics cols4">
-    <a class="topic live" href="/azure-landing-zone/"><span class="tn">Azure Landing Zones (CAF)</span><span class="tb">Enterprise subscription models, governance, hub-spoke network design, and Microsoft Entra ID controls.</span><span class="tc">16 parts complete</span></a>
-    <a class="topic live" href="/azure-virtual-desktop/"><span class="tn">Azure Virtual Desktop (AVD)</span><span class="tb">Host pool architectures, FSLogix profile storage, golden image pipelines, and RDP Shortpath tuning.</span><span class="tc">5 articles available</span></a>
-    <div class="topic"><span class="tn">Windows 365 &amp; Cloud PC</span><span class="tb">Enterprise provisioning baselines, Frontline sizing, Intune policy compliance, and zero-trust onboarding.</span><span class="tc">Implementation track</span></div>
-    <div class="topic"><span class="tn">Citrix &amp; Hybrid Workspace</span><span class="tb">Citrix DaaS control planes, Cloud Connector high-availability, and cross-platform multi-session integration.</span><span class="tc">Hybrid solutions</span></div>
-  </div>
-</div></section>
-
-<section class="series-band" aria-labelledby="ser-h"><div class="wrap">
-  <div class="series-card">
-    <div>
-      <p class="chip">Flagship series<span>{{ ser.posts.length }} articles</span></p>
-      <h2 id="ser-h">{{ ser.title }}</h2>
-      <p class="lead">A zero-to-production walk through designing an enterprise Azure landing zone: identity, resource organization, network topology, and governance.</p>
-    </div>
-    <div class="series-side">
-      <p class="sfacts">From <strong>What Is an Azure Landing Zone</strong> to <strong>Network Topology and Connectivity</strong>, in reading order.</p>
-      <a class="btn primary" href="/{{ ser.slug }}/">Open {{ ser.posts.length }}-Part Series</a>
-    </div>
-  </div>
-</div></section>
-
-<section class="sec" aria-labelledby="new-h"><div class="wrap">
-  <div class="sec-head"><h2 id="new-h">Recent Architecture Guides</h2><a class="more" href="/articles/">All articles</a></div>
-  <div class="grid3">
-    {%- for p in list | latest(3) %}{% set ser = p.data.tags | seriesOf %}{% set tp = ser | topicOf %}{% include "card.njk" %}{% endfor %}
-  </div>
-</div></section>
-
-<section class="sec alt" aria-labelledby="arch-h"><div class="wrap">
-  <div class="sec-head"><h2 id="arch-h">Architecture and engineering</h2></div>
-  <p class="lead dim">Diagrams from the articles, drawn in the same layout as the Microsoft Learn reference architectures. Open an article to read how each one works.</p>
-  <div class="plates">
-    {%- for pl in articleMeta.plates %}{% set pp = list | pick([pl.order]) %}
-    <a class="plate-card" href="{{ pp[0].url }}">
-      <span class="pimg"><img src="/diagrams/{{ pl.img }}" alt="Diagram from {{ pp[0].data.title }}" loading="lazy" width="640" height="400"></span>
-      <span class="pt"><small>{{ pl.area }}</small><strong>{{ pp[0].data.title }}</strong></span>
+<section class="sec" aria-labelledby="ser-h"><div class="wrap">
+  <div class="sec-head"><h2 id="ser-h">Series</h2><a class="more" href="/articles/">All articles</a></div>
+  <div class="series-grid">
+    {%- for s in collections.liveSeries %}{% set tp = s | topicOf %}
+    <a class="scard" href="/{{ s.slug }}/">
+      <span class="skick">{{ tp.name }}</span>
+      <strong>{{ s.title }}</strong>
+      <span class="sbl">{{ s.blurb | clip(150) }}</span>
+      <span class="smeta">{{ s.posts.length }} articles</span>
     </a>
     {%- endfor %}
   </div>
 </div></section>
 
-<section class="sec" aria-labelledby="labs-h"><div class="wrap">
-  <div class="labs-card">
-    <div><h2 id="labs-h">Labs and experiments</h2>
-    <p class="lead dim">Reference files and lab steps that go with the articles live in a public GitHub repo.</p></div>
-    <p><a class="btn ghost" href="{{ site.repo }}">Open the Azure_landing_zone repo</a></p>
-  </div>
+<section class="sec alt" aria-labelledby="new-h"><div class="wrap">
+  <div class="sec-head"><h2 id="new-h">Latest articles</h2><a class="more" href="/articles/">All articles</a></div>
+  <ul class="alist">
+    {%- for p in list | mixLatest(articleMeta, 6, 2) %}{% set ser = p.data.tags | seriesOf %}{% set meta = articleMeta[p.data.order] %}
+    <li><a href="{{ p.url }}">
+      <span class="ak">{{ ser.name }}{% if meta %} · <time datetime="{{ meta.published }}">{{ meta.published | longDate }}</time>{% endif %}</span>
+      <strong>{{ p.data.title }}</strong>
+      <span class="ad">{{ p.data.deck | clip(190) }}</span>
+      <span class="am">{{ p.templateContent | readingTime }} min read</span>
+    </a></li>
+    {%- endfor %}
+  </ul>
 </div></section>
 
-<section class="sec alt" aria-label="About the author"><div class="wrap">
-  <div class="author wide">
-    <span class="av" aria-hidden="true">{% include "mark.njk" %}</span>
-    <div><p class="an">{{ site.author }}</p><p>{{ site.role }}. Each article is checked against Microsoft Learn before it goes out. <a href="/about/">More about the site and the author</a>.</p></div>
+<section class="sec" aria-label="Labs and about"><div class="wrap duo">
+  <div class="duo-card">
+    <h2>Labs and code</h2>
+    <p>Reference files and lab steps that go with the articles live in a public GitHub repo.</p>
+    <p><a class="btn ghost" href="{{ site.repo }}">Open the Azure_landing_zone repo</a></p>
+  </div>
+  <div class="duo-card">
+    <h2>About the author</h2>
+    <p><strong>{{ site.author }}</strong>, {{ site.role }}. Each article is checked against Microsoft Learn before it goes out.</p>
+    <p><a class="btn ghost" href="/about/">About the site and the author</a></p>
   </div>
 </div></section>
