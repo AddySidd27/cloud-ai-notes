@@ -88,3 +88,8 @@ I created **W365 Restore Pilot - 2026-10-16** in **Devices > Cloud PC Settings >
 I also submitted **Create Restore Points** for that Cloud PC without enabling the optional sharing choice. Intune reported the manual-point request and the device action showed **TakeSnapshot: Pending** at the last check. The point was not yet visible in the restore-point list, so its completion and health remain unverified. No restore, bulk restore, or user-initiated restore was performed. The only working pilot has not been rolled back.
 
 The earlier evidence table reflects the 24 September inspection. This 16 October update supersedes its inventory and settings rows. A completed manual point and a disposable second Cloud PC are still needed before an end-to-end rollback test can be claimed.
+
+
+![Sanitized Intune list of 14 automatic restore points on the Enterprise pilot](https://github.com/AddySidd27/Windows365-enterprise-engineering/raw/refs/heads/main/evidence/w365-restore-points-public-20261016.jpg)
+
+*Figure: real Intune restore-point inventory on 16 October 2026. The cropped image hides the tenant and device identity. [Read the dated lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-10-2026-10-16-restore-pilot.md).*
