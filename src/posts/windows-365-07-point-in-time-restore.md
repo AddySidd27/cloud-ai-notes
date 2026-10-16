@@ -77,3 +77,14 @@ After a disposable restore test, remove the test assignment and Cloud PC through
 - [Configure restore settings](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-configure)
 - [Restore a single Cloud PC](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-single-cloud-pc)
 - [Restore multiple Cloud PCs](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-bulk)
+
+
+## Live pilot update: 16 October 2026
+
+I checked the sole Enterprise Cloud PC in Intune. It remained **Provisioned** and compliant. Its Restore points view listed 14 **Automatic** points; the newest visible point was dated 16 October 2026 at 8:07:18 AM in the portal display. This is an inventory check, not a completed rollback.
+
+I created **W365 Restore Pilot - 2026-10-16** in **Devices > Cloud PC Settings > Create > User settings** and assigned it to **Windows365-Group**, whose single direct member was the pilot user. The review screen showed a 12-hour restore-point frequency, with Local admin, user reset and user-initiated restore all set to **No**. Intune confirmed the setting was added, and the list showed **Assigned: Yes**. This policy creation does not by itself prove that a newly scheduled point was created.
+
+I also submitted **Create Restore Points** for that Cloud PC without enabling the optional sharing choice. Intune reported the manual-point request and the device action showed **TakeSnapshot: Pending** at the last check. The point was not yet visible in the restore-point list, so its completion and health remain unverified. No restore, bulk restore, or user-initiated restore was performed. The only working pilot has not been rolled back.
+
+The earlier evidence table reflects the 24 September inspection. This 16 October update supersedes its inventory and settings rows. A completed manual point and a disposable second Cloud PC are still needed before an end-to-end rollback test can be claimed.
