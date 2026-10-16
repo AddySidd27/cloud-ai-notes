@@ -93,3 +93,12 @@ The earlier evidence table reflects the 24 September inspection. This 16 October
 ![Sanitized Intune list of 14 automatic restore points on the Enterprise pilot](https://github.com/AddySidd27/Windows365-enterprise-engineering/raw/refs/heads/main/evidence/w365-restore-points-public-20261016.jpg)
 
 *Figure: real Intune restore-point inventory on 16 October 2026. The cropped image hides the tenant and device identity. [Read the dated lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-10-2026-10-16-restore-pilot.md).*
+
+
+### Manual restore point completed
+
+Later on 16 October, Intune showed **TakeSnapshot: Completed** and listed a **Manual** restore point created at 12:58:24 PM in the portal display, with an expiration shown for 15 November 2026. The earlier pending note records the intermediate state; this is the final point-creation result. The Cloud PC was **not restored**.
+
+![Sanitized Intune view with the new manual restore point](https://github.com/AddySidd27/Windows365-enterprise-engineering/raw/refs/heads/main/evidence/w365-manual-restore-point-public-20261016.jpg)
+
+*Figure: original portal capture of the manual point after the device action completed. See the [dated lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-10-2026-10-16-restore-pilot.md) for the action and its limits.*
