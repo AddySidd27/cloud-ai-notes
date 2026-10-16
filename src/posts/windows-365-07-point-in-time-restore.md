@@ -28,13 +28,13 @@ The [lifecycle decision diagram](https://github.com/AddySidd27/Windows365-enterp
 
 Microsoft lists three types for Enterprise: ten configurable short-term points, four long-term points created every seven days, and one on-demand manual point per Cloud PC. The short-term interval can be 4, 6, 12, 16 or 24 hours. A new manual point replaces the existing manual point and normally expires after about 28 days. These are service rules; your actual device list depends on its history and settings.
 
-In the [24 September pilot inspection](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-06-07-08-10-2026-09-24-pilot-check.md#uc-10-restore-inventory), the Intune **Restore points** view listed automatic points, including one dated that day. That observation proves the list was present. It does not prove a restore completed, and no publication-safe portal capture of that list is available in this repo.
+In the current pilot, the Intune **Restore points** view showed 14 automatic points before the manual-point request. The [dated lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-10-2026-10-16-restore-pilot.md) and original, sanitized captures below show the actual result. A point inventory does not prove that a disk restore worked.
 
 ## Step 2: configure the user setting on a test group
 
-1. In the Intune admin center, go to **Devices > Cloud PC Settings > Add**. The portal label may differ from older guides that call this **User settings**.
+1. In the Intune admin center, go to **Devices > Cloud PC Settings > Create > User settings**. Portal labels can change; confirm them in your tenant.
 2. Name the setting. Choose whether to allow the user to initiate restore and select the short-term restore-point frequency. Review the separate **Local admin** choice; do not enable it just to test restore.
-3. Select **Next**, assign only the disposable test group, and review the settings before **Finish**.
+3. Select **Next**, assign the intended pilot group, and review the settings before **Create**.
 4. Record the group, interval, self-service permission and creation time. Later, check the actual restore-point list on the test Cloud PC. A saved setting alone is not proof that a new point exists.
 
 This is the current [Microsoft configuration sequence](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-configure). The setting grants assigned users access to the restore feature; the user-initiated option controls whether they can start the restore themselves.
@@ -57,15 +57,16 @@ If the user setting allows self-service, a user can start restore from the Windo
 
 ## What the pilot proves
 
-| Check | Observed in this repo | Still needed |
+| Check | Observed on 16 October 2026 | Still needed |
 | --- | --- | --- |
-| Restore-point inventory | Automatic points listed on 24 September 2026 | A current sanitized screenshot and point health review |
-| Settings and assignment | No new restore setting is demonstrated in this chapter | Test-group setting and its resulting points |
+| Restore-point inventory | 14 automatic points and one later manual point, with sanitized portal captures | A device restore and point health outcome |
+| Settings and assignment | 12-hour user setting saved; pilot group assigned; self-service restore off | Later policy and scheduled-point processing check |
+| Manual point creation | Device action Completed and Manual point listed | No disk rollback implied |
 | Single-device restore | Not run | Disposable device before, action status and after-state |
-| Bulk restore | Not run | Separate approved multi-device lab |
-| User-initiated restore | Not run | Test user permission and actual result |
+| Bulk restore | Not run | Separate multi-device lab |
+| User-initiated restore | Not run; disabled in pilot setting | Separate scoped permission and actual result |
 
-The [controlled restart](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-10-2026-10-07-controlled-restart.md) is a different operation. It cannot be used as evidence for restore. A second older point can sometimes help if the first restoration fails, but choose a recent suitable point to reduce data loss and rolling-credential risk. Keep error text and timestamps in the lab record.
+The [controlled restart](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-10-2026-10-07-controlled-restart.md) is a different operation. It cannot be used as evidence for restore. Choose a recent suitable point to reduce data loss and rolling-credential risk. Keep error text and timestamps in the lab record.
 
 ## Cleanup and next step
 
@@ -79,26 +80,20 @@ After a disposable restore test, remove the test assignment and Cloud PC through
 - [Restore multiple Cloud PCs](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-bulk)
 
 
-## Live pilot update: 16 October 2026
+## Live pilot: 16 October 2026
 
-I checked the sole Enterprise Cloud PC in Intune. It remained **Provisioned** and compliant. Its Restore points view listed 14 **Automatic** points; the newest visible point was dated 16 October 2026 at 8:07:18 AM in the portal display. This is an inventory check, not a completed rollback.
-
-I created **W365 Restore Pilot - 2026-10-16** in **Devices > Cloud PC Settings > Create > User settings** and assigned it to **Windows365-Group**, whose single direct member was the pilot user. The review screen showed a 12-hour restore-point frequency, with Local admin, user reset and user-initiated restore all set to **No**. Intune confirmed the setting was added, and the list showed **Assigned: Yes**. This policy creation does not by itself prove that a newly scheduled point was created.
-
-I also submitted **Create Restore Points** for that Cloud PC without enabling the optional sharing choice. Intune reported the manual-point request and the device action showed **TakeSnapshot: Pending** at the last check. The point was not yet visible in the restore-point list, so its completion and health remain unverified. No restore, bulk restore, or user-initiated restore was performed. The only working pilot has not been rolled back.
-
-The earlier evidence table reflects the 24 September inspection. This 16 October update supersedes its inventory and settings rows. A completed manual point and a disposable second Cloud PC are still needed before an end-to-end rollback test can be claimed.
-
+I checked the sole Enterprise Cloud PC in Intune. It remained **Provisioned** and compliant. Its **Restore points** view showed 14 automatic points; the newest was dated 16 October 2026 at 8:07:18 AM in the portal display. This is an inventory result, not a completed rollback.
 
 ![Sanitized Intune list of 14 automatic restore points on the Enterprise pilot](https://github.com/AddySidd27/Windows365-enterprise-engineering/raw/refs/heads/main/evidence/w365-restore-points-public-20261016.jpg)
 
-*Figure: real Intune restore-point inventory on 16 October 2026. The cropped image hides the tenant and device identity. [Read the dated lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-10-2026-10-16-restore-pilot.md).*
+*Figure 1: original Intune restore-point inventory. The crop omits tenant and device identifiers.*
 
+I created **W365 Restore Pilot - 2026-10-16** in **Devices > Cloud PC Settings > Create > User settings** and assigned it to **Windows365-Group**, whose single direct member was the pilot user. The review screen showed a 12-hour frequency. Local admin, user reset, user-initiated restore and user-initiated disaster recovery were all **No**. Intune confirmed the setting was added; the list showed **Assigned: Yes**. This confirms configuration and assignment, not a new scheduled point.
 
-### Manual restore point completed
-
-Later on 16 October, Intune showed **TakeSnapshot: Completed** and listed a **Manual** restore point created at 12:58:24 PM in the portal display, with an expiration shown for 15 November 2026. The earlier pending note records the intermediate state; this is the final point-creation result. The Cloud PC was **not restored**.
+Next I selected **Create Restore Points** for the Cloud PC and left the optional sharing choice off. The action initially showed **TakeSnapshot: Pending**. On the later check it showed **TakeSnapshot: Completed**, and the list contained a **Manual** point created at 12:58:24 PM, with an expiration shown for 15 November 2026. Portal time-zone context was not independently checked.
 
 ![Sanitized Intune view with the new manual restore point](https://github.com/AddySidd27/Windows365-enterprise-engineering/raw/refs/heads/main/evidence/w365-manual-restore-point-public-20261016.jpg)
 
-*Figure: original portal capture of the manual point after the device action completed. See the [dated lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-10-2026-10-16-restore-pilot.md) for the action and its limits.*
+*Figure 2: original Intune capture showing the manual point after the device action completed. [Read the dated lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-10-2026-10-16-restore-pilot.md) for the action timeline and limits.*
+
+**Result:** Point creation completed. No single-device, bulk, or user-initiated disk restore was run. The only working Cloud PC was not rolled back. An end-to-end recovery test still needs a disposable device, a before-state marker, a completed restore, reconnection, and device and user checks.
