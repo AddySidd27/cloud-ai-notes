@@ -1,5 +1,6 @@
 ---
 title: "Required Connectivity for Azure Virtual Desktop: Endpoints, Proxies, DNS and Private Link"
+seoTitle: "AVD Required Endpoints, Proxies and DNS"
 layout: post.njk
 permalink: "/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/"
 order: 116

@@ -1,5 +1,6 @@
 ---
 title: "Choose a Network Topology and Plan IP Addresses for Azure Virtual Desktop"
+seoTitle: "AVD Network Topology and IP Planning"
 layout: post.njk
 permalink: "/azure-virtual-desktop/network-topology-and-ip-planning-for-avd/"
 order: 117

@@ -8,7 +8,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{% if title and not home %}{{ title }} | {% endif %}{{ site.name }}{% if home %}: {{ site.tagline }}{% endif %}</title>
+<title>{% if title and not home %}{{ seoTitle or title }} | {% endif %}{{ site.name }}{% if home %}: {{ site.tagline }}{% endif %}</title>
 <meta name="description" content="{{ desc }}">
 <link rel="canonical" href="{{ canon }}">
 <meta name="author" content="{{ site.author }}">

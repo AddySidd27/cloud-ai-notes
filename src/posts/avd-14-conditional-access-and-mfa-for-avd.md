@@ -1,5 +1,6 @@
 ---
 title: "Secure Access with Conditional Access and Multifactor Authentication"
+seoTitle: "AVD Conditional Access and MFA"
 layout: post.njk
 permalink: "/azure-virtual-desktop/conditional-access-and-mfa-for-avd/"
 order: 114

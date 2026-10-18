@@ -1,5 +1,6 @@
 ---
 title: "Azure Virtual Desktop Architecture: From Sign-in to a Working Desktop"
+seoTitle: "AVD Architecture: Sign-in to Working Desktop"
 layout: post.njk
 permalink: "/azure-virtual-desktop/azure-virtual-desktop-architecture/"
 order: 102

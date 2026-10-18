@@ -2,7 +2,13 @@
 """Copy posts and diagrams from the blog source folders into site/src, adding site front matter
 and rewriting relative links. The Markdown posts stay the source of truth and are never edited here."""
 import re, json, shutil, pathlib, sys
-ROOT = pathlib.Path("/home/claude/blog")
+ROOT = pathlib.Path(__file__).resolve().parent.parent / "blog"
+
+# Safety guard: this legacy script DELETES src/posts and src/diagrams and refills them from
+# a separate blog folder that only holds the Azure landing zone posts. The AVD and Windows 365
+# posts live only in src/posts, so running this would destroy them. Do not run it.
+if __import__("os").environ.get("SYNC_I_UNDERSTAND_THIS_DELETES_SRC_POSTS") != "yes":
+    sys.exit("sync.py is disabled: it would delete src/posts and src/diagrams. See the comment above this guard.")
 SRC = pathlib.Path(__file__).resolve().parent / "src"
 POSTS = ROOT / "posts"
 out_posts = SRC / "posts"; out_diag = SRC / "diagrams"

@@ -1,5 +1,6 @@
 ---
 title: "Windows 365 Enterprise: Plan a Pilot That You Can Verify"
+seoTitle: "Windows 365: Plan a Verifiable Pilot"
 layout: post.njk
 permalink: /windows-365/plan-the-pilot/
 order: 202
@@ -39,7 +40,7 @@ In Microsoft Entra admin center, create or select a dedicated **user** group for
 
 ### Step 3: check the administrator and success result
 
-Verify the administrator's Windows 365 and Intune permissions before opening the provisioning wizard. Write a pass condition: the targeted user sees one Cloud PC, signs in, disconnects and reconnects, and the device appears in Intune with the expected join type. Record the identity, network and image decisions from [Part 3](/windows-365/identity-network/) before creating a policy.
+Verify the administrator's Windows 365 and Intune permissions before opening the provisioning wizard. Write a pass condition: the targeted user sees one Cloud PC, signs in, disconnects and reconnects, and the device appears in Intune with the expected join type. Record the identity, network and image decisions from [Choose Identity and Network](/windows-365/identity-network/) before creating a policy.
 
 The [tenant readiness use case](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-01-tenant-readiness-and-pilot-design.md) contains a longer worksheet. The screenshot above is real, but it shows inventory, not a new end-to-end assignment. Treat the missing group and assignee screens as checks to capture when you reproduce the lab.
 

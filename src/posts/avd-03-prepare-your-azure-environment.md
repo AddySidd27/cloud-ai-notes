@@ -1,5 +1,6 @@
 ---
 title: "Prepare Your Azure Environment for Azure Virtual Desktop"
+seoTitle: "Prepare Azure for Azure Virtual Desktop"
 layout: post.njk
 permalink: "/azure-virtual-desktop/prepare-your-azure-environment/"
 order: 103
@@ -423,4 +424,4 @@ Go deeper: [How Azure Virtual Desktop Fails](/azure-virtual-desktop/how-azure-vi
 
 ## Sources
 
-[Prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites), [licensing](https://learn.microsoft.com/en-us/azure/virtual-desktop/licensing) and [built-in roles for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/virtual-desktop).
+[Prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites), [licensing](https://learn.microsoft.com/en-us/azure/virtual-desktop/licensing) and [built-in roles for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rbac).

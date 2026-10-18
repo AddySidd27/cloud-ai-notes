@@ -1,9 +1,10 @@
 ---
 title: "Windows 365 Enterprise: Secure Access and Plan Recovery"
+seoTitle: "Windows 365: Secure Access and Plan Recovery"
 layout: post.njk
 permalink: /windows-365/security-recovery/
 order: 207
-part: 7
+part: 8
 tags: w365-series
 deck: "A safe sequence for Conditional Access, device security and Cloud PC recovery decisions."
 ---
