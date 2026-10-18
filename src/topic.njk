@@ -20,6 +20,7 @@ eleventyComputed:
   {%- for s in collections.liveSeries %}{% if s.category == topic.slug %}
   <a class="series-chip" href="/{{ s.slug }}/"><span><small>Series</small><strong>{{ s.title }}</strong></span><span>{{ s.posts.length }} articles</span></a>
   {%- endif %}{% endfor %}
+  <h2 class="sr-only">Articles</h2>
   <div class="grid2">
     {%- for p in list %}{% set ser = p.data.tags | seriesOf %}{% set tp = topic %}{% include "card.njk" %}{% endfor %}
   </div>

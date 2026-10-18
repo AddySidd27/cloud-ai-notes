@@ -33,6 +33,50 @@ export default function (eleventyConfig) {
   }
 
 
+  // Layout stability: add intrinsic width and height to local images that lack them, so the page does not shift while
+  // images load. Dimensions are read from the source file (PNG, JPEG or SVG); existing attributes are never overridden.
+  {
+    const dimCache = new Map();
+    const dims = (src) => {
+      if (dimCache.has(src)) return dimCache.get(src);
+      let out = null;
+      try {
+        const file = path.join("src", decodeURIComponent(src.split(/[?#]/)[0]));
+        const buf = fs.readFileSync(file);
+        const ext = path.extname(file).toLowerCase();
+        if (ext === ".png" && buf.length > 24) out = [buf.readUInt32BE(16), buf.readUInt32BE(20)];
+        else if (ext === ".jpg" || ext === ".jpeg") {
+          let i = 2;
+          while (i + 9 < buf.length) {
+            if (buf[i] !== 0xff) { i++; continue; }
+            const m = buf[i + 1];
+            if (m >= 0xc0 && m <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(m)) { out = [buf.readUInt16BE(i + 7), buf.readUInt16BE(i + 5)]; break; }
+            i += 2 + buf.readUInt16BE(i + 2);
+          }
+        } else if (ext === ".svg") {
+          const s = buf.toString("utf8", 0, 2000);
+          const vb = s.match(/viewBox="\s*[-\d.]+[\s,]+[-\d.]+[\s,]+([\d.]+)[\s,]+([\d.]+)\s*"/);
+          const w = s.match(/<svg[^>]*\swidth="([\d.]+)(?:px)?"/), h = s.match(/<svg[^>]*\sheight="([\d.]+)(?:px)?"/);
+          if (w && h) out = [Math.round(+w[1]), Math.round(+h[1])];
+          else if (vb) out = [Math.round(+vb[1]), Math.round(+vb[2])];
+        }
+      } catch {}
+      dimCache.set(src, out);
+      return out;
+    };
+    eleventyConfig.addTransform("imageDimensions", function (content) {
+      if (!(this.page.outputPath || "").endsWith(".html")) return content;
+      return content.replace(/<img\b[^>]*>/g, (tag) => {
+        if (/\swidth=/.test(tag) && /\sheight=/.test(tag)) return tag;
+        const src = (tag.match(/\ssrc="(\/(?:img|diagrams)\/[^"]+)"/) || [])[1];
+        const d = src && dims(src);
+        if (!d || !d[0] || !d[1]) return tag;
+        const stripped = tag.replace(/\s(?:width|height)="[^"]*"/g, "");
+        return stripped.replace(/<img\b/, `<img width="${d[0]}" height="${d[1]}"`);
+      });
+    });
+  }
+
   eleventyConfig.amendLibrary("md", (md) => md.use(markdownItAnchor, { level: [2], tabIndex: false }));
 
   // All articles that belong to a series, in reading order. Start Here has no series tag, so it is not listed.

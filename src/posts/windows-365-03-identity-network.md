@@ -1,5 +1,6 @@
 ---
 title: "Windows 365 Enterprise: Choose Identity and Network"
+seoTitle: "Windows 365: Choose Identity and Network"
 layout: post.njk
 permalink: /windows-365/identity-network/
 order: 203

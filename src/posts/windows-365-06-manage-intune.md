@@ -1,5 +1,6 @@
 ---
 title: "Windows 365 Enterprise: Manage Settings, Apps, Updates and Restart"
+seoTitle: "Windows 365: Manage Settings, Apps and Updates"
 layout: post.njk
 permalink: /windows-365/manage-intune/
 order: 206

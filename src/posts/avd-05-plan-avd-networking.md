@@ -1,5 +1,6 @@
 ---
 title: "Plan Azure Virtual Desktop Networking: Address Space, Subnets, DNS and Connectivity"
+seoTitle: "Plan AVD Networking: Subnets, DNS, Connectivity"
 layout: post.njk
 permalink: "/azure-virtual-desktop/plan-avd-networking/"
 order: 105

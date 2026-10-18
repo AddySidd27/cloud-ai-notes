@@ -1,5 +1,6 @@
 ---
 title: "How Sign-in Works: Three Authentications and Single Sign-on"
+seoTitle: "AVD Sign-in: Three Authentications and SSO"
 layout: post.njk
 permalink: "/azure-virtual-desktop/how-sign-in-works-three-authentications-and-sso/"
 order: 113

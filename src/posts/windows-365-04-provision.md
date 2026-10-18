@@ -1,5 +1,6 @@
 ---
 title: "Windows 365 Enterprise: Provision a Microsoft Entra Joined Cloud PC"
+seoTitle: "Windows 365: Provision an Entra Joined Cloud PC"
 layout: post.njk
 permalink: /windows-365/provision/
 order: 204
@@ -9,7 +10,7 @@ deck: "Follow the license, group, network, image and provisioning policy in the 
 ---
 
 
-In [Part 3](/windows-365/identity-network/), we chose an identity and network path. Here we use **Microsoft Entra join** and a **Microsoft-hosted network** for a small Enterprise pilot. You can follow the same order in your own tenant. The Azure network connection (ANC) path is a separate lab in [Part 8](/windows-365/anc-troubleshooting/).
+In the [identity and network article](/windows-365/identity-network/), we chose an identity and network path. Here we use **Microsoft Entra join** and a **Microsoft-hosted network** for a small Enterprise pilot. You can follow the same order in your own tenant. The Azure network connection (ANC) path is a separate lab in the [ANC health failure article](/windows-365/anc-troubleshooting/).
 
 **What you will build:** one licensed pilot user in one Microsoft Entra group, targeted by one provisioning policy. The intended result is a provisioned Cloud PC that the user can open and that an administrator can inspect in Intune.
 
@@ -142,7 +143,7 @@ That evidence does **not** establish a fresh end-to-end provisioning run. It als
 | Provisioned but cannot sign in | User access, authentication and connection diagnostics |
 | Sign-in works but device is missing | Intune enrollment and device record |
 
-Continue to [Part 5: connect and verify](/windows-365/connect-verify/). The [Enterprise provisioning use case](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-02-enterprise-provisioning.md) has the deeper operator checklist.
+Continue to [connect and verify](/windows-365/connect-verify/). The [Enterprise provisioning use case](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-02-enterprise-provisioning.md) has the deeper operator checklist.
 
 ### Microsoft Learn
 

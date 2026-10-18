@@ -93,7 +93,7 @@ There are two approaches: one based on Azure Virtual WAN, and a traditional hub-
 
 Two terms for the table. A site-to-site VPN connects an on-premises network, such as a branch (a remote office, see [the business requirements post](/azure-landing-zone/business-requirements-compliance-region-recovery-connectivity-and-cost/)), to Azure over an encrypted IPsec tunnel, through a VPN device. SD-WAN (software-defined WAN) is a partner technology that Virtual WAN works with to connect branch locations to Azure.
 
-| | Traditional hub-and-spoke | Azure Virtual WAN |
+| <span class="sr-only">Comparison</span> | Traditional hub-and-spoke | Azure Virtual WAN |
 |---|---|---|
 | Use it if any of these apply | You deploy in one or several regions, expect some traffic between regions but do not need every region connected to every other. You have few branches per region, with fewer than 30 site-to-site IPsec tunnels. You want full control and detail to configure routing by hand. | You deploy in several regions and need global connectivity between virtual networks and several on-premises locations. You want to connect a large branch network with SD-WAN, or need more than 30 branch sites for native IPsec termination. You need transit between a VPN and ExpressRoute. |
 
