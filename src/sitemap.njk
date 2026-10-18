@@ -7,4 +7,10 @@ eleventyExcludeFromCollections: true
 {%- for p in collections.all %}{% if p.url and p.url != "/404.html" and p.url != "/robots.txt" and p.url != "/sitemap.xml" and p.url != "/feed.xml" and p.url != "/search.json" %}
   <url><loc>{{ p.url | absUrl(site.url) }}</loc></url>
 {%- endif %}{% endfor %}
+{%- for s in collections.liveSeries %}{% if s.slug != "azure-landing-zone" %}
+  <url><loc>{{ ("/" + s.slug + "/") | absUrl(site.url) }}</loc></url>
+{%- endif %}{% endfor %}
+{%- for t in collections.liveTopics %}{% if t.slug != "azure" %}
+  <url><loc>{{ ("/" + t.slug + "/") | absUrl(site.url) }}</loc></url>
+{%- endif %}{% endfor %}
 </urlset>

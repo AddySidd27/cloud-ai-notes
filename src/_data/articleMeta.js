@@ -17,6 +17,17 @@ export default {
   104: { tags: ["AVD", "Identity", "Microsoft Entra"], published: "2026-10-11" },
   106: { tags: ["AVD", "Host pools", "Capacity planning", "Images"], published: "2026-10-12" },
   105: { tags: ["AVD", "Networking", "Hub-and-spoke"], published: "2026-10-11" },
+  107: { tags: ["AVD", "Fundamentals", "Decision guide"], published: "2026-10-17" },
+  108: { tags: ["AVD", "Architecture", "Troubleshooting"], published: "2026-10-17" },
+  109: { tags: ["AVD", "Host pools", "Application groups", "Workspaces"], published: "2026-10-17" },
+  110: { tags: ["AVD", "Connection", "Troubleshooting"], published: "2026-10-17" },
+  111: { tags: ["AVD", "Operating system", "Licensing"], published: "2026-10-17" },
+  112: { tags: ["AVD", "Clients", "Windows App"], published: "2026-10-17" },
+  113: { tags: ["AVD", "Identity", "Single sign-on"], published: "2026-10-17" },
+  114: { tags: ["AVD", "Security", "Conditional Access"], published: "2026-10-17" },
+  115: { tags: ["AVD", "RBAC", "Delegation"], published: "2026-10-17" },
+  116: { tags: ["AVD", "Networking", "Private Link"], published: "2026-10-17" },
+  117: { tags: ["AVD", "Networking", "IP planning"], published: "2026-10-17" },
 
 
 

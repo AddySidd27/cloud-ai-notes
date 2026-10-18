@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import markdownItAnchor from "markdown-it-anchor";
 import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import topics from "./src/_data/topics.js";
@@ -5,8 +7,31 @@ import series from "./src/_data/series.js";
 
 export default function (eleventyConfig) {
   eleventyConfig.addPlugin(syntaxHighlight, { preAttributes: { tabindex: 0 } });
-  eleventyConfig.addPassthroughCopy({ "src/css": "css", "src/js": "js", "src/img": "img", "src/fonts": "fonts", "src/diagrams": "diagrams" });
+  eleventyConfig.addPassthroughCopy({ "src/css": "css", "src/js": "js", "src/fonts": "fonts", "src/diagrams": "diagrams" });
   eleventyConfig.addPassthroughCopy({ "src/CNAME": "CNAME" });
+
+  // Privacy guard: src/img/avd also holds superseded or unredacted screenshots that stay in the source tree
+  // but must not be published. Copy only the files under img/avd that a source page, template, data file or
+  // stylesheet actually references, and everything else under src/img (logos, og images, icons) as before.
+  // Source files are never touched.
+  {
+    const walkSrc = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walkSrc(path.join(d, e.name)) : [path.join(d, e.name)]));
+    const textExt = new Set([".md", ".njk", ".js", ".mjs", ".json", ".css", ".html", ".yml", ".yaml"]);
+    const referenced = new Set();
+    for (const f of walkSrc("src")) {
+      if (f.startsWith(path.join("src", "img") + path.sep)) continue;
+      if (!textExt.has(path.extname(f).toLowerCase())) continue;
+      for (const m of fs.readFileSync(f, "utf8").matchAll(/\/img\/avd\/([A-Za-z0-9_.\-]+)/g)) referenced.add(m[1]);
+    }
+    for (const e of fs.readdirSync(path.join("src", "img"), { withFileTypes: true })) {
+      if (e.isDirectory() && e.name === "avd") continue;
+      eleventyConfig.addPassthroughCopy({ [`src/img/${e.name}`]: `img/${e.name}` });
+    }
+    for (const name of referenced) {
+      if (fs.existsSync(path.join("src", "img", "avd", name))) eleventyConfig.addPassthroughCopy({ [`src/img/avd/${name}`]: `img/avd/${name}` });
+    }
+  }
+
 
   eleventyConfig.amendLibrary("md", (md) => md.use(markdownItAnchor, { level: [2], tabIndex: false }));
 
