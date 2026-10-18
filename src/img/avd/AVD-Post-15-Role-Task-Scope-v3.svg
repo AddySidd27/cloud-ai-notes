@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 820" width="1000" height="820" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+  <title id="t">Which built-in role fits which task, and where to assign it</title>
+  <desc id="d">Original table-style drawing, nine rows with three columns: task, built-in role, and scope or extra role needed. Signing users out: Desktop Virtualization User Session Operator on specific host pools. Draining and removing session hosts: Session Host Operator, plus Virtual Machine Contributor to add hosts outside the portal. Managing a host pool: Host Pool Contributor, plus Virtual Machine Contributor to create virtual machines. Publishing apps: Application Group Contributor, plus User Access Administrator to assign users. Managing a workspace: Workspace Contributor, plus Application Group Reader to see apps. Managing everything in AVD: Desktop Virtualization Contributor, plus User Access Administrator for assignments. Viewing only: Desktop Virtualization Reader. Using a desktop or app: Desktop Virtualization User on the application group. Signing in to Microsoft Entra joined virtual machines: Virtual Machine User Login on the VMs, resource group or subscription.</desc>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
+  <rect x="6" y="6" width="988" height="808" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
+  <text x="500" y="38" font-size="20" font-weight="600" text-anchor="middle" fill="#1f2933">Task, role and scope</text>
+  <text x="40" y="78" font-size="15" font-weight="600" text-anchor="start" fill="#5f6b7a">Task</text>
+  <text x="350" y="78" font-size="15" font-weight="600" text-anchor="start" fill="#5f6b7a">Built-in role</text>
+  <text x="700" y="78" font-size="15" font-weight="600" text-anchor="start" fill="#5f6b7a">Scope or extra role</text>
+  <rect x="30" y="92" width="290" height="66" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+  <text x="175" y="130" font-size="14" text-anchor="middle" fill="#1f2933">Sign users out, send messages</text>
+  <line x1="320" y1="125" x2="340" y2="125" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="340" y="92" width="330" height="66" rx="8" fill="#ffffff" stroke="#c2570c" stroke-width="1.8"/>
+  <text x="505" y="119" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Desktop Virtualization</text>
+  <text x="505" y="141" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">User Session Operator</text>
+  <line x1="670" y1="125" x2="690" y2="125" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="690" y="92" width="280" height="66" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="1.5"/>
+  <text x="830" y="130" font-size="14" text-anchor="middle" fill="#1f2933">Assign on specific host pools</text>
+  <rect x="30" y="172" width="290" height="66" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+  <text x="175" y="199" font-size="14" text-anchor="middle" fill="#1f2933">Drain, view and remove</text>
+  <text x="175" y="221" font-size="14" text-anchor="middle" fill="#1f2933">session hosts</text>
+  <line x1="320" y1="205" x2="340" y2="205" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="340" y="172" width="330" height="66" rx="8" fill="#ffffff" stroke="#c2570c" stroke-width="1.8"/>
+  <text x="505" y="199" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Desktop Virtualization</text>
+  <text x="505" y="221" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Session Host Operator</text>
+  <line x1="670" y1="205" x2="690" y2="205" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="690" y="172" width="280" height="66" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="1.5"/>
+  <text x="830" y="199" font-size="14" text-anchor="middle" fill="#1f2933">Add VM Contributor to add</text>
+  <text x="830" y="221" font-size="14" text-anchor="middle" fill="#1f2933">hosts outside the portal</text>
+  <rect x="30" y="252" width="290" height="66" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+  <text x="175" y="290" font-size="14" text-anchor="middle" fill="#1f2933">Manage one host pool</text>
+  <line x1="320" y1="285" x2="340" y2="285" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="340" y="252" width="330" height="66" rx="8" fill="#ffffff" stroke="#3b6fb6" stroke-width="1.8"/>
+  <text x="505" y="279" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Desktop Virtualization</text>
+  <text x="505" y="301" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Host Pool Contributor</text>
+  <line x1="670" y1="285" x2="690" y2="285" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="690" y="252" width="280" height="66" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="1.5"/>
+  <text x="830" y="279" font-size="14" text-anchor="middle" fill="#1f2933">Add VM Contributor to</text>
+  <text x="830" y="301" font-size="14" text-anchor="middle" fill="#1f2933">create virtual machines</text>
+  <rect x="30" y="332" width="290" height="66" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+  <text x="175" y="359" font-size="14" text-anchor="middle" fill="#1f2933">Publish apps, manage</text>
+  <text x="175" y="381" font-size="14" text-anchor="middle" fill="#1f2933">application groups</text>
+  <line x1="320" y1="365" x2="340" y2="365" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="340" y="332" width="330" height="66" rx="8" fill="#ffffff" stroke="#3b6fb6" stroke-width="1.8"/>
+  <text x="505" y="359" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Desktop Virtualization Application</text>
+  <text x="505" y="381" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Group Contributor</text>
+  <line x1="670" y1="365" x2="690" y2="365" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="690" y="332" width="280" height="66" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="1.5"/>
+  <text x="830" y="359" font-size="14" text-anchor="middle" fill="#1f2933">Add User Access Administrator</text>
+  <text x="830" y="381" font-size="14" text-anchor="middle" fill="#1f2933">to assign users</text>
+  <rect x="30" y="412" width="290" height="66" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+  <text x="175" y="450" font-size="14" text-anchor="middle" fill="#1f2933">Manage a workspace</text>
+  <line x1="320" y1="445" x2="340" y2="445" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="340" y="412" width="330" height="66" rx="8" fill="#ffffff" stroke="#3b6fb6" stroke-width="1.8"/>
+  <text x="505" y="439" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Desktop Virtualization</text>
+  <text x="505" y="461" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Workspace Contributor</text>
+  <line x1="670" y1="445" x2="690" y2="445" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="690" y="412" width="280" height="66" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="1.5"/>
+  <text x="830" y="439" font-size="14" text-anchor="middle" fill="#1f2933">Add Application Group Reader</text>
+  <text x="830" y="461" font-size="14" text-anchor="middle" fill="#1f2933">to see the apps in it</text>
+  <rect x="30" y="492" width="290" height="66" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+  <text x="175" y="530" font-size="14" text-anchor="middle" fill="#1f2933">Manage all AVD resources</text>
+  <line x1="320" y1="525" x2="340" y2="525" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="340" y="492" width="330" height="66" rx="8" fill="#ffffff" stroke="#6b4fa0" stroke-width="1.8"/>
+  <text x="505" y="519" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Desktop Virtualization</text>
+  <text x="505" y="541" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Contributor</text>
+  <line x1="670" y1="525" x2="690" y2="525" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="690" y="492" width="280" height="66" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="1.5"/>
+  <text x="830" y="519" font-size="14" text-anchor="middle" fill="#1f2933">Not user assignment. Add</text>
+  <text x="830" y="541" font-size="14" text-anchor="middle" fill="#1f2933">User Access Administrator.</text>
+  <rect x="30" y="572" width="290" height="66" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+  <text x="175" y="610" font-size="14" text-anchor="middle" fill="#1f2933">View only</text>
+  <line x1="320" y1="605" x2="340" y2="605" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="340" y="572" width="330" height="66" rx="8" fill="#ffffff" stroke="#3c8d40" stroke-width="1.8"/>
+  <text x="505" y="599" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Desktop Virtualization</text>
+  <text x="505" y="621" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Reader</text>
+  <line x1="670" y1="605" x2="690" y2="605" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="690" y="572" width="280" height="66" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="1.5"/>
+  <text x="830" y="610" font-size="14" text-anchor="middle" fill="#1f2933">Any scope you choose</text>
+  <rect x="30" y="652" width="290" height="66" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+  <text x="175" y="690" font-size="14" text-anchor="middle" fill="#1f2933">Use a desktop or app</text>
+  <line x1="320" y1="685" x2="340" y2="685" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="340" y="652" width="330" height="66" rx="8" fill="#ffffff" stroke="#3c8d40" stroke-width="1.8"/>
+  <text x="505" y="679" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Desktop Virtualization</text>
+  <text x="505" y="701" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">User</text>
+  <line x1="670" y1="685" x2="690" y2="685" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="690" y="652" width="280" height="66" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="1.5"/>
+  <text x="830" y="690" font-size="14" text-anchor="middle" fill="#1f2933">On the application group</text>
+  <rect x="30" y="732" width="290" height="66" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+  <text x="175" y="759" font-size="14" text-anchor="middle" fill="#1f2933">Sign in to a Microsoft</text>
+  <text x="175" y="781" font-size="14" text-anchor="middle" fill="#1f2933">Entra joined VM</text>
+  <line x1="320" y1="765" x2="340" y2="765" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="340" y="732" width="330" height="66" rx="8" fill="#ffffff" stroke="#3c8d40" stroke-width="1.8"/>
+  <text x="505" y="759" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Virtual Machine</text>
+  <text x="505" y="781" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">User Login</text>
+  <line x1="670" y1="765" x2="690" y2="765" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="690" y="732" width="280" height="66" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="1.5"/>
+  <text x="830" y="759" font-size="14" text-anchor="middle" fill="#1f2933">VMs, resource group or subscription.</text>
+  <text x="830" y="781" font-size="14" text-anchor="middle" fill="#1f2933">Not needed with session host config.</text>
+</svg>

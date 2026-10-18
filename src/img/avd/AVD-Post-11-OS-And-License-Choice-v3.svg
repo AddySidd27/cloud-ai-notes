@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 770" width="1000" height="770" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+  <title id="t">Questions that decide the session host operating system and license</title>
+  <desc id="d">Original decision aid with four questions from top to bottom. Question 1: do several users share one virtual machine? If yes, use Windows 11 Enterprise multi-session with an eligible per-user license, or Windows Server with an RDS client access license that has Software Assurance or RDS user subscription licenses. If no, use Windows 11 Enterprise single session. Question 2: are the users internal or external customers? Internal users need an eligible license. External commercial use needs per-user access pricing, which is not available for Windows Server. Question 3: will you manage hosts with Intune? Windows Server cannot be enrolled in Intune, so use hybrid join and Group Policy. Question 4: where do the hosts run? On Azure Local the hosts join Active Directory Domain Services only. In Azure Virtual Desktop Hybrid, multi-session is not supported. A final box says to apply the Windows license to the virtual machine and confirm activation.</desc>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
+  <rect x="6" y="6" width="988" height="758" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
+  <text x="500" y="38" font-size="20" font-weight="600" text-anchor="middle" fill="#1f2933">Questions that decide the operating system and license</text>
+  <text x="250" y="74" font-size="15" font-weight="600" text-anchor="middle" fill="#5f6b7a">Question</text>
+  <text x="760" y="74" font-size="15" font-weight="600" text-anchor="middle" fill="#5f6b7a">What the documentation says follows</text>
+  <rect x="30" y="92" width="440" height="100" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+  <rect x="42" y="129" width="26" height="26" rx="13" fill="#3b6fb6" stroke="#3b6fb6" stroke-width="1"/>
+  <text x="55" y="148" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">1</text>
+  <text x="84" y="136" font-size="15" text-anchor="start" fill="#1f2933">Do several users share</text>
+  <text x="84" y="158" font-size="15" text-anchor="start" fill="#1f2933">one virtual machine?</text>
+  <line x1="470" y1="142" x2="520" y2="142" stroke="#3b6fb6" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="495" y="130" font-size="14" font-weight="600" text-anchor="middle" fill="#3b6fb6">Yes</text>
+  <rect x="530" y="92" width="440" height="100" rx="8" fill="#ffffff" stroke="#3b6fb6" stroke-width="1.5"/>
+  <text x="750" y="114" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Windows 11 Enterprise multi-session</text>
+  <text x="750" y="136" font-size="14" text-anchor="middle" fill="#1f2933">(per-user license), or Windows Server</text>
+  <text x="750" y="158" font-size="14" text-anchor="middle" fill="#1f2933">(RDS CAL with Software Assurance,</text>
+  <text x="750" y="180" font-size="14" text-anchor="middle" fill="#1f2933">or RDS user subscription licenses)</text>
+  <line x1="250" y1="192" x2="250" y2="244" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="262" y="226" font-size="14" text-anchor="start" fill="#5f6b7a">Then ask the next question</text>
+  <rect x="30" y="244" width="440" height="100" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+  <rect x="42" y="281" width="26" height="26" rx="13" fill="#3b6fb6" stroke="#3b6fb6" stroke-width="1"/>
+  <text x="55" y="300" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">2</text>
+  <text x="84" y="288" font-size="15" text-anchor="start" fill="#1f2933">Are the users employees and</text>
+  <text x="84" y="310" font-size="15" text-anchor="start" fill="#1f2933">contractors, or paying customers?</text>
+  <line x1="470" y1="294" x2="520" y2="294" stroke="#6b4fa0" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="495" y="282" font-size="14" font-weight="600" text-anchor="middle" fill="#6b4fa0">Paying</text>
+  <rect x="530" y="244" width="440" height="100" rx="8" fill="#ffffff" stroke="#6b4fa0" stroke-width="1.5"/>
+  <text x="750" y="277" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Paying customers: per-user access pricing,</text>
+  <text x="750" y="299" font-size="14" text-anchor="middle" fill="#1f2933">Windows client only, not Windows Server.</text>
+  <text x="750" y="321" font-size="14" text-anchor="middle" fill="#1f2933">Employees and contractors: an eligible license.</text>
+  <line x1="250" y1="344" x2="250" y2="396" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="262" y="378" font-size="14" text-anchor="start" fill="#5f6b7a">Then ask the next question</text>
+  <rect x="30" y="396" width="440" height="100" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+  <rect x="42" y="433" width="26" height="26" rx="13" fill="#3b6fb6" stroke="#3b6fb6" stroke-width="1"/>
+  <text x="55" y="452" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">3</text>
+  <text x="84" y="440" font-size="15" text-anchor="start" fill="#1f2933">Will you manage the</text>
+  <text x="84" y="462" font-size="15" text-anchor="start" fill="#1f2933">hosts with Intune?</text>
+  <line x1="470" y1="446" x2="520" y2="446" stroke="#c2570c" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="495" y="434" font-size="14" font-weight="600" text-anchor="middle" fill="#c2570c">Server</text>
+  <rect x="530" y="396" width="440" height="100" rx="8" fill="#ffffff" stroke="#c2570c" stroke-width="1.5"/>
+  <text x="750" y="429" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Windows Server cannot be enrolled</text>
+  <text x="750" y="451" font-size="14" text-anchor="middle" fill="#1f2933">in Intune. Use hybrid join and</text>
+  <text x="750" y="473" font-size="14" text-anchor="middle" fill="#1f2933">Group Policy instead.</text>
+  <line x1="250" y1="496" x2="250" y2="548" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="262" y="530" font-size="14" text-anchor="start" fill="#5f6b7a">Then ask the next question</text>
+  <rect x="30" y="548" width="440" height="100" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+  <rect x="42" y="585" width="26" height="26" rx="13" fill="#3b6fb6" stroke="#3b6fb6" stroke-width="1"/>
+  <text x="55" y="604" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">4</text>
+  <text x="84" y="592" font-size="15" text-anchor="start" fill="#1f2933">Where will the</text>
+  <text x="84" y="614" font-size="15" text-anchor="start" fill="#1f2933">hosts run?</text>
+  <line x1="470" y1="598" x2="520" y2="598" stroke="#b42318" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="495" y="586" font-size="14" font-weight="600" text-anchor="middle" fill="#b42318">Local</text>
+  <rect x="530" y="548" width="440" height="100" rx="8" fill="#ffffff" stroke="#b42318" stroke-width="1.5"/>
+  <text x="750" y="581" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Azure Local: the portal joins hosts</text>
+  <text x="750" y="603" font-size="14" text-anchor="middle" fill="#1f2933">to AD DS only (PowerShell can Entra join).</text>
+  <text x="750" y="625" font-size="14" text-anchor="middle" fill="#1f2933">AVD Hybrid: no multi-session.</text>
+  <line x1="250" y1="648" x2="250" y2="682" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="30" y="684" width="940" height="58" rx="8" fill="#eef6ee" stroke="#3c8d40" stroke-width="1.5"/>
+  <text x="500" y="708" font-size="15" font-weight="600" text-anchor="middle" fill="#1f2933">Apply the Windows license to the VM and confirm the OS is activated</text>
+  <text x="500" y="730" font-size="14" text-anchor="middle" fill="#1f2933">Windows client hosts made in the portal get the license set; Windows Server hosts might get a wrong type.</text>
+</svg>

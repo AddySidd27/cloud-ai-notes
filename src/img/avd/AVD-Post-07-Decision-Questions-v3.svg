@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 770" width="1000" height="770" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+  <title id="t">Questions to ask when choosing a virtual desktop option</title>
+  <desc id="d">Original decision aid. Four questions are asked from top to bottom. Question 1: do users need Windows desktops or apps that run centrally? If no, another approach may be simpler. Question 2: must the session hosts stay in your own datacenter? If yes, look at Azure Virtual Desktop Hybrid or Azure Virtual Desktop for Azure Local. Question 3: do you need a platform from Citrix or Omnissa? If yes, look at Citrix DaaS or Omnissa Horizon Cloud on Azure. Question 4: is one dedicated Cloud PC per user, run by Microsoft, enough? If yes, look at Windows 365. If no, look at Azure Virtual Desktop with shared multi-session hosts.</desc>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
+  <rect x="6" y="6" width="988" height="758" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
+  <text x="500" y="38" font-size="20" font-weight="600" text-anchor="middle" fill="#1f2933">Questions to ask, in order</text>
+  <text x="250" y="74" font-size="15" font-weight="600" text-anchor="middle" fill="#5f6b7a">Question</text>
+  <text x="760" y="74" font-size="15" font-weight="600" text-anchor="middle" fill="#5f6b7a">If the answer points here</text>
+  <rect x="30" y="92" width="440" height="100" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+  <rect x="42" y="129" width="26" height="26" rx="13" fill="#3b6fb6" stroke="#3b6fb6" stroke-width="1"/>
+  <text x="55" y="148" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">1</text>
+  <text x="84" y="136" font-size="15" text-anchor="start" fill="#1f2933">Do users need Windows desktops</text>
+  <text x="84" y="158" font-size="15" text-anchor="start" fill="#1f2933">or apps that run centrally?</text>
+  <line x1="470" y1="142" x2="520" y2="142" stroke="#b42318" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="495" y="130" font-size="14" font-weight="600" text-anchor="middle" fill="#b42318">No</text>
+  <rect x="530" y="92" width="440" height="100" rx="8" fill="#ffffff" stroke="#b42318" stroke-width="1.5"/>
+  <text x="750" y="125" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Another approach may be simpler,</text>
+  <text x="750" y="147" font-size="14" text-anchor="middle" fill="#1f2933">for example a managed laptop</text>
+  <text x="750" y="169" font-size="14" text-anchor="middle" fill="#1f2933">with the app installed</text>
+  <line x1="250" y1="192" x2="250" y2="244" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="262" y="226" font-size="14" text-anchor="start" fill="#5f6b7a">Otherwise, continue</text>
+  <rect x="30" y="244" width="440" height="100" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+  <rect x="42" y="281" width="26" height="26" rx="13" fill="#3b6fb6" stroke="#3b6fb6" stroke-width="1"/>
+  <text x="55" y="300" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">2</text>
+  <text x="84" y="288" font-size="15" text-anchor="start" fill="#1f2933">Must the session hosts stay</text>
+  <text x="84" y="310" font-size="15" text-anchor="start" fill="#1f2933">in your own datacenter?</text>
+  <line x1="470" y1="294" x2="520" y2="294" stroke="#6b4fa0" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="495" y="282" font-size="14" font-weight="600" text-anchor="middle" fill="#6b4fa0">Yes</text>
+  <rect x="530" y="244" width="440" height="100" rx="8" fill="#ffffff" stroke="#6b4fa0" stroke-width="1.5"/>
+  <text x="750" y="277" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Azure Virtual Desktop Hybrid, or</text>
+  <text x="750" y="299" font-size="14" text-anchor="middle" fill="#1f2933">Azure Virtual Desktop for Azure Local</text>
+  <text x="750" y="321" font-size="14" text-anchor="middle" fill="#1f2933">(hosts on premises, service in Azure)</text>
+  <line x1="250" y1="344" x2="250" y2="396" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="262" y="378" font-size="14" text-anchor="start" fill="#5f6b7a">Otherwise, continue</text>
+  <rect x="30" y="396" width="440" height="100" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+  <rect x="42" y="433" width="26" height="26" rx="13" fill="#3b6fb6" stroke="#3b6fb6" stroke-width="1"/>
+  <text x="55" y="452" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">3</text>
+  <text x="84" y="440" font-size="15" text-anchor="start" fill="#1f2933">Do you need a platform</text>
+  <text x="84" y="462" font-size="15" text-anchor="start" fill="#1f2933">from Citrix or Omnissa?</text>
+  <line x1="470" y1="446" x2="520" y2="446" stroke="#6b4fa0" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="495" y="434" font-size="14" font-weight="600" text-anchor="middle" fill="#6b4fa0">Yes</text>
+  <rect x="530" y="396" width="440" height="100" rx="8" fill="#ffffff" stroke="#6b4fa0" stroke-width="1.5"/>
+  <text x="750" y="440" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Citrix DaaS, or Omnissa Horizon Cloud</text>
+  <text x="750" y="462" font-size="14" text-anchor="middle" fill="#1f2933">on Azure (not covered in this series)</text>
+  <line x1="250" y1="496" x2="250" y2="548" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="262" y="530" font-size="14" text-anchor="start" fill="#5f6b7a">Otherwise, continue</text>
+  <rect x="30" y="548" width="440" height="100" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+  <rect x="42" y="585" width="26" height="26" rx="13" fill="#3b6fb6" stroke="#3b6fb6" stroke-width="1"/>
+  <text x="55" y="604" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">4</text>
+  <text x="84" y="592" font-size="15" text-anchor="start" fill="#1f2933">Is one dedicated Cloud PC per user,</text>
+  <text x="84" y="614" font-size="15" text-anchor="start" fill="#1f2933">run by Microsoft, enough?</text>
+  <line x1="470" y1="598" x2="520" y2="598" stroke="#3c8d40" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="495" y="586" font-size="14" font-weight="600" text-anchor="middle" fill="#3c8d40">Yes</text>
+  <rect x="530" y="548" width="440" height="100" rx="8" fill="#ffffff" stroke="#3c8d40" stroke-width="1.5"/>
+  <text x="750" y="581" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Windows 365</text>
+  <text x="750" y="603" font-size="14" text-anchor="middle" fill="#1f2933">(one Cloud PC per user, fixed</text>
+  <text x="750" y="625" font-size="14" text-anchor="middle" fill="#1f2933">monthly fee; network costs may apply)</text>
+  <line x1="250" y1="648" x2="250" y2="682" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="262" y="670" font-size="14" font-weight="600" text-anchor="start" fill="#5f6b7a">No</text>
+  <rect x="30" y="684" width="940" height="58" rx="8" fill="#eef6ee" stroke="#3c8d40" stroke-width="1.5"/>
+  <text x="500" y="708" font-size="15" font-weight="600" text-anchor="middle" fill="#1f2933">Azure Virtual Desktop in Azure: pooled or personal hosts, your own images, autoscale</text>
+  <text x="500" y="730" font-size="14" text-anchor="middle" fill="#1f2933">You operate the images, session hosts, profiles and network; Microsoft operates the service.</text>
+</svg>

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" width="1000" height="520" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+  <title id="t">Who manages what in Azure Virtual Desktop</title>
+  <desc id="d">Not an official Microsoft diagram. A stack of eight labelled boxes with two braces, following the layout of the Learn diagram. Microsoft-managed, six boxes: web service, broker service, gateway service, resource directory, geographical database and regional database. Customer-managed, two boxes: session hosts and user identities. The right side adds notes taken from the text of the same Learn page about what the customer manages for session hosts and user identities. The diagram shows no connections between components.</desc>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
+  <rect x="6" y="6" width="988" height="508" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
+  <text x="500" y="38" font-size="20" font-weight="600" text-anchor="middle" fill="#1f2933">Who manages what in Azure Virtual Desktop</text>
+  <text x="500" y="62" font-size="14" text-anchor="middle" fill="#1f2933">Same two groups and eight components as the Learn diagram. No links are drawn between them.</text>
+  <rect x="40" y="90" width="300" height="42" rx="6" fill="#2e7a94" stroke="#2e7a94" stroke-width="1.2"/>
+  <text x="190.0" y="115.9" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">Web service</text>
+  <rect x="40" y="140" width="300" height="42" rx="6" fill="#2e7a94" stroke="#2e7a94" stroke-width="1.2"/>
+  <text x="190.0" y="165.9" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">Broker service</text>
+  <rect x="40" y="190" width="300" height="42" rx="6" fill="#2e7a94" stroke="#2e7a94" stroke-width="1.2"/>
+  <text x="190.0" y="215.9" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">Gateway service</text>
+  <rect x="40" y="240" width="300" height="42" rx="6" fill="#2e7a94" stroke="#2e7a94" stroke-width="1.2"/>
+  <text x="190.0" y="265.9" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">Resource directory</text>
+  <rect x="40" y="290" width="300" height="42" rx="6" fill="#2e7a94" stroke="#2e7a94" stroke-width="1.2"/>
+  <text x="190.0" y="315.9" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">Geographical database</text>
+  <rect x="40" y="340" width="300" height="42" rx="6" fill="#2e7a94" stroke="#2e7a94" stroke-width="1.2"/>
+  <text x="190.0" y="365.9" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">Regional database</text>
+  <rect x="40" y="400" width="300" height="42" rx="6" fill="#d6eaf2" stroke="#8cbfd3" stroke-width="1.2"/>
+  <text x="190.0" y="425.9" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Session hosts</text>
+  <rect x="40" y="450" width="300" height="42" rx="6" fill="#d6eaf2" stroke="#8cbfd3" stroke-width="1.2"/>
+  <text x="190.0" y="475.9" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">User identities</text>
+  <line x1="356" y1="92" x2="372" y2="92" stroke="#2e7a94" stroke-width="3"/>
+  <line x1="372" y1="92" x2="372" y2="382" stroke="#2e7a94" stroke-width="3"/>
+  <line x1="356" y1="382" x2="372" y2="382" stroke="#2e7a94" stroke-width="3"/>
+  <line x1="372" y1="237" x2="392" y2="237" stroke="#2e7a94" stroke-width="3"/>
+  <text x="402" y="243" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Microsoft-managed</text>
+  <line x1="356" y1="402" x2="372" y2="402" stroke="#8cbfd3" stroke-width="3"/>
+  <line x1="372" y1="402" x2="372" y2="492" stroke="#8cbfd3" stroke-width="3"/>
+  <line x1="356" y1="492" x2="372" y2="492" stroke="#8cbfd3" stroke-width="3"/>
+  <line x1="372" y1="447" x2="392" y2="447" stroke="#8cbfd3" stroke-width="3"/>
+  <text x="402" y="453" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Customer-managed</text>
+  <rect x="600" y="380" width="380" height="120" rx="6" fill="#ffffff" stroke="#5f6b7a" stroke-width="1.2"/>
+  <text x="612" y="402" font-size="13" font-weight="600" text-anchor="start" fill="#1f2933">From the text of the same page</text>
+  <text x="612" y="424" font-size="13" text-anchor="start" fill="#1f2933">Session hosts: image and applications,</text>
+  <text x="612" y="446" font-size="13" text-anchor="start" fill="#1f2933">network connectivity, resiliency, backup</text>
+  <text x="612" y="468" font-size="13" text-anchor="start" fill="#1f2933">User identities: you manage, in Entra ID</text>
+</svg>

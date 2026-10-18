@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" width="1000" height="650" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+  <title id="t">The three authentications and the single sign-on steps</title>
+  <desc id="d">Original drawing. Three boxes from left to right joined by arrows. First, cloud service authentication with Microsoft Entra ID, where the client subscribes to the feed, connects to the gateway and sends diagnostics, and where Conditional Access applies. Second, remote session authentication to the session host: with single sign-on the Microsoft Entra token is used, without it the user is prompted on every connection unless credentials are saved, and smart card and Windows Hello for Business use Kerberos and need a domain controller in view or a KDC proxy. Third, in-session authentication to apps and sites, with passwordless through WebAuthn redirection and smart cards through drivers and redirection. A panel below lists the five tasks to enable single sign-on.</desc>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
+  <rect x="6" y="6" width="988" height="638" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
+  <text x="500" y="38" font-size="20" font-weight="600" text-anchor="middle" fill="#1f2933">Three separate authentications on the way to a desktop</text>
+  <rect x="30" y="70" width="290" height="328" rx="8" fill="#ffffff" stroke="#3b6fb6" stroke-width="1.8"/>
+  <rect x="44" y="84" width="26" height="26" rx="13" fill="#3b6fb6" stroke="#3b6fb6" stroke-width="1"/>
+  <text x="57" y="103" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">1</text>
+  <text x="86" y="106" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Cloud service</text>
+  <text x="46" y="146" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Microsoft Entra ID</text>
+  <text x="46" y="170" font-size="14" text-anchor="start" fill="#1f2933">Happens when the client:</text>
+  <text x="46" y="194" font-size="14" text-anchor="start" fill="#1f2933">- subscribes to the feed</text>
+  <text x="46" y="218" font-size="14" text-anchor="start" fill="#1f2933">- connects to the gateway</text>
+  <text x="46" y="242" font-size="14" text-anchor="start" fill="#1f2933">- sends diagnostics</text>
+  <text x="46" y="266" font-size="14" text-anchor="start" fill="#1f2933">Conditional Access and MFA</text>
+  <text x="46" y="290" font-size="14" text-anchor="start" fill="#1f2933">apply here. With SSO they also</text>
+  <text x="46" y="314" font-size="14" text-anchor="start" fill="#1f2933">apply at host sign-in, through</text>
+  <text x="46" y="338" font-size="14" text-anchor="start" fill="#1f2933">Windows Cloud Login.</text>
+  <rect x="355" y="70" width="290" height="328" rx="8" fill="#ffffff" stroke="#c2570c" stroke-width="1.8"/>
+  <rect x="369" y="84" width="26" height="26" rx="13" fill="#c2570c" stroke="#c2570c" stroke-width="1"/>
+  <text x="382" y="103" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">2</text>
+  <text x="411" y="106" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Remote session</text>
+  <text x="371" y="146" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Sign-in to the session host</text>
+  <text x="371" y="170" font-size="14" text-anchor="start" fill="#1f2933">With SSO: the Entra token is</text>
+  <text x="371" y="194" font-size="14" text-anchor="start" fill="#1f2933">used, with no second prompt.</text>
+  <text x="371" y="218" font-size="14" text-anchor="start" fill="#1f2933">Without SSO: a prompt on</text>
+  <text x="371" y="242" font-size="14" text-anchor="start" fill="#1f2933">every connection, unless</text>
+  <text x="371" y="266" font-size="14" text-anchor="start" fill="#1f2933">credentials are saved.</text>
+  <text x="371" y="290" font-size="14" text-anchor="start" fill="#1f2933">Smart card and Windows Hello for</text>
+  <text x="371" y="314" font-size="14" text-anchor="start" fill="#1f2933">Business use Kerberos; they need</text>
+  <text x="371" y="338" font-size="14" text-anchor="start" fill="#1f2933">a domain controller in view, or</text>
+  <text x="371" y="362" font-size="14" text-anchor="start" fill="#1f2933">a KDC proxy.</text>
+  <rect x="680" y="70" width="290" height="328" rx="8" fill="#ffffff" stroke="#3c8d40" stroke-width="1.8"/>
+  <rect x="694" y="84" width="26" height="26" rx="13" fill="#3c8d40" stroke="#3c8d40" stroke-width="1"/>
+  <text x="707" y="103" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">3</text>
+  <text x="736" y="106" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">In-session</text>
+  <text x="696" y="146" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Apps and sites in the desktop</text>
+  <text x="696" y="170" font-size="14" text-anchor="start" fill="#1f2933">Passwordless: WebAuthn is</text>
+  <text x="696" y="194" font-size="14" text-anchor="start" fill="#1f2933">redirected to the local PC.</text>
+  <text x="696" y="218" font-size="14" text-anchor="start" fill="#1f2933">Smart card: drivers on the</text>
+  <text x="696" y="242" font-size="14" text-anchor="start" fill="#1f2933">session host, plus smart</text>
+  <text x="696" y="266" font-size="14" text-anchor="start" fill="#1f2933">card redirection.</text>
+  <line x1="320" y1="234" x2="355" y2="234" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <line x1="645" y1="234" x2="680" y2="234" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="30" y="412" width="940" height="214" rx="8" fill="#eef6ee" stroke="#3c8d40" stroke-width="1.5"/>
+  <text x="50" y="442" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">To turn on single sign-on (the five documented tasks, in order)</text>
+  <text x="50" y="474" font-size="14" text-anchor="start" fill="#1f2933">1.  Allow Microsoft Entra authentication for RDP (the Windows Cloud Login application).</text>
+  <text x="50" y="501" font-size="14" text-anchor="start" fill="#1f2933">2.  Hide the consent prompt by listing session host device groups.</text>
+  <text x="50" y="528" font-size="14" text-anchor="start" fill="#1f2933">3.  Create a Kerberos server object if Active Directory is part of the environment.</text>
+  <text x="50" y="555" font-size="14" text-anchor="start" fill="#1f2933">4.  Review your Conditional Access policies.</text>
+  <text x="50" y="582" font-size="14" text-anchor="start" fill="#1f2933">5.  Set the host pool: Microsoft Entra single sign-on, or enablerdsaadauth set to 1.</text>
+  <text x="50" y="612" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Hosts must be Microsoft Entra joined or hybrid joined for this to work.</text>
+</svg>

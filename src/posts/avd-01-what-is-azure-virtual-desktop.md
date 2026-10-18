@@ -72,9 +72,9 @@ AVD has both Azure resource costs and licensing requirements. An estimate needs 
 
 ## Who manages each AVD component
 
-![Two panels. Managed by Microsoft: web service, broker service, gateway service, resource directory, geographical database and regional database. Managed by you: session hosts, covering the operating system image and applications, virtual network connectivity, resiliency, backup and recovery, and user identities with control of access.](/img/avd/AVD-Post-01-Components-v2.png)
+![A stack of eight boxes with two braces. Microsoft-managed: web service, broker service, gateway service, resource directory, geographical database and regional database. Customer-managed: session hosts and user identities. A note lists what the customer manages, from the text of the same page.](/img/avd/AVD-Post-01-Components-v3.png)
 
-*Drawn by the author from the component list and responsibilities in [Azure Virtual Desktop service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience), which has its own diagram of this topic to compare. Not an official Microsoft diagram. It leaves out Azure Traffic Manager, Azure Front Door and the connections between components. Icons: Microsoft Azure and Microsoft Entra architecture icons, used unmodified under the terms on Microsoft's icons page.*
+*Redrawn from the components and responsibilities diagram in [Azure Virtual Desktop service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience), keeping its two groups and eight components. Not an official Microsoft diagram. Learn draws no links between the components, so none are drawn here. Azure Traffic Manager and Azure Front Door are not in that diagram, only in the page text, so they are left out. Checked against the cited pages in October 2026; this is not Microsoft verification or endorsement. Icons: Microsoft Azure and Microsoft Entra architecture icons, used unmodified under the terms on Microsoft's icons page.*
 
 The diagram groups components by who manages them. The upper group is Microsoft's service infrastructure. The lower group contains the session hosts and user identities you manage.
 
