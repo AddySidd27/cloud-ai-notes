@@ -155,7 +155,7 @@ Domain controllers and Microsoft Entra Connect servers belong in the **Identity 
 
 Two more Azure roles appear below. Reader lets you view Azure resources. User Access Administrator lets you manage user access to Azure resources.
 
-| | Microsoft Entra ID roles | Azure RBAC roles |
+| <span class="sr-only">Comparison</span> | Microsoft Entra ID roles | Azure RBAC roles |
 |---|---|---|
 | What they control | Administrative privileges for tenant-wide services, such as Microsoft Entra ID, Microsoft Teams, Exchange Online and Intune | Administrative privileges for Azure resources, such as virtual machines, subscriptions and resource groups |
 | Example | Global Administrator | Owner, Contributor, Reader |

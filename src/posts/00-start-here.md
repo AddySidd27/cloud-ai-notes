@@ -1,5 +1,6 @@
 ---
 title: "Start Here: How This Blog Works and What to Read First"
+seoTitle: "Start Here: What to Read First"
 slug: "start-here"
 series: "Start Here"
 part: ""

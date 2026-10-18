@@ -1,9 +1,10 @@
 ---
 title: "Windows 365 Enterprise: Operate, Roll Out and Extend"
+seoTitle: "Windows 365: Operate, Roll Out and Extend"
 layout: post.njk
 permalink: /windows-365/operate-and-extend/
 order: 209
-part: 9
+part: 10
 tags: w365-series
 deck: "Move from one verified pilot to a supportable service, then evaluate Boot, Switch and Offline as separate exercises."
 ---
@@ -46,7 +47,7 @@ Windows 365 Boot, Switch and Offline are distinct user experiences with device, 
 
 This series is a starting route, not a claim that every optional feature and destructive recovery action has been performed in my tenant. Use its worksheets to reproduce the steps, and compare each portal choice with the linked current product documentation.
 
-Return to [Part 1: Start Here](/windows-365/start-here/) or explore the [engineering repository](https://github.com/AddySidd27/Windows365-enterprise-engineering).
+Return to [Start Here](/windows-365/start-here/) or explore the [engineering repository](https://github.com/AddySidd27/Windows365-enterprise-engineering).
 
 ### Microsoft Learn
 

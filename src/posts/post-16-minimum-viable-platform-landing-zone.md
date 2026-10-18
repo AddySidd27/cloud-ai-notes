@@ -1,5 +1,6 @@
 ---
 title: "Minimum Viable Platform Landing Zone: What to Build First"
+seoTitle: "Minimum Viable Platform Landing Zone"
 slug: "minimum-viable-platform-landing-zone"
 series: "Azure Landing Zone"
 part: ""

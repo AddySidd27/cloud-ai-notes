@@ -1,5 +1,6 @@
 ---
 title: "Choose the Right Identity Model for Azure Virtual Desktop"
+seoTitle: "Choose an AVD Identity Model"
 layout: post.njk
 permalink: "/azure-virtual-desktop/choose-the-right-identity-model/"
 order: 104

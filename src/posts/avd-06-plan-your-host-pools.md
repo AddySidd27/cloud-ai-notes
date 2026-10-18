@@ -1,5 +1,6 @@
 ---
 title: "Plan Your AVD Host Pools: Users, Applications, VM Sizing and Images"
+seoTitle: "Plan AVD Host Pools, Sizing and Images"
 layout: post.njk
 permalink: "/azure-virtual-desktop/plan-your-host-pools/"
 order: 106

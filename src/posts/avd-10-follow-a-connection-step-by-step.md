@@ -1,5 +1,6 @@
 ---
 title: "Follow a Connection Step by Step: Reverse Connect, RDP Shortpath and Where It Breaks"
+seoTitle: "AVD Connection Flow: Reverse Connect and Shortpath"
 layout: post.njk
 permalink: "/azure-virtual-desktop/follow-a-connection-step-by-step/"
 order: 110

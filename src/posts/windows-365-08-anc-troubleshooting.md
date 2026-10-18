@@ -1,9 +1,10 @@
 ---
 title: "Windows 365 Enterprise: An ANC Health Failure, Step by Step"
+seoTitle: "Windows 365: Troubleshoot an ANC Health Failure"
 layout: post.njk
 permalink: /windows-365/anc-troubleshooting/
 order: 208
-part: 8
+part: 9
 tags: w365-series
 deck: "A real isolated network test, the observed health error, what remains unknown and how the temporary Azure resources were cleaned up."
 ---

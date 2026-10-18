@@ -66,7 +66,7 @@ For this project, [UC-01](https://github.com/AddySidd27/Windows365-enterprise-en
 
 ## Read the complete series
 
-The reading path follows the ten topics in the [Windows-Noob getting-started series](https://www.windows-noob.com/forums/topic/23040-getting-started-with-windows-365-part-1-introduction/). The lab steps, writing, diagrams and evidence here are my own. The earlier articles were published in 2022–2023, so use the current Microsoft Learn links in each chapter for present-day requirements. A linked chapter can cover only part of a topic; the status below states what the pilot proves.
+The reading path follows the ten topics in the [Windows-Noob getting-started series](https://www.windows-noob.com/forums/topic/23040-getting-started-with-windows-365-part-1-introduction/). The lab steps, writing, diagrams and evidence here are my own. The earlier articles were published in 2022 and 2023, so use the current Microsoft Learn links in each chapter for present-day requirements. A linked chapter can cover only part of a topic; the status below states what the pilot proves.
 
 1. **Introduction and edition choice.** [Start Here](/windows-365/start-here/) and [Plan the Pilot](/windows-365/plan-the-pilot/) explain licensing, groups, requirements and the first pilot. Enterprise seat inventory is captured; a fresh assignment sequence is pending.
 2. **Provision a Microsoft Entra joined Cloud PC.** [Identity and Network](/windows-365/identity-network/), [Provisioning](/windows-365/provision/) and [ANC Troubleshooting](/windows-365/anc-troubleshooting/) cover the network decision and wizard. Six original unassigned Intune wizard screens illustrate the steps. The existing Cloud PC is provisioned; its original creation was not captured. The separate ANC health test failed.
@@ -84,4 +84,4 @@ The [engineering series map](https://github.com/AddySidd27/Windows365-enterprise
 ### References
 
 - Microsoft Learn: [Windows 365 Enterprise requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements), [network deployment options](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-network-deployment-options), [create a provisioning policy](https://learn.microsoft.com/en-us/windows-365/enterprise/create-provisioning-policy), [Azure network connections](https://learn.microsoft.com/en-us/windows-365/enterprise/azure-network-connections).
-- [Windows 365 Enterprise engineering repository](https://github.com/AddySidd27/Windows365-enterprise-engineering) — original lab records, procedures, evidence and editable diagrams.
+- [Windows 365 Enterprise engineering repository](https://github.com/AddySidd27/Windows365-enterprise-engineering): original lab records, procedures, evidence and editable diagrams.
