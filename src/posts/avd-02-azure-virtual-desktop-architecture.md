@@ -6,9 +6,30 @@ order: 102
 part: 2
 tags: [avd-series]
 deck: "Follow the components and connections from sign-in to a working Windows desktop."
+description: "Learn how Azure Virtual Desktop works: what Microsoft runs, what you run, and how sign-in, network, identity and profile storage combine into a working desktop."
 ---
 
-A complete walkthrough of the AVD components, their connections and the services a desktop depends on.
+This article follows one desktop from sign-in to a working Windows session across the Azure Virtual Desktop (AVD) services, your session hosts and the services they depend on. If you are new to the service, start with [what Azure Virtual Desktop is](/azure-virtual-desktop/what-is-azure-virtual-desktop/).
+
+## Key terms
+
+| Term | Meaning |
+|---|---|
+| Windows App | The app on a user's device that opens remote desktops and apps. |
+| Control plane | The Microsoft-run services that decide who can connect and to what. |
+| Broker | The control plane service that arranges a connection and picks the session host. |
+| Gateway | The control plane service that relays the remote session between the user's device and the session host. |
+| Token | A short-lived proof that the user has signed in. |
+| Tenant | The Microsoft Entra directory that holds the organization's users, groups, devices and applications. |
+| Conditional Access | Microsoft Entra rules that decide whether a sign-in is allowed, for example by requiring multifactor authentication. |
+| Multifactor authentication (MFA) | Signing in with more than a password, such as a code from a phone. |
+| Reverse connect | The session host opens the connection outward to the service, so users do not need an inbound connection to the host. |
+| TCP and UDP | Two ways to send data over a network. TCP checks that the data arrives; UDP sends it without those checks. |
+| DNS | The service that turns names into network addresses. |
+| FSLogix | Software that keeps a user's Windows profile in a container file and attaches it at sign-in. |
+| VHD and VHDX | Virtual hard disk file formats. |
+| Log Analytics | An Azure service that stores monitoring data so you can query it. |
+| Preview | An early release of a feature that can still change. |
 
 ## Start with where Windows runs
 
@@ -35,39 +56,35 @@ Microsoft operates the AVD connection services. You do not build your own AVD br
 
 A partner can do this work for the customer. The work still needs an owner.
 
-## The complete hybrid architecture
+## A typical hybrid setup, box by box
 
-![Typical hybrid AVD architecture](/img/avd/AVD-Post-02-Hybrid-Architecture.png)
+![Diagram of a hybrid Azure Virtual Desktop setup. At the top, the Microsoft-managed AVD service with its web service, gateway service, broker service, resource directory and database, and Microsoft Entra ID. Below an internet band, a customer Azure subscription holds a spoke virtual network with the session hosts and profile storage, and a hub virtual network with a gateway subnet and an optional firewall or network appliance subnet, joined by peering. An on-premises network on the right holds user devices, Microsoft Entra Connect and domain controllers, and connects to the hub by ExpressRoute or VPN. Users reach the service over the internet, and session hosts connect outbound to it.](/img/avd/AVD-Post-02-Hybrid-Architecture-original.png)
 
-Figure 1. A typical hybrid Azure Virtual Desktop architecture.
+*Figure 1. A typical hybrid Azure Virtual Desktop setup. Original diagram by the author, based on the components described in [service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience) and the Azure Architecture Center's [virtual desktop architecture guidance](https://learn.microsoft.com/en-us/azure/architecture/virtual-desktop/virtual-desktop-get-started). Not an official Microsoft diagram. It leaves out Azure Traffic Manager, Azure Front Door, monitoring and the connections inside the Microsoft-managed service. Icons: Microsoft Azure and Microsoft Entra architecture icons, used unmodified under the terms on Microsoft's icons page.*
 
-The original Microsoft figure shows a hybrid example, not a list of components every deployment must buy. ExpressRoute, on-premises AD DS and the two subscriptions reflect that example.
+This is one typical example, not a list of components every deployment must buy. ExpressRoute or VPN, on-premises AD DS and the hub-and-spoke layout reflect that example.
 
-## Read the hybrid architecture
-
-The diagram shows an organization extending its existing network and identity environment into Azure. Read it from the on-premises network on the left, across the Azure networks in the middle, to the file storage on the right.
+The diagram shows an organization extending its existing network and identity environment into Azure. The top row is what Microsoft runs. The lower left is what the customer builds in Azure, and the lower right is the existing on-premises network.
 
 | Box or connection | What it means for the desktop |
 |---|---|
-| Endpoints | The computers and other devices people use to open a remote desktop or app. |
-| On-premises AD DS | Active Directory Domain Services: the organization's domain identity service in this hybrid example. |
-| Azure AD Connect server | Synchronizes directory identities. Its current name is Microsoft Entra Connect. |
-| Azure Active Directory | The older name shown in the figure for Microsoft Entra ID, the cloud identity service. |
-| AVD control plane | Microsoft's Web Access, Gateway, Broker, Diagnostics and REST API services. |
-| ExpressRoute and network gateways | The private connection between the on-premises network and Azure. |
-| Hub virtual network | Holds shared network and domain-service resources in this example, along with desktop VMs. |
-| Desktops spoke VNet and peering | An additional desktop network. Peering connects the two virtual networks, including across subscriptions. |
-| Azure Files / Azure NetApp Files | File storage reachable from the desktop VMs. FSLogix profile containers can be stored here. |
+| User devices (clients) | The computers and other devices people use to open a remote desktop or app. |
+| Domain controllers (AD DS) | Active Directory Domain Services: the organization's domain identity service in this hybrid example. |
+| Microsoft Entra Connect | Synchronizes identities from on-premises Active Directory to Microsoft Entra ID, the cloud identity service. |
+| AVD service (control plane) | The web service, gateway service, broker service, resource directory and databases that Microsoft runs. |
+| ExpressRoute or VPN, and the virtual network gateway | The private connection between the on-premises network and the hub virtual network in Azure. |
+| Hub virtual network | Holds shared network resources in this example: the gateway subnet and an optional firewall or network appliance subnet. |
+| Spoke virtual network and peering | Holds the session host subnet. Peering connects the spoke to the hub. |
+| Session hosts | The virtual machines that run the users' desktops and apps. |
+| Azure Files / Azure NetApp Files | File storage reachable from the session hosts. FSLogix profile containers can be stored here. |
 
-**VNet** means virtual network; a **subnet** is a portion of it. An Azure **subscription** groups resources for management and cost tracking. **Resource groups** organize related resources within a subscription.
-
-An **NSG**, or network security group, allows or denies network traffic using rules. The **NVA**, or network virtual appliance, is the network appliance VM shown in the DMZ subnet. A **DMZ** is the network segment used here for that appliance. Its role and traffic routing depend on the selected design; a box in the diagram does not configure those routes for you.
+**VNet** means virtual network; a **subnet** is a portion of it. An Azure **subscription** groups resources for management and cost tracking. The **NVA**, or network virtual appliance, is a network appliance VM such as a third-party firewall. Whether a deployment has one, and how traffic is routed through it, depends on the selected design; a box in the diagram does not configure those routes for you.
 
 ### Read the arrows carefully
 
-The Entra Connect line represents identity synchronization. ExpressRoute represents connectivity between networks. The peering line connects the hub and spoke. The storage arrows show access from desktop VMs to file storage.
+The dotted line from Microsoft Entra Connect represents identity synchronization. The dashed ExpressRoute or VPN line represents connectivity between networks. The peering line connects the hub and spoke. The storage arrow shows access from the session hosts to file storage. The blue and orange arrows show how users and session hosts reach the AVD service over the internet.
 
-This overview does not draw every step of a user's remote connection. In particular, the ExpressRoute arrow is not proof that every user's display traffic travels over ExpressRoute. The connection diagrams later in this post show how that session is established.
+This overview does not draw every step of a user's remote connection. In particular, the ExpressRoute or VPN line is not proof that every user's display traffic travels over ExpressRoute. The connection diagrams later in this post show how that session is established.
 
 ## What the control plane actually does
 
@@ -75,9 +92,9 @@ The control-plane box groups services that help a user find and connect to a des
 
 | Service | What it does |
 |---|---|
-| Web service / Web Access | Provides the user-facing access endpoints and returns the resource connection information. Browser access also uses Microsoft's web experience. |
+| Web service / Web Access | Provides the user-facing access endpoints and returns the resource connection information. |
 | Connection broker | Arranges connections, selects the session host and supports reconnection to an existing session. |
-| Gateway | Relays the initial remote connection between the client and session host. |
+| Gateway | Relays the remote connection between the client and the session host. If RDP Shortpath is set up and works, the session moves to a direct UDP path instead. |
 | Resource directory and connection databases | Help locate and retrieve the user's published resource connection information. |
 | Diagnostics | Records service events that administrators can use to investigate successful and failed operations. |
 | REST APIs and management tools | Let administrators and automation create and manage AVD resources. An API is an interface a tool or script can call. |
@@ -115,11 +132,11 @@ Applications can be installed on the hosts or supplied through **App Attach**. A
 
 In a **pooled** host pool, different users can share a session host. A user can land on a different host after signing out and starting a new session. A multi-session Windows image supports multiple users on the same VM.
 
-In a **personal** host pool, a desktop is assigned to an individual user. Their connections return to the assigned host. This is a different assignment model from sharing capacity across a pool.
+In a **personal** host pool, a desktop is assigned to an individual user. Their connections return to the assigned host. This is a different assignment model from sharing capacity across a pool. The [host pool planning post](/azure-virtual-desktop/plan-your-host-pools/) helps you choose between them.
 
 ### Publishing access and signing in to Windows
 
-Access has more than one layer. Application-group assignment controls which published resource a user can access. Windows sign-in also needs the permissions required by the selected session-host identity configuration. Reaching profile storage and business applications requires their own authorization.
+Access has more than one layer. Application-group assignment controls which published resource a user can access. Windows sign-in also needs the permissions required by the selected session-host identity configuration. For Microsoft Entra joined session hosts in a host pool that does not use a session host configuration, users also need the Virtual Machine User Login role, assigned on the VMs, their resource group or the subscription. Reaching profile storage and business applications requires their own authorization.
 
 Therefore, seeing a desktop icon confirms resource discovery. It does not confirm that Windows sign-in, profile loading and application access will all succeed.
 
@@ -143,21 +160,23 @@ Azure Virtual Desktop also supports Microsoft Entra joined session hosts. AD DS 
 
 **1. Sign in to the AVD service.** Microsoft Entra ID authenticates the user so the client can retrieve the resources they are allowed to access. Conditional Access can enforce requirements such as multifactor authentication.
 
-**2. Sign in to Windows on the session host.** The remote session must authenticate the user to Windows. With supported single sign-on configured, Windows sign-in can happen without a second credential prompt. Without it, a further prompt can appear.
+**2. Sign in to Windows on the session host.** The remote session must authenticate the user to Windows. With supported single sign-on (SSO) configured, Windows sign-in can happen without a second credential prompt. Without it, a further prompt can appear.
 
 **3. Access resources inside Windows.** The user's profile share, file shares and applications each have their own access requirements. A successful AVD sign-in does not grant permission to everything inside the desktop.
 
-Use the same supported user identity for AVD and Windows sign-in. Microsoft does not support signing in to the service with one identity and to the session host with a separate local Windows account.
+Use the same supported user identity for AVD and Windows sign-in. AVD does not support signing in to the service with one identity and to the session host with a different one, such as a local Windows account.
 
 ### Match profile storage to identity
 
 Selecting Microsoft Entra join does not automatically configure Azure Files authentication or file permissions. Choose a supported storage authentication method for the users and hosts, then configure share and file permissions. This is a separate design decision from joining the VM.
 
-A **tenant** is the Microsoft Entra directory that holds the organization's users, groups, devices and applications.
+The [identity model post](/azure-virtual-desktop/choose-the-right-identity-model/) compares these choices in detail.
 
 ## First, discover the desktops and apps
 
-![Feed discovery](/img/avd/AVD-Post-02-Feed-Discovery.png)
+![Diagram of feed discovery in one Azure region. The user device reaches the web service through Azure Traffic Manager. The web service connects to the broker service, which connects to the resource directory and to the geographical database, or to the regional database for a host pool with regional deployment scope.](/img/avd/AVD-Post-02-Feed-Discovery-v2.png)
+
+*Figure 2. Feed discovery in one Azure region, drawn by the author from the steps in [Azure Virtual Desktop service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience), which has its own diagram of the same process to compare. Not an official Microsoft diagram. The second example, a host pool in a region covered by a different geography, is left out. Icons: Microsoft Azure and Microsoft Entra architecture icons, used unmodified under the terms on Microsoft's icons page.*
 
 The **feed** is the list of desktops and applications available to the user. Retrieving that list happens before a desktop session opens.
 
@@ -175,13 +194,15 @@ The next decision happens when the user selects a desktop or app. In a pooled ho
 | Algorithm | How it uses the available hosts |
 |---|---|
 | Breadth-first | Aims to spread sessions across hosts. It randomly selects from half of the available hosts with the fewest sessions. |
-| Depth-first | Chooses the host with the most sessions that still accepts connections and has capacity under the configured session limit. |
+| Depth-first | Chooses the host with the most sessions that still accepts connections and has capacity under the configured session limit. Depth-first needs a maximum session limit to be set. |
 
 If the user already has an active or disconnected session, AVD reconnects them to that host. **Drain mode** prevents new sessions on a host but still allows reconnection to existing sessions. It does not move a running session to another VM.
 
 ## Then, establish the remote connection
 
-![Remote connection](/img/avd/AVD-Post-02-RDP-Connection.png)
+![Diagram of the remote connection. The user device reaches the gateway service through Azure Front Door over TCP. The session host also connects to the gateway, after the broker service tells the agent on the session host to do so, and the gateway relays the session. RDP Shortpath adds a direct UDP path between the device and the session host, for managed networks and for public networks.](/img/avd/AVD-Post-02-RDP-Connection-v2.png)
+
+*Figure 3. The remote connection, drawn by the author from the steps in [service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience) and [RDP Shortpath](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-shortpath), which have their own diagrams to compare. Not an official Microsoft diagram. STUN and TURN servers, port numbers and the TLS layers inside the connection are left out. Session hosts can be in any Azure region. Icons: Microsoft Azure and Microsoft Entra architecture icons, used unmodified under the terms on Microsoft's icons page.*
 
 Remote Desktop Protocol, or **RDP**, carries the remote display and user input. The broker arranges the connection; the session host runs Windows.
 
@@ -217,9 +238,9 @@ Connecting the user to Windows is only one network path. The session host also n
 | Session host to profile storage | Load and use the user's profile container. |
 | Session host to application services | Access databases, file shares, Microsoft 365 and other application dependencies. |
 
-Allow the documented AVD endpoints through network controls. DNS resolves service names to addresses; routes determine the network path; NSGs and firewalls decide which traffic is allowed. Peering connects networks but does not replace the required permissions or firewall configuration.
+Allow the documented AVD endpoints through network controls. These connections use TCP on port 443. The [networking post](/azure-virtual-desktop/plan-avd-networking/) covers the network design in detail. DNS resolves service names to addresses; routes determine the network path; NSGs and firewalls decide which traffic is allowed. Peering connects networks but does not replace the required permissions or firewall configuration.
 
-The hybrid diagram uses ExpressRoute. Other supported designs can use VPN connectivity or an Azure environment without on-premises dependencies. Microsoft recommends avoiding public IP addresses on session hosts and public inbound RDP access.
+The hybrid diagram uses ExpressRoute. Other supported designs can use VPN connectivity or an Azure environment without on-premises dependencies. Avoid public IP addresses on session hosts and avoid public inbound RDP access.
 
 ## Keep profiles, data and service metadata separate
 
@@ -229,7 +250,7 @@ A Windows user profile holds settings and personalization. If those settings exi
 
 FSLogix stores the profile in a VHD or VHDX container. At sign-in, the container is attached so Windows can use it as the user's profile. Hosts can access the same profile storage even when the user starts a later session on another host.
 
-Azure Files and Azure NetApp Files are supported storage options. The storage needs suitable performance, authentication, permissions and network reachability. Keep profile storage close to the hosts; Microsoft's AVD profile guidance places it in the same region.
+Azure Files and Azure NetApp Files are supported storage options. The storage needs suitable performance, authentication, permissions and network reachability. Keep profile storage in the same Azure region as the session hosts: the AVD profile guidance states that the storage account must be in the same region as the session host virtual machines.
 
 FSLogix needs available profile storage to attach the user's container. Business applications also need their own databases or other back-end services to be available.
 
@@ -243,7 +264,7 @@ Three kinds of information appear in this architecture. They have different loca
 | Windows user profile | Your configured profile solution, such as FSLogix containers on file storage. |
 | Application and business data | The application's own storage, database or service. |
 
-The host pool's deployment scope controls service metadata placement. **Geographical** stores metadata in the geography associated with the selected region. **Regional** stores it in the selected region, with replicas across availability zones and metadata replication to a paired region where applicable for disaster recovery. Regional scope is available only in supported regions. These choices do not choose where your FSLogix profiles or business databases live.
+The host pool's deployment scope controls service metadata placement. **Geographical** stores metadata in the geography associated with the selected region. **Regional** stores it in the selected region, with replicas across availability zones and metadata replication to a paired region where applicable for disaster recovery. Regional scope is available only in supported regions. The scope is set when the host pool is created and cannot be changed afterwards. These choices do not choose where your FSLogix profiles or business databases live.
 
 Session-host placement is another decision. Choose it with user latency and application dependencies in mind. A host-pool object's location does not, by itself, relocate the desktop VMs or profile storage.
 
@@ -251,21 +272,21 @@ Session-host placement is another decision. Choose it with user latency and appl
 
 A landing zone provides the surrounding identity, network, security, governance and operations foundation. Platform landing zones provide shared services. AVD workload landing zones contain the workload resources.
 
-The enterprise landing-zone pattern separates platform and workload responsibilities through subscriptions, policies and management groups. That organization surrounds the architecture explained here. It does not replace the AVD broker, gateway, session hosts or profiles, and the two subscriptions in the hybrid figure are not a universal subscription count.
+The enterprise landing-zone pattern separates platform and workload responsibilities through subscriptions, policies and management groups. That organization surrounds the architecture explained here. It does not replace the AVD broker, gateway, session hosts or profiles, and the single customer subscription in the hybrid figure is not a universal subscription count.
 
 ## Turn the architecture into an operating service
 
 ### Images and applications
 
-An image provides Windows and can include the applications and configuration used to create session hosts. AVD custom image templates use Azure VM Image Builder and can distribute images to Azure Compute Gallery.
+An image provides Windows and can include the applications and configuration used to create session hosts. AVD custom image templates are built on Azure Image Builder, and the resulting image can be stored in Azure Compute Gallery, as a managed image, or both.
 
 RemoteApp publishes applications that run on the session hosts, including installed apps or App Attach packages. Application licensing and back-end permissions need separate configuration.
 
 ### Session-host management and scaling
 
-With **standard management**, your tools and processes create and update the hosts. With **session host configuration**, AVD provides an integrated host creation, update and scaling approach for pooled host pools. These are distinct management approaches; existing standard-management tools are not interchangeable with session host configuration.
+With **standard management**, your tools and processes create and update the hosts. With **session host configuration**, AVD provides an integrated host creation, update and scaling approach for pooled host pools. These are distinct management approaches; existing standard-management tools are not interchangeable with session host configuration. The approach is chosen when the host pool is created and cannot be changed afterwards.
 
-A **scaling plan** adjusts capacity against its schedule and usage settings. Power-management autoscale starts and stops existing VMs. Dynamic autoscale, currently documented as preview, can also create and delete hosts with the supported session host configuration approach.
+A **scaling plan** adjusts capacity against its schedule and usage settings. Power-management autoscale starts and stops existing VMs. Dynamic autoscale, documented as preview on some pages and as available on others, can also create and delete hosts with the supported session host configuration approach.
 
 Load balancing selects a host; scaling controls capacity. Measure application resource needs before choosing VM sizes and session limits. For pooled autoscale, the schedule controls the load-balancing algorithm.
 
@@ -283,13 +304,13 @@ Microsoft operates the resilient AVD service. Your deployment still depends on c
 
 Distributing hosts across availability zones can reduce the effect of a datacenter failure. Recovering from a wider outage also needs a plan for the remaining dependencies. AVD does not automatically manage disaster recovery for the entire customer environment.
 
-Consider this consequence: another host may accept a connection, but it cannot provide a usable desktop if the required profile share or application back end is unavailable. A host failure also does not transfer the user's running Windows session to another VM.
+Consider this consequence: another host may accept a connection, but it cannot provide a usable desktop if the required profile share or application back end is unavailable. If the host that runs a session fails, that session ends (this is the author's reasoning, not a documented guarantee). The user signs in again and the broker places a new session on a host that is working.
 
 A production recovery design must state what users can access during an outage, how much data loss is acceptable, how quickly service must return, and how recovery will be tested. Storage redundancy, backup, secondary-region hosts and application recovery must be evaluated together.
 
 ## Follow one desktop from sign-in to work
 
-Consider an illustrative pooled-desktop setup: two session hosts, a desktop application group, one AVD workspace and FSLogix profile storage.
+Consider an illustrative pooled-desktop setup for a fictional user, Amina: two session hosts, a desktop application group, one AVD workspace and FSLogix profile storage.
 
 1. Amina signs in through Windows App. Microsoft Entra ID authenticates her.
 2. AVD returns the desktop published through the application group she can access.
@@ -313,5 +334,11 @@ Each stage has a separate dependency. The desktop is usable only when all requir
 
 With these decisions clear, the next step is to prepare the Azure environment before deploying the first host pool.
 
-Source: [Microsoft Learn](https://learn.microsoft.com/en-us/training/modules/azure-virtual-desktop-architecture/2-azure-virtual-desktop-for-enterprise).
+Next: [Prepare Your Azure Environment for Azure Virtual Desktop](/azure-virtual-desktop/prepare-your-azure-environment/).
+
+Go deeper: [How Azure Virtual Desktop Fails](/azure-virtual-desktop/how-azure-virtual-desktop-fails/), [Host Pools, Application Groups and Workspaces: The Rules That Connect Them](/azure-virtual-desktop/host-pool-application-group-workspace-rules/), [Follow a Connection Step by Step](/azure-virtual-desktop/follow-a-connection-step-by-step/).
+
+## Sources
+
+[Service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience), [network connectivity](https://learn.microsoft.com/en-us/azure/virtual-desktop/network-connectivity) and [RDP Shortpath](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-shortpath).
 

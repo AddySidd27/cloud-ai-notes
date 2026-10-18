@@ -6,9 +6,42 @@ order: 105
 part: 5
 tags: [avd-series]
 deck: "Plan address space, subnets, DNS and hub connectivity before building session hosts."
+description: "Plan the network for Azure Virtual Desktop: address space, subnets, DNS, hub connectivity, outbound access, firewall rules and profile storage paths."
 ---
 
+**In one sentence:** This article helps you decide the address space, subnets, DNS, outbound path and profile-storage path for Azure Virtual Desktop session hosts in a hub-and-spoke network, and how to check them before any session host is created.
+
 In the previous post, we chose how our session hosts would join Microsoft Entra ID or a domain. Now we need to design the network those hosts will use. We will plan a 500-user enterprise deployment, consider growth toward 5,000 users, and turn those requirements into network decisions before configuration. We will follow one design throughout: AVD session hosts in a workload spoke, connected to shared hub services. Each decision is explained before its configuration steps.
+
+## Key terms
+
+| Term | Plain meaning |
+| --- | --- |
+| VNet | A private network in Azure that your virtual machines and other resources connect to. |
+| Subnet | A smaller address range inside a VNet. Each VM network interface gets its address from one subnet. |
+| CIDR | A way to write an address block as an address plus a prefix length, such as 10.40.1.0/24. A smaller number after the slash means a larger block. |
+| NSG | Network security group: a list of allow and deny rules, each with a priority number, applied to a subnet or a network interface. |
+| UDR | User-defined route: a route you create that tells Azure which next hop to use for traffic to an address range. It overrides Azure's default route for that range. |
+| Next hop | The place Azure sends matching traffic next, such as the internet, a gateway or a firewall's private IP address. |
+| BGP | Border Gateway Protocol: a standard way for two gateways to tell each other which address ranges they can reach, so routes are learned automatically. |
+| DNS | The system that turns a name into an IP address. |
+| DNS proxy | A firewall setting where the firewall listens for DNS queries from hosts and forwards them to the DNS server you chose. |
+| Private endpoint | A network interface with a private IP address in your VNet that connects to an Azure service, such as a storage account. |
+| Peering | A link between two VNets that lets resources in them talk over Azure's backbone network using private addresses. |
+| Gateway transit | A peering setting that lets a spoke use the VPN or ExpressRoute gateway in the hub instead of having its own. |
+| Hub and spoke | A layout with one central hub VNet for shared services and several spoke VNets for workloads, each peered to the hub. |
+| FQDN | Fully qualified domain name: the complete name of a host, such as login.microsoftonline.com. |
+| Service tag | A name that stands for a group of IP address ranges of one Azure service. Microsoft keeps the ranges up to date. |
+| FQDN tag | An Azure Firewall name for a group of domain names that belong to one Microsoft service, used in application rules. |
+| NAT | Network address translation: replacing the address of a connection's sender or receiver with another address. |
+| SNAT | Source NAT: replacing the sender's private address with a public one, so a host with a private address can reach the internet. |
+| NAT Gateway | An Azure service that gives a subnet an explicit outbound path to the internet, with SNAT using its own public IP addresses. |
+| Default outbound access | Implicit internet access that Azure gave to VMs with no explicit outbound method. New private subnets no longer get it (see the outbound section). |
+| STUN/TURN | Two methods RDP Shortpath uses over public networks. STUN helps the client and host find a direct UDP path. TURN relays the UDP traffic when no direct path works. |
+| FSLogix | The profile container technology that stores a user's profile in a file on a share and attaches it at sign-in. |
+| SMB | The file-sharing protocol Azure Files uses. It connects on TCP port 445. |
+| ExpressRoute | A private connection between your datacenter and Azure through a connectivity provider, not over the public internet. |
+| VPN | An encrypted tunnel over the internet between your network and an Azure VPN gateway. |
 
 ## 1. What are we actually planning?
 
@@ -26,8 +59,6 @@ That difference explains why opening a desktop successfully does not mean its ap
 For the base AVD connection, the client and host connect outward to the service. You do not publish each host on the internet with TCP 3389. A VPN is not required merely to open an AVD desktop through this public-service connection.
 
 However, the host may need a private network connection to an application in your datacenter. The user-to-desktop connection and the desktop-to-application connection are different paths.
-
-Source: [Microsoft Learn - AVD connections](https://learn.microsoft.com/en-us/azure/virtual-desktop/network-connectivity).
 
 ## 2. Collect requirements before choosing an IP range
 
@@ -49,11 +80,9 @@ Do not accept "the application uses the network" as a completed requirement. Obt
 
 Your output is a dependency list and a first traffic matrix. Configuration starts after that list is understood.
 
-Source: [Microsoft Learn - prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites) and [hub-and-spoke planning](https://learn.microsoft.com/en-us/azure/architecture/networking/architecture/hub-spoke).
-
 ## 3. Understand the desktop and network choices
 
-A **host pool** groups session-host VMs. A **VNet** is an Azure virtual network; a **subnet** is an address range inside it. A **spoke** is a workload VNet connected to a shared **hub** VNet. A **backend** is the application service or database that the desktop application connects to.
+A **host pool** groups session-host VMs. A **backend** is the application service or database that the desktop application connects to. The network terms (VNet, subnet, hub, spoke) are in Key terms.
 
 Start with an application inventory for each user group. The examples below are questions to investigate, not fixed deployment choices for those departments.
 
@@ -67,13 +96,11 @@ Confirm multi-session compatibility and licensing with the application owner/ven
 
 **Pooled:** sessions use an available host from a shared pool. Windows Enterprise multi-session can serve multiple users on one VM. FSLogix can retain the user's profile when the next sign-in uses another host.
 
-**Personal:** a session host is assigned to an individual user. Evaluate this when a dedicated desktop is required. Use Microsoft's term **personal**, rather than treating "persistent" as a third pool type. Profile persistence and dedicated host assignment are separate decisions.
+**Personal:** a session host is assigned to an individual user. Evaluate this when a dedicated desktop is required. Use the term **personal**, rather than treating "persistent" as a third pool type. Profile persistence and dedicated host assignment are separate decisions.
 
 A full desktop is available with either type. RemoteApp publishes individual applications from pooled pools. Those applications still run on session hosts and need their backend connections.
 
 For each group, record the chosen model, region, image, application destinations and peak sessions. Measure representative workloads to establish host capacity. Convert that host count into IP demand, including replacement overlap; use measured application/profile traffic to check firewall and hybrid capacity. Confirm DNS, routes and permitted ports to every dependency. Do not allow a whole datacenter range simply because one application needs access.
-
-Source: [Microsoft Learn - host pools and application groups](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology), [profile persistence](https://learn.microsoft.com/en-us/azure/virtual-desktop/fslogix-profile-containers) and [workload capacity planning](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/session-host-virtual-machine-sizing-guidelines).
 
 ## 4. Work through a company example
 
@@ -97,11 +124,9 @@ For this example, assume the following requirements have been confirmed. These n
 
 **Finally, prove the design with each group.** Test office and home sessions, application transactions, profile loading and a busy sign-in period. When growth approaches 5,000 users, repeat these checks by workload and location; reconsider host, address, firewall, hybrid and storage capacity before adding users.
 
-Source: [Microsoft Learn - AVD landing-zone design](https://learn.microsoft.com/en-us/azure/architecture/landing-zones/azure-virtual-desktop/design-guide), [host-pool types](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology), [pool isolation](https://learn.microsoft.com/en-us/security/zero-trust/azure-infrastructure-avd) and [hub-and-spoke routing](https://learn.microsoft.com/en-us/azure/architecture/networking/architecture/hub-spoke).
-
 ## 5. Separate environments before choosing the spokes
 
-A spoke is a workload VNet connected to the hub. A subscription is a management, permissions and billing boundary. A subnet is an address range inside a VNet. A host pool groups AVD session hosts; it does not create network isolation by itself.
+A subscription is a management, permissions and billing boundary. A host pool groups AVD session hosts; it does not create network isolation by itself.
 
 For this company, use the following starting layout. Names identify their purpose; replace them with the approved naming standard.
 
@@ -113,33 +138,31 @@ For this company, use the following starting layout. Names identify their purpos
 
 Connect these spokes to the approved shared hub. Give every VNet a non-overlapping range. Permit only the shared services and application paths that environment needs. Sharing a hub does not authorize development hosts to reach production hosts or production data.
 
-Microsoft's landing-zone guidance for VM-based workloads recommends subscriptions and VNets per application environment. Its AVD Zero Trust guidance also recommends isolating different host pools on separate VNets. This example follows those isolation recommendations.
+The landing-zone guidance for VM-based workloads recommends separate subscriptions and virtual networks (VNets) per application environment, and the AVD Zero Trust guidance recommends isolating different host pools on separate VNets. This example follows those isolation recommendations.
 
 A smaller environment can technically place host pools in one VNet, but that is a different design requiring explicit subnet/NSG controls and review. Separate resource groups or host-pool names alone do not provide equivalent network isolation. A separate VNet per pool is a security recommendation here, not an AVD deployment prerequisite.
 
 Keep applicable baseline policies consistent across development, test and production so testing finds configuration problems before promotion. Use environment-scoped permissions and deployment identities. Confirm the shared hub's change process because a shared-service change can affect several spokes.
 
-Source: [Microsoft Learn - environment separation](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management-application-environments), [AVD Zero Trust isolation](https://learn.microsoft.com/en-us/security/zero-trust/azure-infrastructure-avd) and [NSG controls](https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview).
-
 ## 6. Choose the region and check network quality
 
 Choose a host region by testing where users connect from and considering where their application data lives. Do not select a region only because it was used in a tutorial.
 
+Session hosts and their VNet must share a region and a subscription. A VM's network interface can only connect to a VNet in the same region and subscription, and the host pool's virtual machine location must match its VNet's region. Peering can link VNets in different regions, but each host's own VNet must be in the host's region.
+
 There are two different distances to check: user-to-session-host region, and session-host-to-application/storage. A responsive remote desktop can still contain a slow application when its backend is far away.
 
-Microsoft recommends client-to-host-region round-trip latency below 150 ms. Round-trip time is how long a network exchange takes to travel out and back. Use representative office and home connections; one result from your own laptop is not a test of every user location.
+Keep client-to-host-region round-trip latency below 150 ms. Round-trip time is how long a network exchange takes to travel out and back. Use representative office and home connections; one result from your own laptop is not a test of every user location.
 
 Bandwidth is the amount of data the link can carry. It is different from latency. RDP usage changes with the workload, display resolution, video, printing and transfers. There is no single fixed Mbps-per-user value that fits every desktop.
 
 For the 500-user starting deployment, first record peak concurrent users at each site and what they actually do. Run a pilot with representative workloads and measure demand. Use those measurements to check site internet capacity and shared network devices. Separately measure application and profile traffic on hybrid and Azure paths.
 
-Before approval, record the tested locations, selected region, measured connection quality and workload assumptions. Keep Azure Files profile storage in the session-host region as Microsoft's profile guidance specifies.
-
-Source: [Microsoft Learn - latency prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites), [RDP bandwidth](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-bandwidth) and [FSLogix placement](https://learn.microsoft.com/en-us/azure/virtual-desktop/fslogix-profile-containers).
+Before approval, record the tested locations, selected region, measured connection quality and workload assumptions. Keep Azure Files profile storage in the session-host region as the FSLogix guidance specifies.
 
 ## 7. Choose a topology that meets those requirements
 
-A virtual network, or VNet, is the private network boundary for Azure resources. A subnet is an address range inside it. Session-host network interfaces receive addresses from the selected subnet.
+Session-host network interfaces receive addresses from the selected subnet.
 
 This article follows a traditional hub-and-spoke design. The hub supplies shared connectivity services. Each AVD environment has its own workload spokes containing its hosts and workload-specific resources. Peering connects the two VNets over Azure's backbone.
 
@@ -151,17 +174,17 @@ This article follows a traditional hub-and-spoke design. The hub supplies shared
 
 Peering does not automatically send internet traffic through the hub firewall. A route selects that path. It also does not automatically provide transit between every pair of spokes.
 
-For 500 or 5,000 users, choose the number of regional spokes and host subnets from location, isolation, routing and capacity requirements. For this example, follow Microsoft's Zero Trust recommendation to isolate host pools in separate VNets. AVD itself does not require that topology to register hosts; the choice implements the isolation policy.
+For 500 or 5,000 users, choose the number of regional spokes and host subnets from location, isolation, routing and capacity requirements. For this example, follow the Zero Trust recommendation to isolate host pools in separate VNets. AVD itself does not require that topology to register hosts; the choice implements the isolation policy.
 
 If the enterprise already uses Virtual WAN, follow its approved virtual-hub connection and routing model. Do not build a competing traditional hub just to copy this walkthrough.
 
-Source: [Microsoft Learn - hub and spoke](https://learn.microsoft.com/en-us/azure/architecture/networking/architecture/hub-spoke), [AVD isolation](https://learn.microsoft.com/en-us/security/zero-trust/azure-infrastructure-avd) and [Virtual WAN](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about).
-
 ## 8. Read the hub-and-spoke diagram for AVD
 
-![Hub and spoke reference](/img/avd/AVD-Post-05-Readable-Hub-Spoke.png)
+![Diagram of a hub virtual network 10.40.0.0/24 holding Azure Firewall, a VPN or ExpressRoute gateway and a DNS Private Resolver, peered to five spoke virtual networks for operations, engineering, finance, development and test, with a hybrid link to an on-premises datacenter and an outbound arrow from the firewall to the internet](/img/avd/AVD-Post-05-Hub-Spoke-v2.png)
 
-*The reference separates production and nonproduction workload spokes around shared hub services. For this example, AVD hosts belong in their approved environment spokes.*
+*Drawn by the author using the hub-and-spoke concepts in [Hub-spoke network topology in Azure](https://learn.microsoft.com/en-us/azure/architecture/networking/architecture/hub-spoke), with the address ranges from the address-planning section and an AVD workload in each spoke. Not an official Microsoft diagram. That page has its own diagram, with different components, to compare. The route footnote in the drawing comes from the Azure Firewall for AVD guidance, not from that page. Address ranges are illustrative. Icons: Microsoft Azure and Microsoft Entra architecture icons, used unmodified under the terms on Microsoft's icons page.*
+
+The hub holds the shared services this article uses: the firewall, the hybrid gateway and the DNS Private Resolver. The five spokes are the production, development and test networks from the environment layout earlier, each peered only to the hub. The diagram leaves out services that this design does not depend on.
 
 For an AVD deployment, place session hosts in the workload spoke's resource subnet. The hub's VPN gateway supplies a hybrid path when the design uses VPN; ExpressRoute is another hybrid option. The firewall provides the selected traffic-control path. Shared DNS may also sit in the hub or a connected identity network.
 
@@ -169,25 +192,36 @@ The arrows are connections to design, not permission to allow all traffic. For e
 
 In an existing Azure Landing Zone, identify which of these shared services are already available. The earlier landing-zone foundation can provide them; this AVD post explains the workload's requirements and configuration sequence.
 
-Source: [Microsoft Learn - hub-and-spoke architecture](https://learn.microsoft.com/en-us/azure/architecture/networking/architecture/hub-spoke) and [AVD landing zone](https://learn.microsoft.com/en-us/azure/architecture/landing-zones/azure-virtual-desktop/design-guide).
-
 ## 9. Plan address space and subnet capacity
 
-An address prefix such as 10.20.1.0/24 describes a block of IP addresses. A smaller prefix number describes a larger block. The VNet range contains its subnets; those subnets must not overlap one another.
+An address prefix such as 10.40.1.0/24 describes a block of IP addresses. A smaller prefix number describes a larger block. The VNet range contains its subnets; those subnets must not overlap one another.
 
-Before reserving a VNet range, compare it with the hub, other spokes, datacenter ranges, connected partners and planned recovery networks. Peered VNets cannot have overlapping address spaces. A familiar example such as 10.20.0.0/16 is not safe until that check is complete.
+Before reserving a VNet range, compare it with the hub, other spokes, datacenter ranges, connected partners and planned recovery networks. Peered VNets cannot have overlapping address spaces. The ranges in this article are RFC 1918 private placeholders, so none of them is safe to use until that check is complete. Replace them with your approved ranges.
 
-For host-subnet sizing, count simultaneously allocated host interfaces, not users. Multi-session users share a host's interface. Stopped/deallocated hosts still retain their NIC resources and allocated private addresses.
+The Cloud Adoption Framework addressing guidance says not to create large virtual networks such as /16, so that address space is not wasted, and notes that you can add address space to a virtual network after you create it. The virtual network FAQ adds that a subnet can be expanded or shrunk only while no VMs or services are deployed in it. So size host subnets up front and leave unallocated space in the reserved block.
 
-Suppose representative workload testing and the capacity design call for 50 peak hosts. If image replacement creates another 50 before removing the old hosts, the network must accommodate 100 host interfaces before other allocations and spare capacity. These are illustrative planning inputs, not a recommendation that 50 hosts always serve 500 users.
+For host-subnet sizing, count simultaneously allocated host interfaces, not users. Multi-session users share a host's interface. Count every host NIC that exists, whether its VM is running or stopped. A Resource Manager network interface keeps its private address, dynamic or static, until you change the address or delete the interface, so a stopped VM's interface still holds its address.
 
-Azure reserves five IPv4 addresses in each subnet. A /25 has 123 usable addresses; a /24 has 251. Choose a size that covers the expected overlap during replacement and future growth, rather than today's running hosts alone.
+Azure reserves five IPv4 addresses in each subnet: the first four and the last. A /24 has 251 usable addresses, a /25 has 123, a /26 has 59, a /27 has 27 and a /28 has 11.
 
-For example, 10.20.0.0/16 can contain a host subnet at 10.20.1.0/24. That subnet spans 10.20.1.0-10.20.1.255; Azure's reserved addresses leave 10.20.1.4-10.20.1.254 available for allocation. The prefixes are examples to replace with your approved ranges.
+**Author's recommendation, not a documented rule.** I found no AVD-specific subnet sizing formula, so this is my judgement. Take the peak number of hosts, double it so a full set of replacement hosts can exist beside the old ones during image replacement, then add 50 percent for growth and recovery. Pick the smallest subnet whose usable addresses cover the result.
 
-Reserve separate service subnets when the selected services require them, such as a gateway, firewall, Bastion or DNS Private Resolver endpoint. Do not create domain-controller subnets merely because an enterprise picture includes them.
+The estate below reserves 10.40.0.0/21 (10.40.0.0 to 10.40.7.255) for the hub and five spokes. The peak host counts are illustrative planning inputs, not a recommendation that this many hosts serve these users.
 
-Source: [Microsoft Learn - VNet FAQ](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-faq) and [private IP allocation](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/private-ip-addresses).
+| Network | Range | Subnet | Peak hosts | Needed (peak x 2 x 1.5) | Usable |
+| --- | --- | --- | --- | --- | --- |
+| Hub | 10.40.0.0/24 | Firewall 10.40.0.0/26, gateway 10.40.0.64/26, resolver 10.40.0.128/28 and 10.40.0.144/28 | Not applicable | Not applicable | Service subnets |
+| Production: operations (pooled) | 10.40.1.0/24 | Hosts 10.40.1.0/25 | 40 | 120 | 123 |
+| Production: engineering (personal) | 10.40.2.0/23 | Hosts 10.40.2.0/24 | 50 | 150 | 251 |
+| Production: finance (pooled) | 10.40.4.0/25 | Hosts 10.40.4.0/26 | 18 | 54 | 59 |
+| Development | 10.40.5.0/26 | Hosts 10.40.5.0/27 | 8 | 24 | 27 |
+| Test | 10.40.5.64/26 | Hosts 10.40.5.64/27 | 8 | 24 | 27 |
+
+Each spoke also has a /28 private-endpoint subnet for the Azure Files endpoint (11 usable addresses, far more than one endpoint needs): 10.40.1.128/28, 10.40.3.0/28, 10.40.4.64/28, 10.40.5.32/28 and 10.40.5.96/28. The on-premises datacenter in the diagram uses 10.10.0.0/16, which does not overlap 10.40.0.0/21.
+
+Engineering gets a /24 because a /25 (123 usable) is less than the 150 needed. Operations just fits in a /25 at 120 of 123. The hub resolver subnets are /28 each: a resolver endpoint subnet must be between /28 and /24, so /28 is the minimum, and each endpoint needs its own subnet delegated to Microsoft.Network/dnsResolvers. Addresses from 10.40.0.160 to 10.40.0.255 and from 10.40.5.128 to 10.40.7.255 are left unallocated for growth, a second region or a new pool.
+
+AzureFirewallSubnet must be named exactly that and be at least /26. The gateway subnet must be named GatewaySubnet; a VPN gateway needs /27 or larger (/29 only for the Basic SKU), and the hub-and-spoke reference guidance suggests /26 or larger, which the /26 in this plan meets. Reserve separate service subnets when the selected services require them, such as a gateway, firewall, Bastion or DNS Private Resolver endpoint. Do not create domain-controller subnets merely because an enterprise picture includes them.
 
 ## 10. Plan growth from 500 to 5,000 users
 
@@ -206,8 +240,6 @@ Keep development and test separate as production grows. Add production pool/regi
 
 First establish representative workload capacity. Then calculate peak host interfaces plus hosts retained during replacement, recovery or scaling. Check the resulting address demand per subnet. Separately check measured traffic and concurrent connections against the chosen firewall and hybrid-service capacity.
 
-Source: [Microsoft Learn - session-host sizing](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/session-host-virtual-machine-sizing-guidelines) and [AVD landing-zone design](https://learn.microsoft.com/en-us/azure/architecture/landing-zones/azure-virtual-desktop/design-guide).
-
 ## 11. Plan DNS before changing the VNet setting
 
 DNS translates a name into an IP address. The host must resolve public Microsoft service names, application names and the profile-storage name. The chosen resolver must answer all the namespaces the workload needs.
@@ -224,9 +256,7 @@ The hub DNS Private Resolver can resolve Azure private zones and forward datacen
 
 For this design's FQDN-based firewall network rules, hosts query the hub firewall's DNS proxy. Configure that proxy to use the approved hub resolver. The sequence is host, firewall DNS proxy, then shared resolver. This keeps the host and firewall DNS answers consistent.
 
-Record the resolver addresses, zones, VNet links, forwarding targets and required network access. Test the resolver before applying it to hosts. Restart existing VMs after changing VNet DNS, and check for NIC-level overrides.
-
-Source: [Microsoft Learn - name resolution](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-name-resolution-for-vms-and-role-instances), [Private Resolver design](https://learn.microsoft.com/en-us/azure/dns/private-resolver-endpoints-rulesets) and [VNet DNS settings](https://learn.microsoft.com/en-us/azure/virtual-network/manage-virtual-network).
+Record the resolver addresses, zones, VNet links, forwarding targets and required network access. Test the resolver before applying it to hosts. Existing VMs pick up a VNet DNS change when they are restarted or renew their DHCP lease (`ipconfig /renew`). Also check for NIC-level overrides.
 
 ## 12. Decide outbound access and security together
 
@@ -239,15 +269,13 @@ Keep the jobs clear: peering connects networks, the route selects the next hop, 
 | Traffic | Planned path |
 | --- | --- |
 | General internet and approved user web access | Hub firewall, with the required destination rules |
-| AVD gateway/broker service path | Microsoft's documented direct-access exception, with explicit outbound connectivity |
+| AVD gateway/broker service path | The documented direct-access exception, with explicit outbound connectivity |
 | Datacenter applications | Approved hybrid route and application rules, with a return path |
 | Private Azure Files | Private endpoint and working private DNS; TCP 445 permitted |
 
 The AVD exception matters. Sending every AVD connection through a default firewall route can cause disconnections during firewall scale-in. The direct route is covered in the configuration section; it must not silently inherit the general firewall path.
 
 For new VNets using API versions released after 31 March 2026, subnets default to private. Existing networks can differ. A private subnet needs explicit outbound connectivity for public endpoints, including any direct Internet-next-hop exception. Agree that method with the platform team before deployment.
-
-Source: [Microsoft Learn - AVD firewall guidance](https://learn.microsoft.com/en-us/azure/firewall/protect-azure-virtual-desktop), [firewall source translation](https://learn.microsoft.com/en-us/azure/firewall/snat-private-range) and [default outbound access](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/default-outbound-access).
 
 ## 13. Decide the application and profile paths
 
@@ -271,8 +299,6 @@ Choose the storage access method deliberately. A file-service private endpoint d
 
 For this design, private profile storage is a stated requirement, so DNS and private-endpoint configuration must be ready before users start using those profiles. Application access is a separate requirement with a separate test.
 
-Source: [Microsoft Learn - Azure Files access paths](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-networking-overview) and [AVD Private Link](https://learn.microsoft.com/en-us/azure/virtual-desktop/private-link-overview).
-
 ## 14. Plan the client path and RDP Shortpath
 
 The user's office or home network must also permit the client's required service access. Configuring only the session-host subnet leaves half of the connection unreviewed.
@@ -284,8 +310,6 @@ Public-network Shortpath uses direct or relayed UDP. Direct connectivity uses ne
 Do not tell a network team that UDP 3478 alone guarantees every direct UDP connection. Do not add public TCP 3389 as a workaround. Where UDP cannot be established, the connection can fall back to the TCP reverse-connect path.
 
 Choose the intended transport during design, then validate the actual transport during a user pilot. DNS/TCP tests and the Agent URL Tool do not prove Shortpath was used.
-
-Source: [Microsoft Learn - Shortpath models and network requirements](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-shortpath) and [configuration](https://learn.microsoft.com/en-us/azure/virtual-desktop/configure-rdp-shortpath).
 
 ## 15. Plan failure, growth and ownership
 
@@ -302,8 +326,6 @@ Agree how changes are reviewed and deployed. For repeatable environments, keep t
 Also decide which evidence operations needs: effective routes, effective security rules, DNS results, firewall decisions and connection-quality measurements. Give each check an owner. This prevents the deployment team handing over a working desktop without a way to diagnose the next failure.
 
 For new flow logging, plan Virtual Network flow logs. New NSG flow logs can no longer be created; existing NSG flow logs are scheduled to retire on 30 September 2027. Include retention and monitoring costs in the operational design.
-
-Source: [landing-zone responsibilities](https://learn.microsoft.com/en-us/azure/architecture/landing-zones/azure-virtual-desktop/design-guide) and [Network Watcher](https://learn.microsoft.com/en-us/azure/network-watcher/network-watcher-overview).
 
 ## 16. Turn the requirements into a deployment plan
 
@@ -330,9 +352,9 @@ Now configuration has a purpose: every resource and setting implements a recorde
 
 The steps below implement this enterprise design. Confirm that the shared platform services are ready first; creating a host pool cannot supply missing DNS, firewall or hybrid connectivity.
 
-The real screenshots use one development spoke and its shared-services hub in East US. They record saved network configuration, not the deployment of the example company's 500-user production estate. Host-side checks are explained separately and must be completed before user rollout. Production and test use their own approved ranges and boundaries.
+The lab uses one development spoke and its shared-services hub in East US. The lab's saved network configuration is recorded here, not the deployment of the example company's 500-user production estate. Host-side checks are explained separately and must be completed before user rollout. Production and test use their own approved ranges and boundaries.
 
-| Component | Address used in the screenshots | Purpose |
+| Component | Address used in the lab | Purpose |
 | --- | --- | --- |
 | Hub VNet | 10.30.0.0/16 | Shared firewall and DNS |
 | AzureFirewallSubnet | 10.30.0.0/26 | Dedicated firewall subnet |
@@ -343,21 +365,19 @@ The real screenshots use one development spoke and its shared-services hub in Ea
 | Session-host subnet | 10.20.1.0/24 | Hosts; NSG and route table applied here |
 | Private-endpoint subnet | 10.20.2.0/27 | Azure Files private endpoint |
 
-These addresses were checked against the connected VNets in this environment. Replace them with your approved IP plan.
+These addresses were checked against the connected VNets in this environment. They are recorded lab values, not a sizing recommendation: the /16 ranges are not the sizing approach described in the address-planning section. Replace them with your approved IP plan.
 
 ## 17. Understand the connection before opening ports
 
-![AVD network connections](/img/avd/AVD-Post-05-Readable-Connections.png)
+![Diagram of a client, an AVD service box holding the feed service, RD Gateway and RD Broker, a session host, Microsoft Entra ID and AD DS, joined by colored arrows labelled TCP 443, reverse connect, agent channel, internal traffic, authentication, domain connectivity and identity sync](/img/avd/AVD-Post-05-Connections-v2.png)
 
-*The client and host establish service connections outward. Microsoft-managed AVD components sit inside the central boundary.*
+*Redrawn by the author from the connection paths described in [Azure Virtual Desktop network connectivity](https://learn.microsoft.com/en-us/azure/virtual-desktop/network-connectivity). The arrow colors and labels are the author's summary. Not an official Microsoft diagram. That page has its own diagram to compare. The drawing leaves out Azure Front Door and RDP Shortpath. The client and host connect outward to the service; the service box holds the Microsoft-managed components. Icons: Microsoft Azure and Microsoft Entra architecture icons, used unmodified under the terms on Microsoft's icons page.*
 
 For the base connection, the client and host connect outbound to AVD. Reverse connect joins the session through the gateway. You do not need internet-facing TCP 3389 or a public IP on every host.
 
 Read the authentication, resource-discovery, agent and session paths separately. Application and profile-storage traffic require additional paths.
 
-This reference uses the older Azure Active Directory name for Microsoft Entra ID. AD DS and synchronization paths apply to identity designs that use them. Our Entra joined host does not need AD DS simply to join Windows.
-
-Source: [Microsoft Learn - network connectivity](https://learn.microsoft.com/en-us/azure/virtual-desktop/network-connectivity).
+Microsoft Entra ID handles sign-in. The AD DS and synchronization paths apply to identity designs that use them. Our Entra joined host does not need AD DS simply to join Windows.
 
 ## 18. Create the VNet and host subnet
 
@@ -366,17 +386,15 @@ Have the subscription/resource group, region and approved ranges ready. If the l
 1. Open Virtual networks in the portal and select Create.
 2. On Basics, choose the subscription/resource group. Enter your approved spoke name and region. The screenshot shows the existing development VNet, vnet-avd-dev in East US; production uses its own approved spoke.
 3. On IP addresses, enter that environment's approved non-overlapping range. The displayed development VNet uses 10.20.0.0/16; do not reuse it for connected production or test VNets.
-4. Configure the host subnet using its approved prefix. The displayed development example uses snet-sessionhosts at 10.20.1.0/24; repeat with distinct ranges for the other environments.
+4. Configure the host subnet using its approved prefix. The development example uses snet-sessionhosts at 10.20.1.0/24 (the screenshot below shows the VNet overview, not the subnet list); repeat with distinct ranges for the other environments.
 5. For this new deployment, keep the private-subnet setting enabled. Prepare the approved firewall and service-exception outbound paths before creating hosts.
 6. Review and create. Reopen Subnets and confirm the saved prefix.
 
-![Existing VNet overview](/img/avd/AVD-Post-05-vnet.png)
+![Azure portal overview page of a development virtual network in East US with one subnet and Azure-provided DNS, and capability tiles for DDoS protection, Azure Firewall, Peerings, Defender for Cloud and Private endpoints, where DDoS protection, Azure Firewall, Peerings and Private endpoints are marked Not configured; subscription name, subscription ID and network ID are covered](/img/avd/AVD-Post-05-vnet-redacted.png)
 
 *Development VNet before the hub changes: East US, 10.20.0.0/16. A separate private-endpoint subnet is added later. This image records address settings; it does not prove production readiness.*
 
 This screenshot shows the VNet and address settings only. The hub peering, central DNS, route table and firewall policy must be configured and verified separately.
-
-Source: [Microsoft Learn - create a VNet](https://learn.microsoft.com/en-us/azure/virtual-network/quickstart-create-virtual-network).
 
 ## 19. Connect an enterprise spoke to its approved hub
 
@@ -385,8 +403,8 @@ Agree the hub's resource ID, address ranges, DNS, gateway and firewall arrangeme
 1. Open the AVD spoke VNet > Peerings > Add.
 2. Enter clear names for the two directions, such as avd-to-hub and hub-to-avd. Select the approved remote hub VNet; provide its resource ID if the portal cannot list it.
 3. Allow virtual-network access where required by the design. Ensure you have the required permissions on both networks to create both links.
-4. Configure forwarded-traffic settings only for the paths that use a forwarding appliance. This setting permits that traffic; it does not create the appliance's routes.
-5. If the spoke consumes the hub's VPN/ExpressRoute gateway, configure gateway transit on the hub and remote-gateway use on the spoke as appropriate. The spoke must not have its own gateway for this arrangement.
+4. Turn on **Allow forwarded traffic** on the peering link that receives traffic sent through the firewall. Do this on both links if traffic flows both ways. The setting permits that traffic; it does not create the appliance's routes. A hub gateway arrangement (next step) also needs it.
+5. If the spoke consumes the hub's VPN/ExpressRoute gateway, configure gateway transit on the hub and remote-gateway use on the spoke as appropriate. The spoke must not have its own gateway for this arrangement. In this arrangement, also allow forwarded traffic on all the peering connections.
 6. Save and verify both peering links show Connected. Then configure the intended routes and security policies; Connected alone does not prove the datacenter application is reachable.
 
 For the company example, the application's datacenter prefix must be reachable through the shared hybrid path, with a return route to the AVD host prefix. The DNS server must also be reachable and able to answer the application's private name.
@@ -395,31 +413,27 @@ A Virtual WAN environment uses its virtual-hub connection and routing model inst
 
 Record both peering names, their Connected state and the hub owner in the deployment record. Test actual service reachability after the first host is created.
 
-Source: [Microsoft Learn - configure peering](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-manage-peering) and [Virtual WAN](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about).
-
 ## 20. Configure the DNS choice
 
 The design uses shared DNS that can resolve public Microsoft names, datacenter applications and Azure private endpoints. Obtain the firewall DNS-proxy address and its approved upstream resolver addresses from the platform/DNS owners. Do not copy addresses from another deployment.
 
-If the platform already provides this resolver, reuse it. If you are creating the shared resolver, first open DNS Private Resolvers > Create. Select the hub resource group, hub region and hub VNet. Add an inbound endpoint in its dedicated, delegated subnet; record its allocated private IP. The displayed configuration uses dnsr-avd-hub-eus and 10.30.1.4. The subnet is for resolver endpoints, not session hosts.
+If the platform already provides this resolver, reuse it. If you are creating the shared resolver, first open DNS Private Resolvers > Create. Select the hub resource group, hub region and hub VNet. Add an inbound endpoint in its dedicated, delegated subnet; record its allocated private IP. The lab resolver is named dnsr-avd-hub-eus and its inbound endpoint is 10.30.1.4; no screenshot shows the resolver itself. The subnet is for resolver endpoints, not session hosts.
 
-Link the Azure Files private zone to the resolver's hub VNet. For datacenter application names, also prepare a dedicated outbound-endpoint subnet and a DNS forwarding ruleset with the confirmed name suffixes and reachable corporate DNS targets. The resolver configuration shown here has an inbound endpoint for public/Azure private-name resolution; it does not demonstrate corporate DNS forwarding or a hybrid connection.
+Link the Azure Files private zone to the resolver's hub VNet. For datacenter application names, also prepare a dedicated outbound-endpoint subnet and a DNS forwarding ruleset with the confirmed name suffixes and reachable corporate DNS targets. The lab resolver has an inbound endpoint for public and Azure private-name resolution; it does not demonstrate corporate DNS forwarding or a hybrid connection.
 
 1. Prepare the hub resolver's private zones and forwarding. In the firewall policy DNS settings, enable DNS proxy and select the approved resolver as its upstream DNS server.
 2. Open the AVD spoke VNet > DNS servers and select Custom.
 3. Enter the hub firewall's private IP as the custom DNS address for this DNS-proxy design and save.
-4. Check whether individual NICs override the VNet setting. Restart existing VMs after a VNet DNS change so they receive the updated settings.
+4. Check whether individual NICs override the VNet setting. Restart existing VMs, or renew their DHCP lease with `ipconfig /renew`, after a VNet DNS change so they receive the updated settings.
 5. From the first host, resolve a public Microsoft name, the internal application name and the normal Azure Files name. The storage name must return the intended private endpoint IP.
 
-![Firewall policy DNS proxy](/img/avd/AVD-Post-05-v7-firewall-dns.jpg)
+![Azure Firewall Policy DNS page with DNS enabled, a custom DNS server entry above an empty input row, and DNS proxy set to Enabled](/img/avd/AVD-Post-05-v7-firewall-dns.jpg)
 
-*Saved firewall policy: DNS proxy enabled, with the hub resolver inbound endpoint at 10.30.1.4 as upstream. The empty input row is a placeholder, not a second configured resolver.*
+*Saved firewall policy: DNS proxy enabled, with 10.30.1.4 as the custom upstream DNS server (the hub resolver's inbound endpoint in the lab). The empty input row is a placeholder, not a second configured resolver.*
 
 Hosts send DNS queries to the firewall proxy; the firewall forwards them to the shared resolver. The resolver's rules handle datacenter names and its linked zones handle Azure private names. Permit the necessary DNS traffic on this path. A platform that uses direct shared DNS must review its firewall rule model separately rather than mix the two arrangements.
 
 A DNS server's IP address being reachable does not prove its forwarding or private records are correct. Test the names users and applications will actually use.
-
-Source: [Microsoft Learn - VNet DNS settings](https://learn.microsoft.com/en-us/azure/virtual-network/manage-virtual-network), [create Private Resolver](https://learn.microsoft.com/en-us/azure/dns/dns-private-resolver-get-started-portal), [resolver endpoints and rulesets](https://learn.microsoft.com/en-us/azure/dns/private-resolver-endpoints-rulesets) and [firewall DNS proxy](https://learn.microsoft.com/en-us/azure/firewall/dns-settings).
 
 ## 21. Create and associate the NSG
 
@@ -430,15 +444,13 @@ An NSG permits or denies traffic. A route selects the path. The hub firewall enf
 3. Review inbound rules. The base AVD connection needs no public RDP allow rule.
 4. Review outbound rules and preserve required service and workload access.
 
-![Existing NSG rules](/img/avd/AVD-Post-05-nsg.png)
+![Azure portal page of a network security group listing one custom inbound rule that denies traffic from the Internet at priority 4096, followed by the default allow and deny rules for inbound and outbound traffic; the subscription name and ID are covered](/img/avd/AVD-Post-05-nsg-redacted.png)
 
 *Existing development NSG: one custom Internet inbound deny; no custom outbound rules. This is not the complete production isolation policy.*
 
 The default outbound allowances shown here are not a destination-restricted enterprise policy. Lower priority numbers take precedence. Where subnet and NIC NSGs both apply, both must allow the flow. Review the VirtualNetwork tag's connected-network scope too.
 
 Before introducing a deny policy, configure and validate the destination allowances in the required-services section.
-
-Source: [Microsoft Learn - create/associate NSGs](https://learn.microsoft.com/en-us/azure/virtual-network/manage-network-security-group) and [NSG behavior](https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview).
 
 ## 22. Allow required services before restricting egress
 
@@ -456,11 +468,9 @@ Allow the AVD destinations plus workload dependencies. This is the Azure public-
 
 Azure Local deployment also uses aka.ms on TCP 443. Clients have a separate endpoint list. Include Entra ID, Microsoft 365, Intune, updates and applications as applicable. Service tags represent IP prefixes; they cannot express every FQDN requirement.
 
-Preserve Azure platform communication: 169.254.169.254 on TCP 80; 168.63.129.16 on TCP 80/32526 and TCP/UDP 53 for Azure-provided DNS. These are special platform paths, not ordinary proxy destinations.
+Preserve Azure platform communication: 169.254.169.254 on TCP 80; 168.63.129.16 on TCP 80 and 32526, plus TCP and UDP 53 (port 53 is needed only when you use Azure-provided DNS). Azure uses these two addresses for platform services. Azure platform routing protects this traffic, so standard NSG rules and user-defined routes do not affect it by default. Do not block, intercept, proxy or redirect it.
 
 RDP Shortpath adds UDP after the base TCP session. Managed listener connectivity defaults to UDP 3390 from intended private client networks. Public direct and relayed paths differ; UDP 3478 alone does not prove all direct UDP connectivity. Do not open public TCP 3389 to solve this.
-
-Source: [Microsoft Learn - required endpoints](https://learn.microsoft.com/en-us/azure/virtual-desktop/required-fqdn-endpoint), [platform IP](https://learn.microsoft.com/en-us/azure/virtual-network/what-is-ip-address-168-63-129-16) and [Shortpath](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-shortpath).
 
 ## 23. Prepare the hub firewall policy
 
@@ -473,19 +483,17 @@ The platform team owns the shared hub firewall. The AVD team supplies the worklo
 5. Enable the required DNS/DNS proxy configuration when using FQDNs in network rules. Do not use TLS inspection for AVD traffic.
 6. Validate allowed and denied flows and examine firewall logs for traffic that actually takes this path. Separately validate the direct gateway/broker exception.
 
-![AVD firewall rule collections](/img/avd/AVD-Post-05-v7-firewall-collections.jpg)
+![Azure Firewall Policy rule collections list with one rule collection group containing a network rule collection and an application rule collection, showing priority numbers and rule counts](/img/avd/AVD-Post-05-v7-firewall-collections.jpg)
 
-*Saved policy contains two network rules and three application rules. Sources are restricted to the displayed host subnet. The rules cover the AVD FQDN tag, required HTTPS/certificate destinations, KMS and the UDP relay range; they are not an unrestricted internet allowance.*
+*The screenshot shows the saved rule collections and their priority numbers. It does not show each rule's contents.*
 
 A route can deliver a packet to the firewall while the policy still denies it. Conversely, an allow rule has no effect if the packet takes another path. Check both the route and the policy when diagnosing a failure.
 
 Private application traffic also needs its selected routes and return paths. Public internet filtering does not automatically prove private storage, identity or datacenter access.
 
-Source: [Microsoft Learn - firewall rules](https://learn.microsoft.com/en-us/azure/firewall/rule-processing), [FQDN tags](https://learn.microsoft.com/en-us/azure/firewall/fqdn-tags), [DNS proxy](https://learn.microsoft.com/en-us/azure/firewall/dns-settings) and [AVD protection](https://learn.microsoft.com/en-us/azure/firewall/protect-azure-virtual-desktop).
-
 ## 24. Configure the host subnet route to the hub firewall
 
-A user-defined route, or UDR, tells Azure which next hop to use for matching traffic. In this design, the host subnet's general internet route points to the hub firewall's private IP. The firewall's public IP is not the next-hop address.
+In this design, the host subnet's general internet route (a UDR, see Key terms) points to the hub firewall's private IP. The firewall's public IP is not the next-hop address.
 
 Configure the policy first, then apply routing during an approved change window:
 
@@ -498,15 +506,15 @@ Configure the policy first, then apply routing during an approved change window:
 
 The prefix 0.0.0.0/0 is a default route: it applies when a more-specific route does not match. Datacenter, private-endpoint and AVD service traffic may follow different paths. Route priority and the return path still matter.
 
-![Saved workload routes](/img/avd/AVD-Post-05-v7-saved-routes.jpg)
+When 0.0.0.0/0 points to a virtual appliance, Azure sends all traffic that no more specific route matches to that appliance, including traffic to the public IP addresses of Azure services. A service endpoint adds a longer-prefix route for its service, so that traffic does not follow the default route. Windows activation uses azkms.core.windows.net on TCP 1688, one of the required endpoints, so the firewall policy must allow it.
+
+![Route table Routes page listing a default route with next hop type Virtual appliance and a WindowsVirtualDesktop service route with next hop type Internet](/img/avd/AVD-Post-05-v7-saved-routes.jpg)
 
 *Saved route values: general internet to 10.30.0.4, and the WindowsVirtualDesktop service exception to Internet. Creating these rows does not apply them to a host: verify the host-subnet association and then its NIC's effective routes.*
 
-Source: [Microsoft Learn - configure route tables](https://learn.microsoft.com/en-us/azure/virtual-network/manage-route-table) and [route selection](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview).
-
 ## 25. Configure the AVD gateway and broker route exception
 
-Microsoft warns that routing all AVD traffic through Azure Firewall's default route can cause disconnections during firewall scale-in. Its hub-and-spoke guidance adds a WindowsVirtualDesktop service-tag route with next hop Internet for direct gateway/broker access.
+Routing all AVD traffic through Azure Firewall's default route can cause disconnections during firewall scale-in. For hub and spoke, the firewall guidance adds a WindowsVirtualDesktop service-tag route with next hop Internet for direct gateway/broker access.
 
 This is an exception to the general hub firewall path, not permission to bypass the firewall for every website.
 
@@ -519,11 +527,9 @@ This is an exception to the general hub firewall path, not permission to bypass 
 
 The service tag used in routing represents IP prefixes. The WindowsVirtualDesktop FQDN tag used in a firewall application rule is a different feature; it does not create this route.
 
-For the configuration shown here, the host subnet already has an explicit outbound resource: nat-avd-dev. It is retained for this narrow direct-service path. The 0.0.0.0/0 route to the firewall overrides that resource for general internet traffic; the WindowsVirtualDesktop Internet route uses it for source translation. It is attached to the spoke subnet, not connected to the hub firewall. This does not make the company's normal internet path a direct path.
+In the lab, the host subnet already has an explicit outbound resource: nat-avd-dev. It is retained for this narrow direct-service path. The 0.0.0.0/0 route to the firewall overrides that resource for general internet traffic; the WindowsVirtualDesktop Internet route uses it for source translation. It is attached to the spoke subnet, not connected to the hub firewall. This does not make the company's normal internet path a direct path.
 
-Microsoft documents this route precedence: a route to a virtual appliance overrides NAT Gateway; an Internet-next-hop route can use NAT Gateway. A Standard public Load Balancer outbound rule is another supported explicit-outbound method, with its own backend and capacity requirements. Select the method with the platform owner; do not rely on implicit VM internet access or change it without validating the replacement.
-
-Source: [Microsoft Learn - AVD firewall route exception](https://learn.microsoft.com/en-us/azure/firewall/protect-azure-virtual-desktop), [explicit outbound](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/default-outbound-access), [NAT and route precedence](https://learn.microsoft.com/en-us/azure/nat-gateway/nat-gateway-design) and [Load Balancer outbound rules](https://learn.microsoft.com/en-us/azure/load-balancer/outbound-rules).
+The route precedence is: a route to a virtual appliance overrides NAT Gateway; an Internet-next-hop route can use NAT Gateway. A Standard public Load Balancer outbound rule is another supported explicit-outbound method, with its own backend and capacity requirements. Select the method with the platform owner; do not rely on implicit VM internet access or change it without validating the replacement.
 
 ## 26. Prepare profiles and application connectivity
 
@@ -531,13 +537,13 @@ Azure Files SMB profiles need host-to-storage connectivity on TCP 445. A user's 
 
 For public access, configure the intended storage network policy. A selected-VNet design requires the Microsoft.Storage service endpoint and a storage network rule. Storage IP rules have limitations for same-region Azure-to-storage traffic; validate the selected storage network policy separately.
 
-The displayed storage is a classic Azure Files SMB share in a Microsoft.Storage storage account. Its private-endpoint target is the account's file service. Microsoft's newer Microsoft.FileShares resource model uses a different resource target; follow its documented steps if that is your chosen storage model.
+The lab storage is a classic Azure Files SMB share in a Microsoft.Storage storage account. Its private-endpoint target is the account's file service. Do not use the newer Microsoft.FileShares resource type for FSLogix profiles here: it currently supports only NFS, and FSLogix on Windows needs an SMB share.
 
 For this account-based private Azure Files path:
 
 1. In the approved resource group, choose Create and search for Private Endpoint. On Basics, select its name, resource group and the spoke VNet's region.
 2. On Resource, choose Microsoft.Storage/storageAccounts, select the profile-storage account and choose file as the target sub-resource.
-3. On Virtual Network, select the approved spoke and private-endpoint subnet. The displayed endpoint uses vnet-avd-dev and snet-private-endpoints at 10.20.2.0/27.
+3. On Virtual Network, select the approved spoke and private-endpoint subnet. The lab endpoint uses vnet-avd-dev and snet-private-endpoints at 10.20.2.0/27.
 4. On DNS, integrate with the approved privatelink.file.core.windows.net zone. In this DNS-proxy design, confirm that the zone is linked to the hub resolver VNet, and that the account's A record matches the endpoint IP. Do not create an unrelated duplicate zone in each spoke.
 5. Review and create. Verify the private connection is Approved and inspect the assigned IP. Approval records the connection; it does not prove the host resolves or reaches it.
 6. From the host, resolve the normal account.file.core.windows.net name. It must return the intended private endpoint IP, then TCP 445 must succeed.
@@ -548,8 +554,6 @@ AVD Private Link is a separate service-connectivity design. An Azure Files priva
 Work through the application list from the planning worksheet. Confirm name resolution, routes and application ports. Where identity/applications depend on domain services, include their documented connectivity requirements.
 
 A successful TCP 445 test proves reachability at that time. Share permissions, file permissions and actual FSLogix mounting still need validation.
-
-Source: [Microsoft Learn - Azure Files endpoints](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-networking-endpoints), [storage firewall limitations](https://learn.microsoft.com/en-us/azure/storage/common/storage-network-security-limitations), [private DNS](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-networking-dns) and [AVD Private Link](https://learn.microsoft.com/en-us/azure/virtual-desktop/private-link-overview).
 
 ## 27. Apply a deployment readiness gate
 
@@ -564,9 +568,9 @@ Before creating hosts, complete the configuration checks. Keep this decision rec
 | Security/routes | NSG association correct; destinations permitted; intended routes and return paths prepared |
 | Dependencies | Required domain, hybrid and private-endpoint configuration completed |
 
-### Status of the configuration shown here
+### Status of the lab configuration
 
-The screenshots show saved settings. The following checks remain necessary before this environment can be used as a working reference deployment.
+The screenshots cover only the VNet, NSG, firewall DNS settings, rule collections and routes. The table records the saved status of every item, including those no screenshot shows. The checks after the table remain necessary before this environment can be used as a working reference deployment.
 
 | Configuration | Recorded status |
 | --- | --- |
@@ -614,8 +618,6 @@ The tool tests specific endpoints, not entire wildcard namespaces. Repeat for di
 
 If DNS fails, investigate resolution first. If DNS works but TCP fails, inspect routes, NSGs, firewall and destination restrictions. If TCP 445 works but profiles fail, investigate identity and permissions. After sign-in, validate profile mounting and session transport too.
 
-Source: [Microsoft Learn - Agent URL Tool](https://learn.microsoft.com/en-us/azure/virtual-desktop/check-access-validate-required-fqdn-endpoint).
-
 ## 29. Validate the design before user rollout
 
 Before assigning the desktop to users, validate the four paths introduced at the start of this article.
@@ -633,4 +635,12 @@ Test from each environment, region, subnet, DNS path and policy boundary. Confir
 
 Record the results and unresolved dependencies. Proceed to host-pool deployment when the network foundation is ready, then complete the host and user tests as those components become available.
 
-The next post uses the approved subnet and identity model to create the host pool and session hosts. Keep these network decisions with the deployment so future growth follows the same approved design.
+Next: [Plan Your AVD Host Pools: Users, Applications, VM Sizing and Images](/azure-virtual-desktop/plan-your-host-pools/). It uses the approved subnet and identity model to size and shape the host pools. Keep these network decisions with the deployment so future growth follows the same approved design.
+
+For hybrid connectivity, egress control and Shortpath tuning in more depth, see the book chapters on [hybrid connectivity and egress control](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch13-hybrid-connectivity-egress-control.md) and [protocol optimisation](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch14-protocol-optimisation-network-performance.md). Those chapters are still under review.
+
+Go deeper: [Required Connectivity for Azure Virtual Desktop](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/), [Choose a Network Topology and Plan IP Addresses for Azure Virtual Desktop](/azure-virtual-desktop/network-topology-and-ip-planning-for-avd/).
+
+## Sources
+
+[Required URLs](https://learn.microsoft.com/en-us/azure/virtual-desktop/required-fqdn-endpoint), [Azure Firewall for AVD](https://learn.microsoft.com/en-us/azure/firewall/protect-azure-virtual-desktop) and [plan for IP addressing](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/plan-for-ip-addressing).

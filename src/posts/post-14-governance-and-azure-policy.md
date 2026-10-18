@@ -252,13 +252,19 @@ I redrew four pictures from the official documentation with the same layout. The
 
 ![Landing zone governance design. A landing zone subscription holds IAM and Policy next to Management and Monitoring. Roles (for example NetOps, SecOps, DevOps) sit beside IAM. Subscription policy (for example allowed resource providers, encryption at rest, no public IP) sits beside Policy. Metrics, logs and alerts and Security Center sit beside Management and Monitoring. Inside are applications, with Cost Management and Azure Monitor on the left. An application template holds app resources (VM, DB, storage, hybrid), IAM, Policy, Keys and Monitor, with Network Watcher and Microsoft Defender for Cloud on the right. Shared Services and Networking sit at the bottom.](/diagrams/post-14-governance-design.svg)
 
+*Redrawn by me from the official Microsoft documentation picture. Not an official Microsoft diagram.*
+
 **Figure 2. The three DINE phases.**
 
 ![DINE phases overview. Three arrows from left to right: disable DINE and Modify policies automated actions; enable DINE and Modify policies on a specific policy or reduced scope; enable DINE and Modify policies everywhere.](/diagrams/post-14-dine-phases.svg)
 
+*Redrawn by me from the official Microsoft documentation picture. Not an official Microsoft diagram.*
+
 **Figure 3. Updating landing zone custom policies.**
 
 ![Decision tree for custom policy updates. Start: policy updates required, policies in scope for updating. Not assigned: replace the outdated definition. Assigned directly: if parameters are unchanged, replace the policy contents; if changed, delete or update the assignments, update the outdated policy and reassign. Assigned through an initiative that is not outdated: replace the policy contents if parameters are unchanged; otherwise delete the initiative assignments, update the policy or initiative definition and reassign. Initiative outdated: delete the initiative assignments, update the definition and assign the initiative.](/diagrams/post-14-update-custom-policies.svg)
+
+*Redrawn by me from the official Microsoft documentation picture. Not an official Microsoft diagram.*
 
 **Figure 4. Moving landing zone custom policies to built-in policies.**
 

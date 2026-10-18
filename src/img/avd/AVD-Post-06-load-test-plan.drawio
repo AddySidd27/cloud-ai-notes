@@ -24,6 +24,7 @@
             <mxPoint as="sourcePoint" x="965" y="145" />
             <mxPoint as="targetPoint" x="965" y="328" />
             <Array as="points" />
+            <mxPoint as="offset" x="-100" y="0" />
           </mxGeometry>
         </mxCell>
         <mxCell id="edge3" value="" edge="1" parent="1" style="edgeStyle=none;endArrow=block;strokeColor=#527d9e;fontSize=18;labelBackgroundColor=#ffffff;">
@@ -45,6 +46,7 @@
             <mxPoint as="sourcePoint" x="185" y="330" />
             <mxPoint as="targetPoint" x="185" y="147" />
             <Array as="points" />
+            <mxPoint as="offset" x="100" y="0" />
           </mxGeometry>
         </mxCell>
         <mxCell id="plan" value="Agreed test plan&lt;br&gt;Persona tasks + test accounts&lt;br&gt;Acceptance targets" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf5fc;strokeColor=#7e9ab0;fontSize=19;fontColor=#17324d;">
