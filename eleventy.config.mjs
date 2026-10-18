@@ -92,10 +92,16 @@ export default function (eleventyConfig) {
   eleventyConfig.addCollection("liveTopics", (api) =>
     topics.map((t) => ({ ...t, posts: articles(api).filter((p) => seriesOf(p)?.category === t.slug) })).filter((t) => t.posts.length));
 
+  // Plain link to the full-size PNG so phones can open and pinch-zoom it; works without JavaScript and by keyboard.
+  const fullSize = (src, alt) => {
+    if (!/^\/img\/avd\/AVD-Post-\d+-[A-Z][^"?#\/]*\.png$/.test(src)) return "";
+    const name = src.split("/").pop().replace(/\.png$/, "").replace(/^AVD-Post-\d+-/, "").replace(/-v\d+$/, "").replace(/-/g, " ");
+    return ` <a class="figure-open" href="${src}" aria-label="Open full-size diagram: ${name}">Open full-size diagram</a>`;
+  };
   const articleFigures = (html) => String(html).replace(/<p>\s*(<img[^>]*src="([^"]+)"[^>]*>)\s*<\/p>(?:\s*<p>((?:<em>[\s\S]*?<\/em>)|(?:Figure \d+\.[\s\S]*?))<\/p>)?/g, (_, image, src, caption) => {
     const alt = (image.match(/alt="([^"]*)"/) || [])[1] || "Article illustration";
     const compact = src.includes("AVD-Post-01-Components") ? " compact" : "";
-    return `<figure class="article-figure${compact}">${image}<figcaption><span class="figure-caption">${caption || (src.startsWith("/diagrams/") ? "" : alt)}</span><span class="figure-zoom">Click the image to enlarge</span></figcaption></figure>`;
+    return `<figure class="article-figure${compact}">${image}<figcaption><span class="figure-caption">${caption || (src.startsWith("/diagrams/") ? "" : alt)}</span><span class="figure-zoom">Tap or click the image to enlarge.${fullSize(src, alt)}</span></figcaption></figure>`;
   });
   eleventyConfig.addFilter("articleFigures", articleFigures);
   eleventyConfig.addFilter("avdFigures", articleFigures);
