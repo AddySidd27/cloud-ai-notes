@@ -24,7 +24,7 @@ jobs:
       - run: npm ci
       - run: npm run build
       - name: Check built site (privacy allowlist, links, metadata)
-        run: python3 tools/check-output.py _site
+        run: python3 tools/check-output.py _site --purge tools/purged-screenshots.txt
       - if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
