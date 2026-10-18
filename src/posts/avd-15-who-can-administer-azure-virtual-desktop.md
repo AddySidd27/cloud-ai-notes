@@ -1,5 +1,6 @@
 ---
 title: "Who Can Administer Azure Virtual Desktop: Roles, Scopes and Delegation"
+seoTitle: "Who Can Administer AVD: Roles and Scopes"
 layout: post.njk
 permalink: "/azure-virtual-desktop/who-can-administer-azure-virtual-desktop/"
 order: 115
@@ -133,4 +134,4 @@ Next: [Required Connectivity for Azure Virtual Desktop: Endpoints, Proxies, DNS 
 
 ## Sources
 
-[Built-in Azure RBAC roles for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rbac), [Microsoft Entra joined session hosts](https://learn.microsoft.com/en-us/azure/virtual-desktop/azure-ad-joined-session-hosts) and [Create and assign an autoscale scaling plan](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scaling-plan).
+[Built-in Azure RBAC roles for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rbac), [Microsoft Entra joined session hosts](https://learn.microsoft.com/en-us/azure/virtual-desktop/azure-ad-joined-session-hosts) and [Create and assign an autoscale scaling plan](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-create-assign-scaling-plan).

@@ -67,4 +67,13 @@
   }
   // "/" opens search
   addEventListener('keydown',function(e){if(e.key==='/'&&!/input|textarea|select/i.test((document.activeElement||{}).tagName||'')&&!document.querySelector('.sform')){e.preventDefault();location.href='/search/'}});
+
+  // Keyboard access: a table that scrolls sideways on a narrow screen must be reachable with the keyboard
+  function tableFocus(){
+    document.querySelectorAll('.prose table').forEach(function(tb){
+      if(tb.scrollWidth>tb.clientWidth+1)tb.setAttribute('tabindex','0');else tb.removeAttribute('tabindex');
+    });
+  }
+  tableFocus();
+  addEventListener('resize',tableFocus);
 })();

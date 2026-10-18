@@ -3,7 +3,7 @@ title: "Windows 365 Enterprise: Point-in-Time Restore"
 layout: post.njk
 permalink: /windows-365/point-in-time-restore/
 order: 206.5
-part: 6
+part: 7
 tags: w365-series
 deck: "Read the restore points, plan the data window, and validate recovery without risking the only working Cloud PC."
 ---
@@ -42,7 +42,7 @@ This is the current [Microsoft configuration sequence](https://learn.microsoft.c
 ## Step 3: inspect and choose a single Cloud PC point
 
 1. In Intune, open **Devices > All Cloud PCs** and select the disposable test Cloud PC. Record its status, user, current configuration and visible restore points.
-2. Choose the closest healthy point that solves the test problem. Note its timestamp and the local changes that will be lost. A warning icon marks an unhealthy point; Microsoft says it has a lower chance of successful restoration.
+2. Choose the closest healthy point that solves the test problem. Note its timestamp and the local changes that will be lost. A triangle warning icon marks an unhealthy point. You can still restore from it, but it has a lower probability of a successful restore.
 3. Confirm externally stored user data and the recovery contact. Save a before-state screenshot, a timestamped disposable local test file, installed app and policy state. The test file makes the rollback visible; never use real user data as the marker.
 4. Select **Restore**, choose the point, and read the final confirmation. Stop before this step on the sole working Cloud PC. On an approved disposable lab, submit the action and capture the **Restoring** state.
 5. After completion, connect and compare the local test file, sign-in, Intune check-in, compliance, required apps, update history and user data with the before-state. Preserve both success and failure details.

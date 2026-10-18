@@ -45,8 +45,8 @@ learn_pages:
     checked_on: "2026-10-07"
   - url: "https://learn.microsoft.com/en-us/entra/fundamentals/new-name"
     checked_on: "2026-10-07"
-  - url: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-ad-tenant"
-    checked_on: "2026-10-07"
+  - url: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-entra-tenant"
+    checked_on: "2026-10-17"
   - url: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/multi-tenant/lighthouse"
     checked_on: "2026-10-07"
   - url: "https://learn.microsoft.com/en-us/entra/external-id/tenant-configurations"
@@ -72,7 +72,7 @@ repo_links:
 diagrams:
   - file: "../diagrams/post-06-billing-and-tenant.svg"
     type: own-layout-official-icons
-    based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-ad-tenant"
+    based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-entra-tenant"
     icons: "Azure Public Service Icons V24 (Subscriptions, Management groups, Azure Policy) and Microsoft Entra architecture icons Oct 2023 (Microsoft Entra ID, color), all unmodified"
     source: "../diagrams/post-06-billing-and-tenant.drawio"
   - file: "../diagrams/post-06-brands-one-tenant.svg"
@@ -245,7 +245,7 @@ My own rule of thumb, based on the default of one tenant: start with Shape 1. Mo
 
 ![Top, Enterprise Agreement: a Microsoft Entra tenant above the Azure RBAC tree of management groups, subscriptions, resource groups and resources, beside the EA roles. The EA enrollment leads to an optional EA department and then the EA account owner, and the roles run Enterprise Administrator, Department Administrator, Account Owner. Dashed arrows show the EA account owner getting the Azure RBAC Owner role on its subscriptions. Bottom, Microsoft customer agreement: a billing account holds a billing profile, then invoice sections, then subscriptions](/diagrams/post-06-billing-and-tenant.svg)
 
-*First diagram: simplified, redrawn by me to follow the layout of two diagrams in the official documentation: the Enterprise Agreement relationship diagram and the Microsoft customer agreement hierarchy diagram, both from [Azure billing offers and Microsoft Entra tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-ad-tenant) and its linked pages. The Cloud Solution Provider hierarchy (the partner's Microsoft Partner Agreement) is not drawn here; see the official page. Names such as invoice section A are generic. Not an official Microsoft diagram. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) and [Microsoft Entra](https://learn.microsoft.com/en-us/entra/architecture/architecture-icons) architecture icon sets.*
+*First diagram: simplified, redrawn by me to follow the layout of two diagrams in the official documentation: the Enterprise Agreement relationship diagram and the Microsoft customer agreement hierarchy diagram, both from [Azure billing offers and Microsoft Entra tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-entra-tenant) and its linked pages. The Cloud Solution Provider hierarchy (the partner's Microsoft Partner Agreement) is not drawn here; see the official page. Names such as invoice section A are generic. Not an official Microsoft diagram. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) and [Microsoft Entra](https://learn.microsoft.com/en-us/entra/architecture/architecture-icons) architecture icon sets.*
 
 ![One Microsoft Entra tenant holds a management group such as Corp. Brand A and Brand B each have Production, Test and Development subscriptions. A billing unit per brand, a department and account for EA or an invoice section for MCA, sits on the left](/diagrams/post-06-brands-one-tenant.svg)
 
@@ -276,5 +276,5 @@ These situations came up in my own work: no emergency (break-glass) access plan,
 
 ## Sources
 
-Microsoft Learn, checked October 2026: [Billing offers and tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-ad-tenant) · [Multitenant considerations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/multi-tenant/considerations-recommendations) · [Entra Connect topologies](https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/plan-connect-topologies)
+Microsoft Learn, checked October 2026: [Billing offers and tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-entra-tenant) · [Multitenant considerations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/multi-tenant/considerations-recommendations) · [Entra Connect topologies](https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/plan-connect-topologies)
 

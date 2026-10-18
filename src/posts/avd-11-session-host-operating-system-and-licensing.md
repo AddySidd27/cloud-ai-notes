@@ -1,5 +1,6 @@
 ---
 title: "Choose the Session Host Operating System and Licensing"
+seoTitle: "AVD Session Host OS and Licensing"
 layout: post.njk
 permalink: "/azure-virtual-desktop/session-host-operating-system-and-licensing/"
 order: 111

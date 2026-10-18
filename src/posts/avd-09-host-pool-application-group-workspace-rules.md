@@ -1,5 +1,6 @@
 ---
 title: "Host Pools, Application Groups and Workspaces: The Rules That Connect Them"
+seoTitle: "AVD Host Pools, App Groups and Workspaces"
 layout: post.njk
 permalink: "/azure-virtual-desktop/host-pool-application-group-workspace-rules/"
 order: 109

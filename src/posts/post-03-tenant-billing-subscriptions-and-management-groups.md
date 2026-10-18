@@ -1,5 +1,6 @@
 ---
 title: "Tenant, Billing, Subscriptions and Management Groups"
+seoTitle: "Tenants, Subscriptions and Management Groups"
 description: "The four building blocks of an Azure environment: Microsoft Entra tenant, billing offer, subscriptions and management groups, how they fit together and common mix-ups."
 slug: "tenant-billing-subscriptions-and-management-groups"
 series: "Azure Landing Zone"
@@ -9,8 +10,8 @@ status: draft
 preview_feature: false
 fictional_case: false
 learn_pages:
-  - url: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-ad-tenant"
-    checked_on: "2026-10-07"
+  - url: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-entra-tenant"
+    checked_on: "2026-10-17"
   - url: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-ad-define"
     checked_on: "2026-10-07"
   - url: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-subscriptions"
@@ -46,7 +47,7 @@ repo_links:
 diagrams:
   - file: "../diagrams/post-03-azure-building-blocks.svg"
     type: own-layout-official-icons
-    based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-ad-tenant"
+    based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-entra-tenant"
     icons: "Azure Public Service Icons V24 (Management groups, Subscriptions, Resource groups) and Microsoft Entra architecture icons Oct 2023 (Microsoft Entra ID, color), all unmodified"
     source: "../diagrams/post-03-azure-building-blocks.drawio"
 production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
@@ -136,7 +137,7 @@ Azure has four levels of management scope: management groups, subscriptions, res
 
 ![One Microsoft Entra tenant at the top, then a management group with two management groups below it. One holds a subscription bought under an Enterprise Agreement (EA). The other holds two subscriptions, one under a Cloud Solution Provider agreement (CSP) and one under a Microsoft Customer Agreement (MCA). Each subscription has a resource group, and each resource group holds resources](/diagrams/post-03-azure-building-blocks.svg)
 
-*Simplified diagram, redrawn by me to follow the layout of the Azure scopes diagram in the official documentation (one tenant, management groups, subscriptions, resource groups, resources). The original labels its third subscription PAYG (pay-as-you-go); I show MCA instead, because this post defines MCA. Based on: [Azure billing offers and Microsoft Entra tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-ad-tenant) and [What are Azure management groups?](https://learn.microsoft.com/en-us/azure/governance/management-groups/overview) Not an official Microsoft diagram. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) and [Microsoft Entra](https://learn.microsoft.com/en-us/entra/architecture/architecture-icons) architecture icon sets. Microsoft's own diagram is on the first linked page.*
+*Simplified diagram, redrawn by me to follow the layout of the Azure scopes diagram in the official documentation (one tenant, management groups, subscriptions, resource groups, resources). The original labels its third subscription PAYG (pay-as-you-go); I show MCA instead, because this post defines MCA. Based on: [Azure billing offers and Microsoft Entra tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-entra-tenant) and [What are Azure management groups?](https://learn.microsoft.com/en-us/azure/governance/management-groups/overview) Not an official Microsoft diagram. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) and [Microsoft Entra](https://learn.microsoft.com/en-us/entra/architecture/architecture-icons) architecture icon sets. Microsoft's own diagram is on the first linked page.*
 
 
 ## Common mistakes

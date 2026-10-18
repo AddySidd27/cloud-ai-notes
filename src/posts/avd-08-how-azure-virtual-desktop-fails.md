@@ -1,5 +1,6 @@
 ---
 title: "How Azure Virtual Desktop Fails: The Control, Management and Data Planes"
+seoTitle: "How AVD Fails: Control, Management, Data Planes"
 layout: post.njk
 permalink: "/azure-virtual-desktop/how-azure-virtual-desktop-fails/"
 order: 108

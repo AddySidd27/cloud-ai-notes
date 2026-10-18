@@ -1,5 +1,6 @@
 ---
 title: "Business Requirements: Compliance, Region, Recovery, Connectivity and Cost"
+seoTitle: "Landing Zone Business Requirements"
 description: "Five business requirements that shape an Azure landing zone: compliance, region, recovery, connectivity and cost, and what each one changes."
 slug: "business-requirements-compliance-region-recovery-connectivity-and-cost"
 series: "Azure Landing Zone"

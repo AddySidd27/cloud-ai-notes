@@ -1,5 +1,6 @@
 ---
 title: "Choose the Client: Windows App, Remote Desktop and the Web"
+seoTitle: "Choose an AVD Client: Windows App or Web"
 layout: post.njk
 permalink: "/azure-virtual-desktop/choose-the-avd-client/"
 order: 112
@@ -50,7 +51,7 @@ Two clients are not supported for AVD at all: the RemoteApp and Desktop Connecti
 
 ![A table-like drawing with three columns: device, client, and what to watch for. Windows PC, macOS, iPhone and iPad, Android and Chrome OS, and Meta Quest all point to Windows App. Web browser points to Windows App in the browser. Notes beside each row say what to watch for: the Windows row gives the retirement dates of the older Remote Desktop clients for Windows, and the Meta Quest row says one page labels it preview. A red box at the bottom says the RemoteApp and Desktop Connections client and the Remote Desktop Connection client are not supported for Azure Virtual Desktop.](/img/avd/AVD-Post-12-Client-By-Device.png)
 
-*Drawn by the author from [Remote Desktop client overview](https://learn.microsoft.com/en-us/azure/virtual-desktop/users/remote-desktop-clients-overview), the statement about unsupported clients in [Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites), [What is Windows App?](https://learn.microsoft.com/en-us/windows-app/overview) and [Get started with Windows App](https://learn.microsoft.com/en-us/windows-app/get-started-connect-devices-desktops-apps). Not an official Microsoft diagram. The documentation has a status table, not a diagram, so the layout is the author's. The drawing leaves out the Remote Desktop Services and remote PC columns, and feature differences between clients.*
+*Drawn by the author from [Remote Desktop client overview (archived)](https://learn.microsoft.com/en-us/previous-versions/remote-desktop-client/overview), the statement about unsupported clients in [Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites), [What is Windows App?](https://learn.microsoft.com/en-us/windows-app/overview) and [Get started with Windows App](https://learn.microsoft.com/en-us/windows-app/get-started-connect-devices-desktops-apps). Not an official Microsoft diagram. The documentation has a status table, not a diagram, so the layout is the author's. The drawing leaves out the Remote Desktop Services and remote PC columns, and feature differences between clients.*
 
 **Recommendation (judgement):** standardize on Windows App for every platform you support, and treat any user still on an older client as a migration item with a date.
 
@@ -67,30 +68,33 @@ Judgement: a browser is a good fallback for contractors and kiosks. It is a poor
 
 ## Feature gaps that affect design
 
-The documentation has a long comparison of Remote Desktop client features across platforms. It is organised by the Remote Desktop client platforms, and it is the main published comparison. It does not describe Windows App feature by feature, so use it to see where gaps tend to appear, and check the Windows App documentation for the exact current behaviour on your platforms. The examples below are from the comparison page, for AVD.
+The Windows App documentation has a comparison of features across platforms, with a separate view for Azure Virtual Desktop. This section uses that page. The older comparison of Remote Desktop client features is archived, so it is not used for the table below. The table follows the Azure Virtual Desktop view of the Windows App comparison, checked October 2026.
 
-| Feature | Where the comparison shows support |
+| Feature | Where the Windows App comparison shows support |
 |---|---|
-| RDP Shortpath (managed and public networks) | Windows (MSI), macOS and iOS/iPadOS. Not Android, Chrome OS or the web client. The Shortpath configuration page lists the Windows App platforms differently (Windows, a macOS beta, Android and Chrome OS in preview), so test the platform you plan to allow. |
-| Multiple monitors | Windows (MSI) and macOS. |
-| USB and serial port redirection | Windows (MSI) only. |
-| Scanner redirection | Windows (MSI) only. |
-| Multimedia redirection | Windows (MSI) only. |
-| Teams media optimizations | Windows (MSI) and macOS. Some pages label the macOS optimization preview, so confirm before relying on it. |
-| WebAuthn redirection | Windows (MSI) only. |
-| Smart card redirection | Windows (MSI) and macOS. |
-| Printer redirection | Windows (MSI), macOS (limited drivers) and the web client (PDF printing only). |
-| Screen capture protection | Windows (MSI), macOS, and iOS and Android with Intune settings. Not the web client. |
-| Watermarking | All listed platforms except the Store app. |
-| Connection information (shows the transport in use) | Windows (MSI), macOS and the web client. |
-| Private Link | All listed platforms. Other pages disagree about which clients support it, so test it (the [connectivity article](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/) has the conflict). |
+| Multiple monitors | Windows and macOS. Not iOS and iPadOS, Android and Chrome OS, the web client or Meta Quest. An external monitor is listed for Windows, macOS, iOS and iPadOS, and Android and Chrome OS (the last depends on the local device), but not the web client or Meta Quest. |
+| USB and serial port redirection | Windows only. |
+| Scanner redirection | Windows only, and TWAIN scanner redirection is labelled preview. |
+| Multimedia redirection (video playback and calls) | Windows only. |
+| Teams media optimizations | WebRTC: Windows, macOS, iOS and iPadOS, and Android and Chrome OS. SlimCore: Windows and macOS. Neither is listed for the web client or Meta Quest. |
+| WebAuthn redirection | Windows. macOS, iOS and iPadOS, and Android are listed as preview with minimum client versions. Not the web client or Meta Quest. |
+| Smart card redirection | Windows and macOS. iOS and iPadOS is preview and supports only YubiKey. Not Android and Chrome OS, the web client or Meta Quest. |
+| Printer redirection | Windows (RAW printing is preview for Azure Virtual Desktop), macOS (only the Publisher Imagesetter driver by default) and the web client. Not iOS and iPadOS, Android and Chrome OS, or Meta Quest. |
+| Screen capture protection | Windows and macOS. iOS and iPadOS and Android need Intune mobile application management, and Chrome OS is not covered. Not the web client. |
+| Watermarking | Windows, macOS, iOS and iPadOS, Android and Chrome OS, and the web client. |
+| Connection information (shows the transport in use) | Windows, macOS and the web client. Not iOS and iPadOS, Android and Chrome OS, or Meta Quest. |
+| RDP Shortpath for managed networks | Windows, macOS, iOS and iPadOS, Android and Chrome OS, and Meta Quest. Not the web client. |
+| RDP Shortpath for public networks | Windows, Android and Chrome OS, and Meta Quest, for both STUN and TURN. macOS only in a beta build. Not iOS and iPadOS or the web client. |
+| RDP Multipath | UDP: Windows (version 2.0.559.0 or later) and macOS (beta build). UDP and TCP: Windows (version 2.0.1069.0 or later). |
+| Input Protection and Display Protection (preview) | Windows only, with a minimum Windows App version and session host configuration. Input Protection also needs the Windows Cloud Input Protect MSI on the device. |
+| Private Link | Windows, macOS, iOS and iPadOS, and Android and Chrome OS. Not the web client or Meta Quest. |
 
-The comparison page marks a feature as present or absent on a platform. It mostly gives no version numbers and does not say how well the feature works, so treat a tick as a reason to test, not a guarantee.
+The comparison page marks a feature as present or absent on a platform and labels some entries preview. It gives version numbers for only a few features and does not say how well a feature works, so treat a tick as a reason to test, not a guarantee. Redirection also depends on what your administrator allows and on settings on the local device. The more restrictive setting wins.
 
 Two lessons follow.
 
-1. **The browser and mobile clients have the largest gaps.** If your design needs Teams optimization, several monitors, USB devices or Shortpath, test the platform you plan to allow.
-2. **Most of the strongest features are listed for the Windows MSI client, which is no longer supported in public cloud.** Whether Windows App on Windows matches each one is not something this article can confirm. Check the Windows App documentation for each feature your design depends on.
+1. **The browser, Meta Quest and mobile clients have the largest gaps.** If your design needs Teams optimization, several monitors, USB devices or Shortpath, test the platform you plan to allow.
+2. **Windows has the widest support, and several entries on other platforms are preview or beta builds.** Check the Windows App documentation again before you rely on a feature, because these entries change.
 
 The [connection article](/azure-virtual-desktop/follow-a-connection-step-by-step/) explains why Shortpath support in the client matters: without it, sessions use the gateway relay.
 
@@ -132,4 +136,4 @@ Next: [How Sign-in Works: Three Authentications and Single Sign-on](/azure-virtu
 
 ## Sources
 
-[Remote Desktop client overview](https://learn.microsoft.com/en-us/azure/virtual-desktop/users/remote-desktop-clients-overview), [Compare Remote Desktop client features](https://learn.microsoft.com/en-us/azure/virtual-desktop/compare-remote-desktop-clients) and [What is Windows App?](https://learn.microsoft.com/en-us/windows-app/overview).
+Microsoft Learn, checked October 2026: [Windows App features across platforms and devices](https://learn.microsoft.com/en-us/windows-app/compare-platforms-features?pivots=azure-virtual-desktop), [What is Windows App?](https://learn.microsoft.com/en-us/windows-app/overview), [Get started with Windows App](https://learn.microsoft.com/en-us/windows-app/get-started-connect-devices-desktops-apps?pivots=azure-virtual-desktop), [Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites) and, for the status of the older clients, the archived [Remote Desktop client overview](https://learn.microsoft.com/en-us/previous-versions/remote-desktop-client/overview).
