@@ -355,6 +355,9 @@ a.topic:hover .tn{text-decoration:underline}
 :is(.article-reading,.avd-reading) .article-figure .figure-caption:empty{display:none}
 :is(.article-reading,.avd-reading) .article-figure figcaption a{color:#1858b0}
 :is(.article-reading,.avd-reading) .article-figure .figure-zoom{font-size:.74rem;font-weight:400;color:#64748b;white-space:normal}
+:is(.article-reading,.avd-reading) .article-figure .figure-zoom{color:#475569}
+:is(.article-reading,.avd-reading) .article-figure .figure-open{display:inline-block;min-height:44px;line-height:44px;padding:0 .25rem;margin-left:.25rem;font-size:.86rem;font-weight:600;color:#1858b0;text-decoration:underline}
+:is(.article-reading,.avd-reading) .article-figure .figure-open:focus-visible{outline:3px solid #1858b0;outline-offset:2px}
 :is(.article-reading,.avd-reading) .side{display:grid;gap:1rem}
 .article-topics{padding:1rem;background:var(--surface);border:1px solid var(--line);border-radius:10px}
 .article-topics h2{font-size:.9rem;line-height:1.4;margin:0 0 .8rem}

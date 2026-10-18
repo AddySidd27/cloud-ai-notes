@@ -41,9 +41,9 @@ This article explains those objects and the rules between them, shows which choi
 
 ## The four objects in one picture
 
-![A workspace at the top lists a desktop application group and two RemoteApp application groups. All three belong to one pooled host pool that contains session hosts. Microsoft Entra ID users and groups are assigned to the application groups. A panel lists four rules about how the objects relate.](/img/avd/AVD-Post-09-Object-Relationships.png)
+![A workspace at the top lists a desktop application group and two RemoteApp application groups. All three point to one pooled host pool that contains session hosts. Microsoft Entra ID users and user groups are assigned to the application groups. A panel lists four rules about how the objects relate.](/img/avd/AVD-Post-09-Object-Relationships-v3.png)
 
-*Drawn by the author from the relationships described in [Azure Virtual Desktop terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology). Not an official Microsoft diagram. The documentation has no diagram of these relationships, so the layout is the author's. The diagram leaves out personal host pools, scaling plans and the session host configuration. Icons: Microsoft Azure and Microsoft Entra architecture icons, used unmodified under the terms on Microsoft's icons page.*
+*Drawn by the author from the relationships described in [Azure Virtual Desktop terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology). Not an official Microsoft diagram. The documentation has no diagram of these relationships, so the layout is the author's. The diagram leaves out personal host pools, scaling plans and the session host configuration. Checked against the cited pages in October 2026; this is not Microsoft verification or endorsement. Icons: Microsoft Azure and Microsoft Entra architecture icons, used unmodified under the terms on Microsoft's icons page.*
 
 Read it from the bottom up. Session hosts live in a host pool. An application group publishes something from one host pool. A workspace lists application groups. Users are assigned to application groups, not to host pools and not to workspaces.
 
