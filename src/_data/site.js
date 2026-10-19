@@ -9,6 +9,8 @@ export default {
   featured: 63, // article order number shown as the feature on the home page; it needs a diagram
   linkedin: "https://www.linkedin.com/in/adnan-a-siddiqui-768b5714",
   credentials: [],
+  focusAreas: ["Azure", "AVD", "Windows 365", "Citrix", "AWS"],
+  footerCredentials: ["MCT", "Azure Solutions Architect Expert", "AZ-140", "CCP-V", "Nerdio NCE"],
   certifications: [
     { code: "MCT", name: "Microsoft Certified Trainer", issuer: "Microsoft" },
     { code: "ASA", name: "Microsoft Certified: Azure Solutions Architect Expert", issuer: "Microsoft" },
