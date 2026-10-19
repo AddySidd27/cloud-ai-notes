@@ -9,20 +9,26 @@ permalink: "/articles/"
   <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">Articles</li></ol></nav>
   <h1>All articles</h1>
   <p class="band-deck">{{ deck }}</p>
-  <p class="byline"><span>{{ list.length }} articles</span><a href="/search/">Search</a></p>
+  <p class="byline"><span>{{ list.length }} articles</span><a href="/search/">Search the full text</a></p>
 </div></header>
 <div class="wrap sec">
-  <ul class="alist plain">
-    {%- for p in list | mixLatest(articleMeta, 99, 99) %}{% set ser = p.data.tags | seriesOf %}{% set meta = articleMeta[p.data.order] %}
-    {%- set thumb = p.templateContent | firstDiagram %}
-    {%- set tpp = ser | topicOf %}
-    <li><a href="{{ p.url }}" class="has-thumb">
-      {%- if thumb %}<span class="at"><img src="{{ thumb }}" alt="" loading="lazy" width="320" height="200"></span>{% else %}<span class="at at-cover" aria-hidden="true">{% set cat = tpp.slug %}{% set cn = (p.data.part or p.data.order) | pad %}{% include "cover.njk" %}</span>{% endif %}
-      <span class="ak">{{ ser.name }}{% if meta %} · <time datetime="{{ meta.published }}">{{ meta.published | longDate }}</time>{% endif %}</span>
+  <div class="afilter" hidden data-afilter>
+    <label class="sr-only" for="afilter-q">Filter articles by title or summary</label>
+    <input id="afilter-q" type="search" placeholder="Filter by title or summary" autocomplete="off">
+    <div class="fchips" role="group" aria-label="Filter by topic">
+      <button type="button" data-topic="" aria-pressed="true">All</button>
+      {%- for t in collections.liveTopics %}<button type="button" data-topic="{{ t.slug }}" aria-pressed="false">{{ t.name }}</button>{% endfor %}
+    </div>
+    <p class="fcount" role="status" aria-live="polite"></p>
+  </div>
+  <ul class="alist plain" data-alist>
+    {%- for p in list | mixLatest(articleMeta, 99, 99) %}{% set ser = p.data.tags | seriesOf %}{% set meta = articleMeta[p.data.order] %}{% set tpp = ser | topicOf %}
+    <li data-topic="{{ tpp.slug }}" data-text="{{ (p.data.title + ' ' + p.data.deck + ' ' + ser.name) | striptags | lower }}"><a href="{{ p.url }}">
+      <span class="ak">{{ ser.name }}{% if meta %} · <time datetime="{{ meta.published }}">{{ meta.published | longDate }}</time>{% endif %} · {{ p.templateContent | readingTime }} min read</span>
       <strong>{{ p.data.title }}</strong>
       <span class="ad">{{ p.data.deck | clip(210) }}</span>
-      <span class="am">{{ p.templateContent | readingTime }} min read</span>
     </a></li>
     {%- endfor %}
   </ul>
+  <p class="fempty" hidden>No articles match that filter. <a href="/search/">Try the full-text search</a>.</p>
 </div>

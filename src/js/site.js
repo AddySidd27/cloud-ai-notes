@@ -76,4 +76,28 @@
   }
   tableFocus();
   addEventListener('resize',tableFocus);
+  // Articles page: topic chips + text filter (list is fully visible without JS)
+  (function(){
+    var box=document.querySelector('[data-afilter]'),ul=document.querySelector('[data-alist]');
+    if(!box||!ul)return;
+    var items=[].slice.call(ul.children),q=box.querySelector('input'),btns=[].slice.call(box.querySelectorAll('.fchips button')),
+        cnt=box.querySelector('.fcount'),empty=document.querySelector('.fempty'),topic='';
+    box.hidden=false;
+    function apply(){
+      var v=q.value.trim().toLowerCase().split(/\s+/).filter(Boolean),n=0;
+      items.forEach(function(li){
+        var ok=(!topic||li.getAttribute('data-topic')===topic)&&v.every(function(w){return li.getAttribute('data-text').indexOf(w)>-1});
+        li.hidden=!ok;if(ok)n++;
+      });
+      cnt.textContent='Showing '+n+' of '+items.length+' articles';
+      if(empty)empty.hidden=n>0;
+    }
+    btns.forEach(function(b){b.addEventListener('click',function(){
+      topic=b.getAttribute('data-topic');
+      btns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+      apply();
+    })});
+    q.addEventListener('input',apply);
+    apply();
+  })();
 })();

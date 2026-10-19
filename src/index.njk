@@ -5,28 +5,36 @@ home: true
 permalink: "/"
 ---
 {%- set list = collections.articles -%}
-<header class="band home-band"><div class="wrap band-in home-in">
-  <div class="home-text">
-    <p class="chip">Cloud architecture<span>Azure, AVD, Windows 365</span></p>
-    <h1>Architecting Enterprise Azure &amp; End-User Computing</h1>
-    <p class="band-deck">Production blueprints, Cloud Adoption Framework landing zones and hands-on architectures across Azure, AVD, Windows 365, Citrix and Intune. Every Azure fact is checked against Microsoft Learn.</p>
-    <p class="cta"><a class="btn primary" href="/azure-landing-zone/">Read the Landing Zone series</a><a class="btn ghost-on" href="{{ site.repo }}">GitHub repositories</a></p>
-    <p class="home-links"><a href="/feed.xml">Subscribe by RSS</a><a href="/search/">Search the articles</a><a href="/about/">About the author</a></p>
-  </div>
-  <nav class="home-start" aria-label="Where to start">
-    <p class="hs-h">Where to start</p>
-    <a href="/start-here/"><strong>Start here</strong><span>How the site is organized and in which order to read</span></a>
-    <a href="/azure-landing-zone/"><strong>Azure Landing Zone</strong><span>{{ collections.liveSeries[0].posts.length }} articles, from first idea to a working platform</span></a>
-    <a href="/labs/"><strong>Labs and code</strong><span>Reference files that go with the articles</span></a>
-  </nav>
+<header class="home-hero"><div class="wrap home-hero-in">
+  <p class="hero-eyebrow">Cloud architecture · Azure, AVD, Windows 365</p>
+  <h1>Architecting Enterprise Azure &amp; End-User Computing</h1>
+  <p class="band-deck">Production blueprints, Cloud Adoption Framework landing zones and hands-on architectures across Azure, AVD, Windows 365, Citrix and Intune. Every Azure fact is checked against Microsoft Learn.</p>
+  <p class="cta"><a class="btn amber" href="/azure-landing-zone/">Read the Landing Zone series</a><a class="btn ghost-on" href="{{ site.repo }}">GitHub repositories</a></p>
+  <p class="home-links"><a href="/feed.xml">Subscribe by RSS</a><a href="/search/">Search the articles</a><a href="/about/">About the author</a><a href="/start-here/">Start here</a></p>
+  {% include "hero-art.njk" %}
 </div></header>
+
+<section class="sec home-sec" aria-labelledby="ser-h"><div class="wrap">
+  <div class="sec-head"><h2 id="ser-h">Series</h2><a class="more" href="/articles/">All articles</a></div>
+  <div class="series-grid">
+    {%- for s in collections.liveSeries %}{% set tp = s | topicOf %}
+    <a class="scard" href="/{{ s.slug }}/">
+      <span class="skick">{{ tp.name }} · {{ s.posts.length }} articles</span>
+      <strong>{{ s.title }}</strong>
+      <span class="sbl">{{ s.blurb | clip(150) }}</span>
+      <span class="sgo">Browse series <span aria-hidden="true">&rarr;</span></span>
+    </a>
+    {%- endfor %}
+  </div>
+</div></section>
 
 {%- set fpick = list | pick([site.featured]) -%}{%- set fa = fpick[0] -%}
 {%- if fa %}{% set fser = fa.data.tags | seriesOf %}{% set fmeta = articleMeta[fa.data.order] %}
-<section class="sec feature-sec" aria-labelledby="feat-h"><div class="wrap">
+<section class="sec home-sec" aria-labelledby="feat-h"><div class="wrap">
+  <div class="sec-head"><h2 id="feat-h">Featured</h2></div>
   <a class="feature" href="{{ fa.url }}">
     <span class="feat-text">
-      <span class="feat-k" id="feat-h">Featured · {{ fser.name }}{% if fmeta %} · <time datetime="{{ fmeta.published }}">{{ fmeta.published | longDate }}</time>{% endif %}</span>
+      <span class="feat-k">{{ fser.name }}{% if fmeta %} · <time datetime="{{ fmeta.published }}">{{ fmeta.published | longDate }}</time>{% endif %}</span>
       <strong>{{ fa.data.title }}</strong>
       <span class="feat-d">{{ fa.data.deck | clip(260) }}</span>
       <span class="feat-m">{{ fa.templateContent | readingTime }} min read<span class="feat-go">Read the article</span></span>
@@ -36,21 +44,20 @@ permalink: "/"
 </div></section>
 {%- endif %}
 
-<section class="sec" aria-labelledby="ser-h"><div class="wrap">
-  <div class="sec-head"><h2 id="ser-h">Series</h2><a class="more" href="/articles/">All articles</a></div>
-  <div class="series-grid">
-    {%- for s in collections.liveSeries %}{% set tp = s | topicOf %}
-    <a class="scard" href="/{{ s.slug }}/">
-      <span class="skick">{{ tp.name }}</span>
-      <strong>{{ s.title }}</strong>
-      <span class="sbl">{{ s.blurb | clip(150) }}</span>
-      <span class="smeta">{{ s.posts.length }} articles</span>
-    </a>
+<section class="sec home-sec" aria-labelledby="new-h"><div class="wrap">
+  <div class="sec-head"><h2 id="new-h">Latest articles</h2><a class="more" href="/articles/">All articles</a></div>
+  <ul class="alist">
+    {%- for p in list | mixLatest(articleMeta, 6, 2) %}{% set ser = p.data.tags | seriesOf %}{% set meta = articleMeta[p.data.order] %}
+    <li><a href="{{ p.url }}">
+      <span class="ak">{{ ser.name }}{% if meta %} · <time datetime="{{ meta.published }}">{{ meta.published | longDate }}</time>{% endif %} · {{ p.templateContent | readingTime }} min read</span>
+      <strong>{{ p.data.title }}</strong>
+      <span class="ad">{{ p.data.deck | clip(190) }}</span>
+    </a></li>
     {%- endfor %}
-  </div>
+  </ul>
 </div></section>
 
-<section class="sec" aria-labelledby="top-h"><div class="wrap">
+<section class="sec home-sec" aria-labelledby="top-h"><div class="wrap">
   <div class="sec-head"><h2 id="top-h">Browse by topic</h2></div>
   <ul class="topic-chips">
     {%- for t in collections.liveTopics %}<li><a href="/{{ t.slug }}/">{{ t.name }}<span>{{ t.posts.length }}</span></a></li>{% endfor %}
@@ -58,30 +65,11 @@ permalink: "/"
   </ul>
 </div></section>
 
-<section class="sec alt" aria-labelledby="new-h"><div class="wrap">
-  <div class="sec-head"><h2 id="new-h">Latest articles</h2><a class="more" href="/articles/">All articles</a></div>
-  <ul class="alist">
-    {%- for p in list | mixLatest(articleMeta, 6, 2) %}{% set ser = p.data.tags | seriesOf %}{% set meta = articleMeta[p.data.order] %}
-    {%- set thumb = p.templateContent | firstDiagram %}
-    {%- set tpp = ser | topicOf %}
-    <li><a href="{{ p.url }}" class="has-thumb">
-      {%- if thumb %}<span class="at"><img src="{{ thumb }}" alt="" loading="lazy" width="320" height="200"></span>{% else %}<span class="at at-cover" aria-hidden="true">{% set cat = tpp.slug %}{% set cn = (p.data.part or p.data.order) | pad %}{% include "cover.njk" %}</span>{% endif %}
-      <span class="ak">{{ ser.name }}{% if meta %} · <time datetime="{{ meta.published }}">{{ meta.published | longDate }}</time>{% endif %}</span>
-      <strong>{{ p.data.title }}</strong>
-      <span class="ad">{{ p.data.deck | clip(190) }}</span>
-      <span class="am">{{ p.templateContent | readingTime }} min read</span>
-    </a></li>
-    {%- endfor %}
-  </ul>
-</div></section>
-
-<section class="sec" aria-label="About the author"><div class="wrap author-hero">
-  <span class="av-lg" aria-hidden="true">{% include "mark.njk" %}</span>
-  <div class="ah-text">
-    <h2>{{ site.author }}</h2>
-    <p class="ah-role">{{ site.role }}</p>
-    <p>{{ site.bio }}</p>
-    {%- if site.credentials.length %}<ul class="ah-creds">{% for c in site.credentials %}<li>{{ c }}</li>{% endfor %}</ul>{% endif %}
-    <p class="ah-links"><a class="btn primary" href="/about/">About the author</a><a class="btn ghost" href="{{ site.repo }}">GitHub repo</a><a class="btn ghost" href="/feed.xml">RSS feed</a></p>
+<section class="sec home-sec" aria-label="About the author"><div class="wrap author-wrap">
+  <div class="author-box">
+    <p class="ab-kick">About the author</p>
+    <h2 class="ab-name">{{ site.author }}</h2>
+    <p class="ab-text">{{ site.role }}. {{ site.bio }}</p>
+    <p class="ab-actions"><a class="btn amber" href="/about/">About the author</a><a class="btn ghost-on" href="{{ site.repo }}">GitHub repo</a><a class="btn ghost-on" href="/feed.xml">RSS feed</a></p>
   </div>
 </div></section>
