@@ -54,11 +54,13 @@ layout: base.njk
 {%- set rel = list | related(page.url, articleMeta, 3) %}
 <section class="wrap related" aria-labelledby="rel-h">
   <h2 id="rel-h">Related articles</h2>
-  <div class="grid3">{% for p in rel %}{% include "card.njk" %}{% endfor %}</div>
+  <ul class="rel-list">{% for p in rel %}{% set rser = p.data.tags | seriesOf %}<li><a href="{{ p.url }}"><small>{{ rser.name }}</small>{{ p.data.title }}</a></li>{% endfor %}</ul>
 </section>
 {%- endif %}
 {%- if ser.tag == "w365-series" -%}{%- set articleRepo = "https://github.com/AddySidd27/Windows365-enterprise-engineering" -%}{%- elif ser.tag == "avd-series" -%}{%- set articleRepo = "https://github.com/AddySidd27/azure-virtual-desktop-architect" -%}{%- else -%}{%- set articleRepo = site.repo -%}{%- endif -%}
-<section class="wrap author-wrap" aria-label="About the author"><div class="author">
-  <span class="av" aria-hidden="true">{% include "mark.njk" %}</span>
-  <div><p class="an"><a href="/about/">{{ site.author }}</a></p><p>{{ site.role }}. Writes about cloud architecture and engineering. Labs and reference files for the articles are in the <a href="{{ articleRepo }}">GitHub repo</a>.</p></div>
+<section class="wrap author-wrap" aria-label="About the author"><div class="author-box">
+  <p class="ab-kick">About the author</p>
+  <p class="ab-name"><a href="/about/">{{ site.author }}</a></p>
+  <p class="ab-text">{{ site.role }}. Writes about cloud architecture and engineering. Labs and reference files for the articles are in the <a href="{{ articleRepo }}">GitHub repo</a>.</p>
+  <p class="ab-actions"><a class="btn amber" href="/about/">Professional profile</a><a class="btn ghost-on" href="{{ site.linkedin }}" rel="me noopener">LinkedIn</a></p>
 </div></section>
