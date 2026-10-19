@@ -34,7 +34,7 @@
 <meta name="twitter:image" content="{{ ogPath | absUrl(site.url) }}">
 <meta name="theme-color" content="#0A1B33">
 <link rel="preload" href="/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/css/site.css?v=20261019-new-look">
+<link rel="stylesheet" href="/css/site.css?v=20261019-home-trim">
 {%- if interactive %}
 <link rel="stylesheet" href="/css/interactive.css">
 {%- endif %}
@@ -69,11 +69,13 @@
 {{ content | safe }}
 </main>
 <footer class="foot"><div class="wrap">
-  <div class="foot-grid">
+  <div class="foot-grid{% if home %} no-brand{% endif %}">
+    {%- if not home %}
     <div class="foot-brand">
       {% include "brand.njk" %}
       <p>{{ site.tagline }}</p>
     </div>
+    {%- endif %}
     <nav aria-label="Read"><h2>Read</h2><a href="/articles/">All articles</a><a href="/start-here/">Start here</a>{% for s in collections.liveSeries %}<a href="/{{ s.slug }}/">{{ s.name }} series</a>{% endfor %}<a href="/search/">Search</a></nav>
     <nav aria-label="Topics"><h2>Topics</h2>{% for t in collections.liveTopics %}<a href="/{{ t.slug }}/">{{ t.name }}</a>{% endfor %}<a href="/labs/">Labs</a></nav>
     <nav aria-label="Site"><h2>Site</h2><a href="/about/">About</a><a href="{{ site.repo }}">GitHub</a><a href="{{ site.linkedin }}" rel="me noopener">LinkedIn</a><a href="/feed.xml">RSS feed</a></nav>
