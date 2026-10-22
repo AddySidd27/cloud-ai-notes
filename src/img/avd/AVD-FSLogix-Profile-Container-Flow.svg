@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+  <title id="t">How an FSLogix profile container reaches a session host</title>
+  <desc id="d">Draft drawing, own layout. Two session hosts on the left, both able to attach the same user&#x27;s container. On the right, an SMB file share holds one container file per user, set by the VHDLocations setting. At sign-in the container is attached over SMB and appears as the user&#x27;s profile under C:\Users. A few folders are redirected to a local folder named local_ plus the user name, which is deleted at sign-out. At sign-out the container is detached. A panel at the bottom lists five documented causes of a container failing to attach: permissions, a container already in use, a full container or share, network or DNS problems, and a wrong or missing VHDLocations value. What the user gets depends on the cause and the settings, and a temporary profile or being blocked from signing in are both possible.</desc>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
+  <rect x="6" y="6" width="988" height="688" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
+  <text x="500" y="38" font-size="20" font-weight="600" text-anchor="middle" fill="#1f2933">A profile container follows the user, not the machine</text>
+  <rect x="30" y="64" width="450" height="250" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.8"/>
+  <g aria-hidden="true"><rect x="46.0" y="74.0" width="40.0" height="40.0" rx="6.0" fill="#EAF2FB" stroke="#3B6EA5" stroke-width="2"/><rect x="54.0" y="82.0" width="24.0" height="14.4" rx="2" fill="none" stroke="#3B6EA5" stroke-width="2"/><line x1="56.0" y1="104.0" x2="76.0" y2="104.0" stroke="#3B6EA5" stroke-width="2" stroke-linecap="round"/></g>
+  <text x="100" y="100" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Session host A (virtual machine)</text>
+  <text x="50" y="140" font-size="14" text-anchor="start" fill="#1f2933">User signs in. FSLogix attaches their</text>
+  <text x="50" y="164" font-size="14" text-anchor="start" fill="#1f2933">container as a virtual disk.</text>
+  <text x="50" y="188" font-size="14" text-anchor="start" fill="#1f2933">The profile shows up at C:\Users\username,</text>
+  <text x="50" y="212" font-size="14" text-anchor="start" fill="#1f2933">so apps behave as if it were local.</text>
+  <text x="50" y="236" font-size="14" text-anchor="start" fill="#1f2933">A few items are redirected to the local folder</text>
+  <text x="50" y="260" font-size="14" text-anchor="start" fill="#1f2933">C:\Users\local_username. It is deleted at sign-out.</text>
+  <text x="50" y="284" font-size="14" text-anchor="start" fill="#1f2933">At sign-out the container is detached.</text>
+  <rect x="30" y="340" width="450" height="100" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.8"/>
+  <g aria-hidden="true"><rect x="46.0" y="350.0" width="40.0" height="40.0" rx="6.0" fill="#EAF2FB" stroke="#3B6EA5" stroke-width="2"/><rect x="54.0" y="358.0" width="24.0" height="14.4" rx="2" fill="none" stroke="#3B6EA5" stroke-width="2"/><line x1="56.0" y1="380.0" x2="76.0" y2="380.0" stroke="#3B6EA5" stroke-width="2" stroke-linecap="round"/></g>
+  <text x="100" y="376" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Session host B (virtual machine)</text>
+  <text x="50" y="408" font-size="14" text-anchor="start" fill="#1f2933">In a pooled host pool the next sign-in can land here.</text>
+  <text x="50" y="430" font-size="14" text-anchor="start" fill="#1f2933">The same container is attached again.</text>
+  <rect x="620" y="64" width="350" height="376" rx="8" fill="#eef6ee" stroke="#3c8d40" stroke-width="1.8"/>
+  <g aria-hidden="true"><rect x="636.0" y="74.0" width="40.0" height="40.0" rx="6.0" fill="#EAF2FB" stroke="#3B6EA5" stroke-width="2"/><rect x="644.0" y="82.0" width="24.0" height="14.4" rx="2" fill="none" stroke="#3B6EA5" stroke-width="2"/><line x1="646.0" y1="104.0" x2="666.0" y2="104.0" stroke="#3B6EA5" stroke-width="2" stroke-linecap="round"/></g>
+  <text x="690" y="100" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">SMB file share</text>
+  <text x="690" y="120" font-size="14" text-anchor="start" fill="#1f2933">for example Azure Files</text>
+  <text x="640" y="156" font-size="14" text-anchor="start" fill="#1f2933">This is the storage provider. Its location</text>
+  <text x="640" y="176" font-size="14" text-anchor="start" fill="#1f2933">is set by VHDLocations.</text>
+  <rect x="650" y="196" width="290" height="52" rx="6" fill="#ffffff" stroke="#3c8d40" stroke-width="1.2"/>
+  <text x="795.0" y="217.4" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">User 1 folder</text>
+  <text x="795.0" y="236.4" font-size="14" text-anchor="middle" fill="#1f2933">profile container (VHDX file)</text>
+  <rect x="650" y="268" width="290" height="52" rx="6" fill="#ffffff" stroke="#3c8d40" stroke-width="1.2"/>
+  <text x="795.0" y="289.4" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">User 2 folder</text>
+  <text x="795.0" y="308.4" font-size="14" text-anchor="middle" fill="#1f2933">profile container (VHDX file)</text>
+  <text x="640" y="352" font-size="14" text-anchor="start" fill="#1f2933">One container per user holds the whole</text>
+  <text x="640" y="374" font-size="14" text-anchor="start" fill="#1f2933">profile, including Microsoft 365 data in</text>
+  <text x="640" y="396" font-size="14" text-anchor="start" fill="#1f2933">the recommended single-container setup.</text>
+  <line x1="480" y1="180" x2="620" y2="218" stroke="#6b4fa0" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="550" y="160" font-size="14" font-weight="600" text-anchor="middle" fill="#6b4fa0">attach over SMB</text>
+  <line x1="620" y1="250" x2="480" y2="212" stroke="#6b4fa0" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="550" y="282" font-size="14" font-weight="600" text-anchor="middle" fill="#6b4fa0">detach at sign-out</text>
+  <line x1="480" y1="392" x2="620" y2="392" stroke="#3c8d40" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="550" y="380" font-size="14" font-weight="600" text-anchor="middle" fill="#3c8d40">attach again</text>
+  <rect x="30" y="470" width="940" height="210" rx="8" fill="#fff7e8" stroke="#c2570c" stroke-width="1.8"/>
+  <text x="50" y="500" font-size="16" font-weight="600" text-anchor="start" fill="#c2570c">If the container cannot be attached</text>
+  <text x="50" y="526" font-size="14" text-anchor="start" fill="#1f2933">Depending on the cause and settings, the user may get a temporary profile or be blocked from signing in. Documented causes:</text>
+  <rect x="52" y="546" width="14" height="14" rx="3" fill="#c2570c" stroke="#c2570c" stroke-width="1"/>
+  <text x="76" y="558" font-size="14" text-anchor="start" fill="#1f2933">Permissions on the share deny access.</text>
+  <rect x="52" y="572" width="14" height="14" rx="3" fill="#c2570c" stroke="#c2570c" stroke-width="1"/>
+  <text x="76" y="584" font-size="14" text-anchor="start" fill="#1f2933">The container is in use in another session.</text>
+  <rect x="52" y="598" width="14" height="14" rx="3" fill="#c2570c" stroke="#c2570c" stroke-width="1"/>
+  <text x="76" y="610" font-size="14" text-anchor="start" fill="#1f2933">The share or the container is full.</text>
+  <rect x="52" y="624" width="14" height="14" rx="3" fill="#c2570c" stroke="#c2570c" stroke-width="1"/>
+  <text x="76" y="636" font-size="14" text-anchor="start" fill="#1f2933">The session host cannot reach or resolve the share (network or DNS).</text>
+  <rect x="52" y="650" width="14" height="14" rx="3" fill="#c2570c" stroke="#c2570c" stroke-width="1"/>
+  <text x="76" y="662" font-size="14" text-anchor="start" fill="#1f2933">The VHDLocations value is wrong or missing.</text>
+</svg>
