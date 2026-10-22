@@ -29,11 +29,11 @@ export default {
   116: { tags: ["AVD", "Networking", "Private Link"], published: "2026-10-17" },
   117: { tags: ["AVD", "Networking", "IP planning"], published: "2026-10-17" },
   // PENDING: publication date for orders 118-122 is a build placeholder (2026-10-19). The author assigns the real date at approval; set it before merge.
-  118: { tags: ["AVD", "FSLogix", "User profiles"], published: "2026-10-19" },
-  119: { tags: ["AVD", "FSLogix", "Azure Files", "Storage"], published: "2026-10-19" },
-  120: { tags: ["AVD", "Images", "Azure Compute Gallery"], published: "2026-10-19" },
-  121: { tags: ["AVD", "Session hosts", "Host pool management"], published: "2026-10-19" },
-  122: { tags: ["AVD", "RemoteApp", "App Attach"], published: "2026-10-19" },
+  118: { tags: ["AVD", "FSLogix", "User profiles"], published: "2026-10-21" },
+  119: { tags: ["AVD", "FSLogix", "Azure Files", "Storage"], published: "2026-10-21" },
+  120: { tags: ["AVD", "Images", "Azure Compute Gallery"], published: "2026-10-21" },
+  121: { tags: ["AVD", "Session hosts", "Host pool management"], published: "2026-10-21" },
+  122: { tags: ["AVD", "RemoteApp", "App Attach"], published: "2026-10-21" },
 
 
 
