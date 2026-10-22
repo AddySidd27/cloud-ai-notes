@@ -1,0 +1,94 @@
+<!-- Draft - not independently reviewed. CANDIDATE ONLY, NOT FINAL (see DIAGRAM-READINESS.md) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 748" width="1000" height="748" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+  <title id="t">How a session host is registered and how session host update replaces it</title>
+  <desc id="d">Draft drawing, own layout. Top panel: a host pool gives out a registration token, which is entered when the agent is installed on a session host virtual machine. The virtual machine has four installed components: the boot loader, the agent, the side-by-side network stack and the Geneva monitoring agent. The boot loader opens an outbound TLS channel to the broker in the Azure Virtual Desktop service, and the host then appears in the host pool, first usually as Unavailable and then Available. Bottom panel: session host update, which applies only to a host pool with a session host configuration. An administrator edits the session host configuration with the new image, schedules the update, one initial host is updated first and the rest in batches. Each host goes through five steps: users are notified and signed out, the host is put in drain mode and removed from the pool, a new host is created from the updated configuration, the new host joins the pool with drain mode off, and the original virtual machine is deleted or deallocated.</desc>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
+  <rect x="6" y="6" width="988" height="736" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
+  <text x="500" y="36" font-size="20" font-weight="600" text-anchor="middle" fill="#1f2933">Registering and replacing session hosts</text>
+  <rect x="20" y="52" width="960" height="360" rx="8" fill="#f5f8fc" stroke="#3b6fb6" stroke-width="1.5"/>
+  <text x="40" y="80" font-size="16" font-weight="600" text-anchor="start" fill="#3b6fb6">Registering a session host (standard management)</text>
+  <rect x="36" y="100" width="210" height="150" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.8"/>
+  <g aria-hidden="true"><rect x="48.0" y="110.0" width="36.0" height="36.0" rx="5.4" fill="#EAF2FB" stroke="#3B6EA5" stroke-width="2"/><rect x="55.2" y="117.2" width="21.6" height="13.0" rx="2" fill="none" stroke="#3B6EA5" stroke-width="2"/><line x1="57.2" y1="136.8" x2="74.8" y2="136.8" stroke="#3B6EA5" stroke-width="2" stroke-linecap="round"/></g>
+  <text x="94" y="134" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Host pool</text>
+  <text x="50" y="166" font-size="13" font-weight="600" text-anchor="start" fill="#1f2933">Registration token:</text>
+  <text x="50" y="183" font-size="13" text-anchor="start" fill="#1f2933">authorises hosts to</text>
+  <text x="50" y="200" font-size="13" text-anchor="start" fill="#1f2933">join the pool. Valid</text>
+  <text x="50" y="217" font-size="13" text-anchor="start" fill="#1f2933">only for the time set</text>
+  <text x="50" y="234" font-size="13" text-anchor="start" fill="#1f2933">(1 hour to 27 days).</text>
+  <line x1="246" y1="175" x2="330" y2="175" stroke="#6b4fa0" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="288" y="156" font-size="13" font-weight="600" text-anchor="middle" fill="#6b4fa0">token given</text>
+  <text x="288" y="172" font-size="13" text-anchor="middle" fill="#6b4fa0"></text>
+  <text x="288" y="198" font-size="13" font-weight="600" text-anchor="middle" fill="#6b4fa0">at install</text>
+  <rect x="330" y="100" width="360" height="296" rx="8" fill="#eef6ee" stroke="#3c8d40" stroke-width="1.8"/>
+  <g aria-hidden="true"><rect x="342.0" y="108.0" width="36.0" height="36.0" rx="5.4" fill="#EAF2FB" stroke="#3B6EA5" stroke-width="2"/><rect x="349.2" y="115.2" width="21.6" height="13.0" rx="2" fill="none" stroke="#3B6EA5" stroke-width="2"/><line x1="351.2" y1="134.8" x2="368.8" y2="134.8" stroke="#3B6EA5" stroke-width="2" stroke-linecap="round"/></g>
+  <text x="388" y="132" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Session host (virtual machine)</text>
+  <rect x="346" y="150" width="328" height="52" rx="6" fill="#ffffff" stroke="#3c8d40" stroke-width="1.2"/>
+  <text x="510.0" y="171.55" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">Remote Desktop Agent Boot Loader</text>
+  <text x="510.0" y="189.55" font-size="13" text-anchor="middle" fill="#1f2933">Loads the agent. Opens the broker channel.</text>
+  <rect x="346" y="210" width="328" height="52" rx="6" fill="#ffffff" stroke="#3c8d40" stroke-width="1.2"/>
+  <text x="510.0" y="231.55" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">Infrastructure Agent (RDAgent)</text>
+  <text x="510.0" y="249.55" font-size="13" text-anchor="middle" fill="#1f2933">Takes the token at install. Runs health checks.</text>
+  <rect x="346" y="270" width="328" height="52" rx="6" fill="#ffffff" stroke="#3c8d40" stroke-width="1.2"/>
+  <text x="510.0" y="291.55" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">SxS Network Stack</text>
+  <text x="510.0" y="309.55" font-size="13" text-anchor="middle" fill="#1f2933">A health check confirms it is listening.</text>
+  <rect x="346" y="330" width="328" height="52" rx="6" fill="#ffffff" stroke="#3c8d40" stroke-width="1.2"/>
+  <text x="510.0" y="351.55" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">Geneva Monitoring Agent</text>
+  <text x="510.0" y="369.55" font-size="13" text-anchor="middle" fill="#1f2933">Monitoring. Also covered by a health check.</text>
+  <line x1="690" y1="175" x2="760" y2="175" stroke="#6b4fa0" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="725" y="156" font-size="13" font-weight="600" text-anchor="middle" fill="#6b4fa0">outbound</text>
+  <text x="725" y="198" font-size="13" font-weight="600" text-anchor="middle" fill="#6b4fa0">TLS</text>
+  <rect x="760" y="100" width="200" height="150" rx="8" fill="#fff7e8" stroke="#c2570c" stroke-width="1.8"/>
+  <g aria-hidden="true"><rect x="768.0" y="110.0" width="36.0" height="36.0" rx="5.4" fill="#EAF2FB" stroke="#3B6EA5" stroke-width="2"/><rect x="775.2" y="117.2" width="21.6" height="13.0" rx="2" fill="none" stroke="#3B6EA5" stroke-width="2"/><line x1="777.2" y1="136.8" x2="794.8" y2="136.8" stroke="#3B6EA5" stroke-width="2" stroke-linecap="round"/></g>
+  <text x="810" y="128" font-size="13" font-weight="600" text-anchor="start" fill="#1f2933">Azure Virtual Desktop</text>
+  <text x="810" y="145" font-size="13" font-weight="600" text-anchor="start" fill="#1f2933">service (broker)</text>
+  <text x="772" y="178" font-size="13" text-anchor="start" fill="#1f2933">The host is listed in</text>
+  <text x="772" y="195" font-size="13" text-anchor="start" fill="#1f2933">the host pool. Status</text>
+  <text x="772" y="212" font-size="13" text-anchor="start" fill="#1f2933">may start as Unavailable,</text>
+  <text x="772" y="229" font-size="13" text-anchor="start" fill="#1f2933">then Available.</text>
+  <text x="40" y="284" font-size="13" text-anchor="start" fill="#1f2933">With a session host configuration the</text>
+  <text x="40" y="302" font-size="13" text-anchor="start" fill="#1f2933">service creates the hosts. You cannot</text>
+  <text x="40" y="320" font-size="13" text-anchor="start" fill="#1f2933">retrieve a registration token to add</text>
+  <text x="40" y="338" font-size="13" text-anchor="start" fill="#1f2933">hosts created outside it.</text>
+  <rect x="20" y="430" width="960" height="300" rx="8" fill="#fdf6ef" stroke="#c2570c" stroke-width="1.5"/>
+  <text x="40" y="458" font-size="16" font-weight="600" text-anchor="start" fill="#c2570c">Replacing hosts with session host update (session host configuration only)</text>
+  <rect x="40" y="474" width="280" height="66" rx="6" fill="#ffffff" stroke="#c2570c" stroke-width="1.2"/>
+  <text x="180.0" y="502.55" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">Edit the session host configuration</text>
+  <text x="180.0" y="520.55" font-size="13" text-anchor="middle" fill="#1f2933">new image, size, settings</text>
+  <line x1="320" y1="507" x2="370" y2="507" stroke="#6b4fa0" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="370" y="474" width="280" height="66" rx="6" fill="#ffffff" stroke="#c2570c" stroke-width="1.2"/>
+  <text x="510.0" y="502.55" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">Schedule the update</text>
+  <text x="510.0" y="520.55" font-size="13" text-anchor="middle" fill="#1f2933">up to two weeks ahead</text>
+  <line x1="650" y1="507" x2="700" y2="507" stroke="#6b4fa0" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="700" y="474" width="260" height="66" rx="6" fill="#ffffff" stroke="#c2570c" stroke-width="1.2"/>
+  <text x="830.0" y="502.55" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">One initial host first,</text>
+  <text x="830.0" y="520.55" font-size="13" text-anchor="middle" fill="#1f2933">then the rest in batches</text>
+  <line x1="830" y1="540" x2="830" y2="553" stroke="#6b4fa0" stroke-width="3"/>
+  <line x1="830" y1="553" x2="120" y2="553" stroke="#6b4fa0" stroke-width="3"/>
+  <line x1="120" y1="553" x2="120" y2="566" stroke="#6b4fa0" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="40" y="566" width="160" height="84" rx="6" fill="#ffffff" stroke="#c2570c" stroke-width="1.2"/>
+  <text x="120.0" y="594.55" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">1  Notify users</text>
+  <text x="120.0" y="612.55" font-size="13" text-anchor="middle" fill="#1f2933">Wait, then sign out</text>
+  <text x="120.0" y="630.55" font-size="13" text-anchor="middle" fill="#1f2933">remaining users</text>
+  <line x1="200" y1="608" x2="230" y2="608" stroke="#6b4fa0" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="230" y="566" width="160" height="84" rx="6" fill="#ffffff" stroke="#c2570c" stroke-width="1.2"/>
+  <text x="310.0" y="594.55" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">2  Drain mode on</text>
+  <text x="310.0" y="612.55" font-size="13" text-anchor="middle" fill="#1f2933">Remove the old host</text>
+  <text x="310.0" y="630.55" font-size="13" text-anchor="middle" fill="#1f2933">from the host pool</text>
+  <line x1="390" y1="608" x2="420" y2="608" stroke="#6b4fa0" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="420" y="566" width="160" height="84" rx="6" fill="#ffffff" stroke="#c2570c" stroke-width="1.2"/>
+  <text x="500.0" y="594.55" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">3  Create new hosts</text>
+  <text x="500.0" y="612.55" font-size="13" text-anchor="middle" fill="#1f2933">from the updated</text>
+  <text x="500.0" y="630.55" font-size="13" text-anchor="middle" fill="#1f2933">configuration</text>
+  <line x1="580" y1="608" x2="610" y2="608" stroke="#6b4fa0" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="610" y="566" width="160" height="84" rx="6" fill="#ffffff" stroke="#c2570c" stroke-width="1.2"/>
+  <text x="690.0" y="594.55" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">4  Join the host pool</text>
+  <text x="690.0" y="612.55" font-size="13" text-anchor="middle" fill="#1f2933">Drain mode off, ready</text>
+  <text x="690.0" y="630.55" font-size="13" text-anchor="middle" fill="#1f2933">for connections</text>
+  <line x1="770" y1="608" x2="800" y2="608" stroke="#6b4fa0" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="800" y="566" width="160" height="84" rx="6" fill="#ffffff" stroke="#c2570c" stroke-width="1.2"/>
+  <text x="880.0" y="594.55" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">5  Delete or</text>
+  <text x="880.0" y="612.55" font-size="13" text-anchor="middle" fill="#1f2933">deallocate the</text>
+  <text x="880.0" y="630.55" font-size="13" text-anchor="middle" fill="#1f2933">old virtual machines</text>
+  <text x="40" y="680" font-size="13" text-anchor="start" fill="#1f2933">A host that fails to update is rolled back to the earlier configuration to keep capacity.</text>
+  <text x="40" y="702" font-size="13" text-anchor="start" fill="#1f2933">Settings added by hand to the old hosts are not on the new ones: put them in the image or the config.</text>
+</svg>
