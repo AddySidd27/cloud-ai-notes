@@ -103,7 +103,7 @@ An Entra hybrid joined host is joined to AD DS and also registered with Entra ID
 
 ### When a managed domain matters
 
-Domain Services provides domain join, Group Policy, LDAP and Kerberos/NTLM for workloads that need those capabilities. It is a separate managed domain, rather than an automatic extension of your existing AD DS environment. Check that distinction before planning a migration.
+Domain Services provides domain join, Group Policy, LDAP and Kerberos/NTLM for workloads that need those capabilities. It is a separate managed domain, rather than an automatic extension of your existing AD DS environment (judgement: a summary of [Microsoft Entra Domain Services synchronization](https://learn.microsoft.com/en-us/entra/identity/domain-services/synchronization), not a Learn sentence). Check that distinction before planning a migration.
 
 Its users also need usable Kerberos/NTLM password hashes. Existing cloud-only users must change their passwords after enablement to generate them. For users synchronized from AD DS, the documented procedure uses Microsoft Entra Connect to synchronize the legacy password hashes. An account appearing in Entra ID is therefore not enough to prove managed-domain sign-in readiness.
 
@@ -125,9 +125,9 @@ For Azure Files over SMB, choose one identity source per storage account. That c
 
 Short version: cloud-only users can use Azure Files with Microsoft Entra Kerberos, but check the current status first.
 
-The AVD release notes list FSLogix support for cloud-only and external identities as generally available in **May 2026**. Some other Microsoft pages still say preview or hybrid accounts only, so check the current status before you rely on it. A cloud-only user can keep a profile on Azure Files without an AD-synchronized account or a domain controller for storage authentication and authorization. Entra host join and profile access remain separate capabilities.
+The AVD release notes list FSLogix support for cloud-only and external identities as generally available in **May 2026** ([What's new in Azure Virtual Desktop, May 2026](https://learn.microsoft.com/en-us/azure/virtual-desktop/whats-new#may-2026)). Some other Microsoft pages still say preview or hybrid accounts only, so check the current status before you rely on it. A cloud-only user can keep a profile on Azure Files without an AD-synchronized account or a domain controller for storage authentication and authorization. Entra host join and profile access remain separate capabilities.
 
-Cloud-only storage authentication is supported in Azure public regions, not US Government or 21Vianet. Clients must be Entra joined or hybrid joined and run supported Windows 11 or updated Windows Server 2025. For Windows 11, install at least these updates for the best experience: **24H2: KB5079391, build 26100.8116; 25H2: KB5079391, build 26200.8116; 26H1 or newer: KB5079489, build 28000.1764**, or later builds. Storage-client support does not replace AVD host-edition requirements.
+Cloud-only storage authentication is supported in Azure public regions, not US Government or 21Vianet. Clients must be Entra joined or hybrid joined and run supported Windows 11 or updated Windows Server 2025. For Windows 11, install at least these updates for the best experience: **24H2: KB5079391, build 26100.8116; 25H2: KB5079391, build 26200.8116; 26H1 or newer: KB5079489, build 28000.1764**, or later builds ([Enable Microsoft Entra Kerberos authentication for hybrid and cloud-only identities on Azure Files, Prerequisites](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-auth-hybrid-identities-enable#prerequisites)). Storage-client support does not replace AVD host-edition requirements.
 
 The storage account's Entra application has a cloud-group setting in its manifest (the app's settings file). This setting is mandatory. Use the cloud-only share and folder-permission procedure, rather than copying hybrid AD ACL steps. The storage post will configure these requirements.
 
@@ -177,7 +177,7 @@ Desktop Virtualization User is assigned at the application group to publish the 
 
 Invited external identities are supported under specific host OS, client, join and SSO conditions. They cannot use Kerberos or NTLM for on-premises resources. Do not assume that a guest invitation alone completes the design. This series uses an internal member user.
 
-Their hosts must be Entra joined and the host pool must use SSO. Windows 11 Enterprise single or multi-session (many users on one VM) needs version 24H2 or later with KB5065789 or later; Windows Server 2025 needs KB5073379 or later. Windows App supports external identities on Windows, macOS, iOS, Android and in a web browser. Check the minimum client version for each platform.
+Their hosts must be Entra joined and the host pool must use SSO. Windows 11 Enterprise single or multi-session (many users on one VM) needs version 24H2 or later with KB5065789 or later; Windows Server 2025 needs KB5073379 or later. ([Supported identities and authentication methods, External identity](https://learn.microsoft.com/en-us/azure/virtual-desktop/authentication#external-identity)) Windows App supports external identities on Windows, macOS, iOS, Android and in a web browser. Check the minimum client version for each platform.
 
 External-user access to AVD and external-user access to Azure Files have different cloud limits. Azure Files support for these users is limited to FSLogix on AVD in Azure public cloud; government and cross-cloud scenarios are unsupported. Check the storage requirements as well as the Windows sign-in requirements before choosing this route.
 
@@ -237,7 +237,7 @@ DeviceAuthStatus SUCCESS means the device is present and enabled in Entra ID. It
 
 This verifies the host-pool setting. The tenant-side Windows Cloud Login configuration (the Entra app that signs users in to the session host), applicable AD Kerberos requirements and Conditional Access still need review before the user connection test. A selected dropdown is not a successful SSO test.
 
-The host-pool overview also reports Uses Session Host Configuration: No. The extra Virtual Machine User Login requirement for Entra joined hosts therefore applies to this lab. The preparation post recorded the existing VM login assignments; retain the intended group and scope when adding hosts.
+The host-pool overview also reports Uses Session Host Configuration: No (lab portal field, not a Learn statement). The extra Virtual Machine User Login requirement for Entra joined hosts therefore applies to this lab. The preparation post recorded the existing VM login assignments; retain the intended group and scope when adding hosts.
 
 ## 10. Check storage authentication
 
@@ -252,7 +252,7 @@ The host-pool overview also reports Uses Session Host Configuration: No. The ext
 
 *Lab screenshot: Microsoft Entra Kerberos is enabled. Default share-level permissions are disabled.*
 
-Disabled default permissions do not block identities that have valid explicit share assignments. For the profile lab, verify the selected user or synchronized group’s share role, file permissions, application consent, the client setting CloudKerberosTicketRetrievalEnabled (set to 1 on every client that mounts the share; if you set it through Intune, use the Settings Catalog, because the OMA-URI method does not work on multisession hosts, which run many users on one VM) and ticket acquisition. The enabled label alone proves none of those additional checks.
+Disabled default permissions do not block identities that have valid explicit share assignments. For the profile lab, verify the selected user or synchronized group’s share role, file permissions, application consent, the client setting CloudKerberosTicketRetrievalEnabled (set to 1 on every client that mounts the share; if you set it through Intune, use the Settings Catalog, because the OMA-URI method does not work on multisession hosts, which run many users on one VM; [Azure Files Entra Kerberos, client configuration](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-auth-hybrid-identities-enable#configure-the-clients-to-retrieve-kerberos-tickets)) and ticket acquisition. The enabled label alone proves none of those additional checks.
 
 ## 11. Check the group’s origin
 

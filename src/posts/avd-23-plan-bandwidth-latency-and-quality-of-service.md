@@ -135,7 +135,7 @@ The documentation gives several round-trip time numbers, and they are not the sa
 | Troubleshoot connection quality | Up to 150 ms should not affect an experience that does not involve rendering or video. Between 150 ms and 200 ms should be fine for text processing. Above 200 ms might affect the experience. |
 | Use cases for Azure Virtual Desktop Insights | Ideal interaction times need latency generally below 100 ms, and a session broadly becomes low quality over 200 ms. |
 | Remote Desktop network guidance | Assistive technology, such as Narrator in the remote session, needs a round-trip time of 20 ms or better. |
-| Optimal provisioning of Cloud PCs (Windows 365) | For Windows 365, the page says RDP can accommodate latencies of up to 200 ms. |
+| [Optimal provisioning of Cloud PCs (Windows 365)](https://learn.microsoft.com/en-us/windows-365/enterprise/optimal-provisioning-cloud-pc#reliable-network-connectivity-for-cloud-pc-performance) | For Windows 365, the page says RDP can accommodate latencies of up to 200 ms. |
 
 The pages do not reconcile these figures, and this article does not pick one. The troubleshooting page does separate text work from rendering and video, so one reasonable reading (judgement) is to hold graphics and video users to the stricter figures and text users to the looser ones.
 
@@ -165,7 +165,7 @@ QoS has limits that decide whether it will help your users:
 
 ### How it is set up
 
-The documentation sets QoS in a Group Policy Object, or with PowerShell on the session host. The policy marks the Remote Desktop traffic with DSCP value 46, which maps to the Expedited Forwarding (EF) class. It applies to the `svchost.exe` application, to UDP, and to source port 3390, which is the default port of the RDP Shortpath listener.
+The [QoS page](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-quality-of-service-qos) sets QoS in a Group Policy Object, or with PowerShell on the session host. The policy marks the Remote Desktop traffic with DSCP value 46, which maps to the Expedited Forwarding (EF) class. It applies to the `svchost.exe` application, to UDP, and to source port 3390, which is the default port of the RDP Shortpath listener.
 
 ```powershell
 New-NetQosPolicy -Name "RDP Shortpath for managed networks" -AppPathNameMatchCondition "svchost.exe" -IPProtocolMatchCondition UDP -IPSrcPortStartMatchCondition 3390 -IPSrcPortEndMatchCondition 3390 -DSCPAction 46 -NetworkProfile All
@@ -190,7 +190,7 @@ Teams calls and meetings are real-time traffic that depends on delay, so I treat
 - **The WebRTC Redirector Service on each session host.** It is installed from an MSI file.
 - **A registry value on each session host.** `IsWVDEnvironment` set to 1 under `HKLM\SOFTWARE\Microsoft\Teams`.
 - **Supported setups.** Windows 10 or 11 multi-session or Enterprise on the session host (N and KN editions are not supported), and one of the supported clients. For a pooled host pool, Teams is installed per machine. With FSLogix (the profile container software) and new Teams, FSLogix 2210 hotfix 3 or later.
-- **Classic Teams dates.** The page says that for classic Teams in VDI environments on Windows endpoints, end of support was October 1, 2026 and end of availability is April 1, 2027, after which the new Teams app is required. Check these dates against the Teams pages before you plan.
+- **Classic Teams dates.** The [Teams on Azure Virtual Desktop page](https://learn.microsoft.com/en-us/azure/virtual-desktop/teams-on-avd) says that for classic Teams in VDI environments on Windows endpoints, end of support was October 1, 2026 and end of availability is April 1, 2027, after which the new Teams app is required. Check these dates against the Teams pages before you plan.
 
 To check that it works, restart Teams in a remote session and open About Teams. The banner reads "AVD SlimCore Media Optimized" or "AVD Media Optimized" when optimization is loaded. "AVD Media not connected" means quit Teams and try again. If media optimization is not used, the documentation lists RDP properties that redirect the microphone and camera instead: `audiocapturemode:i:1`, `audiomode:i:0` and `camerastoredirect:s:*`. Do not put a proxy in the path of Teams media optimization traffic. [The connectivity article](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/) says it is not supported.
 

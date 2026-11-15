@@ -185,7 +185,7 @@ There are two ways to give share-level permission:
 
 If both are set, a user gets the higher of the two. The [FSLogix permissions page](https://learn.microsoft.com/en-us/fslogix/how-to-configure-storage-permissions) recommends the default share-level permission set to Storage File Data SMB Share Contributor for all authenticated identities, plus Storage File Data SMB Share Elevated Contributor for the specific users or groups who set the Windows ACLs. The two pages stress different options, so decide on purpose which one you follow (judgement).
 
-A change to a share-level permission usually takes effect within 30 minutes and can take longer. Wait before testing.
+A change to a share-level permission usually takes effect within 30 minutes and can take longer ([Assign share-level permissions for Azure file shares](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-assign-share-level-permissions)). Wait before testing.
 
 ## Folder and file permissions: Windows ACLs
 

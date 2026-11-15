@@ -46,10 +46,10 @@ The documentation describes Windows App as the new way to connect to cloud and r
 | Client | Platforms | Status in the documentation |
 |---|---|---|
 | Windows App | Windows, macOS, iOS and iPadOS, Android and Chrome OS, web browsers, Meta Quest | The current client. Sign-in needs a work or school account. A personal Microsoft account does not work. The overview lists Meta Quest as a platform, but the get-started page labels Meta Quest as preview, so treat it as preview. |
-| Remote Desktop client for Windows (MSI) | Windows | No longer supported for public cloud customers from March 27, 2026. Support was extended to September 28, 2026 for Azure Government, Azure operated by 21Vianet and AVD Classic. That date has passed at the time of writing, so check the page for the current position. |
+| Remote Desktop client for Windows (MSI) | Windows | No longer supported for public cloud customers from March 27, 2026. Support was extended to September 28, 2026 for Azure Government, Azure operated by 21Vianet and AVD Classic. That date has passed at the time of writing, so check the [client overview](https://learn.microsoft.com/en-us/previous-versions/remote-desktop-client/overview) for the current position. |
 | Remote Desktop app for Windows (Store) | Windows | No longer supported and no longer available to install. Support ended September 2025. |
 | Remote Desktop clients for macOS and iOS/iPadOS | macOS, iOS, iPadOS | Not available to download. Replaced by Windows App. |
-| Remote Desktop client for Android and Chrome OS | Android, Chrome OS | Listed as available from Google Play. |
+| Remote Desktop client for Android and Chrome OS | Android, Chrome OS | Listed as available from Google Play in the [client overview connection matrix](https://learn.microsoft.com/en-us/previous-versions/remote-desktop-client/overview#connection-matrix-and-status). |
 | Remote Desktop web client | Browser | No longer supported for public cloud customers from March 27, 2026. No end-of-support date is announced for Azure Government or Azure operated by 21Vianet. |
 
 Two clients are not supported for AVD at all: the RemoteApp and Desktop Connections client, and the Remote Desktop Connection client (`mstsc.exe`). This comes from the prerequisites page for AVD, not from the client overview.
@@ -65,7 +65,7 @@ Two clients are not supported for AVD at all: the RemoteApp and Desktop Connecti
 Documented facts first.
 
 - **Windows App needs a work or school sign-in for Azure Virtual Desktop.** You cannot sign in with a personal Microsoft account. For AVD, Windows 365, Dev Box and Remote Desktop Services you must sign in. For remote PC connections on supported platforms you can use Windows App without signing in.
-- **In a browser, nothing is installed.** The documentation describes this for desktops and laptops. Mobile browsers are not supported. The browser must be no more than 12 months old, support the AVC video codec and have WebGL turned on. It is the lowest-effort option for a device you do not manage.
+- **In a browser, nothing is installed.** The documentation describes this for desktops and laptops. Mobile browsers are not supported. The browser must be no more than 12 months old, support the AVC video codec and have WebGL turned on ([Get started with Windows App](https://learn.microsoft.com/en-us/windows-app/get-started-connect-devices-desktops-apps?pivots=azure-virtual-desktop)). It is the lowest-effort option for a device you do not manage.
 - **Windows App on Windows connects to AVD but not to Remote Desktop Services.** For Remote Desktop Services on Windows, the documentation says to keep using the Remote Desktop app on Windows. The page does not say which Windows package that means. If you use both services, you may need two clients on Windows (judgement).
 - **Features differ by platform.** The next section gives examples.
 
@@ -90,7 +90,7 @@ The Windows App documentation has a comparison of features across platforms, wit
 | Connection information (shows the transport in use) | Windows, macOS and the web client. Not iOS and iPadOS, Android and Chrome OS, or Meta Quest. |
 | RDP Shortpath for managed networks | Windows, macOS, iOS and iPadOS, Android and Chrome OS, and Meta Quest. Not the web client. |
 | RDP Shortpath for public networks | Windows, Android and Chrome OS, and Meta Quest, for both STUN and TURN. macOS only in a beta build. Not iOS and iPadOS or the web client. |
-| RDP Multipath | UDP: Windows (version 2.0.559.0 or later) and macOS (beta build). UDP and TCP: Windows (version 2.0.1069.0 or later). |
+| RDP Multipath | UDP: Windows (version 2.0.559.0 or later) and macOS (beta build). UDP and TCP: Windows (version 2.0.1069.0 or later) ([Windows App comparison](https://learn.microsoft.com/en-us/windows-app/compare-platforms-features?pivots=azure-virtual-desktop)). |
 | Input Protection and Display Protection (preview) | Windows only, with a minimum Windows App version and session host configuration. Input Protection also needs the Windows Cloud Input Protect MSI on the device. |
 | Private Link | Windows, macOS, iOS and iPadOS, and Android and Chrome OS. Not the web client or Meta Quest. |
 

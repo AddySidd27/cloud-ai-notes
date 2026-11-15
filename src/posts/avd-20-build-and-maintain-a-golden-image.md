@@ -44,7 +44,7 @@ This article follows one image from its source to the place session hosts are cr
 | Region | An Azure location where resources are stored and run. |
 | Managed image | An older, standalone image type that is not kept in a gallery. |
 | Azure Virtual Desktop Agent | Software installed on a session host that registers it to a host pool. Also called the AVD agent. |
-| Registration token | A time-limited key that lets a new virtual machine join a host pool as a session host. The Azure portal labels it Registration key. |
+| Registration token | A time-limited key that lets a new virtual machine join a host pool as a session host. The Azure portal labels it Registration key ([Add session hosts to a host pool](https://learn.microsoft.com/en-us/azure/virtual-desktop/add-session-hosts-host-pool#generate-a-registration-key)). |
 | Azure Image Builder | An Azure service (full name Azure VM Image Builder) that builds an image from a configuration you submit: a source image, customizations, and where to put the result. |
 | Custom image template | The Azure Virtual Desktop way to describe such a build: a JSON file with the source image, where to store the result, build properties and customizations. Azure Image Builder runs it. |
 
@@ -120,7 +120,7 @@ Things to know:
 
 - **A generalized virtual machine cannot be restarted, and this cannot be undone.** That is why the snapshots matter. If you need the original virtual machine to keep working, take a snapshot of its OS disk, create a virtual machine from the snapshot, and generalize that copy.
 - **Capture only once.** After the capture, delete the base virtual machine and do not capture the same one again, even if the capture had a problem. Create a new virtual machine from your latest snapshot, run Sysprep again, and capture that one. You then update and patch the new base virtual machine on a regular basis.
-- **Sysprep has a run limit.** The Windows Sysprep page says you can run it up to 1001 times on one Windows image (Windows 8.1 and Windows Server 2012 and later), and after that you must recreate the image. My view (judgement): building each new image from a fresh base, as above, should keep the count low.
+- **Sysprep has a run limit.** The [Windows Sysprep page](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/sysprep--generalize--a-windows-installation#limits-on-how-many-times-you-can-run-sysprep) says you can run it up to 1001 times on one Windows image (Windows 8.1 and Windows Server 2012 and later), and after that you must recreate the image. My view (judgement): building each new image from a fresh base, as above, should keep the count low.
 - **A gallery does not force you to generalize.** The Azure generalize page says generalizing is not necessary to create an image in a gallery unless you want an image with no machine-specific information, such as user accounts, and that the gallery supports specialized images. It is still required when creating a legacy image outside of a gallery. The AVD steps in this article generalize the image. The pages used here do not say whether a specialized image can be used for session hosts, so this article does not cover that case.
 
 ## Route 2: build with Azure Image Builder
@@ -150,12 +150,12 @@ Azure Virtual Desktop wraps this in custom image templates ([custom image templa
 - The service is available in a list of regions, and you can still distribute images outside that list.
 - The distributed image has the same Hyper-V generation as the image you start from.
 - Trusted Launch is an Azure security feature for virtual machines. For Trusted Launch images: a `TrustedLaunchSupported` source is supported only when the distribution target is also `TrustedLaunchSupported`. A source that is already a `TrustedLaunch` or `ConfidentialVM` image is not supported.
-- By default the build virtual machine size is Standard_D1_v2 for generation 1 images and Standard_D2ds_v4 for generation 2 images. You pay for compute, networking and storage during the build, and distributing the image to other regions might add network egress charges.
+- By default the build virtual machine size is Standard_D1_v2 for generation 1 images and Standard_D2ds_v4 for generation 2 images ([Image Builder overview](https://learn.microsoft.com/en-us/azure/virtual-machines/image-builder-overview#costs)). Another Learn page for Azure Virtual Desktop images says Standard_D1_v2 is not suitable for Windows and to use Standard_D2_v2 or greater ([Create an Azure Virtual Desktop image by using VM Image Builder and PowerShell](https://learn.microsoft.com/en-us/azure/virtual-machines/windows/image-builder-virtual-desktop#tips-for-building-windows-images)), so set the size on purpose. You pay for compute, networking and storage during the build, and distributing the image to other regions might add network egress charges.
 - The overview says the service does not currently support Azure Hybrid Benefit for Windows Server. Check this against your licensing before you choose the route for a Windows Server image.
 - An image template resource is immutable and cannot be moved. Keep a copy of the template so you can recreate it.
 - Image Builder can rebuild a golden image from the latest patched version of a source image. The overview presents this as a security benefit.
 
-Custom image templates were in preview in May 2023 and became generally available in September 2023 ([What's new in Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/whats-new)).
+Custom image templates were in preview in May 2023 and became generally available in September 2023 ([What's new in Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/whats-new#may-2023), [September 2023](https://learn.microsoft.com/en-us/azure/virtual-desktop/whats-new#september-2023)).
 
 ## Keep the image in Azure Compute Gallery
 
@@ -177,10 +177,10 @@ Azure Compute Gallery can copy each image version to other regions ([gallery ove
 
 Each region holds one or more replicas of the version. Each replica is a copy, so more replicas let you create more virtual machines at the same time, and you can set a different replica count for each target region. The replica numbers below come from the gallery overview and from the page on configuring session host update ([page on configuring session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update-configure)). Read each with the scope the page gives it:
 
-- **Concurrency guideline, per region.** The gallery overview gives general guidelines for replicas in a region: one replica for every 20 virtual machines you create at once.
-- **Production images.** The gallery best practices say to keep a minimum of three replicas for production images. The page does not say whether that count is per region or per image version.
+- **Concurrency guideline, per region.** The [gallery overview](https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery#limits) gives general guidelines for replicas in a region: one replica for every 20 virtual machines you create at once.
+- **Production images.** The [gallery best practices](https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery#best-practices) say to keep a minimum of three replicas for production images. The page does not say whether that count is per region or per image version.
 - **Session host update.** The prerequisites of the [page on configuring session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update-configure) recommend at least two replicas of a gallery image you use. The page does not say whether that count is per region or per image version.
-- **Upper limits.** The gallery overview limits list says a maximum of 100 replicas per image version, and that 50 should be sufficient for most use cases. Its best practices, in an example of 1,000 virtual machines created at once, say you can have a maximum of 50 replicas per region.
+- **Upper limits.** The [gallery overview limits list](https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery#limits) says a maximum of 100 replicas per image version, and that 50 should be sufficient for most use cases. Its best practices, in an example of 1,000 virtual machines created at once, say you can have a maximum of 50 replicas per region.
 
 The pages give these numbers in different places and do not say how they relate. Choose a count for your deployment size and check the current gallery page and your subscription limits before you plan a large deployment.
 

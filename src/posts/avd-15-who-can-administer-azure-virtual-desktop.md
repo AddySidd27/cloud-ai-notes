@@ -67,7 +67,7 @@ The documentation lists the AVD roles and what each does. This is documented fac
 | Desktop Virtualization User Session Operator | Send messages, disconnect sessions and sign users out. It cannot remove session hosts or change drain mode. It can see assignments but not change members. | Assign it to specific host pools. At resource group level it gives read permission on all host pools in the group. |
 | Desktop Virtualization Session Host Operator | View and remove session hosts, and change drain mode. | It cannot add session hosts in the portal, because it has no write permission on host pool objects. Outside the portal it can add hosts if the registration token is valid and Virtual Machine Contributor is also assigned. |
 
-Azure Virtual Desktop has no specific Owner role. You use the general Owner role for the service objects.
+Azure Virtual Desktop has no specific Owner role. You use the general Owner role for the service objects ([Built-in Azure RBAC roles for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rbac)).
 
 Three more roles exist for the service itself. They let the AVD resource provider act on virtual machines.
 
@@ -77,13 +77,13 @@ Three more roles exist for the service itself. They let the AVD resource provide
 
 Do not confuse the last one with the general Azure Virtual Machine Contributor role in the table above.
 
-You give these roles to the Azure Virtual Desktop service principal, not to people. For Start VM on Connect and power management autoscale, a managed identity on the host pool also works. For dynamic autoscale, the Learn page names only the service principal. The page [Assign Azure RBAC roles or Microsoft Entra roles to the Azure Virtual Desktop service principals](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-principal-assign-roles) shows how. To assign them you need the `Microsoft.Authorization/roleAssignments/write` permission, which User Access Administrator and Owner include.
+You give these roles to the Azure Virtual Desktop service principal, not to people. For Start VM on Connect and power management autoscale, a managed identity on the host pool also works. For dynamic autoscale, the Learn page names only the service principal. The page [Assign Azure RBAC roles or Microsoft Entra roles to the Azure Virtual Desktop service principals](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-principal-assign-roles) shows how. To assign them you need the `Microsoft.Authorization/roleAssignments/write` permission, which User Access Administrator and Owner include ([prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-principal-assign-roles#prerequisites)).
 
 | Feature | Roles | Scope |
 |---|---|---|
-| Autoscale, power management | Power On Off Contributor | Subscription. A lower scope stops autoscale from working properly. |
+| Autoscale, power management | Power On Off Contributor ([Create and assign an autoscale scaling plan](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-create-assign-scaling-plan)) | Subscription. A lower scope stops autoscale from working properly. |
 | Autoscale, dynamic | Power On Off Contributor and Desktop Virtualization Virtual Machine Contributor | Subscription. A lower scope stops autoscale from working properly. |
-| Start VM on Connect | Power On Contributor | Subscription is recommended for several host pools. A lower scope is allowed if it contains the target session hosts. |
+| Start VM on Connect | Power On Contributor ([Configure Start VM on Connect](https://learn.microsoft.com/en-us/azure/virtual-desktop/start-virtual-machine-connect)) | Subscription is recommended for several host pools. A lower scope is allowed if it contains the target session hosts. |
 
 ![A nine-row table with three columns: task, built-in role and scope or extra role. The tasks are sign users out, drain and remove session hosts, manage a host pool, publish apps, manage a workspace, manage all AVD resources, view only, use a desktop or app, and sign in to a Microsoft Entra joined virtual machine. The roles are User Session Operator, Session Host Operator, Host Pool Contributor, Application Group Contributor, Workspace Contributor, Desktop Virtualization Contributor, Desktop Virtualization Reader, Desktop Virtualization User and Virtual Machine User Login.](/img/avd/AVD-Post-15-Role-Task-Scope-v3.png)
 
@@ -119,7 +119,7 @@ You can assign roles in the portal or with scripts. See [Assign Azure roles](htt
 
 1. Assign to a security group, not an individual.
 2. Pick the scope on the specific resource first. Move up only if it does not work.
-3. Check the result afterwards. In the portal, open the Access control page of the resource and look at the role assignments.
+3. Check the result afterwards. In the portal, open the Access control (IAM) page of the resource and look at the role assignments (see [List Azure role assignments using the Azure portal](https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-list-portal)).
 
 ## The Microsoft Entra join exception
 

@@ -132,7 +132,7 @@ The VM icons show where Windows runs. AVD also needs objects that group those VM
 
 For example, a desktop application group publishes the full Windows desktop from its host pool. You associate that application group with a workspace and assign the intended users. Their client can then list the desktop.
 
-A RemoteApp application group publishes selected applications instead of the full desktop. RemoteApp application groups are supported with pooled host pools. The applications still run on the session hosts.
+A RemoteApp application group publishes selected applications instead of the full desktop. RemoteApp application groups are available with pooled host pools only ([terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology#application-groups)). The applications still run on the session hosts.
 
 Applications can be installed on the hosts or supplied through **App Attach**. App Attach makes packaged applications available in the user's session from a file share, without installing them in the host image.
 
@@ -144,7 +144,7 @@ In a **personal** host pool, a desktop is assigned to an individual user. Their 
 
 ### Publishing access and signing in to Windows
 
-Access has more than one layer. Application-group assignment controls which published resource a user can access. Windows sign-in also needs the permissions required by the selected session-host identity configuration. For Microsoft Entra joined session hosts in a host pool that does not use a session host configuration (a host-creation approach explained later), users also need the Virtual Machine User Login role, assigned on the VMs, their resource group or the subscription. Reaching profile storage and business applications requires their own authorization.
+Access has more than one layer. Application-group assignment controls which published resource a user can access. Windows sign-in also needs the permissions required by the selected session-host identity configuration. For Microsoft Entra joined session hosts in a host pool that does not use a session host configuration (a host-creation approach explained later), users also need the Virtual Machine User Login role, assigned on the VMs, their resource group or the subscription ([Microsoft Entra joined session hosts](https://learn.microsoft.com/en-us/azure/virtual-desktop/azure-ad-joined-session-hosts)). Reaching profile storage and business applications requires their own authorization.
 
 So seeing a desktop icon only proves that the feed worked. It does not prove that Windows sign-in, profile loading and application access will succeed.
 
@@ -203,7 +203,7 @@ The next decision happens when the user selects a desktop or app. In a pooled ho
 
 | Algorithm | How it uses the available hosts |
 |---|---|
-| Breadth-first | Aims to spread sessions across hosts. It randomly selects from half of the available hosts with the fewest sessions. |
+| Breadth-first | Aims to spread sessions across hosts. It randomly selects from half of the available hosts with the fewest sessions ([load balancing](https://learn.microsoft.com/en-us/azure/virtual-desktop/host-pool-load-balancing#breadth-first-load-balancing-algorithm)). |
 | Depth-first | Chooses the host with the most sessions that still accepts connections and has capacity under the configured session limit. Depth-first needs a maximum session limit to be set. |
 
 If the user already has an active or disconnected session, AVD reconnects them to that host. **Drain mode** prevents new sessions on a host but still allows reconnection to existing sessions. It does not move a running session to another VM.
@@ -274,7 +274,7 @@ Three kinds of information appear in this architecture. They have different loca
 | Windows user profile | Your configured profile solution, such as FSLogix containers on file storage. |
 | Application and business data | The application's own storage, database or service. |
 
-The host pool's deployment scope controls service metadata placement. **Geographical** stores metadata in the geography associated with the selected region. **Regional** stores it in the selected region, with replicas across availability zones (separate datacenters inside one region) and metadata replication to a paired region (a second Azure region chosen by Microsoft) where applicable for disaster recovery. Geographical is the default.
+The host pool's deployment scope controls service metadata placement. **Geographical** stores metadata in the geography associated with the selected region. **Regional** stores it in the selected region, with replicas across availability zones (separate datacenters inside one region) and metadata replication to a paired region (a second Azure region chosen by Microsoft) where applicable for disaster recovery. Geographical is the default ([service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience#deployment-scope); replication to a paired region is on the same page, under Service resilience).
 
 Regional scope is offered only in a few regions, and Learn's [Regional host pools](https://learn.microsoft.com/en-us/azure/virtual-desktop/regional-host-pools) page still labels it preview. Learn's pages disagree on its status, so check that page before you choose it. A regional host pool can only join regional workspaces and regional application groups.
 
@@ -284,7 +284,7 @@ Session-host placement is another decision. Choose it with user latency and appl
 
 ### Where the landing zone fits
 
-A landing zone provides the surrounding identity, network, security, governance and operations foundation. Platform landing zones provide shared services. AVD workload landing zones contain the workload resources.
+A landing zone provides the surrounding identity, network, security, governance and operations foundation. Platform landing zones provide shared services. AVD workload landing zones contain the workload resources ([Azure Virtual Desktop landing zone design guide](https://learn.microsoft.com/en-us/azure/architecture/landing-zones/azure-virtual-desktop/design-guide#types-of-landing-zones)).
 
 The enterprise landing-zone pattern separates platform and workload responsibilities through subscriptions, policies and management groups. That organization surrounds the architecture explained here. It does not replace the AVD broker, gateway, session hosts or profiles, and the single customer subscription in the hybrid figure is not a universal subscription count.
 
@@ -292,15 +292,15 @@ The enterprise landing-zone pattern separates platform and workload responsibili
 
 ### Images and applications
 
-An image provides Windows and can include the applications and configuration used to create session hosts. AVD custom image templates are built on Azure Image Builder (an Azure service that builds VM images), and the resulting image can be stored in Azure Compute Gallery (an Azure store for images), as a managed image, or both.
+An image provides Windows and can include the applications and configuration used to create session hosts. AVD custom image templates are built on Azure Image Builder ([custom image templates](https://learn.microsoft.com/en-us/azure/virtual-desktop/custom-image-templates)) (an Azure service that builds VM images), and the resulting image can be stored in Azure Compute Gallery (an Azure store for images), as a managed image, or both.
 
 RemoteApp publishes applications that run on the session hosts, including installed apps or App Attach packages. Application licensing and back-end permissions need separate configuration.
 
 ### Session-host management and scaling
 
-With **standard management**, your tools and processes create and update the hosts. With **session host configuration**, AVD provides an integrated host creation, update and scaling approach for pooled host pools. These are distinct management approaches; tools built for standard management do not manage hosts that use session host configuration. The [session host post](/azure-virtual-desktop/create-update-replace-session-hosts/) covers this in detail. The approach is chosen when the host pool is created and cannot be changed afterwards.
+With **standard management**, your tools and processes create and update the hosts. With **session host configuration**, AVD provides an integrated host creation, update and scaling approach for pooled host pools. These are distinct management approaches; tools built for standard management do not manage hosts that use session host configuration. The [session host post](/azure-virtual-desktop/create-update-replace-session-hosts/) covers this in detail. The approach is chosen when the host pool is created and cannot be changed afterwards ([Host pool management approaches](https://learn.microsoft.com/en-us/azure/virtual-desktop/host-pool-management-approaches)); session host configuration works with pooled host pools only (same page).
 
-A **scaling plan** adjusts capacity against its schedule and usage settings. Power-management autoscale starts and stops existing VMs. Dynamic autoscale is in preview on Learn. It can also create and delete hosts, but only for pooled host pools that use a session host configuration. For pooled host pools, autoscale overwrites drain mode, so use exclusion tags (a tag that tells autoscale to leave a VM alone) when you update VMs.
+A **scaling plan** adjusts capacity against its schedule and usage settings. Power-management autoscale starts and stops existing VMs. Learn's pages disagree on the status of dynamic autoscale: the [autoscale scenarios](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scenarios) page labels it preview, while [What's new, June 2026](https://learn.microsoft.com/en-us/azure/virtual-desktop/whats-new#june-2026) says it is now available. Check the current status before you rely on it. It can also create and delete hosts, but only for pooled host pools that use a session host configuration. For pooled host pools, autoscale overwrites drain mode, so use exclusion tags (a tag that tells autoscale to leave a VM alone) when you update VMs.
 
 Load balancing selects a host; scaling controls capacity. Measure application resource needs before choosing VM sizes and session limits. For pooled autoscale, the schedule controls the load-balancing algorithm.
 
