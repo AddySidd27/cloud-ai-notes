@@ -13,7 +13,7 @@ A session host that runs all day and all night costs money even when nobody is u
 
 The code is in a public repository: [terraform-azure-avd-autoscaling-cost-optimization](https://github.com/AddySidd27/terraform-azure-avd-autoscaling-cost-optimization). It builds on the [AVD quick lab](/terraform-labs/avd-quick-lab/) and adds a scaling plan. The network, the storage, the FSLogix profiles and the Microsoft Entra join are the same as in that lab, so this article does not repeat them. Read the quick lab if you want those parts explained.
 
-Below is what the code does, what Microsoft's documentation says about it, and a test plan.
+Below is what the code does, how Microsoft describes the features it uses, and a test plan.
 
 One risk comes first. The documentation recommends Autoscale with VMs created by the AVD portal or Microsoft's templates. This lab builds its VMs directly with Terraform, so test that Autoscale really manages them.
 
@@ -91,7 +91,7 @@ Before you read the schedule, you need the rules that Autoscale follows. These c
 
 ## The default schedule
 
-The lab defines two schedules in `variables.tf`, one for weekdays and one for weekends. Every day of the week must appear in exactly one schedule, and the code checks this. Times are in the Windows time zone name you set in `autoscale_time_zone`, such as `Central Standard Time` (the default). Despite the name, that zone follows daylight saving time. The documentation says a scaling plan runs only in its configured time zone.
+The lab defines two schedules in `variables.tf`, one for weekdays and one for weekends. Every day of the week must appear in exactly one schedule, and the code checks this. Times are in the Windows time zone name you set in `autoscale_time_zone`, such as `Central Standard Time` (the default). Despite the name, that zone follows daylight saving time. A scaling plan runs only in its configured time zone.
 
 | | Weekdays (Mon to Fri) | Weekends (Sat, Sun) |
 |---|---|---|
@@ -104,7 +104,7 @@ The lab defines two schedules in `variables.tf`, one for weekdays and one for we
 | Ramp-down capacity threshold | 50% | 75% |
 | Off-peak starts | 22:00 | 18:00 |
 
-Peak and off-peak have no threshold of their own. The documentation says peak takes the ramp-up threshold, and off-peak takes the ramp-down threshold.
+Peak and off-peak have no threshold of their own. Peak takes the ramp-up threshold, and off-peak takes the ramp-down threshold.
 
 The code sets the load-balancing method per phase: Breadth First in ramp-up and peak, and Depth First in ramp-down and off-peak. In ramp-down, Depth First packs sessions onto fewer hosts, so the empty hosts can be turned off.
 
@@ -118,7 +118,7 @@ Because nobody is signed out by force, one forgotten disconnected session keeps 
 
 With two hosts, the weekday ramp-up minimum of 50% means one host is on from 07:00. The weekend minimum of 0% means both hosts can stay deallocated until someone connects.
 
-This is a lab example, not a schedule to copy. The documentation says to understand your usage patterns before you define a schedule, so look at your real usage before you pick times.
+This is a lab example, not a schedule to copy. Understand your usage patterns before you define a schedule, so look at your real usage before you pick times.
 
 ## What the code does
 
@@ -131,7 +131,7 @@ In this lab, Autoscale and Start VM on Connect act through the Azure Virtual Des
 | Desktop Virtualization Power On Off Contributor | The scaling plan, to power hosts on and off |
 | Desktop Virtualization Power On Contributor | Start VM on Connect |
 
-The documentation names both roles for these two features. For the scaling plan role, the documentation requires the subscription as the scope, and says a lower scope stops Autoscale from working properly. For Start VM on Connect, the documentation says you can assign the role at a lower scope, as long as that scope contains the session host VMs.
+Each of the two features needs its own role. For the scaling plan role, the scope must be the subscription, because a lower scope stops Autoscale from working properly. For Start VM on Connect, you can assign the role at a lower scope, as long as that scope contains the session host VMs.
 
 The service principal is different in every tenant, so you look up its object ID and put it in `avd_service_principal_object_id`. The object ID identifies the service principal in your tenant. The application ID identifies the Azure Virtual Desktop app everywhere (`9cdead84-a844-4324-93f2-b2e6bb768d07`, from the documentation). Run `az login` first, then:
 
@@ -145,13 +145,13 @@ Do not paste the application ID itself into the setting. If the command returns 
 
 The scaling plan is one Terraform resource, `azurerm_virtual_desktop_scaling_plan`. It sets the time zone, the exclusion tag (`excludeFromScaling`), one `schedule` block per schedule, and the host pool it is assigned to, and it turns on the assignment. Terraform creates the two role assignments before the plan, because the plan needs those permissions.
 
-The documentation lists two prerequisites that the lab meets. The scaling plan must be in the same region as the host pool, and a pooled host pool needs a maximum session limit. The default limit is too high for Autoscale to use, so the lab sets 10.
+The lab meets two prerequisites. The scaling plan must be in the same region as the host pool, and a pooled host pool needs a maximum session limit. The default limit is too high for Autoscale to use, so the lab sets 10.
 
 ### Start VM on Connect
 
-With `start_vm_on_connect = true`, a connection starts one host when none is on. If that host fills up, the next connection starts another. The documentation says it starts at most one VM every five minutes. Users who connect while a host is still starting may see "No resources available". They should wait a few minutes and try again. The schedule still decides when hosts are powered off.
+With `start_vm_on_connect = true`, a connection starts one host when none is on. If that host fills up, the next connection starts another. It starts at most one VM every five minutes. Users who connect while a host is still starting may see "No resources available". They should wait a few minutes and try again. The schedule still decides when hosts are powered off.
 
-The documentation says Start VM on Connect can be configured only on an existing host pool, while this lab sets it when Terraform creates the pool. So after the apply, open the host pool, select Properties and check that Start VM on Connect says Yes. If it does not, set it there.
+Start VM on Connect can be configured only on an existing host pool, while this lab sets it when Terraform creates the pool. So after the apply, open the host pool, select Properties and check that Start VM on Connect says Yes. If it does not, set it there.
 
 ## Run it
 

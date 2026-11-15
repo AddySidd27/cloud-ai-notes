@@ -24,6 +24,10 @@ You need a Windows 365 Enterprise Cloud PC managed in Intune, an admin role that
 
 Restore is one of several Cloud PC actions. The others are restart, resize, move to another region, and reprovision, which means building the Cloud PC again.
 
+![A Cloud PC has restore points. The service makes 10 short-term points at an interval set in the Cloud PC user setting in Intune, of 4, 6, 12, 16 or 24 hours. The service makes 4 long-term points, one every 7 days, which cannot be changed. An administrator can make one manual point on demand, which a newer manual point replaces and which expires after about 28 days. You choose the closest healthy point. A point with a triangle warning is unhealthy and less likely to restore. An administrator starts the restore in Intune for one Cloud PC or in bulk, and a user can start it only if the user setting allows it. The Cloud PC returns to the chosen point. Everything saved on it after that point is lost, but data in external services such as OneDrive is kept. After the restore the user signs in to check it. If the user cannot connect, restore to a more recent point.](/img/windows-365/windows-365-point-in-time-restore.svg)
+
+*Source: [Point-in-time restore overview](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-overview). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+
 ## Step 1: understand the restore points
 
 Microsoft lists three types of restore point for Enterprise:
@@ -38,7 +42,7 @@ A list of restore points does not show that a disk restore works. Test it on a d
 
 ## Step 2: configure the user setting on a test group
 
-1. In the Intune admin center, go to **Devices > Cloud PC Settings > Create > User settings**. Portal labels can change; confirm them in your tenant. Microsoft's documentation describes the same path as **Devices > Cloud PC Settings > Add**.
+1. In the Intune admin center, go to **Devices > Cloud PC Settings > Create > User settings**. Portal labels can change; confirm them in your tenant. Microsoft describes the same path as **Devices > Cloud PC Settings > Add**.
 2. Name the setting. Choose whether to allow the user to initiate restore and select the short-term restore-point frequency. The page also has a separate **Local admin** choice, which gives the user local administrator rights on the Cloud PC. Do not enable it just to test restore. The other two options are named **Allow user to initiate restore service** and **Frequency of restore-point service**. Your tenant may also show switches for user reset and user-initiated disaster recovery. They are not part of restore, so leave them off here.
 3. Select **Next**, assign the intended pilot group, and review the settings before **Create**.
 4. Record the group, interval, self-service permission and creation time. Later, check the actual restore-point list on the test Cloud PC. A saved setting does not show that a new point exists.

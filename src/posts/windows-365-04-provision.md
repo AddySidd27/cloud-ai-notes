@@ -17,6 +17,10 @@ A Microsoft-hosted network means Windows 365 runs the Cloud PC network for you. 
 
 **What you will build:** one licensed pilot user in one Microsoft Entra group, targeted by one provisioning policy. The intended result is a Cloud PC with the status **Provisioned** (built and ready for sign-in) that the user can open and that an administrator can inspect in Intune.
 
+![A pilot user with a Windows 365 Enterprise license is a member of a pilot group. An administrator creates a provisioning policy in the Microsoft Intune admin center with a join type of Microsoft Entra join, a Microsoft-hosted network, a gallery image, a geography and region group, an additional service of Windows Autopatch or none, and the pilot group as the assignment. An Azure network connection is the other network choice and is not used in this pilot. Windows 365 builds the Cloud PC, whose size follows the license. The Cloud PC shows as Provisioned under All Cloud PCs in Intune, and the user opens it with Windows App or windows.cloud.microsoft.](/img/windows-365/windows-365-provision.svg)
+
+*Source: [Create provisioning policies](https://learn.microsoft.com/en-us/windows-365/enterprise/create-provisioning-policy) and [Windows 365 architecture](https://learn.microsoft.com/en-us/windows-365/enterprise/architecture). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+
 ## 1. Check the prerequisites
 
 Before you create anything, check the [Windows 365 Enterprise requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements). You need a suitable Windows 365 Enterprise license, a user who receives that license, a Microsoft Entra group for the policy assignment, and an administrator who holds the Intune Administrator or Windows 365 Administrator role in Microsoft Entra ID ([Role and identity requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements#role-and-identity-requirements)).

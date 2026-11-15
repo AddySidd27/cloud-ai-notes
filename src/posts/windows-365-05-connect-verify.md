@@ -13,6 +13,10 @@ The portal's **Provisioned** status is a milestone, but the pilot is not finishe
 
 There are two ways to connect to a Cloud PC. **Windows App** is Microsoft's app for connecting to a Cloud PC. The **web client** is the same kind of connection in a browser, at windows.cloud.microsoft. The next sections use these two names.
 
+![The user signs in to Windows App or the web client at windows.cloud.microsoft with the licensed work account. Microsoft Entra ID handles the sign-in, and Conditional Access can apply. The connection goes through the Azure Virtual Desktop service, which Windows 365 uses for Cloud PC connections. The client and the Cloud PC both connect outward to the service, so there is no inbound connection from the internet to the Cloud PC. The Cloud PC is Microsoft Entra joined and enrolled in Intune. The Remote Desktop Connection tool, mstsc.exe, is not a supported daily connection method. The administrator checks the Cloud PC status in All Cloud PCs and the device record, primary user, join type and last check-in in All devices in the Intune admin center.](/img/windows-365/windows-365-connect.svg)
+
+*Source: [Windows 365 architecture](https://learn.microsoft.com/en-us/windows-365/enterprise/architecture) and [Access a Cloud PC](https://learn.microsoft.com/en-us/windows-365/end-user-access-cloud-pc). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+
 ## User connection test
 
 1. Ask the assigned user to open [windows.cloud.microsoft](https://windows.cloud.microsoft/) and sign in with the account that received the Enterprise license.

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" width="1000" height="560" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
   <title id="t">Decision tree for migrating Azure landing zone custom policies to built-in policies</title>
-  <desc id="d">Based on the decision tree. If a policy or initiative is not assigned, delete the Azure landing zone policy or initiative definition. If a policy is assigned directly, assign the Azure built-in policy and delete the Azure landing zone policy assignments. If assigned through an initiative that is superseded by an Azure built-in initiative, assign the built-in initiative, delete the Azure landing zone initiative assignments, and delete the initiative definition. If the initiative is not superseded, update the Azure landing zone initiative definition.</desc>
+  <desc id="d">Decision tree. If a policy or initiative is not assigned, delete the Azure landing zone policy or initiative definition. If a policy is assigned directly, assign the Azure built-in policy, delete the Azure landing zone policy assignments, and delete the policy definition. If assigned through an initiative that is superseded by an Azure built-in initiative, assign the built-in initiative, delete the Azure landing zone initiative assignments, and delete the initiative definition. If the initiative is not superseded, update the Azure landing zone initiative definition.</desc>
   <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
   <polygon points="215,156 229,170 215,184 201,170" fill="#2b7cd3" stroke="#1f5fa8" stroke-width="1"/>
   <polygon points="215,256 229,270 215,284 201,270" fill="#2b7cd3" stroke="#1f5fa8" stroke-width="1"/>
@@ -34,6 +34,10 @@
   <rect x="474" y="246" width="220" height="48" rx="4" fill="#d5e8f5" stroke="#9fb9d0" stroke-width="1.2"/>
   <text x="584.0" y="265.55" font-size="13" text-anchor="middle" fill="#1f2933">Delete Azure landing</text>
   <text x="584.0" y="283.55" font-size="13" text-anchor="middle" fill="#1f2933">zone policy assignment(s)</text>
+  <line x1="694" y1="270" x2="728" y2="270" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="728" y="246" width="260" height="48" rx="4" fill="#d5e8f5" stroke="#9fb9d0" stroke-width="1.2"/>
+  <text x="858.0" y="265.55" font-size="13" text-anchor="middle" fill="#1f2933">Delete Azure landing zone</text>
+  <text x="858.0" y="283.55" font-size="13" text-anchor="middle" fill="#1f2933">policy definition</text>
   <text x="207" y="322" font-size="13" text-anchor="end" fill="#1f2933">No</text>
   <line x1="215" y1="284" x2="215" y2="396" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
   <text x="193" y="405.5" font-size="13" text-anchor="end" fill="#1f2933">Policy assigned through</text>

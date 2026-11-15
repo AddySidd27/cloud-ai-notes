@@ -11,7 +11,7 @@ description: "A walk through a Terraform lab that sends Azure Virtual Desktop lo
 
 When something goes wrong in a virtual desktop environment, you need data to find out why. Azure Virtual Desktop (AVD) can send its logs and the session hosts' performance data to one place, where you can query them and build alerts on them. This article walks through a Terraform lab that sets that up for the [AVD quick lab](/terraform-labs/avd-quick-lab/).
 
-Below is what the code does, what Microsoft's documentation says about it, and a test plan. Run `terraform validate` and `terraform plan` before you apply it.
+Below is what the code does, how Microsoft describes the features it uses, and a test plan. Run `terraform validate` and `terraform plan` before you apply it.
 
 ## Key terms
 
@@ -42,7 +42,7 @@ Below is what the code does, what Microsoft's documentation says about it, and a
 
 *Source: the lab's Terraform code and the pages [Enable Insights to monitor Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/insights) and [Send diagnostic data to Log Analytics for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/diagnostics-log-analytics). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
-The lab does not create any AVD resource. It reads the resources that the quick lab made (the resource group, host pool, workspace, application group and two session hosts) and adds monitoring to them. The documentation lists three kinds of data that Azure Virtual Desktop Insights needs, and the lab covers all three:
+The lab does not create any AVD resource. It reads the resources that the quick lab made (the resource group, host pool, workspace, application group and two session hosts) and adds monitoring to them. Azure Virtual Desktop Insights needs three kinds of data, and the lab covers all three:
 
 1. **Diagnostics from the AVD environment.** The host pool, the AVD workspace and the application group send their logs to Log Analytics.
 2. **Performance counters from the session hosts.**
@@ -58,10 +58,10 @@ Log Analytics charges for the data you send to it. The documentation's page [Est
 
 - The [AVD quick lab](/terraform-labs/avd-quick-lab/) deployed with its default names (`rg-avd-dev`, `avd-hp-avd-dev`, `avd-ws-avd-dev`, `avd-dag-avd-dev`, `avdsh-01` and `avdsh-02`). If your names differ, change the matching settings.
 - Both session hosts powered on when you apply, because the lab installs an agent on them. If you also use the [autoscale lab](/terraform-labs/avd-autoscale-cost-lab/), start the hosts in the portal first.
-- Permissions to create resources in the resource group. The documentation says installing the Azure Monitor Agent needs the Virtual Machine Contributor role on the VMs. Contributor on the resource group covers both.
+- Permissions to create resources in the resource group. Installing the Azure Monitor Agent needs the Virtual Machine Contributor role on the VMs. Contributor on the resource group covers both.
 - An email address for the alert.
 - The Azure CLI, Git and Terraform 1.9 or newer.
-- The people who will look at the dashboard need the Desktop Virtualization Reader role on the resource group and the Log Analytics Reader role on the workspace. The documentation lists these as the minimum.
+- The people who will look at the dashboard need the Desktop Virtualization Reader role on the resource group and the Log Analytics Reader role on the workspace. These are the minimum roles.
 
 ## The code
 
@@ -333,7 +333,7 @@ The `dynamic "enabled_log"` block creates one `enabled_log` for each category in
 
 ### 2. Session host data
 
-A data collection rule says what to collect from the session hosts. This one collects the 20 performance counters that the documentation lists in its [Azure Virtual Desktop Insights glossary](https://learn.microsoft.com/en-us/azure/virtual-desktop/insights-glossary#performance-counters) and its [monitoring costs page](https://learn.microsoft.com/en-us/azure/virtual-desktop/insights-costs), at the sample intervals the documentation gives (30 seconds for most, 60 seconds for the rest), and the Windows event logs that the documentation lists as the Insights defaults.
+A data collection rule says what to collect from the session hosts. This one collects the 20 performance counters that are listed in the [Azure Virtual Desktop Insights glossary](https://learn.microsoft.com/en-us/azure/virtual-desktop/insights-glossary#performance-counters) and its [monitoring costs page](https://learn.microsoft.com/en-us/azure/virtual-desktop/insights-costs), at the sample intervals Microsoft gives (30 seconds for most, 60 seconds for the rest), and the Windows event logs that are the Insights defaults.
 
 ```hcl
 # 2. Session host data: a data collection rule says what to collect from the
@@ -446,7 +446,7 @@ resource "azurerm_monitor_data_collection_rule_association" "session_host" {
 }
 ```
 
-The documentation says the agent needs a managed identity on the VM. The quick lab already gives each session host a system-assigned managed identity, so the extension needs no extra settings. The extension uses automatic upgrades, so Azure updates the agent for you. The `depends_on` makes Terraform install the agent before it creates the association.
+The agent needs a managed identity on the VM. The quick lab already gives each session host a system-assigned managed identity, so the extension needs no extra settings. The extension uses automatic upgrades, so Azure updates the agent for you. The `depends_on` makes Terraform install the agent before it creates the association.
 
 ### 4. One alert
 
@@ -511,7 +511,7 @@ The agent sends heartbeats regularly. The query looks back one day (`query_time_
 Two limits to know about:
 
 - **It also fires for a VM that is deallocated on purpose.** If you use the autoscale lab, the hosts that Autoscale turns off will stop sending heartbeats and trigger this alert. The query looks back one day, so the alert stays active for up to a day after the host goes off. `auto_mitigation_enabled = true` makes the alert resolve itself when the condition clears, instead of staying open. Either skip this alert if you use Autoscale, or add a filter to the query for the VMs you care about.
-- **Log alerts are not ideal for missing data.** The documentation says log search alerts are less effective at detecting a lack of data, such as a missing heartbeat, because logs arrive with some delay, and it suggests metric alerts for this. This lab uses a log alert to stay inside the Log Analytics workspace. A host that never sent a heartbeat, for example because the agent failed to install, is never in the `Heartbeat` table, so the query cannot flag it.
+- **Log alerts are not ideal for missing data.** Log search alerts are less effective at detecting a lack of data, such as a missing heartbeat, because logs arrive with some delay, and it suggests metric alerts for this. This lab uses a log alert to stay inside the Log Analytics workspace. A host that never sent a heartbeat, for example because the agent failed to install, is never in the `Heartbeat` table, so the query cannot flag it.
 - **It watches the agent, not the user experience.** A host can send heartbeats and still have a broken AVD agent. For that, use the AVD health data in the `WVDAgentHealthStatus` table, which the documentation describes as the health status of the Azure Virtual Desktop agent. The alert does not use it, because the documentation does not say when it reports a host that is off.
 
 `outputs.tf`:
@@ -572,7 +572,7 @@ output "monitored_session_hosts" {
    ```
 
 4. **Performance and events.** Run `Perf | take 20` and `Event | take 20`. `Perf` should return rows after a few minutes. `Event` may stay empty on a healthy host until something is logged. Signing in with a test user generates Remote Desktop and FSLogix events.
-5. **AVD logs.** Sign in to the quick lab with a test user, wait a few hours, then run `WVDConnections | take 20`. The documentation says diagnostic data can take a few hours to appear after setup.
+5. **AVD logs.** Sign in to the quick lab with a test user, wait a few hours, then run `WVDConnections | take 20`. Diagnostic data can take a few hours to appear after setup.
 6. **Insights.** Open Azure Virtual Desktop Insights at `aka.ms/avdi`, pick the host pool, and open Workbooks, then Check Configuration. It reports anything that is missing.
 7. **The alert.** Stop one session host from the portal. The Stop button deallocates it. After the heartbeats stop, wait more than 15 minutes plus the next 15-minute check. You should receive an email. Start the host again afterwards. The alert resolves itself after the heartbeats return.
 

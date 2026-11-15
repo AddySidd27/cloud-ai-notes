@@ -55,7 +55,7 @@
 <rect x="675" y="465" width="290" height="90" rx="8" fill="#ffffff" stroke="#c45a10" stroke-width="1.5"/>
 <text x="820.0" y="493" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">One initial host first,</text>
 <text x="820.0" y="517" font-size="12" text-anchor="middle" fill="#1f2933">then the rest in batches</text>
-<text x="820.0" y="535" font-size="12" text-anchor="middle" fill="#1f2933">Steps 1 to 5 run for each host</text>
+<text x="820.0" y="535" font-size="12" text-anchor="middle" fill="#1f2933">Steps 1 to 5 run for each batch</text>
 <line x1="327" y1="510" x2="353" y2="510" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
 <line x1="647" y1="510" x2="673" y2="510" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
 <polyline points="895,557 895,580 119,580 119,600" fill="none" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>

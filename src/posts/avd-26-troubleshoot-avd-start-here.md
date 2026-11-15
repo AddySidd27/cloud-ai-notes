@@ -69,7 +69,7 @@ Log data can arrive late. Azure Monitor can take up to 15 minutes to show log da
 
 ## What each table holds
 
-![Left to right, the user and client connect to the Azure Virtual Desktop service, which connects them to a session host. The service writes connection, checkpoint, error, registration and network tables to a Log Analytics workspace once diagnostic settings are on, and AVD Insights reads that workspace. The session host sends agent health to the workspace and keeps its own Windows event logs and FSLogix logs.](/img/avd/troubleshoot-avd-start-here.svg)
+![Left to right, the user and client connect to the Azure Virtual Desktop service, which connects them to a session host. The service writes connection, checkpoint, error, registration and network tables to a Log Analytics workspace once diagnostic settings are on, and AVD Insights reads that workspace. The session host agent reports its health to the service, and the host keeps its own Windows event logs and FSLogix logs.](/img/avd/troubleshoot-avd-start-here.svg)
 
 *Source: [Send diagnostics to Log Analytics](https://learn.microsoft.com/en-us/azure/virtual-desktop/diagnostics-log-analytics) and the Azure Monitor reference pages for each table.*
 

@@ -109,7 +109,7 @@ terraform {
 }
 ```
 
-`providers.tf` configures the provider. The empty `features {}` block is required by azurerm, even when you set nothing in it. The provider documentation says the subscription ID is needed for a plan or apply (it can come from this setting, an environment variable or the Azure CLI default), and not for `terraform validate`. This lab sets it in the code, so there is no guessing.
+`providers.tf` configures the provider. The empty `features {}` block is required by azurerm, even when you set nothing in it. The subscription ID is needed for a plan or apply (it can come from this setting, an environment variable or the Azure CLI default), and not for `terraform validate`. This lab sets it in the code, so there is no guessing.
 
 ```hcl
 provider "azurerm" {

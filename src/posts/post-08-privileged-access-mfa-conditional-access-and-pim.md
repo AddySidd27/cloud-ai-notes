@@ -196,7 +196,7 @@ The roadmap for securing privileged access has four stages. The timelines are ap
 | 3. Take control of admin activity | 1 to 3 months | Run access reviews of administrators. Use PIM for more roles. Move people with no clear need out of admin roles. Use dedicated administration workstations. If you use Exchange Online, check exposure to password-based sign-in protocols; you can block legacy authentication with Conditional Access |
 | 4. Keep building | 6 months and later | Review administrator roles regularly. Validate the incident response plan. Keep audit activity logs for privileged accounts |
 
-Here is a safe order for turning on a Conditional Access policy for administrators. The documentation gives the steps on two pages, the phishing-resistant MFA policy and emergency access. This order combines them:
+Here is a safe order for turning on a Conditional Access policy for administrators. The steps are spread over two pages, the phishing-resistant MFA policy and emergency access. This order combines them:
 
 1. Make sure administrators have registered the sign-in method first (for example a passkey, or use a Temporary Access Pass to help register).
 2. Create the policy for the administrator roles, with the emergency access group excluded.

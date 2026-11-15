@@ -11,7 +11,7 @@ description: "A walk through a small Terraform lab that creates an Azure cost bu
 
 A lab that you forget to shut down keeps costing money. This article walks through a small Terraform project that puts a monthly budget on the resource group of your lab and emails you when the cost reaches the limits you choose. It is meant to sit on top of the [AVD quick lab](/terraform-labs/avd-quick-lab/), but it works on any resource group.
 
-Below is what the code does, what Microsoft's documentation says about it, and a test you can run.
+Below is what the code does, how Microsoft describes the features it uses, and a test you can run.
 
 ## Key terms
 
@@ -41,16 +41,16 @@ The code creates one resource: a monthly budget on an existing resource group. I
 
 These points come from the page [Tutorial: Create and manage budgets](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets). They decide how you should read the alerts.
 
-- **An alert does not stop anything.** The documentation says that when a threshold is exceeded, resources are not affected and consumption is not stopped. A budget tells you. It does not turn a VM off.
+- **An alert does not stop anything.** When a threshold is exceeded, resources are not affected and consumption is not stopped. A budget tells you. It does not turn a VM off.
 - **The alerts are not instant.** Cost and usage data is typically available within 8 to 24 hours, and budgets are checked against that data every 24 hours. When a threshold is met, the email is normally sent within an hour of the check. A VM that runs all weekend can cost more than you expected before the first email arrives.
 - **A budget can use actual cost or the forecast.** A forecast alert warns you that spending is likely to pass the limit before it does.
 - **A budget can have up to five thresholds and five email addresses.**
-- **A new subscription may not allow budgets at first.** The documentation says it can take up to 48 hours before you can use all Cost Management features on a new subscription.
+- **A new subscription may not allow budgets at first.** It can take up to 48 hours before you can use all Cost Management features on a new subscription.
 
 ## Before you start
 
 - An Azure subscription and an existing resource group, for example `rg-avd-dev` from the quick lab.
-- A role that lets you create budgets on the resource group. The documentation says you must have contributor permission. Owner can also create budgets for a subscription.
+- A role that lets you create budgets on the resource group. You must have contributor permission. Owner can also create budgets for a subscription.
 - The Azure CLI, Git and Terraform 1.9 or newer.
 - An email address for the alerts. The documentation suggests adding `azure-noreply@microsoft.com` to your approved senders so that the emails do not go to junk.
 
@@ -97,7 +97,7 @@ provider "azurerm" {
 | `actual_cost_thresholds` | `[50, 80, 100]` | Percentages of the budget that trigger an alert on actual cost. |
 | `forecast_cost_threshold` | `100` | The percentage that triggers an alert when the forecast goes above it. |
 
-The start date has no default on purpose. Set it to the first day of the month you run the lab in. The provider documentation says it must be the first day of a month, that a past start date must fall inside the budget period, that a future start date can be at most twelve months ahead, and that changing it later forces Terraform to replace the budget. The code checks only the format. The documentation says a budget can have up to five thresholds. The forecast alert counts as one of them, so the code allows at most four actual cost thresholds.
+The start date has no default on purpose. Set it to the first day of the month you run the lab in. It must be the first day of a month, that a past start date must fall inside the budget period, that a future start date can be at most twelve months ahead, and that changing it later forces Terraform to replace the budget. The code checks only the format. A budget can have up to five thresholds. The forecast alert counts as one of them, so the code allows at most four actual cost thresholds.
 
 The full file:
 
@@ -218,7 +218,7 @@ resource "azurerm_consumption_budget_resource_group" "lab" {
 A few things to notice:
 
 - **`data "azurerm_resource_group"`** only reads the resource group. Terraform does not manage it, so removing the budget later does not delete the resource group.
-- **`time_grain = "Monthly"`** resets the budget at the start of each calendar month. With no end date, the provider documentation says the budget ends 10 years after the start date.
+- **`time_grain = "Monthly"`** resets the budget at the start of each calendar month. With no end date, the budget ends 10 years after the start date.
 - **One `notification` block per threshold.** The `dynamic` block creates one block for each value in `actual_cost_thresholds`. The last block is the forecast alert.
 - **The operators.** Actual cost alerts use `GreaterThanOrEqualTo`, so the 100% alert fires when the cost reaches the budget. The forecast alert uses `GreaterThan`, so it fires when the forecast goes above the limit.
 
@@ -262,10 +262,10 @@ output "budget_amount" {
 
 1. In the Azure portal, open the resource group and select **Budgets**. `budget-avd-dev` should be listed with the amount you set.
 2. Open the budget. The alert conditions should show the thresholds you chose, with the email addresses.
-3. To see an alert arrive, you have to wait for cost data. Run the lab for a day, then lower `budget_amount` to a small number such as `1` and apply again. If the cost is already above the new limit, the actual cost alerts should fire at the next daily check. The documentation gives a data delay of 8 to 24 hours, a check every 24 hours and an email within an hour of the check, so allow about two days. Check your junk folder. This test does not exercise the forecast alert.
+3. To see an alert arrive, you have to wait for cost data. Run the lab for a day, then lower `budget_amount` to a small number such as `1` and apply again. If the cost is already above the new limit, the actual cost alerts should fire at the next daily check. Cost data can lag by 8 to 24 hours, a check every 24 hours and an email within an hour of the check, so allow about two days. Check your junk folder. This test does not exercise the forecast alert.
 4. Set `budget_amount` back to your real value and apply again.
 
-If the budget cannot be created on a new subscription, wait. The documentation says it can take up to 48 hours before all Cost Management features work.
+If the budget cannot be created on a new subscription, wait. It can take up to 48 hours before all Cost Management features work.
 
 ## Clean up
 
@@ -276,7 +276,7 @@ Run `terraform destroy`. It deletes the budget only. The resource group and the 
 - **A budget is not a limit.** It sends emails and nothing more. The documentation describes an action group that can run automation when a threshold is met, in [Manage costs with budgets](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/cost-management-budget-scenario), if you want something to act on an alert.
 - **The budget counts everything in the resource group.** If you add the [monitoring lab](/terraform-labs/avd-monitoring-lab/), its Log Analytics workspace is in the same group, so its cost counts here too.
 - **Pick the amount from real numbers.** The default of 50 is a placeholder. Use the Azure pricing calculator and the cost you actually see.
-- **Use a separate budget when the amount changes.** The documentation says a budget resets with the same amount each period, so create a separate budget when the amount will differ in future periods. If each of your environments has its own amount, give each its own budget.
+- **Use a separate budget when the amount changes.** A budget resets with the same amount each period, so create a separate budget when the amount will differ in future periods. If each of your environments has its own amount, give each its own budget.
 
 ## Sources
 

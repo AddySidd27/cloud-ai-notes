@@ -196,7 +196,7 @@ Three points:
 
 - **Do not leave it late.** Hybrid connectivity is one of the few platform prerequisites that can block all workloads at once. If you migrate a workload before connectivity is stable, you might not be able to reach it.
 - **Choose VPN Gateway or ExpressRoute from your needs.** Decide based on throughput (how much data can pass), latency sensitivity (how much delay you can accept), compliance requirements, lead time tolerance and routing complexity. Do not choose based on whether your organization is new to Azure. ExpressRoute can take weeks or months, so run a VPN Gateway in parallel if your migration dates cannot wait. For what to build first, see [the minimum viable platform post](/azure-landing-zone/minimum-viable-platform-landing-zone/).
-- **Choose the topology from your needs too.** The two options are hub-and-spoke (a central hub network with spoke networks connected to it) and Virtual WAN (a Microsoft-managed networking service that brings many networking, security and routing functions together in one place). The documentation gives size limits, for example about 30 branch sites and 30 IPsec tunnels. [The network topology post](/azure-landing-zone/network-topology-and-connectivity/) has the comparison.
+- **Choose the topology from your needs too.** The two options are hub-and-spoke (a central hub network with spoke networks connected to it) and Virtual WAN (a Microsoft-managed networking service that brings many networking, security and routing functions together in one place). Virtual WAN has size limits, for example about 30 branch sites and 30 IPsec tunnels. [The network topology post](/azure-landing-zone/network-topology-and-connectivity/) has the comparison.
 
 ## Cost: who owns the spending
 

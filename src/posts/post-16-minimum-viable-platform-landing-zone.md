@@ -201,7 +201,7 @@ Validation is outcome-based: confirm that platform logs are flowing and visible 
 
 ## Check that it works: the readiness checks
 
-Before the workload migration teams begin planning, the platform team must check that the foundation works. It does not need to be complete or polished, but it must meet minimum requirements. There are ten areas. Use them as a minimum, not as proof that every later risk is gone. The documentation says the foundation must meet minimum requirements; it does not give a scoring rule.
+Before the workload migration teams begin planning, the platform team must check that the foundation works. It does not need to be complete or polished, but it must meet minimum requirements. There are ten areas. Use them as a minimum, not as proof that every later risk is gone. Microsoft sets minimum requirements for the foundation but gives no scoring rule.
 
 | Area | What to check |
 |---|---|
@@ -238,7 +238,7 @@ Seven capabilities make the first version of the platform landing zone. Ten chec
 
 ## The minimum platform at a glance
 
-The seven capabilities are a list in the documentation, with no picture. The documentation lists the seven capabilities and the readiness checks but has no picture of them. Every box in this diagram comes from that list and the readiness table.
+Microsoft gives the seven capabilities and the readiness checks as text and a table, with no picture. Every box in this diagram comes from that list and the readiness table.
 
 **Figure 1. The minimum viable platform landing zone and the readiness check.**
 

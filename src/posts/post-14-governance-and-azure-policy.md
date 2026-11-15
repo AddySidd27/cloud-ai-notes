@@ -94,7 +94,7 @@ The words below are new, or are explained more fully here. Each is in plain word
 | Platform landing zone accelerator | Microsoft's ready-made tool that deploys the platform landing zone for you. |
 | Azure Verified Modules (AVM) | Microsoft's reusable, tested Bicep and Terraform building blocks. |
 | Infrastructure as code | Describing Azure resources in code files, so they can be deployed the same way every time. Bicep and Terraform are two languages for this. |
-| Canary environment | A full copy of the production management group hierarchy, in the same tenant, used to test platform changes such as policy, role assignments and management groups before production. A sandbox subscription is the lighter option. The documentation says the canary approach is not common for most customers, so do not build one unless you need it. |
+| Canary environment | A full copy of the production management group hierarchy, in the same tenant, used to test platform changes such as policy, role assignments and management groups before production. A sandbox subscription is the lighter option. The canary approach is not common for most customers, so do not build one unless you need it. |
 | Change advisory review board | A group of people that reviews changes before they happen, usually in a meeting. |
 | Regulatory compliance policies | Policies that match a regulation or standard. Examples are HIPAA, PCI-DSS and SOC 2 Trust Services Criteria. |
 | Resource provider registration | Switching on an Azure service type for a subscription so that its resources can be created. |
@@ -262,7 +262,7 @@ The governance page says the ALZ-Bicep templates can speed up both greenfield an
 
 ## Governance at a glance
 
-These four pictures follow the layout of the pictures in Microsoft's documentation. They follow the same order as the text above.
+These four pictures follow the layout of the pictures on Microsoft Learn. They follow the same order as the text above.
 
 **Figure 1. The landing zone governance design.**
 
@@ -284,14 +284,14 @@ These four pictures follow the layout of the pictures in Microsoft's documentati
 
 **Figure 4. Moving landing zone custom policies to built-in policies.**
 
-![Decision tree for migrating to built-in policies. Not assigned: delete the landing zone policy or initiative definition. Assigned directly: assign the Azure built-in policy and delete the landing zone policy assignments. Assigned through an initiative that a built-in initiative replaces: assign the built-in initiative, delete the landing zone initiative assignments, then delete the initiative definition. If the initiative is not replaced: update the landing zone initiative definition.](/diagrams/post-14-migrate-to-built-in.svg)
+![Decision tree for migrating to built-in policies. Not assigned: delete the landing zone policy or initiative definition. Assigned directly: assign the Azure built-in policy, delete the landing zone policy assignments, then delete the policy definition. Assigned through an initiative that a built-in initiative replaces: assign the built-in initiative, delete the landing zone initiative assignments, then delete the initiative definition. If the initiative is not replaced: update the landing zone initiative definition.](/diagrams/post-14-migrate-to-built-in.svg)
 
-*Source: [Migrate Azure landing zone policies to Azure built-in policies](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/migrate-azure-landing-zone-policies). The picture is simplified. It stops after the assignments are deleted. The text above also deletes the old definition, as the steps do.*
+*Source: [Migrate Azure landing zone policies to Azure built-in policies](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/migrate-azure-landing-zone-policies). The picture is simplified.*
 
 ## Common mistakes
 
 - **Rules only in a document.** Azure Policy replaces review boards with automated guardrails and checks.
-- **Policies defined too low.** Create definitions at a management group above every scope that may get an assignment, because they may be assigned at inherited scopes. The documentation says the top-level root management group. This series uses the intermediate root.
+- **Policies defined too low.** Create definitions at a management group above every scope that may get an assignment, because they may be assigned at inherited scopes. The recommended location is the top-level root management group. This series uses the intermediate root.
 - **Too many assignments at the root.** Limit them, to avoid managing exclusions at inherited scopes.
 - **Custom policies when a built-in one exists.** Use built-in policies to reduce day-to-day work.
 - **Skipping the safe path when you are not ready for DINE.** For teams that cannot or are not ready to use DINE, there are three phases: audit only, then a small scope, then everywhere. Most customers can use DINE from the start.

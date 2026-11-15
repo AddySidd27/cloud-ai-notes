@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 700" width="1000" height="700" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+<title id="t">Which application covers which stage</title><desc id="d">Three columns. Subscribing, gateway sign-in and diagnostics use the Azure Virtual Desktop application, covered by policy one. Session host sign-in with single sign-on uses the Windows Cloud Login application, covered by policy two. Retrieving the feed uses the Azure Virtual Desktop Azure Resource Manager Provider application, which must not be in any policy. Windows App also signs in to the Windows 365 application, which must not be blocked. The last two applications have a red outline. A note at the bottom says per-user multifactor authentication should be disabled.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
+<rect x="6" y="6" width="988" height="688" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
+<text x="500" y="42" font-size="22" font-weight="600" text-anchor="middle" fill="#1f2933">Which application covers which stage</text>
+<text x="40" y="80" font-size="15" font-weight="600" text-anchor="start" fill="#5f6b7a">Stage</text>
+<text x="370" y="80" font-size="15" font-weight="600" text-anchor="start" fill="#5f6b7a">Microsoft Entra application</text>
+<text x="650" y="80" font-size="15" font-weight="600" text-anchor="start" fill="#5f6b7a">What to do with its policy</text>
+<rect x="30" y="92" width="320" height="108" rx="8" fill="#e8f0fb" stroke="#3b6fb6" stroke-width="1.6"/>
+<text x="190.0" y="139.0" font-size="15" text-anchor="middle" fill="#1f2933">Subscribe to the feed, connect</text>
+<text x="190.0" y="162.0" font-size="15" text-anchor="middle" fill="#1f2933">to the gateway, send diagnostics</text>
+<rect x="370" y="92" width="260" height="108" rx="8" fill="#ffffff" stroke="#3b6fb6" stroke-width="1.6"/>
+<text x="500.0" y="150.5" font-size="15" font-weight="600" text-anchor="middle" fill="#1f2933">Azure Virtual Desktop</text>
+<rect x="650" y="92" width="320" height="108" rx="8" fill="#ffffff" stroke="#3b6fb6" stroke-width="1.6"/>
+<text x="810.0" y="127.5" font-size="15" text-anchor="middle" fill="#1f2933">Policy 1: require multifactor</text>
+<text x="810.0" y="150.5" font-size="15" text-anchor="middle" fill="#1f2933">authentication. Do not use</text>
+<text x="810.0" y="173.5" font-size="15" text-anchor="middle" fill="#1f2933">Every time on this app.</text>
+<defs><marker id="m5f6b7a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
+<polyline points="352,146 368,146" fill="none" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#m5f6b7a)"/>
+<defs><marker id="m5f6b7a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
+<polyline points="632,146 648,146" fill="none" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#m5f6b7a)"/>
+<rect x="30" y="220" width="320" height="108" rx="8" fill="#e8f0fb" stroke="#3b6fb6" stroke-width="1.6"/>
+<text x="190.0" y="267.0" font-size="15" text-anchor="middle" fill="#1f2933">Sign in to the session host</text>
+<text x="190.0" y="290.0" font-size="15" text-anchor="middle" fill="#1f2933">when single sign-on is on</text>
+<rect x="370" y="220" width="260" height="108" rx="8" fill="#ffffff" stroke="#3b6fb6" stroke-width="1.6"/>
+<text x="500.0" y="278.5" font-size="15" font-weight="600" text-anchor="middle" fill="#1f2933">Windows Cloud Login</text>
+<rect x="650" y="220" width="320" height="108" rx="8" fill="#ffffff" stroke="#3b6fb6" stroke-width="1.6"/>
+<text x="810.0" y="255.5" font-size="15" text-anchor="middle" fill="#1f2933">Policy 2: same users and grant.</text>
+<text x="810.0" y="278.5" font-size="15" text-anchor="middle" fill="#1f2933">Frequency matches or exceeds</text>
+<text x="810.0" y="301.5" font-size="15" text-anchor="middle" fill="#1f2933">policy 1. Every time is allowed.</text>
+<defs><marker id="m5f6b7a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
+<polyline points="352,274 368,274" fill="none" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#m5f6b7a)"/>
+<defs><marker id="m5f6b7a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
+<polyline points="632,274 648,274" fill="none" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#m5f6b7a)"/>
+<rect x="30" y="348" width="320" height="108" rx="8" fill="#e8f0fb" stroke="#3b6fb6" stroke-width="1.6"/>
+<text x="190.0" y="395.0" font-size="15" text-anchor="middle" fill="#1f2933">Retrieve the list of resources</text>
+<text x="190.0" y="418.0" font-size="15" text-anchor="middle" fill="#1f2933">(the feed)</text>
+<rect x="370" y="348" width="260" height="108" rx="8" fill="#ffffff" stroke="#b3261e" stroke-width="1.6"/>
+<text x="500.0" y="395.0" font-size="15" font-weight="600" text-anchor="middle" fill="#1f2933">Azure Virtual Desktop Azure</text>
+<text x="500.0" y="418.0" font-size="15" font-weight="600" text-anchor="middle" fill="#1f2933">Resource Manager Provider</text>
+<rect x="650" y="348" width="320" height="108" rx="8" fill="#ffffff" stroke="#b3261e" stroke-width="1.6"/>
+<text x="810.0" y="395.0" font-size="15" text-anchor="middle" fill="#1f2933">Do not add it to any policy.</text>
+<text x="810.0" y="418.0" font-size="15" text-anchor="middle" fill="#1f2933">It must not require MFA.</text>
+<defs><marker id="m5f6b7a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
+<polyline points="352,402 368,402" fill="none" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#m5f6b7a)"/>
+<defs><marker id="m5f6b7a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
+<polyline points="632,402 648,402" fill="none" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#m5f6b7a)"/>
+<rect x="30" y="476" width="320" height="108" rx="8" fill="#e8f0fb" stroke="#3b6fb6" stroke-width="1.6"/>
+<text x="190.0" y="523.0" font-size="15" text-anchor="middle" fill="#1f2933">Windows App also signs in to</text>
+<text x="190.0" y="546.0" font-size="15" text-anchor="middle" fill="#1f2933">this application</text>
+<rect x="370" y="476" width="260" height="108" rx="8" fill="#ffffff" stroke="#b3261e" stroke-width="1.6"/>
+<text x="500.0" y="534.5" font-size="15" font-weight="600" text-anchor="middle" fill="#1f2933">Windows 365</text>
+<rect x="650" y="476" width="320" height="108" rx="8" fill="#ffffff" stroke="#b3261e" stroke-width="1.6"/>
+<text x="810.0" y="523.0" font-size="15" text-anchor="middle" fill="#1f2933">Do not block it. A block here</text>
+<text x="810.0" y="546.0" font-size="15" text-anchor="middle" fill="#1f2933">breaks AVD sign-in too.</text>
+<defs><marker id="m5f6b7a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
+<polyline points="352,530 368,530" fill="none" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#m5f6b7a)"/>
+<defs><marker id="m5f6b7a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
+<polyline points="632,530 648,530" fill="none" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#m5f6b7a)"/>
+<text x="500" y="650" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Per-user multifactor authentication should be disabled; use Conditional Access policies only.</text>
+</svg>

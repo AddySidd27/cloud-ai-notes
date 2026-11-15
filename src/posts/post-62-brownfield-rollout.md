@@ -198,7 +198,7 @@ Seven stages; the two stages "See the effect" and "Move in" repeat for each wave
 
 ![A path of seven numbered stages in three grouped panels. Look and decide: 1 Take stock, 2 Choose a path, 3 Plan the target. Build beside, then test: 4 Build beside, 5 See the effect. Move and finish: 6 Move in, 7 Finish. Each stage shows what you decide and what you end up with, ending in governed workloads and retired subscriptions waiting in the Decommissioned group. A loop arrow from stage 6 back to stage 5 is labelled "Repeat for each wave".](/diagrams/post-62-brownfield-path.svg)
 
-*Simplified diagram. No page in Microsoft's documentation shows this sequence; the stages group the guidance in [Journey toward the target architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/landing-zone-journey) and [Transition an existing Azure environment to the Azure landing zone reference architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/transition). Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) architecture icon set, unmodified.*
+*Simplified diagram. No Microsoft page shows this sequence; the stages group the guidance in [Journey toward the target architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/landing-zone-journey) and [Transition an existing Azure environment to the Azure landing zone reference architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/transition). Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) architecture icon set, unmodified.*
 
 The end state is the architecture in [the greenfield rollout](/azure-landing-zone/greenfield-rollout/#what-you-will-have-at-the-end), built beside your old environment. The old environment keeps running, and old subscriptions can retire into Decommissioned.
 
@@ -234,7 +234,7 @@ If your contract is a Microsoft Customer Agreement or a partner (CSP) agreement,
 
 ### Who does what in the rollout
 
-The documentation gives roles only for new subscriptions, so the roles below are suggestions.
+Microsoft defines roles only for new subscriptions, so the roles below are suggestions.
 
 | Who | What they do in the rollout |
 |---|---|
@@ -259,7 +259,7 @@ Here is how the made-up manufacturer could sort them:
 | 3 | Production subscriptions of one department | One owner group, one change window |
 | 4 | Remaining production subscriptions, by department | Use what waves 2 and 3 taught |
 | Last | Unowned and unused subscriptions: find the owner, or cancel into Decommissioned | Nothing moves without an owner |
-| Not now | The shared hub network | The documentation gives no steps for merging a hub, so decide it separately and test the decision |
+| Not now | The shared hub network | There are no published steps for merging a hub, so decide it separately and test the decision |
 
 **Do this:** list your subscriptions by department, add the owner and where each subscription's Owner role comes from, and mark the ones nobody can name. The enterprise agreement shows which account created each subscription, which is a good first lead for finding the unowned ones.
 
@@ -368,10 +368,10 @@ app2-mixed moves as it is, with its test resources inside it, because moving ind
 
 **Before you start.** The builder needs the Owner role on the intermediate root, because the build creates groups and assigns access and policy. By default no one has access to the root group. A Global Administrator can grant it, as shown in [before you start](/azure-landing-zone/greenfield-rollout/#before-you-start).
 
-Portal, Bicep and Terraform work in Azure public clouds; sovereign clouds need manual changes to Bicep or Terraform ([Deploy Azure landing zones](https://learn.microsoft.com/en-us/azure/architecture/landing-zones/landing-zone-deploy); [choose how to implement it](/azure-landing-zone/greenfield-rollout/#choose-how-to-implement-it)). The build creates the same billable platform resources as a new environment ([cost note](/azure-landing-zone/greenfield-rollout/#build-the-platform%2C-then-check-it)); the audit-only copies add none.
+Portal, Bicep and Terraform work in Azure public clouds; sovereign clouds need manual changes to Bicep or Terraform ([Deploy Azure landing zones](https://learn.microsoft.com/en-us/azure/architecture/landing-zones/landing-zone-deploy); [choose how to implement it](/azure-landing-zone/greenfield-rollout/#choose-how-to-implement-it)). The build creates the same billable platform resources as a new environment ([cost note](/azure-landing-zone/greenfield-rollout/#build-the-platform-then-check-it)); the audit-only copies add none.
 
 1. **Deploy the landing zone in parallel**, in the same tenant, by following [the greenfield rollout post](/azure-landing-zone/greenfield-rollout/). This does not affect the existing environment. *Check:* the new groups appear in `az account management-group list`, and no existing subscription has moved.
-2. **Protect the top of the hierarchy.** By default any user in the tenant can create a management group, and new subscriptions land under the root. Set a default group for new subscriptions, because the setting exists to give new subscriptions a more restrictive set of controls. The management groups design area page names a sandbox group as a good candidate for this default. A dedicated holding group with restrictive policy is also reasonable, because new subscriptions then start with strict controls until someone places them. Then turn on require authorization (in the portal, "Permissions for creating new management groups"). You need the Hierarchy Settings Administrator role or the same permissions. Use the portal (Management groups, root group, Settings) or the REST API; the documentation gives no `az` command: [protect your resource hierarchy](https://learn.microsoft.com/en-us/azure/governance/management-groups/how-to/protect-resource-hierarchy). *Check:* open the root group's Settings in the portal and confirm both.
+2. **Protect the top of the hierarchy.** By default any user in the tenant can create a management group, and new subscriptions land under the root. Set a default group for new subscriptions, because the setting exists to give new subscriptions a more restrictive set of controls. The management groups design area page names a sandbox group as a good candidate for this default. A dedicated holding group with restrictive policy is also reasonable, because new subscriptions then start with strict controls until someone places them. Then turn on require authorization (in the portal, "Permissions for creating new management groups"). You need the Hierarchy Settings Administrator role or the same permissions. Use the portal (Management groups, root group, Settings) or the REST API; there is no `az` command for this: [protect your resource hierarchy](https://learn.microsoft.com/en-us/azure/governance/management-groups/how-to/protect-resource-hierarchy). *Check:* open the root group's Settings in the portal and confirm both.
 3. **Create the duplicate groups.** *Check:* `az account management-group show --name 'lz-brownfield' -e -r` shows both children.
 4. **Assign the same policies to the copies in audit-only mode.** *Check:* `az policy assignment show` prints `"enforcementMode": "DoNotEnforce"`. If it prints `Default`, the policy will enforce.
 
@@ -432,7 +432,7 @@ Audit-only mode writes no Activity log entries, so the log will not tell you whe
 
 ## Move in: pilot, then waves
 
-The documentation gives no wave order and does not describe a pilot. Wave 1 should be a pilot on one low-risk subscription, so the first mistake costs little. After it, the order is: development and test, then production, then subscriptions with complex network, regulatory or vendor dependencies.
+Microsoft sets no wave order and describes no pilot. Wave 1 should be a pilot on one low-risk subscription, so the first mistake costs little. After it, the order is: development and test, then production, then subscriptions with complex network, regulatory or vendor dependencies.
 
 **Pick for the pilot:** a subscription with a known owner, no production users, no hub peering and no resource move. In the small example, that is lab, going to Sandboxes. The duplicate groups cover only Corp and Online, so Sandboxes has no audit-only copy, and its policy set is less restrictive, not empty. List its assignments first (`az policy assignment list --management-group '<sandboxesId>' --filter atScope()`) and run the pilot only if none has a Deny effect that could block the owner's pipeline; otherwise set those to `DoNotEnforce` or pick another subscription.
 
@@ -548,7 +548,7 @@ Stop and ask the owner or platform team when:
 
 - Your Owner role comes through the current group and the target group does not give you Owner.
 - A subscription is in another tenant, a resource type is unsupported, or validation fails and you do not understand why.
-- You need to merge an existing hub network. The documentation gives no steps.
+- You need to merge an existing hub network. There are no published steps for it.
 - Address ranges overlap, or a workload needs legacy Active Directory sign-in.
 - A Deny policy blocks a move and the fix would be an exemption or exclusion.
 - A production subscription has no known owner, or a resource group stays locked past four hours.
@@ -663,7 +663,7 @@ A landing zone is not finished when the last subscription is in place. The Enhan
 
 - **Copying today's structure into management groups.** Departments, regions and environments belong in subscriptions and tags.
 - **Leaving billing and access with different people and no shared list.** The account owner who creates a subscription and the Owner who runs it can be different people. Keep one sheet that names both.
-- **Starting the next wave before the checks pass.** The documentation gives no order; use the pilot exit criteria and the checklist as a guard against this.
+- **Starting the next wave before the checks pass.** There is no published order; use the pilot exit criteria and the checklist as a guard against this.
 
 ## Sources
 

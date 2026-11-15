@@ -180,7 +180,7 @@ The groups under Landing zones exist for kinds of workload. Understand this pict
 
 **What to do.** Cancel the subscription and move it to Decommissioned. Azure deletes cancelled subscriptions after 30 to 60 days.
 
-**Watch for.** Some organizations reuse a cleaned subscription instead of creating a new one. The documentation says to consider this if you:
+**Watch for.** Some organizations reuse a cleaned subscription instead of creating a new one. Consider this if you:
 
 - plan more than 5,000 subscriptions on one Enterprise Agreement billing account (deleted ones count);
 - plan more than 5,000 active subscriptions on a Microsoft Customer Agreement or Microsoft Partner Agreement (these are other billing contracts);
@@ -248,7 +248,7 @@ Use separate tenants only if the rules need complete isolation, such as clearanc
 
 **What to do.** The Sovereign Landing Zone is a variant of the platform landing zone. It adds three groups under Landing zones: Public, Confidential Corp and Confidential Online. It also adds extra policies depending on your sovereignty needs. It lines up Azure capabilities such as service residency, customer-managed keys (encryption keys you control), Azure Private Link (reaching Azure services over a private network) and confidential computing (protecting data while it is processed).
 
-**Watch for.** Decide first whether you need these controls at all. The documentation says to consider this carefully before you adopt it.
+**Watch for.** Decide first whether you need these controls at all. Consider this carefully before you adopt it.
 
 ### Servers that stay on premises
 
@@ -266,7 +266,7 @@ A landing zone is not finished when the groups are in place.
 
 - **Making a group for every team, region or environment.** Groups are for workload kinds that need different policies. Teams, regions and environments are handled with subscriptions, resource groups and tags, not management groups.
 - **Choosing a group by who asked, not by what the workload needs.** Choose by where the workload connects: the corporate hub means Corp; direct internet traffic, or no virtual network, means Online.
-- **Adding a tenant when one tenant can meet the need.** The documentation says to create more tenants only when the corporate tenant cannot meet a requirement. Every extra tenant adds cost and work.
+- **Adding a tenant when one tenant can meet the need.** Create more tenants only when the corporate tenant cannot meet a requirement. Every extra tenant adds cost and work.
 
 ## Sources
 

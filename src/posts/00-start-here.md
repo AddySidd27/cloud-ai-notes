@@ -123,7 +123,7 @@ Four labs that build Azure Virtual Desktop environments from Terraform code, fro
 
 ## Why the landing zone comes first
 
-A workload is an application or service you run in the cloud, and AVD is one. An Azure landing zone is the prepared Azure environment that workloads run in. Microsoft's documentation says it provides the foundation for cloud workloads such as AVD and defines components like governance, security, networking, identity and operations. A platform landing zone is the part that holds shared services such as networking and identity.
+A workload is an application or service you run in the cloud, and AVD is one. An Azure landing zone is the prepared Azure environment that workloads run in. It provides the foundation for cloud workloads such as AVD and defines components like governance, security, networking, identity and operations. A platform landing zone is the part that holds shared services such as networking and identity.
 
 Microsoft's AVD reference implementation (its sample deployment code) requires you to deploy a platform landing zone first, so the blog builds AVD on top of that foundation. Security is covered inside each topic, and the [Security](/azure-landing-zone/security/) post brings the platform-level controls together.
 

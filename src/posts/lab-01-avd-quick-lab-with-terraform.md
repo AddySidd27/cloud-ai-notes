@@ -118,7 +118,7 @@ For each session host, the `session-hosts` module creates a network card and a W
 
 1. **The `AADLoginForWindows` extension** joins the VM to Microsoft Entra ID. Microsoft Entra joined VMs do not need line of sight to a domain controller. A host pool should hold VMs of one join type only.
 2. **A run command installs the AVD agent.** The script `install-avd-agent.ps1` downloads the AVD agent and the boot loader (the second installer, which starts the agent). It installs the agent with the registration key. If the boot loader service already exists, the script instead sets `IsRegistered` to 0, writes the new key into the agent's registry settings and restarts the service.
-3. **A run command configures FSLogix.** The script `configure-fslogix.ps1` stops with an error if the FSLogix service (`frxsvc`) is missing, because it expects an image that already has FSLogix installed. The documentation says [FSLogix comes pre-installed on all available Windows Enterprise multi-session images](https://learn.microsoft.com/en-us/azure/virtual-desktop/windows-multisession-faq). The script then sets the registry values below.
+3. **A run command configures FSLogix.** The script `configure-fslogix.ps1` stops with an error if the FSLogix service (`frxsvc`) is missing, because it expects an image that already has FSLogix installed. [FSLogix comes pre-installed on all available Windows Enterprise multi-session images](https://learn.microsoft.com/en-us/azure/virtual-desktop/windows-multisession-faq). The script then sets the registry values below.
 
 The FSLogix values are under `HKLM:\SOFTWARE\FSLogix\Profiles`:
 
@@ -184,7 +184,7 @@ After `terraform apply`, the repository's post-deployment guide lists steps for 
 3. **Check that Microsoft Entra Kerberos is on.** In the storage account, open File shares, then Identity-based access.
 4. **Grant admin consent** to the storage account's Entra application. In Microsoft Entra ID, open App registrations, then All applications, and search for `[Storage Account] <name>.file.core.windows.net`. Open it, select API permissions, and select **Grant admin consent**.
 5. **Check Conditional Access.** Microsoft Entra Kerberos does not support MFA when it gets the ticket for the file share. If a Conditional Access policy requires MFA for all apps, exclude the storage account's application from it. If you do not, mapping the share fails.
-6. **Add the `kdc_enable_cloud_group_sids` tag** if your users are cloud-only. On the same application, open Manifest and add the value to the existing `tags` array. The documentation says this is mandatory for cloud-only identities and that authentication fails without it.
+6. **Add the `kdc_enable_cloud_group_sids` tag** if your users are cloud-only. On the same application, open Manifest and add the value to the existing `tags` array. This is mandatory for cloud-only identities, and authentication fails without it.
 7. **Give yourself admin access to the share.** On the share's Access Control (IAM) page, give the administrator doing the setup the roles Storage File Data SMB Share Elevated Contributor and Storage File Data Privileged Contributor. Without them you cannot do the next step. Remove them after testing.
 8. **Set the folder permissions on the share.** On the share, open Browse, then **Manage access**. For cloud-only users, this is the page the documentation points to. Give the Entra group Modify on "This folder only". Then add the security ID `S-1-3-0`, which shows as `CREATOR OWNER`, with Modify on "Subfolders and files only". `CREATOR OWNER` is a built-in Windows identity that owns whatever it creates. These two permissions let each user create a profile folder and use it, without opening other people's profiles.
 
@@ -203,7 +203,7 @@ Get-ItemProperty 'HKLM:\SOFTWARE\Policies\Microsoft\AzureADAccount'
 
 - `dsregcmd /status` should show `AzureAdJoined : YES`.
 - `RDAgentBootLoader`, `RdAgent` and `frxsvc` should exist and run.
-- `WinHttpAutoProxySvc` and `iphlpsvc` must be running. The documentation lists both as required for Microsoft Entra Kerberos.
+- `WinHttpAutoProxySvc` and `iphlpsvc` must be running. Both are required for Microsoft Entra Kerberos.
 - FSLogix should show `Enabled = 1` and the right `VHDLocations`. `CloudKerberosTicketRetrievalEnabled` and `LoadCredKeyFromProfile` should both be 1.
 
 Then test as a user:
@@ -230,7 +230,7 @@ Shut down the session hosts from the Azure portal when you are not using them, s
 
 The lab leaves out things that production needs. Each of these is a choice in the code that you would change:
 
-- **Public network access to the storage account is on** (`public_network_access_enabled = true`), and the session hosts reach it over the Azure network with no private endpoint. Production usually adds a private endpoint and private DNS. With a private endpoint and Microsoft Entra Kerberos, the documentation says to add the private link FQDN to the storage account's Entra application.
+- **Public network access to the storage account is on** (`public_network_access_enabled = true`), and the session hosts reach it over the Azure network with no private endpoint. Production usually adds a private endpoint and private DNS. With a private endpoint and Microsoft Entra Kerberos, add the private link FQDN to the storage account's Entra application.
 - **The host pool allows public network access** (`public_network_access = "Enabled"`).
 - **Outbound traffic is open.** Production usually adds a controlled path out, such as a firewall.
 - **The VM password is a variable.** Keep it out of the repository, and use a secret store.

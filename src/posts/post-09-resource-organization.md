@@ -153,7 +153,7 @@ More guidance:
 
 ## Tailoring: when the default is not enough
 
-Tailoring is not required. The default archetypes and hierarchy are suitable for most scenarios. The documentation gives no fixed steps for tailoring. This order is a suggestion built from the points on the tailoring page:
+Tailoring is not required. The default archetypes and hierarchy are suitable for most scenarios. There are no fixed steps for tailoring. This order is a suggestion built from the points on the tailoring page:
 
 1. **Try to build on what exists.** Add the policy to an existing archetype or management group.
 2. **If the requirement must apply to all workloads,** assign it at the intermediate root management group. The reference architecture does this for settings that must apply to all workloads.

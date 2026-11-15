@@ -53,7 +53,7 @@ State at the start: VM Stopped (deallocated), no RDP rule. At the end: VM Stoppe
 
 Check: the status says **Running**, and you have the size, the disk type and the address in your notes.
 
-**Background: power states and what they cost.** An Azure VM has two kinds of "off". The Azure billing documentation lists the states like this:
+**Background: power states and what they cost.** An Azure VM has two kinds of "off". The Azure billing documentation describes the states like this:
 
 | State | What it means | Compute billed? |
 |---|---|---|
