@@ -6,7 +6,6 @@ permalink: "/azure-virtual-desktop/create-update-replace-session-hosts/"
 order: 121
 part: 21
 tags: [avd-series]
-# PENDING: publication date and final slug/order approval; the date lives in src/_data/articleMeta.js
 deck: "See how session hosts are created, registered and watched, and how they are updated by replacing them, with the two management approaches side by side."
 description: "Understand how Azure Virtual Desktop session hosts are created and registered, what the agent components do, what the statuses and health checks mean, and how session host update replaces hosts."
 ---

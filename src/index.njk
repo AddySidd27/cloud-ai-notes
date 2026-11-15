@@ -5,62 +5,29 @@ home: true
 permalink: "/"
 ---
 {%- set list = collections.articles -%}
-<header class="home-hero"><div class="wrap home-hero-in">
-  <p class="hero-eyebrow">Cloud architecture · Azure, AVD, Windows 365</p>
-  <h1>Architecting Enterprise Azure &amp; End-User Computing</h1>
-  <p class="band-deck">Production blueprints, Cloud Adoption Framework landing zones and hands-on architectures across Azure, AVD, Windows 365, Citrix and Intune. Every Azure fact is checked against Microsoft Learn.</p>
-  <p class="cta"><a class="btn amber" href="/azure-landing-zone/">Read the Landing Zone series</a><a class="btn ghost-on" href="{{ site.repo }}">GitHub repositories</a></p>
-  <p class="home-links"><a href="/feed.xml">Subscribe by RSS</a><a href="/search/">Search the articles</a><a href="/about/">About the author</a><a href="/start-here/">Start here</a></p>
-  {% include "hero-art.njk" %}
+<header class="home-hero"><div class="wrap">
+  <h1>Azure and end-user computing, explained step by step</h1>
+  <p class="lead">Articles on Azure landing zones, Azure Virtual Desktop and Windows 365, written for engineers who are new to the topic. Sources are listed at the end of each article.</p>
+  <p class="by">By {{ site.author }}, {{ site.role }}</p>
 </div></header>
 
-<section class="sec home-sec" aria-labelledby="ser-h"><div class="wrap">
-  <div class="sec-head"><h2 id="ser-h">Series</h2><a class="more" href="/articles/">All articles</a></div>
-  <div class="series-grid">
-    {%- for s in collections.liveSeries %}{% set tp = s | topicOf %}
-    <a class="scard" href="/{{ s.slug }}/">
-      <span class="skick">{{ tp.name }} · {{ s.posts.length }} articles</span>
+<section class="sec" aria-labelledby="ser-h"><div class="wrap">
+  <h2 class="sec-h" id="ser-h">Series</h2>
+  <ul class="series-grid">
+    {%- for s in collections.liveSeries %}
+    <li><a href="/{{ s.slug }}/">
       <strong>{{ s.title }}</strong>
-      <span class="sbl">{{ s.blurb | clip(150) }}</span>
-      <span class="sgo">Browse series <span aria-hidden="true">&rarr;</span></span>
-    </a>
-    {%- endfor %}
-  </div>
-</div></section>
-
-{%- set fpick = list | pick([site.featured]) -%}{%- set fa = fpick[0] -%}
-{%- if fa %}{% set fser = fa.data.tags | seriesOf %}{% set fmeta = articleMeta[fa.data.order] %}
-<section class="sec home-sec" aria-labelledby="feat-h"><div class="wrap">
-  <div class="sec-head"><h2 id="feat-h">Featured</h2></div>
-  <a class="feature" href="{{ fa.url }}">
-    <span class="feat-text">
-      <span class="feat-k">{{ fser.name }}{% if fmeta %} · <time datetime="{{ fmeta.published }}">{{ fmeta.published | longDate }}</time>{% endif %}</span>
-      <strong>{{ fa.data.title }}</strong>
-      <span class="feat-d">{{ fa.data.deck | clip(260) }}</span>
-      <span class="feat-m">{{ fa.templateContent | readingTime }} min read<span class="feat-go">Read the article</span></span>
-    </span>
-    <span class="feat-fig"><img src="{{ fa.templateContent | firstDiagram }}" alt="Diagram from the article {{ fa.data.title }}" width="1000" height="640" fetchpriority="high"></span>
-  </a>
-</div></section>
-{%- endif %}
-
-<section class="sec home-sec" aria-labelledby="new-h"><div class="wrap">
-  <div class="sec-head"><h2 id="new-h">Latest articles</h2><a class="more" href="/articles/">All articles</a></div>
-  <ul class="alist">
-    {%- for p in list | mixLatest(articleMeta, 6, 2) %}{% set ser = p.data.tags | seriesOf %}{% set meta = articleMeta[p.data.order] %}
-    <li><a href="{{ p.url }}">
-      <span class="ak">{{ ser.name }}{% if meta %} · <time datetime="{{ meta.published }}">{{ meta.published | longDate }}</time>{% endif %} · {{ p.templateContent | readingTime }} min read</span>
-      <strong>{{ p.data.title }}</strong>
-      <span class="ad">{{ p.data.deck | clip(190) }}</span>
+      <span class="sbl">{{ s.short }}</span>
+      <span class="sct">{{ s.posts.length }} articles</span>
     </a></li>
     {%- endfor %}
   </ul>
 </div></section>
 
-<section class="sec home-sec" aria-labelledby="top-h"><div class="wrap">
-  <div class="sec-head"><h2 id="top-h">Browse by topic</h2></div>
-  <ul class="topic-chips">
-    {%- for t in collections.liveTopics %}<li><a href="/{{ t.slug }}/">{{ t.name }}<span>{{ t.posts.length }}</span></a></li>{% endfor %}
-    <li><a href="/labs/">Labs and code</a></li>
+<section class="sec" aria-labelledby="new-h"><div class="wrap">
+  <h2 class="sec-h" id="new-h">Latest articles</h2>
+  <ul class="alist">
+    {%- for p in list | mixLatest(articleMeta, 6, 2) %}{% set ser = p.data.tags | seriesOf %}{% set showSeries = true %}{% include "row.njk" %}{% endfor %}
   </ul>
+  <p class="all"><a href="/articles/">All articles</a></p>
 </div></section>

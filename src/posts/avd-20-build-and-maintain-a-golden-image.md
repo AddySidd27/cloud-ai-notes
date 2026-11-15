@@ -6,7 +6,6 @@ permalink: "/azure-virtual-desktop/build-and-maintain-a-golden-image/"
 order: 120
 part: 20
 tags: [avd-series]
-# PENDING: publication date and final slug/order approval; the date lives in src/_data/articleMeta.js
 deck: "Learn what goes into a golden image, what must stay out, and the two ways to build it: by hand with Sysprep, or with Azure Image Builder. Then see how Azure Compute Gallery stores and copies the result."
 description: "Build a golden image for Azure Virtual Desktop two ways: a virtual machine you prepare, generalize with Sysprep and capture, or Azure Image Builder with a source image and customizations. See what must stay out of the image and how Azure Compute Gallery stores versions and copies them to regions."
 ---

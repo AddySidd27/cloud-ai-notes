@@ -6,7 +6,6 @@ permalink: "/azure-virtual-desktop/choose-session-host-vm-sizes/"
 order: 124
 part: 24
 tags: [avd-series]
-# PENDING: publication date and final slug/order approval; the date lives in src/_data/articleMeta.js
 deck: "Read a VM size name, start from the sizing guidelines, decide if you need a GPU, choose the OS disk and security type, and check quota before a deployment fails."
 description: "How to choose an Azure Virtual Desktop session host VM size: the sizing guidelines, GPU sizes, OS disks, Trusted launch, and quota and capacity checks."
 ---
