@@ -28,17 +28,13 @@ export default {
   115: { tags: ["AVD", "RBAC", "Delegation"], published: "2026-10-17" },
   116: { tags: ["AVD", "Networking", "Private Link"], published: "2026-10-17" },
   117: { tags: ["AVD", "Networking", "IP planning"], published: "2026-10-17" },
-  // PENDING: publication date for orders 118-122 is a build placeholder (2026-10-19). The author assigns the real date at approval; set it before merge.
   118: { tags: ["AVD", "FSLogix", "User profiles"], published: "2026-10-21" },
   119: { tags: ["AVD", "FSLogix", "Azure Files", "Storage"], published: "2026-10-21" },
   120: { tags: ["AVD", "Images", "Azure Compute Gallery"], published: "2026-10-21" },
   121: { tags: ["AVD", "Session hosts", "Host pool management"], published: "2026-10-21" },
   122: { tags: ["AVD", "RemoteApp", "App Attach"], published: "2026-10-21" },
-  // PENDING: publication date for order 123 is a placeholder; the author assigns the real date at approval.
-  123: { tags: ["AVD", "Networking", "Performance", "QoS"], published: "2026-11-14" },
-  // PENDING: publication date for order 124 is a placeholder; the author assigns the real date at approval.
-  124: { tags: ["AVD", "Session hosts", "VM sizing", "GPU"], published: "2026-11-14" },
-  // PENDING: publication date for order 125 is a placeholder; the author assigns the real date at approval.
+  123: { tags: ["AVD", "Networking", "Performance", "QoS"], published: "2026-11-08" },
+  124: { tags: ["AVD", "Session hosts", "VM sizing", "GPU"], published: "2026-11-11" },
   125: { tags: ["AVD", "FSLogix", "Cloud Cache", "Profiles"], published: "2026-11-14" },
 
 
