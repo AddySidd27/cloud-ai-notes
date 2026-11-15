@@ -7,90 +7,36 @@ permalink: "/"
 {%- set list = collections.articles -%}
 <header class="home-hero"><div class="wrap hero-in">
   <div class="hero-copy">
-    <h1 class="hero-name"><span class="wordmark"><span class="wm-a">Adnan</span><span class="sr-only"> </span><span class="wm-b">Ahmed</span><span class="sr-only"> </span><span class="wm-c">Siddiqui</span></span></h1>
-    <p class="hero-role">{{ site.role }}</p>
-    <p class="hero-lead">Plain-language guides to Azure landing zones, Azure Virtual Desktop, Windows 365, and AI and agentic AI on Azure. Each article starts from the basics, explains its terms and lists its sources.</p>
+    <h1 class="hero-h">Azure, your PC in the cloud, and AI, explained step by step</h1>
+    <p class="hero-lead">Guides to Azure landing zones, Azure Virtual Desktop, Windows 365 and AI on Azure. Each one starts from the basics and lists its sources.</p>
     <p class="hero-actions"><a class="btn" href="/azure-basics-labs/">Start with the Azure basics labs</a><a class="hero-link" href="/azure-virtual-desktop/">Browse Azure Virtual Desktop articles</a></p>
   </div>
-  <svg class="hero-art hero-art-d" viewBox="0 0 600 400" role="presentation" aria-hidden="true" focusable="false">
-    <rect class="ha-zone" x="3" y="3" width="594" height="394" rx="10"/>
-    <text class="ha-cap" x="22" y="32">Azure landing zone</text>
-    <g class="ha-lines" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-      <path pathLength="1" d="M300 150V196"/>
-      <path pathLength="1" d="M108 236V196H492V236"/>
-      <path pathLength="1" d="M300 196V236"/>
-    </g>
-    <g class="ha-nodes">
-      <rect class="ha-box ha-hub" x="150" y="58" width="300" height="92" rx="8"/>
-      <image href="/img/icons/landing-zone.svg" x="176" y="86" width="36" height="36"/>
-      <text x="228" y="98" class="ha-hubtext">Shared foundation</text>
-      <text x="228" y="122" class="ha-sub">Identity, network and policy</text>
-      <circle class="ha-dot" cx="300" cy="196" r="4.5"/>
-      <rect class="ha-box" x="20" y="236" width="176" height="140" rx="8"/>
-      <image href="/img/icons/avd.svg" x="90" y="256" width="36" height="36"/>
-      <text x="108" y="324" text-anchor="middle" class="ha-t">Azure Virtual Desktop</text>
-      <text x="108" y="346" text-anchor="middle" class="ha-sub">Virtual desktops</text>
-      <rect class="ha-box" x="212" y="236" width="176" height="140" rx="8"/>
-      <image href="/img/icons/cloud-pc.svg" x="282" y="256" width="36" height="36"/>
-      <text x="300" y="324" text-anchor="middle" class="ha-t">Windows 365</text>
-      <text x="300" y="346" text-anchor="middle" class="ha-sub">Cloud PCs</text>
-      <rect class="ha-box" x="404" y="236" width="176" height="140" rx="8"/>
-      <image href="/img/icons/labs.svg" x="474" y="256" width="36" height="36"/>
-      <text x="492" y="324" text-anchor="middle" class="ha-t">Labs</text>
-      <text x="492" y="346" text-anchor="middle" class="ha-sub">Hands-on practice</text>
-    </g>
-  </svg>
-  <svg class="hero-art hero-art-m" viewBox="0 0 360 400" role="presentation" aria-hidden="true" focusable="false">
-    <rect class="ha-zone" x="2" y="2" width="356" height="396" rx="10"/>
-    <text class="ha-cap" x="18" y="30">Azure landing zone</text>
-    <g class="ha-lines" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-      <path pathLength="1" d="M56 136V334"/>
-      <path pathLength="1" d="M56 190H84"/>
-      <path pathLength="1" d="M56 262H84"/>
-      <path pathLength="1" d="M56 334H84"/>
-    </g>
-    <g class="ha-nodes">
-      <rect class="ha-box ha-hub" x="24" y="48" width="312" height="88" rx="8"/>
-      <image href="/img/icons/landing-zone.svg" x="42" y="76" width="32" height="32"/>
-      <text x="88" y="88" class="ha-hubtext">Shared foundation</text>
-      <text x="88" y="110" class="ha-sub">Identity, network and policy</text>
-      <circle class="ha-dot" cx="56" cy="190" r="4"/><circle class="ha-dot" cx="56" cy="262" r="4"/><circle class="ha-dot" cx="56" cy="334" r="4"/>
-      <rect class="ha-box" x="84" y="162" width="252" height="56" rx="7"/>
-      <image href="/img/icons/avd.svg" x="98" y="176" width="28" height="28"/>
-      <text x="138" y="187" class="ha-t">Azure Virtual Desktop</text><text x="138" y="205" class="ha-sub">Virtual desktops</text>
-      <rect class="ha-box" x="84" y="234" width="252" height="56" rx="7"/>
-      <image href="/img/icons/cloud-pc.svg" x="98" y="248" width="28" height="28"/>
-      <text x="138" y="259" class="ha-t">Windows 365</text><text x="138" y="277" class="ha-sub">Cloud PCs</text>
-      <rect class="ha-box" x="84" y="306" width="252" height="56" rx="7"/>
-      <image href="/img/icons/labs.svg" x="98" y="320" width="28" height="28"/>
-      <text x="138" y="331" class="ha-t">Labs</text><text x="138" y="349" class="ha-sub">Hands-on practice</text>
-    </g>
-  </svg>
+  {% include "hero-diagram.njk" %}
 </div></header>
 
 <section class="sec home-sec" aria-labelledby="topics-h"><div class="wrap">
   <h2 class="sec-h" id="topics-h">Topics</h2>
-  <ul class="topic-grid">
+  <ul class="topic-list">
     <li><a href="/azure-landing-zone/">
-      <img src="/img/icons/landing-zone.svg" width="32" height="32" alt="">
+      <img src="/img/icons/landing-zone.svg" width="28" height="28" alt="">
       <strong>Azure Landing Zone</strong>
       <span class="tg-d">What a landing zone is and how to plan one, from ownership and identity to networking and rollout.</span>
       <span class="tg-n">{{ list | inSeries('alz') | length }} articles</span>
     </a></li>
     <li><a href="/azure-virtual-desktop/">
-      <img src="/img/icons/avd.svg" width="32" height="32" alt="">
+      <img src="/img/icons/avd.svg" width="28" height="28" alt="">
       <strong>Azure Virtual Desktop</strong>
       <span class="tg-d">How it is built, how it fails, and how to plan identity, networking, profiles and images.</span>
       <span class="tg-n">{{ list | inSeries('avd-series') | length }} articles</span>
     </a></li>
     <li><a href="/windows-365-enterprise/">
-      <img src="/img/icons/cloud-pc.svg" width="32" height="32" alt="">
+      <img src="/img/icons/cloud-pc.svg" width="28" height="28" alt="">
       <strong>Windows 365</strong>
       <span class="tg-d">A Cloud PC from licensing and network choices to Intune management, for a first pilot.</span>
       <span class="tg-n">{{ list | inSeries('w365-series') | length }} articles</span>
     </a></li>
     <li><a href="/labs/">
-      <img src="/img/icons/labs.svg" width="32" height="32" alt="">
+      <img src="/img/icons/labs.svg" width="28" height="28" alt="">
       <strong>Labs</strong>
       <span class="tg-d">Hands-on Azure basics and Terraform labs, each with steps and a way to check the result.</span>
       <span class="tg-n">{{ (list | inSeries('azure-basics-lab') | length) + (list | inSeries('terraform-lab') | length) }} articles</span>
