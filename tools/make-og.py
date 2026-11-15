@@ -19,16 +19,16 @@ def page(kicker, title, sub):
     return f'''<html><body style="margin:0;width:1200px;height:630px;background:#0A1B33;color:#EAF1F9;font-family:Archivo,'Segoe UI',Arial,sans-serif;position:relative;overflow:hidden">
 <style>.m-a{{stroke:#EAF1F9}}.m-s{{stroke:#5AA9FF}}.m-n{{fill:#5AA9FF}}.cv-bg{{fill:transparent}}.cv-grid{{stroke:#8ED0FF;stroke-opacity:.12}}.cv-ln{{stroke:#8ED0FF;stroke-opacity:.8}}</style>
 <div style="position:absolute;right:-40px;top:0;width:640px;height:630px;opacity:.55;-webkit-mask-image:linear-gradient(90deg,transparent,#000 50%)">{cover.replace('<svg ','<svg style="width:100%;height:100%" ',1)}</div>
-<div style="position:absolute;left:72px;top:64px;display:flex;align-items:center;gap:16px">{mark}<span style="font-size:32px;font-weight:700">Adnan Ahmed <b style="color:#8ED0FF">Siddiqui</b><br><span style="font-size:20px;font-weight:500;color:#A9BCD3">Cloud &amp; EUC Architecture</span></span></div>
+<div style="position:absolute;left:72px;top:64px;display:flex;align-items:center;gap:16px">{mark}<span style="font-size:34px;letter-spacing:-.03em;line-height:1"><span style="font-weight:400">Adnan</span><span style="font-weight:600">Ahmed</span><span style="font-weight:800;color:#8ED0FF">Siddiqui</span><br><span style="display:inline-block;margin-top:10px;font-size:20px;font-weight:500;letter-spacing:0;color:#A9BCD3">Senior Solutions Architect</span></span></div>
 <div style="position:absolute;left:72px;top:210px;width:900px">
 <div style="font-size:26px;color:#8ED0FF;font-weight:600;margin-bottom:22px">{html.escape(kicker)}</div>
 <div style="font-size:{58 if len(title)<60 else 48}px;line-height:1.08;font-weight:750;letter-spacing:-.02em">{html.escape(title)}</div></div>
 <div style="position:absolute;left:72px;bottom:58px;font-size:24px;color:#A9BCD3">{html.escape(sub)}</div></body></html>'''
-jobs = [("default", "Cloud architecture and engineering", "Cloud Architecture. Engineering. Real-World Technology.", "Azure · AVD · Windows 365 · Citrix · AWS · AI")]
+jobs = [("default", "Articles and labs", "Plain-language guides to Azure, AVD and Windows 365.", "Azure landing zones, Azure Virtual Desktop and Windows 365")]
 for a in idx:
     slug = a["u"].strip("/").split("/")[-1]
-    jobs.append((slug, a["s"] + " series", a["t"], "Technical article by Adnan Ahmed"))
-jobs.append(("start-here", "Start here", "How this site is organized", "Technical article by Adnan Ahmed"))
+    jobs.append((slug, a["s"] + " series", a["t"], "Technical article by Adnan Ahmed Siddiqui"))
+jobs.append(("start-here", "Start here", "How this site is organized", "Technical article by Adnan Ahmed Siddiqui"))
 with sync_playwright() as p:
     b = p.chromium.launch(); pg = b.new_page(viewport={"width": 1200, "height": 630})
     css = '@font-face{font-family:Archivo;src:url(file://%s);font-weight:100 900}' % (root / "src/fonts/archivo-latin-wdth-normal.woff2")

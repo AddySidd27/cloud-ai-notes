@@ -21,11 +21,11 @@ permalink: "/articles/"
     <p class="fcount" role="status" aria-live="polite"></p>
   </div>
   <ul class="alist" data-alist>
-    {%- for p in list | mixLatest(articleMeta, 99, 99) %}{% set ser = p.data.tags | seriesOf %}{% set tpp = ser | topicOf %}{% set showSeries = true %}
+    {%- for p in list | mixLatest(articleMeta, 99, 99) %}{% set ser = p.data.tags | seriesOf %}{% set tpp = ser | topicOf %}{% set rmeta = articleMeta[p.data.order] %}
     <li data-topic="{{ tpp.slug }}" data-text="{{ (p.data.title + ' ' + p.data.deck + ' ' + ser.name) | striptags | lower }}"><a href="{{ p.url }}">
-      <strong>{{ p.data.title }}</strong>
-      <span class="ad">{{ p.data.deck | clip(240) }}</span>
-      <span class="am"><span>{{ ser.name }}</span>{% set rmeta = articleMeta[p.data.order] %}{% if rmeta %}<time datetime="{{ rmeta.published }}">{{ rmeta.published | longDate }}</time>{% endif %}<span>{{ p.templateContent | readingTime }} min read</span></span>
+      <span class="am"><span class="am-s">{{ ser.name }}</span>{% if rmeta %}<time datetime="{{ rmeta.published }}">{{ rmeta.published | longDate }}</time>{% endif %}<span>{{ p.templateContent | readingTime }} min read</span></span>
+      <span class="ab"><strong>{{ p.data.title }}</strong>
+      <span class="ad">{{ p.data.deck | clip(240) }}</span></span>
     </a></li>
     {%- endfor %}
   </ul>

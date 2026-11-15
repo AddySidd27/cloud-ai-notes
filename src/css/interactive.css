@@ -9,8 +9,7 @@
 .path-picker__buttons button{min-height:2.75rem;padding:.5rem 1rem;border:1.5px solid var(--line2);border-radius:var(--r);background:var(--surface);color:var(--ink);font:600 .95rem/1.3 var(--sans);cursor:pointer;text-align:left}
 .path-picker__buttons button:hover{border-color:var(--brand);color:var(--brand-ink)}
 .path-picker__buttons button[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:#fff}
-:root[data-theme=dark] .path-picker__buttons button[aria-pressed=true]{color:#04101F}
-@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .path-picker__buttons button[aria-pressed=true]{color:#04101F}}
+@media (prefers-color-scheme:dark){.path-picker__buttons button[aria-pressed=true]{color:#04101F}}
 .path-picker__hint{margin:.75rem 0 0;color:var(--muted);font-size:.95rem}
 .path-picker__panel{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--line)}
 .path-picker.is-enhanced .path-picker__panel[hidden]{display:none}

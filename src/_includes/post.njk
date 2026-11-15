@@ -27,6 +27,13 @@ layout: base.njk
       {% if nb.prev %}<a class="pg prev" href="{{ nb.prev.url }}"><small>Previous</small><span>{{ nb.prev.data.title }}</span></a>{% else %}<span></span>{% endif %}
       {% if nb.next %}<a class="pg next" href="{{ nb.next.url }}"><small>Next</small><span>{{ nb.next.data.title }}</span></a>{% elif next_title %}<span class="pg next soon"><small>Next, in progress</small><span>{{ next_title }}</span></span>{% endif %}
     </nav>
+    {%- set rel = list | related(page.url, articleMeta, 3) %}
+    {%- if rel.length %}
+    <section class="related" aria-labelledby="rel-h">
+      <h2 id="rel-h">Related articles</h2>
+      <ul>{% for r in rel %}<li><a href="{{ r.url }}">{{ r.data.title }}</a></li>{% endfor %}</ul>
+    </section>
+    {%- endif %}
     {%- else %}
     <nav class="pager" aria-label="Start reading"><span></span><a class="pg next" href="/azure-landing-zone/what-is-an-azure-landing-zone/"><small>Begin</small><span>What Is an Azure Landing Zone</span></a></nav>
     {%- endif %}
