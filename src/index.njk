@@ -11,7 +11,10 @@ permalink: "/"
     <p class="hero-lead">Guides to Azure landing zones, Azure Virtual Desktop, Windows 365 and AI on Azure. Each one starts from the basics and lists its sources.</p>
     <p class="hero-actions"><a class="btn" href="/azure-basics-labs/">Start with the Azure basics labs</a><a class="hero-link" href="/azure-virtual-desktop/">Browse Azure Virtual Desktop articles</a></p>
   </div>
-  {% include "hero-diagram.njk" %}
+  <picture class="hero-art">
+    <source media="(min-width:75rem)" srcset="/img/hero/banner.svg">
+    <img src="/img/hero/banner-mobile.svg" width="860" height="512" alt="Illustration of devices connected to a PC in the Azure cloud with AI" fetchpriority="high">
+  </picture>
 </div></header>
 
 <section class="sec home-sec" aria-labelledby="topics-h"><div class="wrap">
