@@ -38,6 +38,8 @@ export default {
   123: { tags: ["AVD", "Networking", "Performance", "QoS"], published: "2026-11-14" },
   // PENDING: publication date for order 124 is a placeholder; the author assigns the real date at approval.
   124: { tags: ["AVD", "Session hosts", "VM sizing", "GPU"], published: "2026-11-14" },
+  // PENDING: publication date for order 125 is a placeholder; the author assigns the real date at approval.
+  125: { tags: ["AVD", "FSLogix", "Cloud Cache", "Profiles"], published: "2026-11-14" },
 
 
 
