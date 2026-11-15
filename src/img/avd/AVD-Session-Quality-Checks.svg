@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 960 610" width="960" height="610" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 960 590" width="960" height="590" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
 <title id="t">Where a slow session can come from, and where to look</title>
-<desc id="d">A chain from the user's device to the session host, drawn with Azure icons, with a network path between them. Inside the path are two checks: how long it is (round-trip time) and how full it is (bandwidth, packet loss and jitter). A third check, how busy the host is (CPU, memory and input delay), points at the session host. Below are four places to look: the Connection Information dialog on the client, the connection network data table and the connection graphics data table (preview) in Log Analytics, and Azure Virtual Desktop Insights. A note says QoS and the throttle rate apply only to the RDP Shortpath for managed networks path.</desc>
+<desc id="d">A chain from the user's device to the session host, with a network path between them. Inside the path are two checks: how long it is (round-trip time) and how full it is (bandwidth, packet loss and jitter). A third check, how busy the host is (CPU, memory and input delay), points at the session host. Below are four places to look: the Connection Information dialog on the client, the connection network data table and the connection graphics data table (preview) in Log Analytics, and Azure Virtual Desktop Insights. A note says QoS and the throttle rate apply only to the RDP Shortpath for managed networks path.</desc>
 <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker><marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3c8d40"/></marker></defs>
-<rect x="6" y="6" width="948" height="598" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
+<rect x="6" y="6" width="948" height="578" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
 <text x="480.0" y="38" font-size="20" font-weight="600" text-anchor="middle" fill="#1f2933">A slow session: three places to check</text>
 <line x1="136" y1="115" x2="186" y2="115" stroke="#5f6b7a" stroke-width="2.5" marker-start="url(#a)" marker-end="url(#a)"/>
 <line x1="714" y1="115" x2="796" y2="115" stroke="#5f6b7a" stroke-width="2.5" marker-start="url(#a)" marker-end="url(#a)"/>
@@ -38,4 +38,4 @@
 <text x="830.0" y="465" font-size="12" text-anchor="middle" fill="#5f6b7a">round-trip time by gateway</text>
 <text x="830.0" y="481" font-size="12" text-anchor="middle" fill="#5f6b7a">region, input delay by host</text>
 <rect x="180" y="536" width="600" height="38" rx="8" fill="#f3eeff" stroke="#b9a6f0" stroke-width="1.5"/><text x="480" y="560" font-size="14" text-anchor="middle" fill="#1f2933">QoS and the throttle rate apply only to the RDP Shortpath for managed networks path.</text>
-<text x="480.0" y="598" font-size="12" text-anchor="middle" fill="#5f6b7a">Drawn by the author from Microsoft Learn pages, with Azure icons. Not an official Microsoft diagram.</text></svg>
+</svg>

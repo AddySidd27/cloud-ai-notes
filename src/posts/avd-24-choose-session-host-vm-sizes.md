@@ -11,13 +11,9 @@ deck: "Read a VM size name, start from the sizing guidelines, decide if you need
 description: "How to choose an Azure Virtual Desktop session host VM size: the sizing guidelines, GPU sizes, OS disks, Trusted launch, and quota and capacity checks."
 ---
 
-You have decided who the users are, which apps they run and how many sessions you expect. The next question is which virtual machine to buy. That is the topic of this article.
+You have decided who the users are for Azure Virtual Desktop (AVD), which apps they run and how many sessions you expect. The next question is which virtual machine (VM) to buy. That is the topic of this article.
 
 [The host pool planning article](/azure-virtual-desktop/plan-your-host-pools/) shows how to group users, test with real work and count hosts. This article starts after that. It covers how to read a VM size name, what the sizing guidelines say, when you need a GPU, which disk and security options matter, and how to check quota and capacity so a deployment does not fail halfway. How to create and replace the hosts is in [the session host lifecycle article](/azure-virtual-desktop/create-update-replace-session-hosts/).
-
-![Four steps. 1: know the workload (light, medium, heavy or power; single-session or multi-session). 2: choose the VM: size, GPU (optional), OS disk and security type. 3: Azure checks quota and capacity. If both are fine, it creates the VM and you go to step 4. If not, go back to step 2 and change the size, zone or region, or request more quota. 4: after it runs, measure with AVD Insights, use autoscale, and use savings plans or reserved instances.](/img/avd/AVD-Session-Host-VM-Size.svg)
-
-*Drawn by the author from Microsoft Learn pages, with Azure icons. Not an official Microsoft diagram.*
 
 ## Key terms
 
@@ -25,18 +21,20 @@ You have decided who the users are, which apps they run and how many sessions yo
 |---|---|
 | Session host | A virtual machine (VM) that runs the user's desktop or apps. |
 | Host pool | A group of session hosts that users connect to. |
-| Single-session and multi-session | On a single-session host, one user is signed in at a time. This is the case in a personal host pool. On a multi-session host, several users are signed in at the same time. This is the case in a pooled host pool with Windows 11 Enterprise multi-session. |
-| vCPU | A virtual processor. With hyper-threading, one physical core can appear as two vCPUs. |
+| Single-session and multi-session | On a single-session host, one user is signed in at a time. This is the case in a personal host pool, where each user gets their own session host. On a multi-session host, several users are signed in at the same time. This is the case in a pooled host pool, where users share session hosts, with Windows 11 Enterprise multi-session. |
+| vCPU | A virtual processor. With hyper-threading (one core runs two tasks at once), one physical core can appear as two vCPUs. |
 | VM size, series and family | A size is one VM configuration, such as Standard_D8s_v5. A series is a group of sizes with similar hardware. A family is a group of series for a type of work, such as general purpose or GPU. |
 | GPU | A graphics processing unit. It draws and encodes pictures much faster than the CPU can. |
 | OS disk | The disk that holds Windows and the apps installed on that session host. |
 | Temporary disk | A disk on the physical server that runs the VM. Its data can be lost, for example when the VM is moved or deleted. |
 | Ephemeral OS disk | An OS disk placed on the VM's local storage instead of on remote Azure storage. It is not kept when the VM is deleted or reimaged. |
 | Generation 2 VM | A newer VM generation. Trusted launch works only with Generation 2 VMs. |
-| Trusted launch | A VM security setting that protects the boot process. It uses Secure Boot and a virtual Trusted Platform Module (vTPM). |
-| Quota | How many vCPUs or VMs your subscription is allowed to deploy in a region. |
+| Trusted launch | A VM security setting that protects the boot process. It uses Secure Boot and a virtual Trusted Platform Module (vTPM). Secure Boot checks that only trusted software starts. A vTPM is a virtual chip that stores keys and boot measurements. |
+| Quota | How many vCPUs or VMs your subscription is allowed to deploy in a region. A deployment fails if it goes over quota. |
 | Capacity | The compute that Azure actually has free in a region or zone. Quota does not guarantee it. |
 | Premium SSD and Standard SSD | Two types of Azure disk. Premium SSD is faster. |
+| Azure Files | A shared network file store in Azure. AVD profiles are often kept there. |
+| Breadth-first and depth-first | Two ways to load balance users. Breadth-first sends each new user to the VM with the fewest sessions. Depth-first fills one VM before it uses the next. |
 | NVMe | A very fast type of disk storage. |
 | Availability zone | A separate datacenter location inside one Azure region. |
 | Session host configuration | A host pool setting that lets AVD create and update session hosts for you. See the lifecycle article. |
@@ -51,11 +49,15 @@ You have decided who the users are, which apps they run and how many sessions yo
 | Deallocated | A VM that is stopped and no longer billed for compute. |
 | Frame encoding and codec | Before the session picture is sent to the user, it is compressed. The method is called a codec. AVC/H.264 and HEVC/H.265 are two codecs. |
 
+![Four steps. 1: know the workload (light, medium, heavy or power; single-session or multi-session). 2: choose the VM: size, GPU (optional), OS disk and security type. 3: Azure checks quota and capacity. If both are fine, it creates the VM and you go to step 4. If not, go back to step 2 and change the size, zone or region, or request more quota. 4: after it runs, measure with AVD Insights, use autoscale, and use savings plans or reserved instances.](/img/avd/AVD-Session-Host-VM-Size.svg)
+
+*Source: [Session host virtual machine sizing guidelines](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/virtual-machine-recs), [Check vCPU quotas](https://learn.microsoft.com/en-us/azure/virtual-machines/quotas) and [Enable GPU acceleration for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/graphics-enable-gpu-acceleration). The documentation has no single diagram of these steps, so the layout is simplified.*
+
 ## Start from the sizing guidelines
 
 The documentation has a page of session host sizing guidelines. It says its examples are generic and only for initial estimates, and that you should scale the deployment to what your users need.
 
-For a single-session host, the page recommends at least two physical CPU cores per VM, typically four vCPUs with hyper-threading. It gives these examples:
+For a single-session host, the page recommends at least two physical CPU cores per VM, typically four vCPUs with hyper-threading. That means two cores run as about four vCPUs. It gives these examples:
 
 | Workload type | Minimum vCPU, RAM and OS storage | Example Azure sizes |
 |---|---|---|
@@ -70,9 +72,9 @@ For a multi-session host, the page also gives users per vCPU. [The host pool pla
 | Light, medium and heavy | 8 vCPUs, 16 GB RAM, 32 GB storage | D8s_v5, D8s_v4, F8s_v2, D8as_v4, D16s_v5, D16s_v4, F16s_v2, D16as_v4 |
 | Power | 6 vCPUs, 56 GB RAM, 340 GB storage | D16ds_v5, D16s_v4, D16as_v4, NV6, NV16as_v4 |
 
-NV6 is quoted from the sizing page. The first-generation NV series is not in the GPU table later in this article, so check that table before you use it.
+NV6 is a first-generation NV size. It is in the sizing page but not in the GPU table later in this article, so check that table before you use it.
 
-The page suggests at least 30 GB of profile storage for each user in both tables. The size names are explained in the next section. The examples are v4 and v5 sizes. The pages used for this article do not say which newer series are supported, so check any size you choose against the unsupported list below and test it (judgement).
+The page suggests at least 30 GB of profile storage for each user in both tables. The size names are explained in the next section. The examples are v4 and v5 sizes. The pages used for this article do not say which newer series are supported, so check any size you choose against the unsupported list below. Then test it (judgement).
 
 ### Few big VMs or many small VMs
 
@@ -90,8 +92,8 @@ The page lists the main factors in capacity. In short:
 - Doubling the cores does not double the number of users. The page gives a scaling factor of about 1.5 to 1.9, and says it is higher when you start with few cores. Going from 4 to 8 cores gains more than going from 8 to 16.
 - Memory can matter more than CPU when it is the limit. The page says going from 8 GB to 16 GB can more than double the users you can support.
 - Signing in uses a lot of CPU. Plan for the busiest sign-in time, such as 9 AM, and not only for the steady state.
-- Running on a VM costs capacity. The sizing page reports a 15–20% capacity cost compared with bare metal (a physical server with no VM), based on internal testing. It says response times can be 10–20% higher.
-- Fast storage helps apps that use the disk a lot. The page suggests SSD or NVMe drives.
+- Running on a VM costs capacity. The sizing page reports 15–20% less capacity than a physical server with no VM, based on internal testing. It says response times can be 10–20% higher.
+- Fast storage helps apps that use the disk a lot. The page suggests SSD or NVMe drives (fast disks).
 - Network delay, packet loss and jitter also change the experience. [The bandwidth and latency article](/azure-virtual-desktop/plan-bandwidth-latency-and-quality-of-service/) covers them.
 
 ## Read a VM size name
@@ -117,7 +119,7 @@ The prerequisites page lists what you cannot use as a session host:
 - 32-bit operating systems.
 - N, KN, LTSC and other Windows editions that the page does not list.
 - Ultra disks as the OS disk type.
-- Ephemeral OS disks for Azure VMs. This is unclear: this page says not supported, but the AVD ephemeral page says AVD supports them. See the section on OS disks and the table at the end.
+- Ephemeral OS disks for Azure VMs. The pages disagree: this page says not supported, but the AVD ephemeral page says AVD supports them. See the section on OS disks and the table at the end.
 - Virtual Machine Scale Sets.
 - Arm64-based Azure VMs.
 
@@ -149,7 +151,7 @@ Notes from the page:
 - Bigger GPUs are likely to give a better experience for the same number of users. Smaller and fractional (shared) GPU sizes let you tune cost and quality more finely.
 - You must install the graphics driver yourself, and only drivers distributed by Azure are supported. For NVIDIA sizes it must be the GRID driver, not the CUDA driver.
 - You turn on the features with a policy in Intune or Group Policy, then restart the session host. The policy names include "Use hardware graphics adapters for all Remote Desktop Services sessions" and "Configure H.264/AVC hardware encoding for Remote Desktop connections". The page warns that if you turn on "Prioritize H.264/AVC 444 Graphics mode" but not the hardware encoding policy, the CPU may still do the encoding.
-- HEVC/H.265 needs more: Windows 10 or 11, a desktop app group (RemoteApp is not supported), and a client with HEVC decoding and a supported app.
+- HEVC/H.265 needs more: Windows 10 or 11, a desktop app group (RemoteApp is not supported), and a client with HEVC decoding and a supported app. It also needs NVIDIA GRID driver 16.2 (537.13) or later on NVIDIA sizes, multimedia redirection turned off on the session host, and the policy "Configure H.265/HEVC hardware encoding for Remote Desktop Connections" under the Azure Virtual Desktop administrative template.
 
 To check that it works, open Task Manager in the session and look at the GPU, or open Connection Information and look for "Codecs Used: HEVC". The page also names Event Viewer events: ID 170 for AVC hardware encoding and ID 162 for the full-screen profile in use.
 
@@ -161,14 +163,14 @@ Each session host has an OS disk that holds Windows and the apps you install on 
 
 - They are supported only in pooled host pools that use a session host configuration. [The lifecycle article](/azure-virtual-desktop/create-update-replace-session-hosts/) explains session host configurations.
 - During the preview, only the Standard SSD disk type is supported. Premium SSD and NVMe are not. It is not supported in Azure Government during the preview.
-- The Windows image must fit in the VM's temporary disk (or its cache). The page gives an example: a 127 GiB Windows 11 multi-session marketplace image fits on the 200 GiB temporary disk of Standard_D8s_v3. GiB is a slightly bigger unit than GB.
+- The Windows image must fit in the VM's temporary disk (or its cache). The page gives an example: a 127 GiB Windows 11 multi-session marketplace image fits on the 200 GiB temporary disk of Standard_D8s_v3. GiB is a slightly bigger unit than GB (1 GiB is about 1.07 GB).
 - The VM cannot be deallocated. It can only be restarted, reimaged or deleted. The page therefore recommends dynamic autoscale with "Minimum percentage of active hosts" set to 100%, so that scaling only creates and deletes hosts.
 - Snapshots, image capture, Azure Disk Encryption, Azure Backup and Azure Site Recovery are not supported.
-- The AVD ephemeral OS disk page says to keep user profiles in FSLogix profile containers (profiles stored on shared storage), because the OS disk is not kept when the host is rebuilt.
+- The Learn troubleshooting page for ephemeral OS disks says to keep user profiles in FSLogix profile containers (profiles stored on shared storage), because the OS disk is not kept when the host is rebuilt.
 
 ## Security type and image generation
 
-When you create a host pool, you choose a security type for the session hosts: Standard, Trusted launch virtual machines, or Confidential virtual machines. Choosing Trusted launch selects Secure Boot and the vTPM for you. Choosing Confidential also turns on integrity monitoring.
+When you create a host pool, you choose a security type for the session hosts: Standard, Trusted launch virtual machines, or Confidential virtual machines (VMs with extra hardware protection for data in use; not covered in this article). Choosing Trusted launch selects Secure Boot and the vTPM for you. Choosing Confidential also turns on integrity monitoring.
 
 The Trusted launch page says it is the default for newly created Generation 2 VMs when the image, disk and size all support it. It works only with Generation 2 VMs, a supported size and a supported operating system image. A few Generation 2 sizes do not support it. The Trusted launch FAQ shows how to check a size:
 
@@ -216,10 +218,10 @@ The documentation says the VM instances are usually the biggest part of the cost
 
 ## A simple way to choose
 
-This order is the author's own method, not a documented procedure (judgement):
+This order is my own method, not a documented procedure (judgement):
 
 1. Start from the user group, the apps and the number of users that the host pool plan gives you.
-2. Pick candidate sizes from the sizing guidelines. The sizing page gives 6 to 24 vCPUs in one place and 4 to 24 in another. Use 4 to 24 as a working range for multi-session hosts (judgement). The multi-session table suggests 8 or more for most workloads. (The 6 to 24 and 4 to 24 are two statements on the same page.) Using only a few different sizes keeps things simple (judgement).
+2. Pick candidate sizes from the sizing guidelines. The sizing page gives two ranges, 6 to 24 vCPUs in one place and 4 to 24 in another. I use 4 to 24 as a working range for multi-session hosts (judgement). The multi-session table suggests 8 or more for most workloads. Using only a few different sizes keeps things simple (judgement).
 3. Decode the name. Check that the size is not Arm64 or otherwise unsupported.
 4. Decide if you need a GPU, an ephemeral OS disk or a security type other than Standard.
 5. Check the region, the quota for the size family and the capacity, with a small test deployment.
@@ -232,7 +234,7 @@ This order is the author's own method, not a documented procedure (judgement):
 |---|---|---|---|
 | 1 | Ephemeral OS disks | The prerequisites page and the FAQ list ephemeral OS disks for Azure VMs as not supported. The AVD ephemeral OS disk page says AVD supports them, with limits marked "during preview", for pooled host pools with a session host configuration. The What's new pages say public preview (October 2025) and now available (June 2026). | Not resolved. The article describes the AVD page and tells you to confirm the current status before use. |
 | 2 | Smallest multi-session VM | The sizing table gives 8 vCPUs as the minimum for light, medium and heavy workloads. The text says four cores is the lowest recommended number, and 6 vCPUs is the minimum for power work. | These do not clash. Four cores is the lowest a stable multi-session VM should have. Eight vCPUs is where the table starts for light, medium and heavy work. Start at 8 or more and test. |
-| 3 | Upper and lower size limit | The same page says to limit VM size to between 6 and 24 vCPUs, and later gives 4 to 24 cores as the recommended range. | The checklist uses 4 to 24 as a working range (judgement). |
+| 3 | Upper and lower size limit | The same page says vCPUs in one place and cores in another: it first says to limit VM size to between 6 and 24 vCPUs, and later gives 4 to 24 cores as the recommended range. | The checklist uses 4 to 24 as a working range (judgement). |
 
 ## Common mistakes
 
@@ -257,4 +259,4 @@ This order is the author's own method, not a documented procedure (judgement):
 
 [Session host virtual machine sizing guidelines](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/virtual-machine-recs), [Enable GPU acceleration for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/graphics-enable-gpu-acceleration) and [Check vCPU quotas](https://learn.microsoft.com/en-us/azure/virtual-machines/quotas).
 
-The article also uses these Microsoft Learn pages: the AVD prerequisites, the AVD ephemeral OS disk page, the Azure VM naming conventions, the Azure VM sizes overview, the Trusted launch page and FAQ, and the AVD troubleshooting pages for session host configurations.
+The article also uses these Microsoft Learn pages: the AVD prerequisites, the AVD ephemeral OS disk page, the Learn troubleshooting page for ephemeral OS disks, the Azure VM naming conventions, the Azure VM sizes overview, the Trusted launch page and FAQ, and the AVD troubleshooting pages for session host configurations.

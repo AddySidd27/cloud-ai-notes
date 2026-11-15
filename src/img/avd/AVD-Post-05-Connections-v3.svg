@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 960" width="1000" height="960" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
-  <title id="t">Azure Virtual Desktop network connections, redrawn from Learn</title>
-  <desc id="d">Not an official Microsoft diagram. It follows the Learn network connections diagram. A client, a session host and AD DS sit at the top. A public internet cloud sits at left. A box named Azure Virtual Desktop Infrastructure holds RD Web, RD Gateway and RD Broker, joined by internal service traffic. Microsoft Entra ID sits below the box. The client has a reverse connect transport line through the internet to RD Gateway, a feed subscription line through the internet to RD Web and an authentication line to Microsoft Entra ID. RD Gateway has a reverse connect line to the session host. The session host has an RD Agent communication line to RD Broker and an Active Directory connectivity line to AD DS. A Microsoft Entra Connect sync line joins Microsoft Entra ID and AD DS with its arrowhead at AD DS as Learn draws it. Session host authentication to Entra ID is not drawn in the Learn diagram.</desc>
+  <title id="t">Azure Virtual Desktop network connections</title>
+  <desc id="d">It follows the Learn network connections diagram. A client, a session host and AD DS sit at the top. A public internet cloud sits at left. A box named Azure Virtual Desktop Infrastructure holds RD Web, RD Gateway and RD Broker, joined by internal service traffic. Microsoft Entra ID sits below the box. The client has a reverse connect transport line through the internet to RD Gateway, a feed subscription line through the internet to RD Web and an authentication line to Microsoft Entra ID. RD Gateway has a reverse connect line to the session host. The session host has an RD Agent communication line to RD Broker and an Active Directory connectivity line to AD DS. A Microsoft Entra Connect sync line joins Microsoft Entra ID and AD DS with its arrowhead at AD DS as Learn draws it. Session host authentication to Entra ID is not drawn in the Learn diagram.</desc>
   <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
   <rect x="6" y="6" width="988" height="948" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
   <text x="500" y="36" font-size="20" font-weight="600" text-anchor="middle" fill="#1f2933">Azure Virtual Desktop network connections</text>
-  <text x="500" y="60" font-size="14" text-anchor="middle" fill="#1f2933">Redrawn from the Learn diagram, using its names and arrowheads. Arrow ends are as Learn draws them.</text>
+  <text x="500" y="60" font-size="14" text-anchor="middle" fill="#1f2933">Names and arrow ends follow the Learn diagram.</text>
   <rect x="30" y="100" width="180" height="120" rx="8" fill="#ffffff" stroke="#3c8d40" stroke-width="1.8"/>
   <image x="85" y="110" width="40" height="40" href="data:image/svg+xml;base64,PHN2ZyBpZD0iYTI2ZTdkMGQtYzE1OS00MzdjLTg0NWUtNTI5NzI2ZjNkZjllIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImFlYTU3NmU1LWZlZjgtNGJmNS1hNmRkLTU5MGMwNzVhMDhjNSIgeDE9IjguMzQiIHkxPSIxMS45NiIgeDI9IjguMzQiIHkyPSIxLjg2IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZDJlYmZmIiAvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2YwZmZmZCIgLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iYWUxNjExY2QtNGNmMS00ZWQxLWI1ZTEtZGIxOTIyMGVlNTg2IiB4MT0iMTQuMTUiIHkxPSIyMC40MSIgeDI9IjE0LjE1IiB5Mj0iMi4zNCIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzAwNzhkNCIgLz48c3RvcCBvZmZzZXQ9IjAuMTciIHN0b3AtY29sb3I9IiMxYzg0ZGMiIC8+PHN0b3Agb2Zmc2V0PSIwLjM4IiBzdG9wLWNvbG9yPSIjMzk5MGU0IiAvPjxzdG9wIG9mZnNldD0iMC41OSIgc3RvcC1jb2xvcj0iIzRkOTllYSIgLz48c3RvcCBvZmZzZXQ9IjAuOCIgc3RvcC1jb2xvcj0iIzVhOWVlZSIgLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM1ZWEwZWYiIC8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImJiMGE2NTFiLWJiOTctNDU2OS1hMjNlLTVmZWQ1NmMxZTM1OSIgeDE9IjE0LjE1IiB5MT0iMTUuNTMiIHgyPSIxNC4xNSIgeTI9IjUuMiIgaHJlZj0iI2FlYTU3NmU1LWZlZjgtNGJmNS1hNmRkLTU5MGMwNzVhMDhjNSIgLz48L2RlZnM+PHRpdGxlPkljb24taW50dW5lLTMzMjwvdGl0bGU+PHJlY3QgeT0iMS4wMyIgd2lkdGg9IjE2LjY4IiBoZWlnaHQ9IjExLjg3IiByeD0iMC42IiBmaWxsPSIjMDA3OGQ0IiAvPjxyZWN0IHg9IjAuOTciIHk9IjEuODYiIHdpZHRoPSIxNC43NCIgaGVpZ2h0PSIxMC4xIiByeD0iMC4zIiBvcGFjaXR5PSIwLjkiIGZpbGw9InVybCgjYWVhNTc2ZTUtZmVmOC00YmY1LWE2ZGQtNTkwYzA3NWEwOGM1KSIgLz48cmVjdCB4PSIxMC4zIiB5PSI0LjEyIiB3aWR0aD0iNy43IiBoZWlnaHQ9IjEyLjg1IiByeD0iMC4zIiBmaWxsPSJ1cmwoI2FlMTYxMWNkLTRjZjEtNGVkMS1iNWUxLWRiMTkyMjBlZTU4NikiIC8+PHJlY3QgeD0iMTMuMjciIHk9IjQuNTUiIHdpZHRoPSIxLjc3IiBoZWlnaHQ9IjAuMjQiIHJ4PSIwLjExIiBmaWxsPSIjZjJmMmYyIiAvPjxyZWN0IHg9IjExLjAzIiB5PSI1LjIiIHdpZHRoPSI2LjI1IiBoZWlnaHQ9IjEwLjMzIiByeD0iMC4xNCIgb3BhY2l0eT0iMC45IiBmaWxsPSJ1cmwoI2JiMGE2NTFiLWJiOTctNDU2OS1hMjNlLTVmZWQ1NmMxZTM1OSkiIC8+PHJlY3QgeD0iNy40OCIgeT0iMS40IiB3aWR0aD0iMS43NyIgaGVpZ2h0PSIwLjI0IiByeD0iMC4xMSIgZmlsbD0iI2YyZjJmMiIgLz48cmVjdCB4PSIxMy43MiIgeT0iMTUuOTYiIHdpZHRoPSIwLjg2IiBoZWlnaHQ9IjAuNzMiIHJ4PSIwLjIiIGZpbGw9IiNmMmYyZjIiIC8+PC9zdmc+"/>
   <text x="120" y="178" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Client</text>
@@ -30,12 +30,13 @@
   <line x1="170" y1="400" x2="250" y2="400" stroke="#1f8ad1" stroke-width="4"/>
   <line x1="250" y1="400" x2="250" y2="495" stroke="#1f8ad1" stroke-width="4"/>
   <line x1="250" y1="495" x2="350" y2="495" stroke="#1f8ad1" stroke-width="4" marker-end="url(#arr)"/>
-  <line x1="390" y1="465" x2="390" y2="160" stroke="#1f8ad1" stroke-width="4"/>
+  <line x1="390" y1="320" x2="390" y2="160" stroke="#1f8ad1" stroke-width="4"/>
   <line x1="390" y1="160" x2="430" y2="160" stroke="#1f8ad1" stroke-width="4" marker-end="url(#arr)"/>
   <line x1="120" y1="220" x2="120" y2="330" stroke="#b42318" stroke-width="3" marker-end="url(#arr)"/>
   <line x1="170" y1="360" x2="490" y2="360" stroke="#b42318" stroke-width="3" marker-end="url(#arr)"/>
-  <line x1="195" y1="220" x2="195" y2="690" stroke="#6b4fa0" stroke-width="3"/>
-  <line x1="195" y1="690" x2="330" y2="690" stroke="#6b4fa0" stroke-width="3" marker-end="url(#arr)"/>
+  <line x1="30" y1="170" x2="18" y2="170" stroke="#6b4fa0" stroke-width="3"/>
+  <line x1="18" y1="170" x2="18" y2="690" stroke="#6b4fa0" stroke-width="3"/>
+  <line x1="18" y1="690" x2="330" y2="690" stroke="#6b4fa0" stroke-width="3" marker-end="url(#arr)"/>
   <line x1="565" y1="220" x2="565" y2="290" stroke="#3c8d40" stroke-width="3"/>
   <line x1="565" y1="290" x2="705" y2="290" stroke="#3c8d40" stroke-width="3"/>
   <line x1="705" y1="290" x2="705" y2="465" stroke="#3c8d40" stroke-width="3" marker-end="url(#arr)"/>
@@ -62,7 +63,4 @@
   <text x="570" y="811" font-size="13" text-anchor="start" fill="#1f2933">Microsoft Entra Connect sync (TCP 443)</text>
   <line x1="518" y1="828" x2="558" y2="828" stroke="#d4a017" stroke-width="3" stroke-dasharray="3,4"/>
   <text x="570" y="833" font-size="13" text-anchor="start" fill="#1f2933">Internal service traffic</text>
-  <rect x="30" y="890" width="940" height="58" rx="6" fill="#ffffff" stroke="#c2570c" stroke-width="1.4"/>
-  <text x="44" y="912" font-size="13" text-anchor="start" fill="#1f2933">Flagged: Learn&#x27;s arrowheads and the page text differ. The sync line has its arrowhead at AD DS here, as in Learn,</text>
-  <text x="44" y="932" font-size="13" text-anchor="start" fill="#1f2933">while Learn text describes Microsoft Entra Connect syncing from AD DS to Entra ID. Page text: both ends connect outward.</text>
 </svg>

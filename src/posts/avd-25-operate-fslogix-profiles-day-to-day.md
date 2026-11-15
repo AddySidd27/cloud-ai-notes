@@ -17,7 +17,7 @@ This article covers that daily work. It starts with Cloud Cache, an optional FSL
 
 The basics are in two earlier articles. [How FSLogix profile containers work](/azure-virtual-desktop/how-fslogix-profile-containers-work/) explains the sign-in steps, the main settings and the default one-session-per-container lock. [The storage and access article](/azure-virtual-desktop/choose-storage-and-set-access-for-fslogix-profile-containers/) covers where to store containers, permissions, and what the storage survives. This article does not repeat them. A note marked (judgement) is my own opinion, not something Microsoft Learn (Microsoft's documentation site, called Learn below) says.
 
-One notice appears on the FSLogix pages on Learn: a change named for the April 2026 Windows Server update, which Learn still words as upcoming, switches the default Kerberos encryption type from RC4 to AES-SHA1. Kerberos is the sign-in protocol Windows uses for file shares. RC4 and AES-SHA1 are two ways it encrypts tickets. File shares that host containers and are not upgraded might have access problems. Learn says to complete the upgrade to AES-SHA1 before you install the update. Check the current state on the storage that hosts your containers, such as Windows file servers.
+One notice appears on the FSLogix pages on Learn: Learn warns about the April 2026 Windows Server update. It changes the default Kerberos encryption type from RC4 to AES-SHA1. Learn still words this as upcoming. Kerberos is the sign-in protocol Windows uses for file shares. RC4 and AES-SHA1 are two ways it encrypts tickets. File shares that host containers and are not upgraded might have access problems. Learn says to complete the upgrade to AES-SHA1 before you install the update. Check the current state on the storage that hosts your containers, such as Windows file servers.
 
 ## Key terms
 
@@ -44,12 +44,19 @@ One notice appears on the FSLogix pages on Learn: a change named for the April 2
 | Compaction | Making a container file smaller on disk by giving back unused space. |
 | Temporary profile | A blank profile that Windows gives a user when the container does not attach. |
 | Event ID | The number of an entry in a Windows event log. |
+| Event Viewer | The Windows tool that shows event logs. |
+| Forced sign-out | A sign-out that FSLogix ends after the timeout, even though the providers are not all up to date. |
+| Failover | Moving users to the second storage or region when the first one fails. |
+| High availability | Keeping a service working when one part fails. |
+| Disaster recovery | Getting back to work after a large failure, such as a whole region going down. |
+| `ProfileType` | The FSLogix setting that says whether several sessions may use one container at the same time. 0 is the normal one-connection setting. |
+| CU1 | Cumulative update 1, a bundle of fixes released after a version. |
 
 ## Do you need Cloud Cache?
 
 Start with this question, because Cloud Cache adds disk work and local storage on the virtual machine (Learn). It also means paying for more than one storage provider (judgement).
 
-The Cloud Cache page says its job is to protect users from short-term or intermittent storage problems close to the session host. It can also be part of a disaster recovery plan when the providers are in different regions. It puts a performance and storage need on the virtual machine, because of the extra disk work and the local cache.
+The [Cloud Cache overview](https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache) says its job is to protect users from short-term or intermittent storage problems close to the session host. It can also be part of a disaster recovery plan when the providers are in different regions. It puts a performance and storage need on the virtual machine, because of the extra disk work and the local cache.
 
 The FSLogix FAQ asks the same question, "Do I need to use Cloud Cache for high availability?", and answers no. A standard container on highly available storage is acceptable. It names Azure Files with zone-redundant storage (ZRS, which keeps copies in several zones of one region) as a recommended provider.
 
@@ -69,27 +76,27 @@ If you use standard containers, you can skip to "Keep containers from filling up
 
 ![Cloud Cache keeps a local copy of the container on the session host. The user works on the local copy. FSLogix reads from the first healthy storage provider when data is missing, and writes every change to all providers. At sign-out, if a provider is behind, sign-out waits until the providers match, for as long as the timeout setting allows. If all providers are down, the user keeps working on the local cache, but data that is not in it cannot be read, which can hang the session.](/img/avd/AVD-FSLogix-Cloud-Cache.svg)
 
-*Drawn by the author from Microsoft Learn pages, with Azure icons. Not an official Microsoft diagram. The picture simplifies the numbered steps below. `CcdUnregisterTimeout` is explained in "Set up Cloud Cache".*
+*Source: [Cloud Cache overview](https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache). The picture is simplified. Its steps 4, 5 and 6 match steps 4, 5 and 6 in the list below. Its steps 1 to 3 combine list steps 1 to 3, and list step 7 is not drawn. `CcdUnregisterTimeout` is explained in "Set up Cloud Cache".*
 
 
 1. **First sign-in.** FSLogix creates a local container in `C:\ProgramData\FSLogix\Cache`. It copies data from a provider into it as Windows asks for it.
-2. **Later sign-ins.** By default FSLogix looks for the old local cache and mounts it. The Cloud Cache page says this default can lead to low disk space events on the host.
+2. **Later sign-ins.** By default FSLogix looks for the old local cache and mounts it. The Cloud Cache overview says this default can lead to low disk space events on the host.
 3. **During the session.** The user works on the local copy. A proxy file (`Profile_%username%.vhd`) is mounted as the container. It is not a true VHD, and its size on disk is zero.
 4. **Reads.** If the local copy lacks the data, Cloud Cache hydrates it from one provider. That is the first provider in `CCDLocations`, unless it is unhealthy.
 5. **Writes.** Changes are written to the local copy first. Cloud Cache then flushes them to all providers in the background. Each provider is flushed on its own thread (its own stream of work).
 6. **Sign-out.** If a provider does not have all the changes, the sign-out waits until all providers match.
 7. **Out of sync.** If a provider is behind at sign-in, Cloud Cache clones a full copy to it. New changes stay in the local cache until the providers are equal.
 
-Two helper files exist. The lock file lives only on the remote providers. Cloud Cache uses it to know which VM holds the container. The meta file tracks the container state with a sequence number, so Cloud Cache knows which provider has the newest data. The Cloud Cache page says these files are for FSLogix only and are not meant to be opened.
+Two helper files exist. The lock file lives only on the remote providers. Cloud Cache uses it to know which VM holds the container. The meta file tracks the container state with a sequence number, so Cloud Cache knows which provider has the newest data. The Cloud Cache overview says these files are for FSLogix only and are not meant to be opened.
 
-Things to know from the page:
+Things to know from the Cloud Cache overview:
 
 - If all providers go unhealthy during a session, the local cache keeps working and grows, up to the `SizeInMBs` limit.
-- If Cloud Cache needs data it cannot hydrate from any provider, the Cloud Cache page warns of a session hang, or worse, a system crash (a blue screen).
+- If Cloud Cache needs data it cannot hydrate from any provider, the Cloud Cache overview warns of a session hang, or worse, a system crash (a blue screen).
 - List providers by closeness first, then by preference.
 - `Ping` and `Test-NetConnection` are bad ways to judge a provider. They do not measure real disk work.
 - A provider that is often behind may be a slow provider.
-- Cloud Cache puts more load on the session host. Two Learn pages give a starting ratio in opposite directions: 2 users for each vCPU (virtual CPU) on the system resources page, and 2 vCPUs for each user on the long sign-ins page. Test with real users. [The VM sizing article](/azure-virtual-desktop/choose-session-host-vm-sizes/) covers sizing.
+- Cloud Cache puts more load on the session host. Two Learn pages give a starting ratio in opposite directions: 2 users for each vCPU (virtual CPU) on the [system resources page](https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-system-resources), and 2 vCPUs for each user on the [long sign-ins page](https://learn.microsoft.com/en-us/fslogix/troubleshooting-long-failed-signin). Test with real users. [The VM sizing article](/azure-virtual-desktop/choose-session-host-vm-sizes/) covers sizing.
 
 ## Set up Cloud Cache
 
@@ -110,7 +117,7 @@ For an Azure page blob provider, use the name of a protected key in the connecti
 | Value | Setting | Why the tutorial uses it |
 |---|---|---|
 | 1 | `ClearCacheOnLogoff` | Saves local disk space and reduces the risk of data loss with pooled host pools. |
-| 1 | `HealthyProvidersRequiredForRegister` | Sign-in is refused when fewer than 1 provider is healthy, if you also set `PreventLoginWithFailure` or `PreventLoginWithTempProfile` (see below). |
+| 1 | `HealthyProvidersRequiredForRegister` | Tutorial: stops users from creating a local cache when a provider is not healthy. The settings reference adds that sign-in then fails when no provider is healthy, and says to set `PreventLoginWithFailure` or `PreventLoginWithTempProfile` for the behaviour you want (see below). |
 | 1 | `DeleteLocalProfileWhenVHDShouldApply` | Users do not lose data in a local profile by accident. |
 | 0 | `ProfileType` | One connection at a time. This is the default. The tutorial says it is simpler and faster. |
 
@@ -124,7 +131,7 @@ Three settings in the table differ from the defaults in the settings reference:
 
 The tutorial sets all three to 1. Following the tutorial is my suggestion for pooled hosts (judgement). Read the data loss warning below before you change the sign-out settings.
 
-If you set `HealthyProvidersRequiredForRegister` above 0, also set `PreventLoginWithFailure` or `PreventLoginWithTempProfile`. These two settings stop the sign-in when the container does not attach. The settings reference says to use them to get the sign-in behaviour you want. By default, a profile that cannot attach can end in a temporary profile (old, temporary or local profiles page).
+If you set `HealthyProvidersRequiredForRegister` above 0, also set `PreventLoginWithFailure` or `PreventLoginWithTempProfile`. These two settings stop the sign-in when the container does not attach. The [settings reference](https://learn.microsoft.com/en-us/fslogix/reference-configuration-settings) says to use them to get the sign-in behaviour you want. By default, a profile that cannot attach can end in a temporary profile ([old, temporary or local profiles page](https://learn.microsoft.com/en-us/fslogix/troubleshooting-old-temp-local-profiles)).
 
 The tutorial's retry values also differ from the defaults. They set how often and how long FSLogix retries a locked or detached container:
 
@@ -140,19 +147,19 @@ The tutorial's retry values also differ from the defaults. They set how often an
 | Setting | Default | What it does |
 |---|---|---|
 | `HealthyProvidersRequiredForUnregister` | 1 | The number of healthy providers needed for a sign-out to finish. |
-| `CcdUnregisterTimeout` | 0 | The seconds a sign-out is held. The value 0 holds the sign-out until the required providers are back. The page warns this can be forever. |
+| `CcdUnregisterTimeout` | 0 | How many seconds a sign-out waits for the providers. The value 0 holds the sign-out until the required providers are back. The page warns this can be forever. |
 
 Be careful here. The settings reference gives these warnings:
 
 - Setting `HealthyProvidersRequiredForUnregister` to 0 is not recommended. It can permanently delete local cache data from a session. It also makes `CcdUnregisterTimeout` and `ClearCacheOnForcedUnregister` have no effect.
-- Setting `ClearCacheOnForcedUnregister` to 1 may lose user data that was saved in the registry during the session.
-- `ClearCacheOnForcedUnregister` defaults to 0, which keeps the local cache after a forced sign-out. If a cache is kept, delete it by hand after you have recovered the user's data.
+- `ClearCacheOnForcedUnregister` decides what happens to the local cache after a forced sign-out (a sign-out FSLogix ends when `CcdUnregisterTimeout` runs out before the providers are up to date). It defaults to 0, which keeps the local cache.
+- Setting `ClearCacheOnForcedUnregister` to 1 may lose user data that was saved in the registry during the session. If a cache is kept, delete it by hand after you have recovered the user's data.
 
 Read the full warning before you change these settings.
 
 **Avoid a retired setting.** `CcdMaxCacheSizeInMBs` was retired on February 11, 2025 and is no longer supported.
 
-**Check that it works.** On a session host, open Event Viewer and go to Applications and Services Logs, then Microsoft, FSLogix, CloudCache, Operational. Event ID 56 shows which providers are online. Event ID 5 shows the lock on the proxy file. In File Explorer, the local cache is in `C:\ProgramData\FSLogix\Cache\<username>_<sid>` (the SID is the user's security ID).
+**Check that it works.** On a session host, open Event Viewer (the Windows tool that shows event logs) and go to Applications and Services Logs, then Microsoft, FSLogix, CloudCache, Operational. Event ID 56 shows which providers are online. Event ID 5 shows the lock on the proxy file. In File Explorer, the local cache is in `C:\ProgramData\FSLogix\Cache\<username>_<sid>` (the SID is the user's security ID).
 
 ## Watch the providers
 
@@ -181,19 +188,19 @@ A full container causes odd problems. The FAQ says users may see strange behavio
 
 What to know:
 
-- **Watch the free space inside the container.** The default `SizeInMBs` is 30000 (30 GB), as [the first FSLogix article](/azure-virtual-desktop/how-fslogix-profile-containers-work/) shows. The FAQ says container size does not change sign-in time. The FAQ says to plan for at least 30% free space, and to watch the logs for warnings at less than 2 GB free and less than 500 MB free.
-- **Raise the limit if you must.** A larger `SizeInMBs` makes the container grow at the next sign-in, when the disk is dynamic. The change affects all users with dynamic disks. You can raise `SizeInMBs` but not lower it, and lowering it would not shrink existing containers anyway.
+- **Watch the free space inside the container.** The default `SizeInMBs` is 30000 (30 GB), as [the first FSLogix article](/azure-virtual-desktop/how-fslogix-profile-containers-work/) shows. The FAQ says container size does not change sign-in time, and to plan for at least 30% free space. It also says to watch the logs for warnings at less than 2 GB free and less than 500 MB free.
+- **Raise the limit if you must.** A larger `SizeInMBs` lets a dynamic container grow bigger, from the next sign-in. The change affects all users with dynamic disks. You can raise `SizeInMBs` but not lower it, and lowering it would not shrink existing containers anyway.
 - **Check the real size.** On the share, right-click the container file, choose Properties, and compare Size on disk with `SizeInMBs`.
 - **Watch the share too.** If the share itself is full, users may get a temporary profile, a hung session, or a container that fails to attach or detach, even when each container is fine. Learn says to alert when less than 20% of the share is free. The fix is more capacity.
 - **Find the big data.** After the container grows, Learn says you can mount it off-hours and look for what uses the space. Deleting the wrong data can cause data loss or corruption, so be careful.
-- **A `redirections.xml` file does not shrink an old container.** (This file lists folders to leave out of the container.) Excluding folders later does not remove data that is already in the container. The page says FSLogix has no tool to remove it. You can delete the container, or write a script that deletes the content at sign-in.
+- **A `redirections.xml` file does not shrink an old container.** (This file lists folders to leave out of the container.) Excluding folders later does not remove data that is already in the container. The page says FSLogix has no tool to remove it. You can delete the container and let FSLogix create a new one, or use a sign-in script that deletes the data (test it first).
 - **Local profiles.** FSLogix does not remove existing local profiles when you start using it. `DeleteLocalProfileWhenVHDShouldApply` does, but users must save their data elsewhere first.
 
 ## Compaction gives space back
 
 Deleting files in a dynamic disk does not make the file on the share smaller. Compaction does that. It is a built-in FSLogix feature.
 
-**How it works.** At every sign-out, FSLogix checks if compaction is worth doing. It is on by default in version 2210 and later. The setting is `VHDCompactDisk` under `HKLM\SOFTWARE\FSLogix\Apps`, and its default is 1.
+**How it works.** At every sign-out, FSLogix checks if compaction is worth doing. It is on by default in FSLogix version 2210 and later. The setting is `VHDCompactDisk` under `HKLM\SOFTWARE\FSLogix\Apps`, and its default is 1.
 
 It runs only when both of these are true:
 
@@ -216,7 +223,7 @@ Learn calls the size on disk A, and the smallest size the disk can shrink to B. 
 
 **A reconnect problem.** If a user disconnects during sign-out and signs in again before compaction ends, the disk is still in use. In a default setup the user gets a temporary profile.
 
-**With Cloud Cache.** At sign-out, FSLogix downloads the disk from a provider, compacts it, and uploads it to the providers. This makes sign-out slower. The FAQ lists "Disable VHDCompactDisk" among its fixes for slow Cloud Cache sign-outs. Its other fixes: check the latency to all providers, move the storage to a higher tier, and do not use `ProfileType` 3 or `VHDAccessMode` 1, 2 or 3 (modes that create differencing disks, small extra disks that hold the changes).
+**With Cloud Cache.** At sign-out, FSLogix downloads the disk from a provider, compacts it, and uploads it to the providers. This makes sign-out slower. The FAQ lists "Disable VHDCompactDisk" among its fixes for slow Cloud Cache sign-outs. Its other fixes: check the latency to all providers, move the storage to a higher tier, and do not use `ProfileType` 3 or `VHDAccessMode` 1, 2 or 3 (settings that let several sessions use one container, by creating differencing disks, small extra disks that hold the changes).
 
 **If it does not run.** Look in three places.
 
@@ -241,10 +248,10 @@ Set-Service smphost -StartupType Manual
 
 A lock is normal. FSLogix keeps an exclusive lock on a container while the user is signed in. The first FSLogix article covers that.
 
-The problem is a lock that should be gone. The Learn locked-container page names two causes.
+The problem is a lock that should be gone. The Learn [locked-container page](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-locked) names two causes.
 
 - **An abrupt end.** A session ended abruptly, or a process blocked a proper sign-out. This can leave leftover data in the file system or registry. The container is not properly detached, and new sign-ins may be blocked.
-- **More than one connection.** With the default exclusive lock, the second connection cannot get the container. By default it gets a temporary profile (old, temporary or local profiles page). With `PreventLoginWithFailure` set, the user cannot sign in. The locked-container page spells that setting `PreventLogonWithFailure`; see the differences table.
+- **More than one connection.** With the default exclusive lock, the second connection cannot get the container. By default it gets a temporary profile (see the old, temporary or local profiles page, linked above). With `PreventLoginWithFailure` set, the user cannot sign in. The locked-container page spells that setting `PreventLogonWithFailure`; see the differences table.
 
 | What to try | Why |
 |---|---|
@@ -253,7 +260,7 @@ The problem is a lock that should be gone. The Learn locked-container page names
 | Use short retry values (from the tutorial, not the locked page) | The Cloud Cache tutorial sets `LockedRetryCount` 3, `LockedRetryInterval` 15, `ReAttachRetryCount` 3 and `ReAttachIntervalSeconds` 15 for a faster failure. Learn says these values make a failure show sooner. |
 | Check Cloud Cache state (from the PowerShell page) | In a Cloud Cache setup, `Get-CloudCacheProvider` can show `AccessMode` as `NoAccess`. That means a problem with the provider, or that another machine holds the lock file. |
 
-Run `frx.exe version` (in `C:\Program Files\FSLogix\Apps`) to see your FSLogix version. If you need help from Microsoft support, the FSLogix Support Tool collects the logs and settings for you. Check the Learn known issues page and the release notes before you roll out a new FSLogix version. One example: with profile containers and Office containers both turned on, `CleanupInvalidSessions` broke Office container create and mount in version 26.01. Learn says 26.01 CU1 fixed it.
+Run `frx.exe version` (in `C:\Program Files\FSLogix\Apps`) to see your FSLogix version. If you need help from Microsoft support, the FSLogix Support Tool collects the logs and settings for you. Check the Learn known issues page and the release notes before you roll out a new FSLogix version. One example: with profile containers and Office containers both turned on, `CleanupInvalidSessions` broke Office container create and mount in version 26.01. Learn says 26.01 CU1 (cumulative update 1) fixed it. The release notes also list fixes in FSLogix 26.08 for a sign-out deadlock with `CleanupInvalidSessions` and Office containers, and for a stuck container or storage provider that could block sign-ins and sign-outs.
 
 One more case from the Azure architecture page about two-region designs. Only one process can open a profile file in read and write mode. If a user starts sessions in both regions at the same time, the second session cannot mount the profile disk, so the user cannot sign in, and FSLogix logs `ERROR_LOCK_VIOLATION` 33 (0x21). Keep users from connecting to both host pools at once (judgement).
 

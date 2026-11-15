@@ -10,7 +10,7 @@ deck: "Choose user identity, session-host join and the profile authentication pa
 description: "Compare Entra joined, AD DS joined and Entra Domain Services joined session hosts, then match user identity, Windows sign-in and profile storage in one design."
 ---
 
-In [Prepare Your Azure Environment for Azure Virtual Desktop](/azure-virtual-desktop/prepare-your-azure-environment/), we checked the subscription, user access and deployment readiness. Now we need to decide how users will sign in to Windows and access their profiles.
+In [Prepare Your Azure Environment for Azure Virtual Desktop](/azure-virtual-desktop/prepare-your-azure-environment/), we checked the subscription, user access and deployment readiness. Now we need to decide how users will sign in to Windows and access their profiles in Azure Virtual Desktop (AVD).
 
 ## Key terms
 
@@ -25,13 +25,22 @@ In [Prepare Your Azure Environment for Azure Virtual Desktop](/azure-virtual-des
 | SID | Security identifier: a unique number that Windows gives to every user account and group. |
 | MFA | Multifactor authentication: asking for a second proof of identity, such as a phone approval, in addition to the password. |
 | ACL | Access control list: the list of who may open or change a file or folder, and how. |
+| Azure Files | An Azure service that hosts file shares in the cloud. FSLogix profiles are often stored here. |
 | SMB | The network protocol Windows uses to open files on a shared folder. Azure Files shares use it. |
 | Microsoft Entra ID | Microsoft's cloud directory of users, groups and devices. It handles sign-in to Azure Virtual Desktop. |
+| Tenant | Your organization's own instance of Microsoft Entra ID. |
+| Session host | A virtual machine that runs the user's Windows desktop. |
+| Host pool | A group of session hosts managed together. |
+| Windows App | The Microsoft app that users run on their own device to connect to a desktop in Azure Virtual Desktop. |
+| Conditional Access | Rules in Microsoft Entra ID that decide who may sign in, from where, and what extra proof (such as MFA) they must give. |
+| Azure role-based access control (Azure RBAC) | Azure's way to give a person or group a role, such as reader or contributor, on a resource. |
 | Entra joined | A Windows computer joined directly to Microsoft Entra ID, with no domain involved. |
-| Hybrid joined | A Windows computer joined to an AD DS domain and also registered with Microsoft Entra ID, so Entra ID knows the device. |
 | AD DS | Active Directory Domain Services: the Windows domain directory that you run on your own servers, on-premises or in Azure. |
+| Hybrid joined | A Windows computer joined to an AD DS domain and also registered with Microsoft Entra ID, so Entra ID knows the device. |
 | Microsoft Entra Domain Services | A domain in Azure whose domain controllers are run for you, so you do not patch or operate them. |
-| Single sign-on | Signing in once and reaching the desktop without a second password prompt. |
+| Microsoft Entra Kerberos | Lets Microsoft Entra ID issue the Kerberos ticket for an Azure Files share, so the client does not need a domain controller for that ticket. |
+| Single sign-on (SSO) | Signing in once and reaching the desktop without a second password prompt. |
+| RDP properties | Host pool settings that control how the Remote Desktop Protocol (RDP) connection behaves. |
 | UPN | User principal name: the sign-in name of an account, written like an email address. |
 | FSLogix | Software that keeps a user's Windows profile in a file on a share and loads it at sign-in, so the profile follows the user between hosts. |
 | SYSTEM account | A built-in Windows account with full rights on the computer. Windows services use it. It is not a signed-in person. |
@@ -44,7 +53,7 @@ A desktop can appear in Windows App while the connection to Windows still fails.
 
 **Session-host join** means which directory the Windows VM joins. This is a separate decision from the user’s account source.
 
-For example, an employee whose account is synchronized from AD DS can use a Microsoft Entra joined session host. The employee has a hybrid identity; the VM is Entra joined. Those two facts do not make the VM hybrid joined.
+For example, an employee whose account is synchronized from AD DS can use a Microsoft Entra joined session host. The employee's account is synchronized from AD DS (a hybrid identity: it exists in both places); the VM is Entra joined. Those two facts do not make the VM hybrid joined.
 
 Three questions keep the design clear:
 
@@ -52,7 +61,7 @@ Three questions keep the design clear:
 2. Which directory will Windows trust for the remote sign-in?
 3. Which identity will the profile storage accept?
 
-Use the same represented user identity for AVD and Windows. Signing in to the AVD service with one account and then using a different local Windows account is unsupported.
+Use the same user account for AVD and for Windows. Signing in to the AVD service with one account and then using a different local Windows account is unsupported.
 
 ## 2. Understand the three host join options
 
@@ -60,7 +69,7 @@ Microsoft Entra ID authenticates users to the AVD service in every option below.
 
 ![Diagram with three columns: Entra joined, AD DS joined and Domain Services joined. Each column shows where the users come from and what Windows joins, under a banner saying Entra ID authenticates access to the AVD service in every path](/img/avd/AVD-Post-04-Identity-Models-v2.png)
 
-*Read each column from top to bottom. Account synchronization and Windows join are different operations. Drawn by the author from the identity and join options in [Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites). Not an official Microsoft diagram. The layout is the author's. Icons: Microsoft Azure and Microsoft Entra architecture icons, used unmodified under the terms on Microsoft's icons page.*
+*Read each column from top to bottom. Account synchronization and Windows join are different operations. Based on the identity and join options in [Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites). Icons: Microsoft Azure and Microsoft Entra architecture icons, used unmodified under the terms on Microsoft's icons page.*
 
 ### Microsoft Entra joined
 
@@ -94,7 +103,7 @@ An Entra hybrid joined host is joined to AD DS and also registered with Entra ID
 
 ### When a managed domain matters
 
-Domain Services provides domain join, Group Policy, LDAP and Kerberos/NTLM for workloads that need those capabilities. It is a separate managed domain, rather than an automatic extension of your existing AD forest. Check that distinction before planning a migration.
+Domain Services provides domain join, Group Policy, LDAP and Kerberos/NTLM for workloads that need those capabilities. It is a separate managed domain, rather than an automatic extension of your existing AD DS environment. Check that distinction before planning a migration.
 
 Its users also need usable Kerberos/NTLM password hashes. Existing cloud-only users must change their passwords after enablement to generate them. For users synchronized from AD DS, the documented procedure uses Microsoft Entra Connect to synchronize the legacy password hashes. An account appearing in Entra ID is therefore not enough to prove managed-domain sign-in readiness.
 
@@ -114,13 +123,15 @@ For Azure Files over SMB, choose one identity source per storage account. That c
 
 ### Cloud-only users and Azure Files: the status depends on the page
 
+Short version: cloud-only users can use Azure Files with Microsoft Entra Kerberos, but check the current status first.
+
 The AVD release notes list FSLogix support for cloud-only and external identities as generally available in **May 2026**. Some other Microsoft pages still say preview or hybrid accounts only, so check the current status before you rely on it. A cloud-only user can keep a profile on Azure Files without an AD-synchronized account or a domain controller for storage authentication and authorization. Entra host join and profile access remain separate capabilities.
 
 Cloud-only storage authentication is supported in Azure public regions, not US Government or 21Vianet. Clients must be Entra joined or hybrid joined and run supported Windows 11 or updated Windows Server 2025. For Windows 11, install at least these updates for the best experience: **24H2: KB5079391, build 26100.8116; 25H2: KB5079391, build 26200.8116; 26H1 or newer: KB5079489, build 28000.1764**, or later builds. Storage-client support does not replace AVD host-edition requirements.
 
-The storage application's cloud-group manifest setting is mandatory. Use the cloud-only share and folder-permission procedure, rather than copying hybrid AD ACL steps. The storage post will configure these requirements.
+The storage account's Entra application has a cloud-group setting in its manifest (the app's settings file). This setting is mandatory. Use the cloud-only share and folder-permission procedure, rather than copying hybrid AD ACL steps. The storage post will configure these requirements.
 
-The pages describe cloud-only permissions differently: the Azure Files page says setting permissions in File Explorer is not supported for cloud-only identities, the Entra Kerberos introduction says access uses Azure role-based access control with no NTFS ACL enforcement, and the FSLogix page still tells you to configure storage permissions for profile containers. Check the current guidance for each before you build.
+The pages describe cloud-only permissions differently: the Azure Files page says setting permissions in File Explorer is not supported for cloud-only identities, the Entra Kerberos introduction says access uses Azure RBAC with no NTFS (Windows file system) ACL enforcement, and the FSLogix page still tells you to configure storage permissions for profile containers. Check the current guidance for each before you build. [Choose Storage and Set Access for FSLogix Profile Containers](/azure-virtual-desktop/choose-storage-and-set-access-for-fslogix-profile-containers/) compares these pages in more detail.
 
 ### A synchronized user still has AD dependencies
 
@@ -130,17 +141,17 @@ On-premises applications can still require AD connectivity.
 
 ### Azure NetApp Files is a separate choice
 
-Do not transfer the Azure Files cloud-only conclusion to Azure NetApp Files. Azure NetApp Files requires AD-backed authentication for FSLogix profiles. It does not support cloud-only (Entra-only) profile access.
+Do not transfer the Azure Files cloud-only conclusion to Azure NetApp Files. The FSLogix page for Azure NetApp Files says profile containers need Kerberos from AD DS or Microsoft Entra Domain Services, and that cloud-only (Entra-only) identities are not supported. Some Azure NetApp Files preview pages describe Microsoft Entra Kerberos, but they do not mention FSLogix. See [Choose Storage and Set Access for FSLogix Profile Containers](/azure-virtual-desktop/choose-storage-and-set-access-for-fslogix-profile-containers/) before you plan this.
 
 ## 5. See how the selected profile path fits together
 
-The diagram shows the hybrid-user Azure Files path described by Microsoft. The directory supplies the synchronized user identity. Entra supplies the Azure Files ticket. The profile share also needs permissions.
+The diagram shows the hybrid-user Azure Files path described by Microsoft. Cloud-only users follow a different setup; this diagram is for users synchronized from AD DS. The directory supplies the synchronized user identity. Entra supplies the Azure Files ticket. The profile share also needs permissions.
 
 ![Diagram: on-premises domain controllers sync identities to Microsoft Entra ID. Four numbered setup steps: enable Microsoft Entra Kerberos on the storage account and grant admin consent, assign a share-level role, set folder and file permissions from a device that can reach AD DS, and turn on cloud Kerberos ticket retrieval on the session hosts. At sign-in, the session host gets a cloud Kerberos ticket from Microsoft Entra ID (A) and uses the tickets to access the Azure Files share over SMB (B). A note says to exclude the storage account's Entra app from Conditional Access policies that require MFA for all apps.](/img/avd/AVD-Post-04-Entra-Kerberos-v3.png)
 
-*Hybrid users accessing Azure Files through Microsoft Entra Kerberos. Original diagram by the author, based on [Enable Microsoft Entra Kerberos authentication for hybrid and cloud-only identities on Azure Files](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-auth-hybrid-identities-enable). Not an official Microsoft diagram. It shows hybrid users only; the other identity sources and cloud-only users are left out, and the ticket exchange is simplified to two steps (A and B). The Learn page does not give a diagram of these arrows, so the arrow layout is the author's reading of the text. Checked against the cited pages in October 2026; this is not Microsoft verification or endorsement. Icons: Microsoft Azure and Microsoft Entra architecture icons, used unmodified under the terms on Microsoft's icons page.*
+*Hybrid users accessing Azure Files through Microsoft Entra Kerberos. Based on [Enable Microsoft Entra Kerberos authentication for hybrid and cloud-only identities on Azure Files](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-auth-hybrid-identities-enable). It shows hybrid users only; the other identity sources and cloud-only users are left out, and the ticket exchange is simplified to two steps (A and B). The documentation's diagram is not reproduced; this one is simplified. Icons: Microsoft Azure and Microsoft Entra architecture icons, used unmodified under the terms on Microsoft's icons page.*
 
-Numbers are one-time setup steps and letters are what happens at each sign-in. The numbers are configuration responsibilities, not network packets, and they are not a strict order: the share role and the folder permissions are separate layers. Enabling authentication does not assign permissions, and granting a share role does not set the user’s folder permissions. For hybrid identities, step 3 needs unimpeded network connectivity to a domain controller. Whether the session hosts themselves need a path to a domain controller depends on how they are joined.
+Numbers are one-time setup steps and letters are what happens at each sign-in. The numbers are configuration responsibilities, not network packets, and they are not a strict order: the share role and the folder permissions are separate layers. Enabling authentication does not assign permissions, and granting a share role does not set the user’s folder permissions. For hybrid identities, step 3 needs unimpeded network connectivity to a domain controller. For the Azure Files ticket, session hosts do not need a path to a domain controller. A hybrid joined host still needs one for its own domain join.
 
 ### Two permission layers
 
@@ -150,23 +161,23 @@ For the selected hybrid route, plan a synchronized AD security group for profile
 
 ## 6. Decide how Windows sign-in will work
 
-Use Entra single sign-on for Entra joined and hybrid joined session hosts. SSO uses an Entra token for Windows sign-in, avoiding a separate host-credential prompt when the configured authentication flow succeeds.
+Use Entra single sign-on (SSO) for Entra joined and hybrid joined session hosts. SSO uses an Entra token for Windows sign-in, avoiding a separate host-credential prompt when the configured authentication flow succeeds.
 
 Entra SSO does not support hosts joined only to AD DS or to Entra Domain Services. Hybrid join is therefore an important distinction when an AD domain-joined design needs this sign-in method.
 
-The SSO configuration includes tenant-side RDP authentication, host-pool settings and a Conditional Access review. Where the documented AD criteria apply, it also needs a Kerberos server object. Hiding the connection consent prompt is a separate configuration choice.
+The SSO configuration includes tenant-side RDP authentication, host-pool settings and a Conditional Access review. Where the documented AD criteria apply, it also needs a Kerberos server object (an object you create in AD DS so Entra ID can issue tickets for your domain; [article 13](/azure-virtual-desktop/how-sign-in-works-three-authentications-and-sso/) explains it). Hiding the connection consent prompt is a separate configuration choice.
 
-The host-pool setting is Microsoft Entra single sign-on. Its RDP property is enablerdsaadauth:i:1. A legacy targetisaadjoined:i:1 setting is not evidence that SSO is configured.
+The host-pool setting is Microsoft Entra single sign-on. Its RDP property (a connection setting stored on the host pool) is enablerdsaadauth:i:1. A legacy targetisaadjoined:i:1 setting is not evidence that SSO is configured.
 
 ### Access to a desktop and access to Windows
 
-Desktop Virtualization User is assigned at the application group to publish the resource to a user or group. For Entra joined hosts in a host pool without session host configuration, users also need Virtual Machine User Login. Host pools using session host configuration have a documented exception to that extra role requirement. Give administrative login only to people who need it.
+Desktop Virtualization User is assigned at the application group to publish the resource to a user or group. For Entra joined hosts in a host pool without session host configuration, users also need Virtual Machine User Login. Host pools using session host configuration have a documented exception to that extra role requirement. Give administrative login only to people who need it (judgement). [Who Can Administer Azure Virtual Desktop](/azure-virtual-desktop/who-can-administer-azure-virtual-desktop/) covers the roles.
 
 ### External users need their own design
 
 Invited external identities are supported under specific host OS, client, join and SSO conditions. They cannot use Kerberos or NTLM for on-premises resources. Do not assume that a guest invitation alone completes the design. This series uses an internal member user.
 
-Their hosts must be Entra joined and the host pool must use SSO. Windows 11 Enterprise single or multi-session needs version 24H2 or later with KB5065789 or later; Windows Server 2025 needs KB5073379 or later. Windows App supports external identities on Windows, macOS, iOS, Android and in a web browser. Check the minimum client version for each platform.
+Their hosts must be Entra joined and the host pool must use SSO. Windows 11 Enterprise single or multi-session (many users on one VM) needs version 24H2 or later with KB5065789 or later; Windows Server 2025 needs KB5073379 or later. Windows App supports external identities on Windows, macOS, iOS, Android and in a web browser. Check the minimum client version for each platform.
 
 External-user access to AVD and external-user access to Azure Files have different cloud limits. Azure Files support for these users is limited to FSLogix on AVD in Azure public cloud; government and cross-cloud scenarios are unsupported. Check the storage requirements as well as the Windows sign-in requirements before choosing this route.
 
@@ -176,10 +187,10 @@ This is a practical inspection of the existing lab. It does not require creating
 
 1. Open Microsoft Entra ID → Users → All users.
 2. Open the test user.
-3. Select Properties and locate On-premises.
+3. Stay on Overview (or open the Properties tab) and scroll to On-premises.
 4. Check On-premises sync enabled and the last synchronization time. For a hybrid deployment, also compare the represented identity with the source AD account: the supported matching condition is UPN or SID.
 
-![Entra user properties page for a test user, with On-premises sync enabled set to Yes, a last sync date of 14 June 2024 and the account name and several directory identifier fields hidden by grey boxes](/img/avd/AVD-Post-04-user-source-redacted.png)
+![Entra user page scrolled to the On-premises section: On-premises sync enabled is Yes and the last sync date is 14 June 2024. The account name and several directory identifier fields are hidden by grey boxes](/img/avd/AVD-Post-04-user-source-redacted.png)
 
 *Lab screenshot: the test user has On-premises sync enabled set to Yes. The account name and private directory identifiers are hidden.*
 
@@ -224,7 +235,7 @@ DeviceAuthStatus SUCCESS means the device is present and enabled in Entra ID. It
 
 *Lab screenshot: this host pool is set to use Microsoft Entra authentication for SSO.*
 
-This verifies the host-pool setting. The tenant-side Windows Cloud Login configuration, applicable AD Kerberos requirements and Conditional Access still need review before the user connection test. A selected dropdown is not a successful SSO test.
+This verifies the host-pool setting. The tenant-side Windows Cloud Login configuration (the Entra app that signs users in to the session host), applicable AD Kerberos requirements and Conditional Access still need review before the user connection test. A selected dropdown is not a successful SSO test.
 
 The host-pool overview also reports Uses Session Host Configuration: No. The extra Virtual Machine User Login requirement for Entra joined hosts therefore applies to this lab. The preparation post recorded the existing VM login assignments; retain the intended group and scope when adding hosts.
 
@@ -241,7 +252,7 @@ The host-pool overview also reports Uses Session Host Configuration: No. The ext
 
 *Lab screenshot: Microsoft Entra Kerberos is enabled. Default share-level permissions are disabled.*
 
-Disabled default permissions do not block identities that have valid explicit share assignments. For the profile lab, verify the selected user or synchronized group’s share role, file permissions, application consent, the client setting CloudKerberosTicketRetrievalEnabled (set to 1 on every client that mounts the share; if you set it through Intune, use the Settings Catalog, because the OMA-URI method does not work on multisession hosts) and ticket acquisition. The enabled label alone proves none of those additional checks.
+Disabled default permissions do not block identities that have valid explicit share assignments. For the profile lab, verify the selected user or synchronized group’s share role, file permissions, application consent, the client setting CloudKerberosTicketRetrievalEnabled (set to 1 on every client that mounts the share; if you set it through Intune, use the Settings Catalog, because the OMA-URI method does not work on multisession hosts, which run many users on one VM) and ticket acquisition. The enabled label alone proves none of those additional checks.
 
 ## 11. Check the group’s origin
 
@@ -271,11 +282,11 @@ The selected model is **a synchronized internal user on Entra joined session hos
 
 Apply the same decision process to each application, user population and storage service. Confirm supported OS versions, client support, licensing, Conditional Access and administrator access. A successful device check is one piece of evidence; the acceptance test must include the intended user opening Windows, accessing the required applications and reopening the same profile on another host where applicable.
 
-Entra Kerberos for Azure Files does not support multifactor authentication. Exclude the storage account's Entra application from any Conditional Access policy that requires MFA, or access to the share fails. Keep MFA on the AVD sign-in. Entra join also does not remove connectivity requirements for AD-dependent applications.
+Entra Kerberos for Azure Files does not support multifactor authentication. Exclude the storage account's Entra application from any Conditional Access policy that requires MFA and applies to all apps, or access to the share fails. Keep MFA on the AVD sign-in. Entra join also does not remove connectivity requirements for AD-dependent applications.
 
 Next: [Plan Azure Virtual Desktop Networking: Address Space, Subnets, DNS and Connectivity](/azure-virtual-desktop/plan-avd-networking/). It designs the network around the identity model selected here: address space, subnets, DNS, outbound access and profile-storage connectivity.
 
-*Technical details re-checked on 17 October 2026. Screenshots show the inspected lab state; no successful desktop connection or profile attachment is claimed in this post.*
+*Technical details re-checked on 14 November 2026. Screenshots show the inspected lab state; no successful desktop connection or profile attachment is claimed in this post.*
 
 Go deeper: [How Sign-in Works: Three Authentications and Single Sign-on](/azure-virtual-desktop/how-sign-in-works-three-authentications-and-sso/), [Who Can Administer Azure Virtual Desktop](/azure-virtual-desktop/who-can-administer-azure-virtual-desktop/).
 

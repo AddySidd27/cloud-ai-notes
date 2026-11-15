@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 660" width="1000" height="660" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
   <title id="t">Feed discovery in one Azure region, as drawn on Learn</title>
-  <desc id="d">Not an official Microsoft diagram. It follows the Learn feed discovery diagram for a host pool in a single Azure region. A client and the web service are joined by a two-way arrow, and the web service and the resource directory are joined by a two-way arrow, all inside a box labelled Region 1. A dashed two-way link joins the client and Azure Traffic Manager. Below, a geographical deployment scope box and a regional deployment scope box each hold a broker joined by a two-way arrow to its database. One line leaves the resource directory and splits to the geographical broker and to the regional broker. The page text describes the flow differently: the web service connects to the broker service, which connects to the resource directory and the database.</desc>
+  <desc id="d">It follows the Learn feed discovery diagram for a host pool in a single Azure region. A client and the web service are joined by a two-way arrow, and the web service and the resource directory are joined by a two-way arrow, all inside a box labelled Region 1. A dashed two-way link joins the client and Azure Traffic Manager. Below, a geographical deployment scope box and a regional deployment scope box each hold a broker joined by a two-way arrow to its database. One line leaves the resource directory and splits to the geographical broker and to the regional broker.</desc>
   <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
   <rect x="6" y="6" width="988" height="648" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
-  <text x="500" y="36" font-size="20" font-weight="600" text-anchor="middle" fill="#1f2933">Feed discovery in one Azure region</text>
-  <text x="500" y="58" font-size="14" text-anchor="middle" fill="#1f2933">Redrawn from the Learn picture. The page text describes it differently, see the note below.</text>
+  <text x="500" y="40" font-size="20" font-weight="600" text-anchor="middle" fill="#1f2933">Feed discovery in one Azure region</text>
+  <g transform="translate(0,15)">
   <rect x="24" y="110" width="130" height="100" rx="6" fill="#ffffff" stroke="#3c8d40" stroke-width="1.2"/>
   <text x="89.0" y="155.4" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
   <text x="89.0" y="174.4" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Client</text>
@@ -52,9 +52,5 @@
   <line x1="840" y1="280" x2="290" y2="280" stroke="#3b6fb6" stroke-width="2.5"/>
   <line x1="290" y1="280" x2="290" y2="370" stroke="#3b6fb6" stroke-width="2.5" marker-end="url(#arr)"/>
   <line x1="690" y1="280" x2="690" y2="370" stroke="#3b6fb6" stroke-width="2.5" marker-end="url(#arr)"/>
-  <rect x="15" y="545" width="970" height="105" rx="6" fill="#ffffff" stroke="#c2570c" stroke-width="1.4"/>
-  <text x="30" y="568" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Flagged difference inside Learn, not resolved here</text>
-  <text x="30" y="590" font-size="13" text-anchor="start" fill="#1f2933">The picture joins the web service to the resource directory and the resource directory to the brokers.</text>
-  <text x="30" y="610" font-size="13" text-anchor="start" fill="#1f2933">The page text says the web service connects to the broker service, and the broker connects to the resource</text>
-  <text x="30" y="630" font-size="13" text-anchor="start" fill="#1f2933">directory and the database. The component interconnection diagram on the same page shows the broker doing that.</text>
+  </g>
 </svg>

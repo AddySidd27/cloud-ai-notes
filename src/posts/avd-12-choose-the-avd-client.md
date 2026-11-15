@@ -6,11 +6,11 @@ permalink: "/azure-virtual-desktop/choose-the-avd-client/"
 order: 112
 part: 12
 tags: [avd-series]
-deck: "Match user devices to the supported client, understand what the retirement of the older Remote Desktop clients means and plan a client change."
+deck: "Match user devices to the supported client, see what the retirement of the older Remote Desktop clients means and plan a client change."
 description: "Choose the right client for Azure Virtual Desktop: Windows App, the older Remote Desktop clients, the browser, feature gaps and how to plan a migration."
 ---
 
-The client is the one part of the service your users touch. It is also the part that changes most often and is least under your control, because it runs on devices you may not manage. Most AVD designs spend pages on session hosts and a sentence on the client. That is a risk (the author's judgement), because a client that is out of support is no longer covered by support, and a whole group of users may depend on it.
+The client is the one part of the service your users touch. It is also the part that changes most often and is least under your control, because it runs on devices you may not manage. Most AVD designs spend pages on session hosts and a sentence on the client (judgement). That is a risk (judgement). If a client is out of support, Microsoft will not help with problems in it, and a whole group of users may still depend on it.
 
 This article lists the clients the documentation names, what has changed about them, the feature gaps that matter for design, and how to plan a move from an older client.
 
@@ -20,6 +20,8 @@ This article lists the clients the documentation names, what has changed about t
 |---|---|
 | Client | The app on the user's device that signs in, shows the feed and opens the remote session. |
 | Windows App | Microsoft's current client for Azure Virtual Desktop, Windows 365, Microsoft Dev Box, Remote Desktop Services and remote PCs. |
+| Remote Desktop Services | A separate Microsoft service for server-based remote desktops. It is not Azure Virtual Desktop. |
+| Remote PC | A physical computer, such as an office PC, that you reach from far away. |
 | Remote Desktop client | The older family of clients. The documentation says Windows App replaces it. |
 | MSI client | The Remote Desktop client for Windows, installed from a standalone installer. |
 | Store app | The Remote Desktop app for Windows, once available from the Microsoft Store. |
@@ -29,8 +31,11 @@ This article lists the clients the documentation names, what has changed about t
 | Teams media optimizations | An optimized Microsoft Teams calling and meeting experience inside a remote session. |
 | WebAuthn redirection | Passes sign-in requests made inside the remote session to the local device, so security keys and Windows Hello for Business can be used. |
 | Private Link | A way to connect a remote session over a private connection. |
+| Transport | The network path a session uses, for example UDP (RDP Shortpath) or TCP through the Azure gateway. The [connection article](/azure-virtual-desktop/follow-a-connection-step-by-step/) explains it. |
+| Mobile application management | Intune rules that protect company data inside apps on a phone or tablet. |
 | Microsoft Intune | Microsoft's cloud service for managing devices with policies. |
-| Public cloud, Azure Government, Azure operated by 21Vianet | Azure for US Government and Azure operated by 21Vianet (in China) are sovereign clouds, separate from the public cloud. |
+| Public cloud | The standard Azure cloud that most customers use. |
+| Sovereign cloud | A separate Azure cloud for a government or country. Azure Government (Azure for US Government) and Azure operated by 21Vianet (in China) are examples. |
 | AVD Classic | The older, non-Azure Resource Manager version of the service. The [fit article](/azure-virtual-desktop/decide-whether-azure-virtual-desktop-fits/) covers its retirement. |
 | Feed | The list of desktops and apps a user may open. |
 
@@ -49,9 +54,9 @@ The documentation describes Windows App as the new way to connect to cloud and r
 
 Two clients are not supported for AVD at all: the RemoteApp and Desktop Connections client, and the Remote Desktop Connection client (`mstsc.exe`). This comes from the prerequisites page for AVD, not from the client overview.
 
-![A table-like drawing with three columns: device, client, and what to watch for. Windows PC, macOS, iPhone and iPad, Android and Chrome OS, and Meta Quest all point to Windows App. Web browser points to Windows App in the browser. Notes beside each row say what to watch for: the Windows row gives the retirement dates of the older Remote Desktop clients for Windows, and the Meta Quest row says one page labels it preview. A red box at the bottom says the RemoteApp and Desktop Connections client and the Remote Desktop Connection client are not supported for Azure Virtual Desktop.](/img/avd/AVD-Post-12-Client-By-Device.png)
+![A diagram with three columns: device, client, and what to watch for. Windows PC, macOS, iPhone and iPad, Android and Chrome OS, and Meta Quest all point to Windows App. Web browser points to Windows App in the browser. Notes beside each row say what to watch for: the Windows row gives the retirement dates of the older Remote Desktop clients for Windows, and the Meta Quest row says one page labels it preview. A red box at the bottom says the RemoteApp and Desktop Connections client and the Remote Desktop Connection client are not supported for Azure Virtual Desktop.](/img/avd/AVD-Post-12-Client-By-Device.png)
 
-*Drawn by the author from [Remote Desktop client overview (archived)](https://learn.microsoft.com/en-us/previous-versions/remote-desktop-client/overview), the statement about unsupported clients in [Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites), [What is Windows App?](https://learn.microsoft.com/en-us/windows-app/overview) and [Get started with Windows App](https://learn.microsoft.com/en-us/windows-app/get-started-connect-devices-desktops-apps). Not an official Microsoft diagram. The documentation has a status table, not a diagram, so the layout is the author's. The drawing leaves out the Remote Desktop Services and remote PC columns, and feature differences between clients.*
+*Based on [Remote Desktop client overview (archived)](https://learn.microsoft.com/en-us/previous-versions/remote-desktop-client/overview), the statement about unsupported clients in [Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites), [What is Windows App?](https://learn.microsoft.com/en-us/windows-app/overview) and [Get started with Windows App](https://learn.microsoft.com/en-us/windows-app/get-started-connect-devices-desktops-apps). The documentation has a status table, not a diagram, so this layout is simplified. It leaves out the Remote Desktop Services and remote PC columns, and feature differences between clients.*
 
 **Recommendation (judgement):** standardize on Windows App for every platform you support, and treat any user still on an older client as a migration item with a date.
 
@@ -59,28 +64,28 @@ Two clients are not supported for AVD at all: the RemoteApp and Desktop Connecti
 
 Documented facts first.
 
-- **Windows App needs a work or school sign-in.** You cannot sign in with a personal Microsoft account. For AVD, Windows 365, Dev Box and Remote Desktop Services you must sign in. For remote PC connections on supported platforms you can use Windows App without signing in.
-- **In a browser, nothing is installed.** The documentation describes this for desktops and laptops. It is the lowest-effort option for a device you do not manage.
-- **Windows App on Windows connects to AVD but not to Remote Desktop Services.** For Remote Desktop Services on Windows, the documentation says to keep using the Remote Desktop app on Windows. If you have both services, plan for two clients on Windows.
+- **Windows App needs a work or school sign-in for Azure Virtual Desktop.** You cannot sign in with a personal Microsoft account. For AVD, Windows 365, Dev Box and Remote Desktop Services you must sign in. For remote PC connections on supported platforms you can use Windows App without signing in.
+- **In a browser, nothing is installed.** The documentation describes this for desktops and laptops. Mobile browsers are not supported. The browser must be no more than 12 months old, support the AVC video codec and have WebGL turned on. It is the lowest-effort option for a device you do not manage.
+- **Windows App on Windows connects to AVD but not to Remote Desktop Services.** For Remote Desktop Services on Windows, the documentation says to keep using the Remote Desktop app on Windows. The page does not say which Windows package that means. If you use both services, you may need two clients on Windows (judgement).
 - **Features differ by platform.** The next section gives examples.
 
 Judgement: a browser is a good fallback for contractors and kiosks. It is a poor primary client if users need local devices, several monitors or heavy media. The feature table below is the reason.
 
 ## Feature gaps that affect design
 
-The Windows App documentation has a comparison of features across platforms, with a separate view for Azure Virtual Desktop. This section uses that page. The older comparison of Remote Desktop client features is archived, so it is not used for the table below. The table follows the Azure Virtual Desktop view of the Windows App comparison, checked October 2026.
+The Windows App documentation has a comparison of features across platforms, with a separate view for Azure Virtual Desktop. This section uses that page. The older comparison of Remote Desktop client features is archived, so this article does not use it. The table follows the Azure Virtual Desktop view of the Windows App comparison, checked November 2026.
 
 | Feature | Where the Windows App comparison shows support |
 |---|---|
-| Multiple monitors | Windows and macOS. Not iOS and iPadOS, Android and Chrome OS, the web client or Meta Quest. An external monitor is listed for Windows, macOS, iOS and iPadOS, and Android and Chrome OS (the last depends on the local device), but not the web client or Meta Quest. |
+| Multiple monitors | Windows and macOS. Android and Chrome OS is listed, but only on Chrome OS devices. Not iOS and iPadOS, the web client or Meta Quest. An external monitor is listed for Windows, macOS, iOS and iPadOS, and Android and Chrome OS (the last depends on the local device), but not the web client or Meta Quest. |
 | USB and serial port redirection | Windows only. |
 | Scanner redirection | Windows only, and TWAIN scanner redirection is labelled preview. |
 | Multimedia redirection (video playback and calls) | Windows only. |
 | Teams media optimizations | WebRTC: Windows, macOS, iOS and iPadOS, and Android and Chrome OS. SlimCore: Windows and macOS. Neither is listed for the web client or Meta Quest. |
-| WebAuthn redirection | Windows. macOS, iOS and iPadOS, and Android are listed as preview with minimum client versions. Not the web client or Meta Quest. |
+| WebAuthn redirection | Windows. macOS, iOS and iPadOS, and Android are listed as preview with minimum client versions. On those platforms only passkey sign-ins to Microsoft Entra ID work. On Android the passkey must be stored on the device, for example in Microsoft Authenticator. Not the web client or Meta Quest. |
 | Smart card redirection | Windows and macOS. iOS and iPadOS is preview and supports only YubiKey. Not Android and Chrome OS, the web client or Meta Quest. |
 | Printer redirection | Windows (RAW printing is preview for Azure Virtual Desktop), macOS (only the Publisher Imagesetter driver by default) and the web client. Not iOS and iPadOS, Android and Chrome OS, or Meta Quest. |
-| Screen capture protection | Windows and macOS. iOS and iPadOS and Android need Intune mobile application management, and Chrome OS is not covered. Not the web client. |
+| Screen capture protection | Windows and macOS. iOS and iPadOS and Android need Intune mobile application management, and Chrome OS is not covered. The web client is listed only with Microsoft Edge for Business on Windows, an Intune app protection policy and a Conditional Access policy that requires app protection. |
 | Watermarking | Windows, macOS, iOS and iPadOS, Android and Chrome OS, and the web client. |
 | Connection information (shows the transport in use) | Windows, macOS and the web client. Not iOS and iPadOS, Android and Chrome OS, or Meta Quest. |
 | RDP Shortpath for managed networks | Windows, macOS, iOS and iPadOS, Android and Chrome OS, and Meta Quest. Not the web client. |
@@ -89,14 +94,16 @@ The Windows App documentation has a comparison of features across platforms, wit
 | Input Protection and Display Protection (preview) | Windows only, with a minimum Windows App version and session host configuration. Input Protection also needs the Windows Cloud Input Protect MSI on the device. |
 | Private Link | Windows, macOS, iOS and iPadOS, and Android and Chrome OS. Not the web client or Meta Quest. |
 
-The comparison page marks a feature as present or absent on a platform and labels some entries preview. It gives version numbers for only a few features and does not say how well a feature works, so treat a tick as a reason to test, not a guarantee. Redirection also depends on what your administrator allows and on settings on the local device. The more restrictive setting wins.
+Terms in the table. STUN and TURN are two methods RDP Shortpath uses over public networks (see the [networking article](/azure-virtual-desktop/plan-avd-networking/)). WebRTC and SlimCore are two ways Teams media optimization works. TWAIN is a standard for scanners. RAW printing sends print data to the printer without converting it first. Publisher Imagesetter is a printer driver. YubiKey is a brand of hardware security key. RDP Multipath lets one session use several network paths at once. Input Protection protects typed keys from keyloggers on the device. Display Protection stops the session display from being captured. Screen capture protection blocks screenshots of the session. Watermarking shows a visible label over the session. Managed networks are networks you control, such as a company network. Public networks are the open internet.
+
+The comparison page marks a feature as present or absent on a platform and labels some entries preview. It gives version numbers for only a few features and does not say how well a feature works, so treat a tick as a reason to test, not a guarantee. Redirection also depends on what your administrator allows. If the host pool setting and the session host policy differ, the most restrictive one wins.
 
 Two lessons follow.
 
-1. **The browser, Meta Quest and mobile clients have the largest gaps.** If your design needs Teams optimization, several monitors, USB devices or Shortpath, test the platform you plan to allow.
+1. **The browser, Meta Quest, and iOS and iPadOS have the largest gaps.** If your design needs Teams optimization, several monitors, USB devices or Shortpath, test the platform you plan to allow.
 2. **Windows has the widest support, and several entries on other platforms are preview or beta builds.** Check the Windows App documentation again before you rely on a feature, because these entries change.
 
-The [connection article](/azure-virtual-desktop/follow-a-connection-step-by-step/) explains why Shortpath support in the client matters: without it, sessions use the gateway relay.
+The [connection article](/azure-virtual-desktop/follow-a-connection-step-by-step/) explains why Shortpath support in the client matters. Without Shortpath, the session goes through the Azure gateway instead of directly to the session host. Article 16 explains why the documentation is not fully consistent on Private Link, so test it: [Required connectivity](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/).
 
 ## Plan a client change
 
@@ -104,15 +111,15 @@ This is a recommended order. It is judgement, not a documented procedure.
 
 1. **Inventory the clients in use.** Count users by platform and by client. Do not assume everyone is on the client you deployed.
 2. **Pick the target client per platform.** Windows App on Windows, macOS, iOS and iPadOS and Android and Chrome OS. The browser as a fallback.
-3. **Check the features you depend on** against the Windows App documentation for each platform, using the list in the previous section as a starting point.
+3. **Check the features you depend on** against the Windows App documentation for each platform, using the table in the section "Feature gaps that affect design" as a starting point.
 4. **Pilot with a small group** that includes your hardest case: multiple monitors, a smart card or a headset.
-5. **Check what the firewall allows.** The documentation has a required URL list that includes the addresses clients use. Test the new client from your most locked-down network.
+5. **Check what the firewall allows.** The documentation has a required URL list that includes the addresses clients use. The [connectivity article](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/) covers it. Test the new client from your most locked-down network.
 6. **Set a date and communicate it.** Publish the dates in the documentation, because they are not yours to move.
 7. **Remove the old client** where you can. Keeping both invites support calls.
 
 ## Common mistakes
 
-- **Assuming the Remote Desktop client still works because it still launches.** Support has ended for some of them, so do not expect support for problems with them.
+- **Assuming the Remote Desktop client still works because it still launches.** Support has ended for some of them. Microsoft will not help with problems in them.
 - **Using the built-in Remote Desktop Connection (`mstsc.exe`).** It is not supported for AVD.
 - **Forgetting that users need a work or school account.** A personal Microsoft account cannot sign in to Windows App.
 - **Allowing every platform without testing the one with the fewest features.** Users on that platform will report the gaps.
@@ -136,4 +143,4 @@ Next: [How Sign-in Works: Three Authentications and Single Sign-on](/azure-virtu
 
 ## Sources
 
-Microsoft Learn, checked October 2026: [Windows App features across platforms and devices](https://learn.microsoft.com/en-us/windows-app/compare-platforms-features?pivots=azure-virtual-desktop), [What is Windows App?](https://learn.microsoft.com/en-us/windows-app/overview), [Get started with Windows App](https://learn.microsoft.com/en-us/windows-app/get-started-connect-devices-desktops-apps?pivots=azure-virtual-desktop), [Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites) and, for the status of the older clients, the archived [Remote Desktop client overview](https://learn.microsoft.com/en-us/previous-versions/remote-desktop-client/overview).
+Microsoft Learn, checked November 2026: [Windows App features across platforms and devices](https://learn.microsoft.com/en-us/windows-app/compare-platforms-features?pivots=azure-virtual-desktop), [What is Windows App?](https://learn.microsoft.com/en-us/windows-app/overview), [Get started with Windows App](https://learn.microsoft.com/en-us/windows-app/get-started-connect-devices-desktops-apps?pivots=azure-virtual-desktop), [Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites) and, for the status of the older clients, the archived [Remote Desktop client overview](https://learn.microsoft.com/en-us/previous-versions/remote-desktop-client/overview).
