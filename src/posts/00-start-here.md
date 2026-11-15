@@ -21,7 +21,7 @@ production_section_written_by_addy: false
 layout: post.njk
 permalink: "/start-here/"
 order: 0
-deck: "This blog explains Azure Landing Zone, Azure Virtual Desktop and Windows 365 in reading order, so you can start with no background and build up one step at a time."
+deck: "This page shows what to read first. The articles cover Azure landing zones, Azure Virtual Desktop and Windows 365. They are in reading order, and you can start with no background."
 next_num: ""
 next_title: ""
 ---
@@ -103,7 +103,7 @@ What AVD is, its architecture and how it fails, then identity, network, host poo
 
 ### [Windows 365 Enterprise](/windows-365-enterprise/)
 
-A pilot of Cloud PCs (Windows desktops that Microsoft runs for each user) from planning to operations. The posts keep results that were observed in a lab apart from procedures. 10 posts.
+A pilot of Cloud PCs (Windows desktops that Microsoft runs for each user), from planning to daily operations. Each post says what I tested and what I did not. 10 posts.
 
 1. [Windows 365 Enterprise: Start Here](/windows-365/start-here/)
 2. [Windows 365 Enterprise: Plan a Pilot That You Can Verify](/windows-365/plan-the-pilot/)
@@ -138,11 +138,11 @@ My rules:
 
 A repo is a folder of files on GitHub. [Azure_landing_zone](https://github.com/AddySidd27/Azure_landing_zone) is my public learning and reference lab. It is built with Terraform (a tool that creates Azure resources from code). It is not production-ready and it is not the official accelerator (Microsoft's ready-made deployment code for landing zones). Use it to see how the parts fit together, and use the official accelerator for real environments. [lab-vs-enterprise.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/00-start-here/lab-vs-enterprise.md) lists what a personal lab can and cannot reproduce, and [learning-path.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/00-start-here/learning-path.md) gives a suggested reading order. The Windows 365 posts link to their own repo, [Windows365-enterprise-engineering](https://github.com/AddySidd27/Windows365-enterprise-engineering).
 
-## What the posts show as evidence
+## What was tested
 
-The evidence differs by series, and each post says what it did and did not test.
+This differs by series. Each post says what it tested and what it did not.
 
-- **Azure Landing Zone:** no post includes a real deployment yet. The repo's status table says real-deployment evidence is not published.
+- **Azure Landing Zone:** no post includes a real deployment yet. The repo's status table says no real deployment results are published.
 - **Azure Virtual Desktop:** some posts, such as [Prepare Your Azure Environment for Azure Virtual Desktop](/azure-virtual-desktop/prepare-your-azure-environment/), show screenshots from an existing development environment, with account details hidden. They are inventory checks, not a full deployment.
 - **Windows 365:** posts such as [Provision a Microsoft Entra Joined Cloud PC](/windows-365/provision/) show captures from an existing Cloud PC and an unsaved draft policy in my own tenant, dated October 12, 2026. They do not show a fresh end-to-end provisioning run.
 

@@ -6,10 +6,10 @@ permalink: /windows-365/plan-the-pilot/
 order: 202
 part: 2
 tags: w365-series
-deck: "A practical checklist for licensing, roles, assignments and evidence before the first Cloud PC is provisioned."
+deck: "A checklist for licensing, roles and assignments, and what to record, before you create the first Cloud PC."
 ---
 
-A pilot succeeds when you can explain who received a Cloud PC, why it was assigned, and how you checked the result. A Cloud PC is a Windows PC that runs in Microsoft's cloud. Windows 365 gives one to each licensed user. Start with one test user and one small Microsoft Entra group. Keep the scope small, so a mistaken policy does not affect the rest of the organization.
+A pilot works when you can explain who received a Cloud PC, why, and how you checked the result. A Cloud PC is a Windows PC that runs in Microsoft's cloud. Windows 365 gives one to each licensed user. Start with one test user and one small Microsoft Entra group. Keep the scope small so a mistake does not affect the rest of the organization.
 
 Two terms come up often below. A provisioning policy is the rule that tells Windows 365 how to create Cloud PCs. "Provisioned" means the Cloud PC has been created. An Azure network connection (ANC) links your own Azure virtual network to Windows 365. It is one of two network choices, and the table below explains both.
 
@@ -22,13 +22,13 @@ Check the current [Windows 365 Enterprise requirements](https://learn.microsoft.
 - **Administrator role.** The administrator who provisions Cloud PCs must hold the Intune Administrator or Windows 365 Administrator role in Microsoft Entra ID.
 - **Region.** Pick a [supported region](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements#supported-azure-regions-for-cloud-pc-provisioning). With a Microsoft-hosted network you choose a geography in the provisioning wizard.
 
-Record the license name and its assigned user. A license visible in inventory is not proof that the intended user has it.
+Record the license name and its assigned user. A license in the inventory does not prove the intended user has it.
 
 Choose a descriptive pilot group such as `W365-Pilot-Users` and record its members before assigning anything. Create a second group, of devices, only if you need to apply Intune policies to the Cloud PCs (judgement). Decide who can change the provisioning policy and who checks the provisioning status. Avoid using a broad production group for a learning exercise (judgement).
 
-Write down these decisions before you start:
+Write down these decisions before you start. The right column says what to record.
 
-| Decision | Pilot record |
+| Decision | What to record |
 | --- | --- |
 | User and group | Sanitized user label and exact group name |
 | License | License name, assignment state and date checked |
@@ -41,15 +41,15 @@ Write down these decisions before you start:
 
 ### Step 1: inventory the Enterprise seat
 
-In the Microsoft 365 admin center, go to Billing > Licenses and select the Windows 365 Enterprise product. Record the total, assigned and available counts. Then open the intended pilot user's license details and verify the actual assignment. In my September 24, 2026 capture, one Enterprise seat was assigned and none were available. The crop does not identify the assigned user.
+In the Microsoft 365 admin center, go to Billing > Licenses and select the Windows 365 Enterprise product. Record the total, assigned and available counts. Then open the intended pilot user's license details and verify the actual assignment. On September 24, 2026, my lab showed one Enterprise seat assigned and none available. The screenshot does not show which user has the seat.
 
 ![Sanitized Windows 365 Enterprise license inventory. The Enterprise row shows Total 1, Assigned 1, Available 0](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-01-2026-09-24-license-inventory.jpg)
 
-*Sanitized crop from my lab, observed on September 24, 2026. Only the Enterprise row matters here (Total 1, Assigned 1, Available 0). The other rows are other licenses in my lab tenant: a Windows 365 Business row (1, 1, 0), an Entra ID P2 row that shows Available -1, and an Intune row (25, 2, 23). I did not investigate the -1 and it is not part of this pilot. The top header row is partly cropped.*
+*Sanitized crop from my lab, September 24, 2026. Only the Enterprise row matters here (Total 1, Assigned 1, Available 0). The other rows are other licenses in my lab tenant: a Windows 365 Business row (1, 1, 0), an Entra ID P2 row that shows Available -1, and an Intune row (25, 2, 23). I did not investigate the -1 and it is not part of this pilot. The top header row is partly cropped.*
 
 ### Step 2: make a narrow pilot group
 
-In the Microsoft Entra admin center, create or select a dedicated user security group for the pilot and add the licensed test user. Do not use a nested group, because provisioning policies do not support them ([Create provisioning policies](https://learn.microsoft.com/en-us/windows-365/enterprise/create-provisioning-policy)). Note the group name and the date and time you added the user. Do not target all users. Save a sanitized group membership image in your own lab. My public lab evidence does not include a group membership screenshot.
+In the Microsoft Entra admin center, create or select a dedicated user security group for the pilot and add the licensed test user. Do not use a nested group, because provisioning policies do not support them ([Create provisioning policies](https://learn.microsoft.com/en-us/windows-365/enterprise/create-provisioning-policy)). Note the group name and the date and time you added the user. Do not target all users. Save a sanitized screenshot of the group members in your own lab. I did not publish one from mine.
 
 ### Step 3: check the administrator
 
@@ -57,13 +57,13 @@ Verify that the administrator holds the Intune Administrator or Windows 365 Admi
 
 ### Step 4: write the success result
 
-Write a pass condition (judgement). For example: the targeted user sees one Cloud PC, signs in from the Windows App or windows365.microsoft.com, disconnects and reconnects, and the device appears in Intune with the expected join type. The disconnect and reconnect step is a plan, not yet verified in my lab. Record the identity, network and image decisions from [Choose Identity and Network](/windows-365/identity-network/) before creating a policy.
+Write a pass condition (judgement). For example: the targeted user sees one Cloud PC, signs in from the Windows App or windows365.microsoft.com, disconnects and reconnects, and the device appears in Intune with the expected join type. I have not tested the disconnect and reconnect step yet. Record the identity, network and image decisions from [Choose Identity and Network](/windows-365/identity-network/) before creating a policy.
 
-The [tenant readiness use case](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-01-tenant-readiness-and-pilot-design.md) in my GitHub lab repository contains a longer worksheet. The screenshot above is a real capture, but it shows inventory only, not a new end-to-end assignment. Treat the missing group and assignee screens as checks to capture when you reproduce the lab.
+My [tenant readiness lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-01-tenant-readiness-and-pilot-design.md) on GitHub has a longer worksheet. The screenshot above shows the license inventory only. I did not record a new assignment from start to finish. When you repeat this, capture the group and assignee screens too.
 
-## Evidence to save
+## What to save
 
-Capture the license assignment, group membership, policy target, provisioning result and first successful session at separate checkpoints. Add the date and a one-line observation to each image. Remove names, tenant IDs and device identifiers before publication. If a check fails, keep the error text and document the corrective step; do not call the pilot complete because the portal accepted a form.
+Take a screenshot at each of these points: the license assignment, the group members, the policy target, the provisioning result and the first successful session. Add the date and a one-line note to each image. Remove names, tenant IDs and device identifiers before you share them. If a check fails, keep the error text and write down how you fixed it. The pilot is not done just because the portal accepted a form.
 
 Next: [choose identity and network](/windows-365/identity-network/).
 

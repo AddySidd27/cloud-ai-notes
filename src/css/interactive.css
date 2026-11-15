@@ -45,7 +45,7 @@
 .prose details>summary::before{content:"";position:absolute;left:1rem;top:1.15rem;width:.5rem;height:.5rem;border-right:2px solid var(--brand-ink);border-bottom:2px solid var(--brand-ink);transform:rotate(-45deg);transition:transform .15s}
 .prose details[open]>summary::before{transform:rotate(45deg);top:1rem}
 .prose details>summary:hover{background:var(--surface2)}
-.prose details[open]{border-color:var(--brand);box-shadow:var(--shadow)}
+.prose details[open]{}
 .prose details[open]>summary{border-bottom:1px solid var(--line);border-bottom-left-radius:0;border-bottom-right-radius:0}
 .prose details>*:not(summary){margin-inline:1rem}
 .prose details>summary+*{margin-top:1rem}

@@ -6,7 +6,6 @@ permalink: "/azure-virtual-desktop/deliver-applications-remoteapp-app-attach/"
 order: 122
 part: 22
 tags: [avd-series]
-# PENDING: publication date and final slug/order approval; the date lives in src/_data/articleMeta.js
 deck: "See the three ways an application gets onto session hosts, how App Attach mounts packages at sign-in, and where the documentation still disagrees with itself."
 description: "Understand application delivery in Azure Virtual Desktop: apps in the image, Intune installs, App Attach packages, the sources you can publish with RemoteApp, and the open documentation conflicts."
 ---

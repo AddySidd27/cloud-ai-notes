@@ -606,10 +606,10 @@ The screenshots cover only the VNet, NSG, firewall DNS settings, rule collection
 | --- | --- |
 | Hub and spoke | Peering recorded as Connected |
 | Firewall | DNS proxy, upstream resolver and AVD rule collections saved |
-| Workload routes | Both routes saved; host-subnet association still pending |
-| Spoke DNS | Custom DNS assignment to the firewall proxy still pending |
+| Workload routes | Both routes saved; host-subnet association not done yet |
+| Spoke DNS | Custom DNS assignment to the firewall proxy not done yet |
 | Azure Files | Private connection Approved; private DNS record created; public network access still enabled |
-| Host validation | DNS, effective routes, endpoint reachability and firewall traffic evidence still pending |
+| Host validation | DNS, effective routes, endpoint reachability and firewall traffic evidence not collected yet |
 
 Do not interpret the private endpoint as a private-only storage boundary while public network access remains enabled. Complete the approved storage policy and validate its clients separately. The commands below describe the checks to run; they are not recorded results for the new hub path.
 

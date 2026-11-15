@@ -6,7 +6,6 @@ permalink: "/azure-virtual-desktop/operate-fslogix-profiles-day-to-day/"
 order: 125
 part: 25
 tags: [avd-series]
-# PENDING: publication date and final slug/order approval; the date lives in src/_data/articleMeta.js
 deck: "Decide if you need Cloud Cache, keep containers small with compaction, clear stuck sessions, and avoid the usual causes of corruption."
 description: "How to run FSLogix profile containers in Azure Virtual Desktop: Cloud Cache, container size and compaction, locked containers, and corruption."
 ---

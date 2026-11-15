@@ -6,7 +6,6 @@ permalink: "/azure-virtual-desktop/plan-bandwidth-latency-and-quality-of-service
 order: 123
 part: 23
 tags: [avd-series]
-# PENDING: publication date and final slug/order approval; the date lives in src/_data/articleMeta.js
 deck: "Learn what uses bandwidth in a remote session, which round-trip times the documentation treats as good or poor, what Quality of Service can and cannot do, how Teams is set up, and where to look when a user says the session is slow."
 description: "What the Azure Virtual Desktop documentation says about bandwidth, latency and Quality of Service, where QoS applies, how Teams is set up, and which logs show what a connection saw."
 ---
