@@ -45,7 +45,7 @@ repo_links:
   - "https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/naming-tagging-cost.md"
 diagrams:
   - file: "../diagrams/post-09-management-group-hierarchy.svg"
-    type: own-layout-official-icons
+    type: learn-based
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups"
     icons: "Azure Public Service Icons V24 (Management groups, Subscriptions), unmodified"
     source: "../diagrams/post-09-management-group-hierarchy.drawio"
@@ -53,7 +53,7 @@ production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; 
 layout: post.njk
 permalink: "/azure-landing-zone/resource-organization/"
 order: 9
-deck: "Resource organization is how you arrange management groups, subscriptions, resource groups, names and tags so that rules, access and cost land in the right place, and the usual advice is to keep the hierarchy flat, use subscriptions for workloads and environments, and add new management groups only when a requirement needs them."
+deck: "Resource organization is how you arrange management groups, subscriptions, resource groups, names and tags, so that rules, access and cost land in the right place. The usual advice: keep the hierarchy flat, use subscriptions for workloads and environments, and add a management group only when a requirement needs one."
 next_num: ""
 next_title: "Network Topology and Connectivity"
 tags: [alz]
@@ -63,12 +63,12 @@ tags: [alz]
 
 In [the tenant and subscriptions post](/azure-landing-zone/tenant-billing-subscriptions-and-management-groups/) you met the four levels Azure uses to organize things: management groups, subscriptions, resource groups and resources. [The business requirements post](/azure-landing-zone/business-requirements-compliance-region-recovery-connectivity-and-cost/) covered the business requirements (compliance, region, recovery, connectivity and cost) that come first. This post answers the next question: where does everything go?
 
-The answer matters early. Think through your management group structure when you plan Azure adoption at scale. My reading: reorganizing later is costly, because moving a subscription between management groups changes the Azure RBAC and Azure Policy it inherits. Do not copy your organization chart into a deeply nested hierarchy.
+The answer matters early. Think through your management group structure when you plan Azure adoption at scale. Moving a subscription between management groups changes the Azure RBAC and Azure Policy it inherits, so reorganizing later takes planning (judgement).
 
 
 ## Key terms
 
-Earlier posts defined landing zone, workload landing zone, management group, subscription, resource group, tenant root group, scope, Azure Policy, Azure RBAC, inheritance, quota, tag, subscription vending, sandbox subscription, shadow IT, guardrails and platform team. The words below are new. The management groups themselves (intermediate root, Platform, Landing zones, Sandboxes and Decommissioned) are explained in the table in "Management groups: the baseline hierarchy". Each word is in plain words.
+Earlier posts defined landing zone, workload landing zone, management group, subscription, resource group, tenant root group, scope, Azure Policy, Azure RBAC, inheritance, quota, tag, subscription vending, guardrails and platform team. The words below are new. The management groups themselves (intermediate root, Platform, Landing zones, Sandboxes and Decommissioned) are explained in the table in "Management groups: the baseline hierarchy". Each word is in plain words.
 
 | Word | What it means |
 |---|---|
@@ -78,14 +78,17 @@ Earlier posts defined landing zone, workload landing zone, management group, sub
 | Cloud Center of Excellence (CCoE) | In the subscription vending process, the team that sets the business rules and the approval process for subscription requests. |
 | Product line | A type or style of subscription that the platform team can hand out to workload teams through a self-service system. |
 | Naming convention | A standard format for naming Azure resources. |
+| Shadow IT | Teams that set up Azure subscriptions or tenants on their own, outside the control and governance of the platform team. |
+| Sandbox subscription | A subscription for experiments and proofs of concept, with fewer controls than a workload subscription. It is often limited by time or budget. |
+| Azure Virtual WAN | A managed Azure networking service that connects networks through a central hub. |
 
 ## The four levels, in one paragraph
 
-Azure has four levels of scope: management groups, subscriptions, resource groups and resources. Settings applied at a higher level pass down to the levels below. A subscription is a unit of management, billing and scale. With subscription democratization, subscriptions (not resource groups) are the main unit of workload management and scale. A resource group is a container for related resources that share the same lifecycle: you deploy, update and delete them together. Each resource sits in only one resource group.
+Azure has four levels of scope: management groups, subscriptions, resource groups and resources. [The tenant post](/azure-landing-zone/tenant-billing-subscriptions-and-management-groups/) explains them. Settings applied at a higher level pass down to the levels below. With subscription democratization, subscriptions (not resource groups) are the main unit of workload management and scale. A resource group holds related resources that share the same lifecycle. Each resource sits in only one resource group.
 
 ## Management groups: the baseline hierarchy
 
-The Azure landing zone architecture gives you a starting hierarchy. The diagram below shows it. Here is what each group is for.
+The Azure landing zone architecture gives you a starting hierarchy. The diagram at the end of this post (see "The baseline hierarchy at a glance") shows it. Here is what each group is for.
 
 | Management group | What it is for |
 |---|---|
@@ -94,10 +97,10 @@ The Azure landing zone architecture gives you a starting hierarchy. The diagram 
 | Security | A dedicated subscription for the security team's tooling, such as Microsoft Sentinel |
 | Management | A dedicated subscription for management and monitoring, for example Log Analytics workspaces |
 | Connectivity | A dedicated subscription for the shared networking that the platform needs, such as Azure Virtual WAN, Azure Firewall and private DNS zones (see the platform scope and business requirements posts) |
-| Identity | A dedicated subscription for the virtual machines that run Active Directory Domain Services (AD DS, [Identity and access](/azure-landing-zone/identity-and-access-in-the-landing-zone/)) or for Microsoft Entra Domain Services |
+| Identity | A dedicated subscription for identity services, such as virtual machines that run Active Directory Domain Services (AD DS, [Identity and access](/azure-landing-zone/identity-and-access-in-the-landing-zone/)) or Microsoft Entra Domain Services |
 | Landing zones | Parent of the workload groups Corp, Online and Local (defined above). It has Azure Policy rules that apply to every workload, to keep workloads secure and compliant |
 | Sandboxes | For subscriptions used for testing and exploration. They are securely isolated from the Corp and Online landing zones, and have a less restrictive set of policies |
-| Decommissioned | Canceled landing zones, deleted by Azure after 30-60 days |
+| Decommissioned | Canceled landing zones are moved here. Azure deletes them after 30-60 days |
 
 For many organizations, the default Corp, Online and Local groups are an ideal starting point. Some organizations need to add more.
 
@@ -114,7 +117,7 @@ For many organizations, the default Corp, Online and Local groups are an ideal s
 
 **Don't:**
 
-- Do not copy your organization chart into a deeply nested hierarchy. Use management groups for policy assignment rather than for billing and Azure RBAC purposes.
+- Do not copy your organization chart into a deeply nested hierarchy. Use management groups mainly for Azure Policy assignment, not to mirror billing or to hand out Azure RBAC to workload teams.
 - Do not give workload teams Azure RBAC permissions at management group scope. This risks over-permissioning, because permissions inherit downward. Assign permissions at the specific subscription or resource group they need access to. This is normally done during subscription vending.
 - Do not create management groups for production, test and development. If you need to separate them, use different subscriptions in the same management group.
 - Do not create management groups only to model Azure regions. There is one exception: if you have location-based regulatory requirements such as data residency, data security or data sovereignty, create a structure based on location.
@@ -125,7 +128,7 @@ These are the limits: a single directory (your tenant) supports up to 10,000 man
 
 ## Protect the top of the hierarchy
 
-New subscriptions go to the tenant root group by default. Anything assigned there applies to every resource in the tenant, so define only "must have" items on that scope. Two settings help protect it:
+New subscriptions go to the tenant root group by default ([the tenant post](/azure-landing-zone/tenant-billing-subscriptions-and-management-groups/)). Define only "must have" items there. Two settings help protect it:
 
 - **A default management group for new subscriptions.** Set a dedicated one, so no subscription lands directly under the root. A sandbox group is a good candidate.
 - **Require authorization to create management groups.** By default, any user can create management groups. Turning this setting on means only users with the right permission can.
@@ -145,17 +148,17 @@ Four principles help you decide:
 
 More guidance:
 
-- **Platform:** use separate subscriptions for management, security, connectivity and identity when you need them. Do not combine them. This lets you apply different policies and role assignments to each, and keeps their billing separate.
+- **Platform:** use a separate subscription for each platform area you need: management, security, connectivity and identity. Do not combine areas in one subscription, so you can apply different policies and role assignments to each. The Platform group also keeps the billing for common resources in one set of foundational subscriptions. See [the platform scope post](/azure-landing-zone/platform-scope-and-workload-boundaries/) for where the platform lives.
 - **Environments:** use subscriptions, not management groups, to separate development, test and production.
 - **Avoid a rigid model.** Use flexible criteria. Some applications can share a landing zone subscription, while others need their own.
 - **Regions:** subscriptions are not tied to a region, so you do not need one per region. Create extra subscriptions per region only for region-specific governance or management needs, such as data sovereignty, or to scale beyond quota limits.
 - **Resource groups:** keep a resource group and its resources in the same region, and do not put resources from different regions in one resource group.
 - **Quotas:** a subscription quota is not a capacity guarantee, and it applies per region. Ask for quota increases before your workloads exceed the default limits, and set alerts for when you approach them.
-- **Owners:** tell subscription owners what they are responsible for. Their duties include taking full ownership of budget spending and resources, ensuring policy compliance, and doing a regular access review for Privileged Identity Management (PIM) so privileges do not pile up when people move.
+- **Owners:** tell subscription owners what they are responsible for. Their duties include taking full ownership of budget spending and resources, ensuring policy compliance, and doing a quarterly or yearly access review for Privileged Identity Management (PIM) so privileges do not pile up when people move.
 
 ## Tailoring: when the default is not enough
 
-Tailoring is not required. The default archetypes and hierarchy are suitable for most scenarios. There are no fixed numbered steps for tailoring. I put the points together, and a sensible order for a new requirement is:
+Tailoring is not required. The default archetypes and hierarchy are suitable for most scenarios. Learn gives no fixed steps for tailoring. This order is my own (judgement), built from the points on the tailoring page:
 
 1. **Try to build on what exists.** Add the policy to an existing archetype or management group.
 2. **If the requirement must apply to all workloads,** assign it at the intermediate root management group. The reference architecture does this for settings that must apply to all workloads.
@@ -163,7 +166,7 @@ Tailoring is not required. The default archetypes and hierarchy are suitable for
 
 The other place to add a group is under Platform. Another example is a dedicated security operations team that needs different policy and role assignments from the Management child group of Platform. That scenario is now part of the default hierarchy as the Security group.
 
-Cautions: do not re-create your organization chart, teams or departments as archetypes. Do not create archetypes for development, test and production. Create new archetypes only when truly needed, and only in those two places. Avoid going beyond a depth of four layers, and grow sideways instead of deeper. Moving a subscription between management groups changes the Azure RBAC and Azure Policy it inherits, so check the effect first.
+Cautions: do not create archetypes for development, test and production. Create new archetypes only when truly needed, and only in those two places. Avoid going beyond a depth of four layers, and grow sideways instead of deeper. Moving a subscription between management groups changes the Azure RBAC and Azure Policy it inherits, so check the effect first.
 
 ## Subscription vending and product lines
 
@@ -199,7 +202,7 @@ The reason it matters: without a vending process, or when getting a subscription
 
 - Most Azure resource names cannot be changed after creation. Put only information that stays constant in the name, and use tags for the rest.
 - Names must be unique within a scope. Some are unique across all of Azure (global), some inside a resource group, and some inside the parent resource.
-- Common name parts are the resource type, the workload, the environment, the Azure region and an instance number. Decide the order of the parts, and whether to use a hyphen between them. An example is `vnet-prod-westus-001` (a virtual network, "prod", the West US region, instance 001).
+- Common name parts are the resource type, the workload, the environment, the Azure region and an instance number. Decide the order of the parts, and whether to use a hyphen between them. Not every Azure resource allows a hyphen, so some inconsistency is normal. An example is `vnet-prod-westus-001` (a virtual network for a production purpose, in West US, instance 001).
 - Use abbreviations to stay within length limits. The Azure Naming Tool can generate names from your convention.
 - Do not put personal, sensitive or confidential information in names or tags.
 
@@ -220,11 +223,11 @@ Useful tags fall into five categories:
 | Purpose | Business alignment | business process, business impact |
 | Ownership | Who is responsible | business unit, operations team |
 
-## The resource hierarchy at a glance
+## The baseline hierarchy at a glance
 
 ![The baseline management group hierarchy: the tenant root group and the intermediate root management group sit above Platform (Security, Management, Identity and Connectivity, each with a dedicated subscription), Landing zones (Corp, Online and Local, with workload landing zone subscriptions, and a dashed example PCI group), Decommissioned and Sandboxes. If you need to separate development, test and production, use separate subscriptions in the same management group, not separate management groups](/diagrams/post-09-management-group-hierarchy.svg)
 
-*Simplified diagram, redrawn by me to follow the layout of the hierarchy diagram in the official documentation (each group of management groups has its own band, with the subscriptions in a band below it): [Management groups](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups). Not an official Microsoft diagram; Microsoft's own is on that page. The dashed PCI group (PCI DSS, the payment card security standard) is the tailoring example from [Tailor the Azure landing zone architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/tailoring-alz). The subscription labels (A1, P1, A2, LC1, LA1) are example names, and no subscription is drawn under Online in this example. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) architecture icon set.*
+*Simplified from the hierarchy diagram on [Management groups](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups#management-groups-in-the-azure-landing-zone-architecture). Each group of management groups has its own band, with the subscriptions in a band below it. The dashed PCI group (PCI DSS, the payment card security standard) is the tailoring example from [Tailor the Azure landing zone architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/tailoring-alz). The subscription labels (A1, P1, A2, LC1, LA1) are example names, and no subscription is drawn under Online in this example. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) architecture icon set.*
 
 
 ## Common mistakes
@@ -241,7 +244,7 @@ Useful tags fall into five categories:
 
 ## From my own projects
 
-These situations came up in my own work: management groups created for each environment, more subscriptions than the design needed, no naming standard, and tags missing or inconsistent. Typical results are policy exceptions, hard cost reporting, and rework to reorganize later.
+These situations came up in my own work: management groups created for each environment, more subscriptions than the design needed, no naming standard, and tags missing or inconsistent. Typical results are policy exceptions, hard cost reporting, and rework to reorganize later (judgement).
 
 ## The files in my repo
 

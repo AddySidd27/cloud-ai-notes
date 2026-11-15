@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 792" width="1000" height="792" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 782" width="1000" height="782" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
   <title id="t">Minimum viable platform landing zone and the readiness check</title>
   <desc id="d">A large box called Platform landing zone, built once before any workload moves, holds seven numbered boxes: management group hierarchy, baseline policy, a working hub network with hybrid connectivity to the on-premises network, DNS that reaches on-premises name servers, identities that match the workload mix, central logging, and a firewall or equivalent network security control. An arrow leads to a box called Readiness check that lists ten areas. A second arrow leads to a box called First workload landing zone.</desc>
   <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
@@ -47,7 +47,7 @@
   <text x="156" y="720.0" font-size="17" text-anchor="start" fill="#1f2933">security control</text>
   <rect x="650" y="30" width="340" height="440" rx="10" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="2"/>
   <text x="820" y="68" font-size="22" font-weight="600" text-anchor="middle" fill="#1f2933">Readiness check</text>
-  <text x="820" y="96" font-size="15" text-anchor="middle" fill="#3a3a3a">Learn&#x27;s minimum checks, run before</text>
+  <text x="820" y="96" font-size="15" text-anchor="middle" fill="#3a3a3a">Minimum checks, run before</text>
   <text x="820" y="116" font-size="15" text-anchor="middle" fill="#3a3a3a">the first workload moves</text>
   <text x="676" y="158" font-size="16" text-anchor="start" fill="#1f2933">1.  Connectivity</text>
   <text x="676" y="188" font-size="16" text-anchor="start" fill="#1f2933">2.  DNS and routing</text>

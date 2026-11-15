@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1176" width="1000" height="1176" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
   <title id="t">The brownfield path</title>
-  <desc id="d">A top-to-bottom path of seven numbered stages in three grouped panels. Look and decide: 1 Take stock, 2 Choose a path, 3 Plan the target. Build beside, then test: 4 Build beside, 5 See the effect. Move and finish: 6 Move in, 7 Finish. Each stage shows what you decide and what you end up with. Arrows lead from each stage to the next. A loop arrow from stage 6 back to stage 5 is labelled repeat for each wave. Redraw by the author, not an official Microsoft diagram.</desc>
+  <desc id="d">A top-to-bottom path of seven numbered stages in three grouped panels. Look and decide: 1 Take stock, 2 Choose a path, 3 Plan the target. Build beside, then test: 4 Build beside, 5 See the effect. Move and finish: 6 Move in, 7 Finish. Each stage shows what you decide and what you end up with. Arrows lead from each stage to the next. A loop arrow from stage 6 back to stage 5 is labelled repeat for each wave.</desc>
   <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
   <text x="500" y="40" font-size="24" font-weight="600" text-anchor="middle" fill="#1f2933">From what you have today to governed workloads</text>
   <text x="500" y="68" font-size="16" text-anchor="middle" fill="#3a3a3a">Seven stages, in order. Each one shows what you decide and what you end up with.</text>
@@ -59,7 +59,7 @@
   <text x="150" y="671.0" font-size="18" font-weight="600" text-anchor="start" fill="#1f2933">beside</text>
   <line x1="280" y1="618" x2="280" y2="690" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 4"/>
   <text x="294" y="648.0" font-size="16" text-anchor="start" fill="#1f2933">How to deploy: portal, Bicep,</text>
-  <text x="294" y="670.0" font-size="16" text-anchor="start" fill="#1f2933">Terraform or a custom build</text>
+  <text x="294" y="670.0" font-size="16" text-anchor="start" fill="#1f2933">or Terraform</text>
   <line x1="626" y1="618" x2="626" y2="690" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 4"/>
   <text x="644" y="637.0" font-size="16" text-anchor="start" fill="#1f2933">A new group structure and</text>
   <text x="644" y="659.0" font-size="16" text-anchor="start" fill="#1f2933">platform in the same tenant;</text>
@@ -73,7 +73,7 @@
   <text x="150" y="795.0" font-size="18" font-weight="600" text-anchor="start" fill="#1f2933">effect</text>
   <line x1="280" y1="742" x2="280" y2="814" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 4"/>
   <text x="294" y="772.0" font-size="16" text-anchor="start" fill="#1f2933">Which policies to run in</text>
-  <text x="294" y="794.0" font-size="16" text-anchor="start" fill="#1f2933">audit only mode first</text>
+  <text x="294" y="794.0" font-size="16" text-anchor="start" fill="#1f2933">audit-only mode first</text>
   <line x1="626" y1="742" x2="626" y2="814" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 4"/>
   <text x="644" y="761.0" font-size="16" text-anchor="start" fill="#1f2933">A compliance picture per</text>
   <text x="644" y="783.0" font-size="16" text-anchor="start" fill="#1f2933">subscription, with no</text>

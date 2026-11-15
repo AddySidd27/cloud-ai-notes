@@ -9,40 +9,44 @@ preview_feature: false
 fictional_case: false
 learn_pages:
   - url: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/prepare-organization-for-cloud"
-    checked_on: "2026-10-07"
+    checked_on: "2026-11-14"
   - url: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/shared-management-operating-model"
-    checked_on: "2026-10-07"
+    checked_on: "2026-11-14"
   - url: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/manage/ready-cloud-operations"
-    checked_on: "2026-10-07"
+    checked_on: "2026-11-14"
   - url: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/overview"
-    checked_on: "2026-10-07"
+    checked_on: "2026-11-14"
   - url: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/govern/build-cloud-governance-team"
-    checked_on: "2026-10-07"
+    checked_on: "2026-11-14"
   - url: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/subscription-vending"
-    checked_on: "2026-10-07"
+    checked_on: "2026-11-14"
   - url: "https://learn.microsoft.com/en-us/azure/governance/policy/overview"
-    checked_on: "2026-10-07"
+    checked_on: "2026-11-14"
   - url: "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction"
-    checked_on: "2026-10-07"
+    checked_on: "2026-11-14"
   - url: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-tagging"
-    checked_on: "2026-10-07"
+    checked_on: "2026-11-14"
   - url: "https://learn.microsoft.com/en-us/azure/quotas/quotas-overview"
-    checked_on: "2026-10-07"
+    checked_on: "2026-11-14"
   - url: "https://learn.microsoft.com/en-us/azure/developer/intro/hosting-apps-on-azure"
-    checked_on: "2026-10-07"
+    checked_on: "2026-11-14"
   - url: "https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra"
-    checked_on: "2026-10-07"
+    checked_on: "2026-11-14"
   - url: "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/overview"
-    checked_on: "2026-10-07"
+    checked_on: "2026-11-14"
   - url: "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/quick-create-budget-bicep"
-    checked_on: "2026-10-07"
+    checked_on: "2026-11-14"
   - url: "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management"
-    checked_on: "2026-10-07"
+    checked_on: "2026-11-14"
+  - url: "https://learn.microsoft.com/training/modules/intro-to-azure-hybrid-services/2-hybrid-cloud-overview"
+    checked_on: "2026-11-14"
+  - url: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-areas"
+    checked_on: "2026-11-14"
 repo_links:
   - "https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/01-foundations/operating-model.md"
 diagrams:
   - file: "../diagrams/post-04-cloud-operating-models.svg"
-    type: own-layout-official-icons
+    type: learn-based
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/prepare-organization-for-cloud"
     icons: "Azure Public Service Icons V24 (Subscriptions, Azure Policy), unmodified"
     source: "../diagrams/post-04-cloud-operating-models.drawio"
@@ -58,23 +62,24 @@ tags: [alz]
 
 
 
-A landing zone covers areas such as management groups, subscriptions, networking and policy ([the landing zone introduction post](/azure-landing-zone/what-is-an-azure-landing-zone/)). Tools do not decide who approves a new subscription, who owns the network, or who gets the call when something breaks. People decide that.
+A landing zone covers areas such as management groups, subscriptions, networking and policy ([the landing zone introduction post](/azure-landing-zone/what-is-an-azure-landing-zone/)). A subscription is a container for Azure resources and billing, and a management group groups subscriptions ([the tenant and subscriptions post](/azure-landing-zone/tenant-billing-subscriptions-and-management-groups/)). Tools do not decide who approves a new subscription, who owns the network, or who gets the call when something breaks. People decide that (judgement).
 
 A cloud operating model is how your organization manages cloud resources, team responsibilities and collaboration. A well-designed model helps align cloud work with business goals, speed up workload delivery, clarify accountability and reduce operational overhead.
 
 
-The Cloud Adoption Framework (defined in the first row of the table below) describes three models. This topic comes from the Cloud Adoption Framework, not from the eight Azure landing zone design areas in [the landing zone introduction post](/azure-landing-zone/what-is-an-azure-landing-zone/). Think of them as three answers to one question: how much does one central team own?
+The Cloud Adoption Framework is Microsoft's guidance for adopting Azure. It describes three operating models. This topic comes from the Cloud Adoption Framework, not from the eight Azure landing zone design areas in [the landing zone introduction post](/azure-landing-zone/what-is-an-azure-landing-zone/). Think of the models as three answers to one question: how much does one central team own?
 
 ## Key terms
 
-The terms workload, platform team, workload team, platform landing zone and workload landing zone mean the same as in [the landing zone introduction post](/azure-landing-zone/what-is-an-azure-landing-zone/), and resource group means the same as in [the platform scope post](/azure-landing-zone/platform-scope-and-workload-boundaries/). The other terms that may be new are below, in plain words.
+The terms workload, platform team, workload team, platform landing zone and workload landing zone mean the same as in [the landing zone introduction post](/azure-landing-zone/what-is-an-azure-landing-zone/). Resource group means the same as in [the platform scope post](/azure-landing-zone/platform-scope-and-workload-boundaries/). Subscription and management group mean the same as in [the tenant and subscriptions post](/azure-landing-zone/tenant-billing-subscriptions-and-management-groups/). The other terms that may be new are below, in plain words.
 
 | Word | What it means |
 |---|---|
 | Cloud Adoption Framework | Microsoft's guidance that helps decision makers make better decisions, faster, about adopting Azure. It aims to reduce risk, speed up adoption, and build a foundation that supports current and future workloads. |
 | Governance and guardrails | Governance is how an organization controls its use of cloud services. It does this with guardrails: policies, procedures and tools that say which cloud activities are acceptable and which are not. |
+| Governance team | A team that assesses cloud risks, defines governance policies and monitors progress. |
 | Subscription vending | A standard, automated way for the platform team to hand out subscriptions to workload teams. |
-| Hybrid cloud | On-premises systems (the ones you run in your own datacenters) and a public cloud, connected so they work together as one environment. |
+| Hybrid cloud | On-premises systems (the ones you run in your own datacenters) and a public cloud like Azure, working together so that applications and data can interact. |
 | Azure Policy | An Azure service that enforces your organization's standards on resources and checks whether resources follow them. |
 | Microsoft Entra ID | Microsoft's cloud service that manages identities (who someone is) and access (what they can reach). |
 | Microsoft Defender for Cloud | A security service that combines several cloud security tools into one, to protect applications across their whole lifecycle. |
@@ -90,7 +95,7 @@ A single team is responsible for governance, security and operations across the 
 
 Responsibilities are divided between platform teams and workload teams. Platform teams provide a standard set of platform "products" (shared services) that the whole organization uses. They enforce baseline governance policies and maintain the platform landing zone for shared services such as connectivity, identity, management and security. They can also offer services like subscription vending. Workload teams operate autonomously within those guardrails.
 
-This suits mid-size and enterprise organizations, and is especially effective in hybrid environments and in environments that use more than one cloud provider. It needs clear responsibilities and strong coordination.
+This suits mid-size and enterprise organizations, and is especially effective in hybrid environments (on-premises plus cloud) and in environments that use more than one cloud provider. It needs clear responsibilities and strong coordination.
 
 This model uses the two parts you met in the first two posts: a platform landing zone run by the platform team, and workload landing zones used by workload teams.
 
@@ -106,15 +111,15 @@ Here "hybrid operating model" means a mix of the three models, not on-premises p
 
 | Model | Best for | Main strength | Main risk |
 |---|---|---|---|
-| Centralized | Startups, organizations that use one cloud | Simpler control, uniform standards | One team becomes a bottleneck as scale grows |
+| Centralized | Small organizations, startups, highly regulated industries, organizations that use one cloud | Simpler control, uniform standards | One team becomes a bottleneck as scale grows |
 | Shared management | Mid-size or enterprise organizations, hybrid setups, organizations that use more than one cloud | Balances standards with team agility | Requires clear responsibilities and strong coordination |
 | Decentralized | Tech-savvy startups, innovation programs | High speed and autonomy | Weaker standardization, higher risk of security gaps |
 
-*Table shortened and reworded by me from the official comparison.*
+*Source: [Choose a cloud operating model](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/prepare-organization-for-cloud#choose-a-cloud-operating-model), shortened and reworded. "Best for" for the centralized model combines the text and the table on that page.*
 
 ## Who does what in the shared management model
 
-Each management area has central (platform) responsibilities and workload responsibilities. Here are four of them, shortened and reworded:
+Each management area has central (platform) responsibilities and workload responsibilities. Here are four of them, shortened and reworded from [Ready your Azure cloud operations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/manage/ready-cloud-operations) (Table 1):
 
 | Area | Platform team | Workload team |
 |---|---|---|
@@ -127,10 +132,14 @@ The full table also covers compliance, deployment, development, reliability and 
 
 ## The three operating models at a glance
 
-![Three panels. Centralized: one cloud team owns governance, security and operations for all workloads. Shared management: a platform team owns the platform landing zone, guardrails and subscription vending, and workload teams operate within the guardrails, with Azure Policy shown as the guardrails. Decentralized: each team owns its own platform landing zone and workloads](/diagrams/post-04-cloud-operating-models.svg)
+![Three panels. Centralized: one cloud team owns governance, security and operations for all workloads. Shared management: a platform team owns the platform landing zone, guardrails and subscription vending, and workload teams operate within the guardrails, with Azure Policy shown as one tool for setting guardrails. Decentralized: each team owns its own platform landing zone and workloads. Each workload box is labelled as a subscription](/diagrams/post-04-cloud-operating-models.svg)
 
-*Simplified diagram, my own layout (the official page has no diagram of these three models), based on the official documentation: [Prepare your organization for the cloud](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/prepare-organization-for-cloud#choose-a-cloud-operating-model). The subscription boxes and the three example teams are my own illustration, not from the official page. Not an official Microsoft diagram. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) architecture icon set.*
+*Simplified diagram based on [Prepare your organization for the cloud](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/prepare-organization-for-cloud#choose-a-cloud-operating-model). The documentation has no diagram of the three models, so the layout is simplified. The subscription boxes and the three example teams are illustrations, not from the documentation. Icons are from the [Azure architecture icon set](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
+
+## More detail for the shared management model
+
+The Learn page on [shared management operations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/shared-management-operating-model) adds four points. Platform and workload teams agree service level agreements (SLAs, written promises about how fast requests are handled) and metrics for requests and support. Platform services are treated as internal products, with a backlog and feedback from workload teams. Large enterprises use several platform teams, one per area such as networking or identity. A team of 6 to 10 people ("two-pizza" team) is the suggested starting size. The page [Prepare your organization for the cloud](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/prepare-organization-for-cloud#choose-a-cloud-operating-model) also says to involve business and IT leaders, so the model has support.
 
 ## Common mistakes
 
@@ -142,7 +151,7 @@ The full table also covers compliance, deployment, development, reliability and 
 
 ## From my own projects
 
-These situations came up in my own work: a central team that became a bottleneck for everyone else, and, in other cases, platform and workload teams that worked well together. Typical results of the bottleneck are slow delivery and confusion during incidents about who should act.
+These situations came up in my own work: a central team that became a bottleneck for everyone else, and, in other cases, platform and workload teams that worked well together. Typical results of the bottleneck are slow delivery and confusion during incidents about who should act (judgement).
 
 ## The files in my repo
 
@@ -150,5 +159,5 @@ These situations came up in my own work: a central team that became a bottleneck
 
 ## Sources
 
-Microsoft Learn, checked October 2026: [Choose a cloud operating model](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/prepare-organization-for-cloud#choose-a-cloud-operating-model) · [Shared management operations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/shared-management-operating-model) · [Ready your cloud operations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/manage/ready-cloud-operations)
+Microsoft Learn, checked 14 November 2026: [Choose a cloud operating model](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/prepare-organization-for-cloud#choose-a-cloud-operating-model) · [Shared management operations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/shared-management-operating-model) · [Ready your cloud operations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/manage/ready-cloud-operations) · [Cloud Adoption Framework overview](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/overview) · [Build a cloud governance team](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/govern/build-cloud-governance-team) · [Azure landing zone design areas](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-areas) · [What is a hybrid cloud?](https://learn.microsoft.com/training/modules/intro-to-azure-hybrid-services/2-hybrid-cloud-overview) · [Azure Policy](https://learn.microsoft.com/en-us/azure/governance/policy/overview) · [Microsoft Entra](https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra) · [Defender for Cloud](https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction) · [Resource tags](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-tagging) · [Quotas](https://learn.microsoft.com/en-us/azure/quotas/quotas-overview) · [Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management) · [Budgets](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/quick-create-budget-bicep)
 

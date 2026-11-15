@@ -71,17 +71,17 @@ repo_links:
   - "https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/billing-and-tenant.md"
 diagrams:
   - file: "../diagrams/post-06-billing-and-tenant.svg"
-    type: own-layout-official-icons
+    type: learn-based
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-entra-tenant"
     icons: "Azure Public Service Icons V24 (Subscriptions, Management groups, Azure Policy) and Microsoft Entra architecture icons Oct 2023 (Microsoft Entra ID, color), all unmodified"
     source: "../diagrams/post-06-billing-and-tenant.drawio"
   - file: "../diagrams/post-06-brands-one-tenant.svg"
-    type: own-layout-official-icons
+    type: learn-based
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/multi-tenant/scenarios"
     icons: "Azure Public Service Icons V24 (Subscriptions, Management groups) and Microsoft Entra architecture icons Oct 2023 (Microsoft Entra ID, color), all unmodified"
     source: "../diagrams/post-06-brands-one-tenant.drawio"
   - file: "../diagrams/post-06-two-brand-shapes.svg"
-    type: own-layout-official-icons
+    type: learn-based
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/multi-tenant/considerations-recommendations and https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/plan-connect-topologies"
     icons: "Azure Public Service Icons V24 (Azure Lighthouse), Microsoft Entra architecture icons Oct 2023 (Microsoft Entra ID, Microsoft Entra Connect Sync), all unmodified"
     source: "../diagrams/post-06-two-brand-shapes.drawio"
@@ -99,9 +99,9 @@ tags: [alz]
 
 [The tenant and subscriptions post](/azure-landing-zone/tenant-billing-subscriptions-and-management-groups/) gave you the four building blocks. This post goes one level deeper, because two things surprise people. (A landing zone is the prepared Azure environment where teams run what they build.)
 
-First, billing access is not Azure access. For example, a finance user is made Enterprise Administrator (the enrollment role with the highest level of access to the enrollment) on the Enterprise Agreement (EA, a billing agreement that sets how your organization buys Azure) enrollment (the top-level container of an EA). That user can do the enrollment tasks, but cannot open the Azure subscriptions on it, because the enrollment roles do not give that access. Only the account owner (the owner of the account that the subscriptions sit under) has it. An account is an organizational unit used to manage subscriptions and see reports.
+First, billing access is not Azure access. For example, a finance user is made Enterprise Administrator (the enrollment role with the highest level of access to the enrollment) on the Enterprise Agreement (EA, a billing agreement that sets how your organization buys Azure) enrollment (the top-level container of an EA). That user can do the enrollment tasks, but cannot open the Azure subscriptions on it (an Azure subscription is a container for Azure resources, see the table below), because the enrollment roles do not give that access. Only the account owner (the owner of the account that the subscriptions sit under) has it. An account is an organizational unit used to manage subscriptions and see reports.
 
-Second, billing can depend on one person's account. If the user principal name (UPN, the user's sign-in name) tied to an enrollment account is deleted from Microsoft Entra ID, you cannot create new subscriptions or transfer existing ones from that account.
+Second, billing can depend on one person's account. If the user principal name (UPN, the user's sign-in name) tied to an enrollment account is deleted from Microsoft Entra ID (Microsoft's cloud identity service), you cannot create new subscriptions or transfer existing ones from that account.
 
 Both surprises come from not knowing how billing and identity connect. This post shows the connection.
 
@@ -121,7 +121,7 @@ These are the main words you need first. Other terms are explained where they fi
 | User principal name (UPN) | A user's sign-in name, written like an email address, for example someone@example.com. |
 | Enrollment | The top-level container of an Enterprise Agreement. It often reflects your organization's hierarchy of departments (which group costs), accounts (units used to manage subscriptions and see reports) and subscriptions. |
 | Enterprise Administrator | An enrollment role. Users with it have the highest level of access to the enrollment. They can, for example, manage accounts and other administrators and create new subscriptions under active enrollment accounts. |
-| Account owner | The person who owns an Enterprise Agreement account. This is the only enrollment role that can reach the Azure subscriptions under that account. |
+| Account owner | The person who owns an Enterprise Agreement account. This is the only enrollment role that can reach the Azure subscriptions under that account. It gets that access because the account owner is the subscription owner, which means the Azure RBAC Owner role on those subscriptions (the blue arrows in the first diagram below). |
 
 ## Three billing agreements
 
@@ -139,19 +139,19 @@ For an Enterprise Agreement, apart from the account owner, enrollment roles do n
 
 The person who can see or pay the bill is not automatically the person who can change the resources, and the reverse is also true. The Owner role is an Azure RBAC role that grants full access to manage all resources, including the ability to assign roles in Azure RBAC. Microsoft Entra roles are used to manage Microsoft Entra resources in a directory, for example to create or edit users, assign administrative roles to others and manage domains.
 
-## What to do for EA and MCA, and what carries over to CSP
+## What to do for EA and MCA
 
 - **Plan subscription vending.** Subscription vending is a standard, automated way for the platform team to hand out subscriptions to workload teams. Automate subscription creation as a self-service function, from the start of the landing zone journey.
 - **Protect subscription creators.** Anyone who can create subscriptions must use multifactor authentication (MFA), like any privileged account. With MFA, the user is asked at sign-in for an extra form of identification, such as a code on a phone or a fingerprint scan. [Privileged access](/azure-landing-zone/privileged-access-mfa-conditional-access-and-pim/) covers it in full.
 - **Set budgets and alerts.** For EA, per department and account. For MCA, per invoice section or billing profile.
 - **Set a notification contact** that goes to a group mailbox, and do not ignore what Microsoft sends there. This applies to EA and MCA.
-- **Use the dev/test offers** (discounted offers for development and testing) where available, and follow their terms.
+- **Use the dev/test offers** (discounted offers for development and testing) where available, and follow their terms. The DevTest offer is not available for the Microsoft Partner Agreement, so this does not apply to CSP. [Microsoft documents it on the subscription vending page](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/subscription-vending).
 - **Audit who has billing access** from time to time.
 
 Agreement-specific points:
 
-- **EA:** use the *Work or school account* type (a sign-in managed by an organization), not a personal Microsoft account. From November 16, 2026, new EA billing role assignments cannot use personal Microsoft accounts (existing ones are not affected yet). Do not move, rename or delete the Microsoft Entra user tied to the enrollment account.
-- **CSP:** the partner should create subscriptions in your own Microsoft Entra tenant, not in a partner-managed one. Also use Azure Lighthouse for most support access. Azure Lighthouse lets one tenant manage resources that belong to another tenant. The owner delegates subscriptions or resource groups to chosen users in the managing tenant, and can remove that access at any time.
+- **EA:** use the *Work or school account* type (a sign-in managed by an organization), not a personal Microsoft account. Starting November 16, 2026, new EA billing role assignments cannot use personal Microsoft accounts (existing ones are not affected yet). Do not move, rename or delete the Microsoft Entra user tied to the enrollment account.
+- **CSP:** the partner should create subscriptions in your own Microsoft Entra tenant, not in a partner-managed one. Also use Azure Lighthouse for most support access. Azure Lighthouse lets one tenant manage resources that belong to another tenant. The owner delegates subscriptions or resource groups to chosen users in the managing tenant, and can remove that access at any time. For CSP, MFA for subscription creators and subscription vending with your partner also apply.
 
 ## The tenant: one is the default
 
@@ -170,8 +170,8 @@ Use your existing corporate tenant, and create another one only when a requireme
 
 - Add a custom domain (a domain name that you add to your tenant, such as contoso.com, next to the `*.onmicrosoft.com` name that each tenant gets when it is created). The `*.onmicrosoft.com` name must be globally unique and cannot be changed once created.
 - Plan emergency access (break-glass) accounts (accounts kept only for emergencies, to sign in and recover access if all other administrators are locked out), to prevent a tenant-wide lockout.
-- Use multifactor authentication, and add Conditional Access policies for privileged accounts. Conditional Access is a Microsoft Entra feature that looks at details of a sign-in, such as the user, device and location, and then applies your access rules. For example: if a user wants to open Microsoft 365 (a Microsoft cloud service that includes Exchange Online, SharePoint, OneDrive and Teams, which uses Microsoft Entra ID for sign-in), then they must use MFA.
-- Use Microsoft Entra Privileged Identity Management (PIM) to manage privileged access. PIM is a Microsoft Entra service to manage, control and monitor access to important resources. For example, it can give an administrator access only for a limited time. Using it needs a Microsoft Entra license that includes it.
+- Use multifactor authentication, and add Conditional Access policies for privileged accounts. Conditional Access is a Microsoft Entra feature that checks details of a sign-in, such as user, device and location, and then applies your access rules. [Post 8](/azure-landing-zone/privileged-access-mfa-conditional-access-and-pim/) explains it.
+- Use Microsoft Entra Privileged Identity Management (PIM) to manage privileged access. PIM gives administrators access only when they need it, for a limited time, and needs a Microsoft Entra license that includes it. See [post 8](/azure-landing-zone/privileged-access-mfa-conditional-access-and-pim/) for both, and for emergency access accounts.
 - Send Microsoft Entra diagnostic logs to a central Log Analytics workspace (a data store that collects log data from your Azure and non-Azure resources and applications).
 - Use Azure Lighthouse to give partners access to resources in your tenant.
 
@@ -179,7 +179,7 @@ Use your existing corporate tenant, and create another one only when a requireme
 
 A subscription is where cost, quotas, policy and access are separated. It is a boundary for scale, quota, cost, governance, security and identity controls. So having many subscriptions inside one tenant is normal.
 
-- **Environments.** Ideally, each application environment (development, test, production) has its own subscription. This keeps the environments isolated and contains problems to one environment. A single subscription for several environments can make sense if they cannot be isolated, the same teams hold the functional roles, and they can use the same policies. Workload owners should decide this together with the platform team. Do not create separate management groups for development, test and production. The reason is that a workload can pass in an environment with weaker policies and then fail when it is promoted to one with stricter policies, so use one consistent set of policies for these environments (sandbox subscriptions, which are for quick experiments and prototypes that are not meant for production, are the exception). If one environment needs something different, set policies at the subscription level, or use audit policies at the management group level. [The resource organization post](/azure-landing-zone/resource-organization/) covers management groups in detail.
+- **Environments.** Ideally, each application environment (development, test, production) has its own subscription. This keeps the environments isolated and contains problems to one environment. A single subscription for several environments can make sense if they cannot be isolated, the same teams hold the functional roles, and they can use the same policies. Workload owners should decide this together with the platform team. Microsoft does not recommend separate management groups for development, test and production. The reason is that a workload can pass in an environment with weaker policies and then fail when it is promoted to one with stricter policies, so use one consistent set of policies for these environments (sandbox subscriptions, which are for quick experiments and prototypes that are not meant for production, are the exception). If one environment needs something different, set policies at the subscription level, or use audit policies at the management group level. Policies set at subscription level can be changed by people with elevated rights on that subscription, so do not rely on tags in security policies. [The resource organization post](/azure-landing-zone/resource-organization/) covers management groups in detail.
 - **Applications.** Avoid a rigid model. Some applications can share a landing zone subscription, while others need their own. Reasons for their own include scale limits for large specialized workloads, a different policy boundary (for example PCI, a payment-card security standard), and a separate management boundary.
 - **Billing.** A subscription is a cost boundary, so separate subscriptions are the base for separate cost reporting. On top of that, map your organization to the billing hierarchy: departments and accounts for an Enterprise Agreement, invoice sections for a Microsoft customer agreement. Cost Management reports and views can also use tags. For the platform, keep management, security, connectivity and identity in separate subscriptions, which also separates their billing.
 
@@ -189,7 +189,7 @@ If your organization has several brands, the question is whether each brand need
 
 Three cautions about brand-level tenants:
 
-- Separate brand tenants are often handed over in full to the business unit, and the central team loses its view. Whatever you choose, the Azure team and the identity team need a clear RACI (who is responsible, accountable, consulted and informed).
+- When a brand gets its own tenant, it is often handed over in full to that business unit to run. Often no central team operates it, though a central team can still give guidance. Whatever you choose, the Azure team and the identity team need a clear RACI (who is responsible, accountable, consulted and informed).
 - Do not use more tenants to escape friction between the cloud team and the identity team. Fix the operating problem instead.
 - Microsoft Entra ID P1 and P2 licenses do not span tenants, so costs can grow.
 
@@ -222,38 +222,38 @@ Regulatory rules and tenants you already inherited from an acquisition can also 
 
 On-premises Active Directory is arranged in a hierarchy. The top-level container is the forest. A forest holds one or more domains (a domain is a partition of a forest that holds user identities and handles sign-in for them).
 
-Here is an example setup for a group with several brands. One parent organization runs a main tenant. Other brands are separate businesses, connected to the parent and managed from it. Each brand has its own on-premises Active Directory and its own domain name. The question is: does a separate directory and domain per brand mean a separate Microsoft Entra tenant? The official documentation does not answer this exact question, but the Microsoft Entra Connect topologies page shows that several on-premises forests can sync to one tenant. So a separate directory per brand does not by itself force a separate tenant. This is my reading of that page. This is a generic example to explain the choice, not a description of any customer.
+Here is an example setup for a group with several brands. One parent organization runs a main tenant. Other brands are separate businesses, connected to the parent and managed from it. Each brand has its own on-premises Active Directory and its own domain name. The question is: does a separate directory and domain per brand mean a separate Microsoft Entra tenant? The official documentation does not answer this exact question. The Microsoft Entra Connect topologies page shows that several on-premises forests can sync to one tenant, so a separate directory per brand does not by itself force a separate tenant (judgement: this is my reading of that page). In this example, each brand's Active Directory is its own forest, with its own domain. A single forest with several domains can also sync to one tenant. This is a generic example to explain the choice, not a description of any customer.
 
-**Shape 1: one tenant, many Active Directory domains.** Microsoft Entra Connect Sync supports multiple on-premises forests that sync to a single Microsoft Entra tenant. This can be the situation after a merger or acquisition, or in an organization where each business unit operates independently. Three things to know:
+**Shape 1: one tenant, several Active Directory forests.** Microsoft Entra Connect Sync supports multiple on-premises forests that sync to a single Microsoft Entra tenant. This can be the situation after a merger or acquisition, or in an organization where each business unit operates independently. Three things to know:
 
 - All forests must be reachable by one Microsoft Entra Connect Sync server. Several sync servers (other than a staging server, a standby copy that reads the data but writes nothing) connected to the same tenant are not supported.
 - A custom domain name can be associated with only one tenant at a time, so each brand's domain name belongs to one tenant.
-- One landing zone in that tenant covers all brands (because a landing zone is deployed within a single tenant). Each brand gets its own subscriptions (and billing unit, if you want separate billing), as in the second diagram below.
+- One landing zone in that tenant covers all brands (because a landing zone is deployed within a single tenant). Each brand gets its own subscriptions (and billing unit, if you want separate billing), as in the second diagram below. Platform and Landing zones are the two standard top management groups; see [the resource organization post](/azure-landing-zone/resource-organization/).
 
 **Shape 2: several separate tenants.** An example is a corporate tenant plus tenants of acquired companies that are kept separate because parts of the group might be sold in the future. Consolidating acquired tenants is the typical choice, so keep them separate only for a reason like this. Use this only when a requirement cannot be met in one tenant. Then:
 
 - Management groups and Azure Policy work only inside one tenant. So, to govern and monitor a tenant with Azure landing zones, you deploy the landing zone in that tenant. Each tenant you govern gets its own deployment.
 - Use Azure Lighthouse for cross-tenant management. It can be used in both directions between tenants, and it delegates subscriptions or resource groups, not whole tenants. Microsoft Entra B2B collaboration, cross-tenant access settings, cross-tenant synchronization and the multitenant organization feature also make the multitenant experience easier.
-- One Enterprise Agreement enrollment or Microsoft customer agreement can provide subscriptions to several tenants, so billing can stay central.
+- One Enterprise Agreement enrollment or Microsoft customer agreement can provide subscriptions to several tenants, so billing can stay central. For an EA, this works when the enrollment's authentication level is set to work or school account cross-tenant ([multitenant considerations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/multi-tenant/considerations-recommendations)). Create account owners in the tenant where the subscriptions should live, so that you do not have to change directories later.
 - Microsoft Entra ID P1 and P2 licenses do not span tenants.
 - Azure services that have built-in Microsoft Entra sign-in, such as Azure Virtual Desktop, Azure Files and Azure SQL, are typically supported against the home tenant, normally your corporate Microsoft Entra tenant where your users' identities are. Azure Virtual Desktop is a virtual desktop service, Azure Files a file-share service and Azure SQL a database service. Check which tenant your identities live in before you choose.
-- Moving a subscription to another tenant is complex. It is easier to rebuild the workload in a new subscription in the destination tenant.
+- Moving a subscription to another tenant is complex. It is easier to rebuild the workload in a new subscription in the destination tenant. CSP subscriptions cannot be transferred to a different tenant.
 
-My own rule of thumb, based on the default of one tenant: start with Shape 1. Move to Shape 2 only for a clear requirement, such as a brand that may be sold, or a regulatory need.
+(judgement) Start with Shape 1, because one tenant is the default. Move to Shape 2 only for a clear requirement, such as a brand that may be sold, or a regulatory need.
 
 ## Billing agreements and tenant shapes at a glance
 
-![Top, Enterprise Agreement: a Microsoft Entra tenant above the Azure RBAC tree of management groups, subscriptions, resource groups and resources, beside the EA roles. The EA enrollment leads to an optional EA department and then the EA account owner, and the roles run Enterprise Administrator, Department Administrator, Account Owner. Dashed arrows show the EA account owner getting the Azure RBAC Owner role on its subscriptions. Bottom, Microsoft customer agreement: a billing account holds a billing profile, then invoice sections, then subscriptions](/diagrams/post-06-billing-and-tenant.svg)
+![Enterprise Agreement (top): a Microsoft Entra tenant above a tree of management groups, subscriptions, resource groups and resources, next to two lists of EA roles. The Level list is the enrollment, the optional department and the account. The Role list is Enterprise Administrator, Department Administrator and Account Owner. Blue arrows show the account owner getting the Azure RBAC Owner role on its subscriptions. Microsoft customer agreement (bottom): a billing account holds a billing profile, which holds invoice sections, which hold subscriptions](/diagrams/post-06-billing-and-tenant.svg)
 
-*First diagram: simplified, redrawn by me to follow the layout of two diagrams in the official documentation: the Enterprise Agreement relationship diagram and the Microsoft customer agreement hierarchy diagram, both from [Azure billing offers and Microsoft Entra tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-entra-tenant) and its linked pages. The Cloud Solution Provider hierarchy (the partner's Microsoft Partner Agreement) is not drawn here; see the official page. Names such as invoice section A are generic. Not an official Microsoft diagram. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) and [Microsoft Entra](https://learn.microsoft.com/en-us/entra/architecture/architecture-icons) architecture icon sets.*
+*First diagram: simplified. Based on the Enterprise Agreement relationship diagram and the Microsoft customer agreement hierarchy diagram in [Plan for Enterprise Agreement enrollment](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-enterprise-agreement) and [Plan for the Microsoft customer agreement service](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-customer-agreement). The black dashed arrows follow the hierarchy, not permission inheritance. The Cloud Solution Provider hierarchy (the partner's Microsoft Partner Agreement) is not drawn here; see [the CSP page](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-cloud-solution-provider). Names such as invoice section A are generic. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) and [Microsoft Entra](https://learn.microsoft.com/en-us/entra/architecture/architecture-icons) architecture icon sets.*
 
-![One Microsoft Entra tenant holds a management group such as Corp. Brand A and Brand B each have Production, Test and Development subscriptions. A billing unit per brand, a department and account for EA or an invoice section for MCA, sits on the left](/diagrams/post-06-brands-one-tenant.svg)
+![One Microsoft Entra tenant holds a management group, for example Corp. Brand A and Brand B each have Production, Test and Development subscriptions. On the left, each brand has its own billing unit (a department and account for EA, or an invoice section for MCA), and an arrow points from it to that brand's subscriptions](/diagrams/post-06-brands-one-tenant.svg)
 
-*Second diagram: simplified, my own layout and my own summary of the guidance in [Scenarios for multiple tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/multi-tenant/scenarios) and [Subscription considerations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-subscriptions). Not an official Microsoft diagram. Icons are from the official Azure and Microsoft Entra architecture icon sets.*
+*Second diagram: simplified. Based on the guidance in [Scenarios for multiple tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/multi-tenant/scenarios) and [Subscription considerations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-subscriptions). The documentation has no diagram of this, so the layout is simplified. Icons are from the official Azure and Microsoft Entra architecture icon sets.*
 
-![Top, Shape 1: Brand A, B and C each keep their own Active Directory. One Microsoft Entra Connect Sync server syncs all of them to one Microsoft Entra tenant. Bottom, Shape 2: a corporate tenant is connected through Azure Lighthouse and cross-tenant features to separate Brand A and Brand B tenants, each with its own landing zone deployment. Footer: Microsoft's advice is to start with one tenant and add more only for requirements one tenant cannot meet](/diagrams/post-06-two-brand-shapes.svg)
+![Top, Shape 1: Brand A, B and C each have their own Active Directory forest. One Microsoft Entra Connect Sync server syncs all of them to one Microsoft Entra tenant. Bottom, Shape 2: a corporate tenant is connected in both directions, by Azure Lighthouse and cross-tenant features, to separate Brand A and Brand B tenants, each with its own landing zone deployment. Footer: Microsoft's advice is to start with one tenant and add more only for requirements one tenant cannot meet](/diagrams/post-06-two-brand-shapes.svg)
 
-*Third diagram: simplified. In Shape 2, each tenant has its own management group hierarchy and subscriptions, as in the multitenant diagram in the official documentation (that picture also shows Decommissioned and Sandbox groups and more detail, which I left out; the Azure Lighthouse arrows come from the page text, not its picture). Shape 1 is my own layout. Based on the official pages: [Considerations and recommendations for multitenant landing zones](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/multi-tenant/considerations-recommendations) and [Topologies for Microsoft Entra Connect](https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/plan-connect-topologies). Not an official Microsoft diagram. Brand names are generic. Icons are from the official Azure and Microsoft Entra architecture icon sets.*
+*Third diagram: simplified. In Shape 2, each tenant has its own management group hierarchy and subscriptions, as in the multitenant diagram in the official documentation. That picture also shows Decommissioned and Sandbox groups and more detail, which are left out. Each pair of arrows between tenants means management in both directions. This comes from the text of [Azure Lighthouse usage in multitenant scenarios](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/multi-tenant/lighthouse), not from the picture. Shape 1 is simplified from the multiple-forests diagram in [Topologies for Microsoft Entra Connect](https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/plan-connect-topologies). Based on: [Considerations and recommendations for multitenant landing zones](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/multi-tenant/considerations-recommendations). Brand names are generic. Icons are from the official Azure and Microsoft Entra architecture icon sets.*
 
 
 ## Common mistakes
@@ -263,12 +263,12 @@ My own rule of thumb, based on the default of one tenant: start with Shape 1. Mo
 - **Subscription creators without multifactor authentication.** They are privileged accounts.
 - **No emergency access accounts.** Plan them to prevent a tenant-wide lockout.
 - **Subscriptions created in a partner-managed tenant.** A CSP partner should create them in the customer's own tenant.
-- **A separate tenant just because a brand has its own Active Directory domain.** Several forests can sync to one tenant, so create more tenants only for requirements one tenant cannot meet.
+- **A separate tenant just because a brand has its own Active Directory.** Several forests can sync to one tenant, so create more tenants only for requirements one tenant cannot meet.
 - **An extra tenant as a workaround.** A separate tenant is not the place to host dev/test workloads, and it is not the fix for friction between teams.
 
 ## From my own projects
 
-These situations came up in my own work: no emergency (break-glass) access plan, and a partner (CSP) managing subscriptions or access. Typical results are billing confusion, slow subscription creation, and access or security gaps.
+(judgement) Two gaps came up in my own work: no emergency (break-glass) access plan, and a partner (CSP) creating subscriptions outside your tenant. The lesson: plan emergency access accounts before you need them, and agree with your partner, in writing, that subscriptions are created in your own tenant.
 
 ## The files in my repo
 
