@@ -58,7 +58,7 @@ The Platform automation and DevOps design area asks how to deploy and manage the
 
 It uses "extreme automation" (automating everything you can) and Infrastructure as Code, or IaC (describing Azure resources in code files, so they can be deployed the same way every time). DevOps is the way the people who build and the people who run a system work together with shared tools. A pipeline is an automatic process that runs checks and deploys code. The Key terms table below explains these words again.
 
-This post covers the overview, automation, using infrastructure as code to update, the implementation options, DevOps principles, team topologies, the development lifecycle, environments, the testing approach, test-driven development, and the two security pages. On Microsoft Learn they fall into four parts: Platform automation, DevOps, Development strategy and Security. The table below splits them into six rows, so that the implementation options and the infrastructure as code page have their own rows. Those two come early, because they explain the tools.
+This post covers the overview, automation, using infrastructure as code to update, the implementation options, DevOps principles, team topologies, the development lifecycle, environments, the testing approach, test-driven development, and the two security pages. Microsoft groups them into four parts: Platform automation, DevOps, Development strategy and Security. The table below splits them into six rows, so that the implementation options and the infrastructure as code page have their own rows. Those two come early, because they explain the tools.
 
 ## Key terms
 
