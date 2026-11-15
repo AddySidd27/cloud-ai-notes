@@ -82,7 +82,7 @@ Learn describes the Windows install in [Install Terraform on Windows with Azure 
 3. Add that folder to your PATH. PATH is the list of folders Windows searches when you type a command. Press the Windows key, type `environment variables` and open **Edit the system environment variables**. Select **Environment Variables**. Under **User variables**, select **Path**, then **Edit**, **New**, type `C:\terraform`, and select **OK** three times.
 4. Close all PowerShell windows and open a new one. Run `terraform -version`.
 
-If you prefer, `winget` can do steps 1 to 3. Run `winget search terraform` and look for the package from HashiCorp. Check the package name before you install.
+If you prefer, `winget` can do steps 1 to 3. Run `winget search terraform` and look for the package from HashiCorp. Its ID is usually `Hashicorp.Terraform`. Check the ID in the search result before you install.
 
 Check: `terraform -version` prints a version number, and that version is 1.9.0 or newer. The code in this lab says `>= 1.9.0, < 2.0.0`. If PowerShell says that `terraform` is not recognized, the PATH entry is missing or the old PowerShell window is still open. Close all PowerShell windows, open a new one and try again. If it still fails, open the **Path** list again and check that the folder name is exactly right.
 
