@@ -8,6 +8,7 @@ tags: [azure-basics-lab]
 deck: "A free Azure account in a separate test tenant, with the tenant and subscription names read, the free-account limits understood and the Azure Virtual Desktop resource providers registered."
 description: "Create a free Azure account in a test tenant, learn tenant vs subscription, know the $200 and 30-day limits, and register the resource providers AVD needs."
 ---
+
 By the end you will have a free Azure account in a test tenant. You will be able to tell a tenant from a subscription, you will know what the free account does after 30 days, and you will have switched on (registered) the Azure services that Azure Virtual Desktop (AVD) needs later.
 
 I have not run these steps in a live tenant for this article. The steps follow Microsoft Learn (Microsoft's documentation site).

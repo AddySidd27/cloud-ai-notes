@@ -27,7 +27,7 @@ Terms used in this post:
 - **Cloud PC actions report:** the Intune report of actions admins have taken on Cloud PCs.
 
 | Lab | Admin-side check | Cloud PC check | What I did in my lab |
-| --- | --- | --- | --- |
+|---|---|---|---|
 | A: Edge setting | Settings catalog assignment and device report | Effective Edge setting | I captured the Intune report on September 24 and checked Edge's policy page on October 6 and 7. The home page URL matched, but no startup-action policy appeared in Edge's list. |
 | B: application | Required app installation status | Company Portal Installed view and app launch | I captured the Required app status and an app launch. I have not tested an Available assignment or an uninstall yet. |
 | C: updates | Ring assignment and reporting | Windows Update history and build | I captured the update history. I have not tested a ring rollout and restart yet. |
@@ -105,7 +105,7 @@ Microsoft's [management guidance](https://learn.microsoft.com/en-us/windows-365/
 
 Next: [secure access and plan recovery](/windows-365/security-recovery/).
 
-### Microsoft Learn
+## Microsoft Learn
 
 - [Intune as the management plane for Windows 365](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-deployment-guidance-management)
 - [Assign apps to groups in Intune](https://learn.microsoft.com/en-us/intune/app-management/deployment/assign-groups)

@@ -139,8 +139,6 @@ next_title: "Landing Zone Use Cases"
 tags: [alz]
 ---
 
-
-
 "Brownfield" means an environment that already exists, with subscriptions, resources and running workloads; its opposite, "greenfield", is a new one where nothing is built yet. If you have nothing yet, read [the greenfield rollout post](/azure-landing-zone/greenfield-rollout/).
 
 No documentation page is named "brownfield rollout". The page "Journey toward the target architecture" names three starting points, Start (new), Align (existing, needs changes) and Enhance (already in line), and uses the word "brownfield" for Align. It links to a transition page ("Transition an existing Azure environment to the Azure landing zone reference architecture"), three scenario pages, an approach page ("Scenario: Transition an environment by duplicating a landing zone management group") and a page on refactoring a landing zone. This post turns those, plus the moving, policy and Azure CLI pages, into a playbook. Where the order or reading is mine, I say so.
@@ -163,7 +161,7 @@ For the people who approve the work. Items marked "my suggestion" are mine. Word
 
 Earlier posts defined [landing zone and guardrail](/azure-landing-zone/what-is-an-azure-landing-zone/), [subscription and management group](/azure-landing-zone/tenant-billing-subscriptions-and-management-groups/), [Corp, Online, Sandboxes and Decommissioned](/azure-landing-zone/resource-organization/), [hub network and peering](/azure-landing-zone/network-topology-and-connectivity/), and, in [the governance post](/azure-landing-zone/governance-and-azure-policy/), policy effects, DeployIfNotExists (DINE), Modify and non-compliant.
 
-| Word | What it means |
+| Term | Meaning |
 |---|---|
 | Tenant root group | The top management group, which Azure creates for the tenant. Every other group and subscription sits under it. |
 | Intermediate root | The management group directly under the tenant root group that holds your whole landing zone design. |
@@ -683,5 +681,8 @@ My repo is a learning implementation, and its own order and habits are the repos
 
 ## Sources
 
-Microsoft Learn, checked October 2026: [Transition an existing Azure environment to the Azure landing zone reference architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/transition) · [Scenario: Transition an environment by duplicating a landing zone management group](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/align-approach-duplicate-brownfield-audit-only) · [Manage Azure Enterprise Agreement roles](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/understand-ea-roles)
+Microsoft Learn, checked October 2026:
 
+- [Transition an existing Azure environment to the Azure landing zone reference architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/transition)
+- [Scenario: Transition an environment by duplicating a landing zone management group](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/align-approach-duplicate-brownfield-audit-only)
+- [Manage Azure Enterprise Agreement roles](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/understand-ea-roles)

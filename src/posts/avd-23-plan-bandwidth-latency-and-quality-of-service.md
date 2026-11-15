@@ -261,4 +261,15 @@ This table maps a report to the first thing to look at. This mapping is my judge
 
 ## Sources
 
-[RDP bandwidth requirements](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-bandwidth), [Quality of Service for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-quality-of-service-qos) and [troubleshoot connection quality](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-connection-quality), [Prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites), [Network guidelines](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/network-guidance), [Use cases for Azure Virtual Desktop Insights](https://learn.microsoft.com/en-us/azure/virtual-desktop/insights-use-cases), [RDP Shortpath](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-shortpath), [Configure RDP Shortpath](https://learn.microsoft.com/en-us/azure/virtual-desktop/configure-rdp-shortpath), [Use Microsoft Teams on Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/teams-on-avd), [Azure network round-trip latency statistics](https://learn.microsoft.com/en-us/azure/networking/azure-network-latency), [Connection latency](https://learn.microsoft.com/en-us/azure/virtual-desktop/connection-latency) and [Collect and query connection quality data](https://learn.microsoft.com/en-us/azure/virtual-desktop/connection-quality-monitoring).
+- [RDP bandwidth requirements](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-bandwidth)
+- [Quality of Service for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-quality-of-service-qos)
+- [troubleshoot connection quality](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-connection-quality)
+- [Prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites)
+- [Network guidelines](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/network-guidance)
+- [Use cases for Azure Virtual Desktop Insights](https://learn.microsoft.com/en-us/azure/virtual-desktop/insights-use-cases)
+- [RDP Shortpath](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-shortpath)
+- [Configure RDP Shortpath](https://learn.microsoft.com/en-us/azure/virtual-desktop/configure-rdp-shortpath)
+- [Use Microsoft Teams on Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/teams-on-avd)
+- [Azure network round-trip latency statistics](https://learn.microsoft.com/en-us/azure/networking/azure-network-latency)
+- [Connection latency](https://learn.microsoft.com/en-us/azure/virtual-desktop/connection-latency)
+- [Collect and query connection quality data](https://learn.microsoft.com/en-us/azure/virtual-desktop/connection-quality-monitoring)

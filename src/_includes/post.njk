@@ -14,7 +14,7 @@ layout: base.njk
   {%- endif %}
   <h1>{{ title }}</h1>
   {% if deck %}<p class="lead">{{ deck }}</p>{% endif %}
-  <p class="byline"><span>By <a href="/about/">{{ site.author }}</a></span>{% if meta %}<time datetime="{{ meta.published }}">{{ meta.published | longDate }}</time>{% endif %}<span>{{ content | readingTime }} min read</span></p>
+  <p class="byline"><span>By <a href="/about/">{{ site.author }}</a></span><span>{{ content | readingTime }} min read</span></p>
 </div></header>
 <div class="wrap post-grid">
   <article class="prose" aria-label="{{ title }}">

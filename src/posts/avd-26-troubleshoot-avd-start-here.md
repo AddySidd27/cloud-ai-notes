@@ -221,4 +221,6 @@ Next: [Troubleshoot an AVD Black Screen After Sign-in](/azure-virtual-desktop/tr
 
 ## Sources
 
-[Send diagnostics to Log Analytics](https://learn.microsoft.com/en-us/azure/virtual-desktop/diagnostics-log-analytics), [Analyze connection quality](https://learn.microsoft.com/en-us/azure/virtual-desktop/connection-latency) and [Enable Insights](https://learn.microsoft.com/en-us/azure/virtual-desktop/insights).
+- [Send diagnostics to Log Analytics](https://learn.microsoft.com/en-us/azure/virtual-desktop/diagnostics-log-analytics)
+- [Analyze connection quality](https://learn.microsoft.com/en-us/azure/virtual-desktop/connection-latency)
+- [Enable Insights](https://learn.microsoft.com/en-us/azure/virtual-desktop/insights)

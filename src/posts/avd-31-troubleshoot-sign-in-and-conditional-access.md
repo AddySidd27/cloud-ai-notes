@@ -227,4 +227,6 @@ Next: [Troubleshoot AVD Session Hosts That Do Not Register to the Host Pool](/az
 
 ## Sources
 
-[Troubleshoot single sign-on and Conditional Access](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-sso-conditional-access), [Troubleshoot service connections](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-service-connection) and [Enforce MFA with Conditional Access](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-mfa).
+- [Troubleshoot single sign-on and Conditional Access](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-sso-conditional-access)
+- [Troubleshoot service connections](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-service-connection)
+- [Enforce MFA with Conditional Access](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-mfa)

@@ -224,4 +224,16 @@ Where the pages differ about session host update itself (status, images in anoth
 
 ## Sources
 
-[Golden image](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-golden-image), [Azure VM Image Builder overview](https://learn.microsoft.com/en-us/azure/virtual-machines/image-builder-overview), [Compute Gallery](https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery), [Store and share images in an Azure Compute Gallery](https://learn.microsoft.com/en-us/azure/virtual-machines/shared-image-galleries), [Remove machine specific information (generalize)](https://learn.microsoft.com/en-us/azure/virtual-machines/generalize), [Sysprep (Generalize) a Windows installation](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/sysprep--generalize--a-windows-installation), [Prepare and customize a VHD image](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-customize-master-image), [Custom image templates](https://learn.microsoft.com/en-us/azure/virtual-desktop/custom-image-templates), [Use custom image templates](https://learn.microsoft.com/en-us/azure/virtual-desktop/create-custom-image-templates), [Session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update), [Configure session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update-configure), [Image Builder DevOps task](https://learn.microsoft.com/en-us/azure/virtual-machines/linux/image-builder-devops-task) and [What's new in Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/whats-new).
+- [Golden image](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-golden-image)
+- [Azure VM Image Builder overview](https://learn.microsoft.com/en-us/azure/virtual-machines/image-builder-overview)
+- [Compute Gallery](https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery)
+- [Store and share images in an Azure Compute Gallery](https://learn.microsoft.com/en-us/azure/virtual-machines/shared-image-galleries)
+- [Remove machine specific information (generalize)](https://learn.microsoft.com/en-us/azure/virtual-machines/generalize)
+- [Sysprep (Generalize) a Windows installation](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/sysprep--generalize--a-windows-installation)
+- [Prepare and customize a VHD image](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-customize-master-image)
+- [Custom image templates](https://learn.microsoft.com/en-us/azure/virtual-desktop/custom-image-templates)
+- [Use custom image templates](https://learn.microsoft.com/en-us/azure/virtual-desktop/create-custom-image-templates)
+- [Session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update)
+- [Configure session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update-configure)
+- [Image Builder DevOps task](https://learn.microsoft.com/en-us/azure/virtual-machines/linux/image-builder-devops-task)
+- [What's new in Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/whats-new)

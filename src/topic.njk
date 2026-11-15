@@ -9,35 +9,18 @@ eleventyComputed:
   title: "{{ topic.name }}"
   deck: "{{ topic.blurb }}"
 ---
-{%- set list = topic.posts -%}
 {%- set tseries = [] -%}
 {%- for s in collections.liveSeries %}{% if s.category == topic.slug %}{% set tseries = (tseries.push(s), tseries) %}{% endif %}{% endfor %}
 {%- if topic.slug == "labs" %}{% set tseries = tseries | reverse %}{% endif %}
-
-<header class="band"><div class="wrap band-in">
-  <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">{{ topic.name }}</li></ol></nav>
-  <h1>{{ topic.name }}</h1>
-  <p class="lead">{{ topic.blurb }}</p>
-  {%- if topic.slug == "labs" %}<p class="side-note">Do the Azure basics labs first. The Terraform labs build on them.</p>{% endif %}
-  {%- if tseries.length < 2 %}{% for s in tseries %}
-  <p class="side-note">Series: <a href="/{{ s.slug }}/">{{ s.title }}</a>, {{ s.posts.length }} articles.</p>
-  {%- endfor %}{% endif %}
-</div></header>
-<div class="wrap sec">
-  {%- if tseries.length > 1 %}
-  {%- for s in tseries %}
-  <section class="lab-group" aria-labelledby="g-{{ s.slug }}">
-    <h2 class="sec-h" id="g-{{ s.slug }}">{{ s.name }}</h2>
-    <p class="group-d">{{ s.short }}</p>
-    <ol class="alist rail">
-      {%- for p in s.posts %}{% include "row.njk" %}{% endfor %}
-    </ol>
-  </section>
-  {%- endfor %}
-  {%- else %}
-  <h2 class="sr-only">Articles</h2>
-  <ul class="alist">
-    {%- for p in list %}{% set ser = p.data.tags | seriesOf %}{% set showSeries = true %}{% include "row.njk" %}{% endfor %}
-  </ul>
-  {%- endif %}
-</div>
+{%- set lpName = topic.name -%}
+{%- set lpMid = none -%}
+{%- set lpTitle = topic.name -%}
+{%- set lpLead = topic.blurb -%}
+{%- if tseries.length > 1 -%}
+{%- set lpCount = topic.posts.length + " articles in " + tseries.length + " series. Do the Azure basics labs first. The Terraform labs build on them." -%}
+{%- else -%}
+{%- set lpCount = topic.posts.length + " articles, in reading order." -%}
+{%- endif -%}
+{%- set lpGroups = tseries -%}
+{%- set lpShowSeries = false -%}
+{% include "landing.njk" %}

@@ -185,4 +185,11 @@ Next: [How Azure Virtual Desktop Fails: The Control, Management and Data Planes]
 
 ## Sources
 
-[What is Azure Virtual Desktop?](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview), [prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites), [licensing Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/licensing), [What is Windows 365?](https://learn.microsoft.com/en-us/windows-365/overview), [What is Windows 365 Flex?](https://learn.microsoft.com/en-us/windows-365/enterprise/introduction-windows-365-flex), [Azure Virtual Desktop Hybrid overview](https://learn.microsoft.com/en-us/azure/virtual-desktop/hybrid-overview), [Azure Virtual Desktop on Azure Local](https://learn.microsoft.com/en-us/azure/virtual-desktop/azure-stack-hci-overview) and [Get started with virtual desktop architecture design](https://learn.microsoft.com/en-us/azure/architecture/virtual-desktop/virtual-desktop-get-started).
+- [What is Azure Virtual Desktop?](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview)
+- [prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites)
+- [licensing Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/licensing)
+- [What is Windows 365?](https://learn.microsoft.com/en-us/windows-365/overview)
+- [What is Windows 365 Flex?](https://learn.microsoft.com/en-us/windows-365/enterprise/introduction-windows-365-flex)
+- [Azure Virtual Desktop Hybrid overview](https://learn.microsoft.com/en-us/azure/virtual-desktop/hybrid-overview)
+- [Azure Virtual Desktop on Azure Local](https://learn.microsoft.com/en-us/azure/virtual-desktop/azure-stack-hci-overview)
+- [Get started with virtual desktop architecture design](https://learn.microsoft.com/en-us/azure/architecture/virtual-desktop/virtual-desktop-get-started)

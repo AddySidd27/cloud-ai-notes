@@ -77,7 +77,6 @@ If you use standard containers, you can skip to "Keep containers from filling up
 
 *Source: [Cloud Cache overview](https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache). The picture is simplified. Its steps 4, 5 and 6 match steps 4, 5 and 6 in the list below. Its steps 1 to 3 combine list steps 1 to 3, and list step 7 is not drawn. `CcdUnregisterTimeout` is explained in "Set up Cloud Cache".*
 
-
 1. **First sign-in.** FSLogix creates a local container in `C:\ProgramData\FSLogix\Cache`. It copies data from a provider into it as Windows asks for it.
 2. **Later sign-ins.** By default FSLogix looks for the old local cache and mounts it. The Cloud Cache overview says this default can lead to low disk space events on the host.
 3. **During the session.** The user works on the local copy. A proxy file (`Profile_%username%.vhd`) is mounted as the container. It is not a true VHD, and its size on disk is zero.
@@ -334,6 +333,8 @@ This checklist is my own, built from the pages above (judgement).
 
 ## Sources
 
-[Cloud Cache overview](https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache), [VHD disk compaction](https://learn.microsoft.com/en-us/fslogix/concepts-vhd-disk-compaction) and [Troubleshooting container corruption or missing data](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-corruption).
+- [Cloud Cache overview](https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache)
+- [VHD disk compaction](https://learn.microsoft.com/en-us/fslogix/concepts-vhd-disk-compaction)
+- [Troubleshooting container corruption or missing data](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-corruption)
 
 Other pages used, not linked here: the old, temporary or local profiles page, the known issues page, the release notes, the FSLogix FAQ, the Cloud Cache tutorial, the configuration settings reference, the container locked or in use page, the container size or low disk space page, the container attach and detach page, the FSLogix prerequisites page, the Microsoft.FSLogix PowerShell module pages, the VHD disk compaction troubleshooting page, and the multiregion BCDR page for Azure Virtual Desktop.

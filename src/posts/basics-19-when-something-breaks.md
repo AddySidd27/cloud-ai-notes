@@ -51,7 +51,7 @@ Most Azure problems in this series come from a short list: a missing permission,
 **State of your resources**
 
 | | At the start | At the end |
-| --- | --- | --- |
+|---|---|---|
 | VM `vm-azb-win01` | Stopped (deallocated). Parts 3 and 6 need it running, so start it there (**Virtual machines** > `vm-azb-win01` > **Start**). | Stopped (deallocated) at the end of Part A (step 25), then deleted with `rg-azb-lab` in Part B |
 | Rule `allow-rdp-my-ip` in `nsg-azb-vm` | Not there. Part 6 expects that. | Deleted with `rg-azb-lab` |
 | Public IP `pip-azb-win01` | Exists | Deleted with `rg-azb-lab` |

@@ -14,7 +14,7 @@ A Cloud PC is the Windows desktop that Windows 365 hosts in the cloud for one us
 ## Write down how you will run it
 
 | Area | Write down before rollout |
-| --- | --- |
+|---|---|
 | Eligibility | Who approves a license and group membership change |
 | Provisioning | Policy owner, image, join type, network and region |
 | User support | Connection method, how errors are recorded and who to escalate to |
@@ -58,7 +58,7 @@ This series is a starting route. I have not tested every optional feature or eve
 
 Return to [Start Here](/windows-365/start-here/) or explore the [engineering repository](https://github.com/AddySidd27/Windows365-enterprise-engineering).
 
-### Microsoft Learn
+## Microsoft Learn
 
 - [Management: Microsoft Intune as the management plane for Windows 365](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-deployment-guidance-management)
 - [Remotely manage Windows 365 devices](https://learn.microsoft.com/en-us/windows-365/enterprise/remotely-manage-cloud-pc)

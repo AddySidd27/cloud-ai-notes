@@ -35,9 +35,9 @@
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0B1220" media="(prefers-color-scheme: dark)">
 <link rel="preload" href="/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/css/site.css?v=20261115-p4">
+<link rel="stylesheet" href="/css/site.css?v=20261115-p5">
 {%- if interactive %}
-<link rel="stylesheet" href="/css/interactive.css?v=20261115-p4">
+<link rel="stylesheet" href="/css/interactive.css?v=20261115-p5">
 {%- endif %}
 {%- if home %}
 <script type="application/ld+json">{{ site | ldHome | safe }}</script>
@@ -69,7 +69,6 @@
 <footer class="foot"><div class="wrap foot-in">
   <div class="foot-id">
     <a class="brand" href="/" aria-label="Adnan Ahmed Siddiqui, home"><img class="brand-mark" src="/img/logo/mark.svg" width="30" height="30" alt=""><span class="wordmark" aria-hidden="true"><span class="wm-a">Adnan</span><span class="wm-b">Ahmed</span><span class="wm-c">Siddiqui</span></span></a>
-    <p class="foot-role">{{ site.role }}</p>
   </div>
   <nav class="foot-links" aria-label="Footer">
     <a href="/articles/">Articles</a><a href="/labs/">Labs</a><a href="/about/">About</a>
@@ -77,11 +76,11 @@
   <nav class="foot-links foot-ext" aria-label="Elsewhere">
     <a href="{{ site.linkedin }}" rel="me noopener">LinkedIn</a><a href="{{ site.repo }}">GitHub</a><a href="/feed.xml">RSS</a>
   </nav>
-  <p class="copy">&copy; {{ site.year }} {{ site.author }}. Personal blog, opinions are my own. Not affiliated with Microsoft.</p>
+  <p class="copy">&copy; {{ site.year }} {{ site.author }}</p>
 </div></footer>
-<script src="/js/site.js?v=20261115-p4" defer></script>
+<script src="/js/site.js?v=20261115-p5" defer></script>
 {%- if interactive %}
-<script src="/js/interactive.js?v=20261115-p4" defer></script>
+<script src="/js/interactive.js?v=20261115-p5" defer></script>
 {%- endif %}
 </body>
 </html>

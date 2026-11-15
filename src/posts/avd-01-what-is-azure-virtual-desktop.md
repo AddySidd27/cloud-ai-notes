@@ -132,4 +132,8 @@ Go deeper: [Decide Whether Azure Virtual Desktop Fits](/azure-virtual-desktop/de
 
 ## Sources
 
-[What is Azure Virtual Desktop?](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview), [Autoscale scaling plans](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scaling-plan), [Terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology), [service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience) and [prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites).
+- [What is Azure Virtual Desktop?](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview)
+- [Autoscale scaling plans](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scaling-plan)
+- [Terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology)
+- [service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience)
+- [prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites)

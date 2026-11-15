@@ -198,4 +198,12 @@ Next: [Host Pools, Application Groups and Workspaces: The Rules That Connect The
 
 ## Sources
 
-[Service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience), [data locations](https://learn.microsoft.com/en-us/azure/virtual-desktop/data-locations), [session host statuses and health checks](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-status-health-checks), [multiregion BCDR](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/azure-virtual-desktop/azure-virtual-desktop-multi-region-bcdr), [regional host pools](https://learn.microsoft.com/en-us/azure/virtual-desktop/regional-host-pools), [troubleshooting overview](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-set-up-overview), [diagnostics with Log Analytics](https://learn.microsoft.com/en-us/azure/virtual-desktop/diagnostics-log-analytics), [service alerts](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-service-alerts) and [prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites).
+- [Service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience)
+- [data locations](https://learn.microsoft.com/en-us/azure/virtual-desktop/data-locations)
+- [session host statuses and health checks](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-status-health-checks)
+- [multiregion BCDR](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/azure-virtual-desktop/azure-virtual-desktop-multi-region-bcdr)
+- [regional host pools](https://learn.microsoft.com/en-us/azure/virtual-desktop/regional-host-pools)
+- [troubleshooting overview](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-set-up-overview)
+- [diagnostics with Log Analytics](https://learn.microsoft.com/en-us/azure/virtual-desktop/diagnostics-log-analytics)
+- [service alerts](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-service-alerts)
+- [prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites)

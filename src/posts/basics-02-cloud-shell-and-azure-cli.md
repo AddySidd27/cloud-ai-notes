@@ -8,6 +8,7 @@ tags: [azure-basics-lab]
 deck: "You open Cloud Shell, run your first read-only Azure CLI commands, and know how to install the CLI on your own PC and sign in."
 description: "Open Azure Cloud Shell, run az account show, az group list, --output table and --query, then install Azure CLI on Windows and sign in with az login."
 ---
+
 By the end you will have run your first Azure commands in the browser, and you will know how to install the Azure CLI on a Windows PC and sign in. Every command in this lab only reads information, so nothing is created or changed.
 
 I have not run these steps in a live tenant for this article. The steps follow Microsoft Learn (Microsoft's documentation site).

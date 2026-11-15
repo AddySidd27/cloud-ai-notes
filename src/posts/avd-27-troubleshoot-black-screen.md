@@ -214,4 +214,6 @@ Next: [Troubleshoot FSLogix: Profile Does Not Load or Is Temporary](/azure-virtu
 
 ## Sources
 
-[Black screen after you sign in](https://learn.microsoft.com/en-us/troubleshoot/windows-client/shell-experience/scenario-guide-black-screen-after-sign-in), [FSLogix known issues](https://learn.microsoft.com/en-us/fslogix/troubleshooting-known-issues) and [FSLogix logging and diagnostics](https://learn.microsoft.com/en-us/fslogix/troubleshooting-events-logs-diagnostics).
+- [Black screen after you sign in](https://learn.microsoft.com/en-us/troubleshoot/windows-client/shell-experience/scenario-guide-black-screen-after-sign-in)
+- [FSLogix known issues](https://learn.microsoft.com/en-us/fslogix/troubleshooting-known-issues)
+- [FSLogix logging and diagnostics](https://learn.microsoft.com/en-us/fslogix/troubleshooting-events-logs-diagnostics)

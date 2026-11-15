@@ -64,8 +64,6 @@ next_title: "Keeping the Landing Zone Up to Date"
 tags: [alz]
 ---
 
-
-
 You have read how to build a landing zone from nothing ([the greenfield rollout](/azure-landing-zone/greenfield-rollout/)) and how to bring an existing environment in ([the brownfield rollout](/azure-landing-zone/brownfield-rollout/)). This post covers the situations that come up after that. Each one is a short card: the situation, what to do, and what to watch for. Find yours and read only that card.
 
 Where the documentation gives a clear answer, I state it. Where a line is my own opinion and not Microsoft guidance, I mark it "(judgement)". I list only situations the documentation covers. In this post, "group" means management group.
@@ -74,7 +72,7 @@ Where the documentation gives a clear answer, I state it. Where a line is my own
 
 Earlier posts defined [landing zone and guardrail](/azure-landing-zone/what-is-an-azure-landing-zone/), [tenant, subscription and management group](/azure-landing-zone/tenant-billing-subscriptions-and-management-groups/), and [Platform, Landing zones, Corp, Online, Sandboxes, Decommissioned and the intermediate root](/azure-landing-zone/resource-organization/). A management group is a folder that holds subscriptions and passes policies down to them. The intermediate root is the group just below the tenant root group.
 
-| Word | What it means |
+| Term | Meaning |
 |---|---|
 | Workload | A set of Azure resources, code, data and other parts that work together for one business purpose, such as one application. |
 | Workload landing zone | The place where one workload's environments live: development, test and production, each one or more subscriptions. |
@@ -287,5 +285,18 @@ The repository is a learning implementation, and its structure and conventions a
 
 ## Sources
 
-Microsoft Learn, checked 14 November 2026: [Tailor the Azure landing zone architecture to meet requirements](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/tailoring-alz) · [Management groups](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups) · [Subscriptions](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-subscriptions) · [Manage application development environments](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management-application-environments) · [Sandbox environments](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/considerations/sandbox-environments) · [Modify an Azure landing zone architecture to meet requirements across multiple locations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/landing-zone-multinational) · [Azure landing zones and multiple Microsoft Entra tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/multi-tenant/considerations-recommendations) · [ISV considerations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/isv-landing-zone) · [Azure landing zone FAQ](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/faq) · [What is an Azure landing zone?](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/) · [Deploy Azure landing zones](https://learn.microsoft.com/en-us/azure/architecture/landing-zones/landing-zone-deploy) · [Azure hybrid and adaptive cloud architecture](https://learn.microsoft.com/en-us/azure/architecture/hybrid/hybrid-start-here) · [Sovereign Landing Zone](https://learn.microsoft.com/en-us/azure/azure-sovereign-clouds/public/overview-sovereign-landing-zone)
+Microsoft Learn, checked 14 November 2026:
 
+- [Tailor the Azure landing zone architecture to meet requirements](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/tailoring-alz)
+- [Management groups](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups)
+- [Subscriptions](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-subscriptions)
+- [Manage application development environments](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management-application-environments)
+- [Sandbox environments](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/considerations/sandbox-environments)
+- [Modify an Azure landing zone architecture to meet requirements across multiple locations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/landing-zone-multinational)
+- [Azure landing zones and multiple Microsoft Entra tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/multi-tenant/considerations-recommendations)
+- [ISV considerations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/isv-landing-zone)
+- [Azure landing zone FAQ](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/faq)
+- [What is an Azure landing zone?](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/)
+- [Deploy Azure landing zones](https://learn.microsoft.com/en-us/azure/architecture/landing-zones/landing-zone-deploy)
+- [Azure hybrid and adaptive cloud architecture](https://learn.microsoft.com/en-us/azure/architecture/hybrid/hybrid-start-here)
+- [Sovereign Landing Zone](https://learn.microsoft.com/en-us/azure/azure-sovereign-clouds/public/overview-sovereign-landing-zone)

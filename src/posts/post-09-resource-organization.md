@@ -59,18 +59,15 @@ next_title: "Network Topology and Connectivity"
 tags: [alz]
 ---
 
-
-
 In [the tenant and subscriptions post](/azure-landing-zone/tenant-billing-subscriptions-and-management-groups/) you met the four levels Azure uses to organize things: management groups, subscriptions, resource groups and resources. [The business requirements post](/azure-landing-zone/business-requirements-compliance-region-recovery-connectivity-and-cost/) covered the business requirements (compliance, region, recovery, connectivity and cost) that come first. This post answers the next question: where does everything go?
 
 The answer matters early. Think through your management group structure when you plan Azure adoption at scale. Moving a subscription between management groups changes the Azure RBAC and Azure Policy it inherits, so reorganizing later takes planning (judgement).
-
 
 ## Key terms
 
 Earlier posts defined landing zone, workload landing zone, management group, subscription, resource group, tenant root group, scope, Azure Policy, Azure RBAC, inheritance, quota, tag, subscription vending, guardrails and platform team. The words below are new. The management groups themselves (intermediate root, Platform, Landing zones, Sandboxes and Decommissioned) are explained in the table in "Management groups: the baseline hierarchy". Each word is in plain words.
 
-| Word | What it means |
+| Term | Meaning |
 |---|---|
 | Corp, Online and Local | The three child groups of Landing zones. Corp is for workloads that need connectivity, or hybrid connectivity, with the corporate network through the hub (the central point that other networks connect to, [Business requirements](/azure-landing-zone/business-requirements-compliance-region-recovery-connectivity-and-cost/)) in the connectivity subscription. Online is for workloads that might need direct internet connectivity, or might not need a virtual network. Local is for workloads that run on Azure Local clusters, and for those clusters themselves. Azure Local is a solution that brings Azure to hardware in your own facilities, such as your own datacenter ([the platform scope post](/azure-landing-zone/platform-scope-and-workload-boundaries/)). A cluster is a group of machines that work together. |
 | Landing zone archetype | A description of what needs to be true so that a landing zone (here, an Azure subscription) meets the expected environment and compliance requirements at a specific scope. Examples are Azure Policy assignments, Azure RBAC assignments, and centrally managed resources such as networking. It is the set of policies and access rules a subscription ends up with because of where you place it in the hierarchy. A management group alone is not an archetype. It is part of how you build one. |
@@ -229,7 +226,6 @@ Useful tags fall into five categories:
 
 *Simplified from the hierarchy diagram on [Management groups](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups#management-groups-in-the-azure-landing-zone-architecture). Each group of management groups has its own band, with the subscriptions in a band below it. The dashed PCI group (PCI DSS, the payment card security standard) is the tailoring example from [Tailor the Azure landing zone architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/tailoring-alz). The subscription labels (A1, P1, A2, LC1, LA1) are example names, and no subscription is drawn under Online in this example. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) architecture icon set.*
 
-
 ## Common mistakes
 
 - **Management groups for development, test and production.** Use separate subscriptions in the same management group instead.
@@ -254,5 +250,8 @@ These situations came up in my own work: management groups created for each envi
 
 ## Sources
 
-Microsoft Learn, checked October 2026: [Management groups](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups) · [Subscription considerations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-subscriptions) · [Tailor to requirements](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/tailoring-alz)
+Microsoft Learn, checked October 2026:
 
+- [Management groups](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups)
+- [Subscription considerations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-subscriptions)
+- [Tailor to requirements](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/tailoring-alz)

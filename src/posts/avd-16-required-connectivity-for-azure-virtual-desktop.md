@@ -189,4 +189,10 @@ Next: [Choose a Network Topology and Plan IP Addresses for Azure Virtual Desktop
 
 ## Sources
 
-[Required FQDNs and endpoints](https://learn.microsoft.com/en-us/azure/virtual-desktop/required-fqdn-endpoint), [proxy server guidelines](https://learn.microsoft.com/en-us/azure/virtual-desktop/proxy-server-support) and [Private Link with Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/private-link-overview), [Private Link setup](https://learn.microsoft.com/en-us/azure/virtual-desktop/private-link-setup), [Azure fabric communication IPs](https://learn.microsoft.com/en-us/azure/virtual-desktop/azurecommunicationips), [Windows App feature comparison](https://learn.microsoft.com/en-us/windows-app/compare-platforms-features#network) and [Access a Cloud PC](https://learn.microsoft.com/en-us/windows-365/end-user-access-cloud-pc#remote-desktop).
+- [Required FQDNs and endpoints](https://learn.microsoft.com/en-us/azure/virtual-desktop/required-fqdn-endpoint)
+- [proxy server guidelines](https://learn.microsoft.com/en-us/azure/virtual-desktop/proxy-server-support)
+- [Private Link with Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/private-link-overview)
+- [Private Link setup](https://learn.microsoft.com/en-us/azure/virtual-desktop/private-link-setup)
+- [Azure fabric communication IPs](https://learn.microsoft.com/en-us/azure/virtual-desktop/azurecommunicationips)
+- [Windows App feature comparison](https://learn.microsoft.com/en-us/windows-app/compare-platforms-features#network)
+- [Access a Cloud PC](https://learn.microsoft.com/en-us/windows-365/end-user-access-cloud-pc#remote-desktop)

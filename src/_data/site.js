@@ -1,7 +1,7 @@
 export default {
-  name: "Adnan Ahmed Siddiqui",
-  tagline: "Plain-language guides to Azure, AVD and Windows 365.",
-  description: "Articles for engineers on Azure landing zones, Azure Virtual Desktop and Windows 365. Each article explains its terms and lists its sources.",
+  name: "AdnanASiddiqui.com",
+  tagline: "Plain-language guides to Azure, AVD, Windows 365 and AI.",
+  description: "Articles for engineers on Azure landing zones, Azure Virtual Desktop, Windows 365, and AI and agentic AI on Azure. Each article explains its terms and lists its sources.",
   url: process.env.SITE_URL || "https://adnanasiddiqui.com",
   repo: "https://github.com/AddySidd27/Azure_landing_zone",
   author: "Adnan Ahmed Siddiqui",

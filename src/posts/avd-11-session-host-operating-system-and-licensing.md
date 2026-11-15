@@ -159,4 +159,12 @@ Next: [Choose the Client: Windows App, Remote Desktop and the Web](/azure-virtua
 
 ## Sources
 
-[Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites), [Licensing Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/licensing) and [Windows Enterprise multi-session FAQ](https://learn.microsoft.com/en-us/azure/virtual-desktop/windows-multisession-faq), [Apply Windows license to session host virtual machines](https://learn.microsoft.com/en-us/azure/virtual-desktop/apply-windows-license), [Azure Virtual Desktop Hybrid overview](https://learn.microsoft.com/en-us/azure/virtual-desktop/hybrid-overview), [Azure Virtual Desktop on Azure Local](https://learn.microsoft.com/en-us/azure/virtual-desktop/azure-local-overview), [Ephemeral OS disks on Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/deploy/session-hosts/ephemeral-os-disks), [Windows 10 Enterprise and Education lifecycle](https://learn.microsoft.com/en-us/lifecycle/products/windows-10-enterprise-and-education) and [Use Azure Virtual Desktop with your Visual Studio Subscriptions](https://learn.microsoft.com/en-us/visualstudio/subscriptions/vs-windows-virtual-desktop).
+- [Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites)
+- [Licensing Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/licensing)
+- [Windows Enterprise multi-session FAQ](https://learn.microsoft.com/en-us/azure/virtual-desktop/windows-multisession-faq)
+- [Apply Windows license to session host virtual machines](https://learn.microsoft.com/en-us/azure/virtual-desktop/apply-windows-license)
+- [Azure Virtual Desktop Hybrid overview](https://learn.microsoft.com/en-us/azure/virtual-desktop/hybrid-overview)
+- [Azure Virtual Desktop on Azure Local](https://learn.microsoft.com/en-us/azure/virtual-desktop/azure-local-overview)
+- [Ephemeral OS disks on Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/deploy/session-hosts/ephemeral-os-disks)
+- [Windows 10 Enterprise and Education lifecycle](https://learn.microsoft.com/en-us/lifecycle/products/windows-10-enterprise-and-education)
+- [Use Azure Virtual Desktop with your Visual Studio Subscriptions](https://learn.microsoft.com/en-us/visualstudio/subscriptions/vs-windows-virtual-desktop)

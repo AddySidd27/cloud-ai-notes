@@ -30,7 +30,7 @@ Azure Key Vault is a service that stores sensitive values, such as passwords and
 **State of your resources**
 
 | | At the start | At the end |
-| --- | --- | --- |
+|---|---|---|
 | VM `vm-azb-win01` | Stopped (deallocated), as Labs 12 to 14 leave it. Parts 1 to 3 do not need it running. | Stopped (deallocated) |
 | Rule `allow-rdp-my-ip` in `nsg-azb-vm` | Not there. You add it only if you use the Remote Desktop route in Part 4. | Not there |
 | Public IP `pip-azb-win01` | Exists. It stays. | Exists |

@@ -28,7 +28,7 @@ I have not run these steps in a live tenant for this article. The steps follow M
 **State of your resources**
 
 | | At the start | At the end |
-| --- | --- | --- |
+|---|---|---|
 | VM `vm-azb-win01` | Stopped (deallocated), as Lab 14 leaves it. Step 2 starts it. | Stopped (deallocated) |
 | Rule `allow-rdp-my-ip` in `nsg-azb-vm` | Not there. Step 3 adds it. | Not there. "Clean up" deletes it. |
 | Public IP `pip-azb-win01` | Exists. It stays. | Exists |

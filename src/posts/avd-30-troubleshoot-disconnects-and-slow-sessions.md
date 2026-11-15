@@ -309,4 +309,6 @@ Next: [Troubleshoot AVD Sign-in Failures: Conditional Access, MFA and Single Sig
 
 ## Sources
 
-[Troubleshoot connection quality](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-connection-quality), [Troubleshoot RDP Shortpath](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-rdp-shortpath) and [Use cases for Insights](https://learn.microsoft.com/en-us/azure/virtual-desktop/insights-use-cases).
+- [Troubleshoot connection quality](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-connection-quality)
+- [Troubleshoot RDP Shortpath](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-rdp-shortpath)
+- [Use cases for Insights](https://learn.microsoft.com/en-us/azure/virtual-desktop/insights-use-cases)

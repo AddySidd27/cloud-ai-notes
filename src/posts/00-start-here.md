@@ -26,8 +26,6 @@ next_num: ""
 next_title: ""
 ---
 
-
-
 ## Pick your route
 
 - **I am new:** start with [What Is an Azure Landing Zone](/azure-landing-zone/what-is-an-azure-landing-zone/), then follow the [Azure Landing Zone series](/azure-landing-zone/) in order. An Azure landing zone is the prepared Azure environment that your workloads run in. Later sections explain it in full.
@@ -152,7 +150,10 @@ I am Addy (Adnan Ahmed), a Senior Solutions Architect with 15 years in enterpris
 
 ## Sources
 
-Microsoft Learn, checked October 2026: [AVD landing zone design guide](https://learn.microsoft.com/azure/architecture/landing-zones/azure-virtual-desktop/design-guide) · [What is Azure Virtual Desktop?](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview)
+Microsoft Learn, checked October 2026:
+
+- [AVD landing zone design guide](https://learn.microsoft.com/azure/architecture/landing-zones/azure-virtual-desktop/design-guide)
+- [What is Azure Virtual Desktop?](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview)
 
 ## Start reading
 

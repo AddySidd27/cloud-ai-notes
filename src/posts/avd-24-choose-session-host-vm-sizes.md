@@ -256,6 +256,8 @@ This order is my own method, not a documented procedure (judgement):
 
 ## Sources
 
-[Session host virtual machine sizing guidelines](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/virtual-machine-recs), [Enable GPU acceleration for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/graphics-enable-gpu-acceleration) and [Check vCPU quotas](https://learn.microsoft.com/en-us/azure/virtual-machines/quotas).
+- [Session host virtual machine sizing guidelines](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/virtual-machine-recs)
+- [Enable GPU acceleration for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/graphics-enable-gpu-acceleration)
+- [Check vCPU quotas](https://learn.microsoft.com/en-us/azure/virtual-machines/quotas)
 
 The article also uses these Microsoft Learn pages: the AVD prerequisites, the AVD ephemeral OS disk page, the Learn troubleshooting page for ephemeral OS disks, the Azure VM naming conventions, the Azure VM sizes overview, the Trusted launch page and FAQ, and the AVD troubleshooting pages for session host configurations.

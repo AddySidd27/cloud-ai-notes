@@ -64,8 +64,6 @@ next_title: "Governance and Azure Policy"
 tags: [alz]
 ---
 
-
-
 The identity, resource organization, network and security posts covered who can sign in, how resources are organized, how networks are laid out and how security is set up. Once all of that exists, someone has to keep it running. Logs have to go somewhere, machines have to be patched, alerts have to reach a person, and a workload has to have a way back after an outage. If every workload team does this alone, you get many different tools and many gaps.
 
 For stable, ongoing operations in the cloud, a management baseline is required, and it has three parts: inventory and visibility, operational compliance, and protect and recover.
@@ -74,14 +72,13 @@ This post follows the design area called "Management for Azure environments". Th
 
 The design area is called "Management". A page about monitoring the platform sits in the same design area, so monitoring is not a separate design area. That is why this post is called "Management and Monitoring".
 
-
 ## Key terms
 
 The earlier posts defined these words: landing zone, workload, subscription, management group, intermediate root management group, Azure Policy, Azure RBAC, Microsoft Entra ID, managed identity, Log Analytics workspace, Azure Monitor Logs, activity log, Microsoft Defender for Cloud, Microsoft Sentinel, SIEM, ExpressRoute, recovery time objective (RTO), recovery point objective (RPO), Azure Backup, Azure Site Recovery, data residency, subscription democratization, brownfield and Microsoft Entra ID P1 or P2.
 
 The words below are the main new ones. Each is in plain words. Other new words are explained where they first appear.
 
-| Word | What it means |
+| Term | Meaning |
 |---|---|
 | Operations baseline | The initial set of operations tooling that is used across all workloads. |
 | Inventory and visibility | Knowing what you have and seeing what it is doing. Management controls that span the environment become more important as the environment grows. |
@@ -222,7 +219,6 @@ Centralized logging in the reference architecture is mainly about platform opera
 
 *Simplified summary of the Management design area. The documentation has an alert-topology diagram, which the text describes instead of redrawing: [Monitor Azure platform landing zone components](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management-monitor). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/), unmodified.*
 
-
 ## Common mistakes
 
 - **Many workspaces with no reason.** Use a single workspace except where Azure RBAC, data sovereignty or retention rules need separate ones.
@@ -246,7 +242,10 @@ From the list above (judgement, not Microsoft guidance), these came up in my own
 
 ## Sources
 
-Microsoft Learn, checked October 2026: [Design area: Management for Azure environments](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management) · [Inventory and visibility](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management-platform) · [Monitor platform landing zone components](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management-monitor)
+Microsoft Learn, checked October 2026:
+
+- [Design area: Management for Azure environments](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management)
+- [Inventory and visibility](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management-platform)
+- [Monitor platform landing zone components](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management-monitor)
 
 The operational compliance and business continuity pages are linked from the first page. Also used: [Azure Machine Configuration](https://learn.microsoft.com/azure/governance/machine-configuration/overview) · [Manage data retention in a Log Analytics workspace](https://learn.microsoft.com/azure/azure-monitor/logs/data-retention-configure) · [Reliability in Azure Key Vault](https://learn.microsoft.com/azure/reliability/reliability-key-vault) · [Business continuity, high availability and disaster recovery](https://learn.microsoft.com/azure/reliability/concept-business-continuity-high-availability-disaster-recovery) · [Migrate to virtual network flow logs](https://learn.microsoft.com/azure/network-watcher/nsg-flow-logs-migrate) · [Azure Monitor Agent migration](https://learn.microsoft.com/azure/azure-monitor/agents/azure-monitor-agent-migration). Short definitions of Azure Update Manager, action groups, resource locks, availability zones, availability sets, Azure Site Recovery and Azure Backup come from their own overview pages.
-

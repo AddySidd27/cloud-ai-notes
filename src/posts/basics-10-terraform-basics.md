@@ -363,7 +363,7 @@ Check: the plan says `No changes. Your infrastructure matches the configuration.
 ### Errors you may see
 
 | What you see | What to do |
-| --- | --- |
+|---|---|
 | `terraform` is not recognized | The PATH entry is missing or the old PowerShell window is still open. See "Install Terraform on Windows". |
 | An error about a missing value for `subscription_id` or `location` | `terraform.tfvars` is missing, has another name, or is in another folder. It must be called exactly `terraform.tfvars` and sit next to the `.tf` files. |
 | An error that says to run `az login`, or that it cannot build the account | Run `az login` again and `az account show`. Check that the subscription is the right one. |

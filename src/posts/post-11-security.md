@@ -61,14 +61,11 @@ next_title: "Management and Monitoring"
 tags: [alz]
 ---
 
-
-
 In [the identity and access post](/azure-landing-zone/identity-and-access-in-the-landing-zone/) you saw who can sign in and what they can change. In [the privileged access post](/azure-landing-zone/privileged-access-mfa-conditional-access-and-pim/) you saw how to protect privileged access. In [the network topology post](/azure-landing-zone/network-topology-and-connectivity/) you saw how networks are laid out. Each of those posts touched security, but none of them asked the wider question: what does the platform team put in place so that security works the same way for every workload?
 
 Security is a core consideration for all customers, in every environment, and it should be considered throughout the process of designing and implementing a landing zone. An organization must have visibility into what is happening inside everything it runs in the cloud, and security monitoring and audit logging of Azure platform services is a key part of a scalable framework.
 
 This post follows Microsoft's Security design area. Its stated goal is to understand security requirements and implement them consistently across all workloads in your cloud platform. The primary scope is security operations tooling and access control. It also includes Zero Trust (a security strategy: never trust, always verify; the Key terms table explains it) and advanced network security. The Cloud Adoption Framework (CAF) is Microsoft's guidance for adopting the cloud. This design area does not cover three disciplines of CAF's Secure methodology: security operations, asset protection and innovation security. Those build on your landing zone deployment. So here only the tools for security operations (alerts, logs, controls) are in scope. This series does not cover running security operations day to day, asset protection or innovation security.
-
 
 ## Key terms
 
@@ -76,7 +73,7 @@ The earlier posts defined these words: landing zone, workload, platform team, su
 
 The words below are the main new terms. Each is in plain words. Other new terms are explained where they first appear.
 
-| Word | What it means |
+| Term | Meaning |
 |---|---|
 | Cloud Adoption Framework (CAF) and Secure methodology | CAF is Microsoft's guidance for adopting the cloud. Its Secure methodology gives in-depth guidance on security processes and tools. |
 | Security operations | Watching for security problems and responding to them. In this design area only the tools for it are in scope. Running it day to day is not covered in this series. |
@@ -257,7 +254,6 @@ For a brownfield (existing) environment, four services bring the same principles
 
 *Source: [Design area: Security](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/security). That page has no diagram, so this picture is a simplified summary of its text. It shows only the pillar names and leaves out the benchmark and the brownfield services. Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/), unmodified.*
 
-
 ## Common mistakes
 
 - **Alerts with no owner.** Ask which teams need alerts and whether some services need alerts routed to different teams.
@@ -280,7 +276,15 @@ From the list above, these came up in my own work: Key Vault sprawl, and logs an
 
 ## Sources
 
-Microsoft Learn, checked October 2026: [Design area: Security](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/security) · [Incorporate Zero Trust practices in your landing zone](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/security-zero-trust) · [Encryption and key management in Azure](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/encryption-and-keys) · [Platform landing zone implementation options](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/implementation-options) · [Key Vault security best practices](https://learn.microsoft.com/en-us/azure/key-vault/general/best-practices) · [Key Vault soft-delete overview](https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview) · [Activity log in Azure Monitor](https://learn.microsoft.com/en-us/azure/azure-monitor/platform/activity-log) · [Microsoft Entra data retention](https://learn.microsoft.com/en-us/entra/identity/monitoring-health/reference-reports-data-retention)
+Microsoft Learn, checked October 2026:
+
+- [Design area: Security](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/security)
+- [Incorporate Zero Trust practices in your landing zone](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/security-zero-trust)
+- [Encryption and key management in Azure](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/encryption-and-keys)
+- [Platform landing zone implementation options](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/implementation-options)
+- [Key Vault security best practices](https://learn.microsoft.com/en-us/azure/key-vault/general/best-practices)
+- [Key Vault soft-delete overview](https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview)
+- [Activity log in Azure Monitor](https://learn.microsoft.com/en-us/azure/azure-monitor/platform/activity-log)
+- [Microsoft Entra data retention](https://learn.microsoft.com/en-us/entra/identity/monitoring-health/reference-reports-data-retention)
 
 Short definitions of Microsoft Sentinel, Defender for Cloud, Key Vault, Azure Attestation, Event Grid, Web Application Firewall and just-in-time VM access come from their own overview pages, and the Zero Trust overview page gives "never trust, always verify". The Defender for Cloud "standard" and "free" wording comes from the page on enabling Defender for Cloud on all subscriptions in a management group.
-

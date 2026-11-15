@@ -74,8 +74,6 @@ next_title: "Privileged Access: MFA, Conditional Access and PIM"
 tags: [alz]
 ---
 
-
-
 [The billing and tenant post](/azure-landing-zone/billing-and-tenant-in-depth/) showed that billing access is not Azure access. Identity has a similar trap inside Azure itself.
 
 Three terms first. A landing zone is a prepared Azure environment, with rules and structure already in place, where workloads run. A management group is a container for subscriptions that lets you apply access and policy to everything inside it. The platform team builds and runs the shared parts of the landing zone, and the identity team runs the central directory services.
@@ -84,12 +82,11 @@ There are two sets of roles (a role is a set of permissions). Microsoft Entra ID
 
 Poorly secured identity and access can let stolen credentials or wrong permissions help attackers get more access than they should, reach sensitive data and disrupt critical workloads. Attackers use this to get more access than they should. This is called privilege escalation. For example, someone changes a user account or group that has platform or landing zone administration privileges. There is a second risk: credentials stored in code or other text. Breaches of public cloud resources often start with leaked credentials like these.
 
-
 ## Key terms
 
 These are the words the rest of this post depends on. Other terms are explained where they first appear.
 
-| Word | What it means |
+| Term | Meaning |
 |---|---|
 | Authentication and authorization | Authentication checks who or what is asking, for example with a password or a fingerprint. Authorization checks that they are allowed to use a resource. |
 | Identity | A digital record that stands for a person, an application or a device. It is used to check who or what is asking, and to give access. |
@@ -241,7 +238,6 @@ The first picture shows the two kinds of roles and where elevated access acts. T
 
 *Simplified. Based on the [Identity and access management design area](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/identity-access) and its articles. The documentation has no single diagram of this. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) and [Microsoft Entra](https://learn.microsoft.com/en-us/entra/architecture/architecture-icons) architecture icon sets.*
 
-
 ## Common mistakes
 
 - **Assigning roles directly to users.** Users who change teams keep the role. Use groups.
@@ -262,5 +258,8 @@ This situation came up in my own work: too many Global Administrators and Owners
 
 ## Sources
 
-Microsoft Learn, checked October 2026: [Identity and access](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/identity-access) · [Landing zone identity](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/identity-access-landing-zones) · [Hybrid identity](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/identity-access-active-directory-hybrid-identity)
+Microsoft Learn, checked October 2026:
 
+- [Identity and access](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/identity-access)
+- [Landing zone identity](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/identity-access-landing-zones)
+- [Hybrid identity](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/identity-access-active-directory-hybrid-identity)

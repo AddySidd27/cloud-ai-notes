@@ -112,7 +112,7 @@ Check: **Manage security defaults** shows **Disabled (not recommended)**.
 **Idea 3: which apps.** AVD sign-in goes through two Entra apps. Pick these two and nothing else:
 
 | App to pick | App ID | What it covers |
-| --- | --- | --- |
+|---|---|---|
 | **Azure Virtual Desktop** | `9cdead84-a844-4324-93f2-b2e6bb768d07` | Signing in to the AVD service. |
 | **Windows Cloud Login** | `270efc09-cd0d-444b-a71f-39af4910ec45` | Signing in to the VM itself, when single sign-on is on. |
 

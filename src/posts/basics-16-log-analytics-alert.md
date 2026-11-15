@@ -38,7 +38,7 @@ A Log Analytics workspace is a place in Azure where logs and performance data ar
 **State of your resources**
 
 | | At the start | At the end |
-| --- | --- | --- |
+|---|---|---|
 | VM `vm-azb-win01` | Stopped (deallocated). Step 1 starts it. | Stopped (deallocated) |
 | Rule `allow-rdp-my-ip` in `nsg-azb-vm` | Not there. You do not need it. | Not there |
 | Public IP `pip-azb-win01` | Exists. It stays. | Exists |
@@ -102,7 +102,7 @@ The Azure Monitor Agent sends a small record to a table called `Heartbeat` about
 16. Look at the result. You should see one row for your VM, like this (the values differ):
 
     | Computer | TimeGenerated | Category |
-    | --- | --- | --- |
+    |---|---|---|
     | vm-azb-win01 | a time within the last few minutes | Azure Monitor Agent |
 
     The `Computer` value is the Windows computer name, which can differ from the VM name in the portal.

@@ -201,4 +201,6 @@ These are open conflicts or mismatches in Microsoft's pages as last checked in f
 
 ## Sources
 
-[App Attach overview](https://learn.microsoft.com/en-us/azure/virtual-desktop/app-attach-overview), [add and manage App Attach applications](https://learn.microsoft.com/en-us/azure/virtual-desktop/app-attach-setup) and [publish applications with RemoteApp](https://learn.microsoft.com/en-us/azure/virtual-desktop/publish-applications-stream-remoteapp).
+- [App Attach overview](https://learn.microsoft.com/en-us/azure/virtual-desktop/app-attach-overview)
+- [add and manage App Attach applications](https://learn.microsoft.com/en-us/azure/virtual-desktop/app-attach-setup)
+- [publish applications with RemoteApp](https://learn.microsoft.com/en-us/azure/virtual-desktop/publish-applications-stream-remoteapp)

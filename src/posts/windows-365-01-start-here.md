@@ -13,7 +13,7 @@ Windows 365 gives an assigned user a Cloud PC, a Windows desktop they reach from
 ## Words to know
 
 | Term | Meaning |
-| --- | --- |
+|---|---|
 | Cloud PC | The Windows desktop assigned to a user through Windows 365. |
 | Tenant | Your organization's Microsoft Entra ID directory. |
 | Microsoft Entra join | The Cloud PC is joined to Microsoft Entra ID without an on-premises AD DS device join. |
@@ -63,7 +63,7 @@ The [editable draw.io diagrams](https://github.com/AddySidd27/Windows365-enterpr
 
 I have not tested hybrid join, point-in-time restore, Windows Autopatch, Windows 365 Boot, Switch or Offline. Where a step in the series is only a procedure, I have not run it myself.
 
-## References
+## Sources
 
 - Microsoft Learn: [Windows 365 Enterprise requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements), [network deployment options](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-network-deployment-options), [create a provisioning policy](https://learn.microsoft.com/en-us/windows-365/enterprise/create-provisioning-policy), [Azure network connections](https://learn.microsoft.com/en-us/windows-365/enterprise/azure-network-connections).
 - [Windows 365 Enterprise engineering repository](https://github.com/AddySidd27/Windows365-enterprise-engineering): lab records, procedures, screenshots and editable diagrams.

@@ -95,8 +95,6 @@ next_title: "Billing and the Microsoft Entra Tenant, in Depth"
 tags: [alz]
 ---
 
-
-
 A landing zone is the prepared Azure environment where teams run what they build ([the landing zone basics post](/azure-landing-zone/what-is-an-azure-landing-zone/) explains it). Its platform part, the platform landing zone, is the shared foundation. A workload is an application or service, with its Azure resources, that runs on that foundation.
 
 The first step is simple: before you build the platform landing zone (the shared foundation), define your organization's requirements across the design areas (topics such as networking, identity and governance that the design covers). Those decisions determine how you design the landing zone.
@@ -109,12 +107,11 @@ Gaps in these requirements can show up late. Three examples:
 
 This post covers five requirements and shows which part of the landing zone each one changes. The official documentation does not list these five together. (judgement) I group them because each one is an input to the landing zone design.
 
-
 ## Key terms
 
 These are the main words this post depends on. Other terms are explained where they first appear.
 
-| Word | What it means |
+| Term | Meaning |
 |---|---|
 | Subscription | A unit of management, billing and scale in Azure. Your resources live inside it, and it is a boundary for cost, governance and access controls. |
 | Management group | A level above subscriptions where you apply rules. Every subscription under it inherits those rules. |
@@ -231,7 +228,6 @@ One more warning: do not spend months or years designing the landing zone withou
 
 *Source: [What is an Azure landing zone?](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/). The documentation has no diagram of this, so the layout is simplified. Icons are from the [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/) set.*
 
-
 ## Common mistakes
 
 - **Region rules added late.** Build the allowed locations policy into the baseline from the start.
@@ -257,5 +253,14 @@ These situations came up in my own work: requirements not collected first, regio
 
 ## Sources
 
-Microsoft Learn, checked October 2026: [Design principles](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-principles) · [Multiple locations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/landing-zone-multinational) · [Platform landing zone for on-premises experts](https://learn.microsoft.com/en-us/azure/migration/migrate-from-on-premises-platform-landing-zone) · [Business continuity, high availability and disaster recovery](https://learn.microsoft.com/en-us/azure/reliability/concept-business-continuity-high-availability-disaster-recovery) · [Region pairs and nonpaired regions](https://learn.microsoft.com/en-us/azure/reliability/regions-paired) · [PCI DSS](https://learn.microsoft.com/en-us/compliance/regulatory/offering-pci-dss) · [ExpressRoute](https://learn.microsoft.com/en-us/azure/expressroute/expressroute-introduction) · [VPN Gateway](https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways) · [Virtual WAN](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about)
+Microsoft Learn, checked October 2026:
 
+- [Design principles](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-principles)
+- [Multiple locations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/landing-zone-multinational)
+- [Platform landing zone for on-premises experts](https://learn.microsoft.com/en-us/azure/migration/migrate-from-on-premises-platform-landing-zone)
+- [Business continuity, high availability and disaster recovery](https://learn.microsoft.com/en-us/azure/reliability/concept-business-continuity-high-availability-disaster-recovery)
+- [Region pairs and nonpaired regions](https://learn.microsoft.com/en-us/azure/reliability/regions-paired)
+- [PCI DSS](https://learn.microsoft.com/en-us/compliance/regulatory/offering-pci-dss)
+- [ExpressRoute](https://learn.microsoft.com/en-us/azure/expressroute/expressroute-introduction)
+- [VPN Gateway](https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways)
+- [Virtual WAN](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about)

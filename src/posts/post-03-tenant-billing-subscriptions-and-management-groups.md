@@ -60,20 +60,17 @@ next_title: "The Cloud Operating Model"
 tags: [alz]
 ---
 
-
-
 Four words are easy to mix up when you start with Azure: tenant, billing offer (the type of Azure offer your subscriptions are bought under, such as an Enterprise Agreement), subscription and management group. They sound close, but each one answers a different question.
 
 When they get mixed up, design decisions can go wrong. One mistake is adding extra tenants, which you should avoid without a specific business requirement. Another is treating a subscription as only a bill, and missing that it is also a boundary for cost, quotas (the number of resources a subscription is assigned), policy and access. A boundary is a limit where separate rules, costs or permissions can apply.
 
 This post gives you the four words in plain language and shows how they fit together. Later posts go deep: [the billing and tenant post](/azure-landing-zone/billing-and-tenant-in-depth/) covers billing and tenant, and [the resource organization post](/azure-landing-zone/resource-organization/) covers resource organization.
 
-
 ## Key terms
 
 Terms from [the landing zone introduction post](/azure-landing-zone/what-is-an-azure-landing-zone/) (resource, Microsoft Entra tenant, subscription, management group, inheritance, Azure Policy, workload) and [the platform scope post](/azure-landing-zone/platform-scope-and-workload-boundaries/) (tenant root group, resource group, Azure RBAC, role assignment, Azure region, data residency) keep the same meaning here. The new terms are below, in short, plain words.
 
-| Word | What it means |
+| Term | Meaning |
 |---|---|
 | Authentication | Proving that you are who you say you are. |
 | Authorization | Giving a person or app that has proved who they are permission to do something. It sets what they can access and what they can do. |
@@ -140,7 +137,6 @@ Azure has four scopes: management groups, subscriptions, resource groups and res
 
 *Simplified diagram based on the Azure scopes diagram in [Azure billing offers and Microsoft Entra tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-entra-tenant) and on [What are Azure management groups?](https://learn.microsoft.com/en-us/azure/governance/management-groups/overview). The original labels its third subscription PAYG (pay-as-you-go). This version shows MCA instead, because this post defines MCA. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) and [Microsoft Entra](https://learn.microsoft.com/en-us/entra/architecture/architecture-icons) architecture icon sets. The original diagram is on the first linked page.*
 
-
 ## Common mistakes
 
 - **More tenants than you need.** Avoid several tenants for one organization without a specific business requirement.
@@ -160,5 +156,10 @@ These situations came up in my own work: more than one tenant, a large workload 
 
 ## Sources
 
-Microsoft Learn, checked October 2026: [Defining tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-ad-define) · [Subscriptions](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-subscriptions) · [Management groups](https://learn.microsoft.com/en-us/azure/governance/management-groups/overview) · [Quotas overview](https://learn.microsoft.com/en-us/azure/quotas/quotas-overview) · [Azure billing offers and Microsoft Entra tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-entra-tenant)
+Microsoft Learn, checked October 2026:
 
+- [Defining tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-ad-define)
+- [Subscriptions](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-subscriptions)
+- [Management groups](https://learn.microsoft.com/en-us/azure/governance/management-groups/overview)
+- [Quotas overview](https://learn.microsoft.com/en-us/azure/quotas/quotas-overview)
+- [Azure billing offers and Microsoft Entra tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-entra-tenant)

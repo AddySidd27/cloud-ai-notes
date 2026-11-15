@@ -14,7 +14,7 @@ Make the identity and network decision before you create a provisioning policy. 
 ## Words to know
 
 | Term | Meaning |
-| --- | --- |
+|---|---|
 | Cloud PC | The Windows desktop that Windows 365 gives to a user. |
 | Microsoft Entra join | The Cloud PC belongs to Microsoft Entra ID only (the cloud). It does not join an on-premises domain. |
 | Hybrid join (Microsoft Entra hybrid join) | The Cloud PC joins your on-premises Active Directory domain and is also registered in Microsoft Entra ID. |
@@ -28,7 +28,7 @@ Make the identity and network decision before you create a provisioning policy. 
 ## Two decisions, not one
 
 | Question | Simple first pilot | Use the other route when |
-| --- | --- | --- |
+|---|---|---|
 | Device join | Microsoft Entra join | An application or management dependency requires hybrid join and you have healthy AD DS, working DNS and line of sight (a working network route) to a domain controller. |
 | Network | Microsoft-hosted network | A documented need requires customer VNet routing, private access, custom DNS or network controls. |
 
@@ -100,7 +100,7 @@ Record the policy name, join type, selected ANC, image and assigned group. Take 
 ### 4. Verify each outcome separately
 
 | Checkpoint | What to record |
-| --- | --- |
+|---|---|
 | ANC ready | Healthy status and date, with no unresolved failed checks |
 | Provisioning | New pilot Cloud PC and its policy/status in **All Cloud PCs** |
 | AD DS join | Computer object in the intended domain and OU |
@@ -118,7 +118,7 @@ Write one sentence explaining why the pilot needs an ANC. If you cannot identify
 
 Next: [choose an image and provision](/windows-365/provision/).
 
-### Microsoft Learn
+## Microsoft Learn
 
 - [Windows 365 deployment options](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-network-deployment-options)
 - [Azure network connections](https://learn.microsoft.com/en-us/windows-365/enterprise/azure-network-connections)

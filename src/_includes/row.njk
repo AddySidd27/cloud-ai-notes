@@ -1,7 +1,6 @@
 {# expects: p (article page). optional: ser (series), showSeries #}
-{%- set rmeta = articleMeta[p.data.order] -%}
 <li><a href="{{ p.url }}">
-  <span class="am">{% if showSeries %}<span class="am-s">{{ ser.name }}</span>{% endif %}{% if rmeta %}<time datetime="{{ rmeta.published }}">{{ rmeta.published | longDate }}</time>{% endif %}<span>{{ p.templateContent | readingTime }} min read</span></span>
+  <span class="am">{% if showSeries %}<span class="am-s">{{ ser.name }}</span>{% endif %}<span>{{ p.templateContent | readingTime }} min read</span></span>
   <span class="ab"><strong>{{ p.data.title }}</strong>
   <span class="ad">{{ p.data.deck | clip(240) }}</span></span>
 </a></li>

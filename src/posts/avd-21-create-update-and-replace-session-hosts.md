@@ -282,4 +282,6 @@ The add session hosts page lists further tasks once the hosts exist. Licenses ar
 
 ## Sources
 
-[Host pool management approaches](https://learn.microsoft.com/en-us/azure/virtual-desktop/host-pool-management-approaches), [Session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update) and [Add session hosts to a host pool](https://learn.microsoft.com/en-us/azure/virtual-desktop/add-session-hosts-host-pool).
+- [Host pool management approaches](https://learn.microsoft.com/en-us/azure/virtual-desktop/host-pool-management-approaches)
+- [Session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update)
+- [Add session hosts to a host pool](https://learn.microsoft.com/en-us/azure/virtual-desktop/add-session-hosts-host-pool)

@@ -29,7 +29,7 @@ Choose a descriptive pilot group such as `W365-Pilot-Users` and record its membe
 Write down these decisions before you start. The right column says what to record.
 
 | Decision | What to record |
-| --- | --- |
+|---|---|
 | User and group | Sanitized user label and exact group name |
 | License | License name, assignment state and date checked |
 | Identity | Microsoft Entra join (the Cloud PC joins Entra ID only) or hybrid join (it joins your on-premises Active Directory and Entra ID), with reason |

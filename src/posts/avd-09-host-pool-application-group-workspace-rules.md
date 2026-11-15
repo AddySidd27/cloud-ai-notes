@@ -165,4 +165,12 @@ Next: [Follow a Connection Step by Step: Reverse Connect, RDP Shortpath and Wher
 
 ## Sources
 
-[Azure Virtual Desktop terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology), [preferred application group type](https://learn.microsoft.com/en-us/azure/virtual-desktop/preferred-application-group-type), [FAQ](https://learn.microsoft.com/en-us/azure/virtual-desktop/faq), [host pool management approaches](https://learn.microsoft.com/en-us/azure/virtual-desktop/host-pool-management-approaches), [regional host pools](https://learn.microsoft.com/en-us/azure/virtual-desktop/regional-host-pools), [service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience), [troubleshoot service connections](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-service-connection), [troubleshoot PowerShell](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-powershell) and [Get-AzRoleAssignment](https://learn.microsoft.com/en-us/powershell/module/az.resources/get-azroleassignment).
+- [Azure Virtual Desktop terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology)
+- [preferred application group type](https://learn.microsoft.com/en-us/azure/virtual-desktop/preferred-application-group-type)
+- [FAQ](https://learn.microsoft.com/en-us/azure/virtual-desktop/faq)
+- [host pool management approaches](https://learn.microsoft.com/en-us/azure/virtual-desktop/host-pool-management-approaches)
+- [regional host pools](https://learn.microsoft.com/en-us/azure/virtual-desktop/regional-host-pools)
+- [service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience)
+- [troubleshoot service connections](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-service-connection)
+- [troubleshoot PowerShell](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-powershell)
+- [Get-AzRoleAssignment](https://learn.microsoft.com/en-us/powershell/module/az.resources/get-azroleassignment)

@@ -29,7 +29,7 @@ Everything in this lab happens inside one resource group that you create for it.
 **State of your resources**
 
 | | At the start | At the end |
-| --- | --- | --- |
+|---|---|---|
 | VM `vm-azb-win01` | Stopped (deallocated). This lab does not use it. | Stopped (deallocated) |
 | Rule `allow-rdp-my-ip` in `nsg-azb-vm` | Not there | Not there |
 | Public IP `pip-azb-win01` | Exists. It stays. | Exists |

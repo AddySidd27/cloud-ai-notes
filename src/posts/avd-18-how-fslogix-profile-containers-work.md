@@ -177,4 +177,18 @@ These steps follow the FSLogix profile container setup page. Try them in a test 
 
 ## Sources
 
-[User profile management for Azure Virtual Desktop with FSLogix profile containers](https://learn.microsoft.com/en-us/azure/virtual-desktop/fslogix-profile-containers), [Types of containers](https://learn.microsoft.com/en-us/fslogix/concepts-container-types), [Troubleshooting issues with old, temporary, or local profiles](https://learn.microsoft.com/en-us/fslogix/troubleshooting-old-temp-local-profiles), [Troubleshooting issues with container attach or detach](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-attach-detach), [Troubleshooting issues with container locked or in use](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-locked), [Troubleshooting long or failed sign-ins](https://learn.microsoft.com/en-us/fslogix/troubleshooting-long-failed-signin), [Logging and diagnostics](https://learn.microsoft.com/en-us/fslogix/troubleshooting-events-logs-diagnostics), [Concurrent or multiple connections to a single container](https://learn.microsoft.com/en-us/fslogix/concepts-multi-concurrent-connections), [Configuration examples](https://learn.microsoft.com/en-us/fslogix/concepts-configuration-examples), [Configuration setting reference](https://learn.microsoft.com/en-us/fslogix/reference-configuration-settings), [Configure profile containers](https://learn.microsoft.com/en-us/fslogix/tutorial-configure-profile-containers), [Using FSLogix Group Policy Template Files](https://learn.microsoft.com/en-us/fslogix/how-to-use-group-policy-templates), [FSLogix FAQ](https://learn.microsoft.com/en-us/fslogix/overview-faq), [FSLogix prerequisites](https://learn.microsoft.com/en-us/fslogix/overview-prerequisites) and [Temporary User Profiles](https://learn.microsoft.com/en-us/windows/win32/shell/temporary-user-profiles).
+- [User profile management for Azure Virtual Desktop with FSLogix profile containers](https://learn.microsoft.com/en-us/azure/virtual-desktop/fslogix-profile-containers)
+- [Types of containers](https://learn.microsoft.com/en-us/fslogix/concepts-container-types)
+- [Troubleshooting issues with old, temporary, or local profiles](https://learn.microsoft.com/en-us/fslogix/troubleshooting-old-temp-local-profiles)
+- [Troubleshooting issues with container attach or detach](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-attach-detach)
+- [Troubleshooting issues with container locked or in use](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-locked)
+- [Troubleshooting long or failed sign-ins](https://learn.microsoft.com/en-us/fslogix/troubleshooting-long-failed-signin)
+- [Logging and diagnostics](https://learn.microsoft.com/en-us/fslogix/troubleshooting-events-logs-diagnostics)
+- [Concurrent or multiple connections to a single container](https://learn.microsoft.com/en-us/fslogix/concepts-multi-concurrent-connections)
+- [Configuration examples](https://learn.microsoft.com/en-us/fslogix/concepts-configuration-examples)
+- [Configuration setting reference](https://learn.microsoft.com/en-us/fslogix/reference-configuration-settings)
+- [Configure profile containers](https://learn.microsoft.com/en-us/fslogix/tutorial-configure-profile-containers)
+- [Using FSLogix Group Policy Template Files](https://learn.microsoft.com/en-us/fslogix/how-to-use-group-policy-templates)
+- [FSLogix FAQ](https://learn.microsoft.com/en-us/fslogix/overview-faq)
+- [FSLogix prerequisites](https://learn.microsoft.com/en-us/fslogix/overview-prerequisites)
+- [Temporary User Profiles](https://learn.microsoft.com/en-us/windows/win32/shell/temporary-user-profiles)

@@ -8,6 +8,7 @@ tags: [azure-basics-lab]
 deck: "A test user, a security group, and two emergency-access admin accounts in a throwaway Entra tenant."
 description: "Create a standard Entra test user, a security group and two cloud-only emergency access accounts, and learn why they matter before Conditional Access."
 ---
+
 By the end of this lab you will have one standard test user, one security group with that user in it, two emergency-access (break-glass) Global Administrator accounts, and a second group named EmergencyAccess that holds those two accounts. Global Administrator is the most powerful role in Microsoft Entra. A break-glass account is a spare admin account that you keep for emergencies.
 
 I have not run these steps in a live tenant for this article. The steps follow Microsoft Learn (Microsoft's documentation site).

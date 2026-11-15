@@ -53,7 +53,7 @@ These steps are a suggested method. I did not complete them, and I never got a h
 Two facts from Learn matter for an idle lab ANC. An ANC that is unused for a period becomes **Inactive**, and its health checks pause until it is reactivated. You also cannot delete an ANC that a provisioning policy uses ([Azure network connections](https://learn.microsoft.com/en-us/windows-365/enterprise/azure-network-connections)).
 
 | Resource or test | Result |
-| --- | --- |
+|---|---|
 | Entra join ANC | Created; status Checks failed (Endpoint connectivity Error, 2 Warnings, 7 Passed; see the [identity and network article](/windows-365/identity-network/#anc-path)) |
 | Outbound endpoint check | Error on the required endpoint `*.infra.windows365.microsoft.com`, TCP port 443 |
 | Temporary NAT gateway and public IP | Removed after the lab |
@@ -68,7 +68,7 @@ A healthy ANC is the first checkpoint, not the last (judgement). After it you ne
 
 Next: [turn the pilot into an operating service](/windows-365/operate-and-extend/).
 
-### Microsoft Learn
+## Microsoft Learn
 
 - [Azure network connections](https://learn.microsoft.com/en-us/windows-365/enterprise/azure-network-connections)
 - [Azure network connection health checks](https://learn.microsoft.com/en-us/windows-365/enterprise/health-checks)
