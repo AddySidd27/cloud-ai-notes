@@ -13,15 +13,14 @@ eleventyComputed:
 <header class="band"><div class="wrap band-in">
   <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">{{ topic.name }}</li></ol></nav>
   <h1>{{ topic.name }}</h1>
-  <p class="band-deck">{{ topic.blurb }}</p>
-  <p class="byline"><span>{{ list.length }} article{% if list.length != 1 %}s{% endif %}</span></p>
-</div><div class="art-cover" aria-hidden="true">{% set cat = topic.slug %}{% set cn = '' %}{% include "cover.njk" %}</div></header>
-<div class="wrap sec">
+  <p class="lead">{{ topic.blurb }}</p>
   {%- for s in collections.liveSeries %}{% if s.category == topic.slug %}
-  <a class="series-chip" href="/{{ s.slug }}/"><span><small>Series</small><strong>{{ s.title }}</strong></span><span>{{ s.posts.length }} articles</span></a>
+  <p class="side-note">Series: <a href="/{{ s.slug }}/">{{ s.title }}</a>, {{ s.posts.length }} articles.</p>
   {%- endif %}{% endfor %}
+</div></header>
+<div class="wrap sec">
   <h2 class="sr-only">Articles</h2>
-  <div class="grid2">
-    {%- for p in list %}{% set ser = p.data.tags | seriesOf %}{% set tp = topic %}{% include "card.njk" %}{% endfor %}
-  </div>
+  <ul class="alist">
+    {%- for p in list %}{% set ser = p.data.tags | seriesOf %}{% include "row.njk" %}{% endfor %}
+  </ul>
 </div>

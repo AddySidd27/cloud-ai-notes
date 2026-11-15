@@ -1,7 +1,7 @@
 export default {
   name: "AdnanSiddiqui.com",
-  tagline: "Cloud architecture. Engineering. Real-world technology.",
-  description: "Deep technical guides, architecture insights, hands-on engineering and practical solutions across Azure, AVD, Windows 365, Citrix, AWS and modern infrastructure.",
+  tagline: "Plain-language guides to Azure, AVD and Windows 365.",
+  description: "Articles for engineers on Azure landing zones, Azure Virtual Desktop and Windows 365. Each article explains its terms and lists its sources.",
   url: process.env.SITE_URL || "https://adnanasiddiqui.com",
   repo: "https://github.com/AddySidd27/Azure_landing_zone",
   author: "Adnan Ahmed",
@@ -24,9 +24,9 @@ export default {
   workAreas: [
     { name: "Azure and hybrid infrastructure", text: "Azure landing zones, Azure Virtual Desktop, Windows 365, and Citrix environments that run in Azure and on-premises." },
     { name: "AWS", text: "Hybrid Azure and AWS infrastructure." },
-    { name: "AI and agentic AI", text: "MCP servers, RAG pipelines and diagnostic agents for Azure Virtual Desktop and Citrix environments. See the next section." },
+    { name: "AI and agentic AI", text: "MCP servers, RAG pipelines and diagnostic agents for Azure Virtual Desktop and Citrix. See the section below." },
     { name: "Automation with n8n", text: "Workflow automation, including a voice assistant that answers questions about Azure Virtual Desktop and Windows 365." },
   ],
-  bio: "I design and explain Azure landing zones and end-user computing platforms. Each article starts from the basics, defines every term, and is checked against Microsoft Learn before it goes out.",
+  bio: "I work on Azure landing zones and end-user computing platforms. Each article starts from the basics and explains its terms. Sources are listed at the end of each article.",
   year: new Date().getFullYear(),
 };

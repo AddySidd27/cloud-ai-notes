@@ -6,7 +6,6 @@ permalink: "/azure-virtual-desktop/choose-storage-and-set-access-for-fslogix-pro
 order: 119
 part: 19
 tags: [avd-series]
-# PENDING: publication date and final slug/order approval; the date lives in src/_data/articleMeta.js
 deck: "Choose between Azure Files and Azure NetApp Files for FSLogix profiles, then set the Azure role and Windows permissions that let each user open only their own folder."
 description: "Azure Files or Azure NetApp Files for FSLogix profile containers in Azure Virtual Desktop: tiers, sizes, redundancy, storage recovery as the documentation describes it, Azure roles, Windows ACLs, and the places where the documentation pages differ about cloud-only users."
 ---

@@ -171,8 +171,19 @@ export default function (eleventyConfig) {
     const words = String(html).replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
     return Math.max(1, Math.round(words / 220));
   });
+  // Shorten text at a sentence boundary. Never cuts mid-sentence and never adds an ellipsis:
+  // if even the first sentence is longer than n, the first sentence is returned whole.
   eleventyConfig.addFilter("clip", (s, n) => {
-    s = String(s || ""); return s.length > n ? s.slice(0, n).replace(/\s+\S*$/, "") + "…" : s;
+    s = String(s || "").trim();
+    if (s.length <= n) return s;
+    const sentences = s.match(/[^.!?]+[.!?]+(?=\s|$)|[^.!?]+$/g) || [s];
+    let out = "";
+    for (const sen of sentences) {
+      const next = (out + sen).trim();
+      if (out && next.length > n) break;
+      out = next + " ";
+    }
+    return out.trim();
   });
 
   return {

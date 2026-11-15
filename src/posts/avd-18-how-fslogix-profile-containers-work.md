@@ -6,7 +6,6 @@ permalink: "/azure-virtual-desktop/how-fslogix-profile-containers-work/"
 order: 118
 part: 18
 tags: [avd-series]
-# PENDING: publication date and final slug/order approval; the date lives in src/_data/articleMeta.js
 deck: "Learn what a user profile is, why pooled desktops need it stored outside the virtual machine, and what FSLogix does at sign-in and sign-out."
 description: "Understand FSLogix profile containers in Azure Virtual Desktop: what a profile is, how the container is attached at sign-in, what is left out, and why a user sometimes gets a temporary profile."
 ---
