@@ -85,7 +85,7 @@ Both services give a user a Windows desktop that runs in the cloud. They differ 
 | How do you pay? | You pay for the Azure resources you use (virtual machines, disks, storage and network). Users also need an eligible license. Autoscale can start and stop hosts as demand changes. | A license per user for a fixed monthly fee (Flex is licensed by concurrent session instead). Additional costs may apply based on network usage. |
 | What do you manage? | The image, the virtual machines and the resources around them. You do not manage the gateway and broker (the AVD services that carry and arrange connections). | Microsoft runs Windows 365 as a SaaS service and creates the Cloud PC. The Enterprise edition lets you create Cloud PCs from device images you create, and integrates fully with Microsoft Intune. |
 
-Windows 365 Business is described as made for companies of up to 300 seats. Windows 365 Enterprise is for larger companies and has unlimited seats.
+Windows 365 Business is described as made for companies of up to 300 seats. Windows 365 Enterprise is for larger companies and has unlimited seats. ([What is Windows 365?](https://learn.microsoft.com/en-us/windows-365/overview))
 
 Two points to take from the table.
 

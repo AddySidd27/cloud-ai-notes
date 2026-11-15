@@ -25,7 +25,7 @@ This article explains those objects and the rules between them, shows which choi
 | Application group | Controls access to a full desktop, or to a set of applications, from a single host pool. |
 | Desktop application group | An application group that publishes the full Windows desktop. |
 | RemoteApp application group | An application group that publishes individual applications you select. |
-| Workspace | A logical grouping of application groups. It groups what users see in their client. |
+| Workspace | A logical grouping of application groups ([terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology#workspaces)). Users see its application groups' resources in their client (judgement: plain-language gloss, not a Learn quote). |
 | Assignment | Giving a user or group access to an application group. |
 | Azure RBAC role | A set of permissions you give to a person or group at a scope. A scope is a resource, such as an application group. |
 | Feed | The list of desktops and apps a user sees in the client. |
@@ -72,9 +72,9 @@ Three choices are fixed when you create the object. A fourth, the preferred appl
 
 | Choice | Can it change later? |
 |---|---|
-| Host pool type (pooled or personal) | No. You cannot convert a pool. You can move registered virtual machines to a pool of the other type. |
-| Management approach (standard or session host configuration) | No. A pool created without a session host configuration cannot get one later. |
-| Deployment scope (Geographical or Regional) | No. Regional is offered only in regions that support it. |
+| Host pool type (pooled or personal) | No ([Azure Virtual Desktop FAQ](https://learn.microsoft.com/en-us/azure/virtual-desktop/faq#can-i-change-from-pooled-to-personal-host-pools)). You cannot convert a pool. You can move registered virtual machines to a pool of the other type. |
+| Management approach (standard or session host configuration) | No ([Host pool management approaches](https://learn.microsoft.com/en-us/azure/virtual-desktop/host-pool-management-approaches)). A pool created without a session host configuration cannot get one later. |
+| Deployment scope (Geographical or Regional) | No ([service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience#deployment-scope)). Regional is offered only in regions that support it. |
 | Preferred application group type | Yes. You must set it when you create the pool, and you can change it afterward. |
 
 The management approach decides who looks after session hosts. With a session host configuration, AVD creates, updates and scales the hosts using the stored settings. It works with pooled host pools only, and you cannot create, update or scale hosts outside the service with tools built for standard management. With standard management you create and update the hosts yourself, and you decide how many exist (autoscale can still turn them on and off). This suits existing automation scripts. The article on [creating, updating and replacing session hosts](/azure-virtual-desktop/create-update-replace-session-hosts/) covers host management in depth.
@@ -83,7 +83,7 @@ Regional scope is offered only in some regions, and Learn's pages disagree on wh
 
 ## Where assignment happens
 
-AVD publishes an application group to users by assigning the Desktop Virtualization User role to the user or group, with the application group as the scope. The documentation shows this with the `New-AzRoleAssignment` PowerShell command (a cmdlet). You can also do it in the portal. The person who makes the assignment needs the User Access Administrator or Owner role (or any role that can create role assignments) on the application group. Creating host pools and other objects needs the Contributor role on the subscription or resource group.
+AVD publishes an application group to users by assigning the Desktop Virtualization User role to the user or group, with the application group as the scope. The documentation shows this with the `New-AzRoleAssignment` PowerShell command (a cmdlet). You can also do it in the portal ([Deploy Azure Virtual Desktop, Assign users to an application group](https://learn.microsoft.com/en-us/azure/virtual-desktop/deploy-azure-virtual-desktop#assign-users-to-an-application-group)). The person who makes the assignment needs the User Access Administrator or Owner role (or any role that can create role assignments) on the application group. Creating host pools and other objects needs the Contributor role on the subscription or resource group.
 
 Two points to remember.
 
@@ -129,7 +129,7 @@ Start at the top and work down. The order is how quickly each check can be ruled
 | Check | What it tells you |
 |---|---|
 | Is the user assigned to an application group, directly or through a group? | The documentation suggests confirming the assignment, for example with `Get-AzRoleAssignment -SignInName <userupn>`. That command lists only assignments made directly to the user. The cmdlet reference says to add `-ExpandPrincipalGroups` to include assignments made to groups the user belongs to (judgement: use the switch when you assign through groups). |
-| Is the user signing in with the expected account? | A different account has a different assignment. In the web client, also rule out cached credentials. |
+| Is the user signing in with the expected account? | A different account has a different assignment (judgement: inference from the assignment check above, not a Learn quote). In the web client, also rule out cached credentials. |
 | Is the user's group a security group? | Distribution groups are not supported. |
 | Is the application group in a workspace? | Each application group must be associated with a workspace for users to see it. |
 | Is the workspace the same deployment scope and location as the application group? | Mixed scope is not allowed, and the service requires the same location. |

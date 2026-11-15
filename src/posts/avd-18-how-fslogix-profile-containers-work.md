@@ -81,7 +81,7 @@ Container size does not affect sign-in time, according to the [FSLogix FAQ](http
 
 Almost everything in the profile goes in. FSLogix leaves out a few items in two ways.
 
-**Redirected to a local folder.** Some content cannot be kept inside the container. FSLogix redirects these paths to a folder named `C:\Users\local_<username>` on the session host. That folder is deleted at sign-out. The local copy exists so apps and processes still work if the storage provider is unavailable. The redirected paths are the `Protect` folder, the roaming and local `Credentials` folders, and the Office file cache folder. These are folders for stored credentials, encryption keys and cached Office files. You do not need to manage them.
+**Redirected to a local folder.** Some content cannot be kept inside the container. FSLogix redirects these paths to a folder named `C:\Users\local_<username>` on the session host ([Types of containers](https://learn.microsoft.com/en-us/fslogix/concepts-container-types#profile-excluded-content)). That folder is deleted at sign-out. The local copy exists so apps and processes still work if the storage provider is unavailable. The redirected paths are the `Protect` folder, the roaming and local `Credentials` folders, and the Office file cache folder. These are folders for stored credentials, encryption keys and cached Office files. You do not need to manage them.
 
 **Deleted at sign-out.** Content that is not meant to move between virtual machines is deleted from the container at sign-out. This covers some data of apps packaged as MSIX (a Windows app package format) and identity data such as sign-in token caches. Roaming the identity data with the `RoamIdentity` setting (off by default) is not recommended, and the settings reference says not to enable it if you use Microsoft Intune to manage your devices or if your devices are Microsoft Entra joined.
 
@@ -111,7 +111,7 @@ Two more facts from the first page. Profile containers use `ProfileType` = 3 for
 
 ## The settings you meet first
 
-The documented profile container setup uses registry values under `HKEY_LOCAL_MACHINE\SOFTWARE\FSLogix\Profiles`. These are the ones that matter most for understanding the model.
+The documented profile container setup uses registry values under `HKEY_LOCAL_MACHINE\SOFTWARE\FSLogix\Profiles`. These are the ones that matter most for understanding the model. The defaults come from the [configuration settings reference](https://learn.microsoft.com/en-us/fslogix/reference-configuration-settings) and the [profile container setup page](https://learn.microsoft.com/en-us/fslogix/how-to-configure-profile-containers#profile-container-configuration).
 
 | Setting | Documented value or default | What it does |
 |---|---|---|
@@ -148,7 +148,7 @@ The old, temporary or local profiles page says that, in general, the root cause 
 
 For slow sign-ins see [Troubleshooting issues with long or failed sign-ins](https://learn.microsoft.com/en-us/fslogix/troubleshooting-long-failed-signin).
 
-Where to look is below. Two error codes appear in the example profile logs: `FrxStatus: 31` with "Access is denied" or "The user name or password is incorrect", and `FrxStatus: 33` for a container locked by another process.
+Where to look is below. Two error codes appear in the example profile logs on the [old, temporary, or local profiles page](https://learn.microsoft.com/en-us/fslogix/troubleshooting-old-temp-local-profiles): `FrxStatus: 31` with "(Access is denied.)" or "(The user name or password is incorrect.)", and `FrxStatus: 33` with "(The process cannot access the file because another process has locked a portion of the file.)" when the profile is in use on another computer. The Learn page shows these only as log examples; the number is the Windows error code FSLogix recorded, and [FSLogix codes and what they mean](https://learn.microsoft.com/en-us/fslogix/troubleshooting-error-codes) says the Windows error text varies (it shows `FrxStatus: 31` with a different message).
 
 Where to look: the profile log file at `C:\ProgramData\FSLogix\Logs\Profile\Profile_<date>.log` (logging must be configured first; see [Logging and diagnostics](https://learn.microsoft.com/en-us/fslogix/troubleshooting-events-logs-diagnostics)), and the FSLogix logs in Windows Event Viewer under Applications and Services Logs. In the profile log, search for `LoadProfile: <username>` to find a user's sign-in.
 

@@ -27,7 +27,7 @@ Our example company has 5,000 users: call-center agents, standard business and m
 | RemoteApp | Publishing selected applications instead of a full desktop; available with pooled host pools. |
 | vCPU | A virtual processor, the unit used to count a virtual machine's processing power. |
 | Load balancing | The rule that picks which session host receives a new session in a pooled host pool. Breadth-first spreads new sessions across hosts. It picks at random from the half of the available hosts that have the fewest sessions, so the spread is not always even. Depth-first fills one host up to its limit before using the next. |
-| Maximum session limit | The most sessions one session host accepts. A pool created with breadth-first starts at 999999, which means no real limit. |
+| Maximum session limit | The most sessions one session host accepts. A pool created with breadth-first starts at 999999, which means no real limit ([Configure host pool load balancing](https://learn.microsoft.com/en-us/azure/virtual-desktop/host-pool-load-balancing#configure-load-balancing)). |
 | Autoscale | An AVD feature that starts and stops session hosts on a schedule to match demand. |
 | Scaling plan | The schedule and thresholds that autoscale follows. |
 | Image | The Windows configuration, with its applications, from which session hosts are created. |
@@ -147,7 +147,7 @@ Use the application tests to choose the boundary. The following are conditional 
 
 Choose an AVD-supported OS and confirm application compatibility. Windows 11 Enterprise multi-session is a supported option for the example's pooled desktops. Select an approved single-session OS for its personal desktops.
 
-A suitable Marketplace image can start the compatibility assessment. A custom image can make approved applications and configuration repeatable. AVD custom image templates use Azure Image Builder, an Azure service that builds images from a template. App attach is another option: it delivers applications from a separate disk image at sign-in instead of building them into the host image. Test the application before relying on it. See [the golden image post](/azure-virtual-desktop/build-and-maintain-a-golden-image/).
+A suitable Marketplace image can start the compatibility assessment. A custom image can make approved applications and configuration repeatable. AVD custom image templates use Azure Image Builder, an Azure service that builds images from a template ([Custom image templates](https://learn.microsoft.com/en-us/azure/virtual-desktop/custom-image-templates)). App attach is another option: it delivers applications from a separate disk image at sign-in instead of building them into the host image. Test the application before relying on it. See [the golden image post](/azure-virtual-desktop/build-and-maintain-a-golden-image/).
 
 ### Release an approved image version
 
@@ -163,7 +163,7 @@ Test new versions before rollout. To replace pooled hosts, run some old and new 
 
 A **vCPU** is a virtual processor. Memory specifications use **GiB**. Choose candidate VMs from the application's resource needs and the published sizing guidance, then test the intended workload. Also check region availability, VM-generation/security compatibility, graphics requirements and disk performance.
 
-For example, Standard_D8s_v5 has 8 vCPUs and 32 GiB of memory. It is a candidate to evaluate for the example's pooled workloads, not a guarantee of a particular session count. Compare other supported candidates when measurements show a CPU, memory or storage bottleneck. Size developers and specialists from their own build, data or graphics requirements.
+For example, Standard_D8s_v5 has 8 vCPUs and 32 GiB of memory (judgement: the size's specification is from the Azure VM size tables and was not re-fetched in this check; D8s_v5 is a listed example instance on the [sizing guidelines](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/session-host-virtual-machine-sizing-guidelines#workloads)). It is a candidate to evaluate for the example's pooled workloads, not a guarantee of a particular session count. Compare other supported candidates when measurements show a CPU, memory or storage bottleneck. Size developers and specialists from their own build, data or graphics requirements.
 
 ### Separate host disks, profiles and business data
 
@@ -230,7 +230,7 @@ For call-center and meeting workloads, test real calls, headsets and supported c
 
 ### Read the results before changing the VM
 
-Review the same test interval across application timings, host metrics and shared services. Averages across the whole day can hide the arrival burst that causes the complaints.
+(judgement: the two tables in this section are the author's diagnostic guidance, not Learn content.) Review the same test interval across application timings, host metrics and shared services. Averages across the whole day can hide the arrival burst that causes the complaints.
 
 | Observation during the test | Investigate next | Decision it may change |
 | --- | --- | --- |
@@ -243,7 +243,7 @@ These observations are my own diagnostic guidance (judgement). They guide invest
 
 ### Size the test system as well
 
-Ensure the load generator does not become the bottleneck. Check the selected tool's documented limits for concurrent test users and confirm the planned topology with the vendor before a large test. (judgement) A 5,000-user service does not automatically require one 5,000-session test: assess per-persona demand, then the combined peaks and shared dependencies.
+Ensure the load generator does not become the bottleneck. Check the selected tool's documented limits for concurrent test users (judgement: generic advice, no Learn page) and confirm the planned topology with the vendor before a large test. (judgement) A 5,000-user service does not automatically require one 5,000-session test: assess per-persona demand, then the combined peaks and shared dependencies.
 
 ## 7. Worked example: turn 5,000 users into a proposed design
 
@@ -284,7 +284,7 @@ The names are illustrative. Record the supported Windows release, exact image ve
 
 Suppose the call-center test supports a planning target of **18 sessions per host**, and the shared business test supports **24**. These are hypothetical accepted densities for the worked calculation. They are not claims about D8s_v5 performance.
 
-For context, the sizing guidance lists the maximum suggested users per vCPU for multi-session hosts by workload type:
+For context, the [sizing guidance](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/session-host-virtual-machine-sizing-guidelines#workloads) lists the maximum suggested users per vCPU for multi-session hosts by workload type:
 
 | Workload type | Maximum users per vCPU | On an 8-vCPU host |
 | --- | --- | --- |
@@ -337,7 +337,7 @@ Check current AVD, compute, storage and network limits independently. Repeat the
 
 ## 8. Agree management, validation and rollout
 
-Choose the host management approach before creation. **Standard management** uses your processes to create, update and scale hosts. **Session host configuration**, available for pooled pools, uses native AVD lifecycle features. The approach cannot be changed later; tools designed for standard host management must not manage hosts belonging to a pool with session host configuration. Deployment scope is also fixed at creation: you choose regional or geographical (the default) when you create the host pool and cannot change it afterwards. Regional scope is covered in [the architecture post](/azure-virtual-desktop/azure-virtual-desktop-architecture/). Check its current status before you choose, and check that your region supports session host configuration. The portal also limits how many hosts one deployment can create.
+Choose the host management approach before creation. **Standard management** uses your processes to create, update and scale hosts. **Session host configuration**, available for pooled pools, uses native AVD lifecycle features. The approach cannot be changed later ([Host pool management approaches](https://learn.microsoft.com/en-us/azure/virtual-desktop/host-pool-management-approaches)); tools designed for standard host management must not manage hosts belonging to a pool with session host configuration. Deployment scope is also fixed at creation: you choose regional or geographical (the default) when you create the host pool and cannot change it afterwards. Regional scope is covered in [the architecture post](/azure-virtual-desktop/azure-virtual-desktop-architecture/). Check its current status before you choose, and check that your region supports session host configuration. The portal also limits how many hosts one deployment can create.
 
 This series uses standard management for its portal walkthrough and later infrastructure code. Compare approaches against your production operating model before selecting one.
 
@@ -349,7 +349,7 @@ For the call-center pool, the shift-arrival requirement drives the running-capac
 
 Record three counts separately: VMs provisioned, VMs powered on, and hosts healthy and accepting the intended sessions. The 1,119-VM example is a fleet count. The running count at a particular time depends on the accepted schedule and availability requirement.
 
-Native scaling plans can express schedules and capacity thresholds. On a pooled pool with standard management, autoscale starts and stops existing hosts. Creating and deleting hosts automatically needs a session host configuration and is in preview on Learn. Choose the values after the arrival and startup tests. The later autoscale post will configure them; this planning record supplies their requirements.
+Native scaling plans can express schedules and capacity thresholds. On a pooled pool with standard management, autoscale starts and stops existing hosts. Creating and deleting hosts automatically (dynamic autoscale) needs a session host configuration. Learn's pages disagree on its status: [autoscale scenarios](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scenarios) says preview, [What's new, June 2026](https://learn.microsoft.com/en-us/azure/virtual-desktop/whats-new#june-2026) says available. Choose the values after the arrival and startup tests. The later autoscale post will configure them; this planning record supplies their requirements.
 
 An application/image acceptance deployment is different from AVD's **Validation environment** setting, which receives service updates ahead of non-validation pools. A validation pool is for testing service updates, not for production users, so keep it separate from the four production pools in this example. Plan it deliberately; it does not certify application compatibility or sizing.
 

@@ -49,7 +49,7 @@ You have decided who the users are for Azure Virtual Desktop (AVD), which apps t
 | Deallocated | A VM that is stopped and no longer billed for compute. |
 | Frame encoding and codec | Before the session picture is sent to the user, it is compressed. The method is called a codec. AVC/H.264 and HEVC/H.265 are two codecs. |
 
-![Four steps. 1: know the workload (light, medium, heavy or power; single-session or multi-session). 2: choose the VM: size, GPU (optional), OS disk and security type. 3: Azure checks quota and capacity. If both are fine, it creates the VM and you go to step 4. If not, go back to step 2 and change the size, zone or region, or request more quota. 4: after it runs, measure with AVD Insights, use autoscale, and use savings plans or reserved instances.](/img/avd/AVD-Session-Host-VM-Size.svg)
+![Four steps. 1: know the workload (light, medium, heavy or power; single-session or multi-session). 2: choose the VM: size, GPU (optional), OS disk and security type. 3: quota and capacity can stop a deployment, so check both before you deploy. If both are enough, the VM is created and you go to step 4. If not, the deployment fails: go back to step 2 and change the size, zone or region, or request more quota. 4: after it runs, measure with AVD Insights, use autoscale, and use savings plans or reserved instances.](/img/avd/AVD-Session-Host-VM-Size.svg)
 
 *Source: [Session host virtual machine sizing guidelines](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/virtual-machine-recs), [Check vCPU quotas](https://learn.microsoft.com/en-us/azure/virtual-machines/quotas) and [Enable GPU acceleration for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/graphics-enable-gpu-acceleration). The documentation has no single diagram of these steps, so the layout is simplified.*
 
@@ -147,7 +147,7 @@ The page lists these sizes. The list may change, so check the page. A series nam
 Notes from the page:
 
 - The NC, NCv2, NCv3, ND and NDv2 series are not generally appropriate as session hosts. They are meant for compute work such as machine learning and do not accelerate most apps or the Windows user interface.
-- NVIDIA sizes include a GRID license (NVIDIA's license for sharing a GPU between users) for 25 users at the same time.
+- NVIDIA sizes include a GRID license (NVIDIA's license for sharing a GPU between users) for 25 users at the same time ([Enable GPU acceleration](https://learn.microsoft.com/en-us/azure/virtual-desktop/graphics-enable-gpu-acceleration#supported-gpu-optimized-azure-vm-sizes)).
 - Bigger GPUs are likely to give a better experience for the same number of users. Smaller and fractional (shared) GPU sizes let you tune cost and quality more finely.
 - You must install the graphics driver yourself, and only drivers distributed by Azure are supported. For NVIDIA sizes it must be the GRID driver, not the CUDA driver.
 - You turn on the features with a policy in Intune or Group Policy, then restart the session host. The policy names include "Use hardware graphics adapters for all Remote Desktop Services sessions" and "Configure H.264/AVC hardware encoding for Remote Desktop connections". The page warns that if you turn on "Prioritize H.264/AVC 444 Graphics mode" but not the hardware encoding policy, the CPU may still do the encoding.
@@ -204,9 +204,9 @@ az vm list-usage --location "Central US" -o table
 
 More points from the documentation:
 
-- The limit on session hosts you can create in one step differs by page: 400 on the regional host pools page, 500 on the session host configuration deployment page, and about 132 for each template run in the FAQ (800 template objects, about 6 per VM). Quota can lower all of them. Check the page for your method.
+- The limit on session hosts you can create in one step differs by page: 400 on the [regional host pools page](https://learn.microsoft.com/en-us/azure/virtual-desktop/regional-host-pools), 500 on the [session host configuration deployment page](https://learn.microsoft.com/en-us/azure/virtual-desktop/deploy-azure-virtual-desktop#create-a-host-pool-with-a-session-host-configuration), and about 132 for each template run in the [FAQ](https://learn.microsoft.com/en-us/azure/virtual-desktop/faq#is-there-a-scale-limit-for-host-pools-created-in-the-azure-portal) (800 template objects, about 6 per VM). Quota can lower all of them. Check the page for your method.
 - When you run a session host update, the service checks the subnet and the core quota first. The check does not guarantee capacity during the update, so the page says to keep the batch size within the remaining quota.
-- The prerequisites page says West US 3 is not supported for host pools that use a session host configuration. Regions can change. Checking the page first is my advice (judgement).
+- The [prerequisites page](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites#azure-regions) says West US 3 is not supported for automated host pools, which are host pools that use a session host configuration. Regions can change. Checking the page first is my advice (judgement).
 
 ## Keep the cost down
 

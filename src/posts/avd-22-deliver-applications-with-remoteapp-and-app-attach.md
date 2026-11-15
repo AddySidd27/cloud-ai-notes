@@ -70,7 +70,7 @@ To update an application that is installed in the image, you build a new image a
 
 - The host pool must be pooled (several users can share a session host) and deployed through Azure Resource Manager, the Azure deployment service, with the host pool in the same tenant as Intune.
 - The session hosts must be Microsoft Entra joined or hybrid joined (joined to both on-premises AD DS and Microsoft Entra ID), and enrolled in Intune.
-- The session hosts must run Azure Virtual Desktop agent version 1.0.2944.1400 or later.
+- The session hosts must run Azure Virtual Desktop agent version 1.0.2944.1400 or later ([Windows Enterprise multi-session remote desktops with Intune](https://learn.microsoft.com/en-us/intune/solutions/azure-virtual-desktop-multi-session#prerequisites)).
 - Session hosts joined to Microsoft Entra Domain Services cannot be managed with Intune. An image cloned from a computer that is already enrolled in Intune is not supported either.
 - The app must install in the system (device) context and be targeted to devices. Web apps are applied in the user context by default, so they do not apply.
 - The assignment intent (see Key terms) must be Required or Uninstall. The Available intent is not supported.
@@ -89,7 +89,7 @@ Documented benefits:
 
 - Applications are delivered as RemoteApp or as part of a desktop session. Permissions are set per application per user, and desktop users only see the App Attach applications assigned to them.
 - The same package can be used across several host pools.
-- Applications run on any session host with a supported Windows client or Windows server operating system, in the same Azure region as the package. The setup documentation says Windows Server 2022 and 2025 are supported as of April 14, 2026.
+- Applications run on any session host with a supported Windows client or Windows server operating system, in the same Azure region as the package. The [App Attach setup page](https://learn.microsoft.com/en-us/azure/virtual-desktop/app-attach-setup#prerequisites) says Windows Server 2022 and 2025 are supported as of April 14, 2026.
 - A new version is supplied as a new disk image, with no maintenance window.
 - Users can run several versions of the same application at once on the same session host.
 - Usage and health telemetry is available in Azure Log Analytics.
@@ -188,7 +188,7 @@ These are open conflicts or mismatches in Microsoft's pages as last checked in f
 | 3 | Self-signed certificates | The overview and setup pages say they are supported with the appropriate chain of trust. The certificate section of the overview says to use them only in a test environment and does not recommend distributing the certificate with Group Policy or Intune. | Not resolved. The pages do not reconcile these statements, and this article does not say whether self-signed certificates suit anything beyond a test environment. |
 | 4 | Azure NetApp Files identity | On the App Attach overview page, the permissions bullet says session hosts must be joined to AD DS or Microsoft Entra Domain Services, the file share paragraph says AD DS only, and the identity table says Microsoft Entra Domain Services is not supported. A link sentence under the Azure Files bullet also mentions Microsoft Entra Domain Services. | Not resolved. The page does not reconcile these statements, and this article does not say whether Microsoft Entra Domain Services can be used. Check the page. |
 | 5 | Intune and App Attach | The Intune multi-session page says "Azure Virtual Desktop RemoteApp and MSIX app attach aren't currently supported in Microsoft Intune". It uses the old name "MSIX app attach" and does not say what exactly is unsupported. The App Attach pages use Intune in other places, for example to set registry values and distribute certificates. | Not resolved. Do not assume either way. |
-| 6 | Module version | The setup page requires version 4.2.1 or later of the Az.DesktopVirtualization module. The RemoteApp publishing page (PowerShell tab) requires 4.2.0 or later to publish an App Attach application. | Not resolved. The pages do not explain the difference between the two minimums, and this article does not say which one applies to a given task. |
+| 6 | Module version | The [App Attach setup page](https://learn.microsoft.com/en-us/azure/virtual-desktop/app-attach-setup#prerequisites) requires version 4.2.1 or later of the Az.DesktopVirtualization module. The [RemoteApp publishing page](https://learn.microsoft.com/en-us/azure/virtual-desktop/publish-applications-stream-remoteapp#prerequisites) (PowerShell tab) requires 4.2.0 or later to publish an App Attach application. | Not resolved. The pages do not explain the difference between the two minimums, and this article does not say which one applies to a given task. |
 
 ## Common mistakes
 

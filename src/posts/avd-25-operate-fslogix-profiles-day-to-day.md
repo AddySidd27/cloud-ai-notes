@@ -170,7 +170,7 @@ Get-CloudCacheDisk
 Get-CloudCacheProvider
 ```
 
-`Get-CloudCacheDisk` lists the Cloud Cache disks for each signed-in user. Its State value can show that a sign-out is being held. For example, `WaitingForWriteQueueFlush` means the Cloud Cache service is waiting for all changes to reach the providers. Other states are `WaitingForSync`, `WaitingForZeroHandleCount` and `WaitingForUnhealthyProviders`.
+[`Get-CloudCacheDisk`](https://learn.microsoft.com/en-us/fslogix/utilities/powershell/get-cloudcachedisk) lists the Cloud Cache disks for each signed-in user. Its State value can show that a sign-out is being held. For example, `WaitingForWriteQueueFlush` means the Cloud Cache service is waiting for all changes to reach the providers. Other states are `WaitingForSync`, `WaitingForZeroHandleCount` and `WaitingForUnhealthyProviders`.
 
 `Get-CloudCacheProvider` shows each provider. Look at these values:
 
@@ -178,7 +178,7 @@ Get-CloudCacheProvider
 - **State.** `Valid` means in sync, `Invalid` means different from the local copy and will be synced, and `Replicating` means it is copying from a valid provider.
 - **Connected.** Whether the service is connected to the provider.
 - **AccessMode.** `NoAccess` can mean a problem with the provider, or that another machine holds the lock file.
-- **LastLockOperation.** The result of the last test of the lock file. It is tested every 60 seconds by default.
+- **LastLockOperation.** The result of the last test of the lock file. It is tested every 60 seconds by default ([Get-CloudCacheProvider](https://learn.microsoft.com/en-us/fslogix/utilities/powershell/get-cloudcacheprovider)).
 
 A provider with a long write queue, or one that keeps going `Invalid`, is the first suspect for slow sign-outs (judgement).
 
@@ -217,9 +217,9 @@ Learn calls the size on disk A, and the smallest size the disk can shrink to B. 
 - The disk must be dynamic. A fixed disk cannot be compacted.
 - The Optimize Drives service (`defragsvc`) and the Microsoft Storage Spaces SMP service (`smphost`) must not be set to Disabled. Manual or Automatic is fine, running or stopped. If either is Disabled, compaction fails.
 - The threshold is not configurable (FAQ).
-- Compaction runs for at most 5 minutes. If it hits the limit, the sign-out continues and the next sign-out resumes.
+- Compaction runs for at most 5 minutes ([VHD Disk Compaction](https://learn.microsoft.com/en-us/fslogix/concepts-vhd-disk-compaction#user-experience)). If it hits the limit, the sign-out continues and the next sign-out resumes.
 
-**What users see.** The message "Waiting for FSLogix Apps Services" shows during sign-out. The page says an average run takes 20 to 30 seconds. The first run is the longest. Windows logs a Winlogon (Windows sign-in process) warning when a sign-out passes 60 seconds. The page calls these warnings normal and expected.
+**What users see.** The message "Waiting for FSLogix Apps Services" shows during sign-out. The [compaction page](https://learn.microsoft.com/en-us/fslogix/concepts-vhd-disk-compaction#user-experience) says an average run takes 20 to 30 seconds. The first run is the longest. Windows logs a Winlogon (Windows sign-in process) warning when a sign-out passes 60 seconds. The page calls these warnings normal and expected.
 
 **A reconnect problem.** If a user disconnects during sign-out and signs in again before compaction ends, the disk is still in use. In a default setup the user gets a temporary profile.
 
@@ -227,7 +227,7 @@ Learn calls the size on disk A, and the smallest size the disk can shrink to B. 
 
 **If it does not run.** Look in three places.
 
-- **The profile log.** It is in `C:\ProgramData\FSLogix\Logs\Profile`. By default FSLogix keeps about 2 days of logs (`LogFileKeepingPeriod`), so look soon after a problem. The default `LoggingLevel` is 1, which logs info, warnings and errors. Search for `[ERROR:`. The troubleshooting page lists `ERROR:00000422` (the Optimize Drives service is disabled) and `ERROR:00000102` (FSLogix could not query the minimum size).
+- **The profile log.** It is in `C:\ProgramData\FSLogix\Logs\Profile`. By default FSLogix keeps about 2 days of logs (`LogFileKeepingPeriod`, [settings reference](https://learn.microsoft.com/en-us/fslogix/reference-configuration-settings#fslogix-settings-profile,-odfc,-cloud-cache,-logging)), so look soon after a problem. The default `LoggingLevel` is 1, which logs info, warnings and errors. Search for `[ERROR:`. The [Troubleshooting VHD Disk Compaction](https://learn.microsoft.com/en-us/fslogix/troubleshooting-vhd-disk-compaction) page lists `ERROR:00000422` ("The defragsvc is disabled") and `ERROR:00000102` ("Failed to query minimum supported size") under one heading. Its fix is to set the Optimize Drives (`defragsvc`) and Microsoft Storage Spaces SMP (`smphost`) services to Manual or Automatic.
 - **The result line.** Search the log for `Disk size results`. A line with `WasCompacted: true` shows a compaction that ran. A line with `WasCompacted: false` is followed by a line that gives the reason.
 - **The event logs.** In Event Viewer, go to Applications and Services Logs, Microsoft, FSLogix, Apps.
 
