@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 960 620" width="960" height="620" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+<title id="t">From workload to a session host VM: four steps</title>
+<desc id="d">Four numbered steps. Step 1, know the workload: light, medium, heavy or power, and single-session or multi-session. Step 2, choose the VM, which has four choices: size, GPU, OS disk and security type. Step 3, Azure checks quota (per region and per VM family) and capacity (free machines of that size). If both are fine, Azure creates the VM and you go to step 4. If not, go back to step 2 and change the size, zone or region, or request more quota. Step 4, after it runs: measure with AVD Insights and resize if needed, use autoscale to start and stop hosts, and use savings plans or reserved instances to lower the price.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
+<rect x="6" y="6" width="948" height="608" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
+<text x="480.0" y="30" font-size="20" font-weight="600" text-anchor="middle" fill="#1f2933">From workload to a session host VM: four steps</text>
+<rect x="30" y="70" width="180" height="300" rx="8" fill="#f7f8fa" stroke="#d5dae1" stroke-width="1.5"/>
+<image x="88" y="84" width="64" height="64" href="data:image/svg+xml;base64,PHN2ZyBpZD0iYTI2ZTdkMGQtYzE1OS00MzdjLTg0NWUtNTI5NzI2ZjNkZjllIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImFlYTU3NmU1LWZlZjgtNGJmNS1hNmRkLTU5MGMwNzVhMDhjNSIgeDE9IjguMzQiIHkxPSIxMS45NiIgeDI9IjguMzQiIHkyPSIxLjg2IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZDJlYmZmIiAvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2YwZmZmZCIgLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iYWUxNjExY2QtNGNmMS00ZWQxLWI1ZTEtZGIxOTIyMGVlNTg2IiB4MT0iMTQuMTUiIHkxPSIyMC40MSIgeDI9IjE0LjE1IiB5Mj0iMi4zNCIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzAwNzhkNCIgLz48c3RvcCBvZmZzZXQ9IjAuMTciIHN0b3AtY29sb3I9IiMxYzg0ZGMiIC8+PHN0b3Agb2Zmc2V0PSIwLjM4IiBzdG9wLWNvbG9yPSIjMzk5MGU0IiAvPjxzdG9wIG9mZnNldD0iMC41OSIgc3RvcC1jb2xvcj0iIzRkOTllYSIgLz48c3RvcCBvZmZzZXQ9IjAuOCIgc3RvcC1jb2xvcj0iIzVhOWVlZSIgLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM1ZWEwZWYiIC8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImJiMGE2NTFiLWJiOTctNDU2OS1hMjNlLTVmZWQ1NmMxZTM1OSIgeDE9IjE0LjE1IiB5MT0iMTUuNTMiIHgyPSIxNC4xNSIgeTI9IjUuMiIgaHJlZj0iI2FlYTU3NmU1LWZlZjgtNGJmNS1hNmRkLTU5MGMwNzVhMDhjNSIgLz48L2RlZnM+PHRpdGxlPkljb24taW50dW5lLTMzMjwvdGl0bGU+PHJlY3QgeT0iMS4wMyIgd2lkdGg9IjE2LjY4IiBoZWlnaHQ9IjExLjg3IiByeD0iMC42IiBmaWxsPSIjMDA3OGQ0IiAvPjxyZWN0IHg9IjAuOTciIHk9IjEuODYiIHdpZHRoPSIxNC43NCIgaGVpZ2h0PSIxMC4xIiByeD0iMC4zIiBvcGFjaXR5PSIwLjkiIGZpbGw9InVybCgjYWVhNTc2ZTUtZmVmOC00YmY1LWE2ZGQtNTkwYzA3NWEwOGM1KSIgLz48cmVjdCB4PSIxMC4zIiB5PSI0LjEyIiB3aWR0aD0iNy43IiBoZWlnaHQ9IjEyLjg1IiByeD0iMC4zIiBmaWxsPSJ1cmwoI2FlMTYxMWNkLTRjZjEtNGVkMS1iNWUxLWRiMTkyMjBlZTU4NikiIC8+PHJlY3QgeD0iMTMuMjciIHk9IjQuNTUiIHdpZHRoPSIxLjc3IiBoZWlnaHQ9IjAuMjQiIHJ4PSIwLjExIiBmaWxsPSIjZjJmMmYyIiAvPjxyZWN0IHg9IjExLjAzIiB5PSI1LjIiIHdpZHRoPSI2LjI1IiBoZWlnaHQ9IjEwLjMzIiByeD0iMC4xNCIgb3BhY2l0eT0iMC45IiBmaWxsPSJ1cmwoI2JiMGE2NTFiLWJiOTctNDU2OS1hMjNlLTVmZWQ1NmMxZTM1OSkiIC8+PHJlY3QgeD0iNy40OCIgeT0iMS40IiB3aWR0aD0iMS43NyIgaGVpZ2h0PSIwLjI0IiByeD0iMC4xMSIgZmlsbD0iI2YyZjJmMiIgLz48cmVjdCB4PSIxMy43MiIgeT0iMTUuOTYiIHdpZHRoPSIwLjg2IiBoZWlnaHQ9IjAuNzMiIHJ4PSIwLjIiIGZpbGw9IiNmMmYyZjIiIC8+PC9zdmc+"/>
+<text x="120.0" y="172" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">1. Know the workload</text>
+<text x="120.0" y="200" font-size="13" text-anchor="middle" fill="#1f2933">Light, medium, heavy</text>
+<text x="120.0" y="220" font-size="13" text-anchor="middle" fill="#1f2933">or power.</text>
+<text x="120.0" y="260" font-size="13" text-anchor="middle" fill="#1f2933">Single-session:</text>
+<text x="120.0" y="280" font-size="13" text-anchor="middle" fill="#1f2933">one user on each VM.</text>
+<text x="120.0" y="320" font-size="13" text-anchor="middle" fill="#1f2933">Multi-session:</text>
+<text x="120.0" y="340" font-size="13" text-anchor="middle" fill="#1f2933">many users on each VM.</text>
+<line x1="212" y1="220" x2="248" y2="220" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="250" y="70" width="420" height="300" rx="8" fill="#f7f8fa" stroke="#d5dae1" stroke-width="1.5"/>
+<image x="266" y="80" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyBpZD0iZmQ0NTRmMWMtNTUwNi00NGI4LTg3NGUtODgxNGI4YjJmNzBiIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImYzNGQ5NTY5LTJiZDAtNDAwMi04ZjE2LTNkMDFkODEwNmNiNSIgeDE9IjguODgiIHkxPSIxMi4yMSIgeDI9IjguODgiIHkyPSIwLjIxIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMDA3OGQ0IiAvPjxzdG9wIG9mZnNldD0iMC44MiIgc3RvcC1jb2xvcj0iIzVlYTBlZiIgLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iYmRiNDVhMGItZWI1OC00OTcwLWE2MGEtZmIyY2UzMTRmODY2IiB4MT0iOC44OCIgeTE9IjE2Ljg0IiB4Mj0iOC44OCIgeTI9IjEyLjIxIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agb2Zmc2V0PSIwLjE1IiBzdG9wLWNvbG9yPSIjY2NjIiAvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzcwNzA3MCIgLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48dGl0bGU+SWNvbi1jb21wdXRlLTIxPC90aXRsZT48cmVjdCB4PSItMC4xMiIgeT0iMC4yMSIgd2lkdGg9IjE4IiBoZWlnaHQ9IjEyIiByeD0iMC42IiBmaWxsPSJ1cmwoI2YzNGQ5NTY5LTJiZDAtNDAwMi04ZjE2LTNkMDFkODEwNmNiNSkiIC8+PHBvbHlnb24gcG9pbnRzPSIxMS44OCA0LjQ2IDExLjg4IDcuOTUgOC44OCA5LjcxIDguODggNi4yMSAxMS44OCA0LjQ2IiBmaWxsPSIjNTBlNmZmIiAvPjxwb2x5Z29uIHBvaW50cz0iMTEuODggNC40NiA4Ljg4IDYuMjIgNS44OCA0LjQ2IDguODggMi43MSAxMS44OCA0LjQ2IiBmaWxsPSIjYzNmMWZmIiAvPjxwb2x5Z29uIHBvaW50cz0iOC44OCA2LjIyIDguODggOS43MSA1Ljg4IDcuOTUgNS44OCA0LjQ2IDguODggNi4yMiIgZmlsbD0iIzljZWJmZiIgLz48cG9seWdvbiBwb2ludHM9IjUuODggNy45NSA4Ljg4IDYuMjEgOC44OCA5LjcxIDUuODggNy45NSIgZmlsbD0iI2MzZjFmZiIgLz48cG9seWdvbiBwb2ludHM9IjExLjg4IDcuOTUgOC44OCA2LjIxIDguODggOS43MSAxMS44OCA3Ljk1IiBmaWxsPSIjOWNlYmZmIiAvPjxwYXRoIGQ9Ik0xMi40OSwxNS44NGMtMS43OC0uMjgtMS44NS0xLjU2LTEuODUtMy42M0g3LjExYzAsMi4wNy0uMDYsMy4zNS0xLjg0LDMuNjNhMSwxLDAsMCwwLS44OSwxaDlBMSwxLDAsMCwwLDEyLjQ5LDE1Ljg0WiIgZmlsbD0idXJsKCNiZGI0NWEwYi1lYjU4LTQ5NzAtYTYwYS1mYjJjZTMxNGY4NjYpIiAvPjwvc3ZnPg=="/>
+<text x="318" y="106" font-size="15" font-weight="600" text-anchor="start" fill="#1f2933">2. Choose the VM: four choices</text>
+<rect x="266" y="134" width="190" height="108" rx="8" fill="#eaf2fb" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="361.0" y="156" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Size</text>
+<text x="361.0" y="176" font-size="12.5" text-anchor="middle" fill="#1f2933">How many vCPUs and how</text>
+<text x="361.0" y="193" font-size="12.5" text-anchor="middle" fill="#1f2933">much memory. The number</text>
+<text x="361.0" y="210" font-size="12.5" text-anchor="middle" fill="#1f2933">in the name is the vCPUs</text>
+<text x="361.0" y="227" font-size="12.5" text-anchor="middle" fill="#1f2933">(D16ds_v5 = 16 vCPUs).</text>
+<rect x="472" y="134" width="190" height="108" rx="8" fill="#eaf2fb" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="567.0" y="156" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">GPU (optional)</text>
+<text x="567.0" y="176" font-size="12.5" text-anchor="middle" fill="#1f2933">Only for graphics apps or</text>
+<text x="567.0" y="193" font-size="12.5" text-anchor="middle" fill="#1f2933">very high-resolution</text>
+<text x="567.0" y="210" font-size="12.5" text-anchor="middle" fill="#1f2933">screens. Needs an N size</text>
+<text x="567.0" y="227" font-size="12.5" text-anchor="middle" fill="#1f2933">and a driver from Azure.</text>
+<rect x="266" y="252" width="190" height="108" rx="8" fill="#eaf2fb" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="361.0" y="274" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">OS disk</text>
+<text x="361.0" y="294" font-size="12.5" text-anchor="middle" fill="#1f2933">The disk Windows runs on.</text>
+<text x="361.0" y="311" font-size="12.5" text-anchor="middle" fill="#1f2933">Managed disk (normal), or</text>
+<text x="361.0" y="328" font-size="12.5" text-anchor="middle" fill="#1f2933">ephemeral = local VM</text>
+<text x="361.0" y="345" font-size="12.5" text-anchor="middle" fill="#1f2933">storage (check status).</text>
+<rect x="472" y="252" width="190" height="108" rx="8" fill="#eaf2fb" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="567.0" y="274" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Security type</text>
+<text x="567.0" y="294" font-size="12.5" text-anchor="middle" fill="#1f2933">Standard, Trusted launch</text>
+<text x="567.0" y="311" font-size="12.5" text-anchor="middle" fill="#1f2933">or Confidential. Trusted</text>
+<text x="567.0" y="328" font-size="12.5" text-anchor="middle" fill="#1f2933">launch needs a</text>
+<text x="567.0" y="345" font-size="12.5" text-anchor="middle" fill="#1f2933">Generation 2 VM.</text>
+<line x1="672" y1="220" x2="708" y2="220" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="710" y="70" width="220" height="300" rx="8" fill="#f7f8fa" stroke="#d5dae1" stroke-width="1.5"/>
+<image x="722" y="80" width="40" height="40" href="data:image/svg+xml;base64,PHN2ZyBpZD0iZTRlNzY0Y2QtMmU3My00NzJmLWI4OGEtYmY4YmZjMmMyOTk0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9ImFjOGIzMmRhLTMwY2EtNGI5Mi04ZDBmLThkMmQ1ZWYyNzhhMCIgY3g9IjUuNzIiIGN5PSI3LjQ1IiByPSI4LjQyIiBncmFkaWVudFRyYW5zZm9ybT0idHJhbnNsYXRlKDMuMjMgMS41MSkgc2NhbGUoMS4wMSAxLjAxKSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIG9mZnNldD0iMC4xOCIgc3RvcC1jb2xvcj0iIzVlYTBlZiIgLz48c3RvcCBvZmZzZXQ9IjAuNTYiIHN0b3AtY29sb3I9IiM1YzlmZWUiIC8+PHN0b3Agb2Zmc2V0PSIwLjY5IiBzdG9wLWNvbG9yPSIjNTU5Y2VkIiAvPjxzdG9wIG9mZnNldD0iMC43OCIgc3RvcC1jb2xvcj0iIzRhOTdlOSIgLz48c3RvcCBvZmZzZXQ9IjAuODYiIHN0b3AtY29sb3I9IiMzOTkwZTQiIC8+PHN0b3Agb2Zmc2V0PSIwLjkzIiBzdG9wLWNvbG9yPSIjMjM4N2RlIiAvPjxzdG9wIG9mZnNldD0iMC45OSIgc3RvcC1jb2xvcj0iIzA4N2JkNiIgLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMwMDc4ZDQiIC8+PC9yYWRpYWxHcmFkaWVudD48cmFkaWFsR3JhZGllbnQgaWQ9ImE5OTU0ODIwLWNiMzgtNDk0My05ODQyLWYwYTU2OGQyYjAxNSIgY3g9IjI4LjE4IiBjeT0iMjAyLjI5IiByPSIyLjciIGdyYWRpZW50VHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE3Ljc3IC0xODUuMDEpIHNjYWxlKDAuOTUpIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agb2Zmc2V0PSIwLjE5IiBzdG9wLWNvbG9yPSIjOGM4ZTkwIiAvPjxzdG9wIG9mZnNldD0iMC4zNSIgc3RvcC1jb2xvcj0iIzg0ODY4OCIgLz48c3RvcCBvZmZzZXQ9IjAuNiIgc3RvcC1jb2xvcj0iIzZlNzA3MSIgLz48c3RvcCBvZmZzZXQ9IjAuOTEiIHN0b3AtY29sb3I9IiM0YTRiNGMiIC8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjM2UzZjNmIiAvPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPjx0aXRsZT5JY29uLW1hbmFnZS0zMTc8L3RpdGxlPjxlbGxpcHNlIGN4PSI5IiBjeT0iOSIgcng9IjguNSIgcnk9IjguNDciIGZpbGw9InVybCgjYWM4YjMyZGEtMzBjYS00YjkyLThkMGYtOGQyZDVlZjI3OGEwKSIgLz48ZWxsaXBzZSBjeD0iOSIgY3k9IjkiIHJ4PSI3LjQiIHJ5PSI3LjM3IiBmaWxsPSIjZmZmIiAvPjxwYXRoIGQ9Ik0yLjcyLDkuNDRhNi4yNCw2LjI0LDAsMCwwLDEuODIsNGwyLTJhMy41MywzLjUzLDAsMCwxLTEtMloiIGZpbGw9IiM5Y2ViZmYiIC8+PHBhdGggZD0iTTEzLjEzLDQuMjdBNi4yNSw2LjI1LDAsMCwwLDkuNDQsMi43NFY1LjUzYTMuNDEsMy40MSwwLDAsMSwxLjcxLjdaIiBmaWxsPSIjMzJiZWRkIiAvPjxwYXRoIGQ9Ik00Ljg3LDQuMjdsMiwyYTMuNDEsMy40MSwwLDAsMSwxLjcxLS43VjIuNzRBNi4yNSw2LjI1LDAsMCwwLDQuODcsNC4yN1oiIGZpbGw9IiMzMmJlZGQiIC8+PHBhdGggZD0iTTExLjc4LDYuODVhMy42LDMuNiwwLDAsMSwuNzEsMS43MWgyLjc5YTYuMTYsNi4xNiwwLDAsMC0xLjUzLTMuNjdaIiBmaWxsPSIjMzJiZWRkIiAvPjxwYXRoIGQ9Ik02LjIyLDYuODVsLTItMkE2LjE2LDYuMTYsMCwwLDAsMi43Miw4LjU2SDUuNTFBMy42LDMuNiwwLDAsMSw2LjIyLDYuODVaIiBmaWxsPSIjNTBlNmZmIiAvPjxwYXRoIGQ9Ik0xNC4xNCw3YS40NS40NSwwLDAsMC0uNTctLjI1TDkuNDUsOC40MWwuMzIuODEsNC4xMi0xLjYzQS40NC40NCwwLDAsMCwxNC4xNCw3WiIgZmlsbD0iI2YwNDA0OSIgLz48ZWxsaXBzZSBjeD0iOSIgY3k9IjkiIHJ4PSIxLjIiIHJ5PSIxLjIiIGZpbGw9InVybCgjYTk5NTQ4MjAtY2IzOC00OTQzLTk4NDItZjBhNTY4ZDJiMDE1KSIgLz48L3N2Zz4="/>
+<text x="768" y="100" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">3. Azure checks,</text>
+<text x="768" y="118" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">then builds the VM</text>
+<rect x="722" y="134" width="196" height="80" rx="8" fill="#f3eeff" stroke="#b9a6f0" stroke-width="1.5"/>
+<text x="820.0" y="156" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">Quota</text>
+<text x="820.0" y="174" font-size="12" text-anchor="middle" fill="#1f2933">How many vCPUs you may use.</text>
+<text x="820.0" y="190" font-size="12" text-anchor="middle" fill="#1f2933">Counted per region and per</text>
+<text x="820.0" y="206" font-size="12" text-anchor="middle" fill="#1f2933">VM family.</text>
+<rect x="722" y="222" width="196" height="98" rx="8" fill="#f3eeff" stroke="#b9a6f0" stroke-width="1.5"/>
+<text x="820.0" y="244" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">Capacity</text>
+<text x="820.0" y="262" font-size="12" text-anchor="middle" fill="#1f2933">Different from quota. You</text>
+<text x="820.0" y="278" font-size="12" text-anchor="middle" fill="#1f2933">can have quota and still</text>
+<text x="820.0" y="294" font-size="12" text-anchor="middle" fill="#1f2933">find no free machines of</text>
+<text x="820.0" y="310" font-size="12" text-anchor="middle" fill="#1f2933">that size in the region.</text>
+<text x="820.0" y="346" font-size="12" font-weight="600" text-anchor="middle" fill="#1f2933">Automatic when you click Create.</text>
+<rect x="626" y="392" width="164" height="80" rx="8" fill="#fff0e5" stroke="#f0b48a" stroke-width="1.5"/>
+<text x="708.0" y="412" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">Fail</text>
+<text x="708.0" y="430" font-size="12" text-anchor="middle" fill="#1f2933">Change size, zone</text>
+<text x="708.0" y="446" font-size="12" text-anchor="middle" fill="#1f2933">or region, or request</text>
+<text x="708.0" y="462" font-size="12" text-anchor="middle" fill="#1f2933">more quota.</text>
+<rect x="798" y="392" width="132" height="80" rx="8" fill="#e7f6ec" stroke="#8bcb9f" stroke-width="1.5"/>
+<text x="864.0" y="412" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">Pass</text>
+<text x="864.0" y="429" font-size="11.5" text-anchor="middle" fill="#1f2933">Quota and capacity</text>
+<text x="864.0" y="444" font-size="11.5" text-anchor="middle" fill="#1f2933">are OK. Azure creates</text>
+<text x="864.0" y="459" font-size="11.5" text-anchor="middle" fill="#1f2933">the VM.</text>
+<line x1="730" y1="372" x2="730" y2="390" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<line x1="864" y1="372" x2="864" y2="390" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<polyline points="626,428 470,428 470,372" fill="none" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<text x="550.0" y="418" font-size="12" font-weight="600" text-anchor="middle" fill="#1f2933">Go back to step 2</text>
+<polyline points="864,472 864,488" fill="none" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="30" y="490" width="900" height="92" rx="8" fill="#f7f8fa" stroke="#d5dae1" stroke-width="1.5"/>
+<text x="46" y="512" font-size="15" font-weight="600" text-anchor="start" fill="#1f2933">4. After it runs: measure, tune and save money</text>
+<text x="180.0" y="540" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">AVD Insights</text>
+<text x="180.0" y="562" font-size="13" text-anchor="middle" fill="#5f6b7a">watch CPU, memory, delay; resize if needed</text>
+<text x="480.0" y="540" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Autoscale</text>
+<text x="480.0" y="562" font-size="13" text-anchor="middle" fill="#5f6b7a">starts and stops hosts</text>
+<text x="780.0" y="540" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Savings plans, reserved instances</text>
+<text x="780.0" y="562" font-size="13" text-anchor="middle" fill="#5f6b7a">lower the price if you commit for a set time</text>
+<text x="480.0" y="608" font-size="12" text-anchor="middle" fill="#5f6b7a">Drawn by the author from Microsoft Learn pages, with Azure icons. Not an official Microsoft diagram.</text>
+</svg>

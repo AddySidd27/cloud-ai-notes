@@ -36,6 +36,8 @@ export default {
   122: { tags: ["AVD", "RemoteApp", "App Attach"], published: "2026-10-21" },
   // PENDING: publication date for order 123 is a placeholder; the author assigns the real date at approval.
   123: { tags: ["AVD", "Networking", "Performance", "QoS"], published: "2026-11-14" },
+  // PENDING: publication date for order 124 is a placeholder; the author assigns the real date at approval.
+  124: { tags: ["AVD", "Session hosts", "VM sizing", "GPU"], published: "2026-11-14" },
 
 
 
