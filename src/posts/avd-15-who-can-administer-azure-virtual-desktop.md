@@ -77,7 +77,9 @@ Three more roles exist for the service itself. They let the AVD resource provide
 
 Do not confuse the last one with the general Azure Virtual Machine Contributor role in the table above.
 
-You give these roles to the Azure Virtual Desktop service principal, not to people. For Start VM on Connect and power management autoscale, a managed identity on the host pool also works. For dynamic autoscale, the Learn page names only the service principal. The page [Assign Azure RBAC roles or Microsoft Entra roles to the Azure Virtual Desktop service principals](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-principal-assign-roles) shows how. To assign them you need the `Microsoft.Authorization/roleAssignments/write` permission, which User Access Administrator and Owner include ([prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-principal-assign-roles#prerequisites)).
+You give these roles to the Azure Virtual Desktop service principal, not to people. For Start VM on Connect and power management autoscale, a managed identity on the host pool also works. For dynamic autoscale, the Learn page names only the service principal.
+
+The page [Assign Azure RBAC roles or Microsoft Entra roles to the Azure Virtual Desktop service principals](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-principal-assign-roles) shows how. To assign them you need the `Microsoft.Authorization/roleAssignments/write` permission, which User Access Administrator and Owner include ([prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-principal-assign-roles#prerequisites)).
 
 | Feature | Roles | Scope |
 |---|---|---|
@@ -160,4 +162,8 @@ Next: [Required Connectivity for Azure Virtual Desktop: Endpoints, Proxies, DNS 
 
 ## Sources
 
-[Built-in Azure RBAC roles for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rbac), [Microsoft Entra joined session hosts](https://learn.microsoft.com/en-us/azure/virtual-desktop/azure-ad-joined-session-hosts) [Create and assign an autoscale scaling plan](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-create-assign-scaling-plan), [Configure Start VM on Connect](https://learn.microsoft.com/en-us/azure/virtual-desktop/start-virtual-machine-connect) and [Assign Azure RBAC roles or Microsoft Entra roles to the Azure Virtual Desktop service principals](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-principal-assign-roles).
+- [Built-in Azure RBAC roles for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rbac)
+- [Microsoft Entra joined session hosts](https://learn.microsoft.com/en-us/azure/virtual-desktop/azure-ad-joined-session-hosts)
+- [Create and assign an autoscale scaling plan](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-create-assign-scaling-plan)
+- [Configure Start VM on Connect](https://learn.microsoft.com/en-us/azure/virtual-desktop/start-virtual-machine-connect)
+- [Assign Azure RBAC roles or Microsoft Entra roles to the Azure Virtual Desktop service principals](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-principal-assign-roles)

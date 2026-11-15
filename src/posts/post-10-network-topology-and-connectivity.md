@@ -48,18 +48,17 @@ next_title: "Security"
 tags: [alz]
 ---
 
-
-
 In [the business requirements post](/azure-landing-zone/business-requirements-compliance-region-recovery-connectivity-and-cost/) you met connectivity as one of the five business requirements. In [the platform scope post](/azure-landing-zone/platform-scope-and-workload-boundaries/) and [the resource organization post](/azure-landing-zone/resource-organization/) you saw where the Connectivity, Corp and Online management groups sit. This post answers the next question: how should the networks themselves be laid out? VPN Gateway and ExpressRoute are the two ways to link Azure to your own network. The key terms table explains both.
 
-It matters early because network topology and connectivity are fundamental when you plan a landing zone design, and networking is central to almost everything inside one. It enables connectivity to other Azure services, to external users and to on-premises systems. Your topology defines how workloads communicate with one another. Your design should also include any hybrid or multicloud connections you plan (multicloud means using more than one cloud provider), and the traffic you expect on them. [The business requirements post](/azure-landing-zone/business-requirements-compliance-region-recovery-connectivity-and-cost/) covers connectivity as a business requirement. This post covers the layout around the links.
+It matters early because network topology and connectivity are fundamental when you plan a landing zone design, and networking is central to almost everything inside one. It enables connectivity to other Azure services, to external users and to on-premises systems. Your topology defines how workloads communicate with one another.
 
+Your design should also include any hybrid or multicloud connections you plan (multicloud means using more than one cloud provider), and the traffic you expect on them. [The business requirements post](/azure-landing-zone/business-requirements-compliance-region-recovery-connectivity-and-cost/) covers connectivity as a business requirement. This post covers the layout around the links.
 
 ## Key terms
 
 Earlier posts covered landing zone, workload, platform team, management group, subscription, resource group, virtual network, subnet, hybrid connectivity, Azure Firewall, private DNS zone, the Connectivity subscription, Corp, Online, tenant, Azure Policy and subscription vending. The table below defines the words this post depends on most. Other new words are explained where they first appear.
 
-| Word | What it means |
+| Term | Meaning |
 |---|---|
 | Hub | The central virtual network that holds shared services, such as a firewall and gateways. |
 | Spoke | A workload virtual network that connects to the hub. |
@@ -199,7 +198,6 @@ Plan IP addressing in advance so that address space does not overlap across on-p
 
 *Simplified diagram based on [Traditional Azure networking topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology) and [Virtual WAN network topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/virtual-wan-network-topology), with a Connectivity subscription on the left and a workload landing zone subscription on the right. Region 1 is the first region. Region N means any further region. Lines have arrowheads at both ends because traffic flows both ways. A Virtual WAN hub with security and routing policies from Azure Firewall Manager is a secured virtual hub; here that is Azure Firewall. Both topologies show UDRs and NSGs in the spoke virtual networks. The words "private zones" come from the design area page. Left out: Azure Firewall policies, the DNS Private Resolver, monitoring and management icons, resource groups, application components and compliant virtual machine templates. Icons are from the official [Azure architecture icon set](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
-
 ## Common mistakes
 
 - **Overlapping IP address spaces.** This creates major contention challenges, so plan non-overlapping space across Azure regions and on-premises in advance.
@@ -222,7 +220,12 @@ Agreeing the topology, the address plan, the internet exit path (the route outbo
 - Network topology and connectivity, with hub and spoke responsibilities and the decisions to make before deployment: [networking.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/networking.md)
 - Hub-spoke, Virtual WAN, VPN and ExpressRoute, with the questions to ask before choosing: [connectivity-options.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/connectivity-options.md)
 
+Next: [Security](/azure-landing-zone/security/).
+
 ## Sources
 
-Microsoft Learn, checked October 2026: [Network topology and connectivity](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/network-topology-and-connectivity) · [Traditional Azure networking topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology) · [Virtual WAN network topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/virtual-wan-network-topology)
+Microsoft Learn, checked October 2026:
 
+- [Network topology and connectivity](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/network-topology-and-connectivity)
+- [Traditional Azure networking topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology)
+- [Virtual WAN network topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/virtual-wan-network-topology)

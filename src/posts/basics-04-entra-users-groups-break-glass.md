@@ -8,6 +8,7 @@ tags: [azure-basics-lab]
 deck: "A test user, a security group, and two emergency-access admin accounts in a throwaway Entra tenant."
 description: "Create a standard Entra test user, a security group and two cloud-only emergency access accounts, and learn why they matter before Conditional Access."
 ---
+
 By the end of this lab you will have one standard test user, one security group with that user in it, two emergency-access (break-glass) Global Administrator accounts, and a second group named EmergencyAccess that holds those two accounts. Global Administrator is the most powerful role in Microsoft Entra. A break-glass account is a spare admin account that you keep for emergencies.
 
 I have not run these steps in a live tenant for this article. The steps follow Microsoft Learn (Microsoft's documentation site).
@@ -118,7 +119,7 @@ Most beginners have no security key. So here is the plan for this series.
 
 In a real tenant, also test each emergency account at least every 90 days, and alert on every sign-in to them. The Azure Monitor alert steps are on [Manage emergency access accounts](https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/security-emergency-access). This lab does not build the alert.
 
-Checkpoint: you now have everything that Lab 5 and Lab 7 need. The emergency accounts are only needed in Lab 6. You can stop here.
+Check: you now have everything that Lab 5 and Lab 7 need. The emergency accounts are only needed in Lab 6. You can stop here.
 
 ## Steps with the Azure CLI
 
@@ -165,15 +166,3 @@ Azure Virtual Desktop needs users who exist in Microsoft Entra ID. In AVD you as
 - [Manage emergency access accounts in Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/security-emergency-access)
 - [How to create, invite, and delete users](https://learn.microsoft.com/en-us/entra/fundamentals/how-to-create-delete-users)
 - [Manage Microsoft Entra groups and group membership](https://learn.microsoft.com/en-us/entra/fundamentals/how-to-manage-groups)
-- [Learn about group types, membership types, and access management](https://learn.microsoft.com/en-us/entra/fundamentals/concept-learn-about-groups)
-- [Assign user roles with Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/fundamentals/how-to-assign-roles-to-users)
-- [Problems signing in to a Microsoft application](https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/application-sign-in-problem-first-party-microsoft)
-- [Mandatory multifactor authentication for Azure and admin portals](https://learn.microsoft.com/en-us/entra/identity/authentication/concept-mandatory-multifactor-authentication)
-- [Security defaults in Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/fundamentals/security-defaults)
-- [Password policies and account restrictions in Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/identity/authentication/concept-sspr-policy)
-- [Tutorial: Enable users to unlock their account or reset passwords (SSPR)](https://learn.microsoft.com/en-us/entra/identity/authentication/tutorial-enable-sspr)
-- [Admin account security in Microsoft 365 for business](https://learn.microsoft.com/en-us/microsoft-365/admin/security-and-compliance/m365b-account-security-admins)
-- [Best practices for Microsoft Entra roles](https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/best-practices)
-- [az ad user](https://learn.microsoft.com/en-us/cli/azure/ad/user), [az ad group](https://learn.microsoft.com/en-us/cli/azure/ad/group), [az ad group member](https://learn.microsoft.com/en-us/cli/azure/ad/group/member)
-- [Zero Trust: Phase 1, secure the identity control plane (step 7, emergency accounts)](https://learn.microsoft.com/en-us/security/zero-trust/adopt/implement-privileged-access-identity#step-7-configure-emergency-accounts)
-- [Supported identities and authentication methods for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/authentication)

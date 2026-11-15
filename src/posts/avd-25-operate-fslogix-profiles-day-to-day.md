@@ -77,7 +77,6 @@ If you use standard containers, you can skip to "Keep containers from filling up
 
 *Source: [Cloud Cache overview](https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache). The picture is simplified. Its steps 4, 5 and 6 match steps 4, 5 and 6 in the list below. Its steps 1 to 3 combine list steps 1 to 3, and list step 7 is not drawn. `CcdUnregisterTimeout` is explained in "Set up Cloud Cache".*
 
-
 1. **First sign-in.** FSLogix creates a local container in `C:\ProgramData\FSLogix\Cache`. It copies data from a provider into it as Windows asks for it.
 2. **Later sign-ins.** By default FSLogix looks for the old local cache and mounts it. The Cloud Cache overview says this default can lead to low disk space events on the host.
 3. **During the session.** The user works on the local copy. A proxy file (`Profile_%username%.vhd`) is mounted as the container. It is not a true VHD, and its size on disk is zero.
@@ -259,7 +258,9 @@ The problem is a lock that should be gone. The Learn [locked-container page](htt
 | Use short retry values (from the tutorial, not the locked page) | The Cloud Cache tutorial sets `LockedRetryCount` 3, `LockedRetryInterval` 15, `ReAttachRetryCount` 3 and `ReAttachIntervalSeconds` 15 for a faster failure. Learn says these values make a failure show sooner. |
 | Check Cloud Cache state (from the PowerShell page) | In a Cloud Cache setup, `Get-CloudCacheProvider` can show `AccessMode` as `NoAccess`. That means a problem with the provider, or that another machine holds the lock file. |
 
-Run `frx.exe version` (in `C:\Program Files\FSLogix\Apps`) to see your FSLogix version. If you need help from Microsoft support, the FSLogix Support Tool collects the logs and settings for you. Check the Learn known issues page and the release notes before you roll out a new FSLogix version. One example: with profile containers and Office containers both turned on, `CleanupInvalidSessions` broke Office container create and mount in version 26.01. Learn says 26.01 CU1 (cumulative update 1) fixed it. The release notes also list fixes in FSLogix 26.08 for a sign-out deadlock with `CleanupInvalidSessions` and Office containers, and for a stuck container or storage provider that could block sign-ins and sign-outs.
+Run `frx.exe version` (in `C:\Program Files\FSLogix\Apps`) to see your FSLogix version. If you need help from Microsoft support, the FSLogix Support Tool collects the logs and settings for you. Check the Learn known issues page and the release notes before you roll out a new FSLogix version.
+
+One example: with profile containers and Office containers both turned on, `CleanupInvalidSessions` broke Office container create and mount in version 26.01. Learn says 26.01 CU1 (cumulative update 1) fixed it. The release notes also list fixes in FSLogix 26.08 for a sign-out deadlock with `CleanupInvalidSessions` and Office containers, and for a stuck container or storage provider that could block sign-ins and sign-outs.
 
 One more case from the Azure architecture page about two-region designs. Only one process can open a profile file in read and write mode. If a user starts sessions in both regions at the same time, the second session cannot mount the profile disk, so the user cannot sign in, and FSLogix logs `ERROR_LOCK_VIOLATION` 33 (0x21). Keep users from connecting to both host pools at once (judgement).
 
@@ -332,8 +333,10 @@ This checklist is my own, built from the pages above (judgement).
 7. This test is my own idea, not a documented procedure (judgement): end one test session abruptly on a test host, then sign in again. If the container stays locked, test `CleanupInvalidSessions`.
 8. Write down the settings you changed, and why.
 
+Next: [Troubleshoot AVD: Turn On the Logs and Learn to Read Them](/azure-virtual-desktop/troubleshoot-avd-start-here/).
+
 ## Sources
 
-[Cloud Cache overview](https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache), [VHD disk compaction](https://learn.microsoft.com/en-us/fslogix/concepts-vhd-disk-compaction) and [Troubleshooting container corruption or missing data](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-corruption).
-
-Other pages used, not linked here: the old, temporary or local profiles page, the known issues page, the release notes, the FSLogix FAQ, the Cloud Cache tutorial, the configuration settings reference, the container locked or in use page, the container size or low disk space page, the container attach and detach page, the FSLogix prerequisites page, the Microsoft.FSLogix PowerShell module pages, the VHD disk compaction troubleshooting page, and the multiregion BCDR page for Azure Virtual Desktop.
+- [Cloud Cache overview](https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache)
+- [VHD disk compaction](https://learn.microsoft.com/en-us/fslogix/concepts-vhd-disk-compaction)
+- [Troubleshooting container corruption or missing data](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-corruption)

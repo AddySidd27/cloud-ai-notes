@@ -356,7 +356,9 @@ az group delete --name "rg-azb-lab"
 
 ## Where this is used in AVD
 
-In AVD, user profiles with FSLogix are stored on a share like this one, and the session hosts reach it with the same Kerberos ticket and the same role. In the AVD portal you will see the share path in the FSLogix setting (`VHDLocations`). Large companies often sync users from on-premises Active Directory. That path needs a domain controller and is not in this series. Read [How FSLogix Profile Containers Work](/azure-virtual-desktop/how-fslogix-profile-containers-work/) for what a profile container is, and [Choose Storage and Set Access for FSLogix Profile Containers](/azure-virtual-desktop/choose-storage-and-set-access-for-fslogix-profile-containers/) for the storage choice, the two permission layers and where the Learn pages disagree about cloud-only users and FSLogix. This lab tests Azure Files with a cloud-only user. It does not test FSLogix.
+In AVD, user profiles with FSLogix are stored on a share like this one, and the session hosts reach it with the same Kerberos ticket and the same role. In the AVD portal you will see the share path in the FSLogix setting (`VHDLocations`). Large companies often sync users from on-premises Active Directory. That path needs a domain controller and is not in this series.
+
+Read [How FSLogix Profile Containers Work](/azure-virtual-desktop/how-fslogix-profile-containers-work/) for what a profile container is, and [Choose Storage and Set Access for FSLogix Profile Containers](/azure-virtual-desktop/choose-storage-and-set-access-for-fslogix-profile-containers/) for the storage choice, the two permission layers and where the Learn pages disagree about cloud-only users and FSLogix. This lab tests Azure Files with a cloud-only user. It does not test FSLogix.
 
 ## Next lab
 

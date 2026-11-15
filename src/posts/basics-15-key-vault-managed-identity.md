@@ -30,7 +30,7 @@ Azure Key Vault is a service that stores sensitive values, such as passwords and
 **State of your resources**
 
 | | At the start | At the end |
-| --- | --- | --- |
+|---|---|---|
 | VM `vm-azb-win01` | Stopped (deallocated), as Labs 12 to 14 leave it. Parts 1 to 3 do not need it running. | Stopped (deallocated) |
 | Rule `allow-rdp-my-ip` in `nsg-azb-vm` | Not there. You add it only if you use the Remote Desktop route in Part 4. | Not there |
 | Public IP `pip-azb-win01` | Exists. It stays. | Exists |
@@ -96,7 +96,9 @@ Check: the secret list shows `demo-secret` as enabled, and **Show Secret Value**
 
 ### Part 3: Give the VM's identity the reader role
 
-**Idea 3: managed identity.** Normally a program that wants a secret needs a password to ask for it, and that password has to be stored somewhere. That is the problem Key Vault is meant to remove, and a plain password would bring it back. With a managed identity, Azure creates an identity for the VM in Microsoft Entra ID and looks after its credentials. Your code on the VM asks a local address, `169.254.169.254`, for a token. That address belongs to the Azure Instance Metadata Service (IMDS), and only the VM itself can reach it. Microsoft Entra ID issues the token. It proves who the VM is. Nothing is stored on the VM. One thing to know: all code running on the VM can ask for that token, so the security boundary is the VM.
+**Idea 3: managed identity.** Normally a program that wants a secret needs a password to ask for it, and that password has to be stored somewhere. That is the problem Key Vault is meant to remove, and a plain password would bring it back. With a managed identity, Azure creates an identity for the VM in Microsoft Entra ID and looks after its credentials.
+
+Your code on the VM asks a local address, `169.254.169.254`, for a token. That address belongs to the Azure Instance Metadata Service (IMDS), and only the VM itself can reach it. Microsoft Entra ID issues the token. It proves who the VM is. Nothing is stored on the VM. One thing to know: all code running on the VM can ask for that token, so the security boundary is the VM.
 
 15. In your vault, open **Access control (IAM)** again. Select **Add** > **Add role assignment**.
 16. On the **Role** tab, select **Key Vault Secrets User**, then **Next**.

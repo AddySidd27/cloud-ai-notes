@@ -38,14 +38,11 @@ next_title: "Greenfield Rollout"
 tags: [alz]
 ---
 
-
-
 The earlier posts covered all eight design areas. Each one has many decisions. A new team can read all of that and think: "We must finish everything before we start."
 
 This is a possible failure mode (a way the project can go wrong) is spending months or years designing, engineering and refining the landing zone without meaningfully moving any workloads. It is better to start with modular pieces (small separate parts). With them you assemble a minimal landing zone that is secure, accessible and correctly governed. You add more pieces only when workloads require them.
 
 This post is written for teams that move workloads from on-premises (their own datacenter or office network) to Azure. In this post, "migration" means that move, and "first workload" means the first workload to move.
-
 
 The minimum viable platform landing zone is the smallest shared foundation that lets you run your first workload safely. It has seven capabilities (things the platform must be able to do). After them come ten readiness checks (tests that show the foundation works) to run before the first workload moves.
 
@@ -55,7 +52,7 @@ Earlier posts explain the basic Azure words used here, such as landing zone, wor
 
 The words below are the central ones for this post.
 
-| Word | What it means |
+| Term | Meaning |
 |---|---|
 | Platform landing zone | The shared foundation for the whole organization. It covers the whole organization, the platform team or central IT (the organization's main IT group) owns it, and you build the first version before any workload moves. |
 | Workload landing zone | The place for one workload. It is per workload, the workload team owns it, and it is prepared per workload during the execution phase of the migration. The execution phase is the part of a migration project where workloads are actually moved. |
@@ -120,7 +117,9 @@ If any workload has data residency, sovereignty (control of data by a country's 
 
 **Cost governance (a related decision, not one of the seven).** Set budgets (planned spending amounts that send alerts but do not stop spending) and alerts (messages that tell someone when spending gets near or over a budget) at the management group or subscription level before migration, and give someone the job of reviewing them. Cost allocation (working out which part of the bill belongs to which workload) is easier when each workload has its own subscription, but not every organization works that way.
 
-**Subscription vending (a related decision, not one of the seven; see [Subscription vending](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/subscription-vending) and [the resource organization post](/azure-landing-zone/resource-organization/)).** This is a platform decision: how workload subscriptions are requested, created with the right first settings, and attached to the right management group before the first migration. After you create the platform landing zone and your governance strategy, set up a consistent way to create subscriptions for workload owners. There are two infrastructure as code module options for subscription vending, one for Bicep and one for Terraform. They are most effective as part of an automated process.
+**Subscription vending (a related decision, not one of the seven; see [Subscription vending](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/subscription-vending) and [the resource organization post](/azure-landing-zone/resource-organization/)).** This is a platform decision: how workload subscriptions are requested, created with the right first settings, and attached to the right management group before the first migration.
+
+After you create the platform landing zone and your governance strategy, set up a consistent way to create subscriptions for workload owners. There are two infrastructure as code module options for subscription vending, one for Bicep and one for Terraform. They are most effective as part of an automated process.
 
 ## Hub network, hybrid connectivity and DNS (capabilities 3 and 4)
 
@@ -165,7 +164,9 @@ The platform landing zone replaces the old perimeter model (protecting only the 
 - How to request approved ingress.
 - How to keep exceptions visible.
 
-The "firewall or equivalent" in the capability list is one way to do this. The approved patterns include Azure Firewall. For ingress, the pattern is destination network address translation (DNAT). DNAT passes traffic that arrives at the firewall on to an internal address. For egress, the pattern is application and network rules for outbound filtering. Other Azure services also fit. For ingress: Azure Application Gateway, Azure Front Door, Azure Load Balancer and Azure Bastion. For egress: Azure NAT Gateway, user-defined routes that send outbound traffic through the hub, and Azure Firewall Premium TLS inspection. See [Azure landing zones for on-premises experts](https://learn.microsoft.com/en-us/azure/migration/migrate-from-on-premises-platform-landing-zone).
+The "firewall or equivalent" in the capability list is one way to do this. The approved patterns include Azure Firewall. For ingress, the pattern is destination network address translation (DNAT). DNAT passes traffic that arrives at the firewall on to an internal address. For egress, the pattern is application and network rules for outbound filtering. Other Azure services also fit.
+
+For ingress: Azure Application Gateway, Azure Front Door, Azure Load Balancer and Azure Bastion. For egress: Azure NAT Gateway, user-defined routes that send outbound traffic through the hub, and Azure Firewall Premium TLS inspection. See [Azure landing zones for on-premises experts](https://learn.microsoft.com/en-us/azure/migration/migrate-from-on-premises-platform-landing-zone).
 
 Also document the exceptions and emergency workflows, so that every public endpoint (a service address that can be reached from the public internet) has an owner, an inspection path and a review point. Every public IP address also needs an explicit DDoS protection decision. For cross-service communication where you do not want public exposure, use Azure Private Link and private endpoints.
 
@@ -223,7 +224,11 @@ These checks are the minimum. They are not a full landing zone design review, an
 
 ## Ways to deploy it
 
-The *Deploy Azure landing zones* page lists the standard platform deployment options: the Azure portal, Bicep and Terraform. All three are supported in Azure public clouds. For other Azure clouds (also called sovereign clouds), such as Azure Infrastructure Services for US Government Clouds and Azure operated by 21Vianet, all three deployment options are marked as not supported. The landing zone architecture itself is valid and supported in all Azure clouds, but the automated deployment is not provided for them. The platform team has to make manual configuration changes to the deployment assets, and only the Bicep and Terraform options can be modified for that. There is also a sovereign landing zone variant. It is a specialized implementation of the Azure landing zone reference architecture, for organizations with strict regulatory, compliance and data residency requirements that focus on sovereignty. Partner programs (for example Azure Accelerate) also help you design and implement a platform landing zone. Enterprise policy as code (EPAC) is another option, an alternative method to deploy, manage and operate Azure Policy across your organization's Azure estate, which you can use instead of the standard options to manage the policies in an Azure landing zone environment. [The platform automation post](/azure-landing-zone/platform-automation-and-devops/) covers the accelerator and Azure Verified Modules (ready-made deployment code from Microsoft), so I do not repeat them here.
+The *Deploy Azure landing zones* page lists the standard platform deployment options: the Azure portal, Bicep and Terraform. All three are supported in Azure public clouds. For other Azure clouds (also called sovereign clouds), such as Azure Infrastructure Services for US Government Clouds and Azure operated by 21Vianet, all three deployment options are marked as not supported. The landing zone architecture itself is valid and supported in all Azure clouds, but the automated deployment is not provided for them.
+
+The platform team has to make manual configuration changes to the deployment assets, and only the Bicep and Terraform options can be modified for that. There is also a sovereign landing zone variant. It is a specialized implementation of the Azure landing zone reference architecture, for organizations with strict regulatory, compliance and data residency requirements that focus on sovereignty. Partner programs (for example Azure Accelerate) also help you design and implement a platform landing zone.
+
+Enterprise policy as code (EPAC) is another option, an alternative method to deploy, manage and operate Azure Policy across your organization's Azure estate, which you can use instead of the standard options to manage the policies in an Azure landing zone environment. [The platform automation post](/azure-landing-zone/platform-automation-and-devops/) covers the accelerator and Azure Verified Modules (ready-made deployment code from Microsoft), so I do not repeat them here.
 
 After you deploy the platform landing zone, see [Keep your Azure landing zone up to date](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/keep-azure-landing-zone-up-to-date).
 
@@ -245,10 +250,10 @@ The seven capabilities are a list in the documentation, with no picture. The doc
 
 *Simplified diagram based on [Azure landing zones for on-premises experts](https://learn.microsoft.com/en-us/azure/migration/migrate-from-on-premises-platform-landing-zone). The documentation has no picture of this, so the layout is simplified. The arrows show the order: build the platform, check it, then land the first workload. The checks are explained in the readiness table above. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) architecture icon set.*
 
-
 ## Common mistakes
 
 **Planning and cost**
+
 - **Designing for months without moving a workload.** This is a possible failure mode. Start with a minimal landing zone and add pieces when workloads need them.
 - **Building the foundation by hand in the portal.** Use repeatable definitions, so changes are reviewable.
 - **No readiness check before the first workload.** The platform team must check that the foundation works before the migration teams begin planning.
@@ -256,6 +261,7 @@ The seven capabilities are a list in the documentation, with no picture. The doc
 - **Region rules added late.** Build data residency and regulatory needs into the baseline policy, and do not add them later.
 
 **Network**
+
 - **Moving a workload before connectivity is stable.** You might not be able to reach it.
 - **Overlapping IP address spaces.** Confirm there is no overlap with on-premises or existing Azure virtual networks.
 - **Waiting on ExpressRoute with no backup plan.** Plan on weeks or months, and run a VPN Gateway in parallel if dates cannot wait.
@@ -264,6 +270,7 @@ The seven capabilities are a list in the documentation, with no picture. The doc
 - **One virtual network, one subnet, everything inside.** Contention and weak segmentation show up quickly.
 
 **Ownership**
+
 - **No owner for DNS.** Give someone ownership of the private DNS zones and forwarding rules.
 - **Public endpoints with no owner.** Every public endpoint needs an owner, an inspection path and a review point.
 
@@ -275,7 +282,18 @@ From the list above, these came up in my own work: building the foundation by ha
 
 - Minimum viable platform landing zone: the seven capabilities, the readiness checks, what my repo's Terraform deploys for each capability today, and the gaps (my notes): [minimum-viable-platform-landing-zone.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/03-implementation/minimum-viable-platform-landing-zone.md)
 
+Next: [Greenfield Rollout](/azure-landing-zone/greenfield-rollout/).
+
 ## Sources
 
-Microsoft Learn, checked October 2026: [Azure landing zones for on-premises experts](https://learn.microsoft.com/en-us/azure/migration/migrate-from-on-premises-platform-landing-zone) · [Deploy Azure landing zones](https://learn.microsoft.com/en-us/azure/architecture/landing-zones/landing-zone-deploy) · [Azure landing zone design areas and conceptual architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-areas) · [VPN Gateway SKU consolidation](https://learn.microsoft.com/en-us/azure/vpn-gateway/gateway-sku-consolidation) · [Azure DNS Private Resolver overview](https://learn.microsoft.com/en-us/azure/dns/dns-private-resolver-overview) · [Azure DNS overview](https://learn.microsoft.com/en-us/azure/dns/dns-overview) · [Subscription vending](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/subscription-vending) · [Azure landing zones for on-premises experts: fundamentals](https://learn.microsoft.com/en-us/azure/migration/migrate-from-on-premises-fundamentals) · [Azure Landing Zone Review](https://learn.microsoft.com/en-us/assessments/21765fea-dfe6-4bc4-8bb7-db9df5a6f6c0/)
+Microsoft Learn, checked October 2026:
 
+- [Azure landing zones for on-premises experts](https://learn.microsoft.com/en-us/azure/migration/migrate-from-on-premises-platform-landing-zone)
+- [Deploy Azure landing zones](https://learn.microsoft.com/en-us/azure/architecture/landing-zones/landing-zone-deploy)
+- [Azure landing zone design areas and conceptual architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-areas)
+- [VPN Gateway SKU consolidation](https://learn.microsoft.com/en-us/azure/vpn-gateway/gateway-sku-consolidation)
+- [Azure DNS Private Resolver overview](https://learn.microsoft.com/en-us/azure/dns/dns-private-resolver-overview)
+- [Azure DNS overview](https://learn.microsoft.com/en-us/azure/dns/dns-overview)
+- [Subscription vending](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/subscription-vending)
+- [Azure landing zones for on-premises experts: fundamentals](https://learn.microsoft.com/en-us/azure/migration/migrate-from-on-premises-fundamentals)
+- [Azure Landing Zone Review](https://learn.microsoft.com/en-us/assessments/21765fea-dfe6-4bc4-8bb7-db9df5a6f6c0/)

@@ -67,7 +67,9 @@ Demand changes during the day. Autoscale can start and stop session hosts using 
 
 ### Let Microsoft run the broker and gateway
 
-With a traditional Remote Desktop Services deployment (the older Windows Server way of hosting remote desktops), the organization operates supporting infrastructure such as the connection broker (the service that decides which session host a user connects to) and the gateway (the service that carries the remote desktop traffic). With AVD, Microsoft operates those service components ([service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience); [overview](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview)). The description of a traditional RDS deployment is a plain-language gloss (judgement). Your team still manages the desktops themselves: their images, applications, updates, access and supporting resources. Microsoft operates the connection services; your team operates the Windows environment people work in.
+With a traditional Remote Desktop Services deployment (the older Windows Server way of hosting remote desktops), the organization operates supporting infrastructure such as the connection broker (the service that decides which session host a user connects to) and the gateway (the service that carries the remote desktop traffic).
+
+With AVD, Microsoft operates those service components ([service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience); [overview](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview)). The description of a traditional RDS deployment is a plain-language gloss (judgement). Your team still manages the desktops themselves: their images, applications, updates, access and supporting resources. Microsoft operates the connection services; your team operates the Windows environment people work in.
 
 ### Understand the cost before choosing it
 
@@ -126,10 +128,14 @@ Later articles cover operating system and licensing, clients, sign-in, Condition
 
 Where a statement is the author's opinion and not from Microsoft Learn, the article marks it with (judgement).
 
-Next: [Azure Virtual Desktop Architecture: From Sign-in to a Working Desktop](/azure-virtual-desktop/azure-virtual-desktop-architecture/).
-
 Go deeper: [Decide Whether Azure Virtual Desktop Fits](/azure-virtual-desktop/decide-whether-azure-virtual-desktop-fits/).
+
+Next: [Azure Virtual Desktop Architecture: From Sign-in to a Working Desktop](/azure-virtual-desktop/azure-virtual-desktop-architecture/).
 
 ## Sources
 
-[What is Azure Virtual Desktop?](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview), [Autoscale scaling plans](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scaling-plan), [Terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology), [service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience) and [prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites).
+- [What is Azure Virtual Desktop?](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview)
+- [Autoscale scaling plans](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scaling-plan)
+- [Terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology)
+- [service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience)
+- [prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites)

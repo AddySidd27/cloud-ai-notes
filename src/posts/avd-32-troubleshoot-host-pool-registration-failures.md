@@ -311,4 +311,6 @@ If the host registers but is not healthy, read [Troubleshoot an AVD Session Host
 
 ## Sources
 
-[Troubleshoot common Azure Virtual Desktop Agent issues](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-agent), [Troubleshoot session host virtual machine configuration](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-vm-configuration) and [Troubleshoot host pool creation](https://learn.microsoft.com/en-us/azure/virtual-desktop/troubleshoot-set-up-issues).
+- [Troubleshoot common Azure Virtual Desktop Agent issues](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-agent)
+- [Troubleshoot session host virtual machine configuration](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-vm-configuration)
+- [Troubleshoot host pool creation](https://learn.microsoft.com/en-us/azure/virtual-desktop/troubleshoot-set-up-issues)

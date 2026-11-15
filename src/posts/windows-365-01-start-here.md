@@ -13,7 +13,7 @@ Windows 365 gives an assigned user a Cloud PC, a Windows desktop they reach from
 ## Words to know
 
 | Term | Meaning |
-| --- | --- |
+|---|---|
 | Cloud PC | The Windows desktop assigned to a user through Windows 365. |
 | Tenant | Your organization's Microsoft Entra ID directory. |
 | Microsoft Entra join | The Cloud PC is joined to Microsoft Entra ID without an on-premises AD DS device join. |
@@ -50,20 +50,30 @@ The [editable draw.io diagrams](https://github.com/AddySidd27/Windows365-enterpr
 
   ![Sanitized Windows 365 Enterprise license inventory](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-01-2026-09-24-license-inventory.jpg)
 
+  *Sanitized Windows 365 Enterprise license inventory, September 24, 2026.*
+
 - I have one Enterprise Cloud PC. It is provisioned, Microsoft Entra joined and enrolled in Intune, and I connected to it through a web session.
 - On the same day I checked an Edge setting on the Cloud PC and Company Portal's installed application view. The installed view does not show that a new Available app assignment works. (Available is an Intune assignment type where the user chooses to install the app from Company Portal.)
 
   ![Edge setting on the Enterprise pilot](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-05-2026-09-24-edge-settings.jpg)
 
+  *An Edge setting on the Enterprise pilot Cloud PC.*
+
   ![Company Portal installed application view](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-07-2026-09-24-company-portal-installed.jpg)
+
+  *The installed application view in Company Portal.*
 
 - On October 1 the ANC health check failed. The check reported the endpoint pattern `*.infra.windows365.microsoft.com:443`. I do not know the exact host or the root cause (see the [Learn network requirements](https://learn.microsoft.com/windows-365/enterprise/requirements-network)). I did not get a working customer-network deployment, and I deleted the temporary NAT gateway and public IP address I had created.
 
   ![Sanitized failed ANC health result](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-03-2026-10-01-anc-health.jpg)
 
+  *Sanitized failed ANC health result from October 1, 2026.*
+
 I have not tested hybrid join, point-in-time restore, Windows Autopatch, Windows 365 Boot, Switch or Offline. Where a step in the series is only a procedure, I have not run it myself.
 
-## References
+Next: [Windows 365 Enterprise: Plan a Pilot That You Can Verify](/windows-365/plan-the-pilot/).
+
+## Sources
 
 - Microsoft Learn: [Windows 365 Enterprise requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements), [network deployment options](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-network-deployment-options), [create a provisioning policy](https://learn.microsoft.com/en-us/windows-365/enterprise/create-provisioning-policy), [Azure network connections](https://learn.microsoft.com/en-us/windows-365/enterprise/azure-network-connections).
 - [Windows 365 Enterprise engineering repository](https://github.com/AddySidd27/Windows365-enterprise-engineering): lab records, procedures, screenshots and editable diagrams.

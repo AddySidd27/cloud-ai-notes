@@ -16,7 +16,7 @@ In the previous post, we followed how an Azure Virtual Desktop connection works.
 
 Each term is explained again where it is first used. This table is for quick lookup.
 
-| Term | What it means |
+| Term | Meaning |
 |---|---|
 | Tenant | Your organization's cloud directory in Microsoft Entra ID. It holds users and groups. |
 | Subscription | The Azure container where resources are created and their usage is billed. |
@@ -74,21 +74,17 @@ The same account can appear in several directories. Start by checking the direct
 
 *The Current indicator identifies the active directory. Record its ID privately.*
 
-
 3. Open **Subscriptions**, then the subscription you intend to use. Record its name and subscription ID; confirm it is enabled for use.
 
 ![Subscription overview showing status Active; subscription name, subscription ID, directory and offer details hidden](/img/avd/AVD-Post-03-subscription-redacted.png)
 
 *This subscription shows Active. Check its Directory field against the directory selected above; the value is hidden here.*
 
-
 4. Open **Microsoft Entra ID > Overview > Properties** and record the tenant ID. Confirm this is the directory associated with your selected subscription.
 
 ![Microsoft Entra directory Properties tab with the Name, Tenant ID and Technical contact fields; the values are hidden](/img/avd/AVD-Post-03-tenant-redacted.png)
 
 *The tenant ID is on the Properties tab. Compare the original value with your private subscription record.*
-
-
 
 An ID identifies the exact object. Two subscriptions can have similar display names, so keep the IDs in your private build notes.
 
@@ -124,8 +120,6 @@ If the platform team has provided a suitable group, open **Resource groups**, se
 
 *We inspected an existing group. We did not create it in this walkthrough. Its metadata location is East US.*
 
-
-
 If no workload group exists, record the intended name and approved location. The Terraform deployment will create the group it manages. Keep a supplied group as an existing dependency in that design.
 
 A resource group's region controls its metadata location; resources inside it can be in other regions. (judgement) Use the same region for the group and its resources where you can, and choose each resource's location deliberately when it is deployed.
@@ -156,7 +150,9 @@ A virtual network (VNet) is the private network for Azure resources. A subnet is
 
 The VM overview flagged default outbound access. Default outbound access means Azure gives a VM a public outbound IP address automatically when no explicit outbound method is set. That address is owned by Microsoft and can change without notice ([Default outbound access in Azure](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/default-outbound-access#how-and-when-default-outbound-access-is-provided)).
 
-Azure is changing this default. Virtual networks created in the portal, or through the API version released after 31 March 2026, get private subnets (no default outbound access). Existing virtual networks are not changed. Deployments that use an earlier API version, which can include Terraform, keep the old default ([Default outbound access in Azure](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/default-outbound-access#retirement-of-default-outbound-access-scope-and-impact)). A VM on a private subnet needs an explicit outbound method, for example for Windows activation and updates. A later networking step will select and validate an explicit outbound design. Do not treat this inventory as proof of enterprise network readiness.
+Azure is changing this default. Virtual networks created in the portal, or through the API version released after 31 March 2026, get private subnets (no default outbound access). Existing virtual networks are not changed. Deployments that use an earlier API version, which can include Terraform, keep the old default ([Default outbound access in Azure](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/default-outbound-access#retirement-of-default-outbound-access-scope-and-impact)).
+
+A VM on a private subnet needs an explicit outbound method, for example for Windows activation and updates. A later networking step will select and validate an explicit outbound design. Do not treat this inventory as proof of enterprise network readiness.
 
 ## 3. Confirm the user's licensing before desktop deployment
 
@@ -188,7 +184,6 @@ AVD access licensing also does not remove the Azure charges for VMs, disks, stor
 3. For assignments or errors that need fixing, use the Microsoft 365 admin center: **Users > Active users > select the user > Licenses and Apps** (judgement: portal path from the lab, not checked on Learn; portal menus change). Use the appropriate licensing administrator account.
 4. Before assigning a product, check available seats, the user's usage location (the country or region set on the account; an invalid one can make an assignment fail) and the reported error.
 
-
 ![Licenses page of the test user in Microsoft Entra reading No license assignments found, with a note that changes are made in the M365 admin center; account name and directory name hidden](/img/avd/AVD-Post-03-license-redacted-v2.png)
 
 *The selected user shows No license assignments found. This does not confirm production AVD licensing.*
@@ -197,7 +192,9 @@ AVD access licensing also does not remove the Azure charges for VMs, disks, stor
 
 Azure Dev/Test is a discounted offer for non-production work. The offer ID is the code the portal shows for the type of subscription you have. We read the actual offer ID, rather than relying on the subscription name or a dev tag.
 
-This development subscription shows offer ID **MS-AZR-0063P**. Learn lists this ID as the Visual Studio Enterprise subscribers offer ([Use Windows client in Azure for dev/test scenarios](https://learn.microsoft.com/azure/virtual-machines/windows/client-images)). Two Learn pages say different things about licensing in a Dev/Test subscription. The [AVD prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites) say users in an Azure Dev/Test subscription may connect without a separate license to run acceptance tests or give feedback. The [Visual Studio subscribers page](https://learn.microsoft.com/visualstudio/subscriptions/vs-windows-virtual-desktop) says Dev/Test credits can pay for AVD usage, but access still requires eligible user licenses. Neither page says that this offer ID gets the waiver. (judgement) Until your licensing contact confirms it, assign an eligible license to every test user.
+This development subscription shows offer ID **MS-AZR-0063P**. Learn lists this ID as the Visual Studio Enterprise subscribers offer ([Use Windows client in Azure for dev/test scenarios](https://learn.microsoft.com/azure/virtual-machines/windows/client-images)). Two Learn pages say different things about licensing in a Dev/Test subscription. The [AVD prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites) say users in an Azure Dev/Test subscription may connect without a separate license to run acceptance tests or give feedback.
+
+The [Visual Studio subscribers page](https://learn.microsoft.com/visualstudio/subscriptions/vs-windows-virtual-desktop) says Dev/Test credits can pay for AVD usage, but access still requires eligible user licenses. Neither page says that this offer ID gets the waiver. (judgement) Until your licensing contact confirms it, assign an eligible license to every test user.
 
 1. Open **Subscriptions > selected subscription > Overview**.
 2. Read **Offer ID** and **Status**. Compare the offer with the published Azure Dev/Test terms.
@@ -241,8 +238,6 @@ The account you inspect below is the human administrator. Later, we will separat
 2. Select **Access control (IAM)**. On the **Check access** tab, select **View my access**. The pane lists your assignments at this scope and those inherited from parent scopes. If your page looks different from the screenshot, use the link under Check access (judgement: portal behaviour seen in the lab, not stated on Learn) to switch between the new and the previous view.
 3. Read both direct and inherited assignments. Record the role and where it was assigned.
 4. If your organization uses Privileged Identity Management (PIM), a Microsoft Entra service that lets you activate eligible privileged roles when you need them, activate the approved role for the task. With a Microsoft Entra ID P2 or ID Governance license, eligible roles show on the Check access tab with an **Activate role** button.
-
-
 
 ![Access control (IAM) page with three active assignments: Owner on this resource, Owner inherited from a management group and User Access Administrator inherited from root; membership and subscription name hidden](/img/avd/AVD-Post-03-iam-redacted.png)
 
@@ -308,8 +303,6 @@ A **resource provider** makes a service's resource types available to an Azure s
 3. If it is **NotRegistered**, select it and **Register**, using an account with subscription-level registration permission.
 4. Refresh and check for **Registered**.
 
-
-
 ![Resource providers list filtered to Microsoft.DesktopVirtualization with status Registered; subscription name hidden](/img/avd/AVD-Post-03-provider-redacted.png)
 
 *Microsoft.DesktopVirtualization was already Registered. No registration change was required.*
@@ -368,7 +361,9 @@ Our agreed budget is **$106 per billing month** for **rg-avd-dev**. This is the 
 
 **Read the scope carefully:** this budget covers the workload resource group. Resources in other groups, shared platform services and separate licensing costs need their own cost ownership and appropriate budget scopes. This is not a budget for every cost associated with AVD.
 
-A billing month can differ from a calendar month for Visual Studio subscriptions. Use the selected reset period when interpreting an alert. Cost and usage data is typically available within 8-24 hours and budgets are evaluated every 24 hours ([Create and manage budgets](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets)); for pay-as-you-go subscriptions it can take up to 72 hours ([Understand Cost Management data](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/understand-cost-mgt-data#cost-and-usage-data-updates-and-retention)). A newly created budget showing zero evaluated spend does not prove the resources have incurred no charges.
+A billing month can differ from a calendar month for Visual Studio subscriptions. Use the selected reset period when interpreting an alert.
+
+Cost and usage data is typically available within 8-24 hours and budgets are evaluated every 24 hours ([Create and manage budgets](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets)); for pay-as-you-go subscriptions it can take up to 72 hours ([Understand Cost Management data](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/understand-cost-mgt-data#cost-and-usage-data-updates-and-retention)). A newly created budget showing zero evaluated spend does not prove the resources have incurred no charges.
 
 A budget sends alerts; it does not stop consumption. The cost owner must review the alert and act. Keep a retirement plan for the lab and a cost-review process for production. Record this as an existing portal-managed budget so a later Terraform deployment does not create a duplicate.
 
@@ -426,14 +421,24 @@ You now have the deployment context, test identity, cost control and existing de
 | Planned VM deployment exceeds quota | Both total regional and VM-family allowances |
 | Deployment is denied by policy | The reported assignment, scope, effect and parameters; work with its owner |
 
-Keep this readiness record for the next posts. This walkthrough changed the selected user’s group membership and created a workload budget. Existing infrastructure and provider registration were inspected. Preserve shared platform services during any later cleanup.
+Keep this readiness record for the next posts. This walkthrough changed the selected user's group membership and created a workload budget. Existing infrastructure and provider registration were inspected. Preserve shared platform services during any later cleanup.
 
 For production, confirm production licensing and approved permissions for the selected design. The preparation completed here does not prove a successful desktop sign-in or working profile storage; those checks belong to the deployment and validation steps later in the series.
 
-Next: [Choose the Right Identity Model for Azure Virtual Desktop](/azure-virtual-desktop/choose-the-right-identity-model/).
-
 Go deeper: [How Azure Virtual Desktop Fails](/azure-virtual-desktop/how-azure-virtual-desktop-fails/).
+
+Next: [Choose the Right Identity Model for Azure Virtual Desktop](/azure-virtual-desktop/choose-the-right-identity-model/).
 
 ## Sources
 
-[Prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites), [licensing](https://learn.microsoft.com/en-us/azure/virtual-desktop/licensing), [built-in roles for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rbac), [Understand scope for Azure RBAC](https://learn.microsoft.com/en-us/azure/role-based-access-control/scope-overview), [Check access](https://learn.microsoft.com/en-us/azure/role-based-access-control/check-access), [Manage resource groups](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal), [Default outbound access in Azure](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/default-outbound-access), [Check vCPU quotas](https://learn.microsoft.com/en-us/azure/virtual-machines/quotas), [Create and manage budgets](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets), [Use Azure Virtual Desktop with your Visual Studio Subscriptions](https://learn.microsoft.com/visualstudio/subscriptions/vs-windows-virtual-desktop) and [Use Windows client in Azure for dev/test scenarios](https://learn.microsoft.com/azure/virtual-machines/windows/client-images).
+- [Prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites)
+- [licensing](https://learn.microsoft.com/en-us/azure/virtual-desktop/licensing)
+- [built-in roles for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rbac)
+- [Understand scope for Azure RBAC](https://learn.microsoft.com/en-us/azure/role-based-access-control/scope-overview)
+- [Check access](https://learn.microsoft.com/en-us/azure/role-based-access-control/check-access)
+- [Manage resource groups](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal)
+- [Default outbound access in Azure](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/default-outbound-access)
+- [Check vCPU quotas](https://learn.microsoft.com/en-us/azure/virtual-machines/quotas)
+- [Create and manage budgets](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets)
+- [Use Azure Virtual Desktop with your Visual Studio Subscriptions](https://learn.microsoft.com/visualstudio/subscriptions/vs-windows-virtual-desktop)
+- [Use Windows client in Azure for dev/test scenarios](https://learn.microsoft.com/azure/virtual-machines/windows/client-images)

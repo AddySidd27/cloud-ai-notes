@@ -26,8 +26,6 @@ next_num: ""
 next_title: ""
 ---
 
-
-
 ## Pick your route
 
 - **I am new:** start with [What Is an Azure Landing Zone](/azure-landing-zone/what-is-an-azure-landing-zone/), then follow the [Azure Landing Zone series](/azure-landing-zone/) in order. An Azure landing zone is the prepared Azure environment that your workloads run in. Later sections explain it in full.
@@ -118,7 +116,9 @@ A pilot of Cloud PCs (Windows desktops that Microsoft runs for each user), from 
 
 ## Why the landing zone comes first
 
-A workload is an application or service you run in the cloud, and AVD is one. An Azure landing zone is the prepared Azure environment that workloads run in. Microsoft Learn says it provides the foundation for cloud workloads such as AVD and defines components like governance, security, networking, identity and operations. A platform landing zone is the part that holds shared services such as networking and identity. Microsoft's AVD reference implementation (its sample deployment code) requires you to deploy a platform landing zone first, so the blog builds AVD on top of that foundation. (judgement: this reading order is my own plan.) Security is covered inside each topic, and the [Security](/azure-landing-zone/security/) post brings the platform-level controls together.
+A workload is an application or service you run in the cloud, and AVD is one. An Azure landing zone is the prepared Azure environment that workloads run in. Microsoft Learn says it provides the foundation for cloud workloads such as AVD and defines components like governance, security, networking, identity and operations. A platform landing zone is the part that holds shared services such as networking and identity.
+
+Microsoft's AVD reference implementation (its sample deployment code) requires you to deploy a platform landing zone first, so the blog builds AVD on top of that foundation. (judgement: this reading order is my own plan.) Security is covered inside each topic, and the [Security](/azure-landing-zone/security/) post brings the platform-level controls together.
 
 ## How each post is built
 
@@ -136,7 +136,9 @@ My rules:
 
 ## How the repo labs fit in
 
-A repo is a folder of files on GitHub. [Azure_landing_zone](https://github.com/AddySidd27/Azure_landing_zone) is my public learning and reference lab. It is built with Terraform (a tool that creates Azure resources from code). It is not production-ready and it is not the official accelerator (Microsoft's ready-made deployment code for landing zones). Use it to see how the parts fit together, and use the official accelerator for real environments. [lab-vs-enterprise.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/00-start-here/lab-vs-enterprise.md) lists what a personal lab can and cannot reproduce, and [learning-path.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/00-start-here/learning-path.md) gives a suggested reading order. The Windows 365 posts link to their own repo, [Windows365-enterprise-engineering](https://github.com/AddySidd27/Windows365-enterprise-engineering).
+A repo is a folder of files on GitHub. [Azure_landing_zone](https://github.com/AddySidd27/Azure_landing_zone) is my public learning and reference lab. It is built with Terraform (a tool that creates Azure resources from code). It is not production-ready and it is not the official accelerator (Microsoft's ready-made deployment code for landing zones). Use it to see how the parts fit together, and use the official accelerator for real environments.
+
+[lab-vs-enterprise.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/00-start-here/lab-vs-enterprise.md) lists what a personal lab can and cannot reproduce, and [learning-path.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/00-start-here/learning-path.md) gives a suggested reading order. The Windows 365 posts link to their own repo, [Windows365-enterprise-engineering](https://github.com/AddySidd27/Windows365-enterprise-engineering).
 
 ## What was tested
 
@@ -152,7 +154,10 @@ I am Addy (Adnan Ahmed), a Senior Solutions Architect with 15 years in enterpris
 
 ## Sources
 
-Microsoft Learn, checked October 2026: [AVD landing zone design guide](https://learn.microsoft.com/azure/architecture/landing-zones/azure-virtual-desktop/design-guide) · [What is Azure Virtual Desktop?](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview)
+Microsoft Learn, checked October 2026:
+
+- [AVD landing zone design guide](https://learn.microsoft.com/azure/architecture/landing-zones/azure-virtual-desktop/design-guide)
+- [What is Azure Virtual Desktop?](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview)
 
 ## Start reading
 

@@ -17,7 +17,7 @@ Our example company has 5,000 users: call-center agents, standard business and m
 ## Key terms
 
 | Term | Meaning |
-| --- | --- |
+|---|---|
 | Host pool | A group of Azure virtual machines registered to Azure Virtual Desktop as session hosts and managed together. |
 | Session host | A virtual machine that runs Windows and the applications users connect to. |
 | Pooled | A host pool where users connect to any available host, so several users can share one virtual machine. |
@@ -52,7 +52,7 @@ Invite the business owner, application owner, representative users and the teams
 Complete one questionnaire per proposed user group. Where an answer is uncertain, record who will supply it and what test will settle it.
 
 | Discuss this question | Record the answer | Decision it supports |
-| --- | --- | --- |
+|---|---|---|
 | Who will use the service, and from where? | User count, departments, locations, devices and access groups | Personas, host placement and client tests |
 | How does the working day run? | Shifts, overlap, busiest sign-ins, seasonal peaks and support hours | Concurrent sessions and running capacity |
 | Which business applications are used together? | Names, versions, plugins, integrations and common task sequences | Application compatibility and image content |
@@ -80,7 +80,7 @@ The workshop produces a requirements record, an application inventory and a list
 A **persona** is a group of users with similar application, performance and operating needs. A department can contain several personas, and a persona can span several departments.
 
 | Persona | Work to investigate | Questions that change the design |
-| --- | --- | --- |
+|---|---|---|
 | Call-center agents | CRM, order processing, knowledge tools, softphone and shift changes | Can the apps share hosts? How many agents sign in together? What happens to call quality under load? |
 | Standard business users | Office applications, finance/HR clients, reporting and departmental services | Can approved versions coexist? Are reporting peaks or large spreadsheets significant? |
 | Mobile or roaming staff | Work from different offices, homes or client sites using approved devices | Is a standard desktop enough? Which client features, profiles and backend access must follow them? |
@@ -118,7 +118,7 @@ An **image** is the Windows configuration from which hosts are created. A common
 Sit with the application owners and test the proposed combinations. Record:
 
 | Check | Example of a decision it can change |
-| --- | --- |
+|---|---|
 | Supported OS, architecture and multi-session behavior | An application may need a separate OS configuration or dedicated desktop |
 | Conflicting versions, drivers, plugins or runtimes | Two workloads may need separate images |
 | Application load when used together | A compatible combination can still need a lower session density |
@@ -135,7 +135,7 @@ For our example, call-center, shared business, developer and specialist configur
 Use the application tests to choose the boundary. The following are conditional design examples, not test results.
 
 | Finding in the assessment | Proposed design response | Evidence before accepting it |
-| --- | --- | --- |
+|---|---|---|
 | Several departments use compatible apps and the same release cycle | Evaluate one common business image and pool | Test the applications together at the intended density; retain department-specific application permissions |
 | A required plugin conflicts with another workload's version | Evaluate a separate image and pool for that workload | Confirm the conflict, vendor support and the complete business task on the separate configuration |
 | Developers need an approved per-user toolchain and dedicated resources | Evaluate personal desktops with a managed developer baseline | Record the dedicated requirement, build performance, permitted customization and working-data recovery |
@@ -184,7 +184,7 @@ Two approaches are documented: pilot and simulation. A pilot increases represent
 ### Which tools can we use?
 
 | Tool or method | Use it for | What the result tells us |
-| --- | --- | --- |
+|---|---|---|
 | Login Enterprise by Login VSI (third party; not on Learn) | Automated application workflows and simulated session load | How logins and business tasks behave as session load increases |
 | AVD Insights | Observe session-host resources, connections and user experience during tests | Where demand, host constraints or connection problems appear |
 | Windows Performance Monitor | Inspect CPU, memory, disk and supported User Input Delay counters | Which resource or process needs investigation |
@@ -219,7 +219,7 @@ These are planning steps, not results from a real test. The exact installation a
 For an illustrative single-host call-center test, we could evaluate 6, 12, 18 and 24 sessions using the same workload. If 18 meets the owner's targets and 24 does not, investigate the cause and evaluate a design at the acceptable density. Those counts are example test stages. They are not published sizing figures and not measured results.
 
 | Measurement | Question it answers |
-| --- | --- |
+|---|---|
 | Sign-in and profile time | Can the busiest arrival period be handled? |
 | Application/task duration and errors | Can users finish the business work within the agreed target? |
 | CPU, memory, disk and network | What resource or dependency is limiting the workload? |
@@ -233,7 +233,7 @@ For call-center and meeting workloads, test real calls, headsets and supported c
 (judgement: the two tables in this section are the author's diagnostic guidance, not Learn content.) Review the same test interval across application timings, host metrics and shared services. Averages across the whole day can hide the arrival burst that causes the complaints.
 
 | Observation during the test | Investigate next | Decision it may change |
-| --- | --- | --- |
+|---|---|---|
 | Application tasks and input responsiveness degrade as host load rises | Per-host/process CPU, memory and session demand | VM candidate, workload grouping or acceptable density |
 | Sign-in slows mainly during the arrival burst | Profile attachment, storage performance, identity and host resources | Storage requirements, arrival capacity or image configuration |
 | A business transaction is slow while other desktop tasks remain usable | Its backend, network path and application behavior | Backend/network remediation before deciding whether hosts need resizing |
@@ -250,7 +250,7 @@ Ensure the load generator does not become the bottleneck. Check the selected too
 Our illustrative company has four personas in this calculation. Mobile staff share the business pool here, even though the persona table earlier lists them separately. Each person is counted once. The following requirements are assumptions made up for this example. The numbers and acceptance outcomes used for the calculation are assumptions, not results from a real company.
 
 | Persona | Assigned users | Assumed peak sessions |
-| --- | --- | --- |
+|---|---|---|
 | Call-center agents | 1,800 | 1,200 |
 | Standard business and mobile staff | 2,200 | 1,100 |
 | Developers | 700 | 500 |
@@ -272,7 +272,7 @@ For specialist design users, assume the application vendor and acceptance tests 
 ### Step 2: make the image and pool plan explicit
 
 | Proposed pool | Desktop and image plan | Required evidence |
-| --- | --- | --- |
+|---|---|---|
 | `hp-callcenter-prod` | Pooled full desktop; call-center image | Multi-session compatibility, shift-arrival test and real call/peripheral acceptance |
 | `hp-business-prod` | Pooled full desktop; common multi-purpose business image | Coexistence tests and representative departmental workload load |
 | `hp-developer-prod` | Personal desktop; developer image | Dedicated requirement, toolchain/build performance and working-data recovery plan |
@@ -287,7 +287,7 @@ Suppose the call-center test supports a planning target of **18 sessions per hos
 For context, the [sizing guidance](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/session-host-virtual-machine-sizing-guidelines#workloads) lists the maximum suggested users per vCPU for multi-session hosts by workload type:
 
 | Workload type | Maximum users per vCPU | On an 8-vCPU host |
-| --- | --- | --- |
+|---|---|---|
 | Light | 6 | 48 |
 | Medium | 4 | 32 |
 | Heavy | 2 | 16 |
@@ -298,14 +298,14 @@ The 18 and 24 sessions per host are my own planning assumptions, not figures fro
 Divide each pool's peak session demand by its acceptable density and round up. Then apply the agreed maintenance and failure allowance. Do not average the two densities across unrelated workloads.
 
 | Pooled workload | Base calculation | Base hosts |
-| --- | --- | --- |
+|---|---|---|
 | Call-center | 1,200 / 18 = 66.67; round up | 67 |
 | Standard business/mobile | 1,100 / 24 = 45.83; round up | 46 |
 
 Assume each pool must serve its stated peak while two hosts are unavailable for maintenance and one more is unavailable unexpectedly.
 
 | Pooled workload | Planned hosts | Capacity with three hosts unavailable |
-| --- | --- | --- |
+|---|---|---|
 | Call-center | 70 | 67 x 18 = 1,206 sessions |
 | Standard business/mobile | 49 | 46 x 24 = 1,104 sessions |
 
@@ -337,7 +337,9 @@ Check current AVD, compute, storage and network limits independently. Repeat the
 
 ## 8. Agree management, validation and rollout
 
-Choose the host management approach before creation. **Standard management** uses your processes to create, update and scale hosts. **Session host configuration**, available for pooled pools, uses native AVD lifecycle features. The approach cannot be changed later ([Host pool management approaches](https://learn.microsoft.com/en-us/azure/virtual-desktop/host-pool-management-approaches)); tools designed for standard host management must not manage hosts belonging to a pool with session host configuration. Deployment scope is also fixed at creation: you choose regional or geographical (the default) when you create the host pool and cannot change it afterwards. Regional scope is covered in [the architecture post](/azure-virtual-desktop/azure-virtual-desktop-architecture/). Check its current status before you choose, and check that your region supports session host configuration. The portal also limits how many hosts one deployment can create.
+Choose the host management approach before creation. **Standard management** uses your processes to create, update and scale hosts. **Session host configuration**, available for pooled pools, uses native AVD lifecycle features. The approach cannot be changed later ([Host pool management approaches](https://learn.microsoft.com/en-us/azure/virtual-desktop/host-pool-management-approaches)); tools designed for standard host management must not manage hosts belonging to a pool with session host configuration.
+
+Deployment scope is also fixed at creation: you choose regional or geographical (the default) when you create the host pool and cannot change it afterwards. Regional scope is covered in [the architecture post](/azure-virtual-desktop/azure-virtual-desktop-architecture/). Check its current status before you choose, and check that your region supports session host configuration. The portal also limits how many hosts one deployment can create.
 
 This series uses standard management for its portal walkthrough and later infrastructure code. Compare approaches against your production operating model before selecting one.
 
@@ -362,7 +364,7 @@ For each persona, the planning record should contain the business-owner answers,
 For the call-center example, it would record:
 
 | Item | Proposed decision and required acceptance |
-| --- | --- |
+|---|---|
 | Users and work | 1,800 assigned; 1,200 peak sessions; CRM, knowledge tools and approved softphone |
 | Desktop and image | Pooled full desktop; call-center image; supported Windows release and exact version recorded |
 | Performance | Candidate compute/disk configuration; 18 sessions per host conditional on the agreed tests |
@@ -380,4 +382,6 @@ Next: [Decide Whether Azure Virtual Desktop Fits](/azure-virtual-desktop/decide-
 
 ## Sources
 
-[Terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology), [session host sizing guidelines](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/session-host-virtual-machine-sizing-guidelines) and [host pool management approaches](https://learn.microsoft.com/en-us/azure/virtual-desktop/host-pool-management-approaches).
+- [Terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology)
+- [session host sizing guidelines](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/session-host-virtual-machine-sizing-guidelines)
+- [host pool management approaches](https://learn.microsoft.com/en-us/azure/virtual-desktop/host-pool-management-approaches)

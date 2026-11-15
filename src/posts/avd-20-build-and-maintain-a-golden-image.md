@@ -14,7 +14,9 @@ A session host is a virtual machine that runs the desktops or apps users connect
 
 When something changes, such as a Windows update or a new app version, you make a new version of the image once and create session hosts from it.
 
-This article follows one image from its source to the place session hosts are created from. It covers the two ways to build the image. You can build it by hand with Sysprep, the Windows tool that prepares an image. Or you can use Azure Image Builder, an Azure service that builds images from a description you submit. The article also covers what must stay out of the image. It ends with Azure Compute Gallery, the Azure service that stores image versions and copies them to regions. How a new version then reaches the session hosts is covered in [Create, update and replace session hosts](/azure-virtual-desktop/create-update-replace-session-hosts/). Choosing the operating system and the license is covered in [the operating system and licensing post](/azure-virtual-desktop/session-host-operating-system-and-licensing/). Deciding which apps belong in the image is covered in [the host pool planning post](/azure-virtual-desktop/plan-your-host-pools/).
+This article follows one image from its source to the place session hosts are created from. It covers the two ways to build the image. You can build it by hand with Sysprep, the Windows tool that prepares an image. Or you can use Azure Image Builder, an Azure service that builds images from a description you submit. The article also covers what must stay out of the image. It ends with Azure Compute Gallery, the Azure service that stores image versions and copies them to regions.
+
+How a new version then reaches the session hosts is covered in [Create, update and replace session hosts](/azure-virtual-desktop/create-update-replace-session-hosts/). Choosing the operating system and the license is covered in [the operating system and licensing post](/azure-virtual-desktop/session-host-operating-system-and-licensing/). Deciding which apps belong in the image is covered in [the host pool planning post](/azure-virtual-desktop/plan-your-host-pools/).
 
 ## Key terms
 
@@ -90,7 +92,9 @@ The golden image page also says Unified Write Filter is not supported on session
 
 Two things must not be in the image: a registered AVD agent, and a domain join. The golden image page states these for the manual route. For Azure Image Builder the pages used here do not state them. I would apply the same rule to what your scripts install (judgement).
 
-**The AVD agent registered to a host pool.** Do not join the image virtual machine to a host pool by installing the AVD agent on it. If the agent is in the image, session hosts created from it later fail to join the host pool, because the registration token will have expired. The host pool deployment process joins new session hosts to the host pool for you while it creates them. If a virtual machine you want to use already has the agent installed, uninstall the agent and all its related components first (the master image page gives this advice, and the [agent troubleshooting steps](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-agent#step-1-uninstall-all-agent-boot-loader-and-stack-component-programs) list the components), or create a new image from a virtual machine without the agent.
+**The AVD agent registered to a host pool.** Do not join the image virtual machine to a host pool by installing the AVD agent on it. If the agent is in the image, session hosts created from it later fail to join the host pool, because the registration token will have expired. The host pool deployment process joins new session hosts to the host pool for you while it creates them.
+
+If a virtual machine you want to use already has the agent installed, uninstall the agent and all its related components first (the master image page gives this advice, and the [agent troubleshooting steps](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-agent#step-1-uninstall-all-agent-boot-loader-and-stack-component-programs) list the components), or create a new image from a virtual machine without the agent.
 
 **The domain join.** If the virtual machine has to be domain joined while you customize it, remove it from the domain before you run Sysprep. Session hosts get their own directory join when they are created. For session host update, Learn says the new session hosts are joined to your directory using Azure VM extensions ([Session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update)).
 
@@ -222,6 +226,20 @@ Where the pages differ about session host update itself (status, images in anoth
 - **Giving a build too little time.** For Azure Image Builder, set a build time long enough for all scripts.
 - **Forgetting replication.** A version can be used in a region only after it has finished copying there.
 
+Next: [Create, Update and Replace Session Hosts](/azure-virtual-desktop/create-update-replace-session-hosts/).
+
 ## Sources
 
-[Golden image](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-golden-image), [Azure VM Image Builder overview](https://learn.microsoft.com/en-us/azure/virtual-machines/image-builder-overview), [Compute Gallery](https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery), [Store and share images in an Azure Compute Gallery](https://learn.microsoft.com/en-us/azure/virtual-machines/shared-image-galleries), [Remove machine specific information (generalize)](https://learn.microsoft.com/en-us/azure/virtual-machines/generalize), [Sysprep (Generalize) a Windows installation](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/sysprep--generalize--a-windows-installation), [Prepare and customize a VHD image](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-customize-master-image), [Custom image templates](https://learn.microsoft.com/en-us/azure/virtual-desktop/custom-image-templates), [Use custom image templates](https://learn.microsoft.com/en-us/azure/virtual-desktop/create-custom-image-templates), [Session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update), [Configure session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update-configure), [Image Builder DevOps task](https://learn.microsoft.com/en-us/azure/virtual-machines/linux/image-builder-devops-task) and [What's new in Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/whats-new).
+- [Golden image](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-golden-image)
+- [Azure VM Image Builder overview](https://learn.microsoft.com/en-us/azure/virtual-machines/image-builder-overview)
+- [Compute Gallery](https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery)
+- [Store and share images in an Azure Compute Gallery](https://learn.microsoft.com/en-us/azure/virtual-machines/shared-image-galleries)
+- [Remove machine specific information (generalize)](https://learn.microsoft.com/en-us/azure/virtual-machines/generalize)
+- [Sysprep (Generalize) a Windows installation](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/sysprep--generalize--a-windows-installation)
+- [Prepare and customize a VHD image](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-customize-master-image)
+- [Custom image templates](https://learn.microsoft.com/en-us/azure/virtual-desktop/custom-image-templates)
+- [Use custom image templates](https://learn.microsoft.com/en-us/azure/virtual-desktop/create-custom-image-templates)
+- [Session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update)
+- [Configure session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update-configure)
+- [Image Builder DevOps task](https://learn.microsoft.com/en-us/azure/virtual-machines/linux/image-builder-devops-task)
+- [What's new in Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/whats-new)

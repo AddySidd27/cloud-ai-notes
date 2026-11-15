@@ -114,7 +114,7 @@ Check: the **Inbound security rules** list shows `allow-rdp-my-ip` at priority 1
 **Predict the result.** There is no VM yet, so you cannot connect. But you can say what the NSG would do. Write your answer for each row, then compare.
 
 | Traffic arriving at `snet-vm` | Allow or deny? Which rule? |
-| --- | --- |
+|---|---|
 | Your PC, TCP 3389 | ? |
 | Another PC on the internet, TCP 3389 | ? |
 | A VM in the same virtual network, any port | ? |

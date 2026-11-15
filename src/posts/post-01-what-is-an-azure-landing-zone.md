@@ -65,8 +65,6 @@ next_title: "Platform Scope and Workload Boundaries"
 tags: [alz]
 ---
 
-
-
 As an illustration, not a real case, imagine an Azure environment where every project team made its own subscription (a container for a team's Azure resources, explained below). One team built its own network. Another chose its own logging, which means its own records of what happens in a system. A third decided its own access rules.
 
 A year later, simple questions are hard to answer. Who can see what? Which networks connect to which? Where do the logs go? Who pays for this?
@@ -94,7 +92,7 @@ Each action only looks at your environment, so you can do all three without chan
 
 This post uses a few terms that may be new. Here they are in short, plain words.
 
-| Word | What it means |
+| Term | Meaning |
 |---|---|
 | Resource | Something you can manage in Azure. Examples are virtual machines (computers that run in Azure), storage accounts (places to keep files and data), web apps (websites and apps that Azure runs for you), databases and virtual networks. |
 | Microsoft Entra ID | Microsoft's cloud service that manages who users are and what they are allowed to access. |
@@ -199,7 +197,6 @@ In my words (judgement): it is not one resource, one subscription or one script.
 
 *Simplified from the detailed architecture diagram on [What is an Azure landing zone?](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/) (platform landing zone on top, workload landing zones below). Parts that this series explains later are left out, such as the intermediate root, Sandboxes and Decommissioned management groups. The management group, subscription and Azure Policy icons are from the [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/) set. The full diagrams are on the Learn page.*
 
-
 ## Common mistakes
 
 - **Teams create their own subscriptions.** If getting a subscription is slow or complicated, teams may create their own, paid for through other billing accounts and sometimes in Microsoft Entra tenants that nobody manages. This situation is called "shadow IT". A simple, repeatable way to request subscriptions (subscription vending) helps avoid it.
@@ -218,7 +215,12 @@ My repo is a learning and reference lab. It is not production-ready and it is no
 - This post: [what-is-an-azure-landing-zone.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/01-foundations/what-is-an-azure-landing-zone.md)
 - Suggested reading order for the whole repo: [learning-path.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/00-start-here/learning-path.md)
 
+Next: [Platform Scope and Workload Boundaries](/azure-landing-zone/platform-scope-and-workload-boundaries/).
+
 ## Sources
 
-Microsoft Learn, checked October 2026: [Landing zone overview](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/) · [Design areas](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-areas) · [Design principles](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-principles)
+Microsoft Learn, checked October 2026:
 
+- [Landing zone overview](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/)
+- [Design areas](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-areas)
+- [Design principles](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-principles)

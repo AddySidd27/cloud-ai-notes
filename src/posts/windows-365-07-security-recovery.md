@@ -53,7 +53,7 @@ Check this before applying a security baseline (a ready-made group of security s
 ## Choose the support action, from least to most disruptive
 
 | Action | What it does | Before you use it |
-| --- | --- | --- |
+|---|---|---|
 | Disconnect and reconnect | Ends the session and starts a new one. | Note the error and test user connectivity. (judgement) |
 | Restart | Reboots the Cloud PC; no data loss. | Warn the user and save work; check whether the session returns. (judgement) |
 | Restore | Returns the Cloud PC to an earlier saved point. | Inspect available restore points and the data impact; agree on the chosen point. |
@@ -73,9 +73,9 @@ I have not restored my Enterprise Cloud PC. On 16 October 2026 I listed its rest
 
 The [Conditional Access](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-09-conditional-access.md) and [lifecycle](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-10-cloud-pc-lifecycle-operations.md) records in my repository are mostly procedures. My live testing was limited. I recorded a sanitized report-only result. I have not tested an enforced Conditional Access block or a restore yet.
 
-Next: [read the ANC failure as a troubleshooting case](/windows-365/anc-troubleshooting/).
+Next: [Windows 365 Enterprise: Reading an ANC Health Failure](/windows-365/anc-troubleshooting/).
 
-### Microsoft Learn
+## Sources
 
 - [Set Conditional Access policies for Windows 365](https://learn.microsoft.com/en-us/windows-365/enterprise/set-conditional-access-policies)
 - [Security guidelines](https://learn.microsoft.com/en-us/windows-365/enterprise/security-guidelines)

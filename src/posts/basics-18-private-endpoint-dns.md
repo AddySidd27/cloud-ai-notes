@@ -28,7 +28,7 @@ I have not run these steps in a live tenant for this article. The steps follow M
 **State of your resources**
 
 | | At the start | At the end |
-| --- | --- | --- |
+|---|---|---|
 | VM `vm-azb-win01` | Stopped (deallocated), as Lab 14 leaves it. Step 2 starts it. | Stopped (deallocated) |
 | Rule `allow-rdp-my-ip` in `nsg-azb-vm` | Not there. Step 3 adds it. | Not there. "Clean up" deletes it. |
 | Public IP `pip-azb-win01` | Exists. It stays. | Exists |
@@ -314,7 +314,9 @@ The public IP `pip-azb-win01` is still there, and no private endpoint or private
 
 ## Where this is used in AVD
 
-Azure Virtual Desktop session hosts usually keep user profiles (FSLogix profile containers) on an Azure Files share, and many companies close that storage account to the public internet and reach it through a private endpoint and a private DNS zone, exactly as you did here. In AVD, a missing private DNS link looks like the wrong answer you can see in Part 4: the name resolves to a public address. See [Choose Storage and Set Access for FSLogix Profile Containers](/azure-virtual-desktop/choose-storage-and-set-access-for-fslogix-profile-containers/) for the storage choices, and [Required Connectivity for Azure Virtual Desktop: Endpoints, Proxies, DNS and Private Link](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/) for how DNS and Private Link fit into the wider network.
+Azure Virtual Desktop session hosts usually keep user profiles (FSLogix profile containers) on an Azure Files share, and many companies close that storage account to the public internet and reach it through a private endpoint and a private DNS zone, exactly as you did here. In AVD, a missing private DNS link looks like the wrong answer you can see in Part 4: the name resolves to a public address.
+
+See [Choose Storage and Set Access for FSLogix Profile Containers](/azure-virtual-desktop/choose-storage-and-set-access-for-fslogix-profile-containers/) for the storage choices, and [Required Connectivity for Azure Virtual Desktop: Endpoints, Proxies, DNS and Private Link](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/) for how DNS and Private Link fit into the wider network.
 
 ## Next lab
 

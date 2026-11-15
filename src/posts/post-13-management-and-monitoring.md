@@ -64,8 +64,6 @@ next_title: "Governance and Azure Policy"
 tags: [alz]
 ---
 
-
-
 The identity, resource organization, network and security posts covered who can sign in, how resources are organized, how networks are laid out and how security is set up. Once all of that exists, someone has to keep it running. Logs have to go somewhere, machines have to be patched, alerts have to reach a person, and a workload has to have a way back after an outage. If every workload team does this alone, you get many different tools and many gaps.
 
 For stable, ongoing operations in the cloud, a management baseline is required, and it has three parts: inventory and visibility, operational compliance, and protect and recover.
@@ -74,14 +72,13 @@ This post follows the design area called "Management for Azure environments". Th
 
 The design area is called "Management". A page about monitoring the platform sits in the same design area, so monitoring is not a separate design area. That is why this post is called "Management and Monitoring".
 
-
 ## Key terms
 
 The earlier posts defined these words: landing zone, workload, subscription, management group, intermediate root management group, Azure Policy, Azure RBAC, Microsoft Entra ID, managed identity, Log Analytics workspace, Azure Monitor Logs, activity log, Microsoft Defender for Cloud, Microsoft Sentinel, SIEM, ExpressRoute, recovery time objective (RTO), recovery point objective (RPO), Azure Backup, Azure Site Recovery, data residency, subscription democratization, brownfield and Microsoft Entra ID P1 or P2.
 
 The words below are the main new ones. Each is in plain words. Other new words are explained where they first appear.
 
-| Word | What it means |
+| Term | Meaning |
 |---|---|
 | Operations baseline | The initial set of operations tooling that is used across all workloads. |
 | Inventory and visibility | Knowing what you have and seeing what it is doing. Management controls that span the environment become more important as the environment grows. |
@@ -160,9 +157,13 @@ Recommendations:
 
 Enterprise workloads have RTO and RPO requirements ([the business requirements post](/azure-landing-zone/business-requirements-compliance-region-recovery-connectivity-and-cost/)), and BCDR design should provide platform-level capabilities that meet them. To design that, capture the platform's disaster recovery (DR) requirements.
 
-Two ideas keep this section clear. High availability is about day-to-day uptime. Disaster recovery is about rare, large events, and it is not an automatic Azure feature, so it needs deliberate design, configuration and testing ([business continuity, high availability and disaster recovery](https://learn.microsoft.com/azure/reliability/concept-business-continuity-high-availability-disaster-recovery)). The same risk can fall under high availability for one workload and disaster recovery for another: a region outage is a disaster recovery risk for a workload in one region, but a high availability risk for one that runs active-active (see the key terms table) in several regions with automatic failover.
+Two ideas keep this section clear. High availability is about day-to-day uptime. Disaster recovery is about rare, large events, and it is not an automatic Azure feature, so it needs deliberate design, configuration and testing ([business continuity, high availability and disaster recovery](https://learn.microsoft.com/azure/reliability/concept-business-continuity-high-availability-disaster-recovery)).
 
-For zones, many services can be zone-redundant (the service spreads your resource across zones and fails over for you), while others are zonal (you pin resources to one zone and design failover yourself). Each service's reliability guide says which it supports ([what are availability zones?](https://learn.microsoft.com/azure/reliability/availability-zones-overview)). Zone redundancy protects against the loss of one zone, not of a whole region. Zone numbers are logical and map to physical zones per subscription, so zone 1 in one subscription may not be the same physical zone as zone 1 in another ([physical and logical availability zones](https://learn.microsoft.com/azure/reliability/availability-zones-overview#physical-and-logical-availability-zones)).
+The same risk can fall under high availability for one workload and disaster recovery for another: a region outage is a disaster recovery risk for a workload in one region, but a high availability risk for one that runs active-active (see the key terms table) in several regions with automatic failover.
+
+For zones, many services can be zone-redundant (the service spreads your resource across zones and fails over for you), while others are zonal (you pin resources to one zone and design failover yourself). Each service's reliability guide says which it supports ([what are availability zones?](https://learn.microsoft.com/azure/reliability/availability-zones-overview)).
+
+Zone redundancy protects against the loss of one zone, not of a whole region. Zone numbers are logical and map to physical zones per subscription, so zone 1 in one subscription may not be the same physical zone as zone 1 in another ([physical and logical availability zones](https://learn.microsoft.com/azure/reliability/availability-zones-overview#physical-and-logical-availability-zones)).
 
 Design considerations:
 
@@ -198,7 +199,9 @@ Baseline alerts are available for the landing zone platform components and other
 
 Alerts only help if someone is told. Configure action groups with the right notification channels and test the alerts. Following the principle of subscription democratization, configure at least one action group for each subscription. The action group should include at least an email notification channel. If you use alert processing rules (rules that route alerts to one or more action groups) to route alerts, note that service health alerts do not support them, so configure service health alerts directly with the action group.
 
-To scale alerting, a framework solution called Azure Monitor baseline alerts (AMBA) uses Azure Policy with the DeployIfNotExists effect (an Azure Policy effect that deploys something, such as alert rules, when a resource is created). It deploys the alert rules, alert processing rules and action groups when you create a resource, in platform services and in landing zones. The default baseline can be changed, and you can write your own policies for other metrics. Alerts are only deployed when the matching resources are created, which avoids unnecessary cost and keeps alert settings current at deployment time. The solution is part of the Azure landing zone installation experience, so new deployments can set up baseline alerting at installation time.
+To scale alerting, a framework solution called Azure Monitor baseline alerts (AMBA) uses Azure Policy with the DeployIfNotExists effect (an Azure Policy effect that deploys something, such as alert rules, when a resource is created). It deploys the alert rules, alert processing rules and action groups when you create a resource, in platform services and in landing zones.
+
+The default baseline can be changed, and you can write your own policies for other metrics. Alerts are only deployed when the matching resources are created, which avoids unnecessary cost and keeps alert settings current at deployment time. The solution is part of the Azure landing zone installation experience, so new deployments can set up baseline alerting at installation time.
 
 The monitor page has a diagram of this baseline alert topology, which I describe here instead of redrawing (the picture below shows only the three levels). The initiatives (groups of Azure Policy definitions that you assign together) for the platform management groups (connectivity, identity and management) apply to those groups. The landing zone initiative applies to the landing zones management group. The service health initiative and the notifications assets initiative apply at the intermediate root management group ([the resource organization post](/azure-landing-zone/resource-organization/)), so they reach all subscriptions.
 
@@ -212,7 +215,9 @@ For a brownfield environment (an existing Azure footprint, aligned to a landing 
 
 ## What the landing zone reference architecture includes
 
-The reference architecture deployment includes key management and monitoring tools such as a Log Analytics workspace, Microsoft Defender for Cloud monitoring, and diagnostic settings (settings on a resource that say which logs and metrics to send, and where) for activity logs, virtual machines and PaaS resources sent to Log Analytics. Data from inside a virtual machine (event logs, syslog, performance counters) comes from the Azure Monitor Agent, which collects what its data collection rules say to collect and sends it where they say. The older Log Analytics agent was retired on 31 August 2024. If a machine still uses it, move it to the Azure Monitor Agent now, because data upload from the old agent can stop at any time.
+The reference architecture deployment includes key management and monitoring tools such as a Log Analytics workspace, Microsoft Defender for Cloud monitoring, and diagnostic settings (settings on a resource that say which logs and metrics to send, and where) for activity logs, virtual machines and PaaS resources sent to Log Analytics.
+
+Data from inside a virtual machine (event logs, syslog, performance counters) comes from the Azure Monitor Agent, which collects what its data collection rules say to collect and sends it where they say. The older Log Analytics agent was retired on 31 August 2024. If a machine still uses it, move it to the Azure Monitor Agent now, because data upload from the old agent can stop at any time.
 
 Centralized logging in the reference architecture is mainly about platform operations. The same workspace can be used for VM-based application logging, because in resource-centric access control mode (users see only the logs of resources they can access), Azure RBAC makes sure workload teams only see logs from their own resources. For non-compute resources, such as web apps or databases, workload teams can use their own Log Analytics workspaces. Workload teams can also duplicate some logs from the central workspace for their own efficiency, and this is a supported approach.
 
@@ -221,7 +226,6 @@ Centralized logging in the reference architecture is mainly about platform opera
 ![Management and monitoring in the landing zone. Four stacked bands, each with a two-column grid of cards. Inventory and visibility: a central logging workspace, guardrails (Azure Policy, deny policies, resource locks), service and resource health events, Traffic Analytics, and the rule that data born in Azure stays in Azure. Operational compliance: Azure Update Manager for patching, and Azure Policy and Azure Machine Configuration for configuration drift. Protect and recover: Azure Site Recovery, Azure Backup, availability zones or sets, ExpressRoute in several regions and no overlapping IP ranges. Last, monitoring the platform landing zone: policy initiatives assigned at three management group levels (the intermediate root, then the platform and landing zones management groups) deploy alert rules, alert processing rules and action groups, with a list of components that have baseline alerts, the action group rule, an out-of-scope note, and a note on questions Microsoft asks about update management.](/diagrams/post-13-management-and-monitoring.svg)
 
 *Simplified summary of the Management design area. The documentation has an alert-topology diagram, which the text describes instead of redrawing: [Monitor Azure platform landing zone components](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management-monitor). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/), unmodified.*
-
 
 ## Common mistakes
 
@@ -244,9 +248,10 @@ From the list above (judgement, not Microsoft guidance), these came up in my own
 - Management for Azure environments: logging, patching, drift and alerts: [management.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/management.md)
 - Business continuity and disaster recovery questions for the platform: [business-continuity.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/business-continuity.md)
 
+Next: [Governance and Azure Policy](/azure-landing-zone/governance-and-azure-policy/).
+
 ## Sources
 
-Microsoft Learn, checked October 2026: [Design area: Management for Azure environments](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management) · [Inventory and visibility](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management-platform) · [Monitor platform landing zone components](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management-monitor)
-
-The operational compliance and business continuity pages are linked from the first page. Also used: [Azure Machine Configuration](https://learn.microsoft.com/azure/governance/machine-configuration/overview) · [Manage data retention in a Log Analytics workspace](https://learn.microsoft.com/azure/azure-monitor/logs/data-retention-configure) · [Reliability in Azure Key Vault](https://learn.microsoft.com/azure/reliability/reliability-key-vault) · [Business continuity, high availability and disaster recovery](https://learn.microsoft.com/azure/reliability/concept-business-continuity-high-availability-disaster-recovery) · [Migrate to virtual network flow logs](https://learn.microsoft.com/azure/network-watcher/nsg-flow-logs-migrate) · [Azure Monitor Agent migration](https://learn.microsoft.com/azure/azure-monitor/agents/azure-monitor-agent-migration). Short definitions of Azure Update Manager, action groups, resource locks, availability zones, availability sets, Azure Site Recovery and Azure Backup come from their own overview pages.
-
+- [Design area: Management for Azure environments](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management)
+- [Inventory and visibility](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management-platform)
+- [Monitor platform landing zone components](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management-monitor)

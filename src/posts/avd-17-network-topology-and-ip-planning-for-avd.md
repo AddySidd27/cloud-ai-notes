@@ -50,7 +50,9 @@ This article places Azure Virtual Desktop (AVD) in the Azure landing zone model.
 
 ## Where AVD sits
 
-The Azure Architecture Center's [AVD landing zone design guide](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/azure-virtual-desktop/azure-virtual-desktop) says to deploy a Cloud Adoption Framework platform landing zone first, and then deploy AVD into a workload landing zone. This is documented. In the reference design, AVD uses its own subscription or subscriptions for workload resources (virtual machines, storage accounts, key vaults, private endpoints) and a shared services subscription for things used across AVD workloads (Log Analytics workspaces, Azure Compute Gallery). The platform provides connectivity, identity and management subscriptions. The connectivity subscription holds the hub networking, Azure Firewall and the ExpressRoute or VPN gateways. The identity subscription holds the domain services for domain-joined session hosts. In this design the AVD workload does not depend on the management subscription, so the workload team builds its own monitoring and automation.
+The Azure Architecture Center's [AVD landing zone design guide](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/azure-virtual-desktop/azure-virtual-desktop) says to deploy a Cloud Adoption Framework platform landing zone first, and then deploy AVD into a workload landing zone. This is documented. In the reference design, AVD uses its own subscription or subscriptions for workload resources (virtual machines, storage accounts, key vaults, private endpoints) and a shared services subscription for things used across AVD workloads (Log Analytics workspaces, Azure Compute Gallery).
+
+The platform provides connectivity, identity and management subscriptions. The connectivity subscription holds the hub networking, Azure Firewall and the ExpressRoute or VPN gateways. The identity subscription holds the domain services for domain-joined session hosts. In this design the AVD workload does not depend on the management subscription, so the workload team builds its own monitoring and automation.
 
 **Judgement:** the practical meaning is that the network team owns the hub and the address plan, and the AVD team owns the spoke. Settle that line early.
 
@@ -154,10 +156,20 @@ These are recommended checks on paper before you build anything.
 
 ## Related book chapter, labs and project
 
-[Chapter 12](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch12-enterprise-topologies-ip-planning.md) of the book covers topologies and IP planning. [Lab 3](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-03-vnet-subnets-nsg-dns.md) builds a single-region network and [Lab 11](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-11-multiregion-network-foundation.md) builds a multi-region foundation. The labs walk through those steps. Neither has been run end to end in Azure. [Project 13](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/scenarios/project-13-multi-region-architecture.md) is a fictional case study.
+[Chapter 12](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch12-enterprise-topologies-ip-planning.md) of the book covers topologies and IP planning. [Lab 3](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-03-vnet-subnets-nsg-dns.md) builds a single-region network and [Lab 11](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-11-multiregion-network-foundation.md) builds a multi-region foundation.
 
-Next: [Back to the series index](/azure-virtual-desktop/).
+The labs walk through those steps. Neither has been run end to end in Azure. [Project 13](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/scenarios/project-13-multi-region-architecture.md) is a fictional case study.
+
+Next: [How FSLogix Profile Containers Work](/azure-virtual-desktop/how-fslogix-profile-containers-work/).
 
 ## Sources
 
-[Define an Azure network topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/define-an-azure-network-topology), [Traditional Azure networking topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology), [Virtual WAN network topology in an Azure landing zone](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/virtual-wan-network-topology), [Plan for IP addressing](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/plan-for-ip-addressing), [About virtual hub settings](https://learn.microsoft.com/en-us/azure/virtual-wan/hub-settings), [AVD landing zone design guide](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/azure-virtual-desktop/azure-virtual-desktop), [Set up Private Link with Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/private-link-setup), [Required FQDNs and endpoints for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/required-fqdn-endpoint) and the [Azure virtual network FAQ](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-faq).
+- [Define an Azure network topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/define-an-azure-network-topology)
+- [Traditional Azure networking topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology)
+- [Virtual WAN network topology in an Azure landing zone](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/virtual-wan-network-topology)
+- [Plan for IP addressing](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/plan-for-ip-addressing)
+- [About virtual hub settings](https://learn.microsoft.com/en-us/azure/virtual-wan/hub-settings)
+- [AVD landing zone design guide](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/azure-virtual-desktop/azure-virtual-desktop)
+- [Set up Private Link with Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/private-link-setup)
+- [Required FQDNs and endpoints for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/required-fqdn-endpoint)
+- [Azure virtual network FAQ](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-faq)

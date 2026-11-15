@@ -14,7 +14,7 @@ Make the identity and network decision before you create a provisioning policy. 
 ## Words to know
 
 | Term | Meaning |
-| --- | --- |
+|---|---|
 | Cloud PC | The Windows desktop that Windows 365 gives to a user. |
 | Microsoft Entra join | The Cloud PC belongs to Microsoft Entra ID only (the cloud). It does not join an on-premises domain. |
 | Hybrid join (Microsoft Entra hybrid join) | The Cloud PC joins your on-premises Active Directory domain and is also registered in Microsoft Entra ID. |
@@ -28,11 +28,13 @@ Make the identity and network decision before you create a provisioning policy. 
 ## Two decisions, not one
 
 | Question | Simple first pilot | Use the other route when |
-| --- | --- | --- |
+|---|---|---|
 | Device join | Microsoft Entra join | An application or management dependency requires hybrid join and you have healthy AD DS, working DNS and line of sight (a working network route) to a domain controller. |
 | Network | Microsoft-hosted network | A documented need requires customer VNet routing, private access, custom DNS or network controls. |
 
-These choices are related. Microsoft Entra join works with either network option, including an ANC. Hybrid join always needs an ANC, because the Microsoft-hosted network is not compatible with Microsoft Entra hybrid join ([Network deployment options](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-network-deployment-options)). Hybrid join also needs extra directory and network planning. See Microsoft's [deployment options](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-network-deployment-options) and [identity guidance](https://learn.microsoft.com/en-us/windows-365/enterprise/identity-authentication) for supported combinations and current requirements.
+These choices are related. Microsoft Entra join works with either network option, including an ANC. Hybrid join always needs an ANC, because the Microsoft-hosted network is not compatible with Microsoft Entra hybrid join ([Network deployment options](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-network-deployment-options)).
+
+Hybrid join also needs extra directory and network planning. See Microsoft's [deployment options](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-network-deployment-options) and [identity guidance](https://learn.microsoft.com/en-us/windows-365/enterprise/identity-authentication) for supported combinations and current requirements.
 
 ## Microsoft-hosted path
 
@@ -49,7 +51,11 @@ Learn documents these health-check facts ([Azure network connection overview](ht
 - To start a full check yourself, go to **Devices > Windows 365 > Azure network connection**, select the ANC and select **Retry**.
 - To create or edit an ANC you need at least the Subscription Reader role on the Azure subscription that holds the VNet, and the Intune Administrator or Windows 365 Administrator role.
 
-In my lab I built an isolated East US Microsoft Entra join ANC with a VNet and a private subnet. The health check later failed for an outbound Windows 365 infrastructure endpoint pattern on TCP 443. In plain words, the check named an outbound endpoint that Windows 365 must reach, and it could not. Learn lists `*.infra.windows365.microsoft.com` as required for provisioning and ANC health checks, and says all these endpoints use port 443 unless noted ([Network requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements-network)). I do not know the exact host or the root cause. I removed the temporary NAT gateway and Standard public IP after the test and did not move the working Microsoft-hosted Cloud PC. The [network lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-03-network-architecture.md) and [lab status page](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/docs/live-validation-status.md) list the procedure and what I saw. For general causes and fixes, see [ANC health failures](/windows-365/anc-troubleshooting/).
+In my lab I built an isolated East US Microsoft Entra join ANC with a VNet and a private subnet. The health check later failed for an outbound Windows 365 infrastructure endpoint pattern on TCP 443. In plain words, the check named an outbound endpoint that Windows 365 must reach, and it could not.
+
+Learn lists `*.infra.windows365.microsoft.com` as required for provisioning and ANC health checks, and says all these endpoints use port 443 unless noted ([Network requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements-network)). I do not know the exact host or the root cause. I removed the temporary NAT gateway and Standard public IP after the test and did not move the working Microsoft-hosted Cloud PC.
+
+The [network lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-03-network-architecture.md) and [lab status page](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/docs/live-validation-status.md) list the procedure and what I saw. For general causes and fixes, see [ANC health failures](/windows-365/anc-troubleshooting/).
 
 ![Sanitized ANC health check list from the isolated lab: Endpoint connectivity shows Error, two checks show Warning, seven checks show Passed](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-03-2026-10-01-anc-health.jpg)
 
@@ -77,15 +83,21 @@ This section covers topic 3 in the [ten-topic reading path](/windows-365/start-h
 
 ### 1. Prove the directory path first
 
-Microsoft Entra hybrid join starts with a Windows Server Active Directory domain join. The device is then registered in Microsoft Entra ID through the organization's hybrid join configuration. A hybrid Cloud PC needs an Azure subscription and a VNet with line of sight to a domain controller. It also needs an ANC, because hybrid join does not work on a Microsoft-hosted network ([Network deployment options](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-network-deployment-options), [Create provisioning policies](https://learn.microsoft.com/en-us/windows-365/enterprise/create-provisioning-policy)). The assigned user must have a hybrid identity. Check the [Windows 365 identity matrix](https://learn.microsoft.com/en-us/windows-365/enterprise/identity-authentication) and [Enterprise requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements) before building anything.
+Microsoft Entra hybrid join starts with a Windows Server Active Directory domain join. The device is then registered in Microsoft Entra ID through the organization's hybrid join configuration. A hybrid Cloud PC needs an Azure subscription and a VNet with line of sight to a domain controller. It also needs an ANC, because hybrid join does not work on a Microsoft-hosted network ([Network deployment options](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-network-deployment-options), [Create provisioning policies](https://learn.microsoft.com/en-us/windows-365/enterprise/create-provisioning-policy)).
 
-In a test domain, document the domain's fully qualified domain name (FQDN), target organizational unit (OU), DNS servers, domain controller reachability, hybrid join configuration and the account delegated to join computers in that OU. Microsoft Entra Connect is the tool that copies directory objects to Microsoft Entra ID. If the computer objects belong to specific OUs, configure those OUs to sync in Microsoft Entra Connect, and do not exclude the default device attributes ([Configure Microsoft Entra hybrid join](https://learn.microsoft.com/en-us/entra/identity/devices/how-to-hybrid-join)). Follow the [Microsoft Entra hybrid join configuration guide](https://learn.microsoft.com/en-us/entra/identity/devices/how-to-hybrid-join). Do not publish the join account password, domain controller addresses or tenant identifiers.
+The assigned user must have a hybrid identity. Check the [Windows 365 identity matrix](https://learn.microsoft.com/en-us/windows-365/enterprise/identity-authentication) and [Enterprise requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements) before building anything.
+
+In a test domain, document the domain's fully qualified domain name (FQDN), target organizational unit (OU), DNS servers, domain controller reachability, hybrid join configuration and the account delegated to join computers in that OU. Microsoft Entra Connect is the tool that copies directory objects to Microsoft Entra ID.
+
+If the computer objects belong to specific OUs, configure those OUs to sync in Microsoft Entra Connect, and do not exclude the default device attributes ([Configure Microsoft Entra hybrid join](https://learn.microsoft.com/en-us/entra/identity/devices/how-to-hybrid-join)). Follow the [Microsoft Entra hybrid join configuration guide](https://learn.microsoft.com/en-us/entra/identity/devices/how-to-hybrid-join). Do not publish the join account password, domain controller addresses or tenant identifiers.
 
 **Check:** From a test machine on the planned network, resolve the AD domain and reach a domain controller. Confirm that hybrid join and synchronization are configured for the same tenant. Typing a DNS server address into a form does not prove that names resolve or that the device registers.
 
 ### 2. Build the customer network deliberately
 
-Plan a VNet and a subnet with enough available addresses for Cloud PCs, recovery and reprovisioning. Define your AD DS DNS servers as the custom DNS servers of the VNet so that the VNet can resolve your AD DS domain. Learn suggests at least two DNS servers. Also provide network access from the VNet to a domain controller. The domain controller can be in Azure or on-premises over working connectivity. Also allow the required outbound endpoints for Windows 365, Intune, Microsoft Entra device registration and Azure Virtual Desktop session hosts. Use the current [Windows 365 network requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements-network) instead of a port list from an old screenshot.
+Plan a VNet and a subnet with enough available addresses for Cloud PCs, recovery and reprovisioning. Define your AD DS DNS servers as the custom DNS servers of the VNet so that the VNet can resolve your AD DS domain. Learn suggests at least two DNS servers. Also provide network access from the VNet to a domain controller.
+
+The domain controller can be in Azure or on-premises over working connectivity. Also allow the required outbound endpoints for Windows 365, Intune, Microsoft Entra device registration and Azure Virtual Desktop session hosts. Use the current [Windows 365 network requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements-network) instead of a port list from an old screenshot.
 
 A hybrid ANC asks for the Azure network details and AD domain details, target OU and domain join credentials. The Cloud PC still runs in the Windows 365 service; its network interface is connected to the selected customer VNet. See the [ANC overview](https://learn.microsoft.com/en-us/windows-365/enterprise/azure-network-connections). An Entra join ANC with no AD DS is not a hybrid ANC.
 
@@ -93,14 +105,16 @@ A hybrid ANC asks for the Azure network details and AD domain details, target OU
 
 ### 3. Create a dedicated policy and assignment
 
-In the Microsoft Intune admin center, go to **Devices > Provision Cloud PCs > Provisioning policies > Create policy**. On General, select **Hybrid Microsoft Entra join** and the healthy hybrid ANC. Choose the image, configuration and a dedicated pilot user group, then review the complete policy. When you select **Create**, a hybrid policy can take up to 60 minutes to finish, depending on when Microsoft Entra Connect last synced ([Create provisioning policies](https://learn.microsoft.com/en-us/windows-365/enterprise/create-provisioning-policy)). Microsoft's [current provisioning policy guide](https://learn.microsoft.com/en-us/windows-365/enterprise/create-provisioning-policy) requires an ANC for this join type. Use a licensed, eligible test user and avoid overlapping assignments that could affect the existing Cloud PC.
+In the Microsoft Intune admin center, go to **Devices > Provision Cloud PCs > Provisioning policies > Create policy**. On General, select **Hybrid Microsoft Entra join** and the healthy hybrid ANC. Choose the image, configuration and a dedicated pilot user group, then review the complete policy.
+
+When you select **Create**, a hybrid policy can take up to 60 minutes to finish, depending on when Microsoft Entra Connect last synced ([Create provisioning policies](https://learn.microsoft.com/en-us/windows-365/enterprise/create-provisioning-policy)). Microsoft's [current provisioning policy guide](https://learn.microsoft.com/en-us/windows-365/enterprise/create-provisioning-policy) requires an ANC for this join type. Use a licensed, eligible test user and avoid overlapping assignments that could affect the existing Cloud PC.
 
 Record the policy name, join type, selected ANC, image and assigned group. Take sanitized screenshots of the wizard pages in your own tenant. A Review + create screenshot only shows the inputs you chose. It does not show that provisioning or sign-in worked.
 
 ### 4. Verify each outcome separately
 
 | Checkpoint | What to record |
-| --- | --- |
+|---|---|
 | ANC ready | Healthy status and date, with no unresolved failed checks |
 | Provisioning | New pilot Cloud PC and its policy/status in **All Cloud PCs** |
 | AD DS join | Computer object in the intended domain and OU |
@@ -108,7 +122,9 @@ Record the policy name, join type, selected ANC, image and assigned group. Take 
 | Management | Intune enrollment, primary user and last check-in |
 | User experience | Successful first sign-in, disconnect/reconnect and required app reachability |
 
-A **Provisioned** status in the portal does not show that the domain join, hybrid registration, Intune enrollment and user session all worked. If provisioning stops, record the exact stage and error. Start with DNS, domain controller path, join account permissions, OU and sync scope; then use [Microsoft's ANC troubleshooting guide](https://learn.microsoft.com/en-us/troubleshoot/windows-365/troubleshoot-azure-network-connection). Do not reprovision your only working Cloud PC for this test. ANC changes apply only to Cloud PCs provisioned after the change, and reprovisioning is a destructive action (the Cloud PC is rebuilt), according to the [ANC overview](https://learn.microsoft.com/en-us/windows-365/enterprise/azure-network-connections).
+A **Provisioned** status in the portal does not show that the domain join, hybrid registration, Intune enrollment and user session all worked. If provisioning stops, record the exact stage and error. Start with DNS, domain controller path, join account permissions, OU and sync scope; then use [Microsoft's ANC troubleshooting guide](https://learn.microsoft.com/en-us/troubleshoot/windows-365/troubleshoot-azure-network-connection).
+
+Do not reprovision your only working Cloud PC for this test. ANC changes apply only to Cloud PCs provisioned after the change, and reprovisioning is a destructive action (the Cloud PC is rebuilt), according to the [ANC overview](https://learn.microsoft.com/en-us/windows-365/enterprise/azure-network-connections).
 
 **My lab status, October 12, 2026:** Not tested yet. That covers hybrid AD DS, sync, the hybrid ANC, the policy assignment and a hybrid Cloud PC. This chapter gives the steps and the checks to pass at each stage. It has no hybrid portal screenshots because I have not taken any.
 
@@ -116,9 +132,9 @@ A **Provisioned** status in the portal does not show that the domain join, hybri
 
 Write one sentence explaining why the pilot needs an ANC. If you cannot identify an application, security or routing requirement, proceed with the Microsoft-hosted option. For ANC, require a healthy check, a dedicated pilot policy and a recovery plan (how to move users back to the Microsoft-hosted policy) before changing any production assignment.
 
-Next: [choose an image and provision](/windows-365/provision/).
+Next: [Windows 365 Enterprise: Provision a Microsoft Entra Joined Cloud PC](/windows-365/provision/).
 
-### Microsoft Learn
+## Sources
 
 - [Windows 365 deployment options](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-network-deployment-options)
 - [Azure network connections](https://learn.microsoft.com/en-us/windows-365/enterprise/azure-network-connections)

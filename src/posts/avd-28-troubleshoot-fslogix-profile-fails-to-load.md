@@ -195,7 +195,9 @@ WVDConnections
 | sort by AvgDuration desc
 ```
 
-How the query works, in short. The first block takes each connection's `Started` row and its `Connected` row (matched on `CorrelationId` with `join`) and keeps the time difference as `Duration`. The `WVDCheckpoints` part tells it whether the user reached a new session or an existing one. The last lines average the duration for each host pool and session type and put the slowest first. The result has one row per host pool and session type, with `AvgDuration` in `hh:mm:ss` form. A healthy result is a short, steady duration, and an `ExistingSession` row (reconnecting) is normally shorter than a new session. A bad result is a host pool whose `AvgDuration` is much longer than the others, or longer than it used to be. The documentation sets no number for "too long", so compare host pools and days with each other. If the query returns nothing, check that diagnostics are on for the host pool and that the Checkpoints category is ticked.
+How the query works, in short. The first block takes each connection's `Started` row and its `Connected` row (matched on `CorrelationId` with `join`) and keeps the time difference as `Duration`. The `WVDCheckpoints` part tells it whether the user reached a new session or an existing one. The last lines average the duration for each host pool and session type and put the slowest first. The result has one row per host pool and session type, with `AvgDuration` in `hh:mm:ss` form.
+
+A healthy result is a short, steady duration, and an `ExistingSession` row (reconnecting) is normally shorter than a new session. A bad result is a host pool whose `AvgDuration` is much longer than the others, or longer than it used to be. The documentation sets no number for "too long", so compare host pools and days with each other. If the query returns nothing, check that diagnostics are on for the host pool and that the Checkpoints category is ticked.
 
 Read the result with care. The time to connect includes the time a user spends typing credentials, so a peak can be a false one. And in rare cases the "completed" event of a connection goes missing, which affects some results. For one user's slow sign-in, the better evidence is the `loadProfile time:` line in that user's profile log.
 
@@ -274,4 +276,6 @@ Next: [Troubleshoot an AVD Session Host That Is Unavailable or Needs Assistance]
 
 ## Sources
 
-[Old, temporary or local profiles](https://learn.microsoft.com/en-us/fslogix/troubleshooting-old-temp-local-profiles), [FSLogix codes and what they mean](https://learn.microsoft.com/en-us/fslogix/troubleshooting-error-codes) and [Logging and diagnostics](https://learn.microsoft.com/en-us/fslogix/troubleshooting-events-logs-diagnostics).
+- [Old, temporary or local profiles](https://learn.microsoft.com/en-us/fslogix/troubleshooting-old-temp-local-profiles)
+- [FSLogix codes and what they mean](https://learn.microsoft.com/en-us/fslogix/troubleshooting-error-codes)
+- [Logging and diagnostics](https://learn.microsoft.com/en-us/fslogix/troubleshooting-events-logs-diagnostics)

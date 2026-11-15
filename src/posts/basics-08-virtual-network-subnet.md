@@ -47,7 +47,7 @@ You give the network a block of addresses. The block is written in CIDR notation
 - `/16` says how big the block is. The smaller the number after the slash, the bigger the block.
 
 | Block size | Addresses |
-| --- | --- |
+|---|---|
 | `/16` | 65,536 |
 | `/24` | 256 |
 | `/27` | 32 |

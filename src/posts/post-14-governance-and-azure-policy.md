@@ -67,8 +67,6 @@ next_title: "Platform Automation and DevOps"
 tags: [alz]
 ---
 
-
-
 In the earlier posts you saw identity, networks, security and management. Each of them has rules: who may do what, which settings are required, which logs must exist. If those rules live only in a document, they depend on people remembering them. In a large environment, people forget, and teams copy each other's mistakes.
 
 The Governance design area asks how to turn those rules into automatic guardrails and audits. It says to look at the choices you made in identity, network, security and management. Then compare them with the automated governance in the landing zone reference architecture (Microsoft's example design). That helps you decide what to audit, what to enforce, and which policies to deploy automatically.
@@ -77,14 +75,13 @@ This post covers the Governance design area, the guidance on adopting policy-dri
 
 This design area focuses on design decisions for your landing zone. Governance processes and tools in more depth are in the Govern methodology of the Cloud Adoption Framework (CAF, Microsoft's guidance for adopting the cloud).
 
-
 ## Key terms
 
 Earlier posts defined these words: landing zone, platform team, workload, subscription, resource group, scope, inheritance, management group, root and intermediate root management group, Corp, Sandbox, Azure Policy, guardrails, Azure RBAC, Microsoft Entra ID, Microsoft Defender for Cloud, diagnostic settings, Log Analytics workspace, Azure Monitor Logs, activity log, initiative, DeployIfNotExists, deny policy, tag, and brownfield.
 
 The words below are new, or are explained more fully here. Each is in plain words.
 
-| Word | What it means |
+| Term | Meaning |
 |---|---|
 | Governance | The goal of the design area: the tooling you need to support cloud governance, compliance auditing and automated guardrails. |
 | Policy definition and policy assignment | A policy definition is the rule. A policy assignment applies that rule to a scope (a management group, subscription or resource group). Definitions can be reused at several inherited assignment scopes. |
@@ -293,7 +290,6 @@ These four pictures follow the layout of pictures on Microsoft Learn. They follo
 
 *Source: [Migrate Azure landing zone policies to Azure built-in policies](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/migrate-azure-landing-zone-policies). The picture is simplified. It stops after the assignments are deleted. The text above also deletes the old definition, as the Learn steps do.*
 
-
 ## Common mistakes
 
 - **Rules only in a document.** Azure Policy replaces review boards with automated guardrails and checks.
@@ -314,7 +310,23 @@ From the list above, these came up in my own work: rules only in a document, pol
 
 - Governance and Azure Policy: guardrails, assignments and the questions to ask: [governance.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/governance.md)
 
+Next: [Platform Automation and DevOps](/azure-landing-zone/platform-automation-and-devops/).
+
 ## Sources
 
-Microsoft Learn, checked October 2026: [Design area: Azure governance](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/governance) · [Adopt policy-driven guardrails](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/dine-guidance) · [Update Azure landing zone custom policies](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/update-custom-policies) · [Migrate Azure landing zone policies to Azure built-in policies](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/migrate-azure-landing-zone-policies) · [Modify effect](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/effect-modify) · [Append effect](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/effect-append) · [Effect basics](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/effect-basics) · [Assignment structure](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/assignment-structure) · [Exemption structure](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/exemption-structure) · [Scope in Azure Policy](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/scope) · [Policy as code](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/policy-as-code) · [Get compliance data](https://learn.microsoft.com/en-us/azure/governance/policy/how-to/get-compliance-data) · [Testing approach](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/testing-approach) · [Platform landing zone implementation options](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/implementation-options)
+Microsoft Learn, checked October 2026:
 
+- [Design area: Azure governance](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/governance)
+- [Adopt policy-driven guardrails](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/dine-guidance)
+- [Update Azure landing zone custom policies](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/update-custom-policies)
+- [Migrate Azure landing zone policies to Azure built-in policies](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/migrate-azure-landing-zone-policies)
+- [Modify effect](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/effect-modify)
+- [Append effect](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/effect-append)
+- [Effect basics](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/effect-basics)
+- [Assignment structure](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/assignment-structure)
+- [Exemption structure](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/exemption-structure)
+- [Scope in Azure Policy](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/scope)
+- [Policy as code](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/policy-as-code)
+- [Get compliance data](https://learn.microsoft.com/en-us/azure/governance/policy/how-to/get-compliance-data)
+- [Testing approach](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/testing-approach)
+- [Platform landing zone implementation options](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/implementation-options)

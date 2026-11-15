@@ -1,14 +1,15 @@
 ---
 layout: base.njk
 title: "All articles"
-deck: "All articles on the site in one list. Use search to find a word inside an article."
+deck: "Every article on the site in one list. To find a word inside an article, use search."
 permalink: "/articles/"
 ---
 {%- set list = collections.articles -%}
-<header class="band"><div class="wrap band-in">
+<header class="band landing"><div class="wrap band-in">
   <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">Articles</li></ol></nav>
   <h1>All articles</h1>
-  <p class="lead">{{ list.length }} articles. To find a word inside an article, <a href="/search/">use search</a>.</p>
+  <p class="lead">{{ deck }}</p>
+  <p class="count">{{ list.length }} articles.</p>
 </div></header>
 <div class="wrap sec">
   <div class="afilter" hidden data-afilter>
@@ -21,11 +22,11 @@ permalink: "/articles/"
     <p class="fcount" role="status" aria-live="polite"></p>
   </div>
   <ul class="alist" data-alist>
-    {%- for p in list | mixLatest(articleMeta, 99, 99) %}{% set ser = p.data.tags | seriesOf %}{% set tpp = ser | topicOf %}{% set showSeries = true %}
+    {%- for p in list | mixLatest(articleMeta, 99, 99) %}{% set ser = p.data.tags | seriesOf %}{% set tpp = ser | topicOf %}
     <li data-topic="{{ tpp.slug }}" data-text="{{ (p.data.title + ' ' + p.data.deck + ' ' + ser.name) | striptags | lower }}"><a href="{{ p.url }}">
-      <strong>{{ p.data.title }}</strong>
-      <span class="ad">{{ p.data.deck | clip(240) }}</span>
-      <span class="am"><span>{{ ser.name }}</span>{% set rmeta = articleMeta[p.data.order] %}{% if rmeta %}<time datetime="{{ rmeta.published }}">{{ rmeta.published | longDate }}</time>{% endif %}<span>{{ p.templateContent | readingTime }} min read</span></span>
+      <span class="am"><span class="am-s">{{ ser.name }}</span><span>{{ p.templateContent | readingTime }} min read</span></span>
+      <span class="ab"><strong>{{ p.data.title }}</strong>
+      <span class="ad">{{ p.data.deck | clip(240) }}</span></span>
     </a></li>
     {%- endfor %}
   </ul>

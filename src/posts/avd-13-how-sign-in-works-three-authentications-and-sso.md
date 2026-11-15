@@ -177,10 +177,17 @@ These are recommended checks to run in a test environment.
 
 ## Related book chapters, lab and projects
 
-[Chapter 7](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch07-identity-architecture-foundations.md) of the book covers identity foundations and [Chapter 8](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch08-authentication-flows-in-detail.md) covers authentication flows. [Lab 4](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-04-identity-integration.md) walks through identity integration. This has not been run end to end in Azure. [Project 04](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/scenarios/project-04-hybrid-active-directory.md) and [Project 05](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/scenarios/project-05-entra-only-cloud-native.md) are fictional case studies.
+[Chapter 7](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch07-identity-architecture-foundations.md) of the book covers identity foundations and [Chapter 8](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch08-authentication-flows-in-detail.md) covers authentication flows.
+
+[Lab 4](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-04-identity-integration.md) walks through identity integration. This has not been run end to end in Azure. [Project 04](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/scenarios/project-04-hybrid-active-directory.md) and [Project 05](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/scenarios/project-05-entra-only-cloud-native.md) are fictional case studies.
 
 Next: [Secure Access with Conditional Access and Multifactor Authentication](/azure-virtual-desktop/conditional-access-and-mfa-for-avd/).
 
 ## Sources
 
-[Supported identities and authentication methods](https://learn.microsoft.com/en-us/azure/virtual-desktop/authentication), [Configure single sign-on](https://learn.microsoft.com/en-us/azure/virtual-desktop/configure-single-sign-on) and [Configure a KDC proxy](https://learn.microsoft.com/en-us/azure/virtual-desktop/key-distribution-center-proxy), [Troubleshoot single sign-on and Conditional Access for Azure Virtual Desktop](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-sso-conditional-access), [Configure the session lock behavior](https://learn.microsoft.com/en-us/azure/virtual-desktop/configure-session-lock-behavior) and [Enable passwordless security key sign-in to on-premises resources](https://learn.microsoft.com/en-us/entra/identity/authentication/howto-authentication-passwordless-security-key-on-premises).
+- [Supported identities and authentication methods](https://learn.microsoft.com/en-us/azure/virtual-desktop/authentication)
+- [Configure single sign-on](https://learn.microsoft.com/en-us/azure/virtual-desktop/configure-single-sign-on)
+- [Configure a KDC proxy](https://learn.microsoft.com/en-us/azure/virtual-desktop/key-distribution-center-proxy)
+- [Troubleshoot single sign-on and Conditional Access for Azure Virtual Desktop](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-sso-conditional-access)
+- [Configure the session lock behavior](https://learn.microsoft.com/en-us/azure/virtual-desktop/configure-session-lock-behavior)
+- [Enable passwordless security key sign-in to on-premises resources](https://learn.microsoft.com/en-us/entra/identity/authentication/howto-authentication-passwordless-security-key-on-premises)

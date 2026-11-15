@@ -15,7 +15,7 @@ A Cloud PC restore returns its disk to an earlier point. It can help after a bad
 You need a Windows 365 Enterprise Cloud PC managed in Intune, an admin role that can manage Cloud PCs in Intune (the exact permissions are listed in [Configure restore settings](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-configure)), and a test user or group for restore settings. Use a disposable Cloud PC for the actual restore exercise (judgement). Save important work to an approved external service, record the device state and agree on the restore point with the user. Do not use your only working Cloud PC for this test.
 
 | Check | Why it matters |
-| --- | --- |
+|---|---|
 | User and device | Make sure the selected Cloud PC belongs to the intended test user. |
 | Restore point time | Local files, installed apps, updates and settings changed afterward may be lost. |
 | Cloud data | OneDrive data is outside the restored disk, but verify sync before taking action. |
@@ -74,7 +74,7 @@ The Cloud PC is unavailable until the restore finishes, and the user cannot undo
 ## What I tested and what I have not
 
 | Check | What I saw on 16 October 2026 | Still to do |
-| --- | --- | --- |
+|---|---|---|
 | List of restore points | 14 automatic points and one later manual point, with sanitized portal captures | Restore a device and record whether the point was healthy. |
 | Settings and assignment | 12-hour user setting saved; pilot group assigned; self-service restore off | Check later that the 12-hour schedule creates new points. |
 | Manual point creation | Device action Completed and Manual point listed | This does not show a disk rollback. |
@@ -87,16 +87,6 @@ My [October 7 restart](https://github.com/AddySidd27/Windows365-enterprise-engin
 ## Cleanup and next step
 
 After a disposable restore test, remove the test assignment and the Cloud PC through the supported lifecycle, check what data is kept and remove any paid lab resources. Do not delete your existing Enterprise pilot for this test. The next chapter, [Secure Access and Plan Recovery](/windows-365/security-recovery/), covers Conditional Access, device security and the wider recovery plan. Windows Autopatch is not covered in this series yet.
-
-### Microsoft Learn
-
-- [Point-in-time restore overview](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-overview)
-- [Configure restore settings](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-configure)
-- [Restore a single Cloud PC](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-single-cloud-pc)
-- [Restore multiple Cloud PCs](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-bulk)
-- [Create on-demand manual restore points](https://learn.microsoft.com/en-us/windows-365/enterprise/create-manual-restore-point)
-- [Rename, restart, restore and reset Cloud PCs (user steps)](https://learn.microsoft.com/en-us/troubleshoot/windows-365/manage-windows-365-cloud-pcs#restore-your-cloud-pc)
-
 
 ## My lab on 16 October 2026
 
@@ -111,3 +101,14 @@ Next I selected **Create Restore Points** (Intune: **Devices > All devices >** t
 *Figure 2: Sanitized Intune screenshot showing the manual point after the device action completed. The [lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-10-2026-10-16-restore-pilot.md) has the action timeline.*
 
 **Result:** The manual point was created. I have not tested a single-device, bulk or user-initiated restore yet, and I did not roll back my only working Cloud PC. A full recovery test needs a test Cloud PC, a marker file, a completed restore, a reconnect, and device and user checks.
+
+Next: [Windows 365 Enterprise: Secure Access and Plan Recovery](/windows-365/security-recovery/).
+
+## Sources
+
+- [Point-in-time restore overview](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-overview)
+- [Configure restore settings](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-configure)
+- [Restore a single Cloud PC](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-single-cloud-pc)
+- [Restore multiple Cloud PCs](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-bulk)
+- [Create on-demand manual restore points](https://learn.microsoft.com/en-us/windows-365/enterprise/create-manual-restore-point)
+- [Rename, restart, restore and reset Cloud PCs (user steps)](https://learn.microsoft.com/en-us/troubleshoot/windows-365/manage-windows-365-cloud-pcs#restore-your-cloud-pc)

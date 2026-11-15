@@ -1,0 +1,18 @@
+{# Shared layout for topic and series pages. expects: lpName (crumb), lpMid (optional {name,slug}), lpTitle, lpLead, lpCount, lpGroups (list of {slug,name,short,posts}), lpShowSeries #}
+<header class="band landing"><div class="wrap band-in">
+  <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li>{% if lpMid %}<li><a href="/{{ lpMid.slug }}/">{{ lpMid.name }}</a></li>{% endif %}<li aria-current="page">{{ lpName }}</li></ol></nav>
+  <h1>{{ lpTitle }}</h1>
+  <p class="lead">{{ lpLead }}</p>
+  <p class="count">{{ lpCount }}</p>
+</div></header>
+<div class="wrap sec landing-body">
+  {%- for g in lpGroups %}
+  <section class="lab-group" aria-labelledby="g-{{ g.slug }}">
+    <h2 class="{% if lpGroups.length > 1 %}sec-h{% else %}sr-only{% endif %}" id="g-{{ g.slug }}">{% if lpGroups.length > 1 %}{{ g.name }}{% else %}Articles{% endif %}</h2>
+    {%- if lpGroups.length > 1 %}<p class="group-d">{{ g.short }}</p>{% endif %}
+    <ol class="alist rail">
+      {%- for p in g.posts %}{% set ser = p.data.tags | seriesOf %}{% set showSeries = lpShowSeries %}{% include "row.njk" %}{% endfor %}
+    </ol>
+  </section>
+  {%- endfor %}
+</div>

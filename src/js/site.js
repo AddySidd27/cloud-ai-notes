@@ -1,12 +1,5 @@
 (function(){
   var root=document.documentElement;
-  // theme toggle
-  var tb=document.getElementById('theme');
-  function dark(){var t=root.getAttribute('data-theme');return t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches}
-  function sync(){if(tb)tb.setAttribute('aria-pressed',dark()?'true':'false')}
-  sync();
-  if(tb)tb.addEventListener('click',function(){var n=dark()?'light':'dark';root.setAttribute('data-theme',n);try{localStorage.setItem('theme',n)}catch(e){}sync()});
-
   // narrow screens: keep the current section visible in the scrolling nav
   var cur=document.querySelector('.nav [aria-current]');
   if(cur){var nv=cur.parentNode;nv.scrollLeft=Math.max(0,cur.offsetLeft-nv.offsetLeft-16)}

@@ -10,16 +10,11 @@ eleventyComputed:
   deck: "{{ ser.blurb }}"
 ---
 {%- set tp = ser | topicOf -%}
-{%- set list = ser.posts -%}
-<header class="band"><div class="wrap band-in">
-  <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li>{% if tp.name != ser.name %}<li><a href="/{{ tp.slug }}/">{{ tp.name }}</a></li>{% endif %}<li aria-current="page">{{ ser.name }}</li></ol></nav>
-  <h1>{{ ser.title }}</h1>
-  <p class="lead">{{ ser.blurb }}</p>
-  <p class="cta"><a class="btn" href="{{ list[0].url }}">Start with the first article</a></p>
-  {%- if ser.tag == "alz" %}<p class="side-note">New to landing zones? <a href="/start-here/">Read the introduction first</a>.</p>{% endif %}
-</div></header>
-<div class="wrap sec">
-  <ol class="alist numbered">
-    {%- for p in list %}{% include "row.njk" %}{% endfor %}
-  </ol>
-</div>
+{%- set lpName = ser.name -%}
+{%- set lpMid = tp if tp.name != ser.name else none -%}
+{%- set lpTitle = ser.title -%}
+{%- set lpLead = ser.blurb -%}
+{%- set lpCount = ser.posts.length + " articles, in reading order." -%}
+{%- set lpGroups = [ser] -%}
+{%- set lpShowSeries = false -%}
+{% include "landing.njk" %}

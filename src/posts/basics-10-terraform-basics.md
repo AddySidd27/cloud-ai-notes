@@ -247,7 +247,7 @@ Now run `terraform plan` once more with no changes.
 
 Check: the plan says `No changes. Your infrastructure matches the configuration.` That is the sign that code, state and Azure agree.
 
-**Checkpoint.** You can stop here. If you stop, run `terraform destroy` (see Clean up) so nothing is left behind, and start Pass 2 later from the same folder.
+Check: you can stop here. If you stop, run `terraform destroy` (see Clean up) so nothing is left behind, and start Pass 2 later from the same folder.
 
 ### Pass 2: add the network, subnet and network security group
 
@@ -363,7 +363,7 @@ Check: the plan says `No changes. Your infrastructure matches the configuration.
 ### Errors you may see
 
 | What you see | What to do |
-| --- | --- |
+|---|---|
 | `terraform` is not recognized | The PATH entry is missing or the old PowerShell window is still open. See "Install Terraform on Windows". |
 | An error about a missing value for `subscription_id` or `location` | `terraform.tfvars` is missing, has another name, or is in another folder. It must be called exactly `terraform.tfvars` and sit next to the `.tf` files. |
 | An error that says to run `az login`, or that it cannot build the account | Run `az login` again and `az account show`. Check that the subscription is the right one. |

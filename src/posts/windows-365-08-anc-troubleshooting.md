@@ -9,7 +9,9 @@ tags: w365-series
 deck: "A test of an Azure network connection (ANC) in an isolated network. It shows the health error I saw, what is still unknown, and how I removed the temporary Azure resources. I did not find a fix. The article shows how to investigate."
 ---
 
-An Azure network connection (ANC) is an object in the Microsoft Intune admin center. It tells Windows 365 which subnet in your own Azure virtual network (VNet) a Cloud PC's network card should join. A Cloud PC is the Windows desktop that Windows 365 runs for a user. An ANC is worth testing when an application needs a customer-managed network path. I tested this separately from my working pilot. I created the ANC, and its health check showed an error. I do not know the cause, so I will not guess. The test ran over two days. The health check was on October 1, 2026, and the retry and cleanup were on October 4. For the join types and network options, see [Choose identity and network](/windows-365/identity-network/#words-to-know).
+An Azure network connection (ANC) is an object in the Microsoft Intune admin center. It tells Windows 365 which subnet in your own Azure virtual network (VNet) a Cloud PC's network card should join. A Cloud PC is the Windows desktop that Windows 365 runs for a user. An ANC is worth testing when an application needs a customer-managed network path.
+
+I tested this separately from my working pilot. I created the ANC, and its health check showed an error. I do not know the cause, so I will not guess. The test ran over two days. The health check was on October 1, 2026, and the retry and cleanup were on October 4. For the join types and network options, see [Choose identity and network](/windows-365/identity-network/#words-to-know).
 
 ## My test setup
 
@@ -53,7 +55,7 @@ These steps are a suggested method. I did not complete them, and I never got a h
 Two facts from Learn matter for an idle lab ANC. An ANC that is unused for a period becomes **Inactive**, and its health checks pause until it is reactivated. You also cannot delete an ANC that a provisioning policy uses ([Azure network connections](https://learn.microsoft.com/en-us/windows-365/enterprise/azure-network-connections)).
 
 | Resource or test | Result |
-| --- | --- |
+|---|---|
 | Entra join ANC | Created; status Checks failed (Endpoint connectivity Error, 2 Warnings, 7 Passed; see the [identity and network article](/windows-365/identity-network/#anc-path)) |
 | Outbound endpoint check | Error on the required endpoint `*.infra.windows365.microsoft.com`, TCP port 443 |
 | Temporary NAT gateway and public IP | Removed after the lab |
@@ -66,9 +68,9 @@ My [October 4 retry record](https://github.com/AddySidd27/Windows365-enterprise-
 
 A healthy ANC is the first checkpoint, not the last (judgement). After it you need a policy that uses it, a newly provisioned test Cloud PC, a successful user session, access to a private application (an internal app that has no public address) and a written cleanup. I have none of these yet. My ANC failed its health check and I have not tested it further.
 
-Next: [turn the pilot into an operating service](/windows-365/operate-and-extend/).
+Next: [Windows 365 Enterprise: Operate, Roll Out and Extend](/windows-365/operate-and-extend/).
 
-### Microsoft Learn
+## Sources
 
 - [Azure network connections](https://learn.microsoft.com/en-us/windows-365/enterprise/azure-network-connections)
 - [Azure network connection health checks](https://learn.microsoft.com/en-us/windows-365/enterprise/health-checks)

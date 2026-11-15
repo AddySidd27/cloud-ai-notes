@@ -70,8 +70,6 @@ next_title: "Tenant, Billing, Subscriptions and Management Groups"
 tags: [alz]
 ---
 
-
-
 The platform is the shared part of Azure (identity, network, monitoring, security). A workload is one application and its own resources. When the line between them is not written down, two things can happen.
 
 First, platform and workload mix. A workload team changes a shared network because it is "just one rule". Or the platform team ends up fixing an application because the application's resources sit in a platform subscription. Each change looks small. Together they make the shared foundation hard to trust.
@@ -80,12 +78,11 @@ Second, learners mix up a lab and a real landing zone. A lab is a good way to le
 
 This post sets the boundary, and then shows where the learning lab in my GitHub repo stops short of an enterprise design.
 
-
 ## Key terms
 
 Terms from [the landing zone introduction post](/azure-landing-zone/what-is-an-azure-landing-zone/) (tenant, subscription, management group, Azure Policy, inheritance, virtual network, Log Analytics workspace, Microsoft Sentinel, Microsoft Entra Domain Services, platform team, workload team and workload) keep the same meaning here. The new terms are below, in short, plain words.
 
-| Word | What it means |
+| Term | Meaning |
 |---|---|
 | Tenant root group | Every tenant has one management group at the very top. By default it is called Tenant root group. |
 | Resource group | A container that holds related resources for an Azure solution. It sits inside a subscription. |
@@ -156,7 +153,6 @@ The lab teaches the workflow. The enterprise column shows what a real design add
 
 *Simplified diagram based on [Management groups in the Azure landing zone architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups). It shows the Platform group with its four child management groups and subscriptions, and the Corp, Online and Local groups with example subscriptions. Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/) set. Microsoft's own reference diagrams are on the [What is an Azure landing zone?](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/) page.*
 
-
 ## Common mistakes
 
 - **New subscriptions land at the root.** By default, new subscriptions go under the tenant root management group. Set a default management group for new subscriptions, so none sit at the root.
@@ -172,7 +168,12 @@ These situations came up in my own work: platform and workload resources in the 
 
 - This post: [lab-vs-enterprise.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/00-start-here/lab-vs-enterprise.md)
 
+Next: [Tenant, Billing, Subscriptions and Management Groups](/azure-landing-zone/tenant-billing-subscriptions-and-management-groups/).
+
 ## Sources
 
-Microsoft Learn, checked October 2026: [Management groups](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups) · [Landing zone overview](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/) · [Subscriptions](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-subscriptions)
+Microsoft Learn, checked October 2026:
 
+- [Management groups](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups)
+- [Landing zone overview](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/)
+- [Subscriptions](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-subscriptions)

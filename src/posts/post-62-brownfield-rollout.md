@@ -139,8 +139,6 @@ next_title: "Landing Zone Use Cases"
 tags: [alz]
 ---
 
-
-
 "Brownfield" means an environment that already exists, with subscriptions, resources and running workloads; its opposite, "greenfield", is a new one where nothing is built yet. If you have nothing yet, read [the greenfield rollout post](/azure-landing-zone/greenfield-rollout/).
 
 No documentation page is named "brownfield rollout". The page "Journey toward the target architecture" names three starting points, Start (new), Align (existing, needs changes) and Enhance (already in line), and uses the word "brownfield" for Align. It links to a transition page ("Transition an existing Azure environment to the Azure landing zone reference architecture"), three scenario pages, an approach page ("Scenario: Transition an environment by duplicating a landing zone management group") and a page on refactoring a landing zone. This post turns those, plus the moving, policy and Azure CLI pages, into a playbook. Where the order or reading is mine, I say so.
@@ -163,7 +161,7 @@ For the people who approve the work. Items marked "my suggestion" are mine. Word
 
 Earlier posts defined [landing zone and guardrail](/azure-landing-zone/what-is-an-azure-landing-zone/), [subscription and management group](/azure-landing-zone/tenant-billing-subscriptions-and-management-groups/), [Corp, Online, Sandboxes and Decommissioned](/azure-landing-zone/resource-organization/), [hub network and peering](/azure-landing-zone/network-topology-and-connectivity/), and, in [the governance post](/azure-landing-zone/governance-and-azure-policy/), policy effects, DeployIfNotExists (DINE), Modify and non-compliant.
 
-| Word | What it means |
+| Term | Meaning |
 |---|---|
 | Tenant root group | The top management group, which Azure creates for the tenant. Every other group and subscription sits under it. |
 | Intermediate root | The management group directly under the tenant root group that holds your whole landing zone design. |
@@ -370,7 +368,9 @@ app2-mixed moves as it is, with its test resources inside it, because moving ind
 
 ## Build beside the old environment
 
-**Before you start.** The builder needs the Owner role on the intermediate root, because the build creates groups and assigns access and policy (my reading). By default no one has access to the root group. A Global Administrator can grant it, as shown in [before you start](/azure-landing-zone/greenfield-rollout/#before-you-start). Portal, Bicep and Terraform work in Azure public clouds; sovereign clouds need manual changes to Bicep or Terraform ([Deploy Azure landing zones](https://learn.microsoft.com/en-us/azure/architecture/landing-zones/landing-zone-deploy); [choose how to implement it](/azure-landing-zone/greenfield-rollout/#choose-how-to-implement-it)). The build creates the same billable platform resources as a new environment ([cost note](/azure-landing-zone/greenfield-rollout/#build-the-platform%2C-then-check-it)); the audit-only copies add none.
+**Before you start.** The builder needs the Owner role on the intermediate root, because the build creates groups and assigns access and policy (my reading). By default no one has access to the root group. A Global Administrator can grant it, as shown in [before you start](/azure-landing-zone/greenfield-rollout/#before-you-start).
+
+Portal, Bicep and Terraform work in Azure public clouds; sovereign clouds need manual changes to Bicep or Terraform ([Deploy Azure landing zones](https://learn.microsoft.com/en-us/azure/architecture/landing-zones/landing-zone-deploy); [choose how to implement it](/azure-landing-zone/greenfield-rollout/#choose-how-to-implement-it)). The build creates the same billable platform resources as a new environment ([cost note](/azure-landing-zone/greenfield-rollout/#build-the-platform%2C-then-check-it)); the audit-only copies add none.
 
 1. **Deploy the landing zone in parallel**, in the same tenant, by following [the greenfield rollout post](/azure-landing-zone/greenfield-rollout/). This does not affect the existing environment. *Check:* the new groups appear in `az account management-group list`, and no existing subscription has moved.
 2. **Protect the top of the hierarchy.** By default any user in the tenant can create a management group, and new subscriptions land under the root. Set a default group for new subscriptions, because the setting exists to give new subscriptions a more restrictive set of controls. The management groups design area page names a sandbox group as a good candidate for this default. My reading: a dedicated holding group with restrictive policy is also reasonable, because new subscriptions then start with strict controls until someone places them. Then turn on require authorization (in the portal, "Permissions for creating new management groups"). You need the Hierarchy Settings Administrator role or the same permissions. Use the portal (Management groups, root group, Settings) or the REST API; the documentation gives no `az` command: [protect your resource hierarchy](https://learn.microsoft.com/en-us/azure/governance/management-groups/how-to/protect-resource-hierarchy). *Check:* open the root group's Settings in the portal and confirm both.
@@ -683,5 +683,8 @@ My repo is a learning implementation, and its own order and habits are the repos
 
 ## Sources
 
-Microsoft Learn, checked October 2026: [Transition an existing Azure environment to the Azure landing zone reference architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/transition) · [Scenario: Transition an environment by duplicating a landing zone management group](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/align-approach-duplicate-brownfield-audit-only) · [Manage Azure Enterprise Agreement roles](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/understand-ea-roles)
+Microsoft Learn, checked October 2026:
 
+- [Transition an existing Azure environment to the Azure landing zone reference architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/transition)
+- [Scenario: Transition an environment by duplicating a landing zone management group](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/align-approach-duplicate-brownfield-audit-only)
+- [Manage Azure Enterprise Agreement roles](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/understand-ea-roles)

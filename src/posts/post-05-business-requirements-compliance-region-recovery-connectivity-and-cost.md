@@ -95,8 +95,6 @@ next_title: "Billing and the Microsoft Entra Tenant, in Depth"
 tags: [alz]
 ---
 
-
-
 A landing zone is the prepared Azure environment where teams run what they build ([the landing zone basics post](/azure-landing-zone/what-is-an-azure-landing-zone/) explains it). Its platform part, the platform landing zone, is the shared foundation. A workload is an application or service, with its Azure resources, that runs on that foundation.
 
 The first step is simple: before you build the platform landing zone (the shared foundation), define your organization's requirements across the design areas (topics such as networking, identity and governance that the design covers). Those decisions determine how you design the landing zone.
@@ -109,12 +107,11 @@ Gaps in these requirements can show up late. Three examples:
 
 This post covers five requirements and shows which part of the landing zone each one changes. The official documentation does not list these five together. (judgement) I group them because each one is an input to the landing zone design.
 
-
 ## Key terms
 
 These are the main words this post depends on. Other terms are explained where they first appear.
 
-| Word | What it means |
+| Term | Meaning |
 |---|---|
 | Subscription | A unit of management, billing and scale in Azure. Your resources live inside it, and it is a boundary for cost, governance and access controls. |
 | Management group | A level above subscriptions where you apply rules. Every subscription under it inherits those rules. |
@@ -193,7 +190,9 @@ For tools, use Azure Backup (a service that protects your data and lets you rest
 
 ## Connectivity: how people and workloads reach Azure
 
-If your plans include hybrid dependencies, your network design should include those connection options and the traffic patterns you expect. In the landing zone, the hub network and its hybrid connection are built in the Connectivity subscription, which sits under the Connectivity management group (the platform management group for shared networking). Two common ways to link your network to Azure are VPN Gateway and ExpressRoute. VPN Gateway sends encrypted traffic between an Azure virtual network and your on-premises locations over the public internet. ExpressRoute is a private connection from your on-premises networks to the Microsoft cloud. You set it up with a connectivity provider, and it does not use the public internet.
+If your plans include hybrid dependencies, your network design should include those connection options and the traffic patterns you expect. In the landing zone, the hub network and its hybrid connection are built in the Connectivity subscription, which sits under the Connectivity management group (the platform management group for shared networking).
+
+Two common ways to link your network to Azure are VPN Gateway and ExpressRoute. VPN Gateway sends encrypted traffic between an Azure virtual network and your on-premises locations over the public internet. ExpressRoute is a private connection from your on-premises networks to the Microsoft cloud. You set it up with a connectivity provider, and it does not use the public internet.
 
 Three points:
 
@@ -231,7 +230,6 @@ One more warning: do not spend months or years designing the landing zone withou
 
 *Source: [What is an Azure landing zone?](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/). The documentation has no diagram of this, so the layout is simplified. Icons are from the [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/) set.*
 
-
 ## Common mistakes
 
 - **Region rules added late.** Build the allowed locations policy into the baseline from the start.
@@ -255,7 +253,18 @@ These situations came up in my own work: requirements not collected first, regio
 - Connectivity: [connectivity-options.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/connectivity-options.md)
 - Cost: [naming-tagging-cost.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/naming-tagging-cost.md)
 
+Next: [Billing and the Microsoft Entra Tenant, in Depth](/azure-landing-zone/billing-and-tenant-in-depth/).
+
 ## Sources
 
-Microsoft Learn, checked October 2026: [Design principles](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-principles) · [Multiple locations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/landing-zone-multinational) · [Platform landing zone for on-premises experts](https://learn.microsoft.com/en-us/azure/migration/migrate-from-on-premises-platform-landing-zone) · [Business continuity, high availability and disaster recovery](https://learn.microsoft.com/en-us/azure/reliability/concept-business-continuity-high-availability-disaster-recovery) · [Region pairs and nonpaired regions](https://learn.microsoft.com/en-us/azure/reliability/regions-paired) · [PCI DSS](https://learn.microsoft.com/en-us/compliance/regulatory/offering-pci-dss) · [ExpressRoute](https://learn.microsoft.com/en-us/azure/expressroute/expressroute-introduction) · [VPN Gateway](https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways) · [Virtual WAN](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about)
+Microsoft Learn, checked October 2026:
 
+- [Design principles](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-principles)
+- [Multiple locations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/landing-zone-multinational)
+- [Platform landing zone for on-premises experts](https://learn.microsoft.com/en-us/azure/migration/migrate-from-on-premises-platform-landing-zone)
+- [Business continuity, high availability and disaster recovery](https://learn.microsoft.com/en-us/azure/reliability/concept-business-continuity-high-availability-disaster-recovery)
+- [Region pairs and nonpaired regions](https://learn.microsoft.com/en-us/azure/reliability/regions-paired)
+- [PCI DSS](https://learn.microsoft.com/en-us/compliance/regulatory/offering-pci-dss)
+- [ExpressRoute](https://learn.microsoft.com/en-us/azure/expressroute/expressroute-introduction)
+- [VPN Gateway](https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways)
+- [Virtual WAN](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about)

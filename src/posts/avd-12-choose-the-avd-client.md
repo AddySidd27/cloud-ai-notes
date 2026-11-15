@@ -94,7 +94,9 @@ The Windows App documentation has a comparison of features across platforms, wit
 | Input Protection and Display Protection (preview) | Windows only, with a minimum Windows App version and session host configuration. Input Protection also needs the Windows Cloud Input Protect MSI on the device. |
 | Private Link | Windows, macOS, iOS and iPadOS, and Android and Chrome OS. Not the web client or Meta Quest. |
 
-Terms in the table. STUN and TURN are two methods RDP Shortpath uses over public networks (see the [networking article](/azure-virtual-desktop/plan-avd-networking/)). WebRTC and SlimCore are two ways Teams media optimization works. TWAIN is a standard for scanners. RAW printing sends print data to the printer without converting it first. Publisher Imagesetter is a printer driver. YubiKey is a brand of hardware security key. RDP Multipath lets one session use several network paths at once. Input Protection protects typed keys from keyloggers on the device. Display Protection stops the session display from being captured. Screen capture protection blocks screenshots of the session. Watermarking shows a visible label over the session. Managed networks are networks you control, such as a company network. Public networks are the open internet.
+Terms in the table. STUN and TURN are two methods RDP Shortpath uses over public networks (see the [networking article](/azure-virtual-desktop/plan-avd-networking/)). WebRTC and SlimCore are two ways Teams media optimization works. TWAIN is a standard for scanners. RAW printing sends print data to the printer without converting it first. Publisher Imagesetter is a printer driver. YubiKey is a brand of hardware security key.
+
+RDP Multipath lets one session use several network paths at once. Input Protection protects typed keys from keyloggers on the device. Display Protection stops the session display from being captured. Screen capture protection blocks screenshots of the session. Watermarking shows a visible label over the session. Managed networks are networks you control, such as a company network. Public networks are the open internet.
 
 The comparison page marks a feature as present or absent on a platform and labels some entries preview. It gives version numbers for only a few features and does not say how well a feature works, so treat a tick as a reason to test, not a guarantee. Redirection also depends on what your administrator allows. If the host pool setting and the session host policy differ, the most restrictive one wins.
 
@@ -143,4 +145,6 @@ Next: [How Sign-in Works: Three Authentications and Single Sign-on](/azure-virtu
 
 ## Sources
 
-Microsoft Learn, checked November 2026: [Windows App features across platforms and devices](https://learn.microsoft.com/en-us/windows-app/compare-platforms-features?pivots=azure-virtual-desktop), [What is Windows App?](https://learn.microsoft.com/en-us/windows-app/overview), [Get started with Windows App](https://learn.microsoft.com/en-us/windows-app/get-started-connect-devices-desktops-apps?pivots=azure-virtual-desktop), [Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites) and, for the status of the older clients, the archived [Remote Desktop client overview](https://learn.microsoft.com/en-us/previous-versions/remote-desktop-client/overview).
+- [Windows App features across platforms and devices](https://learn.microsoft.com/en-us/windows-app/compare-platforms-features?pivots=azure-virtual-desktop)
+- [What is Windows App?](https://learn.microsoft.com/en-us/windows-app/overview)
+- [Get started with Windows App](https://learn.microsoft.com/en-us/windows-app/get-started-connect-devices-desktops-apps?pivots=azure-virtual-desktop)

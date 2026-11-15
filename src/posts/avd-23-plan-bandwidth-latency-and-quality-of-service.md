@@ -12,7 +12,9 @@ description: "What the Azure Virtual Desktop documentation says about bandwidth,
 
 A user says the session is slow. The picture stutters, typing lags behind the keys, or a video call breaks up. Those complaints can come from the network between the user's device and the session host (the virtual machine that runs the session), or from the session host itself. The documentation puts it this way: graphical quality during a connection is affected by many factors, such as network configuration, network load or virtual machine load.
 
-This article covers the network part and shows how to tell it from the others. It explains bandwidth, round-trip time, packet loss and jitter, what the documentation says about each, what Quality of Service (QoS, a way to give real-time traffic priority) can and cannot do, which settings decide whether UDP (a fast transport that does not resend lost packets) is used, how Microsoft Teams is set up, and which logs show what a connection saw. The terms are defined in Key terms below. Which transport carries a session (TCP through the gateway, or UDP with RDP Shortpath) and how a connection is built are covered in [the connection article](/azure-virtual-desktop/follow-a-connection-step-by-step/). Sizing the session hosts is covered in [the host pool planning article](/azure-virtual-desktop/plan-your-host-pools/).
+This article covers the network part and shows how to tell it from the others. It explains bandwidth, round-trip time, packet loss and jitter, what the documentation says about each, what Quality of Service (QoS, a way to give real-time traffic priority) can and cannot do, which settings decide whether UDP (a fast transport that does not resend lost packets) is used, how Microsoft Teams is set up, and which logs show what a connection saw.
+
+The terms are defined in Key terms below. Which transport carries a session (TCP through the gateway, or UDP with RDP Shortpath) and how a connection is built are covered in [the connection article](/azure-virtual-desktop/follow-a-connection-step-by-step/). Sizing the session hosts is covered in [the host pool planning article](/azure-virtual-desktop/plan-your-host-pools/).
 
 ## Key terms
 
@@ -203,7 +205,9 @@ It shows the transport: UDP (Private Network), UDP, or UDP (Relay). The connecti
 
 ### The connection network data table
 
-This Log Analytics table is called NetworkData in the documentation, and the sample queries use the name `WVDConnectionNetworkData`. Choose Network Data Logs in the host pool's diagnostic settings. Data can take up to 15 minutes to appear. Send the host pool's diagnostics to a Log Analytics workspace first. The service writes a record every two minutes during an active session, with the estimated available bandwidth, the estimated round-trip time and the correlation ID of the connection, so a record can be tied to a connection. The round-trip time in this table is measured the same way for TCP and UDP. The page lists this as an advantage over the RemoteFX network performance counters (older Windows counters for remote sessions). Bandwidth in this table is in kilobytes per second (column `EstAvailableBandwidthKBps`), not bits, and is an average over the interval. Multiply by 8 (simple arithmetic) to compare it with the Mbps figures in this article.
+This Log Analytics table is called NetworkData in the documentation, and the sample queries use the name `WVDConnectionNetworkData`. Choose Network Data Logs in the host pool's diagnostic settings. Data can take up to 15 minutes to appear. Send the host pool's diagnostics to a Log Analytics workspace first. The service writes a record every two minutes during an active session, with the estimated available bandwidth, the estimated round-trip time and the correlation ID of the connection, so a record can be tied to a connection.
+
+The round-trip time in this table is measured the same way for TCP and UDP. The page lists this as an advantage over the RemoteFX network performance counters (older Windows counters for remote sessions). Bandwidth in this table is in kilobytes per second (column `EstAvailableBandwidthKBps`), not bits, and is an average over the interval. Multiply by 8 (simple arithmetic) to compare it with the Mbps figures in this article.
 
 ### The connection graphics data table (preview)
 
@@ -259,6 +263,19 @@ This table maps a report to the first thing to look at. This mapping is my judge
 6. For Teams, restart the app in a remote session and read the About Teams banner.
 7. Run a load test with real workloads before you decide on link sizes or QoS.
 
+Next: [Choose Session Host VM Sizes: Compute, GPU, Disks and Quota](/azure-virtual-desktop/choose-session-host-vm-sizes/).
+
 ## Sources
 
-[RDP bandwidth requirements](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-bandwidth), [Quality of Service for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-quality-of-service-qos) and [troubleshoot connection quality](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-connection-quality), [Prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites), [Network guidelines](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/network-guidance), [Use cases for Azure Virtual Desktop Insights](https://learn.microsoft.com/en-us/azure/virtual-desktop/insights-use-cases), [RDP Shortpath](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-shortpath), [Configure RDP Shortpath](https://learn.microsoft.com/en-us/azure/virtual-desktop/configure-rdp-shortpath), [Use Microsoft Teams on Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/teams-on-avd), [Azure network round-trip latency statistics](https://learn.microsoft.com/en-us/azure/networking/azure-network-latency), [Connection latency](https://learn.microsoft.com/en-us/azure/virtual-desktop/connection-latency) and [Collect and query connection quality data](https://learn.microsoft.com/en-us/azure/virtual-desktop/connection-quality-monitoring).
+- [RDP bandwidth requirements](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-bandwidth)
+- [Quality of Service for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-quality-of-service-qos)
+- [troubleshoot connection quality](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-connection-quality)
+- [Prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites)
+- [Network guidelines](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/network-guidance)
+- [Use cases for Azure Virtual Desktop Insights](https://learn.microsoft.com/en-us/azure/virtual-desktop/insights-use-cases)
+- [RDP Shortpath](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-shortpath)
+- [Configure RDP Shortpath](https://learn.microsoft.com/en-us/azure/virtual-desktop/configure-rdp-shortpath)
+- [Use Microsoft Teams on Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/teams-on-avd)
+- [Azure network round-trip latency statistics](https://learn.microsoft.com/en-us/azure/networking/azure-network-latency)
+- [Connection latency](https://learn.microsoft.com/en-us/azure/virtual-desktop/connection-latency)
+- [Collect and query connection quality data](https://learn.microsoft.com/en-us/azure/virtual-desktop/connection-quality-monitoring)

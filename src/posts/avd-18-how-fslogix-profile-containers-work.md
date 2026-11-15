@@ -147,7 +147,9 @@ The old, temporary or local profiles page says that, in general, the root cause 
 
 For slow sign-ins see [Troubleshooting issues with long or failed sign-ins](https://learn.microsoft.com/en-us/fslogix/troubleshooting-long-failed-signin).
 
-Where to look is below. Two error codes appear in the example profile logs on the [old, temporary, or local profiles page](https://learn.microsoft.com/en-us/fslogix/troubleshooting-old-temp-local-profiles): `FrxStatus: 31` with "(Access is denied.)" or "(The user name or password is incorrect.)", and `FrxStatus: 33` with "(The process cannot access the file because another process has locked a portion of the file.)" when the profile is in use on another computer. The Learn page shows these only as log examples; the number is the Windows error code FSLogix recorded, and [FSLogix codes and what they mean](https://learn.microsoft.com/en-us/fslogix/troubleshooting-error-codes) says the Windows error text varies (it shows `FrxStatus: 31` with a different message).
+Where to look is below. Two error codes appear in the example profile logs on the [old, temporary, or local profiles page](https://learn.microsoft.com/en-us/fslogix/troubleshooting-old-temp-local-profiles): `FrxStatus: 31` with "(Access is denied.)" or "(The user name or password is incorrect.)", and `FrxStatus: 33` with "(The process cannot access the file because another process has locked a portion of the file.)" when the profile is in use on another computer.
+
+The Learn page shows these only as log examples; the number is the Windows error code FSLogix recorded, and [FSLogix codes and what they mean](https://learn.microsoft.com/en-us/fslogix/troubleshooting-error-codes) says the Windows error text varies (it shows `FrxStatus: 31` with a different message).
 
 Where to look: the profile log file at `C:\ProgramData\FSLogix\Logs\Profile\Profile_<date>.log` (logging must be configured first; see [Logging and diagnostics](https://learn.microsoft.com/en-us/fslogix/troubleshooting-events-logs-diagnostics)), and the FSLogix logs in Windows Event Viewer under Applications and Services Logs. In the profile log, search for `LoadProfile: <username>` to find a user's sign-in.
 
@@ -175,6 +177,22 @@ These steps follow the FSLogix profile container setup page. Try them in a test 
 2. In PowerShell or Command Prompt (run as that standard user), go to `C:\Program Files\FSLogix\Apps` and run `.\frx.exe list-redirects` (`frx.exe` is the FSLogix command-line tool). The output lists the active redirections, including the profile path.
 3. Open the folder from the `VHDLocations` value in File Explorer, open the user's folder and confirm the VHDX file exists.
 
+Next: [Choose Storage and Set Access for FSLogix Profile Containers](/azure-virtual-desktop/choose-storage-and-set-access-for-fslogix-profile-containers/).
+
 ## Sources
 
-[User profile management for Azure Virtual Desktop with FSLogix profile containers](https://learn.microsoft.com/en-us/azure/virtual-desktop/fslogix-profile-containers), [Types of containers](https://learn.microsoft.com/en-us/fslogix/concepts-container-types), [Troubleshooting issues with old, temporary, or local profiles](https://learn.microsoft.com/en-us/fslogix/troubleshooting-old-temp-local-profiles), [Troubleshooting issues with container attach or detach](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-attach-detach), [Troubleshooting issues with container locked or in use](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-locked), [Troubleshooting long or failed sign-ins](https://learn.microsoft.com/en-us/fslogix/troubleshooting-long-failed-signin), [Logging and diagnostics](https://learn.microsoft.com/en-us/fslogix/troubleshooting-events-logs-diagnostics), [Concurrent or multiple connections to a single container](https://learn.microsoft.com/en-us/fslogix/concepts-multi-concurrent-connections), [Configuration examples](https://learn.microsoft.com/en-us/fslogix/concepts-configuration-examples), [Configuration setting reference](https://learn.microsoft.com/en-us/fslogix/reference-configuration-settings), [Configure profile containers](https://learn.microsoft.com/en-us/fslogix/tutorial-configure-profile-containers), [Using FSLogix Group Policy Template Files](https://learn.microsoft.com/en-us/fslogix/how-to-use-group-policy-templates), [FSLogix FAQ](https://learn.microsoft.com/en-us/fslogix/overview-faq), [FSLogix prerequisites](https://learn.microsoft.com/en-us/fslogix/overview-prerequisites) and [Temporary User Profiles](https://learn.microsoft.com/en-us/windows/win32/shell/temporary-user-profiles).
+- [User profile management for Azure Virtual Desktop with FSLogix profile containers](https://learn.microsoft.com/en-us/azure/virtual-desktop/fslogix-profile-containers)
+- [Types of containers](https://learn.microsoft.com/en-us/fslogix/concepts-container-types)
+- [Troubleshooting issues with old, temporary, or local profiles](https://learn.microsoft.com/en-us/fslogix/troubleshooting-old-temp-local-profiles)
+- [Troubleshooting issues with container attach or detach](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-attach-detach)
+- [Troubleshooting issues with container locked or in use](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-locked)
+- [Troubleshooting long or failed sign-ins](https://learn.microsoft.com/en-us/fslogix/troubleshooting-long-failed-signin)
+- [Logging and diagnostics](https://learn.microsoft.com/en-us/fslogix/troubleshooting-events-logs-diagnostics)
+- [Concurrent or multiple connections to a single container](https://learn.microsoft.com/en-us/fslogix/concepts-multi-concurrent-connections)
+- [Configuration examples](https://learn.microsoft.com/en-us/fslogix/concepts-configuration-examples)
+- [Configuration setting reference](https://learn.microsoft.com/en-us/fslogix/reference-configuration-settings)
+- [Configure profile containers](https://learn.microsoft.com/en-us/fslogix/tutorial-configure-profile-containers)
+- [Using FSLogix Group Policy Template Files](https://learn.microsoft.com/en-us/fslogix/how-to-use-group-policy-templates)
+- [FSLogix FAQ](https://learn.microsoft.com/en-us/fslogix/overview-faq)
+- [FSLogix prerequisites](https://learn.microsoft.com/en-us/fslogix/overview-prerequisites)
+- [Temporary User Profiles](https://learn.microsoft.com/en-us/windows/win32/shell/temporary-user-profiles)

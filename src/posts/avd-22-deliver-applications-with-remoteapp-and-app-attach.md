@@ -10,7 +10,9 @@ deck: "See the three ways an application gets onto session hosts, how App Attach
 description: "Understand application delivery in Azure Virtual Desktop: apps in the image, Intune installs, App Attach packages, the sources you can publish with RemoteApp, and the open documentation conflicts."
 ---
 
-Getting an application to a user in Azure Virtual Desktop takes two jobs. The first is to get the application onto the session hosts the user connects to. The second is to decide what the user sees: a full desktop, or only the applications you choose. This article covers the first job in depth and the publishing sources for the second. The rules that connect host pools, application groups and workspaces are in [Host Pools, Application Groups and Workspaces: The Rules That Connect Them](/azure-virtual-desktop/host-pool-application-group-workspace-rules/), which this article does not repeat. The terms session host, host pool, application group, workspace and Windows App are explained in Key terms below.
+Getting an application to a user in Azure Virtual Desktop takes two jobs. The first is to get the application onto the session hosts the user connects to. The second is to decide what the user sees: a full desktop, or only the applications you choose. This article covers the first job in depth and the publishing sources for the second.
+
+The rules that connect host pools, application groups and workspaces are in [Host Pools, Application Groups and Workspaces: The Rules That Connect Them](/azure-virtual-desktop/host-pool-application-group-workspace-rules/), which this article does not repeat. The terms session host, host pool, application group, workspace and Windows App are explained in Key terms below.
 
 It covers three ways to put an application on session hosts (in the image, installed by Microsoft Intune, or attached with App Attach), how App Attach works and what it needs, and where you can publish RemoteApp applications from. App Attach is a feature of Azure Virtual Desktop that dynamically attaches an application from an application package to a user's session. The application is not installed on the session host or in the image: the package sits on a file share, and App Attach mounts it to the user's session during sign-in. This article is where the series explains App Attach. It does not cover how to build an image or package an application.
 
@@ -53,7 +55,9 @@ There are three routes. They can be mixed in one environment.
 
 The diagram has a title, "Two jobs: get the application onto session hosts, and decide what users see", and, at the bottom, a key that explains the arrows: a solid arrow means the box at its tail delivers to, or is assigned to, the box at its head; a dashed arrow means the box at its tail reads from the box at its head; a box inside a box means the outer box holds the inner one. It reads from top to bottom. The three route arrows and the application group arrow share one line on the right edge and end at the host pool box. Arrows start at the route box or the application group box, not at the boxes inside them.
 
-Job 1, get the application onto the session hosts. Three boxes, one for each route. "In the image": the application is installed in the image, so every session host built from that image has it. "Installed with Intune": on Windows Enterprise multi-session session hosts, system context, targeted to devices, Required or Uninstall intent, not the Available intent. "With App Attach": the application is not installed on the session host or in the image; the application package is assigned to the host pool and to users. Inside this box is an "SMB file share" box (Azure Files is recommended), and inside that an "Application package" box (a disk image or an App-V package). A solid arrow leads from each of the three route boxes to a "Host pool" box. The host pool box says that in a pooled host pool several users can be on one session host, and holds a "Session hosts (virtual machines)" box. A dashed arrow leads from the session hosts box to the SMB file share box: the session hosts read from the file share.
+Job 1, get the application onto the session hosts. Three boxes, one for each route. "In the image": the application is installed in the image, so every session host built from that image has it. "Installed with Intune": on Windows Enterprise multi-session session hosts, system context, targeted to devices, Required or Uninstall intent, not the Available intent. "With App Attach": the application is not installed on the session host or in the image; the application package is assigned to the host pool and to users.
+
+Inside this box is an "SMB file share" box (Azure Files is recommended), and inside that an "Application package" box (a disk image or an App-V package). A solid arrow leads from each of the three route boxes to a "Host pool" box. The host pool box says that in a pooled host pool several users can be on one session host, and holds a "Session hosts (virtual machines)" box. A dashed arrow leads from the session hosts box to the SMB file share box: the session hosts read from the file share.
 
 Job 2, decide what users see. A "Workspace" box holds an "Application group" box. Each application group is a desktop application group (full desktop) or a RemoteApp application group (individual applications). A solid arrow leads from the application group box to the host pool box: an application group is assigned to one host pool. A "Users" box, which says users see their desktop or RemoteApp applications in Windows App, has a solid arrow to the application group box: users are assigned to the application group. The application group box adds that App Attach is the exception, because the package is also assigned to users.
 
@@ -148,7 +152,9 @@ Every MSIX and Appx package must be signed with a code signing certificate, and 
 
 ### Setting it up in short
 
-You need a host pool with session hosts joined to Microsoft Entra ID or AD DS, an application group and a workspace, a file share in the same region as the session hosts, a disk image or App-V package on that share, and at least one session host powered on. You add the package under **App Attach** in the Azure portal or with Azure PowerShell ([add and manage App Attach applications](https://learn.microsoft.com/en-us/azure/virtual-desktop/app-attach-setup)). Azure CLI cannot add or manage App Attach applications. The minimum role to add images is Desktop Virtualization Contributor on the resource group. Assigning users also needs `Microsoft.Authorization/roleAssignments/write` permission on the application group, which the User Access Administrator and Owner roles include.
+You need a host pool with session hosts joined to Microsoft Entra ID or AD DS, an application group and a workspace, a file share in the same region as the session hosts, a disk image or App-V package on that share, and at least one session host powered on. You add the package under **App Attach** in the Azure portal or with Azure PowerShell ([add and manage App Attach applications](https://learn.microsoft.com/en-us/azure/virtual-desktop/app-attach-setup)).
+
+Azure CLI cannot add or manage App Attach applications. The minimum role to add images is Desktop Virtualization Contributor on the resource group. Assigning users also needs `Microsoft.Authorization/roleAssignments/write` permission on the application group, which the User Access Administrator and Owner roles include.
 
 More points from the setup documentation:
 
@@ -158,7 +164,9 @@ More points from the setup documentation:
 
 ## Publishing applications with RemoteApp
 
-Applications are published by adding them to a RemoteApp application group. This article covers where a published application comes from. The group rules, the workspace needed for users to see the group, the desktop group that the portal creates, and the preferred application group type are in [Host Pools, Application Groups and Workspaces: The Rules That Connect Them](/azure-virtual-desktop/host-pool-application-group-workspace-rules/), and this article does not repeat them. A user can be assigned to both a desktop group and a RemoteApp group on a pooled host pool; the host pool's preferred application group type then decides which one the client shows, as that article explains. In Azure PowerShell and Azure CLI, RemoteApp is written `RailApplications` for this setting ([setting the preferred application group type](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-preferred-application-group-type)). What a pool with no type set shows is explained in the article linked above.
+Applications are published by adding them to a RemoteApp application group. This article covers where a published application comes from. The group rules, the workspace needed for users to see the group, the desktop group that the portal creates, and the preferred application group type are in [Host Pools, Application Groups and Workspaces: The Rules That Connect Them](/azure-virtual-desktop/host-pool-application-group-workspace-rules/), and this article does not repeat them.
+
+A user can be assigned to both a desktop group and a RemoteApp group on a pooled host pool; the host pool's preferred application group type then decides which one the client shows, as that article explains. In Azure PowerShell and Azure CLI, RemoteApp is written `RailApplications` for this setting ([setting the preferred application group type](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-preferred-application-group-type)). What a pool with no type set shows is explained in the article linked above.
 
 **Where a published application comes from.** In the Azure portal you pick one of three sources when you add an application to a RemoteApp application group:
 
@@ -199,6 +207,10 @@ These are open conflicts or mismatches in Microsoft's pages as last checked in f
 - **Planning to use Intune for RemoteApp or App Attach without checking caveat 5.**
 - **Planning the whole job in Azure CLI.** Applications cannot be published, and App Attach applications cannot be added, with Azure CLI.
 
+Next: [Plan Bandwidth, Latency and Quality of Service for Azure Virtual Desktop](/azure-virtual-desktop/plan-bandwidth-latency-and-quality-of-service/).
+
 ## Sources
 
-[App Attach overview](https://learn.microsoft.com/en-us/azure/virtual-desktop/app-attach-overview), [add and manage App Attach applications](https://learn.microsoft.com/en-us/azure/virtual-desktop/app-attach-setup) and [publish applications with RemoteApp](https://learn.microsoft.com/en-us/azure/virtual-desktop/publish-applications-stream-remoteapp).
+- [App Attach overview](https://learn.microsoft.com/en-us/azure/virtual-desktop/app-attach-overview)
+- [add and manage App Attach applications](https://learn.microsoft.com/en-us/azure/virtual-desktop/app-attach-setup)
+- [publish applications with RemoteApp](https://learn.microsoft.com/en-us/azure/virtual-desktop/publish-applications-stream-remoteapp)
