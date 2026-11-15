@@ -411,7 +411,9 @@ Every AVD problem starts with the same question: which of the steps failed? The 
 
 ## Next lab
 
-There is no Lab 20. You have built the small parts: an account and a tenant, a resource group with a budget, people and roles, a network, a virtual machine, storage, a vault, logging, policy and a private endpoint. You have also deleted all of it. Next, build the real thing once, in code, so you can build it again and delete it again. [Quick AVD Lab with Terraform](/terraform-labs/avd-quick-lab/) builds a small Azure Virtual Desktop environment. It makes its own resource group, and you need a test user and a group for it: you kept `testuser1` and `TestUsers`. If you want the theory first, the AVD series starts at [What Is Azure Virtual Desktop](/azure-virtual-desktop/what-is-azure-virtual-desktop/). Keep the budget on, read the cost after every lab, and delete when you are done.
+There is no Lab 20. You have built the small parts: an account and a tenant, a resource group with a budget, people and roles, a network, a virtual machine, storage, a vault, logging, policy and a private endpoint. You have also deleted all of it. Next, build the real thing once, in code, so you can build it again and delete it again. [Quick AVD Lab with Terraform](/terraform-labs/avd-quick-lab/) builds a small Azure Virtual Desktop environment.
+
+It makes its own resource group, and you need a test user and a group for it: you kept `testuser1` and `TestUsers`. If you want the theory first, the AVD series starts at [What Is Azure Virtual Desktop](/azure-virtual-desktop/what-is-azure-virtual-desktop/). Keep the budget on, read the cost after every lab, and delete when you are done.
 
 ## Sources
 

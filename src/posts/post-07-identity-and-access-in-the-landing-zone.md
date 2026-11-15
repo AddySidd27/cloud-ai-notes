@@ -78,7 +78,9 @@ tags: [alz]
 
 Three terms first. A landing zone is a prepared Azure environment, with rules and structure already in place, where workloads run. A management group is a container for subscriptions that lets you apply access and policy to everything inside it. The platform team builds and runs the shared parts of the landing zone, and the identity team runs the central directory services.
 
-There are two sets of roles (a role is a set of permissions). Microsoft Entra ID roles control tenant-wide services. A tenant is your organization's own dedicated instance of Microsoft Entra ID, the cloud-based identity and access management service. Azure role-based access control (Azure RBAC) roles control Azure resources. Azure RBAC is the system that manages who has access to Azure resources and what they can do with them. By default, the Microsoft Entra Global Administrator role (the role that manages all aspects of Microsoft Entra ID and the Microsoft services that use Microsoft Entra identities) does not have permission to manage access to Azure resources by default. It must be turned on on purpose. So a Global Administrator does not automatically get control of Azure resources.
+There are two sets of roles (a role is a set of permissions). Microsoft Entra ID roles control tenant-wide services. A tenant is your organization's own dedicated instance of Microsoft Entra ID, the cloud-based identity and access management service. Azure role-based access control (Azure RBAC) roles control Azure resources. Azure RBAC is the system that manages who has access to Azure resources and what they can do with them.
+
+By default, the Microsoft Entra Global Administrator role (the role that manages all aspects of Microsoft Entra ID and the Microsoft services that use Microsoft Entra identities) does not have permission to manage access to Azure resources by default. It must be turned on on purpose. So a Global Administrator does not automatically get control of Azure resources.
 
 Poorly secured identity and access can let stolen credentials or wrong permissions help attackers get more access than they should, reach sensitive data and disrupt critical workloads. Attackers use this to get more access than they should. This is called privilege escalation. For example, someone changes a user account or group that has platform or landing zone administration privileges. There is a second risk: credentials stored in code or other text. Breaches of public cloud resources often start with leaked credentials like these.
 
@@ -150,7 +152,9 @@ Keep these points in mind:
 
 ## Hybrid identity: cloud-only or synchronized
 
-Cloud-only accounts exist only in Microsoft Entra ID. If your organization already has on-premises Active Directory, you can synchronize users to Microsoft Entra ID with Microsoft Entra Connect (a tool that synchronizes identity data between your on-premises directories and Microsoft Entra ID) or Microsoft Entra Cloud Sync (a service managed from the cloud that synchronizes users, groups, contacts and devices from Active Directory to Microsoft Entra ID). Then people use one identity for both on-premises systems and the cloud. This is called *hybrid identity*. Cloud Sync is replacing Microsoft Entra Connect Sync. Connect Sync will be retired after Cloud Sync has full functional parity. [The billing and tenant post](/azure-landing-zone/billing-and-tenant-in-depth/) covered how several Active Directory forests (groups of Active Directory domains) can sync to one tenant.
+Cloud-only accounts exist only in Microsoft Entra ID. If your organization already has on-premises Active Directory, you can synchronize users to Microsoft Entra ID with Microsoft Entra Connect (a tool that synchronizes identity data between your on-premises directories and Microsoft Entra ID) or Microsoft Entra Cloud Sync (a service managed from the cloud that synchronizes users, groups, contacts and devices from Active Directory to Microsoft Entra ID).
+
+Then people use one identity for both on-premises systems and the cloud. This is called *hybrid identity*. Cloud Sync is replacing Microsoft Entra Connect Sync. Connect Sync will be retired after Cloud Sync has full functional parity. [The billing and tenant post](/azure-landing-zone/billing-and-tenant-in-depth/) covered how several Active Directory forests (groups of Active Directory domains) can sync to one tenant.
 
 Domain controllers and Microsoft Entra Connect servers belong in the **Identity subscription**. This is a subscription in the platform management group that holds identity services such as domain controllers and Microsoft Entra Connect servers. Do not delegate domain controllers to workload teams. This lets application owners use identity services without running them, and it reduces the risk to a critical security point. Also:
 
@@ -255,6 +259,8 @@ This situation came up in my own work: too many Global Administrators and Owners
 ## The files in my repo
 
 - Identity and access baseline: [identity-and-access.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/identity-and-access.md)
+
+Next: [Privileged Access: MFA, Conditional Access and PIM](/azure-landing-zone/privileged-access-mfa-conditional-access-and-pim/).
 
 ## Sources
 

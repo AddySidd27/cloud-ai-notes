@@ -88,15 +88,6 @@ My [October 7 restart](https://github.com/AddySidd27/Windows365-enterprise-engin
 
 After a disposable restore test, remove the test assignment and the Cloud PC through the supported lifecycle, check what data is kept and remove any paid lab resources. Do not delete your existing Enterprise pilot for this test. The next chapter, [Secure Access and Plan Recovery](/windows-365/security-recovery/), covers Conditional Access, device security and the wider recovery plan. Windows Autopatch is not covered in this series yet.
 
-## Microsoft Learn
-
-- [Point-in-time restore overview](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-overview)
-- [Configure restore settings](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-configure)
-- [Restore a single Cloud PC](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-single-cloud-pc)
-- [Restore multiple Cloud PCs](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-bulk)
-- [Create on-demand manual restore points](https://learn.microsoft.com/en-us/windows-365/enterprise/create-manual-restore-point)
-- [Rename, restart, restore and reset Cloud PCs (user steps)](https://learn.microsoft.com/en-us/troubleshoot/windows-365/manage-windows-365-cloud-pcs#restore-your-cloud-pc)
-
 ## My lab on 16 October 2026
 
 I checked my only Enterprise Cloud PC in Intune. It was still **Provisioned** and compliant. Its **Restore points** view showed 14 automatic points; the newest was dated 16 October 2026 at 8:07:18 AM in the portal display. That is the list of restore points in Figure 1 (Step 1). It is not a completed rollback. That newest point was made before I created the 12-hour setting below.
@@ -110,3 +101,14 @@ Next I selected **Create Restore Points** (Intune: **Devices > All devices >** t
 *Figure 2: Sanitized Intune screenshot showing the manual point after the device action completed. The [lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-10-2026-10-16-restore-pilot.md) has the action timeline.*
 
 **Result:** The manual point was created. I have not tested a single-device, bulk or user-initiated restore yet, and I did not roll back my only working Cloud PC. A full recovery test needs a test Cloud PC, a marker file, a completed restore, a reconnect, and device and user checks.
+
+Next: [Windows 365 Enterprise: Secure Access and Plan Recovery](/windows-365/security-recovery/).
+
+## Sources
+
+- [Point-in-time restore overview](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-overview)
+- [Configure restore settings](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-configure)
+- [Restore a single Cloud PC](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-single-cloud-pc)
+- [Restore multiple Cloud PCs](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-bulk)
+- [Create on-demand manual restore points](https://learn.microsoft.com/en-us/windows-365/enterprise/create-manual-restore-point)
+- [Rename, restart, restore and reset Cloud PCs (user steps)](https://learn.microsoft.com/en-us/troubleshoot/windows-365/manage-windows-365-cloud-pcs#restore-your-cloud-pc)

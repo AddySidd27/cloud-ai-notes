@@ -127,7 +127,9 @@ Short version: cloud-only users can use Azure Files with Microsoft Entra Kerbero
 
 The AVD release notes list FSLogix support for cloud-only and external identities as generally available in **May 2026** ([What's new in Azure Virtual Desktop, May 2026](https://learn.microsoft.com/en-us/azure/virtual-desktop/whats-new#may-2026)). Some other Microsoft pages still say preview or hybrid accounts only, so check the current status before you rely on it. A cloud-only user can keep a profile on Azure Files without an AD-synchronized account or a domain controller for storage authentication and authorization. Entra host join and profile access remain separate capabilities.
 
-Cloud-only storage authentication is supported in Azure public regions, not US Government or 21Vianet. Clients must be Entra joined or hybrid joined and run supported Windows 11 or updated Windows Server 2025. For Windows 11, install at least these updates for the best experience: **24H2: KB5079391, build 26100.8116; 25H2: KB5079391, build 26200.8116; 26H1 or newer: KB5079489, build 28000.1764**, or later builds ([Enable Microsoft Entra Kerberos authentication for hybrid and cloud-only identities on Azure Files, Prerequisites](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-auth-hybrid-identities-enable#prerequisites)). Storage-client support does not replace AVD host-edition requirements.
+Cloud-only storage authentication is supported in Azure public regions, not US Government or 21Vianet.
+
+Clients must be Entra joined or hybrid joined and run supported Windows 11 or updated Windows Server 2025. For Windows 11, install at least these updates for the best experience: **24H2: KB5079391, build 26100.8116; 25H2: KB5079391, build 26200.8116; 26H1 or newer: KB5079489, build 28000.1764**, or later builds ([Enable Microsoft Entra Kerberos authentication for hybrid and cloud-only identities on Azure Files, Prerequisites](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-auth-hybrid-identities-enable#prerequisites)). Storage-client support does not replace AVD host-edition requirements.
 
 The storage account's Entra application has a cloud-group setting in its manifest (the app's settings file). This setting is mandatory. Use the cloud-only share and folder-permission procedure, rather than copying hybrid AD ACL steps. The storage post will configure these requirements.
 
@@ -252,7 +254,9 @@ The host-pool overview also reports Uses Session Host Configuration: No (lab por
 
 *Lab screenshot: Microsoft Entra Kerberos is enabled. Default share-level permissions are disabled.*
 
-Disabled default permissions do not block identities that have valid explicit share assignments. For the profile lab, verify the selected user or synchronized group's share role, file permissions, application consent, the client setting CloudKerberosTicketRetrievalEnabled (set to 1 on every client that mounts the share; if you set it through Intune, use the Settings Catalog, because the OMA-URI method does not work on multisession hosts, which run many users on one VM; [Azure Files Entra Kerberos, client configuration](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-auth-hybrid-identities-enable#configure-the-clients-to-retrieve-kerberos-tickets)) and ticket acquisition. The enabled label alone proves none of those additional checks.
+Disabled default permissions do not block identities that have valid explicit share assignments.
+
+For the profile lab, verify the selected user or synchronized group's share role, file permissions, application consent, the client setting CloudKerberosTicketRetrievalEnabled (set to 1 on every client that mounts the share; if you set it through Intune, use the Settings Catalog, because the OMA-URI method does not work on multisession hosts, which run many users on one VM; [Azure Files Entra Kerberos, client configuration](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-auth-hybrid-identities-enable#configure-the-clients-to-retrieve-kerberos-tickets)) and ticket acquisition. The enabled label alone proves none of those additional checks.
 
 ## 11. Check the group’s origin
 
@@ -284,11 +288,11 @@ Apply the same decision process to each application, user population and storage
 
 Entra Kerberos for Azure Files does not support multifactor authentication. Exclude the storage account's Entra application from any Conditional Access policy that requires MFA and applies to all apps, or access to the share fails. Keep MFA on the AVD sign-in. Entra join also does not remove connectivity requirements for AD-dependent applications.
 
-Next: [Plan Azure Virtual Desktop Networking: Address Space, Subnets, DNS and Connectivity](/azure-virtual-desktop/plan-avd-networking/). It designs the network around the identity model selected here: address space, subnets, DNS, outbound access and profile-storage connectivity.
-
 *Technical details re-checked on 14 November 2026. Screenshots show the inspected lab state; no successful desktop connection or profile attachment is claimed in this post.*
 
 Go deeper: [How Sign-in Works: Three Authentications and Single Sign-on](/azure-virtual-desktop/how-sign-in-works-three-authentications-and-sso/), [Who Can Administer Azure Virtual Desktop](/azure-virtual-desktop/who-can-administer-azure-virtual-desktop/).
+
+Next: [Plan Azure Virtual Desktop Networking: Address Space, Subnets, DNS and Connectivity](/azure-virtual-desktop/plan-avd-networking/). It designs the network around the identity model selected here: address space, subnets, DNS, outbound access and profile-storage connectivity.
 
 ## Sources
 

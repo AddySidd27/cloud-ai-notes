@@ -189,7 +189,9 @@ The groups under Landing zones exist for kinds of workload. Understand this pict
 - use pay-as-you-go or sponsorship accounts;
 - often create short-lived labs, demos or training environments.
 
-Clean the subscription first. Remove resources, role assignments (including Privileged Identity Management ones) and custom roles, policy definitions, assignments and exemptions, deployments, tags, locks, budgets, Lighthouse delegations, activity log forwarding and hidden resources. Reset Microsoft Defender for Cloud plans to the free tier unless your organization needs the paid tier. Hidden resources are ones the portal does not list; `az resource list -o table` helps find them. Then reassign the subscription. [The FAQ](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/faq#should-we-create-a-new-azure-subscription-every-time-or-should-we-reuse-azure-subscriptions) has the full list.
+Clean the subscription first. Remove resources, role assignments (including Privileged Identity Management ones) and custom roles, policy definitions, assignments and exemptions, deployments, tags, locks, budgets, Lighthouse delegations, activity log forwarding and hidden resources. Reset Microsoft Defender for Cloud plans to the free tier unless your organization needs the paid tier.
+
+Hidden resources are ones the portal does not list; `az resource list -o table` helps find them. Then reassign the subscription. [The FAQ](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/faq#should-we-create-a-new-azure-subscription-every-time-or-should-we-reuse-azure-subscriptions) has the full list.
 
 ## What shape is my company
 

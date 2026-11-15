@@ -168,6 +168,8 @@ These situations came up in my own work: platform and workload resources in the 
 
 - This post: [lab-vs-enterprise.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/00-start-here/lab-vs-enterprise.md)
 
+Next: [Tenant, Billing, Subscriptions and Management Groups](/azure-landing-zone/tenant-billing-subscriptions-and-management-groups/).
+
 ## Sources
 
 Microsoft Learn, checked October 2026:

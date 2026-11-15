@@ -176,7 +176,9 @@ These need the host pool's diagnostic setting for Agent Health Status to be on.
 
 This is the "HealthChecks of SessionHost" sample from the Azure Monitor query reference. It shows, per host and per check, how many times each result happened and when it was first and last seen. Its comment says that in some states, such as Unavailable or Upgrading, hosts do not run health checks, so those hosts may be missing from the result.
 
-How to read it. The two `let` blocks at the top are lookup lists. The agent stores each check and each result as a number, and these lists turn the numbers into names such as `SxSStack` and `Succeeded`. The `WVDAgentHealthStatus` part then splits the stored check results into one row per check (`mv-expand` and `bag_unpack`), adds the check name, and counts each result for each host with the first and last time it was seen. A healthy host shows `Succeeded` for every check, with a `LastSeen` that is recent. A bad host has a row where `HealthCheckResult` is `Failed`, and the `HealthCheckDesc` on that row names the check to look up in the table in check 2. If one host shows both `Succeeded` and `Failed` for the same check, compare `FirstSeen` and `LastSeen` to see which came last.
+How to read it. The two `let` blocks at the top are lookup lists. The agent stores each check and each result as a number, and these lists turn the numbers into names such as `SxSStack` and `Succeeded`. The `WVDAgentHealthStatus` part then splits the stored check results into one row per check (`mv-expand` and `bag_unpack`), adds the check name, and counts each result for each host with the first and last time it was seen.
+
+A healthy host shows `Succeeded` for every check, with a `LastSeen` that is recent. A bad host has a row where `HealthCheckResult` is `Failed`, and the `HealthCheckDesc` on that row names the check to look up in the table in check 2. If one host shows both `Succeeded` and `Failed` for the same check, compare `FirstSeen` and `LastSeen` to see which came last.
 
 ```kusto
 let HealthCheckIdToDescription = (idx:long) {

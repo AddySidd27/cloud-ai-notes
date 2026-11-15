@@ -56,7 +56,9 @@ In the earlier posts you made many decisions: management groups, identity, netwo
 
 If a person does all of this by hand in the portal, no one can see what was changed, who approved it, or why two environments look different.
 
-The Platform automation and DevOps design area asks how to deploy and manage the landing zone with code, review and automation. In the list of design areas, it comes last (the Learn list marks it with the letter I). Its goal is to line up your DevOps ways of working with the landing zone's whole life: creating it (provisioning), managing it, changing it over time (evolution) and running it (operations). It uses "extreme automation" (automating everything you can) and Infrastructure as Code, or IaC (describing Azure resources in code files, so they can be deployed the same way every time). DevOps is the way the people who build and the people who run a system work together with shared tools. A pipeline is an automatic process that runs checks and deploys code. The Key terms table below explains these words again.
+The Platform automation and DevOps design area asks how to deploy and manage the landing zone with code, review and automation. In the list of design areas, it comes last (the Learn list marks it with the letter I). Its goal is to line up your DevOps ways of working with the landing zone's whole life: creating it (provisioning), managing it, changing it over time (evolution) and running it (operations).
+
+It uses "extreme automation" (automating everything you can) and Infrastructure as Code, or IaC (describing Azure resources in code files, so they can be deployed the same way every time). DevOps is the way the people who build and the people who run a system work together with shared tools. A pipeline is an automatic process that runs checks and deploys code. The Key terms table below explains these words again.
 
 This post covers the overview, automation, using infrastructure as code to update, the implementation options, DevOps principles, team topologies, the development lifecycle, environments, the testing approach, test-driven development, and the two security pages. On Learn they fall into four parts: Platform automation, DevOps, Development strategy and Security. The table below splits them into six rows, so that the implementation options and the infrastructure as code page have their own rows. I cover those two early, because they explain the tools.
 
@@ -104,11 +106,7 @@ The ability to make changes at scale through a set, automated process helps the 
 - **Emergency fixes.** Teams can use PIM eligible permissions (permissions you must ask for first) to get access for a fix, and later bring the fix back to code to limit drift. Or they can use code for a quick fix. Always put quick fixes in the backlog (the list of work the team plans to do) and rework them later.
 - **Azure Policy as code.** Policies can automate things such as log collection. Many Policy as Code frameworks have an exemption process (a way for a workload team to ask to skip one policy rule, after approval), so plan for workload teams to ask for exemptions.
 
-*A note on [the governance post](/azure-landing-zone/governance-and-azure-policy/).* Deny and Modify affect a workload team's code differently. Deny blocks a deployment that breaks a security control. The team sees the error and fixes its code, so the code and the deployed resource stay the same. Modify changes a setting while the resource is deployed, so the deployed resource no longer matches the team's code. Learn gives an example: the code sets `supportOnlyHttpsTraffic = false` on a storage account, and a Modify policy changes it to `true`. Learn says to avoid Modify for this reason, and to use Deny so that workload teams see and fix the broken control themselves.
-
-(judgement) The reference implementation uses DINE and Modify for platform settings, for example diagnostic settings and tags. DINE deploys supporting resources, not the workload itself. A Modify policy, for example for tags, can still change a workload resource after deployment, so the resource can differ from the team's code. Tell workload teams which Modify policies apply to them. [The governance post](/azure-landing-zone/governance-and-azure-policy/) covers DINE and Modify.
-
-**Platform automation recommendations:**
+*A note on [the governance post](/azure-landing-zone/governance-and-azure-policy/).* Deny and Modify affect a workload team's code differently. Deny blocks a deployment that breaks a security control. The team sees the error and fixes its code, so the code and the deployed resource stay the same. Modify changes a setting while the resource is deployed, so the deployed resource no longer matches the team's code. Learn gives an example: the code sets `supportOnlyHttpsTraffic = false` on a storage account, and a Modify policy changes it to `true`. Learn says to avoid Modify for this reason, and to use Deny so that workload teams see and fix the broken control themselves. (judgement) The reference implementation uses DINE and Modify for platform settings, for example diagnostic settings and tags. DINE deploys supporting resources, not the workload itself. A Modify policy, for example for tags, can still change a workload resource after deployment, so the resource can differ from the team's code. Tell workload teams which Modify policies apply to them. [The governance post](/azure-landing-zone/governance-and-azure-policy/) covers DINE and Modify. **Platform automation recommendations:**
 
 - Follow Everything as Code, and keep all the code types in version control.
 - Use the 4-eyes principle with peer review.
@@ -236,7 +234,11 @@ If you use Terraform, decide early where its state lives. State is how Terraform
 - **Encryption.** Blob data is encrypted at rest, and Terraform reads state into memory instead of writing it to local disk.
 - **(judgement)** Keep a separate state file per environment, so a problem in one cannot block or damage another.
 
-**If a run says the state blob is already locked.** There are two usual causes: a Terraform command is still running against that state, or a connection was interrupted and left the lock behind ([Troubleshoot Terraform on Azure](https://learn.microsoft.com/azure/developer/terraform/troubleshoot#error-acquiring-the-state-lock)). First check that nothing is running against the state, in terminals and in pipelines. Only if nothing is, the troubleshooting page says you can find the state file in the storage container and use **Break lease**. Breaking a lease while a run is still writing can let two runs write state at the same time and damage it, so be sure the earlier run has really ended. (judgement) Make sure you can restore the state first, for example with blob versioning or soft delete turned on, and prefer fixing the cause over repeating the break. A broken lease also cannot be taken again straight away ([blob leases](https://learn.microsoft.com/azure/storage/blobs/storage-blob-lease#break-a-lease)), so a retry may need a short wait. The error message itself says that turning locking off with `-lock=false` is not recommended.
+**If a run says the state blob is already locked.** There are two usual causes: a Terraform command is still running against that state, or a connection was interrupted and left the lock behind ([Troubleshoot Terraform on Azure](https://learn.microsoft.com/azure/developer/terraform/troubleshoot#error-acquiring-the-state-lock)). First check that nothing is running against the state, in terminals and in pipelines.
+
+Only if nothing is, the troubleshooting page says you can find the state file in the storage container and use **Break lease**. Breaking a lease while a run is still writing can let two runs write state at the same time and damage it, so be sure the earlier run has really ended.
+
+(judgement) Make sure you can restore the state first, for example with blob versioning or soft delete turned on, and prefer fixing the cause over repeating the break. A broken lease also cannot be taken again straight away ([blob leases](https://learn.microsoft.com/azure/storage/blobs/storage-blob-lease#break-a-lease)), so a retry may need a short wait. The error message itself says that turning locking off with `-lock=false` is not recommended.
 
 ### Rollback
 
@@ -328,6 +330,8 @@ From the list above, these came up in my own work: staying on portal clicks, dep
 ## The files in my repo
 
 - Platform automation and DevOps: the decisions to make, the repository's delivery flow, the key controls, and its recommended practice: [platform-automation-devops.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/platform-automation-devops.md)
+
+Next: [Minimum Viable Platform Landing Zone: What to Build First](/azure-landing-zone/minimum-viable-platform-landing-zone/).
 
 ## Sources
 

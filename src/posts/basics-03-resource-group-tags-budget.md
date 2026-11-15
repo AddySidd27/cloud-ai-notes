@@ -87,7 +87,7 @@ Now delete the practice group, while the tags are fresh.
 
 Check: `rg-azb-practice` is gone, and `vnet-practice` went with it. `rg-azb-core` is still there. This is the lesson: a delete takes everything inside the group. If it had held a virtual machine and a disk, they would have gone too.
 
-Checkpoint: both steps above are done. You can stop here.
+Check: both steps above are done. You can stop here.
 
 ### Part 3: An action group that sends email
 
@@ -103,7 +103,7 @@ An action group is a saved list of who to notify and what to run when an alert f
 
 Check: you got the confirmation email, and a test (if you ran it) shows **Success**.
 
-Checkpoint: the action group is verified. You can stop here.
+Check: the action group is verified. You can stop here.
 
 ### Part 4: A monthly budget on your subscription
 
@@ -248,14 +248,5 @@ A host pool with session hosts bills every hour its virtual machines run. A subs
 ## Sources
 
 - [Manage Azure resource groups by using the Azure portal](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal)
-- [Manage Azure resource groups by using Azure CLI](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-cli)
-- [Azure Resource Manager resource group and resource deletion](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/delete-resource-group)
 - [Use tags to organize your Azure resources and management hierarchy](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources)
-- [Apply tags with Azure portal](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources-portal)
-- [Apply tags with Azure CLI](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources-cli)
-- [Action groups](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/action-groups)
-- [az monitor action-group](https://learn.microsoft.com/en-us/cli/azure/monitor/action-group)
 - [Tutorial: Create and manage budgets](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets)
-- [What is Azure Virtual Network?](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview)
-- [az network vnet](https://learn.microsoft.com/en-us/cli/azure/network/vnet)
-- [az group](https://learn.microsoft.com/en-us/cli/azure/group)

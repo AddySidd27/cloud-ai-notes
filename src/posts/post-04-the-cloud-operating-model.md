@@ -135,7 +135,9 @@ The full table also covers compliance, deployment, development, reliability and 
 
 ## More detail for the shared management model
 
-The Learn page on [shared management operations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/shared-management-operating-model) adds four points. Platform and workload teams agree service level agreements (SLAs, written promises about how fast requests are handled) and metrics for requests and support. Platform services are treated as internal products, with a backlog and feedback from workload teams. Large enterprises use several platform teams, one per area such as networking or identity. A team of 6 to 10 people ("two-pizza" team) is the suggested starting size. The page [Prepare your organization for the cloud](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/prepare-organization-for-cloud#choose-a-cloud-operating-model) also says to involve business and IT leaders, so the model has support.
+The Learn page on [shared management operations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/shared-management-operating-model) adds four points. Platform and workload teams agree service level agreements (SLAs, written promises about how fast requests are handled) and metrics for requests and support. Platform services are treated as internal products, with a backlog and feedback from workload teams.
+
+Large enterprises use several platform teams, one per area such as networking or identity. A team of 6 to 10 people ("two-pizza" team) is the suggested starting size. The page [Prepare your organization for the cloud](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/prepare-organization-for-cloud#choose-a-cloud-operating-model) also says to involve business and IT leaders, so the model has support.
 
 ## Common mistakes
 
@@ -152,6 +154,8 @@ These situations came up in my own work: a central team that became a bottleneck
 ## The files in my repo
 
 - Operating model, with a responsibility table and a list of decisions to record: [operating-model.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/01-foundations/operating-model.md)
+
+Next: [Business Requirements: Compliance, Region, Recovery, Connectivity and Cost](/azure-landing-zone/business-requirements-compliance-region-recovery-connectivity-and-cost/).
 
 ## Sources
 

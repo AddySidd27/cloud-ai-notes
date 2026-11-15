@@ -14,7 +14,9 @@ A user cannot get in. Maybe they are asked to sign in again and again. Maybe mul
 
 These all happen at the sign-in stage, but the cause can sit in three different places: the user's access to the desktops, a Conditional Access policy, or a setting on the session host. This article gives an order of checks that finds the place first, then matches the error to a fix.
 
-Two earlier articles explain the background and this article does not repeat it. [How sign-in works](/azure-virtual-desktop/how-sign-in-works-three-authentications-and-sso/) describes the three sign-ins and single sign-on. [Conditional Access and MFA for AVD](/azure-virtual-desktop/conditional-access-and-mfa-for-avd/) shows how to build the policies. Some checks below use Log Analytics (Azure's log search tool), which returns nothing until diagnostics are on. The article [Turn on the logs and learn to read them](/azure-virtual-desktop/troubleshoot-avd-start-here/) shows how to turn them on and explains the query keywords. Before any check, look at the public Azure status page and Azure Service Health (in the Azure portal, search for **Service Health**), as the troubleshooting overview says.
+Two earlier articles explain the background and this article does not repeat it. [How sign-in works](/azure-virtual-desktop/how-sign-in-works-three-authentications-and-sso/) describes the three sign-ins and single sign-on. [Conditional Access and MFA for AVD](/azure-virtual-desktop/conditional-access-and-mfa-for-avd/) shows how to build the policies.
+
+Some checks below use Log Analytics (Azure's log search tool), which returns nothing until diagnostics are on. The article [Turn on the logs and learn to read them](/azure-virtual-desktop/troubleshoot-avd-start-here/) shows how to turn them on and explains the query keywords. Before any check, look at the public Azure status page and Azure Service Health (in the Azure portal, search for **Service Health**), as the troubleshooting overview says.
 
 ## Key terms
 

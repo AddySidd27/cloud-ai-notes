@@ -215,6 +215,8 @@ My repo is a learning and reference lab. It is not production-ready and it is no
 - This post: [what-is-an-azure-landing-zone.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/01-foundations/what-is-an-azure-landing-zone.md)
 - Suggested reading order for the whole repo: [learning-path.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/00-start-here/learning-path.md)
 
+Next: [Platform Scope and Workload Boundaries](/azure-landing-zone/platform-scope-and-workload-boundaries/).
+
 ## Sources
 
 Microsoft Learn, checked October 2026:

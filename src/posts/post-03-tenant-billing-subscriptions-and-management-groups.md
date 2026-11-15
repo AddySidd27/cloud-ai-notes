@@ -154,6 +154,8 @@ These situations came up in my own work: more than one tenant, a large workload 
 - Subscriptions: [subscription-design.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/subscription-design.md)
 - Management groups: [resource-organization.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/resource-organization.md)
 
+Next: [The Cloud Operating Model](/azure-landing-zone/the-cloud-operating-model/).
+
 ## Sources
 
 Microsoft Learn, checked October 2026:

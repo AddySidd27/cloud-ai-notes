@@ -22,7 +22,9 @@ A Cloud PC is the Windows desktop that Windows 365 hosts in the cloud for one us
 | Recovery | Restore decision owner, user data location and the recovery time you promise users (see [Point-in-Time Restore](/windows-365/point-in-time-restore/)) |
 | Cost | Seat inventory, unused licenses and any Azure resources you pay for, such as a virtual network for an Azure network connection (ANC) |
 
-A license plus membership in a group that a provisioning policy targets starts automatic provisioning, and the new user should sign in soon after so quality updates install promptly ([Cloud PC lifecycle](https://learn.microsoft.com/en-us/windows-365/enterprise/lifecycle)). When a user leaves, follow the organization's retention and offboarding process before changing licensing. If you remove the license or the user's provisioning policy assignment, the Cloud PC enters a seven-day grace period. After that, Windows 365 deprovisions the Cloud PC and deletes its storage. To block access at once, Learn says to disable the user account in on-premises Active Directory and revoke the user's refresh tokens in Microsoft Entra ID ([Cloud PC lifecycle](https://learn.microsoft.com/en-us/windows-365/enterprise/lifecycle)). Test the support process with one real ticket before expanding to the next group.
+A license plus membership in a group that a provisioning policy targets starts automatic provisioning, and the new user should sign in soon after so quality updates install promptly ([Cloud PC lifecycle](https://learn.microsoft.com/en-us/windows-365/enterprise/lifecycle)). When a user leaves, follow the organization's retention and offboarding process before changing licensing. If you remove the license or the user's provisioning policy assignment, the Cloud PC enters a seven-day grace period.
+
+After that, Windows 365 deprovisions the Cloud PC and deletes its storage. To block access at once, Learn says to disable the user account in on-premises Active Directory and revoke the user's refresh tokens in Microsoft Entra ID ([Cloud PC lifecycle](https://learn.microsoft.com/en-us/windows-365/enterprise/lifecycle)). Test the support process with one real ticket before expanding to the next group.
 
 ## Walk one user through the service
 
@@ -35,11 +37,15 @@ Joiner, mover, leaver (JML) means a user who starts, changes role, or leaves. Th
 
 The [editable joiner/mover/leaver draw.io source](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/architecture/diagrams/source/09-joiner-mover-leaver-lifecycle.drawio) and [Cloud PC operations source](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/architecture/diagrams/source/10-cloud-pc-lifecycle-operations.drawio) show the decision paths. They are draw.io source files (open them in draw.io, also called diagrams.net). They are design diagrams. I have not tested a leaver or a restore.
 
-On October 7, 2026, I restarted my pilot Cloud PC and reconnected (see my [restart lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-10-2026-10-07-controlled-restart.md)). I have not tested point-in-time restore (see [Point-in-Time Restore](/windows-365/point-in-time-restore/)), resize, reprovision or a full offboarding yet. [Remotely manage Windows 365 devices](https://learn.microsoft.com/en-us/windows-365/enterprise/remotely-manage-cloud-pc) explains the supported actions. Check their status in the Cloud PC actions report in the Intune admin center. The [Manage Settings, Apps, Updates and Restart](/windows-365/manage-intune/) and [Secure Access and Plan Recovery](/windows-365/security-recovery/) posts cover the restart.
+On October 7, 2026, I restarted my pilot Cloud PC and reconnected (see my [restart lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-10-2026-10-07-controlled-restart.md)). I have not tested point-in-time restore (see [Point-in-Time Restore](/windows-365/point-in-time-restore/)), resize, reprovision or a full offboarding yet.
+
+[Remotely manage Windows 365 devices](https://learn.microsoft.com/en-us/windows-365/enterprise/remotely-manage-cloud-pc) explains the supported actions. Check their status in the Cloud PC actions report in the Intune admin center. The [Manage Settings, Apps, Updates and Restart](/windows-365/manage-intune/) and [Secure Access and Plan Recovery](/windows-365/security-recovery/) posts cover the restart.
 
 ## Roll out in waves
 
-Start with the pilot user, add a small group with varied applications, then widen only after connection, management and support results are recorded. For each wave, track assigned licenses, provisioned Cloud PCs, connection failures, Intune policy conflicts (two policies setting the same value) and time to resolve. Keep known gaps visible. I suggest a progress tracker (a table or board) with four states: **planned**, **configured**, **tested** and **stopped**. That way a written procedure is never counted as a finished test (judgement). Microsoft's [management guidance](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-deployment-guidance-management) supports starting with Intune, gallery images and a security baseline tested on pilot Cloud PCs; the waves and status labels are my own approach.
+Start with the pilot user, add a small group with varied applications, then widen only after connection, management and support results are recorded. For each wave, track assigned licenses, provisioned Cloud PCs, connection failures, Intune policy conflicts (two policies setting the same value) and time to resolve. Keep known gaps visible. I suggest a progress tracker (a table or board) with four states: **planned**, **configured**, **tested** and **stopped**.
+
+That way a written procedure is never counted as a finished test (judgement). Microsoft's [management guidance](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-deployment-guidance-management) supports starting with Intune, gallery images and a security baseline tested on pilot Cloud PCs; the waves and status labels are my own approach.
 
 My [full learning checklist](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/docs/00-complete-learning-journey.md) links my lab records and says how far each test went. My [lab status page](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/docs/live-validation-status.md) shows what I actually saw. My Microsoft-hosted Cloud PC (the network option where Microsoft runs the network; see [Identity and Network](/windows-365/identity-network/)) works well as a management pilot. My separate Azure network connection (ANC) test failed its health check, and I do not know the cause. See [ANC Troubleshooting](/windows-365/anc-troubleshooting/).
 
@@ -58,7 +64,7 @@ This series is a starting route. I have not tested every optional feature or eve
 
 Return to [Start Here](/windows-365/start-here/) or explore the [engineering repository](https://github.com/AddySidd27/Windows365-enterprise-engineering).
 
-## Microsoft Learn
+## Sources
 
 - [Management: Microsoft Intune as the management plane for Windows 365](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-deployment-guidance-management)
 - [Remotely manage Windows 365 devices](https://learn.microsoft.com/en-us/windows-365/enterprise/remotely-manage-cloud-pc)

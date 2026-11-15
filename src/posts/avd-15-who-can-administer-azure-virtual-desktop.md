@@ -77,7 +77,9 @@ Three more roles exist for the service itself. They let the AVD resource provide
 
 Do not confuse the last one with the general Azure Virtual Machine Contributor role in the table above.
 
-You give these roles to the Azure Virtual Desktop service principal, not to people. For Start VM on Connect and power management autoscale, a managed identity on the host pool also works. For dynamic autoscale, the Learn page names only the service principal. The page [Assign Azure RBAC roles or Microsoft Entra roles to the Azure Virtual Desktop service principals](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-principal-assign-roles) shows how. To assign them you need the `Microsoft.Authorization/roleAssignments/write` permission, which User Access Administrator and Owner include ([prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-principal-assign-roles#prerequisites)).
+You give these roles to the Azure Virtual Desktop service principal, not to people. For Start VM on Connect and power management autoscale, a managed identity on the host pool also works. For dynamic autoscale, the Learn page names only the service principal.
+
+The page [Assign Azure RBAC roles or Microsoft Entra roles to the Azure Virtual Desktop service principals](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-principal-assign-roles) shows how. To assign them you need the `Microsoft.Authorization/roleAssignments/write` permission, which User Access Administrator and Owner include ([prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-principal-assign-roles#prerequisites)).
 
 | Feature | Roles | Scope |
 |---|---|---|

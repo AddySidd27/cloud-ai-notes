@@ -124,7 +124,9 @@ The [SMB FAQ](https://learn.microsoft.com/en-us/azure/azure-netapp-files/faq-smb
 
 ## What the storage survives
 
-Azure Files always keeps three copies of the data in the primary region, according to the [redundancy page](https://learn.microsoft.com/en-us/azure/storage/files/files-redundancy). LRS keeps them in one or more availability zones and is the least expensive option, but a disaster such as fire or flood in the data center could lose all the copies, so the page recommends ZRS, GRS or GZRS for protection. The page recommends ZRS for scenarios that need high availability, and GZRS for applications that need high availability or maximum durability; GZRS is not available for premium shares (see below). With ZRS, a zone failure needs no remounting of the share by clients, though the DNS updates Azure makes in that case can affect access until they finish, so users may briefly be unable to connect.
+Azure Files always keeps three copies of the data in the primary region, according to the [redundancy page](https://learn.microsoft.com/en-us/azure/storage/files/files-redundancy). LRS keeps them in one or more availability zones and is the least expensive option, but a disaster such as fire or flood in the data center could lose all the copies, so the page recommends ZRS, GRS or GZRS for protection.
+
+The page recommends ZRS for scenarios that need high availability, and GZRS for applications that need high availability or maximum durability; GZRS is not available for premium shares (see below). With ZRS, a zone failure needs no remounting of the share by clients, though the DNS updates Azure makes in that case can affect access until they finish, so users may briefly be unable to connect.
 
 | What fails | LRS | ZRS | GRS | GZRS |
 |---|---|---|---|---|
@@ -140,7 +142,9 @@ Redundancy is set per storage account and applies to every share in it. Use sepa
 
 Redundancy keeps copies for availability. It is not a backup (judgement).
 
-For geo-redundant accounts (standard HDD shares only), the [disaster recovery page](https://learn.microsoft.com/en-us/azure/storage/files/files-disaster-recovery) describes account failover: DNS is updated so the secondary endpoint becomes the primary, file handles and leases are not retained, and the account is then locally redundant until geo-redundancy is configured again. An unplanned (forced) account failover usually involves some data loss because copying to the secondary region is asynchronous (see Last Sync Time in Key terms). The [redundancy page](https://learn.microsoft.com/en-us/azure/storage/files/files-redundancy) says it is blocked if no system snapshot exists in the secondary region. The page also describes customer-managed planned failover and Microsoft-managed failover.
+For geo-redundant accounts (standard HDD shares only), the [disaster recovery page](https://learn.microsoft.com/en-us/azure/storage/files/files-disaster-recovery) describes account failover: DNS is updated so the secondary endpoint becomes the primary, file handles and leases are not retained, and the account is then locally redundant until geo-redundancy is configured again.
+
+An unplanned (forced) account failover usually involves some data loss because copying to the secondary region is asynchronous (see Last Sync Time in Key terms). The [redundancy page](https://learn.microsoft.com/en-us/azure/storage/files/files-redundancy) says it is blocked if no system snapshot exists in the secondary region. The page also describes customer-managed planned failover and Microsoft-managed failover.
 
 For premium shares, which have no geo-redundant option, the [multiregion page](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/azure-virtual-desktop/azure-virtual-desktop-multi-region-bcdr) says that if you require Premium performance for FSLogix profile storage, you should rely on FSLogix Cloud Cache for cross-region replication rather than storage built-in geo-replication.
 
@@ -160,7 +164,9 @@ The Cloud Cache [overview](https://learn.microsoft.com/en-us/fslogix/concepts-fs
 - Sign-out is delayed until all providers are at the same sequence. How long depends on two Cloud Cache registry settings, `HealthyProvidersRequiredForUnregister` and `CcdUnregisterTimeout`.
 - A read that no provider can fill can cause a session hang or system crash.
 
-The [FSLogix FAQ](https://learn.microsoft.com/en-us/fslogix/overview-faq) says Cloud Cache is not required for high availability: standard containers on a highly available provider such as Azure Files with ZRS are acceptable. The [FSLogix business continuity page](https://learn.microsoft.com/en-us/fslogix/concepts-container-recovery-business-continuity) describes designs with two providers in different locations, says disaster recovery events are rarely graceful and users could see data loss or container corruption, and says critical data belongs on platforms such as OneDrive or SharePoint. The automatic or manual failover wording is compared in "Cloud Cache failover: automatic or manual" below, and [Operate FSLogix Profiles Day to Day](/azure-virtual-desktop/operate-fslogix-profiles-day-to-day/) covers the same point for daily operations.
+The [FSLogix FAQ](https://learn.microsoft.com/en-us/fslogix/overview-faq) says Cloud Cache is not required for high availability: standard containers on a highly available provider such as Azure Files with ZRS are acceptable. The [FSLogix business continuity page](https://learn.microsoft.com/en-us/fslogix/concepts-container-recovery-business-continuity) describes designs with two providers in different locations, says disaster recovery events are rarely graceful and users could see data loss or container corruption, and says critical data belongs on platforms such as OneDrive or SharePoint.
+
+The automatic or manual failover wording is compared in "Cloud Cache failover: automatic or manual" below, and [Operate FSLogix Profiles Day to Day](/azure-virtual-desktop/operate-fslogix-profiles-day-to-day/) covers the same point for daily operations.
 
 Two figures differ between pages; see the soft delete and Cloud Cache caveats below.
 
@@ -262,7 +268,9 @@ Some documentation pages differ on points that affect these decisions. This arti
 
 The pages describe permissions for cloud-only users on Azure Files in two different ways.
 
-**Setup and identity pages.** The Azure Files file-level permissions page says "For cloud-only identities, you must use the Azure portal or PowerShell" to configure Windows ACLs, and that the portal method "works for both hybrid and cloud-only identities only when Microsoft Entra Kerberos is the identity source." The Azure Files identity page also says, in general terms, "To access a file or directory, the identity needs share-level permission and the appropriate file or directory permission." The file-level page says, also in general terms, "When a user tries to access a file or directory, share-level, file-level, and directory-level permissions are enforced." The Azure Virtual Desktop [setup page](https://learn.microsoft.com/en-us/azure/virtual-desktop/create-profile-container-azure-ad) calls the portal's Manage access tab "the recommended configuration option for cloud-only and external identity users." None of the passages quoted in this paragraph is written specifically about whether ACLs are enforced for cloud-only users.
+**Setup and identity pages.** The Azure Files file-level permissions page says "For cloud-only identities, you must use the Azure portal or PowerShell" to configure Windows ACLs, and that the portal method "works for both hybrid and cloud-only identities only when Microsoft Entra Kerberos is the identity source." The Azure Files identity page also says, in general terms, "To access a file or directory, the identity needs share-level permission and the appropriate file or directory permission."
+
+The file-level page says, also in general terms, "When a user tries to access a file or directory, share-level, file-level, and directory-level permissions are enforced." The Azure Virtual Desktop [setup page](https://learn.microsoft.com/en-us/azure/virtual-desktop/create-profile-container-azure-ad) calls the portal's Manage access tab "the recommended configuration option for cloud-only and external identity users." None of the passages quoted in this paragraph is written specifically about whether ACLs are enforced for cloud-only users.
 
 **Microsoft Entra Kerberos introduction page.** The [introduction page](https://learn.microsoft.com/en-us/entra/identity/authentication/kerberos) describes access to Azure Files for a cloud-only user under the heading "Cloud only identities scenarios (Preview)". It says "Authorization is enforced using Azure RBAC roles", and that "No on-premises AD or NTFS ACLs are involved—authorization is fully cloud-based." Under "Key Differences from Traditional Kerberos" it lists "No NTFS ACL enforcement; uses Azure RBAC." In its group limit section it says that for Azure Files "NTFS ACL checks depend on complete group membership in the ticket."
 
@@ -290,7 +298,9 @@ For cloud-only users on Azure NetApp Files, the pages give two different answers
 
 The FSLogix page for Azure NetApp Files says Azure NetApp Files "does not currently support FSLogix profile access using Entra-only (cloud-only) identities, as Kerberos authentication without AD DS is not supported." The SMB FAQ lists Microsoft Entra Domain Services and AD DS as supported and says Azure NetApp Files "doesn't support AD join for Microsoft Entra ID at this time."
 
-Two other Azure NetApp Files pages, [Understand Microsoft Entra Kerberos with Azure NetApp Files (preview)](https://learn.microsoft.com/en-us/azure/azure-netapp-files/understand-entra-id) and [Configure Microsoft Entra Kerberos authentication with Azure NetApp Files (preview)](https://learn.microsoft.com/en-us/azure/azure-netapp-files/configure-entra-kerberos-authentication-for-hybrid-cloud-identities), describe Microsoft Entra Kerberos authentication for hybrid and cloud-only identities on SMB volumes. The understand page says Azure NetApp Files "supports Microsoft Entra Kerberos authentication for SMB volumes", and the configure page says it helps you "configure Microsoft Entra Kerberos authentication for hybrid and cloud-only identities on Azure NetApp Files". Both label it a preview, and the Azure NetApp Files [release notes](https://learn.microsoft.com/en-us/azure/azure-netapp-files/whats-new) list "Support for Microsoft Entra Kerberos authentication (preview)" under September 2026.
+Two other Azure NetApp Files pages, [Understand Microsoft Entra Kerberos with Azure NetApp Files (preview)](https://learn.microsoft.com/en-us/azure/azure-netapp-files/understand-entra-id) and [Configure Microsoft Entra Kerberos authentication with Azure NetApp Files (preview)](https://learn.microsoft.com/en-us/azure/azure-netapp-files/configure-entra-kerberos-authentication-for-hybrid-cloud-identities), describe Microsoft Entra Kerberos authentication for hybrid and cloud-only identities on SMB volumes.
+
+The understand page says Azure NetApp Files "supports Microsoft Entra Kerberos authentication for SMB volumes", and the configure page says it helps you "configure Microsoft Entra Kerberos authentication for hybrid and cloud-only identities on Azure NetApp Files". Both label it a preview, and the Azure NetApp Files [release notes](https://learn.microsoft.com/en-us/azure/azure-netapp-files/whats-new) list "Support for Microsoft Entra Kerberos authentication (preview)" under September 2026.
 
 The preview needs a feature registration step, a Standard SKU NAT gateway for outbound access to Microsoft Graph, and an Entra ID connection on the NetApp account. A NetApp account supports either Microsoft Entra ID or AD DS authentication, not both. The configure page says Windows ACLs can be set only with icacls (File Explorer is not supported, and icacls for groups is not supported for Entra-only identities). The text of both preview pages does not mention FSLogix.
 
@@ -298,7 +308,9 @@ The pages do not settle whether FSLogix profiles are supported on the preview. C
 
 ### Cloud Cache failover: automatic or manual
 
-The [Multiregion BCDR page for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/azure-virtual-desktop/azure-virtual-desktop-multi-region-bcdr) says "When the first storage location fails or can't be reached, cloud cache automatically fails over to the secondary region". The FSLogix business continuity page says about its primary/failover design that "you have to manually initiate the failover process, which may require the approval of the business stakeholders", and about its active/active design that it "requires a manual decision by business stakeholders before initiating a failover". The pages do not say whether the statements describe the same step. This article does not settle it.
+The [Multiregion BCDR page for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/azure-virtual-desktop/azure-virtual-desktop-multi-region-bcdr) says "When the first storage location fails or can't be reached, cloud cache automatically fails over to the secondary region".
+
+The FSLogix business continuity page says about its primary/failover design that "you have to manually initiate the failover process, which may require the approval of the business stakeholders", and about its active/active design that it "requires a manual decision by business stakeholders before initiating a failover". The pages do not say whether the statements describe the same step. This article does not settle it.
 
 ### Soft delete retention: 7 or 14 days
 
@@ -327,9 +339,9 @@ The checks for the host join state, the host pool sign-in setting and the storag
 3. On Azure NetApp Files, open the volume in the Azure portal and confirm that space is in use. Then open the mount path in File Explorer and confirm that a profile VHD or VHDX file exists.
 4. (judgement) Sign in as a second test user and confirm that the first user's profile folder cannot be opened, especially for cloud-only users.
 
-## Sources
+Next: [Build and Maintain a Golden Image](/azure-virtual-desktop/build-and-maintain-a-golden-image/).
 
-Main sources:
+## Sources
 
 - [Storage options for FSLogix profile containers](https://learn.microsoft.com/en-us/azure/virtual-desktop/store-fslogix-profile)
 - [Directory and file-level permissions for Azure file shares](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-configure-file-level-permissions)

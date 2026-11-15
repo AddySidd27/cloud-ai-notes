@@ -117,7 +117,9 @@ No Terraform in this lab, because nothing is deployed. The steps are a phone reg
 
 ## The most common mistake
 
-Setting a user to **Enabled** or **Enforced** on the per-user MFA page because it looks like "the MFA switch". It is the older switch. Microsoft says Enabled users move to Enforced after they register, that Enforced users must do MFA at every sign-in, and that legacy sign-in with passwords for old apps then needs app passwords. It also says not to use per-user MFA with Conditional Access, and the Azure Virtual Desktop articles say it is not supported for sign-in to Entra-joined session hosts. If you set one by mistake, go back to the page, select the user, then select **User MFA settings**, and set the status back to Disabled. Microsoft says admins can move users between states, including to Disabled. If you set it on a user who already registered, check that the user can still sign in afterwards.
+Setting a user to **Enabled** or **Enforced** on the per-user MFA page because it looks like "the MFA switch". It is the older switch. Microsoft says Enabled users move to Enforced after they register, that Enforced users must do MFA at every sign-in, and that legacy sign-in with passwords for old apps then needs app passwords.
+
+It also says not to use per-user MFA with Conditional Access, and the Azure Virtual Desktop articles say it is not supported for sign-in to Entra-joined session hosts. If you set one by mistake, go back to the page, select the user, then select **User MFA settings**, and set the status back to Disabled. Microsoft says admins can move users between states, including to Disabled. If you set it on a user who already registered, check that the user can still sign in afterwards.
 
 A close second: registering only one method. A lost phone then means an admin has to reset the user.
 

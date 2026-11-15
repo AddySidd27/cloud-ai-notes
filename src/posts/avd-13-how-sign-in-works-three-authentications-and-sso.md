@@ -177,7 +177,9 @@ These are recommended checks to run in a test environment.
 
 ## Related book chapters, lab and projects
 
-[Chapter 7](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch07-identity-architecture-foundations.md) of the book covers identity foundations and [Chapter 8](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch08-authentication-flows-in-detail.md) covers authentication flows. [Lab 4](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-04-identity-integration.md) walks through identity integration. This has not been run end to end in Azure. [Project 04](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/scenarios/project-04-hybrid-active-directory.md) and [Project 05](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/scenarios/project-05-entra-only-cloud-native.md) are fictional case studies.
+[Chapter 7](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch07-identity-architecture-foundations.md) of the book covers identity foundations and [Chapter 8](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch08-authentication-flows-in-detail.md) covers authentication flows.
+
+[Lab 4](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-04-identity-integration.md) walks through identity integration. This has not been run end to end in Azure. [Project 04](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/scenarios/project-04-hybrid-active-directory.md) and [Project 05](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/scenarios/project-05-entra-only-cloud-native.md) are fictional case studies.
 
 Next: [Secure Access with Conditional Access and Multifactor Authentication](/azure-virtual-desktop/conditional-access-and-mfa-for-avd/).
 

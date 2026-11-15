@@ -45,9 +45,13 @@ This is the sanitized Intune report from my September 24 pilot. The Edge screens
 
 ![Intune Edge profile report on the Enterprise pilot](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-05-2026-09-24-edge-report.jpg)
 
+*Sanitized Intune report for the Edge profile on the Enterprise pilot, September 24.*
+
 My [sanitized Edge setting screenshot](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-05-2026-09-24-edge-settings.jpg) shows a setting I saw on the Enterprise pilot. The [configuration lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-05-configuration-management.md) says how far my testing went. The image alone does not show every policy assignment step.
 
 ![Edge setting on the pilot Cloud PC](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-05-2026-09-24-edge-settings.jpg)
+
+*The Edge setting as seen on the pilot Cloud PC.*
 
 ## Lab B: an application
 
@@ -57,17 +61,25 @@ My [sanitized Edge setting screenshot](https://github.com/AddySidd27/Windows365-
 
 ![Intune application installation status from my pilot](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-07-2026-09-24-app-status.jpg)
 
+*Intune application installation status from my pilot.*
+
 The Company Portal catalog was empty in this session. That does not mean Company Portal was broken: Required apps can be installed without appearing as user-initiated Available apps (judgement; I did not confirm this in Learn for this tenant, so check the app's assignment list first).
 
 ![Company Portal catalog in the pilot session](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-07-2026-09-24-company-portal-catalog.jpg)
+
+*The Company Portal catalog in the pilot session.*
 
 The [Company Portal screenshot](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-07-2026-09-24-company-portal-installed.jpg) in my repository shows an installed view. It does not show a new Available assignment or an uninstall. I have not tested those yet. The [application lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-07-application-lifecycle.md) says the same.
 
 ![Installed application view in Company Portal](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-07-2026-09-24-company-portal-installed.jpg)
 
+*The installed application view in Company Portal.*
+
 I also captured an app launch. Microsoft Whiteboard opened, but its own banner said it was unable to save, so I do not call the app fully working. I have not tested a full Available assignment or an uninstall. See the [Company Portal lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-07-2026-09-24-company-portal-check.md).
 
 ![Application launched from the pilot Company Portal session](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-07-2026-09-24-company-portal-launch.jpg)
+
+*An application launched from Company Portal in the pilot session.*
 
 ## Lab C: updates
 
@@ -79,6 +91,8 @@ This screenshot shows the update history on September 24. My [October 6 ring rev
 
 ![Windows Update history on the Enterprise pilot](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-08-2026-09-24-update-history.jpg)
 
+*Windows Update history on the Enterprise pilot, September 24.*
+
 ## Lab D: controlled restart and remote actions
 
 A remote action can interrupt a user's work. Read the action's impact before selecting it. In my pilot I tested only **Restart**. I have not tested Resize, Move, Restore or Reprovision yet. My [lifecycle guide](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-10-cloud-pc-lifecycle-operations.md) has a diagram and explains the data impact of each choice.
@@ -88,9 +102,13 @@ A remote action can interrupt a user's work. Read the action's impact before sel
 3. Watch for the restart state. Wait until **Connect** returns. Open a fresh session and check sign-in, desktop and the setting or app that matters to the user.
 4. In Intune, review **Devices > Monitor > Cloud PC actions** and the device's last check-in when those views are available. Record their time separately from the user reconnect. The **Cloud PC actions** report lists actions that admins take; Learn does not say that a restart the user starts in Windows App appears there, so use the admin route if you need a report entry ([Cloud PC actions report](https://learn.microsoft.com/en-us/windows-365/enterprise/report-cloud-pc-actions)). The report shows the last 90 days. A browser reconnect does not show the Intune report or the app's health.
 
-**What I saw on October 7, 2026:** My Enterprise Cloud PC showed **Restarting**. The active session disconnected. **Connect** returned, and a new web session reached the signed-in desktop. Edge's policy page still reported the `HomepageLocation` policy as OK, while Edge opened a New tab page and no startup-action policy appeared in the list. See my [restart lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-10-2026-10-07-controlled-restart.md). I did not capture the Cloud PC actions report, a new Intune check-in or the app status after the restart. I started the restart in Windows App (**More options > Restart**), so it may not appear in the admin **Cloud PC actions** report. I have not published a screenshot of the restart.
+**What I saw on October 7, 2026:** My Enterprise Cloud PC showed **Restarting**. The active session disconnected. **Connect** returned, and a new web session reached the signed-in desktop. Edge's policy page still reported the `HomepageLocation` policy as OK, while Edge opened a New tab page and no startup-action policy appeared in the list.
 
-**Do not test the other actions on your only working Cloud PC (judgement).** Restore returns the Cloud PC to an earlier point, and everything saved after that point is lost. Reprovision deletes the Cloud PC and creates a new one from the current provisioning policy, and all user data, apps and customizations are deleted. Neither can be undone. See [Point-in-time restore](/windows-365/point-in-time-restore/) and [Secure access and plan recovery](/windows-365/security-recovery/) for the details. Use a separate test Cloud PC and write down a recovery path before you try them. See Microsoft's [remote management action reference](https://learn.microsoft.com/en-us/windows-365/enterprise/remotely-manage-cloud-pc).
+See my [restart lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-10-2026-10-07-controlled-restart.md). I did not capture the Cloud PC actions report, a new Intune check-in or the app status after the restart. I started the restart in Windows App (**More options > Restart**), so it may not appear in the admin **Cloud PC actions** report. I have not published a screenshot of the restart.
+
+**Do not test the other actions on your only working Cloud PC (judgement).** Restore returns the Cloud PC to an earlier point, and everything saved after that point is lost. Reprovision deletes the Cloud PC and creates a new one from the current provisioning policy, and all user data, apps and customizations are deleted. Neither can be undone.
+
+See [Point-in-time restore](/windows-365/point-in-time-restore/) and [Secure access and plan recovery](/windows-365/security-recovery/) for the details. Use a separate test Cloud PC and write down a recovery path before you try them. See Microsoft's [remote management action reference](https://learn.microsoft.com/en-us/windows-365/enterprise/remotely-manage-cloud-pc).
 
 ## What a finished test looks like
 
@@ -103,9 +121,9 @@ When a result differs, note the exact status, last check-in, error and time. Rev
 
 Microsoft's [management guidance](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-deployment-guidance-management) explains why Intune is the recommended management plane for Windows 365. It prefers Intune Win32 apps and Enterprise App Catalog apps for app delivery; the Catalog is included with Microsoft 365 E5, and other plans need separate licensing. For exact options, use the Intune pages listed below. My [lab records](https://github.com/AddySidd27/Windows365-enterprise-engineering/tree/main/use-cases) are in the repository.
 
-Next: [secure access and plan recovery](/windows-365/security-recovery/).
+Next: [Windows 365 Enterprise: Point-in-Time Restore](/windows-365/point-in-time-restore/).
 
-## Microsoft Learn
+## Sources
 
 - [Intune as the management plane for Windows 365](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-deployment-guidance-management)
 - [Assign apps to groups in Intune](https://learn.microsoft.com/en-us/intune/app-management/deployment/assign-groups)

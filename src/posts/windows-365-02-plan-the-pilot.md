@@ -65,9 +65,9 @@ My [tenant readiness lab record](https://github.com/AddySidd27/Windows365-enterp
 
 Take a screenshot at each of these points: the license assignment, the group members, the policy target, the provisioning result and the first successful session. Add the date and a one-line note to each image. Remove names, tenant IDs and device identifiers before you share them. If a check fails, keep the error text and write down how you fixed it. The pilot is not done just because the portal accepted a form.
 
-Next: [choose identity and network](/windows-365/identity-network/).
+Next: [Windows 365 Enterprise: Choose Identity and Network](/windows-365/identity-network/).
 
-## Microsoft Learn
+## Sources
 
 - [Windows 365 Enterprise requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements)
 - [Create provisioning policies](https://learn.microsoft.com/en-us/windows-365/enterprise/create-provisioning-policy)

@@ -50,7 +50,9 @@ tags: [alz]
 
 In [the business requirements post](/azure-landing-zone/business-requirements-compliance-region-recovery-connectivity-and-cost/) you met connectivity as one of the five business requirements. In [the platform scope post](/azure-landing-zone/platform-scope-and-workload-boundaries/) and [the resource organization post](/azure-landing-zone/resource-organization/) you saw where the Connectivity, Corp and Online management groups sit. This post answers the next question: how should the networks themselves be laid out? VPN Gateway and ExpressRoute are the two ways to link Azure to your own network. The key terms table explains both.
 
-It matters early because network topology and connectivity are fundamental when you plan a landing zone design, and networking is central to almost everything inside one. It enables connectivity to other Azure services, to external users and to on-premises systems. Your topology defines how workloads communicate with one another. Your design should also include any hybrid or multicloud connections you plan (multicloud means using more than one cloud provider), and the traffic you expect on them. [The business requirements post](/azure-landing-zone/business-requirements-compliance-region-recovery-connectivity-and-cost/) covers connectivity as a business requirement. This post covers the layout around the links.
+It matters early because network topology and connectivity are fundamental when you plan a landing zone design, and networking is central to almost everything inside one. It enables connectivity to other Azure services, to external users and to on-premises systems. Your topology defines how workloads communicate with one another.
+
+Your design should also include any hybrid or multicloud connections you plan (multicloud means using more than one cloud provider), and the traffic you expect on them. [The business requirements post](/azure-landing-zone/business-requirements-compliance-region-recovery-connectivity-and-cost/) covers connectivity as a business requirement. This post covers the layout around the links.
 
 ## Key terms
 
@@ -217,6 +219,8 @@ Agreeing the topology, the address plan, the internet exit path (the route outbo
 
 - Network topology and connectivity, with hub and spoke responsibilities and the decisions to make before deployment: [networking.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/networking.md)
 - Hub-spoke, Virtual WAN, VPN and ExpressRoute, with the questions to ask before choosing: [connectivity-options.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/connectivity-options.md)
+
+Next: [Security](/azure-landing-zone/security/).
 
 ## Sources
 

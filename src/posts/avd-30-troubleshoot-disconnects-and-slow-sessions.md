@@ -204,7 +204,9 @@ If the logon part is the long one, look at the profile first. Go to the [FSLogix
 
 ## Check 8: prompted for credentials after a lock
 
-If users must give full credentials after the session locks, the session lock behaviour is the likely cause. With single sign-on through Microsoft Entra ID, the default is to disconnect the session on lock. The user can then reconnect without being asked again, when the Conditional Access policies allow it. If an admin changed it to show the remote lock screen, users have to enter full credentials. The setting is "Disconnect remote session on lock for Microsoft identity platform authentication". The [sign-in article](/azure-virtual-desktop/how-sign-in-works-three-authentications-and-sso/) and the [sign-in playbook](/azure-virtual-desktop/troubleshoot-sign-in-and-conditional-access/) cover the rest.
+If users must give full credentials after the session locks, the session lock behaviour is the likely cause. With single sign-on through Microsoft Entra ID, the default is to disconnect the session on lock. The user can then reconnect without being asked again, when the Conditional Access policies allow it.
+
+If an admin changed it to show the remote lock screen, users have to enter full credentials. The setting is "Disconnect remote session on lock for Microsoft identity platform authentication". The [sign-in article](/azure-virtual-desktop/how-sign-in-works-three-authentications-and-sso/) and the [sign-in playbook](/azure-virtual-desktop/troubleshoot-sign-in-and-conditional-access/) cover the rest.
 
 ## Queries
 
@@ -258,7 +260,9 @@ WVDConnectionNetworkData
 
 Bandwidth in this table is in kilobytes per second, not bits.
 
-How it works: the `let` block builds a short list of this user's connections from the last day, with one row per `CorrelationId`. The main part reads the network data rows, matches them to that list, and works out the middle value (`MedianRTTms`) and the 95th percentile (`P95RTTms`) of round-trip time for each connection, plus the lowest bandwidth. The slowest connection is on top. Healthy: median and 95th percentile both low and close to each other, judged against the round-trip table in check 2. Bad: a 95th percentile far above the median, a high median, or a low `MinBandwidthKBps`. Look at which `GatewayRegion`, `TransportType` and `SessionHostName` the bad rows share. If the query returns no rows, there is no network data for that user in the last day. Check the Network category in the diagnostic setting.
+How it works: the `let` block builds a short list of this user's connections from the last day, with one row per `CorrelationId`. The main part reads the network data rows, matches them to that list, and works out the middle value (`MedianRTTms`) and the 95th percentile (`P95RTTms`) of round-trip time for each connection, plus the lowest bandwidth. The slowest connection is on top.
+
+Healthy: median and 95th percentile both low and close to each other, judged against the round-trip table in check 2. Bad: a 95th percentile far above the median, a high median, or a low `MinBandwidthKBps`. Look at which `GatewayRegion`, `TransportType` and `SessionHostName` the bad rows share. If the query returns no rows, there is no network data for that user in the last day. Check the Network category in the diagnostic setting.
 
 **Disconnect names in the error table (written for this article).** The page that names these errors does not say where they are logged, so this searches two columns that exist. Treat an empty result as "not found here", not as "did not happen":
 

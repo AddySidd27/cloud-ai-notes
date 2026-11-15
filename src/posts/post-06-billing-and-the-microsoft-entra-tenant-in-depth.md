@@ -97,7 +97,9 @@ tags: [alz]
 
 [The tenant and subscriptions post](/azure-landing-zone/tenant-billing-subscriptions-and-management-groups/) gave you the four building blocks. This post goes one level deeper, because two things surprise people. (A landing zone is the prepared Azure environment where teams run what they build.)
 
-First, billing access is not Azure access. For example, a finance user is made Enterprise Administrator (the enrollment role with the highest level of access to the enrollment) on the Enterprise Agreement (EA, a billing agreement that sets how your organization buys Azure) enrollment (the top-level container of an EA). That user can do the enrollment tasks, but cannot open the Azure subscriptions on it (an Azure subscription is a container for Azure resources, see the table below), because the enrollment roles do not give that access. Only the account owner (the owner of the account that the subscriptions sit under) has it. An account is an organizational unit used to manage subscriptions and see reports.
+First, billing access is not Azure access. For example, a finance user is made Enterprise Administrator (the enrollment role with the highest level of access to the enrollment) on the Enterprise Agreement (EA, a billing agreement that sets how your organization buys Azure) enrollment (the top-level container of an EA).
+
+That user can do the enrollment tasks, but cannot open the Azure subscriptions on it (an Azure subscription is a container for Azure resources, see the table below), because the enrollment roles do not give that access. Only the account owner (the owner of the account that the subscriptions sit under) has it. An account is an organizational unit used to manage subscriptions and see reports.
 
 Second, billing can depend on one person's account. If the user principal name (UPN, the user's sign-in name) tied to an enrollment account is deleted from Microsoft Entra ID (Microsoft's cloud identity service), you cannot create new subscriptions or transfer existing ones from that account.
 
@@ -219,7 +221,9 @@ Regulatory rules and tenants you already inherited from an acquisition can also 
 
 On-premises Active Directory is arranged in a hierarchy. The top-level container is the forest. A forest holds one or more domains (a domain is a partition of a forest that holds user identities and handles sign-in for them).
 
-Here is an example setup for a group with several brands. One parent organization runs a main tenant. Other brands are separate businesses, connected to the parent and managed from it. Each brand has its own on-premises Active Directory and its own domain name. The question is: does a separate directory and domain per brand mean a separate Microsoft Entra tenant? The official documentation does not answer this exact question. The Microsoft Entra Connect topologies page shows that several on-premises forests can sync to one tenant, so a separate directory per brand does not by itself force a separate tenant (judgement: this is my reading of that page). In this example, each brand's Active Directory is its own forest, with its own domain. A single forest with several domains can also sync to one tenant. This is a generic example to explain the choice, not a description of any customer.
+Here is an example setup for a group with several brands. One parent organization runs a main tenant. Other brands are separate businesses, connected to the parent and managed from it. Each brand has its own on-premises Active Directory and its own domain name. The question is: does a separate directory and domain per brand mean a separate Microsoft Entra tenant? The official documentation does not answer this exact question.
+
+The Microsoft Entra Connect topologies page shows that several on-premises forests can sync to one tenant, so a separate directory per brand does not by itself force a separate tenant (judgement: this is my reading of that page). In this example, each brand's Active Directory is its own forest, with its own domain. A single forest with several domains can also sync to one tenant. This is a generic example to explain the choice, not a description of any customer.
 
 **Shape 1: one tenant, several Active Directory forests.** Microsoft Entra Connect Sync supports multiple on-premises forests that sync to a single Microsoft Entra tenant. This can be the situation after a merger or acquisition, or in an organization where each business unit operates independently. Three things to know:
 
@@ -269,6 +273,8 @@ Here is an example setup for a group with several brands. One parent organizatio
 ## The files in my repo
 
 - Billing and tenant, with a list of decisions to make: [billing-and-tenant.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/billing-and-tenant.md)
+
+Next: [Identity and Access in the Landing Zone](/azure-landing-zone/identity-and-access-in-the-landing-zone/).
 
 ## Sources
 

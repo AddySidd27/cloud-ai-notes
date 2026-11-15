@@ -65,11 +65,15 @@ In [the identity and access post](/azure-landing-zone/identity-and-access-in-the
 
 Security is a core consideration for all customers, in every environment, and it should be considered throughout the process of designing and implementing a landing zone. An organization must have visibility into what is happening inside everything it runs in the cloud, and security monitoring and audit logging of Azure platform services is a key part of a scalable framework.
 
-This post follows Microsoft's Security design area. Its stated goal is to understand security requirements and implement them consistently across all workloads in your cloud platform. The primary scope is security operations tooling and access control. It also includes Zero Trust (a security strategy: never trust, always verify; the Key terms table explains it) and advanced network security. The Cloud Adoption Framework (CAF) is Microsoft's guidance for adopting the cloud. This design area does not cover three disciplines of CAF's Secure methodology: security operations, asset protection and innovation security. Those build on your landing zone deployment. So here only the tools for security operations (alerts, logs, controls) are in scope. This series does not cover running security operations day to day, asset protection or innovation security.
+This post follows Microsoft's Security design area. Its stated goal is to understand security requirements and implement them consistently across all workloads in your cloud platform. The primary scope is security operations tooling and access control. It also includes Zero Trust (a security strategy: never trust, always verify; the Key terms table explains it) and advanced network security.
+
+The Cloud Adoption Framework (CAF) is Microsoft's guidance for adopting the cloud. This design area does not cover three disciplines of CAF's Secure methodology: security operations, asset protection and innovation security. Those build on your landing zone deployment. So here only the tools for security operations (alerts, logs, controls) are in scope. This series does not cover running security operations day to day, asset protection or innovation security.
 
 ## Key terms
 
-The earlier posts defined these words: landing zone, workload, platform team, subscription, management group, Azure Policy, hub-and-spoke, Azure RBAC, service principal, managed identity, Microsoft Entra ID, multifactor authentication (MFA), Conditional Access, Privileged Identity Management (PIM), least privilege, just-in-time access (for roles), network security group (NSG), Azure Firewall, DDoS Protection, Log Analytics workspace, Microsoft Sentinel, Microsoft Defender for Cloud and subscription democratization (workload teams get their own subscriptions inside the platform's guardrails). [The privileged access post](/azure-landing-zone/privileged-access-mfa-conditional-access-and-pim/) introduced Zero Trust; the table below gives the short version.
+The earlier posts defined these words: landing zone, workload, platform team, subscription, management group, Azure Policy, hub-and-spoke, Azure RBAC, service principal, managed identity, Microsoft Entra ID, multifactor authentication (MFA), Conditional Access, Privileged Identity Management (PIM), least privilege, just-in-time access (for roles), network security group (NSG), Azure Firewall, DDoS Protection, Log Analytics workspace, Microsoft Sentinel, Microsoft Defender for Cloud and subscription democratization (workload teams get their own subscriptions inside the platform's guardrails).
+
+[The privileged access post](/azure-landing-zone/privileged-access-mfa-conditional-access-and-pim/) introduced Zero Trust; the table below gives the short version.
 
 The words below are the main new terms. Each is in plain words. Other new terms are explained where they first appear.
 
@@ -179,7 +183,9 @@ For each pillar, the next table gives what the objectives are, what to consider 
 | Networks | Network segmentation, cloud-native filtering and least-access privilege. | Deploy firewalls capable of HTTPS inspection (looking inside encrypted web traffic; HTTPS is the secure form of web traffic), and isolate identity and management network resources from the central hub. Plan micro-segmentation (splitting the network into small parts around each workload) of each workload in its spoke virtual network. One example is to define traffic patterns and create fine-grained network security groups. Learn lists three Zero Trust deployment guides: [the portal accelerator](https://github.com/Azure/Enterprise-Scale/blob/main/docs/wiki/Deploying-ALZ-ZTNetwork.md), [Bicep](https://github.com/Azure/ALZ-Bicep/blob/main/docs/wiki/DeploymentGuideHSZT.md) and [Terraform](https://github.com/Azure/terraform-azurerm-caf-enterprise-scale/blob/main/docs/wiki/%5BExamples%5D-Deploy-ZT-Network.md). It also links [Zero Trust network for web applications](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/gateway/application-gateway-before-azure-firewall) and [Zero Trust deployment plans with Azure](https://learn.microsoft.com/en-us/security/zero-trust/apply-zero-trust-azure-services-overview). Bicep and Terraform are tools for deploying Azure resources from code. Terraform was defined in [Platform scope](/azure-landing-zone/platform-scope-and-workload-boundaries/). |
 | Visibility, automation and orchestration | Establish visibility, enable automation and keep improving. The reference implementations give policies for Azure logging, but other services need more integration. | Deploy Microsoft Sentinel as part of the landing zone. Microsoft is moving Sentinel to the Microsoft Defender portal, so plan for that ([Sentinel overview](https://learn.microsoft.com/en-us/azure/sentinel/overview)). Plan to bring signals from Microsoft Entra ID and Microsoft 365 tools into your Sentinel workspace. Plan threat-hunting exercises and continual security improvement. |
 
-One detail is worth keeping in mind. Just-in-time VM access (a Defender for Cloud feature that locks down inbound traffic to your VMs), which is a Defender for Servers Plan 2 feature, protects machines from attackers who look for open management ports such as RDP or SSH (remote sign-in ports for VMs: RDP for Windows, SSH for Linux). When a request is approved, Defender for Cloud configures the network security groups and Azure Firewall to allow inbound traffic to the selected ports from the relevant IP address or range for the specified amount of time. Just-in-time access does not support VMs behind an Azure Firewall that Azure Firewall Manager controls. The firewall must use Rules (Classic), not Firewall policy.
+One detail is worth keeping in mind. Just-in-time VM access (a Defender for Cloud feature that locks down inbound traffic to your VMs), which is a Defender for Servers Plan 2 feature, protects machines from attackers who look for open management ports such as RDP or SSH (remote sign-in ports for VMs: RDP for Windows, SSH for Linux).
+
+When a request is approved, Defender for Cloud configures the network security groups and Azure Firewall to allow inbound traffic to the selected ports from the relevant IP address or range for the specified amount of time. Just-in-time access does not support VMs behind an Azure Firewall that Azure Firewall Manager controls. The firewall must use Rules (Classic), not Firewall policy.
 
 ## Encryption and keys
 
@@ -239,7 +245,9 @@ Policies included for the Online (internet-facing) and Corp (corporate-connected
 
 ## New and existing environments
 
-For a new (greenfield) environment, create your initial subscriptions and deploy with the Azure Landing Zones IaC accelerator, which uses Bicep or Terraform built on Azure Verified Modules, reusable and customizable building blocks ([Platform landing zone implementation options](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/implementation-options)). The Security design area page says the Microsoft Bicep templates have proven-practice security guidance built in. (judgement) Still review every setting against your own requirements. [The governance and Azure Policy post](/azure-landing-zone/governance-and-azure-policy/) covers greenfield and brownfield deployment and the first-generation Bicep templates in more detail.
+For a new (greenfield) environment, create your initial subscriptions and deploy with the Azure Landing Zones IaC accelerator, which uses Bicep or Terraform built on Azure Verified Modules, reusable and customizable building blocks ([Platform landing zone implementation options](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/implementation-options)).
+
+The Security design area page says the Microsoft Bicep templates have proven-practice security guidance built in. (judgement) Still review every setting against your own requirements. [The governance and Azure Policy post](/azure-landing-zone/governance-and-azure-policy/) covers greenfield and brownfield deployment and the first-generation Bicep templates in more detail.
 
 For a brownfield (existing) environment, four services bring the same principles to it:
 
@@ -274,17 +282,10 @@ From the list above, these came up in my own work: Key Vault sprawl, and logs an
 
 - Security design area: the platform baseline and shared responsibility: [security.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/security.md)
 
-## Sources
+Next: [Management and Monitoring](/azure-landing-zone/management-and-monitoring/).
 
-Microsoft Learn, checked October 2026:
+## Sources
 
 - [Design area: Security](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/security)
 - [Incorporate Zero Trust practices in your landing zone](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/security-zero-trust)
 - [Encryption and key management in Azure](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/encryption-and-keys)
-- [Platform landing zone implementation options](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/implementation-options)
-- [Key Vault security best practices](https://learn.microsoft.com/en-us/azure/key-vault/general/best-practices)
-- [Key Vault soft-delete overview](https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview)
-- [Activity log in Azure Monitor](https://learn.microsoft.com/en-us/azure/azure-monitor/platform/activity-log)
-- [Microsoft Entra data retention](https://learn.microsoft.com/en-us/entra/identity/monitoring-health/reference-reports-data-retention)
-
-Short definitions of Microsoft Sentinel, Defender for Cloud, Key Vault, Azure Attestation, Event Grid, Web Application Firewall and just-in-time VM access come from their own overview pages, and the Zero Trust overview page gives "never trust, always verify". The Defender for Cloud "standard" and "free" wording comes from the page on enabling Defender for Cloud on all subscriptions in a management group.

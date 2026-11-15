@@ -67,7 +67,9 @@ Check: both rows show room for at least 2 vCPUs.
 
 **The size.** This lab uses `Standard_B2s_v2`: 2 vCPUs and 8 GiB of memory, from the burstable B-series for small test servers. If the portal does not offer it for your region, choose another size with 2 vCPUs and at least 4 GiB of memory.
 
-**The image.** Use **Windows Server 2025 Datacenter: Azure Edition**, not the one with **Core** in its name. Learn says Entra sign-in works on Windows Server 2022 or 2025 installed with Desktop Experience. This lab uses 2025 on purpose: [Lab 14: Storage and Azure Files](/azure-basics-labs/storage-azure-files/) needs it. A server image needs no extra licence for a short test. Leave the box for an existing Windows Server licence (Azure Hybrid Benefit) unticked. Windows 11 images need a qualifying licence for production use, and Windows 11 multi-session is for Azure Virtual Desktop only. This VM is a server, not the Windows 11 desktop your AVD users will see, but for the question "can an Entra user sign in to this VM" it behaves the same.
+**The image.** Use **Windows Server 2025 Datacenter: Azure Edition**, not the one with **Core** in its name. Learn says Entra sign-in works on Windows Server 2022 or 2025 installed with Desktop Experience. This lab uses 2025 on purpose: [Lab 14: Storage and Azure Files](/azure-basics-labs/storage-azure-files/) needs it. A server image needs no extra licence for a short test.
+
+Leave the box for an existing Windows Server licence (Azure Hybrid Benefit) unticked. Windows 11 images need a qualifying licence for production use, and Windows 11 multi-session is for Azure Virtual Desktop only. This VM is a server, not the Windows 11 desktop your AVD users will see, but for the question "can an Entra user sign in to this VM" it behaves the same.
 
 ### Part 2: Create the VM
 
@@ -374,7 +376,9 @@ Keep for later labs:
 
 ## Where this is used in AVD
 
-AVD session hosts that are joined to Entra use the same extension idea and the same two roles, and the user also needs the Desktop Virtualization User role on the app group. In AVD the session host has no public IP and no inbound 3389 rule: the user connects through the AVD service. What you did here is the plain-VM version of the same sign-in. The sign-in is one of three separate steps in AVD: [How Sign-In Works in Azure Virtual Desktop: Three Authentications and SSO](/azure-virtual-desktop/how-sign-in-works-three-authentications-and-sso/). The choice of image and the licence it needs is in [Choose the Session Host Operating System and Licensing](/azure-virtual-desktop/session-host-operating-system-and-licensing/).
+AVD session hosts that are joined to Entra use the same extension idea and the same two roles, and the user also needs the Desktop Virtualization User role on the app group. In AVD the session host has no public IP and no inbound 3389 rule: the user connects through the AVD service. What you did here is the plain-VM version of the same sign-in.
+
+The sign-in is one of three separate steps in AVD: [How Sign-In Works in Azure Virtual Desktop: Three Authentications and SSO](/azure-virtual-desktop/how-sign-in-works-three-authentications-and-sso/). The choice of image and the licence it needs is in [Choose the Session Host Operating System and Licensing](/azure-virtual-desktop/session-host-operating-system-and-licensing/).
 
 ## Next lab
 

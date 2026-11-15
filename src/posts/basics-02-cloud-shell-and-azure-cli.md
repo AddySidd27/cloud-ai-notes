@@ -204,13 +204,5 @@ In AVD work you will use `az` to check what is deployed in a subscription, and y
 ## Sources
 
 - [What is Azure Cloud Shell?](https://learn.microsoft.com/en-us/azure/cloud-shell/overview)
-- [Get started with Azure Cloud Shell ephemeral sessions](https://learn.microsoft.com/en-us/azure/cloud-shell/get-started/ephemeral)
-- [Get started with Azure Cloud Shell using persistent storage](https://learn.microsoft.com/en-us/azure/cloud-shell/get-started/new-storage)
-- [Persist files in Azure Cloud Shell](https://learn.microsoft.com/en-us/azure/cloud-shell/persisting-shell-storage)
 - [Get started with Azure CLI](https://learn.microsoft.com/en-us/cli/azure/get-started-with-azure-cli)
-- [Prepare your environment for the Azure CLI](https://learn.microsoft.com/en-us/cli/azure/get-started-tutorial-1-prepare-environment)
 - [Install the Azure CLI on Windows](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-windows)
-- [Output formats for Azure CLI commands](https://learn.microsoft.com/en-us/cli/azure/format-output-azure-cli)
-- [How to query Azure CLI command output using a JMESPath query](https://learn.microsoft.com/en-us/cli/azure/query-azure-cli)
-- [Troubleshooting Azure CLI](https://learn.microsoft.com/en-us/cli/azure/use-azure-cli-successfully-troubleshooting)
-- [Mandatory multifactor authentication for Azure and admin portals](https://learn.microsoft.com/en-us/entra/identity/authentication/concept-mandatory-multifactor-authentication)

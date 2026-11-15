@@ -298,9 +298,13 @@ RemoteApp publishes applications that run on the session hosts, including instal
 
 ### Session-host management and scaling
 
-With **standard management**, your tools and processes create and update the hosts. With **session host configuration**, AVD provides an integrated host creation, update and scaling approach for pooled host pools. These are distinct management approaches; tools built for standard management do not manage hosts that use session host configuration. The [session host post](/azure-virtual-desktop/create-update-replace-session-hosts/) covers this in detail. The approach is chosen when the host pool is created and cannot be changed afterwards ([Host pool management approaches](https://learn.microsoft.com/en-us/azure/virtual-desktop/host-pool-management-approaches)); session host configuration works with pooled host pools only (same page).
+With **standard management**, your tools and processes create and update the hosts. With **session host configuration**, AVD provides an integrated host creation, update and scaling approach for pooled host pools. These are distinct management approaches; tools built for standard management do not manage hosts that use session host configuration.
 
-A **scaling plan** adjusts capacity against its schedule and usage settings. Power-management autoscale starts and stops existing VMs. Learn's pages disagree on the status of dynamic autoscale: the [autoscale scenarios](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scenarios) page labels it preview, while [What's new, June 2026](https://learn.microsoft.com/en-us/azure/virtual-desktop/whats-new#june-2026) says it is now available. Check the current status before you rely on it. It can also create and delete hosts, but only for pooled host pools that use a session host configuration. For pooled host pools, autoscale overwrites drain mode, so use exclusion tags (a tag that tells autoscale to leave a VM alone) when you update VMs.
+The [session host post](/azure-virtual-desktop/create-update-replace-session-hosts/) covers this in detail. The approach is chosen when the host pool is created and cannot be changed afterwards ([Host pool management approaches](https://learn.microsoft.com/en-us/azure/virtual-desktop/host-pool-management-approaches)); session host configuration works with pooled host pools only (same page).
+
+A **scaling plan** adjusts capacity against its schedule and usage settings. Power-management autoscale starts and stops existing VMs. Learn's pages disagree on the status of dynamic autoscale: the [autoscale scenarios](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scenarios) page labels it preview, while [What's new, June 2026](https://learn.microsoft.com/en-us/azure/virtual-desktop/whats-new#june-2026) says it is now available.
+
+Check the current status before you rely on it. It can also create and delete hosts, but only for pooled host pools that use a session host configuration. For pooled host pools, autoscale overwrites drain mode, so use exclusion tags (a tag that tells autoscale to leave a VM alone) when you update VMs.
 
 Load balancing selects a host; scaling controls capacity. Measure application resource needs before choosing VM sizes and session limits. For pooled autoscale, the schedule controls the load-balancing algorithm.
 
@@ -348,10 +352,12 @@ Each stage has a separate dependency. The desktop is usable only when all requir
 
 With these decisions clear, the next step is to prepare the Azure environment before deploying the first host pool.
 
-Next: [Prepare Your Azure Environment for Azure Virtual Desktop](/azure-virtual-desktop/prepare-your-azure-environment/).
-
 Go deeper: [How Azure Virtual Desktop Fails](/azure-virtual-desktop/how-azure-virtual-desktop-fails/), [Host Pools, Application Groups and Workspaces: The Rules That Connect Them](/azure-virtual-desktop/host-pool-application-group-workspace-rules/), [Follow a Connection Step by Step](/azure-virtual-desktop/follow-a-connection-step-by-step/).
+
+Next: [Prepare Your Azure Environment for Azure Virtual Desktop](/azure-virtual-desktop/prepare-your-azure-environment/).
 
 ## Sources
 
-[Service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience), [network connectivity](https://learn.microsoft.com/en-us/azure/virtual-desktop/network-connectivity) and [RDP Shortpath](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-shortpath). Also used: [Host pool management approaches](https://learn.microsoft.com/en-us/azure/virtual-desktop/host-pool-management-approaches), [Autoscale scaling plans and example scenarios](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scenarios), [Custom image templates](https://learn.microsoft.com/en-us/azure/virtual-desktop/custom-image-templates), [Enable Insights](https://learn.microsoft.com/en-us/azure/virtual-desktop/insights), [Supported identities and authentication methods](https://learn.microsoft.com/en-us/azure/virtual-desktop/authentication), [Microsoft Entra joined session hosts](https://learn.microsoft.com/en-us/azure/virtual-desktop/azure-ad-joined-session-hosts), [FSLogix profile containers best practices](https://learn.microsoft.com/en-us/azure/virtual-desktop/fslogix-profile-containers), [Regional host pools](https://learn.microsoft.com/en-us/azure/virtual-desktop/regional-host-pools), [Data locations](https://learn.microsoft.com/en-us/azure/virtual-desktop/data-locations), [Configure host pool load balancing](https://learn.microsoft.com/en-us/azure/virtual-desktop/host-pool-load-balancing) and [Multiregion BCDR for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/azure-virtual-desktop/azure-virtual-desktop-multi-region-bcdr) (for the diagnostics service).
+- [Service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience)
+- [Network connectivity](https://learn.microsoft.com/en-us/azure/virtual-desktop/network-connectivity)
+- [RDP Shortpath](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-shortpath)

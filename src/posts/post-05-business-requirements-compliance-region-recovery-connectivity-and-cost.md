@@ -190,7 +190,9 @@ For tools, use Azure Backup (a service that protects your data and lets you rest
 
 ## Connectivity: how people and workloads reach Azure
 
-If your plans include hybrid dependencies, your network design should include those connection options and the traffic patterns you expect. In the landing zone, the hub network and its hybrid connection are built in the Connectivity subscription, which sits under the Connectivity management group (the platform management group for shared networking). Two common ways to link your network to Azure are VPN Gateway and ExpressRoute. VPN Gateway sends encrypted traffic between an Azure virtual network and your on-premises locations over the public internet. ExpressRoute is a private connection from your on-premises networks to the Microsoft cloud. You set it up with a connectivity provider, and it does not use the public internet.
+If your plans include hybrid dependencies, your network design should include those connection options and the traffic patterns you expect. In the landing zone, the hub network and its hybrid connection are built in the Connectivity subscription, which sits under the Connectivity management group (the platform management group for shared networking).
+
+Two common ways to link your network to Azure are VPN Gateway and ExpressRoute. VPN Gateway sends encrypted traffic between an Azure virtual network and your on-premises locations over the public internet. ExpressRoute is a private connection from your on-premises networks to the Microsoft cloud. You set it up with a connectivity provider, and it does not use the public internet.
 
 Three points:
 
@@ -250,6 +252,8 @@ These situations came up in my own work: requirements not collected first, regio
 - Recovery: [business-continuity.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/business-continuity.md)
 - Connectivity: [connectivity-options.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/connectivity-options.md)
 - Cost: [naming-tagging-cost.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/naming-tagging-cost.md)
+
+Next: [Billing and the Microsoft Entra Tenant, in Depth](/azure-landing-zone/billing-and-tenant-in-depth/).
 
 ## Sources
 

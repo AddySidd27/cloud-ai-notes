@@ -11,7 +11,9 @@ deck: "Follow the license, group, network, image and provisioning policy in the 
 
 In the [identity and network article](/windows-365/identity-network/), we chose an identity and network path. Here we use **Microsoft Entra join** and a **Microsoft-hosted network** for a small Enterprise pilot. You can follow the same order in your own tenant.
 
-A Cloud PC is a Windows desktop that Windows 365 builds and runs for one user. A provisioning policy is the set of rules (join type, network, image, region) that tells Windows 365 how to build Cloud PCs for the users in a group. Microsoft Entra join means the Cloud PC joins Microsoft Entra ID directly, with no on-premises domain. A Microsoft-hosted network means Windows 365 runs the Cloud PC network for you. The Azure network connection (ANC) is the other choice: you bring your own Azure virtual network. The ANC path is a separate lab in the [ANC health failure article](/windows-365/anc-troubleshooting/). The [identity and network article](/windows-365/identity-network/) explains both choices.
+A Cloud PC is a Windows desktop that Windows 365 builds and runs for one user. A provisioning policy is the set of rules (join type, network, image, region) that tells Windows 365 how to build Cloud PCs for the users in a group. Microsoft Entra join means the Cloud PC joins Microsoft Entra ID directly, with no on-premises domain.
+
+A Microsoft-hosted network means Windows 365 runs the Cloud PC network for you. The Azure network connection (ANC) is the other choice: you bring your own Azure virtual network. The ANC path is a separate lab in the [ANC health failure article](/windows-365/anc-troubleshooting/). The [identity and network article](/windows-365/identity-network/) explains both choices.
 
 **What you will build:** one licensed pilot user in one Microsoft Entra group, targeted by one provisioning policy. The intended result is a Cloud PC with the status **Provisioned** (built and ready for sign-in) that the user can open and that an administrator can inspect in Intune. The screenshots below show the wizard only. They are not a finished build.
 
@@ -23,7 +25,9 @@ A Cloud PC is a Windows desktop that Windows 365 builds and runs for one user. A
 
 ## 1. Check the prerequisites
 
-Before you create anything, check the [Windows 365 Enterprise requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements). You need a suitable Windows 365 Enterprise license, a user who receives that license, a Microsoft Entra group for the policy assignment, and an administrator who holds the Intune Administrator or Windows 365 Administrator role in Microsoft Entra ID ([Role and identity requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements#role-and-identity-requirements)). Users also need licenses for Windows E3, Intune and Microsoft Entra ID P1 as well as Windows 365, and Intune must allow Windows (MDM) enrollment; the [plan the pilot article](/windows-365/plan-the-pilot/) lists these. For this Microsoft-hosted, Entra joined path, you do not need to create an Azure virtual network.
+Before you create anything, check the [Windows 365 Enterprise requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements). You need a suitable Windows 365 Enterprise license, a user who receives that license, a Microsoft Entra group for the policy assignment, and an administrator who holds the Intune Administrator or Windows 365 Administrator role in Microsoft Entra ID ([Role and identity requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements#role-and-identity-requirements)).
+
+Users also need licenses for Windows E3, Intune and Microsoft Entra ID P1 as well as Windows 365, and Intune must allow Windows (MDM) enrollment; the [plan the pilot article](/windows-365/plan-the-pilot/) lists these. For this Microsoft-hosted, Entra joined path, you do not need to create an Azure virtual network.
 
 | Check | Where | Continue when |
 |---|---|---|
@@ -62,7 +66,9 @@ In [Microsoft Intune admin center](https://intune.microsoft.com/), open **Device
 
 ### General: desktop, license, join and network
 
-Enter a policy name and description. To give each user their own Cloud PC, select **Access a full Cloud PC desktop** and the license type **Enterprise**. Choose the **Microsoft Entra Join** option and the **Microsoft hosted network** option (the wizard's own labels). Select the geography and look at its region groups (a region group is a set of Azure regions inside the geography). Learn recommends all default regions within the geography for resiliency, unless you must pin a region group or region. The draft below used the example name **AVDtest-pilot-draft** and **US Central**. Choose the geography based on your own data residency and user needs. The single sign-on setting is optional and was left off in this draft.
+Enter a policy name and description. To give each user their own Cloud PC, select **Access a full Cloud PC desktop** and the license type **Enterprise**. Choose the **Microsoft Entra Join** option and the **Microsoft hosted network** option (the wizard's own labels). Select the geography and look at its region groups (a region group is a set of Azure regions inside the geography).
+
+Learn recommends all default regions within the geography for resiliency, unless you must pin a region group or region. The draft below used the example name **AVDtest-pilot-draft** and **US Central**. Choose the geography based on your own data residency and user needs. The single sign-on setting is optional and was left off in this draft.
 
 ![General page in my Intune provisioning policy draft](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/w365-general-own-20261012.png)
 
@@ -116,7 +122,9 @@ Follow the current [Microsoft Learn provisioning policy instructions](https://le
 
 ## 6. Watch provisioning, then test the user session
 
-In Intune, open **Devices > Provision Cloud PCs > All Cloud PCs**. Find the pilot user and record the policy, status and any error. If the status fails, note the exact stage before changing a setting. Microsoft's [automated provisioning steps](https://learn.microsoft.com/en-us/windows-365/enterprise/automated-provisioning-steps) list the stages Windows 365 runs (core provisioning, post-provisioning configuration and assignment), so you can name the stage that failed. A failed post-provisioning step gives the status **Success with warnings** on that page; Intune lists it as **Provisioned with warnings** on [Device management overview](https://learn.microsoft.com/en-us/windows-365/enterprise/device-management-overview#column-details).
+In Intune, open **Devices > Provision Cloud PCs > All Cloud PCs**. Find the pilot user and record the policy, status and any error. If the status fails, note the exact stage before changing a setting. Microsoft's [automated provisioning steps](https://learn.microsoft.com/en-us/windows-365/enterprise/automated-provisioning-steps) list the stages Windows 365 runs (core provisioning, post-provisioning configuration and assignment), so you can name the stage that failed.
+
+A failed post-provisioning step gives the status **Success with warnings** on that page; Intune lists it as **Provisioned with warnings** on [Device management overview](https://learn.microsoft.com/en-us/windows-365/enterprise/device-management-overview#column-details).
 
 When the Cloud PC is **Provisioned**, have the user open [windows.cloud.microsoft](https://windows.cloud.microsoft/) or Windows App, select the Cloud PC and sign in; see [connect and verify](/windows-365/connect-verify/). Then ask them to disconnect and reconnect. I have not tested the reconnect step yet. Back in Intune, inspect its managed device record and last check-in. A Provisioned status and a working user session are two separate checks.
 
@@ -150,7 +158,9 @@ I have not run a fresh provisioning from start to finish. My separate ANC health
 
 Continue to [connect and verify](/windows-365/connect-verify/). The [Enterprise provisioning lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-02-enterprise-provisioning.md) has a longer checklist.
 
-## Microsoft Learn
+Next: [Windows 365 Enterprise: Connect and Verify the Cloud PC](/windows-365/connect-verify/).
+
+## Sources
 
 - [Windows 365 Enterprise requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements)
 - [Assign Windows 365 licenses](https://learn.microsoft.com/en-us/windows-365/enterprise/assign-licenses)

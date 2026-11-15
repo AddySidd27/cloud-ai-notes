@@ -150,7 +150,9 @@ A virtual network (VNet) is the private network for Azure resources. A subnet is
 
 The VM overview flagged default outbound access. Default outbound access means Azure gives a VM a public outbound IP address automatically when no explicit outbound method is set. That address is owned by Microsoft and can change without notice ([Default outbound access in Azure](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/default-outbound-access#how-and-when-default-outbound-access-is-provided)).
 
-Azure is changing this default. Virtual networks created in the portal, or through the API version released after 31 March 2026, get private subnets (no default outbound access). Existing virtual networks are not changed. Deployments that use an earlier API version, which can include Terraform, keep the old default ([Default outbound access in Azure](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/default-outbound-access#retirement-of-default-outbound-access-scope-and-impact)). A VM on a private subnet needs an explicit outbound method, for example for Windows activation and updates. A later networking step will select and validate an explicit outbound design. Do not treat this inventory as proof of enterprise network readiness.
+Azure is changing this default. Virtual networks created in the portal, or through the API version released after 31 March 2026, get private subnets (no default outbound access). Existing virtual networks are not changed. Deployments that use an earlier API version, which can include Terraform, keep the old default ([Default outbound access in Azure](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/default-outbound-access#retirement-of-default-outbound-access-scope-and-impact)).
+
+A VM on a private subnet needs an explicit outbound method, for example for Windows activation and updates. A later networking step will select and validate an explicit outbound design. Do not treat this inventory as proof of enterprise network readiness.
 
 ## 3. Confirm the user's licensing before desktop deployment
 
@@ -190,7 +192,9 @@ AVD access licensing also does not remove the Azure charges for VMs, disks, stor
 
 Azure Dev/Test is a discounted offer for non-production work. The offer ID is the code the portal shows for the type of subscription you have. We read the actual offer ID, rather than relying on the subscription name or a dev tag.
 
-This development subscription shows offer ID **MS-AZR-0063P**. Learn lists this ID as the Visual Studio Enterprise subscribers offer ([Use Windows client in Azure for dev/test scenarios](https://learn.microsoft.com/azure/virtual-machines/windows/client-images)). Two Learn pages say different things about licensing in a Dev/Test subscription. The [AVD prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites) say users in an Azure Dev/Test subscription may connect without a separate license to run acceptance tests or give feedback. The [Visual Studio subscribers page](https://learn.microsoft.com/visualstudio/subscriptions/vs-windows-virtual-desktop) says Dev/Test credits can pay for AVD usage, but access still requires eligible user licenses. Neither page says that this offer ID gets the waiver. (judgement) Until your licensing contact confirms it, assign an eligible license to every test user.
+This development subscription shows offer ID **MS-AZR-0063P**. Learn lists this ID as the Visual Studio Enterprise subscribers offer ([Use Windows client in Azure for dev/test scenarios](https://learn.microsoft.com/azure/virtual-machines/windows/client-images)). Two Learn pages say different things about licensing in a Dev/Test subscription. The [AVD prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites) say users in an Azure Dev/Test subscription may connect without a separate license to run acceptance tests or give feedback.
+
+The [Visual Studio subscribers page](https://learn.microsoft.com/visualstudio/subscriptions/vs-windows-virtual-desktop) says Dev/Test credits can pay for AVD usage, but access still requires eligible user licenses. Neither page says that this offer ID gets the waiver. (judgement) Until your licensing contact confirms it, assign an eligible license to every test user.
 
 1. Open **Subscriptions > selected subscription > Overview**.
 2. Read **Offer ID** and **Status**. Compare the offer with the published Azure Dev/Test terms.
@@ -357,7 +361,9 @@ Our agreed budget is **$106 per billing month** for **rg-avd-dev**. This is the 
 
 **Read the scope carefully:** this budget covers the workload resource group. Resources in other groups, shared platform services and separate licensing costs need their own cost ownership and appropriate budget scopes. This is not a budget for every cost associated with AVD.
 
-A billing month can differ from a calendar month for Visual Studio subscriptions. Use the selected reset period when interpreting an alert. Cost and usage data is typically available within 8-24 hours and budgets are evaluated every 24 hours ([Create and manage budgets](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets)); for pay-as-you-go subscriptions it can take up to 72 hours ([Understand Cost Management data](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/understand-cost-mgt-data#cost-and-usage-data-updates-and-retention)). A newly created budget showing zero evaluated spend does not prove the resources have incurred no charges.
+A billing month can differ from a calendar month for Visual Studio subscriptions. Use the selected reset period when interpreting an alert.
+
+Cost and usage data is typically available within 8-24 hours and budgets are evaluated every 24 hours ([Create and manage budgets](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets)); for pay-as-you-go subscriptions it can take up to 72 hours ([Understand Cost Management data](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/understand-cost-mgt-data#cost-and-usage-data-updates-and-retention)). A newly created budget showing zero evaluated spend does not prove the resources have incurred no charges.
 
 A budget sends alerts; it does not stop consumption. The cost owner must review the alert and act. Keep a retirement plan for the lab and a cost-review process for production. Record this as an existing portal-managed budget so a later Terraform deployment does not create a duplicate.
 
@@ -419,9 +425,9 @@ Keep this readiness record for the next posts. This walkthrough changed the sele
 
 For production, confirm production licensing and approved permissions for the selected design. The preparation completed here does not prove a successful desktop sign-in or working profile storage; those checks belong to the deployment and validation steps later in the series.
 
-Next: [Choose the Right Identity Model for Azure Virtual Desktop](/azure-virtual-desktop/choose-the-right-identity-model/).
-
 Go deeper: [How Azure Virtual Desktop Fails](/azure-virtual-desktop/how-azure-virtual-desktop-fails/).
+
+Next: [Choose the Right Identity Model for Azure Virtual Desktop](/azure-virtual-desktop/choose-the-right-identity-model/).
 
 ## Sources
 

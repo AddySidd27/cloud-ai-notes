@@ -230,6 +230,8 @@ This is my own experience, not from Microsoft Learn (judgement). These situation
 
 - Privileged access, PIM and Conditional Access baseline: [privileged-access.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/privileged-access.md)
 
+Next: [Resource Organization](/azure-landing-zone/resource-organization/).
+
 ## Sources
 
 Microsoft Learn, checked October 2026:

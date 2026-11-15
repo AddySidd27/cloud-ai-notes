@@ -496,7 +496,9 @@ Allow the AVD destinations plus workload dependencies. This is the Azure public-
 
 Microsoft does not support Azure Virtual Desktop deployments where these FQDNs and endpoints are blocked ([Required FQDNs and endpoints](https://learn.microsoft.com/en-us/azure/virtual-desktop/required-fqdn-endpoint)). Azure Local deployment also uses aka.ms on TCP 443. Clients have a separate endpoint list. Include Entra ID, Microsoft 365, Intune, updates and applications as applicable. Service tags represent IP prefixes; they cannot express every FQDN requirement.
 
-Preserve Azure platform communication: 169.254.169.254 on TCP 80; 168.63.129.16 on TCP 80 and 32526, plus TCP and UDP 53 (port 53 is needed only when you use Azure-provided DNS) ([Required FQDNs and endpoints, Azure fabric communication IPs](https://learn.microsoft.com/en-us/azure/virtual-desktop/required-fqdn-endpoint#azure-fabric-communication-ips)). Azure uses these two addresses for platform services. Azure platform routing protects this traffic, so standard NSG rules and user-defined routes do not affect it by default. Do not block, intercept, proxy or redirect it. More detail is in [Required Connectivity for Azure Virtual Desktop](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/).
+Preserve Azure platform communication: 169.254.169.254 on TCP 80; 168.63.129.16 on TCP 80 and 32526, plus TCP and UDP 53 (port 53 is needed only when you use Azure-provided DNS) ([Required FQDNs and endpoints, Azure fabric communication IPs](https://learn.microsoft.com/en-us/azure/virtual-desktop/required-fqdn-endpoint#azure-fabric-communication-ips)).
+
+Azure uses these two addresses for platform services. Azure platform routing protects this traffic, so standard NSG rules and user-defined routes do not affect it by default. Do not block, intercept, proxy or redirect it. More detail is in [Required Connectivity for Azure Virtual Desktop](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/).
 
 RDP Shortpath adds UDP after the base TCP session. The ports and the limits of UDP 3478 are in the Shortpath section above. The UDP 3478 row in the table is for the relayed path.
 
@@ -665,11 +667,11 @@ Test from each environment, region, subnet, DNS path and policy boundary. Confir
 
 Record the results and unresolved dependencies. Proceed to host-pool deployment when the network foundation is ready, then complete the host and user tests as those components become available.
 
-Next: [Plan Your AVD Host Pools: Users, Applications, VM Sizing and Images](/azure-virtual-desktop/plan-your-host-pools/). It uses the approved subnet and identity model to size and shape the host pools. Keep these network decisions with the deployment so future growth follows the same approved design.
-
 For hybrid connectivity, egress control and Shortpath tuning in more depth, see the book chapters on [hybrid connectivity and egress control](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch13-hybrid-connectivity-egress-control.md) and [protocol optimisation](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch14-protocol-optimisation-network-performance.md). Those chapters are still under review.
 
 Go deeper: [Required Connectivity for Azure Virtual Desktop](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/), [Choose a Network Topology and Plan IP Addresses for Azure Virtual Desktop](/azure-virtual-desktop/network-topology-and-ip-planning-for-avd/).
+
+Next: [Plan Your AVD Host Pools: Users, Applications, VM Sizing and Images](/azure-virtual-desktop/plan-your-host-pools/). It uses the approved subnet and identity model to size and shape the host pools. Keep these network decisions with the deployment so future growth follows the same approved design.
 
 ## Sources
 

@@ -310,6 +310,8 @@ From the list above, these came up in my own work: rules only in a document, pol
 
 - Governance and Azure Policy: guardrails, assignments and the questions to ask: [governance.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/governance.md)
 
+Next: [Platform Automation and DevOps](/azure-landing-zone/platform-automation-and-devops/).
+
 ## Sources
 
 Microsoft Learn, checked October 2026:

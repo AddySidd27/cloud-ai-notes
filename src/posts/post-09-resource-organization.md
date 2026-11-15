@@ -248,6 +248,8 @@ These situations came up in my own work: management groups created for each envi
 - Subscription design, with platform subscriptions, placement questions and anti-patterns: [subscription-design.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/subscription-design.md)
 - Naming, tagging and cost: [naming-tagging-cost.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/naming-tagging-cost.md)
 
+Next: [Network Topology and Connectivity](/azure-landing-zone/network-topology-and-connectivity/).
+
 ## Sources
 
 Microsoft Learn, checked October 2026:

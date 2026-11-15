@@ -314,7 +314,9 @@ The public IP `pip-azb-win01` is still there, and no private endpoint or private
 
 ## Where this is used in AVD
 
-Azure Virtual Desktop session hosts usually keep user profiles (FSLogix profile containers) on an Azure Files share, and many companies close that storage account to the public internet and reach it through a private endpoint and a private DNS zone, exactly as you did here. In AVD, a missing private DNS link looks like the wrong answer you can see in Part 4: the name resolves to a public address. See [Choose Storage and Set Access for FSLogix Profile Containers](/azure-virtual-desktop/choose-storage-and-set-access-for-fslogix-profile-containers/) for the storage choices, and [Required Connectivity for Azure Virtual Desktop: Endpoints, Proxies, DNS and Private Link](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/) for how DNS and Private Link fit into the wider network.
+Azure Virtual Desktop session hosts usually keep user profiles (FSLogix profile containers) on an Azure Files share, and many companies close that storage account to the public internet and reach it through a private endpoint and a private DNS zone, exactly as you did here. In AVD, a missing private DNS link looks like the wrong answer you can see in Part 4: the name resolves to a public address.
+
+See [Choose Storage and Set Access for FSLogix Profile Containers](/azure-virtual-desktop/choose-storage-and-set-access-for-fslogix-profile-containers/) for the storage choices, and [Required Connectivity for Azure Virtual Desktop: Endpoints, Proxies, DNS and Private Link](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/) for how DNS and Private Link fit into the wider network.
 
 ## Next lab
 

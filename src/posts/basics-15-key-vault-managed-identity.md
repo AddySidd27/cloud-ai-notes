@@ -96,7 +96,9 @@ Check: the secret list shows `demo-secret` as enabled, and **Show Secret Value**
 
 ### Part 3: Give the VM's identity the reader role
 
-**Idea 3: managed identity.** Normally a program that wants a secret needs a password to ask for it, and that password has to be stored somewhere. That is the problem Key Vault is meant to remove, and a plain password would bring it back. With a managed identity, Azure creates an identity for the VM in Microsoft Entra ID and looks after its credentials. Your code on the VM asks a local address, `169.254.169.254`, for a token. That address belongs to the Azure Instance Metadata Service (IMDS), and only the VM itself can reach it. Microsoft Entra ID issues the token. It proves who the VM is. Nothing is stored on the VM. One thing to know: all code running on the VM can ask for that token, so the security boundary is the VM.
+**Idea 3: managed identity.** Normally a program that wants a secret needs a password to ask for it, and that password has to be stored somewhere. That is the problem Key Vault is meant to remove, and a plain password would bring it back. With a managed identity, Azure creates an identity for the VM in Microsoft Entra ID and looks after its credentials.
+
+Your code on the VM asks a local address, `169.254.169.254`, for a token. That address belongs to the Azure Instance Metadata Service (IMDS), and only the VM itself can reach it. Microsoft Entra ID issues the token. It proves who the VM is. Nothing is stored on the VM. One thing to know: all code running on the VM can ask for that token, so the security boundary is the VM.
 
 15. In your vault, open **Access control (IAM)** again. Select **Add** > **Add role assignment**.
 16. On the **Role** tab, select **Key Vault Secrets User**, then **Next**.

@@ -117,7 +117,9 @@ If any workload has data residency, sovereignty (control of data by a country's 
 
 **Cost governance (a related decision, not one of the seven).** Set budgets (planned spending amounts that send alerts but do not stop spending) and alerts (messages that tell someone when spending gets near or over a budget) at the management group or subscription level before migration, and give someone the job of reviewing them. Cost allocation (working out which part of the bill belongs to which workload) is easier when each workload has its own subscription, but not every organization works that way.
 
-**Subscription vending (a related decision, not one of the seven; see [Subscription vending](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/subscription-vending) and [the resource organization post](/azure-landing-zone/resource-organization/)).** This is a platform decision: how workload subscriptions are requested, created with the right first settings, and attached to the right management group before the first migration. After you create the platform landing zone and your governance strategy, set up a consistent way to create subscriptions for workload owners. There are two infrastructure as code module options for subscription vending, one for Bicep and one for Terraform. They are most effective as part of an automated process.
+**Subscription vending (a related decision, not one of the seven; see [Subscription vending](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/subscription-vending) and [the resource organization post](/azure-landing-zone/resource-organization/)).** This is a platform decision: how workload subscriptions are requested, created with the right first settings, and attached to the right management group before the first migration.
+
+After you create the platform landing zone and your governance strategy, set up a consistent way to create subscriptions for workload owners. There are two infrastructure as code module options for subscription vending, one for Bicep and one for Terraform. They are most effective as part of an automated process.
 
 ## Hub network, hybrid connectivity and DNS (capabilities 3 and 4)
 
@@ -162,7 +164,9 @@ The platform landing zone replaces the old perimeter model (protecting only the 
 - How to request approved ingress.
 - How to keep exceptions visible.
 
-The "firewall or equivalent" in the capability list is one way to do this. The approved patterns include Azure Firewall. For ingress, the pattern is destination network address translation (DNAT). DNAT passes traffic that arrives at the firewall on to an internal address. For egress, the pattern is application and network rules for outbound filtering. Other Azure services also fit. For ingress: Azure Application Gateway, Azure Front Door, Azure Load Balancer and Azure Bastion. For egress: Azure NAT Gateway, user-defined routes that send outbound traffic through the hub, and Azure Firewall Premium TLS inspection. See [Azure landing zones for on-premises experts](https://learn.microsoft.com/en-us/azure/migration/migrate-from-on-premises-platform-landing-zone).
+The "firewall or equivalent" in the capability list is one way to do this. The approved patterns include Azure Firewall. For ingress, the pattern is destination network address translation (DNAT). DNAT passes traffic that arrives at the firewall on to an internal address. For egress, the pattern is application and network rules for outbound filtering. Other Azure services also fit.
+
+For ingress: Azure Application Gateway, Azure Front Door, Azure Load Balancer and Azure Bastion. For egress: Azure NAT Gateway, user-defined routes that send outbound traffic through the hub, and Azure Firewall Premium TLS inspection. See [Azure landing zones for on-premises experts](https://learn.microsoft.com/en-us/azure/migration/migrate-from-on-premises-platform-landing-zone).
 
 Also document the exceptions and emergency workflows, so that every public endpoint (a service address that can be reached from the public internet) has an owner, an inspection path and a review point. Every public IP address also needs an explicit DDoS protection decision. For cross-service communication where you do not want public exposure, use Azure Private Link and private endpoints.
 
@@ -220,7 +224,11 @@ These checks are the minimum. They are not a full landing zone design review, an
 
 ## Ways to deploy it
 
-The *Deploy Azure landing zones* page lists the standard platform deployment options: the Azure portal, Bicep and Terraform. All three are supported in Azure public clouds. For other Azure clouds (also called sovereign clouds), such as Azure Infrastructure Services for US Government Clouds and Azure operated by 21Vianet, all three deployment options are marked as not supported. The landing zone architecture itself is valid and supported in all Azure clouds, but the automated deployment is not provided for them. The platform team has to make manual configuration changes to the deployment assets, and only the Bicep and Terraform options can be modified for that. There is also a sovereign landing zone variant. It is a specialized implementation of the Azure landing zone reference architecture, for organizations with strict regulatory, compliance and data residency requirements that focus on sovereignty. Partner programs (for example Azure Accelerate) also help you design and implement a platform landing zone. Enterprise policy as code (EPAC) is another option, an alternative method to deploy, manage and operate Azure Policy across your organization's Azure estate, which you can use instead of the standard options to manage the policies in an Azure landing zone environment. [The platform automation post](/azure-landing-zone/platform-automation-and-devops/) covers the accelerator and Azure Verified Modules (ready-made deployment code from Microsoft), so I do not repeat them here.
+The *Deploy Azure landing zones* page lists the standard platform deployment options: the Azure portal, Bicep and Terraform. All three are supported in Azure public clouds. For other Azure clouds (also called sovereign clouds), such as Azure Infrastructure Services for US Government Clouds and Azure operated by 21Vianet, all three deployment options are marked as not supported. The landing zone architecture itself is valid and supported in all Azure clouds, but the automated deployment is not provided for them.
+
+The platform team has to make manual configuration changes to the deployment assets, and only the Bicep and Terraform options can be modified for that. There is also a sovereign landing zone variant. It is a specialized implementation of the Azure landing zone reference architecture, for organizations with strict regulatory, compliance and data residency requirements that focus on sovereignty. Partner programs (for example Azure Accelerate) also help you design and implement a platform landing zone.
+
+Enterprise policy as code (EPAC) is another option, an alternative method to deploy, manage and operate Azure Policy across your organization's Azure estate, which you can use instead of the standard options to manage the policies in an Azure landing zone environment. [The platform automation post](/azure-landing-zone/platform-automation-and-devops/) covers the accelerator and Azure Verified Modules (ready-made deployment code from Microsoft), so I do not repeat them here.
 
 After you deploy the platform landing zone, see [Keep your Azure landing zone up to date](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/keep-azure-landing-zone-up-to-date).
 
@@ -273,6 +281,8 @@ From the list above, these came up in my own work: building the foundation by ha
 ## The files in my repo
 
 - Minimum viable platform landing zone: the seven capabilities, the readiness checks, what my repo's Terraform deploys for each capability today, and the gaps (my notes): [minimum-viable-platform-landing-zone.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/03-implementation/minimum-viable-platform-landing-zone.md)
+
+Next: [Greenfield Rollout](/azure-landing-zone/greenfield-rollout/).
 
 ## Sources
 

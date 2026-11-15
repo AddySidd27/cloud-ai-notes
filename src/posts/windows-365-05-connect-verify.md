@@ -24,7 +24,9 @@ If the Cloud PC does not appear, recheck license, group and provisioning status.
 
 ## Choose a supported connection method
 
-The current [Microsoft access guide](https://learn.microsoft.com/en-us/windows-365/end-user-access-cloud-pc) lists Windows App and the [Windows 365 web client](https://windows.cloud.microsoft/) as the current connection methods for Enterprise Cloud PCs. Microsoft Remote Desktop is the older app; its support ended in March 2026. Windows App is available on Windows, macOS, iOS/iPadOS and Android/ChromeOS; its features differ by platform. The web client is for a supported browser on a desktop or laptop, not a mobile browser. Review the [platform comparison](https://learn.microsoft.com/en-us/windows-app/compare-platforms-features) before promising a feature on every client. The classic Remote Desktop Connection tool (mstsc.exe) is not a supported connection method. Microsoft says it may work for troubleshooting, but it should not be used for daily access.
+The current [Microsoft access guide](https://learn.microsoft.com/en-us/windows-365/end-user-access-cloud-pc) lists Windows App and the [Windows 365 web client](https://windows.cloud.microsoft/) as the current connection methods for Enterprise Cloud PCs. Microsoft Remote Desktop is the older app; its support ended in March 2026. Windows App is available on Windows, macOS, iOS/iPadOS and Android/ChromeOS; its features differ by platform.
+
+The web client is for a supported browser on a desktop or laptop, not a mobile browser. Review the [platform comparison](https://learn.microsoft.com/en-us/windows-app/compare-platforms-features) before promising a feature on every client. The classic Remote Desktop Connection tool (mstsc.exe) is not a supported connection method. Microsoft says it may work for troubleshooting, but it should not be used for daily access.
 
 | Pilot device | What to do | What I tested |
 |---|---|---|
@@ -45,7 +47,9 @@ Follow Microsoft's [Windows App connection walkthrough](https://learn.microsoft.
 
 ### If the user cannot connect
 
-First separate **no Cloud PC tile** from **tile visible but connection fails**. For the first, inspect assignment, license and provisioning. For the second, record the exact error and time, check the supported client and network, then use the **Troubleshoot** option (gear icon on the Cloud PC card at windows.cloud.microsoft) or the Windows App **Inspect Connection** option where offered. Microsoft's [connection error guide](https://learn.microsoft.com/en-us/troubleshoot/windows-365/connection-errors) explains these checks. For a pattern affecting many users, inspect the Intune [Cloud PC connection quality report](https://learn.microsoft.com/en-us/windows-365/enterprise/report-cloud-pc-connection-quality) (in the Intune admin center under **Reports > Cloud PC overview > Connection quality**). These are ways to find the cause. I did not use them in this pilot.
+First separate **no Cloud PC tile** from **tile visible but connection fails**. For the first, inspect assignment, license and provisioning. For the second, record the exact error and time, check the supported client and network, then use the **Troubleshoot** option (gear icon on the Cloud PC card at windows.cloud.microsoft) or the Windows App **Inspect Connection** option where offered.
+
+Microsoft's [connection error guide](https://learn.microsoft.com/en-us/troubleshoot/windows-365/connection-errors) explains these checks. For a pattern affecting many users, inspect the Intune [Cloud PC connection quality report](https://learn.microsoft.com/en-us/windows-365/enterprise/report-cloud-pc-connection-quality) (in the Intune admin center under **Reports > Cloud PC overview > Connection quality**). These are ways to find the cause. I did not use them in this pilot.
 
 ## Administrator verification
 
@@ -94,9 +98,9 @@ Note the exact error before you restart or do anything more disruptive. A suppor
 
 Save a sanitized tile or provisioning status view, an authenticated desktop view, and the device management view. Record their timestamps and which pilot account each corresponds to without publishing the account identifier. A reader should be able to see why you called the user test and the management test a success.
 
-Next: [manage settings, applications and updates](/windows-365/manage-intune/).
+Next: [Windows 365 Enterprise: Manage Settings, Apps, Updates and Restart](/windows-365/manage-intune/).
 
-## Microsoft Learn
+## Sources
 
 - [What is Windows 365 Enterprise?](https://learn.microsoft.com/en-us/windows-365/enterprise/overview)
 - [Troubleshooting Windows 365](https://learn.microsoft.com/en-us/windows-365/enterprise/troubleshooting)

@@ -103,7 +103,7 @@ What turning them off means for you: the bundle stops, and nothing replaces it u
 
 Check: **Manage security defaults** shows **Disabled (not recommended)**.
 
-**Checkpoint 1.** Security defaults are off and nothing else has changed. You can stop here and come back later. If you stop for a long time, turn security defaults back on (Clean up, step 2) and start again from Part 2.
+Check: security defaults are off and nothing else has changed. You can stop here and come back later. If you stop for a long time, turn security defaults back on (Clean up, step 2) and start again from Part 2.
 
 ### Part 3: Create the policy in report-only mode
 
@@ -165,7 +165,7 @@ In the same tab, **Report-only: Failure** means the policy would have blocked th
 
 Check: the policy is listed on the **Report-only** tab with **Not applied**, and the emergency account's earlier sign-in still shows **Success**.
 
-**Checkpoint 2.** The policy exists in Report-only, and nothing is enforced. You can stop here. Do not leave the policy overnight: do Parts 6 and 7 next, or at least Part 7. Part 6 is optional if you are short of time. Part 7 is not optional.
+Check: the policy exists in Report-only, and nothing is enforced. You can stop here. Do not leave the policy overnight: do Parts 6 and 7 next, or at least Part 7. Part 6 is optional if you are short of time. Part 7 is not optional.
 
 ### Part 6: Enable it for the test group only, then roll back
 

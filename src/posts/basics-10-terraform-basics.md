@@ -247,7 +247,7 @@ Now run `terraform plan` once more with no changes.
 
 Check: the plan says `No changes. Your infrastructure matches the configuration.` That is the sign that code, state and Azure agree.
 
-**Checkpoint.** You can stop here. If you stop, run `terraform destroy` (see Clean up) so nothing is left behind, and start Pass 2 later from the same folder.
+Check: you can stop here. If you stop, run `terraform destroy` (see Clean up) so nothing is left behind, and start Pass 2 later from the same folder.
 
 ### Pass 2: add the network, subnet and network security group
 

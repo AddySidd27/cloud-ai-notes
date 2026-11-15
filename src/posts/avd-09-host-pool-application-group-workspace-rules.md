@@ -83,7 +83,9 @@ Regional scope is offered only in some regions, and Learn's pages disagree on wh
 
 ## Where assignment happens
 
-AVD publishes an application group to users by assigning the Desktop Virtualization User role to the user or group, with the application group as the scope. The documentation shows this with the `New-AzRoleAssignment` PowerShell command (a cmdlet). You can also do it in the portal ([Deploy Azure Virtual Desktop, Assign users to an application group](https://learn.microsoft.com/en-us/azure/virtual-desktop/deploy-azure-virtual-desktop#assign-users-to-an-application-group)). The person who makes the assignment needs the User Access Administrator or Owner role (or any role that can create role assignments) on the application group. Creating host pools and other objects needs the Contributor role on the subscription or resource group.
+AVD publishes an application group to users by assigning the Desktop Virtualization User role to the user or group, with the application group as the scope. The documentation shows this with the `New-AzRoleAssignment` PowerShell command (a cmdlet). You can also do it in the portal ([Deploy Azure Virtual Desktop, Assign users to an application group](https://learn.microsoft.com/en-us/azure/virtual-desktop/deploy-azure-virtual-desktop#assign-users-to-an-application-group)).
+
+The person who makes the assignment needs the User Access Administrator or Owner role (or any role that can create role assignments) on the application group. Creating host pools and other objects needs the Contributor role on the subscription or resource group.
 
 Two points to remember.
 
@@ -159,7 +161,9 @@ These checks are my judgement. Run them before you add users.
 
 ## Related book chapter, labs and project
 
-[Chapter 3](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch03-avd-object-model.md) of the book covers the object model. [Lab 2](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-02-terraform-foundation-and-governance.md) builds the Terraform foundation (Terraform is a tool that describes Azure resources as code), [Lab 7](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-07-avd-host-pool.md) creates the host pool, workspace and desktop application group, and [Lab 9](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-09-application-groups.md) publishes a RemoteApp. The labs walk through those steps. None has been run end to end in Azure. [Project 10](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/scenarios/project-10-remoteapp-line-of-business.md) is a fictional case study.
+[Chapter 3](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch03-avd-object-model.md) of the book covers the object model. [Lab 2](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-02-terraform-foundation-and-governance.md) builds the Terraform foundation (Terraform is a tool that describes Azure resources as code), [Lab 7](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-07-avd-host-pool.md) creates the host pool, workspace and desktop application group, and [Lab 9](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-09-application-groups.md) publishes a RemoteApp.
+
+The labs walk through those steps. None has been run end to end in Azure. [Project 10](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/scenarios/project-10-remoteapp-line-of-business.md) is a fictional case study.
 
 Next: [Follow a Connection Step by Step: Reverse Connect, RDP Shortpath and Where It Breaks](/azure-virtual-desktop/follow-a-connection-step-by-step/).
 
