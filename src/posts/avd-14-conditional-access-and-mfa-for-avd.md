@@ -50,7 +50,7 @@ Conditional Access cannot be used when Security Defaults are on. If your tenant 
 
 ## Which applications to target
 
-When a user connects, several Microsoft Entra applications take part. The documentation names them.
+When a user connects, several Microsoft Entra applications take part. The documentation names them, with these IDs, in [Enforce Microsoft Entra multifactor authentication for Azure Virtual Desktop using Conditional Access](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-mfa#create-a-conditional-access-policy). The Windows 365 ID is in the [pre-configuration checklist](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-mfa#pre-configuration-checklist) on the same page.
 
 | Application | What it covers | Guidance |
 |---|---|---|
@@ -63,7 +63,7 @@ If you use the older Azure Virtual Desktop (classic), the documentation lists a 
 
 The Azure Virtual Desktop application used to be called Windows Virtual Desktop. If you registered the `Microsoft.DesktopVirtualization` resource provider before the name changed, the application may still show the old name. The application ID is the same.
 
-When users connect with the web client, the sign-in log lists the client app as Azure Virtual Desktop client (ID `a85cf173-4192-42f8-81fa-777a763e6e2c`). The documentation says this client app is linked internally to the server app where you set the policy.
+When users connect with the web client, the sign-in log lists the client app as Azure Virtual Desktop client (ID `a85cf173-4192-42f8-81fa-777a763e6e2c`, from the note under step 20 of the [policy steps](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-mfa#create-a-conditional-access-policy)). The documentation says this client app is linked internally to the server app where you set the policy.
 
 If you connect with thin clients, the documentation says to ask the client's provider whether Windows Cloud Login is the right target for single sign-on connections.
 
@@ -112,7 +112,7 @@ The pre-configuration checklist in the documentation covers most of these. Compl
 - **Device compliance policies.** Microsoft Entra joined session hosts may not satisfy compliance policies written for user endpoints (Intune rules that say a device is healthy enough). The troubleshooting page adds that, for connection-time policies, the compliance rule applies to the client device. It says most deployments should scope connection-time compliance to client endpoints. A policy that targets an app used inside the session, such as Microsoft 365, applies to the session host instead. If an "All cloud apps" policy requires compliance, exclude Windows Cloud Login and Azure Virtual Desktop from it and create separate AVD policies.
 - **Location policies.** For the Azure Virtual Desktop application they evaluate the user's client IP. For Windows Cloud Login the address Conditional Access sees may differ from the client IP, depending on network routing. Test both.
 - **Per-user MFA.** If it is on at the same time as Conditional Access, users on Microsoft Entra joined session hosts get "The sign-in method you're trying to use isn't allowed". Disable per-user MFA for AVD users and use Conditional Access only.
-- **Microsoft Entra joined hosts and strong methods.** If you do not want to restrict sign-in to strong methods such as Windows Hello for Business (sign-in with a PIN or biometrics tied to the device), the documentation says to exclude the Azure Windows VM Sign-In application from the policy. This is the Microsoft Entra application used to sign in to Microsoft Entra joined Windows VMs.
+- **Microsoft Entra joined hosts and strong methods.** If you do not want to restrict sign-in to strong methods such as Windows Hello for Business (sign-in with a PIN or biometrics tied to the device), the documentation says to exclude the Azure Windows VM Sign-In application from the policy ([Microsoft Entra joined session host VMs](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-mfa#microsoft-entra-joined-session-host-vms)). I read this as the Microsoft Entra application used to sign in to Microsoft Entra joined Windows VMs (judgement).
 
 ## When users are prompted again and again
 
@@ -127,7 +127,7 @@ The troubleshooting article lists these causes. The order below follows the docu
 | The consent prompt is not hidden | It looks like a sign-in prompt. See the [sign-in article](/azure-virtual-desktop/how-sign-in-works-three-authentications-and-sso/). |
 | Session lock shows the remote lock screen | The default with single sign-on is to disconnect on lock. If someone changed it, users must give full credentials after a lock. Set it back to disconnect. See the [sign-in article](/azure-virtual-desktop/how-sign-in-works-three-authentications-and-sso/). |
 
-For sign-in errors, the documentation gives a short list of codes and what they mean. It says the sign-in log is the main tool.
+For sign-in errors, the [troubleshooting page](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-sso-conditional-access#authentication-errors-at-connection-time) gives a short list of codes and what they mean. It says the sign-in log is the main tool.
 
 | Code | Meaning in the documentation |
 |---|---|

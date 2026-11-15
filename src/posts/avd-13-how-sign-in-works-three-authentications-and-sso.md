@@ -29,7 +29,7 @@ This article names the three, shows how single sign-on joins the first two, cove
 | NTLM | An older Windows sign-in protocol. |
 | Token | Proof from Microsoft Entra ID that you signed in. |
 | Service principal | The copy of an application that exists in your Microsoft Entra tenant. Settings for an application, such as SSO, are made on its service principal. |
-| Windows Cloud Login | The Microsoft Entra application that is used to sign users in to the session host when SSO is on (application ID `270efc09-cd0d-444b-a71f-39af4910ec45`). |
+| Windows Cloud Login | The Microsoft Entra application that is used to sign users in to the session host when SSO is on (application ID `270efc09-cd0d-444b-a71f-39af4910ec45`, from [Configure single sign-on](https://learn.microsoft.com/en-us/azure/virtual-desktop/configure-single-sign-on#enable-microsoft-entra-authentication-for-rdp)). |
 | Conditional Access | Microsoft Entra rules that decide whether a sign-in is allowed and what must happen first, such as multifactor authentication. The next article covers them. |
 | Federation | A trust between two sign-in systems, so that a third-party identity provider can sign users in to Microsoft Entra ID. |
 | UPN and SID | The user principal name is the sign-in name, like an email address. The security identifier is the unique ID of a user object in Active Directory. AVD needs at least one of them to match between Active Directory and Microsoft Entra ID. |
@@ -39,7 +39,7 @@ This article names the three, shows how single sign-on joins the first two, cove
 | Kerberos | A ticket-based sign-in protocol used with Active Directory. |
 | Line of sight | A network path from the client straight to a domain controller. |
 | Key Distribution Center (KDC) | The service on a domain controller that issues Kerberos tickets. |
-| Kerberos server object | An object created in Active Directory and published to Microsoft Entra ID. It is not tied to a physical server. Microsoft Entra ID uses it to generate Kerberos ticket-granting tickets (the first tickets that prove who you are) for your Active Directory domain, so a Microsoft Entra sign-in can reach on-premises resources. |
+| Kerberos server object | An object created in Active Directory and published to Microsoft Entra ID. It is not tied to a physical server. Microsoft Entra ID uses it to generate Kerberos ticket-granting tickets (the first tickets that prove who you are) for your Active Directory domain, so a Microsoft Entra sign-in can reach on-premises resources ([Microsoft Entra Kerberos server object](https://learn.microsoft.com/en-us/entra/identity/authentication/howto-authentication-passwordless-security-key-on-premises#use-sso-to-sign-in-to-on-premises-resources-by-using-fido2-keys)). |
 | KDC proxy | A service that carries Kerberos traffic for clients that cannot reach a domain controller directly. |
 | Consent prompt | A dialog that asks the user to allow a connection to a new session host when SSO is on. |
 | WebAuthn redirection | Sending passkey and security key requests from the session to the local PC. |
@@ -73,7 +73,7 @@ Documented points that matter in design:
 - Cloud-only identities are supported with Microsoft Entra joined hosts.
 - The client device must reach the required URLs for Remote Desktop clients, or authentication will not work.
 
-The Azure Virtual Desktop application has the application ID `9cdead84-a844-4324-93f2-b2e6bb768d07`. The [Conditional Access article](/azure-virtual-desktop/conditional-access-and-mfa-for-avd/) lists both applications.
+The Azure Virtual Desktop application has the application ID `9cdead84-a844-4324-93f2-b2e6bb768d07` ([Supported identities and authentication methods](https://learn.microsoft.com/en-us/azure/virtual-desktop/authentication#cloud-service-authentication)). The [Conditional Access article](/azure-virtual-desktop/conditional-access-and-mfa-for-avd/) lists both applications.
 
 The [Conditional Access article](/azure-virtual-desktop/conditional-access-and-mfa-for-avd/) covers the policy side.
 
@@ -92,14 +92,14 @@ All documented:
 - **A supported client.** The page lists versions of Windows App and of the older Remote Desktop clients. All versions of Windows App on Windows are supported, and the local PC does not need to be joined to Microsoft Entra ID or a domain.
 - **Two-way trust for hybrid hosts in another domain.** If hybrid joined hosts are in a different domain from the users, a two-way trust is needed. Without it, connections fall back to older sign-in methods (NTLM).
 - **A tenant role** such as Application Administrator or Cloud Application Administrator, to configure it.
-- **For the PowerShell route,** the Microsoft Graph PowerShell SDK version 2.9.0 or later.
+- **For the PowerShell route,** the Microsoft Graph PowerShell SDK version 2.9.0 or later ([prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/configure-single-sign-on#prerequisites)).
 
 ### The five tasks
 
 The documentation lists five tasks you must complete to enable SSO. Do the first one first. The page lists the others in the order below.
 
 1. **Enable Microsoft Entra authentication for RDP** on the Windows Cloud Login service principal. In the portal this is under Devices, Remote connection configuration, then Windows Cloud Login, with the option to enable the Microsoft Entra ID authentication protocol to authenticate users to remote devices. PowerShell with the Microsoft Graph PowerShell SDK does the same by setting `isRemoteDesktopProtocolEnabled` to true.
-2. **Hide the consent prompt.** By default users see a dialog when they connect to a new host. Microsoft Entra remembers up to 15 hosts for 30 days. To hide it, put the session hosts in up to 10 device groups and list them on the service principal. The documentation suggests dynamic groups (groups whose members are added by a rule), and notes that they need a Microsoft Entra ID P1 license or an Intune for Education license. Groups usually update in 5 to 10 minutes. In large tenants it can take up to 24 hours.
+2. **Hide the consent prompt.** By default users see a dialog when they connect to a new host. Microsoft Entra remembers up to 15 hosts for 30 days ([Hide the consent prompt dialog](https://learn.microsoft.com/en-us/azure/virtual-desktop/configure-single-sign-on#hide-the-consent-prompt-dialog)). To hide it, put the session hosts in up to 10 device groups and list them on the service principal. The documentation suggests dynamic groups (groups whose members are added by a rule), and notes that they need a Microsoft Entra ID P1 license or an Intune for Education license. Groups usually update in 5 to 10 minutes. In large tenants it can take up to 24 hours.
 3. **Create a Kerberos server object** if Active Directory is part of the environment. The criteria are in the next section.
 4. **Review Conditional Access.** SSO adds the Windows Cloud Login application to the sign-in. Policies that cover AVD may need to cover it too.
 5. **Set the host pool.** In the portal, set Microsoft Entra single sign-on. With PowerShell, set the `enablerdsaadauth` RDP property to 1.
@@ -125,7 +125,7 @@ If you enable SSO on hybrid joined hosts without it, users may get an error that
 
 AVD supports NTLM and Kerberos for session host sign-in. Smart cards and Windows Hello for Business can only use Kerberos. The client needs Kerberos tickets from a KDC on a domain controller, so it needs line of sight to the domain controller. You get that on the corporate network, through a VPN, or through a KDC proxy.
 
-For the KDC proxy, the documented prerequisites are:
+For the KDC proxy, the documented prerequisites ([Configure a KDC proxy](https://learn.microsoft.com/en-us/azure/virtual-desktop/key-distribution-center-proxy#prerequisites)) are:
 
 - A client running Windows 10 or later with the Windows Desktop client. The web client is not supported.
 - A KDC proxy that is already installed.
@@ -133,7 +133,7 @@ For the KDC proxy, the documented prerequisites are:
 
 Then set the RDP property `kdcproxyname:s:<fqdn>` on the host pool, with no spaces. The host pool then issues connection files that include it. The documentation says the proxy typically uses the Remote Desktop Gateway role, which is set up separately.
 
-The KDC proxy page names only the Windows Desktop client, not Windows App. The older Remote Desktop client for Windows (MSI) is no longer supported in the public cloud (see [Choose the AVD Client](/azure-virtual-desktop/choose-the-avd-client/)). Test that your client uses this property before you rely on it (judgement).
+The KDC proxy page names only the Windows Desktop client, not Windows App. The older Remote Desktop client for Windows (MSI) is no longer supported in the public cloud from March 27, 2026 ([Remote Desktop client overview](https://learn.microsoft.com/en-us/previous-versions/remote-desktop-client/overview); see also [Choose the AVD Client](/azure-virtual-desktop/choose-the-avd-client/)). The KDC proxy page does not say that the "Windows Desktop client" it names is the MSI client, so treat that link as my inference (judgement). Test that your client uses this property before you rely on it (judgement).
 
 ## Phase 3: in-session authentication
 

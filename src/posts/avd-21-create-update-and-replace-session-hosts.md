@@ -66,7 +66,7 @@ The session host configuration says what the hosts should be. It stays with the 
 
 It holds: the image, the name prefix, the resource group, the VM size, the OS disk, the domain join information, the network, the location, the availability zones, the security type, the administrator credentials, boot diagnostics, tags and an optional custom PowerShell script.
 
-The session host management policy holds the rules for how hosts are created and updated. The values below are the defaults the Azure portal sets.
+The session host management policy holds the rules for how hosts are created and updated. The values below are the defaults the Azure portal sets ([host pool management approaches](https://learn.microsoft.com/en-us/azure/virtual-desktop/host-pool-management-approaches#session-host-configuration-management-approach)).
 
 | Setting | What it does | Portal default |
 |---|---|---|

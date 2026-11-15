@@ -154,15 +154,15 @@ A virtual network (VNet) is the private network for Azure resources. A subnet is
 
 **Our starting point:** the existing VNet is identified. In our check it had no peerings configured (a peering is a link that lets two virtual networks communicate directly), so we have not established a shared hub dependency. The peerings list and the VM overview are not pictured above.
 
-The VM overview flagged default outbound access. Default outbound access means Azure gives a VM a public outbound IP address automatically when no explicit outbound method is set. That address is owned by Microsoft and can change without notice.
+The VM overview flagged default outbound access. Default outbound access means Azure gives a VM a public outbound IP address automatically when no explicit outbound method is set. That address is owned by Microsoft and can change without notice ([Default outbound access in Azure](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/default-outbound-access#how-and-when-default-outbound-access-is-provided)).
 
-Azure is changing this default. Virtual networks created in the portal, or through the API version released after 31 March 2026, get private subnets (no default outbound access). Existing virtual networks are not changed. Deployments that use an earlier API version, which can include Terraform, keep the old default. A VM on a private subnet needs an explicit outbound method, for example for Windows activation and updates. A later networking step will select and validate an explicit outbound design. Do not treat this inventory as proof of enterprise network readiness.
+Azure is changing this default. Virtual networks created in the portal, or through the API version released after 31 March 2026, get private subnets (no default outbound access). Existing virtual networks are not changed. Deployments that use an earlier API version, which can include Terraform, keep the old default ([Default outbound access in Azure](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/default-outbound-access#retirement-of-default-outbound-access-scope-and-impact)). A VM on a private subnet needs an explicit outbound method, for example for Windows activation and updates. A later networking step will select and validate an explicit outbound design. Do not treat this inventory as proof of enterprise network readiness.
 
 ## 3. Confirm the user's licensing before desktop deployment
 
 An Azure subscription pays for infrastructure. AVD access rights are a separate licensing decision.
 
-For Windows 10 or Windows 11 desktops used for internal commercial purposes, these licenses make a user eligible:
+For Windows 10 or Windows 11 desktops used for internal commercial purposes, these licenses make a user eligible ([AVD prerequisites, Operating systems and licenses](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites#operating-systems-and-licenses)):
 
 | Eligible license family | Listed options |
 |---|---|
@@ -185,7 +185,7 @@ AVD access licensing also does not remove the Azure charges for VMs, disks, stor
 
 1. In the Azure portal, open **Microsoft Entra ID > Users**, select the candidate user and open **Licenses**.
 2. Read the product, state and assignment path. This is a read-only inspection.
-3. For assignments or errors that need fixing, use the Microsoft 365 admin center: **Users > Active users > select the user > Licenses and Apps**. Use the appropriate licensing administrator account.
+3. For assignments or errors that need fixing, use the Microsoft 365 admin center: **Users > Active users > select the user > Licenses and Apps** (judgement: portal path from the lab, not checked on Learn; portal menus change). Use the appropriate licensing administrator account.
 4. Before assigning a product, check available seats, the user's usage location (the country or region set on the account; an invalid one can make an assignment fail) and the reported error.
 
 
@@ -225,20 +225,20 @@ For the later AVD deployment through the portal wizard, check the following perm
 
 | Task | Access to check |
 |---|---|
-| Create host pools, workspaces and application groups | Desktop Virtualization Contributor on the target resource group or subscription. |
-| Create session-host VMs | Virtual Machine Contributor on the target resource group or subscription. |
-| Assign users/groups to an application group | Permission to create role assignments (`Microsoft.Authorization/roleAssignments/write`) at that scope. User Access Administrator and Owner include it. |
+| Create host pools, workspaces and application groups | Desktop Virtualization Contributor on the target resource group or subscription ([built-in roles](https://learn.microsoft.com/en-us/azure/virtual-desktop/rbac#desktop-virtualization-contributor)). |
+| Create session-host VMs | Virtual Machine Contributor on the target resource group or subscription ([built-in roles](https://learn.microsoft.com/en-us/azure/virtual-desktop/rbac#desktop-virtualization-host-pool-contributor)). |
+| Assign users/groups to an application group | Permission to create role assignments (`Microsoft.Authorization/roleAssignments/write`) at that scope. User Access Administrator and Owner include it. The AVD roles page says user or group assignment needs the User Access Administrator role ([built-in roles](https://learn.microsoft.com/en-us/azure/virtual-desktop/rbac#desktop-virtualization-contributor)). |
 | Register a resource provider | The permission to register resource providers (`*/register/action`) at subscription scope; included in Contributor and Owner. |
-| Create a budget on the resource group | Contributor, Cost Management Contributor or Owner on that resource group. |
-| Create the test user | User Administrator in the Microsoft Entra directory. |
-| Create/manage the ordinary test security group | Groups Administrator or User Administrator in the Microsoft Entra directory. |
+| Create a budget on the resource group | Contributor, Cost Management Contributor or Owner on that resource group (judgement: not re-checked on the budget tutorial). |
+| Create the test user | User Administrator in the Microsoft Entra directory ([Entra built-in roles](https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference#user-administrator)). |
+| Create/manage the ordinary test security group | Groups Administrator or User Administrator in the Microsoft Entra directory ([Manage Entra groups](https://learn.microsoft.com/en-us/entra/fundamentals/how-to-manage-groups#create-a-basic-group-and-add-members)). |
 
 The account you inspect below is the human administrator. Later, we will separately check the identity used by Terraform and the operations its deployment needs. A deployment identity is the user, application or managed identity under which the code runs. For the full role list and who should hold each role, see [Who Can Administer Azure Virtual Desktop](/azure-virtual-desktop/who-can-administer-azure-virtual-desktop/).
 
 ### Inspect the access you already have
 
 1. Open the target subscription or resource group.
-2. Select **Access control (IAM)**. On the **Check access** tab, select **View my access**. The pane lists your assignments at this scope and those inherited from parent scopes. If your page looks different from the screenshot, use the link under Check access to switch between the new and the previous view.
+2. Select **Access control (IAM)**. On the **Check access** tab, select **View my access**. The pane lists your assignments at this scope and those inherited from parent scopes. If your page looks different from the screenshot, use the link under Check access (judgement: portal behaviour seen in the lab, not stated on Learn) to switch between the new and the previous view.
 3. Read both direct and inherited assignments. Record the role and where it was assigned.
 4. If your organization uses Privileged Identity Management (PIM), a Microsoft Entra service that lets you activate eligible privileged roles when you need them, activate the approved role for the task. With a Microsoft Entra ID P2 or ID Governance license, eligible roles show on the Check access tab with an **Activate role** button.
 
@@ -368,7 +368,7 @@ Our agreed budget is **$106 per billing month** for **rg-avd-dev**. This is the 
 
 **Read the scope carefully:** this budget covers the workload resource group. Resources in other groups, shared platform services and separate licensing costs need their own cost ownership and appropriate budget scopes. This is not a budget for every cost associated with AVD.
 
-A billing month can differ from a calendar month for Visual Studio subscriptions. Use the selected reset period when interpreting an alert. Cost data can take 8 to 24 hours to appear, and budgets are evaluated every 24 hours. A newly created budget showing zero evaluated spend does not prove the resources have incurred no charges.
+A billing month can differ from a calendar month for Visual Studio subscriptions. Use the selected reset period when interpreting an alert. Cost and usage data is typically available within 8-24 hours and budgets are evaluated every 24 hours ([Create and manage budgets](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets)); for pay-as-you-go subscriptions it can take up to 72 hours ([Understand Cost Management data](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/understand-cost-mgt-data#cost-and-usage-data-updates-and-retention)). A newly created budget showing zero evaluated spend does not prove the resources have incurred no charges.
 
 A budget sends alerts; it does not stop consumption. The cost owner must review the alert and act. Keep a retirement plan for the lab and a cost-review process for production. Record this as an existing portal-managed budget so a later Terraform deployment does not create a duplicate.
 
@@ -378,7 +378,7 @@ A budget sends alerts; it does not stop consumption. The cost owner must review 
 
 ### Read the rules that apply to the workload
 
-1. Open **Subscriptions > selected subscription > Policies**, then **Assignments**.
+1. Open **Subscriptions > selected subscription > Policies**, then **Assignments**. (judgement: portal path observed in the lab, not stated on Learn)
 2. Check the scope and filters. Include applicable parent assignments when reviewing the workload's rules.
 3. Open each relevant assignment. Read its scope, excluded scopes, enforcement mode and parameters. Check any exemptions that apply.
 4. Record region, tag and resource-type requirements when they are assigned. Use these values in the later deployment configuration.

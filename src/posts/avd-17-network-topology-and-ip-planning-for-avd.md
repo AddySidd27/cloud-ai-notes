@@ -62,9 +62,9 @@ The documentation gives conditions for each. These are documented. Which one fit
 
 | Choose traditional hub and spoke when | Choose Virtual WAN when |
 |---|---|
-| A single Azure region, or several regions where you do not need transit between networks in different regions, or where global virtual network peering can connect them | You need hub-and-spoke across more than two regions |
+| A single Azure region, or several regions where you do not need transit between networks in different regions, or where global virtual network peering can connect them | You need hub-and-spoke across more than two regions ([Traditional topology page](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology#design-recommendations)) |
 | You do not need transit between VPN and ExpressRoute connections (with Route Server you can add it) | You need transit between VPN and ExpressRoute, or global transit between landing zone networks across regions |
-| ExpressRoute is the main hybrid link and there are fewer than 100 VPN connections per VPN gateway (Traditional Azure networking topology page). The Define an Azure network topology page says fewer than 30 IPsec site-to-site tunnels | You want to minimize network management work |
+| ExpressRoute is the main hybrid link and there are fewer than 100 VPN connections per VPN gateway ([Traditional Azure networking topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology#design-recommendations)). The [Define an Azure network topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/define-an-azure-network-topology) page says fewer than 30 IPsec site-to-site tunnels | You want to minimize network management work |
 | You depend on central network virtual appliances and granular routing | You use SD-WAN to bring branch offices into Azure, or need native IPsec for more than 30 branch sites (Define an Azure network topology page) |
 
 ![A left panel shows the traditional hub and spoke picture: three spoke networks each joined by virtual network peering to one hub with a gateway and a firewall in Region 1. A right panel shows the Virtual WAN picture: two virtual hubs with Azure Firewall and gateways joined by a Virtual WAN band, a DNS spoke with DNS Private Resolver beside each hub, Virtual WAN hub connections to a workload network per region, and ExpressRoute circuits. Three boxes below list when each topology fits, as the Cloud Adoption Framework describes it, and address plan checks.](/img/avd/AVD-Post-17-Topology-Choice-v3.png)
@@ -93,11 +93,11 @@ The planning page gives these rules. They are documented.
 - Plan non-overlapping address space across Azure regions and on-premises locations before you build.
 - Use private (RFC 1918) addresses.
 - Do not use public IP addresses for your virtual networks, especially addresses that do not belong to your organization.
-- Do not use these ranges: `224.0.0.0/4` (multicast), `255.255.255.255/32` (broadcast), `127.0.0.0/8` (loopback), `169.254.0.0/16` (link-local) and `168.63.129.16/32` (Azure internal platform address). Session hosts must still reach `169.254.169.254` (inside the link-local range) and `168.63.129.16`, so never assign them to your own networks. See the [connectivity article](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/).
+- Do not use these ranges: `224.0.0.0/4` (multicast), `255.255.255.255/32` (broadcast), `127.0.0.0/8` (loopback), `169.254.0.0/16` (link-local) and `168.63.129.16/32` (Learn labels it "internal DNS"; the [Azure fabric communication IPs](https://learn.microsoft.com/en-us/azure/virtual-desktop/azurecommunicationips) page calls it the Azure platform address). These are listed under design recommendations in [Plan for IP addressing](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/plan-for-ip-addressing). Session hosts must still reach `169.254.169.254` (inside the link-local range) and `168.63.129.16`, so never assign them to your own networks. See the [connectivity article](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/).
 - Do not create large virtual networks such as `/16`, so that address space is not wasted. Judgement: treat any `/16` in a worked example as a placeholder.
-- The smallest IPv4 subnet Azure supports is `/29`.
+- The smallest IPv4 subnet Azure supports is `/29` ([Plan for IP addressing](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/plan-for-ip-addressing)).
 - Do not create virtual networks without planning the address space.
-- Azure reserves five addresses in each subnet, so a `/24` has 251 usable addresses. The [networking article](/azure-virtual-desktop/plan-avd-networking/) shows the sizing.
+- Azure reserves five addresses in each subnet ([Plan for IP addressing](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/plan-for-ip-addressing), [virtual network FAQ](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-faq#are-there-any-restrictions-on-using-ip-addresses-within-these-subnets)), so a `/24` has 251 usable addresses. The [networking article](/azure-virtual-desktop/plan-avd-networking/) shows the sizing.
 - Some services need their own subnets, such as Azure Firewall and VPN Gateway.
 - You can add address space to a virtual network later. If it is peered, each remote peering needs a resync (a refresh so the peer learns the new range).
 - An overlapping on-premises site can be reached through NAT on VPN Gateway or Virtual WAN. Treat that as a workaround, not a plan (judgement).
@@ -107,7 +107,7 @@ The planning page gives these rules. They are documented.
 
 For the Virtual WAN hub:
 
-- The minimum hub address space is `/24`, and the documentation recommends `/23` or larger.
+- The minimum hub address space is `/24`, and the documentation recommends `/23` or larger ([About virtual hub settings](https://learn.microsoft.com/en-us/azure/virtual-wan/hub-settings#virtual-hub-address-space)).
 - If you use Azure Firewall in the hub, the minimum is `/22`.
 - The hub address space cannot be changed after the hub is created.
 - It must not overlap with other hubs in the same Virtual WAN, on-premises networks, or any virtual network connected to the hub.
@@ -128,7 +128,7 @@ This article gives no prices. Prices change and are on the pricing pages. The do
 
 - **Global virtual network peering** generates traffic fees.
 - **A Virtual WAN virtual hub** has pricing from the moment it is created, even without gateways.
-- **An Azure DDoS Protection plan** includes protection for 100 public IP addresses. More cost more. It covers only resources that have public IP addresses. Secured Virtual WAN hubs do not support a DDoS Protection plan. See [Virtual WAN network topology in an Azure landing zone](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/virtual-wan-network-topology).
+- **An Azure DDoS Protection plan** includes protection for 100 public IP addresses ([Traditional Azure networking topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology#design-considerations)). More cost more. It covers only resources that have public IP addresses. Secured Virtual WAN hubs do not support a DDoS Protection plan. See [Virtual WAN network topology in an Azure landing zone](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/virtual-wan-network-topology).
 - **Routing through ExpressRoute between regions** can add latency, and the gateway SKU limits throughput.
 
 Ask the network team which of these your AVD spoke will add to the bill, and who pays.

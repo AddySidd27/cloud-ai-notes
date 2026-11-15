@@ -63,7 +63,7 @@ Other articles in this series use "control plane action" for an action on AVD ob
 | Plane | Its job | Who runs it | Example of what you do there |
 |---|---|---|---|
 | Management plane | Create and change AVD objects such as host pools, application groups, workspaces and scaling plans. | Azure Resource Manager, with your permissions applied through Azure RBAC. | Create a host pool in the portal, or run a script that does it. |
-| Control plane | Show users their feed and arrange each connection. | Microsoft. | Nothing. You do not deploy or scale it. |
+| Control plane | Show users their feed and arrange each connection. | Microsoft. | Nothing. You do not deploy or scale it (judgement: Learn says Microsoft provides these components as a service and does not list them as customer tasks, [service architecture](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience)). |
 | Data plane | Carry the remote session. | Your session hosts, your network and, depending on how the session connects, the Microsoft gateway service. | Size the hosts, route the network, store the profiles. |
 
 Two details stop this table from being too tidy. For the full connection steps, see [follow a connection step by step](/azure-virtual-desktop/follow-a-connection-step-by-step/).
@@ -97,7 +97,7 @@ A connection has two separate sequences: feed discovery and the RDP connection. 
 - **Global routing.** If a web service or gateway service becomes unavailable from one Azure region, or a whole region fails, traffic is redirected to the next closest available instance. Users can still make new connections.
 - **Geographical database.** It uses Azure SQL Database failover and replication within its geography. If it fails, it fails over to a secondary replica (a standby copy). During the failover, new connections fail for a short time. Existing connections are not affected.
 - **Regional database.** It uses the same mechanism inside one region, with replicas across availability zones and metadata copied to a paired region where one applies.
-- **Instances.** At the time of writing, the Microsoft-run components run in around 40 Azure regions. In each region there are at least six separate instances or clusters of each component, working independently.
+- **Instances.** At the time of writing, the Microsoft-run components run in around 40 Azure regions. In each region there are at least six separate instances or clusters of each component, working independently ([Service architecture and resilience, Service resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience#service-resilience)).
 - **Gateway instance failure.** If one gateway instance fails, the TCP-based RDP connections it was relaying are dropped. When those users reconnect, the remaining instances reconnect each user to their existing session. Sessions on other instances are not affected.
 
 Two practical points follow. First, you do not deploy or scale these components. Each has multiple instances in each region, and Microsoft runs them. Second, a brief drop followed by a reconnect to the same session is the documented behavior for a gateway instance failure, so the first response to a few dropped sessions is to reconnect, not to rebuild (judgement).
@@ -150,7 +150,7 @@ The AVD agent runs health checks on every session host and gives each host a sta
 | Status | What it means | Is the host used for new sessions? |
 |---|---|---|
 | Available | The host passed all health checks. It is still Available if it has reached its maximum session limit. | Yes. |
-| Needs Assistance | The host failed a non-fatal check: the Geneva monitoring agent check, the Azure Instance Metadata Service (IMDS) check or the URL check. Users can connect, but the experience may degrade. | Yes. |
+| Needs Assistance | The host failed a non-fatal check: the Geneva monitoring agent check, the Azure Instance Metadata Service (IMDS) check or the URL check ([session host statuses and health checks](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-status-health-checks); a failed URL check points to a required URL the host cannot reach, see [troubleshoot agent issues](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-agent#urlsaccessiblecheck)). Users can connect, but the experience may degrade. | Yes. |
 | Unavailable | The host is turned off, or failed a fatal check. | No. |
 | Upgrade Failed | The agent could not update. New and existing sessions are not affected. | Yes. |
 | Upgrading | The agent update is in progress. The status returns to Available when it finishes. | Yes. |

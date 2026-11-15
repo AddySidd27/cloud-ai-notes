@@ -47,7 +47,7 @@ Both pooled and personal host pools can deliver full desktops. The next section 
 | Pooled | Access to shared session hosts. A supported multi-session operating system lets several users work on one host in separate sessions. |
 | Personal | A session host assigned to that individual user. |
 
-In a pooled deployment, users can reach a different host after signing out and signing in again. To keep a user's settings and files the same on every host, you store their Windows profile (their settings and personal files) in a shared file location. A tool called FSLogix does this: it attaches the profile from that location when the user signs in, and applications use it as if it were stored on the host itself.
+In a pooled deployment, users can reach a different host after signing out and signing in again. To keep a user's settings and files the same on every host, you store their Windows profile (their settings and personal files) in a shared file location. A tool called FSLogix does this: it attaches the profile from that location when the user signs in, and applications use it as if it were stored on the host itself ([FSLogix profile containers](https://learn.microsoft.com/en-us/azure/virtual-desktop/fslogix-profile-containers); pooled users "should store their user profile data in FSLogix", [terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology)).
 
 ## Why a business would use AVD
 
@@ -63,11 +63,11 @@ A separate virtual machine for every employee is not always necessary. With a po
 
 ### Run capacity around working hours
 
-Demand changes during the day. Autoscale can start and stop session hosts using schedules and capacity thresholds. For example, a weekday schedule can prepare capacity before people start work and reduce it as usage falls. This can reduce compute costs. Turning off hosts does not remove every charge (this is general Azure billing behaviour): disks, profile storage and other resources still need to be included in the budget.
+Demand changes during the day. Autoscale can start and stop session hosts using schedules and, for pooled host pools, capacity thresholds ([terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology)). For example, a weekday schedule can prepare capacity before people start work and reduce it as usage falls. This can reduce compute costs. Turning off hosts does not remove every charge (judgement: general Azure billing behaviour, not stated on the AVD pages): disks, profile storage and other resources still need to be included in the budget.
 
 ### Let Microsoft run the broker and gateway
 
-With a traditional Remote Desktop Services deployment (the older Windows Server way of hosting remote desktops), the organization operates supporting infrastructure such as the connection broker (the service that decides which session host a user connects to) and the gateway (the service that carries the remote desktop traffic). With AVD, Microsoft operates those service components. Your team still manages the desktops themselves: their images, applications, updates, access and supporting resources. Microsoft operates the connection services; your team operates the Windows environment people work in.
+With a traditional Remote Desktop Services deployment (the older Windows Server way of hosting remote desktops), the organization operates supporting infrastructure such as the connection broker (the service that decides which session host a user connects to) and the gateway (the service that carries the remote desktop traffic). With AVD, Microsoft operates those service components ([service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience); [overview](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview)). The description of a traditional RDS deployment is a plain-language gloss (judgement). Your team still manages the desktops themselves: their images, applications, updates, access and supporting resources. Microsoft operates the connection services; your team operates the Windows environment people work in.
 
 ### Understand the cost before choosing it
 
@@ -100,7 +100,7 @@ The [architecture article](/azure-virtual-desktop/azure-virtual-desktop-architec
 
 ## How users connect
 
-Users connect with Windows App or the Remote Desktop client, on a supported device or in a web browser. They sign in with a work or school account. AVD does not support personal Microsoft accounts for user access.
+Users connect with Windows App or the Remote Desktop client, on a supported device or in a web browser. They sign in with a work or school account. AVD does not support personal Microsoft accounts for user access ([prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites#users)).
 
 You assign users to application groups and associate those groups with a workspace so users can see their published resources. The application runs on a session host; Windows App provides access from the user's device.
 
@@ -113,7 +113,7 @@ You assign users to application groups and associate those groups with a workspa
 | Operating system | A supported Windows edition and version for the session hosts. |
 | Licensing | The appropriate user access rights for the operating system and commercial-use scenario. |
 | Networking | Connectivity for the AVD service, identity services, applications and data. |
-| Administrative access | The Azure permissions needed to create and configure the resources, including registering the Microsoft.DesktopVirtualization resource provider (the Azure switch that turns the service on for a subscription). The Contributor and Owner roles on the subscription include the permission to do this. |
+| Administrative access | The Azure permissions needed to create and configure the resources, including registering the Microsoft.DesktopVirtualization resource provider (the Azure switch that turns the service on for a subscription). The Contributor and Owner roles on the subscription include the permission to do this ([prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites#azure-account-with-an-active-subscription)). |
 | User access | A supported client or web experience and the required resource assignments. |
 
 An Azure subscription and user licensing are separate requirements. Windows client and Windows Server deployments have different licensing options. The [preparation article](/azure-virtual-desktop/prepare-your-azure-environment/) explains the supported choices before we create resources.

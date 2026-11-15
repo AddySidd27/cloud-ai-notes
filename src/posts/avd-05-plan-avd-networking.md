@@ -210,7 +210,7 @@ If the enterprise already uses Virtual WAN, follow its approved virtual-hub conn
 
 The figure shows the layouts Learn draws, not this article's example. The example in this article puts the firewall, the hybrid gateway and the DNS Private Resolver in the hub, with five spokes for the production, development and test networks from the environment layout earlier, each peered to the hub. This layout is my design choice for this walkthrough (judgement). Learn presents other layouts, including directly peered spokes in panel A, so check the pages in the caption before you copy any of them.
 
-Panels D and E are alternatives, not steps. Learn's rules for choosing between them, including the firewall-bypass trap when hubs join through ExpressRoute, are in [Choose a Network Topology and Plan IP Addresses for Azure Virtual Desktop](/azure-virtual-desktop/network-topology-and-ip-planning-for-avd/).
+Details in panels C, D and E (hub-to-hub peering, the AVD virtual network peered to both hubs, the "personal and pooled subnets" label and the DNS Private Resolver note) are the author's reading of Learn's pictures, which cannot be checked from the page text (judgement). Panels D and E are alternatives, not steps. Learn's rules for choosing between them, including the firewall-bypass trap when hubs join through ExpressRoute, are in [Choose a Network Topology and Plan IP Addresses for Azure Virtual Desktop](/azure-virtual-desktop/network-topology-and-ip-planning-for-avd/).
 
 For an AVD deployment, place session hosts in the workload spoke's resource subnet. The hub's VPN gateway supplies a hybrid path when the design uses VPN; ExpressRoute is another hybrid option. The firewall provides the selected traffic-control path. Shared DNS may also sit in the hub or a connected identity network.
 
@@ -228,7 +228,7 @@ The Cloud Adoption Framework addressing guidance says not to create large virtua
 
 For host-subnet sizing, count simultaneously allocated host interfaces, not users. Multi-session users share a host's interface. Count every host network interface (NIC) that exists, whether its VM is running or stopped. A Resource Manager network interface keeps its private address, dynamic or static, until you change the address or delete the interface, so a stopped VM's interface still holds its address.
 
-Azure reserves five IPv4 addresses in each subnet: the first four and the last. A /24 has 251 usable addresses, a /25 has 123, a /26 has 59, a /27 has 27 and a /28 has 11.
+Azure reserves five IPv4 addresses in each subnet: the first four and the last ([Private IP addresses](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/private-ip-addresses#allocation-method)). A /24 has 251 usable addresses, a /25 has 123, a /26 has 59, a /27 has 27 and a /28 has 11.
 
 **(judgement)** I found no AVD-specific subnet sizing formula on Microsoft Learn. This rule is my own: take the peak number of hosts, double it so a full set of replacement hosts can exist beside the old ones during image replacement, then add 50 percent for growth and recovery. Pick the smallest subnet whose usable addresses cover the result.
 
@@ -331,7 +331,7 @@ The user's office or home network must also permit the client's required service
 
 The base session starts through the TCP reverse-connect path. RDP Shortpath can add UDP transport. For the managed listener model, the client needs a private route to the host, the host listener is enabled, and the chosen listener port, normally UDP 3390, is allowed by the host/network firewalls.
 
-Public-network Shortpath uses direct or relayed UDP. Direct connectivity uses negotiated ports; the default ephemeral range is 49152-65535 within the documented 1024-65535 range. STUN/TURN uses UDP 3478, with the Azure public-cloud relay range 51.5.0.0/16. Review both client and host policies for the selected model.
+Public-network Shortpath uses direct or relayed UDP. Direct connectivity uses negotiated ports; the default ephemeral range is 49152-65535 within the documented 1024-65535 range. STUN/TURN uses UDP 3478, with the Azure public-cloud relay range 51.5.0.0/16 ([RDP Shortpath, Network configuration](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-shortpath#network-configuration)). Review both client and host policies for the selected model.
 
 Learn notes that Symmetric NAT, which is the case when you use Azure Firewall and Azure NAT Gateway, leads to a relayed (TURN) connection. It also advises avoiding force tunneling, double NAT, cloud packet-inspection services and TCP-based VPNs for users on the internet ([RDP Shortpath](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-shortpath)). This design uses both Azure Firewall and NAT Gateway, so a relayed path is likely for some users (judgement).
 
@@ -353,7 +353,7 @@ Agree how changes are reviewed and deployed. For repeatable environments, keep t
 
 Also decide which evidence operations needs: effective routes, effective security rules, DNS results, firewall decisions and connection-quality measurements. Give each check an owner. This prevents the deployment team handing over a working desktop without a way to diagnose the next failure.
 
-For new flow logging, plan Virtual Network flow logs. New NSG flow logs can no longer be created; existing NSG flow logs are scheduled to retire on 30 September 2027. Include retention and monitoring costs in the operational design.
+For new flow logging, plan Virtual Network flow logs. New NSG flow logs can no longer be created; existing NSG flow logs are scheduled to retire on 30 September 2027 ([Migrate from NSG flow logs to virtual network flow logs](https://learn.microsoft.com/en-us/azure/network-watcher/nsg-flow-logs-migrate)). Include retention and monitoring costs in the operational design.
 
 ## 16. Turn the requirements into a deployment plan
 
@@ -496,7 +496,7 @@ Allow the AVD destinations plus workload dependencies. This is the Azure public-
 
 Microsoft does not support Azure Virtual Desktop deployments where these FQDNs and endpoints are blocked ([Required FQDNs and endpoints](https://learn.microsoft.com/en-us/azure/virtual-desktop/required-fqdn-endpoint)). Azure Local deployment also uses aka.ms on TCP 443. Clients have a separate endpoint list. Include Entra ID, Microsoft 365, Intune, updates and applications as applicable. Service tags represent IP prefixes; they cannot express every FQDN requirement.
 
-Preserve Azure platform communication: 169.254.169.254 on TCP 80; 168.63.129.16 on TCP 80 and 32526, plus TCP and UDP 53 (port 53 is needed only when you use Azure-provided DNS). Azure uses these two addresses for platform services. Azure platform routing protects this traffic, so standard NSG rules and user-defined routes do not affect it by default. Do not block, intercept, proxy or redirect it. More detail is in [Required Connectivity for Azure Virtual Desktop](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/).
+Preserve Azure platform communication: 169.254.169.254 on TCP 80; 168.63.129.16 on TCP 80 and 32526, plus TCP and UDP 53 (port 53 is needed only when you use Azure-provided DNS) ([Required FQDNs and endpoints, Azure fabric communication IPs](https://learn.microsoft.com/en-us/azure/virtual-desktop/required-fqdn-endpoint#azure-fabric-communication-ips)). Azure uses these two addresses for platform services. Azure platform routing protects this traffic, so standard NSG rules and user-defined routes do not affect it by default. Do not block, intercept, proxy or redirect it. More detail is in [Required Connectivity for Azure Virtual Desktop](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/).
 
 RDP Shortpath adds UDP after the base TCP session. The ports and the limits of UDP 3478 are in the Shortpath section above. The UDP 3478 row in the table is for the relayed path.
 
@@ -565,7 +565,7 @@ The route precedence is: a route to a virtual appliance overrides NAT Gateway; a
 
 Azure Files SMB profiles need host-to-storage connectivity on TCP 445. A user's AVD gateway connection does not prove this separate path.
 
-For public access, configure the intended storage network policy. A selected-VNet design requires the Microsoft.Storage service endpoint and a storage network rule. Storage IP rules have limitations for same-region Azure-to-storage traffic; validate the selected storage network policy separately.
+For public access, configure the intended storage network policy. A selected-VNet design requires the Microsoft.Storage service endpoint and a storage network rule ([Configure network endpoints for Azure file shares](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-networking-endpoints#restrict-public-endpoint-access)). Storage IP rules have limitations for same-region Azure-to-storage traffic; validate the selected storage network policy separately.
 
 The lab storage is a classic Azure Files SMB share in a Microsoft.Storage storage account. Its private-endpoint target is the account's file service. Do not use the newer Microsoft.FileShares resource type for FSLogix profiles here: it currently supports only NFS, and FSLogix on Windows needs an SMB share.
 
@@ -577,7 +577,7 @@ For this account-based private Azure Files path:
 4. On DNS, integrate with the approved privatelink.file.core.windows.net zone. In this DNS-proxy design, confirm that the zone is linked to the hub resolver VNet, and that the account's A record matches the endpoint IP. Do not create an unrelated duplicate zone in each spoke.
 5. Review and create. Verify the private connection is Approved and inspect the assigned IP. Approval records the connection; it does not prove the host resolves or reaches it.
 6. From the host, resolve the normal account.file.core.windows.net name. It must return the intended private endpoint IP, then TCP 445 must succeed.
-7. Apply the approved public-network policy separately. For private-only access, disable the public endpoint after checking all legitimate clients and management dependencies. A private endpoint does not automatically disable public access.
+7. Apply the approved public-network policy separately. For private-only access, disable the public endpoint after checking all legitimate clients and management dependencies. A private endpoint does not automatically disable public access: you set Public network access to Disabled separately ([Configure network endpoints for Azure file shares](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-networking-endpoints#restrict-public-endpoint-access)).
 
 AVD Private Link is a separate service-connectivity design. An Azure Files private endpoint does not make the AVD gateway path private.
 
