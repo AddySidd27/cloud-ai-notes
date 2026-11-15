@@ -7,6 +7,10 @@
   sync();
   if(tb)tb.addEventListener('click',function(){var n=dark()?'light':'dark';root.setAttribute('data-theme',n);try{localStorage.setItem('theme',n)}catch(e){}sync()});
 
+  // narrow screens: keep the current section visible in the scrolling nav
+  var cur=document.querySelector('.nav [aria-current]');
+  if(cur){var nv=cur.parentNode;nv.scrollLeft=Math.max(0,cur.offsetLeft-nv.offsetLeft-16)}
+
   // article: collapse TOC on small screens, highlight the current section
   var toc=document.querySelector('.tocbox');
   if(toc&&matchMedia('(max-width:63.99rem)').matches)toc.removeAttribute('open');
@@ -15,10 +19,6 @@
     var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){Object.keys(links).forEach(function(k){links[k].removeAttribute('aria-current')});var l=links[e.target.id];if(l)l.setAttribute('aria-current','true')}})},{rootMargin:'0px 0px -70% 0px'});
     document.querySelectorAll('.prose h2[id]').forEach(function(h){io.observe(h)});
   }
-
-  // callouts: a blockquote that starts with Note, Warning, Tip or Important gets a style
-  document.querySelectorAll('.prose blockquote').forEach(function(b){var s=b.querySelector('strong');if(!s)return;var k=s.textContent.toLowerCase().replace(/[^a-z]/g,'');
-    if(['note','tip','warning','important','caution'].indexOf(k)>-1)b.classList.add('callout','c-'+k)});
 
   // diagram zoom
   var imgs=document.querySelectorAll('.prose img');
