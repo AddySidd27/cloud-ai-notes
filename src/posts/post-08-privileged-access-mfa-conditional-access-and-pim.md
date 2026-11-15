@@ -41,13 +41,11 @@ learn_pages:
     checked_on: "2026-10-07"
   - url: "https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only"
     checked_on: "2026-10-07"
-  - url: "https://learn.microsoft.com/en-us/azure/ddos-protection/ddos-protection-overview"
-    checked_on: "2026-10-07"
 repo_links:
   - "https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/privileged-access.md"
 diagrams:
   - file: "../diagrams/post-08-privileged-access-flow.svg"
-    type: own-layout-official-icons
+    type: learn-based
     based_on: "https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-admin-phish-resistant-mfa and https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/security-emergency-access"
     icons: "Azure Public Service Icons V24 (Log Analytics workspaces) and Microsoft Entra architecture icons Oct 2023 (Microsoft Entra ID, color), all unmodified"
     source: "../diagrams/post-08-privileged-access-flow.drawio"
@@ -55,7 +53,7 @@ production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; 
 layout: post.njk
 permalink: "/azure-landing-zone/privileged-access-mfa-conditional-access-and-pim/"
 order: 8
-deck: "Administrator accounts are a frequent target for attackers, so protect them with three controls that work together: multifactor authentication to prove who is signing in, Conditional Access to set the rules, and Privileged Identity Management so that power is switched on only when needed, with emergency accounts as the safety net."
+deck: "Administrator accounts are a frequent target for attackers, so protect them with three controls that work together: multifactor authentication (MFA) to prove who is signing in, Conditional Access to set the rules, and Privileged Identity Management (PIM) so that power is switched on only when needed. Emergency access accounts are the safety net."
 next_num: ""
 next_title: "Resource Organization"
 tags: [alz]
@@ -63,17 +61,26 @@ tags: [alz]
 
 
 
-Attackers use credential theft to target administrator accounts and other privileged access, to reach sensitive data. Traditionally, security watched the entry and exit points of a network, called the perimeter. In Microsoft Entra ID, authentication in your organization's identity layer takes the place of that perimeter. The people in privileged administrative roles hold the control, so their access must be protected.
+Attackers use credential theft to target administrator accounts and other privileged access, to reach sensitive data. Traditionally, security watched the entry and exit points of a network, called the perimeter. Today, sign-in (authentication) takes the place of that perimeter. It happens in Microsoft Entra ID, Microsoft's cloud identity service. The people in privileged administrative roles hold the control, so their access must be protected.
 
-[The identity and access post](/azure-landing-zone/identity-and-access-in-the-landing-zone/) listed MFA, Conditional Access and PIM as part of protecting privileged access. This post explains each one, and how to turn them on in a safe order. These are Microsoft Entra topics that the Azure landing zone identity and access page points to. They are not a separate landing zone design area. So this post combines the landing zone identity page with the Microsoft Entra pages on PIM, Conditional Access and emergency access. There is a catch: the safeguards can lock you out if they are set up the wrong way. A policy requiring phishing-resistant MFA, turned on before administrators have registered the right sign-in methods, risks locking you out of your tenant (your organization's own dedicated instance of Microsoft Entra ID). And an emergency account that falls under a Conditional Access policy that requires MFA might be unusable in the exact emergency it was made for.
+[The identity and access post](/azure-landing-zone/identity-and-access-in-the-landing-zone/) listed multifactor authentication (MFA), Conditional Access and Privileged Identity Management (PIM) as part of protecting privileged access. This post explains each one, and how to turn them on in a safe order.
+
+These are Microsoft Entra topics that the Azure landing zone identity and access page points to. They are not a separate landing zone design area. So this post combines the landing zone identity page with the Microsoft Entra pages on PIM, Conditional Access and emergency access.
+
+There is a catch: the safeguards can lock you out if they are set up the wrong way. A tenant is your organization's own dedicated instance of Microsoft Entra ID. A policy that requires phishing-resistant MFA (MFA that attackers cannot trick you into giving away) can lock you out of your tenant. This happens if you turn it on before administrators have registered the right sign-in methods. Also, an emergency account that falls under a Conditional Access policy that requires MFA might be unusable in the exact emergency it was made for.
 
 
 ## Key terms
 
-[The identity and access post](/azure-landing-zone/identity-and-access-in-the-landing-zone/) already defined these terms that this post uses: Global Administrator, privileged role, phishing-resistant MFA, emergency access (break-glass) account, legacy authentication, just-in-time access, least privilege, administrative unit, workload identity, service principal, managed identity and Zero Trust.
+[The identity and access post](/azure-landing-zone/identity-and-access-in-the-landing-zone/) defines these terms that this post also uses: privileged role, least privilege, service principal and managed identity. The terms below are defined here.
 
 | Word | What it means |
 |---|---|
+| Global Administrator | The most powerful Microsoft Entra role. It can manage almost every setting in the tenant, so keep it for emergencies. |
+| Zero Trust | A security approach with three principles: verify explicitly, use least privilege and assume breach. |
+| Legacy authentication | Older sign-in protocols, such as IMAP, SMTP and POP3, that cannot ask for MFA. |
+| Administrative unit | A part of the directory that you can hand to a set of administrators, so they manage only those objects. |
+| Workload identity | An identity for an application or service, not a person. A service principal or a managed identity is one. |
 | Passkey (FIDO2) | A sign-in credential that works only for the website or app it was created for, so it cannot be used on a fake site. It is kept on a device, in an app or on a hardware security key. You unlock it with a fingerprint, a face scan or a PIN. FIDO2 is the standard it follows. Passkeys are phishing-resistant, and they can serve as MFA. |
 | Temporary Access Pass | A time-limited passcode that can be used once or several times. A user can sign in with it to set up passwordless methods, such as a passkey. It also makes recovery easier when someone loses or forgets a strong sign-in method. |
 | Authentication strength | A Conditional Access control that sets which combinations of sign-in methods users can use to reach a resource. Microsoft Entra ID has three built-in ones (below), and you can create your own. |
@@ -93,7 +100,7 @@ Attackers use credential theft to target administrator accounts and other privil
 | Conditional Access | Set the rules for sign-in | "If" a user wants a resource, "then" they must do an action, such as perform MFA |
 | Privileged Identity Management (PIM) | Give privileged access only when it is needed | Time-based and approval-based role activation |
 
-Here is my own simple summary of how they fit together. Conditional Access decides what a sign-in must prove. MFA is one of the things it can demand. PIM decides when a privileged role is switched on. Emergency access accounts are the way back in if the other three fail.
+Here is how they fit together (judgement). Conditional Access decides what a sign-in must prove. MFA is one of the things it can demand. PIM decides when a privileged role is switched on. Emergency access accounts are the way back in if the other three fail.
 
 ## MFA: more than a password
 
@@ -107,7 +114,7 @@ MFA works by requiring two or more of these:
 | Something you have | A trusted device that is not easily copied, such as a phone or a hardware key |
 | Something you are | A fingerprint or a face scan |
 
-So a stolen password is not enough on its own. The attacker also needs the second factor. In Microsoft Entra ID, the sign-in prompt asks for this automatically when it is needed, and you do not need to change your apps.
+So a stolen password is not enough on its own. The attacker also needs the second factor. Microsoft Entra ID shows the extra prompt by itself when it is needed. You do not need to change your apps.
 
 ## Pick a strong method
 
@@ -117,9 +124,9 @@ Not every method is equally strong. Microsoft Entra ID offers three built-in aut
 - **Passwordless MFA strength** (methods that satisfy MFA without a password).
 - **Phishing-resistant MFA strength** (most restrictive). Use this one for administrators.
 
-Require phishing-resistant MFA for at least these roles: Global Administrator, Application Administrator, Authentication Administrator, Billing Administrator, Cloud Application Administrator, Conditional Access Administrator, Exchange Administrator, Helpdesk Administrator, Password Administrator, Privileged Authentication Administrator, Privileged Role Administrator, Security Administrator, SharePoint Administrator and User Administrator. Organizations can add or remove roles based on their needs.
+Require phishing-resistant MFA for at least these 14 roles: Global Administrator, Application Administrator, Authentication Administrator, Billing Administrator, Cloud Application Administrator, Conditional Access Administrator, Exchange Administrator, Helpdesk Administrator, Password Administrator, Privileged Authentication Administrator, Privileged Role Administrator, Security Administrator, SharePoint Administrator and User Administrator. Organizations can add or remove roles based on their needs.
 
-Also require MFA for all users, and give extra thought to people who would cause serious harm if their account were compromised, such as financial officers. For the landing zone, enforce MFA for everyone with rights to the Azure environment, and include users with Reader roles. SMS codes, email codes and push notifications are becoming less effective, because they can be intercepted or spoofed, so use phishing-resistant MFA.
+Also require MFA for all users, and give extra thought to people who would cause serious harm if their account were compromised, such as financial officers. For the landing zone, enforce MFA for everyone with rights to the Azure environment, and include users with Reader roles. SMS codes, email codes and push notifications can be beaten by social engineering, interception or user fatigue, so use phishing-resistant MFA. See [the identity and access post](/azure-landing-zone/identity-and-access-in-the-landing-zone/) for the landing zone rules.
 
 ## Conditional Access: if this, then that
 
@@ -150,7 +157,7 @@ Privileged Identity Management is a service in Microsoft Entra ID to manage, con
 | Time-bound | The assignment works only between a start date and an end date |
 | Just-in-time (JIT) | Temporary permissions, so access exists only while it is needed |
 
-What PIM can do: just-in-time access to Microsoft Entra ID and Azure resources, time-bound assignments, approval before activation, MFA to activate any role, a reason (justification) for each activation, notifications when privileged roles are activated, access reviews to check that people still need roles, audit history, and protection against removing the last active Global Administrator and Privileged Role Administrator. PIM needs licenses (the PIM documentation describes it as included in Microsoft Entra ID P2; check current licensing for your tenant).
+What PIM can do: just-in-time access to Microsoft Entra ID and Azure resources, time-bound assignments, approval before activation, MFA to activate any role, a reason (justification) for each activation, notifications when privileged roles are activated, access reviews to check that people still need roles, audit history, and protection against removing the last active Global Administrator and Privileged Role Administrator. PIM needs licenses. See [Microsoft Entra ID Governance licensing fundamentals](https://learn.microsoft.com/en-us/entra/id-governance/licensing-fundamentals) for the current requirements.
 
 In the landing zone, also follow these points:
 
@@ -177,7 +184,7 @@ Rules for these accounts:
 - Use a **passkey (FIDO2)**, the recommended method (or certificate-based authentication if you already run a public key infrastructure). Use a method that is different from your other administrator accounts. Microsoft's mandatory MFA for Azure and admin portals applies to emergency access accounts too, which is why a password alone is not enough.
 - Do not tie them to one person or to a personal device. Store credentials securely, in a place several authorized people can reach. (Individual emergency accounts per administrator are also allowed, which adds accountability.)
 - **Exclude them from Conditional Access policies that block or restrict sign-in.** A dedicated security group, for example named EmergencyAccess, makes this easy. Report-only policies do not need the exclusion.
-- **Monitor** every sign-in, with alerts through a monitoring tool such as Microsoft Sentinel.
+- **Monitor** every sign-in, with alerts through a monitoring tool such as Microsoft Sentinel (Microsoft's security monitoring service).
 - **Test** that they work at least every 90 days, and after changes in IT staff or in the organization's Microsoft Entra subscriptions. After any use, hold a review to learn if it was a drill, a real emergency or misuse.
 - Use a designated secure workstation, for example a Privileged Access Workstation, when you use them.
 
@@ -194,7 +201,7 @@ The roadmap for securing privileged access has four stages. The timelines are ap
 | 3. Take control of admin activity | 1 to 3 months | Run access reviews of administrators. Use PIM for more roles. Move people with no clear need out of admin roles. Use dedicated administration workstations. If you use Exchange Online, check exposure to password-based sign-in protocols; you can block legacy authentication with Conditional Access |
 | 4. Keep building | 6 months and later | Review administrator roles regularly. Validate the incident response plan. Keep audit activity logs for privileged accounts |
 
-Here is a safe order for turning on a Conditional Access policy for administrators. It combines the phishing-resistant MFA policy steps with the emergency access advice:
+Here is a safe order for turning on a Conditional Access policy for administrators (judgement). Learn gives the steps on two pages, the phishing-resistant MFA policy and emergency access. This order combines them:
 
 1. Make sure administrators have registered the sign-in method first (for example a passkey, or use a Temporary Access Pass to help register).
 2. Create the policy for the administrator roles, with the emergency access group excluded.
@@ -204,9 +211,9 @@ Here is a safe order for turning on a Conditional Access policy for administrato
 
 ## How the access controls fit together
 
-![From top to bottom, five numbered boxes joined by down arrows: an administrator with a separate cloud-only account that is eligible for roles; Conditional Access, the rule, with signals, a decision and a report-only-first policy for admin roles that excludes emergency accounts; multifactor authentication, the proof, which needs two or more of something you know, have or are, with three built-in strengths where phishing-resistant is the most restrictive and recommended for admins; PIM activation, the switch, with an MFA check, a business reason and approval if required; the role is active for a set time only, with notifications, audit history and access reviews. Below them, the safety net: emergency access accounts, two or more, cloud-only, with a passkey, permanent Global Administrator, excluded from Conditional Access policies that block or restrict sign-in; and monitoring with an alert on every sign-in, tests at least every 90 days, and a review after any use. A note at the bottom says that before a policy is turned On, administrators must have registered their sign-in methods, or you risk locking yourself out](/diagrams/post-08-privileged-access-flow.svg)
+![Five boxes joined by down arrows, which show four controls that work together and not a fixed sequence: an administrator with a separate cloud-only account, where normal admins are eligible for roles; Conditional Access, the rule, with signals, a decision and a report-only-first policy for admin roles that excludes emergency accounts; multifactor authentication, the proof, which needs two or more of something you know, have or are, with three built-in strengths where phishing-resistant is the most restrictive and recommended for admins; Privileged Identity Management (PIM) activation, the switch, with an MFA check, a business reason and approval if required; the role is active for a set time only, with notifications, audit history and access reviews. Below them, the safety net: emergency access accounts, two or more, cloud-only, with a passkey, permanent Global Administrator, excluded from Conditional Access policies that block or restrict sign-in; and monitoring with an alert on every sign-in using Log Analytics or Microsoft Sentinel, tests at least every 90 days, and a review after any use. A note at the bottom says that before a policy is turned On, administrators must have registered their sign-in methods, or you risk locking yourself out](/diagrams/post-08-privileged-access-flow.svg)
 
-*Simplified diagram, my own layout, based on the official Microsoft documentation: [Require phishing-resistant MFA for administrators](https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-admin-phish-resistant-mfa), [What is PIM](https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-configure) and [Emergency access accounts](https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/security-emergency-access). Not an official Microsoft diagram. The top-to-bottom order is my own simplification; the official pages do not describe one fixed sequence. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) and [Microsoft Entra](https://learn.microsoft.com/en-us/entra/architecture/architecture-icons) architecture icon sets.*
+*Simplified diagram based on Microsoft Learn: [Require phishing-resistant MFA for administrators](https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-admin-phish-resistant-mfa), [What is PIM](https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-configure) and [Emergency access accounts](https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/security-emergency-access). The top-to-bottom order is a simplification: the documentation does not describe one fixed sequence. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) and [Microsoft Entra](https://learn.microsoft.com/en-us/entra/architecture/architecture-icons) architecture icon sets.*
 
 
 ## Common mistakes
@@ -221,7 +228,7 @@ Here is a safe order for turning on a Conditional Access policy for administrato
 
 ## From my own projects
 
-These situations came up in my own work: permanent admin access with no PIM, MFA not enforced for administrators, a Conditional Access policy that caused a lockout, and emergency access accounts that were untested or blocked. Typical results are lockouts or delays in getting access, and a security risk.
+This is my own experience, not from Microsoft Learn (judgement). These situations came up in my work: permanent admin access with no PIM, MFA not enforced for administrators, a Conditional Access policy that caused a lockout, and emergency access accounts that were untested or blocked. Typical results are lockouts or delays in getting access, and a security risk.
 
 ## The files in my repo
 

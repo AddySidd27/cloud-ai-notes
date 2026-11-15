@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1052" width="1000" height="1052" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
   <title id="t">The greenfield path</title>
-  <desc id="d">A top-to-bottom path of six numbered stages in three grouped panels. Prepare and plan: 1 Get ready, 2 Plan, 3 Choose a tool. Build and check: 4 Build the platform, 5 Check it. Hand over: 6 Hand over the first workload. Each stage shows what you decide and what you end up with. Arrows lead from each stage to the next. Redraw by the author, not an official Microsoft diagram.</desc>
+  <desc id="d">A top-to-bottom path of six numbered stages in three grouped panels. Prepare and plan: 1 Get ready, 2 Plan, 3 Choose a tool. Build and check: 4 Build the platform, 5 Check it. Hand over: 6 Hand over the first workload. Each stage shows what you decide and what you end up with. Arrows lead from each stage to the next.</desc>
   <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
   <text x="500" y="40" font-size="24" font-weight="600" text-anchor="middle" fill="#1f2933">From an empty tenant to a governed first workload</text>
   <text x="500" y="68" font-size="16" text-anchor="middle" fill="#3a3a3a">Six stages, in order. Each one shows what you decide and what you end up with.</text>
@@ -28,9 +28,9 @@
   <image x="94" y="312" width="46" height="46" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9ImE0NmM2MjA3LWRlNzItNDJjMi05NDM5LTQwMmIxNGFiZjUzZSIgY3g9IjkiIGN5PSI5IiByPSI4LjUiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiM1MGU2ZmYiIC8+PHN0b3Agb2Zmc2V0PSIwLjMzMyIgc3RvcC1jb2xvcj0iIzQ5ZGRmNyIgLz48c3RvcCBvZmZzZXQ9IjAuODc2IiBzdG9wLWNvbG9yPSIjMzdjNWUzIiAvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzMyYmVkZCIgLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48dGl0bGU+TXNQb3J0YWxGeC5iYXNlLmltYWdlcy03MjwvdGl0bGU+PGcgaWQ9ImIwNDNkOTE5LThlYjMtNGY0Mi1hMzU4LTk4MWE4OGRmYjc0MCI+PGc+PGNpcmNsZSBjeD0iOSIgY3k9IjkiIHI9IjguNSIgZmlsbD0idXJsKCNhNDZjNjIwNy1kZTcyLTQyYzItOTQzOS00MDJiMTRhYmY1M2UpIiAvPjxjaXJjbGUgY3g9IjkiIGN5PSI5IiByPSI2Ljc2MSIgZmlsbD0iIzE5OGFiMyIgLz48cGF0aCBkPSJNNi45MTYsOC42MzdsNC4wMjIsMS4xNzQtLjUxNC01LjEyMmEuMTc5LjE3OSwwLDAsMC0uMzE4LS4wOTNaIiBmaWxsPSIjZmZmIiAvPjxwYXRoIGQ9Ik0xMC45Niw5LjczNSw2LjkzOCw4LjU2bC41MTQsNS4xMjNhLjE3OS4xNzksMCwwLDAsLjMxOC4wOTNaIiBmaWxsPSIjNTBlNmZmIiAvPjwvZz48L2c+PC9zdmc+"/>
   <text x="150" y="342.0" font-size="18" font-weight="600" text-anchor="start" fill="#1f2933">Plan</text>
   <line x1="280" y1="300" x2="280" y2="372" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 4"/>
-  <text x="294" y="319.0" font-size="16" text-anchor="start" fill="#1f2933">An answer for each design area:</text>
-  <text x="294" y="341.0" font-size="16" text-anchor="start" fill="#1f2933">groups, identity, network,</text>
-  <text x="294" y="363.0" font-size="16" text-anchor="start" fill="#1f2933">security, management, regions</text>
+  <text x="294" y="319.0" font-size="16" text-anchor="start" fill="#1f2933">An answer for each of the eight</text>
+  <text x="294" y="341.0" font-size="16" text-anchor="start" fill="#1f2933">design areas, such as billing,</text>
+  <text x="294" y="363.0" font-size="16" text-anchor="start" fill="#1f2933">identity, groups, network, security</text>
   <line x1="626" y1="300" x2="626" y2="372" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 4"/>
   <text x="644" y="330.0" font-size="16" text-anchor="start" fill="#1f2933">Written decisions you can</text>
   <text x="644" y="352.0" font-size="16" text-anchor="start" fill="#1f2933">show to your team</text>
