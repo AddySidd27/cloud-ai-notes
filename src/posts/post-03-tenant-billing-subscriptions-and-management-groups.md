@@ -101,7 +101,7 @@ A Microsoft Entra tenant provides identity and access management, which means it
 
 A billing offer is the type of Azure offer a subscription is bought under. Common examples are an Enterprise Agreement (EA), a Microsoft Customer Agreement (MCA) and a Cloud Solution Provider (CSP) agreement. You can use more than one at the same time, and an Azure landing zone supports subscriptions from any offer.
 
-One billing agreement can pay for subscriptions in more than one tenant. For example, an Enterprise Agreement can cover subscriptions in different tenants, even though the landing zone itself is built in one tenant.
+One billing agreement can pay for subscriptions in more than one tenant. For example, an Enterprise Agreement can cover subscriptions in different tenants, even though the landing zone itself is built in one tenant. Learn says the same for a Microsoft Customer Agreement: its billing account is managed by a single tenant, but a single agreement supports subscriptions across different tenants ([Plan for the Microsoft customer agreement](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-customer-agreement#design-considerations)).
 
 ## Subscription: where resources live
 

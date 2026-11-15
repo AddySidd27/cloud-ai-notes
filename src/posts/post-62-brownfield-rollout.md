@@ -154,7 +154,7 @@ For the people who approve the work. Items marked "my suggestion" are mine. Word
 - **What changes.** A new group structure and policy set is built beside the current environment in the same tenant. Then existing subscriptions move in, one wave (a small batch) at a time. Moving workloads into new subscriptions is optional.
 - **What does not change.** A subscription move does not change resource IDs or touch running resources. The subscription does inherit the group's access and policy, which apply to new changes. Existing resources that break a policy are only reported; new deployments are denied only by a policy with the Deny effect (the effect that rejects a change).
 - **Main risk.** A new deployment can be denied by policy. Control: run the policies in audit-only mode first.
-- **Second risk.** Moving individual resources changes their IDs and locks resource groups for up to four hours. Control: move subscriptions, not resources, where you can.
+- **Second risk.** Moving individual resources changes their IDs and locks resource groups for up to four hours ([Move resources](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/move-resource-group-and-subscription#frequently-asked-questions)). Control: move subscriptions, not resources, where you can.
 - **Cost (my reading).** The audit-only copies add no resources of their own. The new platform resources do.
 - **Approve (my suggestion):** a named owner and a rollback owner per subscription, a change window per wave, and the right to stop a wave at the first policy denial.
 - **Done means:** every subscription is in its planned group, every non-compliant resource has an owner, and retired subscriptions sit in Decommissioned.
@@ -324,7 +324,7 @@ az extension add --name resource-graph
 az graph query --graph-query 'Resources | project name, type | limit 5'
 ```
 
-This proves the tool works. Add `--subscriptions` or `--management-groups` to narrow the scope. The portal's Resource Graph Explorer has a schema browser and Download as CSV (up to 55,000 records).
+This proves the tool works. Add `--subscriptions` or `--management-groups` to narrow the scope. The portal's Resource Graph Explorer has a schema browser and Download as CSV (up to 55,000 records, [a platform limit](https://learn.microsoft.com/en-us/azure/governance/resource-graph/concepts/work-with-data#csv-export-result-size-limitation)).
 
 **6. What the commands cannot show.** What to look for:
 
@@ -493,7 +493,7 @@ Check before the move (each failure is in the known issues table):
 - Across subscriptions, a resource and its dependent resources are in one resource group and move together. A peered virtual network needs its peering disabled first and re-enabled after.
 - The destination has quota and the resource provider registered (`az provider register --namespace <provider>`), and no read-only lock exists.
 - You hold `Microsoft.Resources/subscriptions/resourceGroups/moveResources/action` on the source group and `.../resourceGroups/write` on the destination, and you name only top-level resources.
-- Role assignments are listed (`az role assignment list --resource-group <source-rg>`), and no more than 800 resources are in one operation (more than 800 returns an error, and a smaller move can still time out, so split large moves). A resource group cannot move to another subscription.
+- Role assignments are listed (`az role assignment list --resource-group <source-rg>`), and no more than 800 resources are in one operation (more than 800 returns an error, and a smaller move can still time out, so split large moves; [Move resources FAQ](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/move-resource-group-and-subscription#how-many-resources-can-i-move-in-one-operation)). A resource group cannot move to another subscription.
 
 The resource ID changes, so update dashboards, scripts and templates. Both resource groups are locked for up to four hours.
 
