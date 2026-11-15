@@ -34,6 +34,8 @@ export default {
   120: { tags: ["AVD", "Images", "Azure Compute Gallery"], published: "2026-10-21" },
   121: { tags: ["AVD", "Session hosts", "Host pool management"], published: "2026-10-21" },
   122: { tags: ["AVD", "RemoteApp", "App Attach"], published: "2026-10-21" },
+  // PENDING: publication date for order 123 is a placeholder; the author assigns the real date at approval.
+  123: { tags: ["AVD", "Networking", "Performance", "QoS"], published: "2026-11-14" },
 
 
 
