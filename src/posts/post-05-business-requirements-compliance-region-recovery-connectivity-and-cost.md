@@ -6,7 +6,6 @@ slug: "business-requirements-compliance-region-recovery-connectivity-and-cost"
 series: "Azure Landing Zone"
 part: ""
 post_number: 5
-status: draft
 preview_feature: false
 fictional_case: false
 learn_pages:
@@ -85,7 +84,6 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/"
     icons: "Azure Public Service Icons V24 (Management groups, Policy, Virtual networks), unmodified"
     source: "../diagrams/post-05-requirements-to-landing-zone.drawio"
-production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/business-requirements-compliance-region-recovery-connectivity-and-cost/"
 order: 5
@@ -105,7 +103,7 @@ Gaps in these requirements can show up late. Three examples:
 - **Connectivity not planned.** Hybrid connectivity (a link between your own network and Azure) must be ready before workloads move, or they may not be reachable.
 - **No guardrails for compliance.** Without guardrails from Azure Policy (explained in Key terms below), keeping environments compliant takes more operational and management effort.
 
-This post covers five requirements and shows which part of the landing zone each one changes. The official documentation does not list these five together. (judgement) I group them because each one is an input to the landing zone design.
+This post covers five requirements and shows which part of the landing zone each one changes. The official documentation does not list these five together. This post groups them because each one is an input to the landing zone design.
 
 ## Key terms
 
@@ -169,8 +167,8 @@ The landing zone architecture is region-agnostic, but you must choose the region
 - **Know whether a region is paired.** Azure pairs some regions (for example East US with West US), and a small number of services use the pair for geo-replication (copying data to another region). Many newer regions are not paired. They use availability zones (separate datacenter locations inside one region) as their main redundancy.
 
   Deploying to a paired region does not by itself give you high availability, disaster recovery or failover, so you still need your own plan ([region pairs and nonpaired regions](https://learn.microsoft.com/azure/reliability/regions-paired)).
-- **Residency limits the choice of a secondary region.** If data may not leave a country or a geography, choose a secondary region inside the same boundary. Almost all pairs are inside one geography, with documented exceptions (for example Brazil South is paired with South Central US, which is outside Brazil), so check the pair for your region. If residency forbids replication to another region, rely on availability zones, redundancy inside the region, and backup and restore. Set longer recovery objectives and write down the risk that remains ([Learn](https://learn.microsoft.com/azure/reliability/concept-business-continuity-high-availability-disaster-recovery)). You are not limited to the pair: many services can replicate to a region you choose, and nonpaired regions can be part of a resilient design.
-- **Deploy each region the same way, then check the result.** Using the same infrastructure as code (IaC, a way of describing the setup in code files) in each region reduces recovery time and errors compared with manual setup ([business continuity, high availability and disaster recovery](https://learn.microsoft.com/azure/reliability/concept-business-continuity-high-availability-disaster-recovery)). (judgement) Do not assume it guarantees identical state. Manual changes, failed or partial runs and later edits can still cause configuration drift, which is a difference between what the code says and what is deployed. Run the same pipeline against every region, compare what is deployed with the code regularly, and test the secondary region.
+- **Residency limits the choice of a secondary region.** If data may not leave a country or a geography, choose a secondary region inside the same boundary. Almost all pairs are inside one geography, with a few exceptions (for example Brazil South is paired with South Central US, which is outside Brazil), so check the pair for your region. If residency forbids replication to another region, rely on availability zones, redundancy inside the region, and backup and restore. Set longer recovery objectives and write down the risk that remains ([business continuity and disaster recovery](https://learn.microsoft.com/azure/reliability/concept-business-continuity-high-availability-disaster-recovery)). You are not limited to the pair: many services can replicate to a region you choose, and nonpaired regions can be part of a resilient design.
+- **Deploy each region the same way, then check the result.** Using the same infrastructure as code (IaC, a way of describing the setup in code files) in each region reduces recovery time and errors compared with manual setup ([business continuity, high availability and disaster recovery](https://learn.microsoft.com/azure/reliability/concept-business-continuity-high-availability-disaster-recovery)). Do not assume it guarantees identical state. Manual changes, failed or partial runs and later edits can still cause configuration drift, which is a difference between what the code says and what is deployed. Run the same pipeline against every region, compare what is deployed with the code regularly, and test the secondary region.
 
 When you add a region later, two of the changes are: update the allowed locations policy to allow the new region, and add a network hub in the new region, in your existing Connectivity subscription.
 
@@ -184,7 +182,7 @@ How do you get an RTO and an RPO? Start by sorting each workload into a critical
 - Test your failover and failback (restoring operations in the main region after it has recovered) regularly, to confirm you meet your RTO and RPO.
 - Make sure backups fit each workload. Backups are usually taken at intervals, so restoring from one usually loses some data. Align the RPO with the backup interval.
 
-Learn also says to keep backups apart from the main data, usually in another region, and only in regions your compliance rules allow.
+The documentation also says to keep backups apart from the main data, usually in another region, and only in regions your compliance rules allow.
 
 For tools, use Azure Backup (a service that protects your data and lets you restore it when you need to), Azure Site Recovery (a service that keeps copying virtual machines to a second location, so you can fail over to the copy during an outage and fail back later) for virtual machine recovery between Azure regions, and the native disaster recovery features of platform services.
 
@@ -198,7 +196,7 @@ Three points:
 
 - **Do not leave it late.** Hybrid connectivity is one of the few platform prerequisites that can block all workloads at once. If you migrate a workload before connectivity is stable, you might not be able to reach it.
 - **Choose VPN Gateway or ExpressRoute from your needs.** Decide based on throughput (how much data can pass), latency sensitivity (how much delay you can accept), compliance requirements, lead time tolerance and routing complexity. Do not choose based on whether your organization is new to Azure. ExpressRoute can take weeks or months, so run a VPN Gateway in parallel if your migration dates cannot wait. For what to build first, see [the minimum viable platform post](/azure-landing-zone/minimum-viable-platform-landing-zone/).
-- **Choose the topology from your needs too.** The two options are hub-and-spoke (a central hub network with spoke networks connected to it) and Virtual WAN (a Microsoft-managed networking service that brings many networking, security and routing functions together in one place). Learn gives size limits, for example about 30 branch sites and 30 IPsec tunnels. [The network topology post](/azure-landing-zone/network-topology-and-connectivity/) has the comparison.
+- **Choose the topology from your needs too.** The two options are hub-and-spoke (a central hub network with spoke networks connected to it) and Virtual WAN (a Microsoft-managed networking service that brings many networking, security and routing functions together in one place). The documentation gives size limits, for example about 30 branch sites and 30 IPsec tunnels. [The network topology post](/azure-landing-zone/network-topology-and-connectivity/) has the comparison.
 
 ## Cost: who owns the spending
 
@@ -240,31 +238,10 @@ One more warning: do not spend months or years designing the landing zone withou
 - **Hybrid connection chosen by habit, with no lead time planned.** Choose VPN Gateway or ExpressRoute from your needs, and plan for ExpressRoute lead time.
 - **Budgets with no owner.** Set budgets and alerts before migration, and name someone to review them.
 
-## From my own projects
-
-These situations came up in my own work: requirements not collected first, region or data residency rules decided late, recovery targets (RTO and RPO) never defined, and hybrid connectivity that delayed workloads. Typical results are rework or redesign, compliance or audit findings, and unexpected cost.
-
-## The files in my repo
-
-- This post: [design-principles.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/01-foundations/design-principles.md)
-- Compliance and policy: [governance.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/governance.md)
-- Region: [multi-region.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/multi-region.md)
-- Recovery: [business-continuity.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/business-continuity.md)
-- Connectivity: [connectivity-options.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/connectivity-options.md)
-- Cost: [naming-tagging-cost.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/naming-tagging-cost.md)
-
 Next: [Billing and the Microsoft Entra Tenant, in Depth](/azure-landing-zone/billing-and-tenant-in-depth/).
 
 ## Sources
 
-Microsoft Learn, checked October 2026:
-
 - [Design principles](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-principles)
-- [Multiple locations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/landing-zone-multinational)
-- [Platform landing zone for on-premises experts](https://learn.microsoft.com/en-us/azure/migration/migrate-from-on-premises-platform-landing-zone)
 - [Business continuity, high availability and disaster recovery](https://learn.microsoft.com/en-us/azure/reliability/concept-business-continuity-high-availability-disaster-recovery)
-- [Region pairs and nonpaired regions](https://learn.microsoft.com/en-us/azure/reliability/regions-paired)
-- [PCI DSS](https://learn.microsoft.com/en-us/compliance/regulatory/offering-pci-dss)
-- [ExpressRoute](https://learn.microsoft.com/en-us/azure/expressroute/expressroute-introduction)
-- [VPN Gateway](https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways)
-- [Virtual WAN](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about)
+- [Multiple locations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/landing-zone-multinational)

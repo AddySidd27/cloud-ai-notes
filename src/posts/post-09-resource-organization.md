@@ -5,7 +5,6 @@ slug: "resource-organization"
 series: "Azure Landing Zone"
 part: ""
 post_number: 9
-status: draft
 preview_feature: false
 fictional_case: false
 learn_pages:
@@ -49,7 +48,6 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups"
     icons: "Azure Public Service Icons V24 (Management groups, Subscriptions), unmodified"
     source: "../diagrams/post-09-management-group-hierarchy.drawio"
-production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/resource-organization/"
 order: 9
@@ -61,7 +59,7 @@ tags: [alz]
 
 In [the tenant and subscriptions post](/azure-landing-zone/tenant-billing-subscriptions-and-management-groups/) you met the four levels Azure uses to organize things: management groups, subscriptions, resource groups and resources. [The business requirements post](/azure-landing-zone/business-requirements-compliance-region-recovery-connectivity-and-cost/) covered the business requirements (compliance, region, recovery, connectivity and cost) that come first. This post answers the next question: where does everything go?
 
-The answer matters early. Think through your management group structure when you plan Azure adoption at scale. Moving a subscription between management groups changes the Azure RBAC and Azure Policy it inherits, so reorganizing later takes planning (judgement).
+The answer matters early. Think through your management group structure when you plan Azure adoption at scale. Moving a subscription between management groups changes the Azure RBAC and Azure Policy it inherits, so reorganizing later takes planning.
 
 ## Key terms
 
@@ -155,7 +153,7 @@ More guidance:
 
 ## Tailoring: when the default is not enough
 
-Tailoring is not required. The default archetypes and hierarchy are suitable for most scenarios. Learn gives no fixed steps for tailoring. This order is my own (judgement), built from the points on the tailoring page:
+Tailoring is not required. The default archetypes and hierarchy are suitable for most scenarios. The documentation gives no fixed steps for tailoring. This order is a suggestion built from the points on the tailoring page:
 
 1. **Try to build on what exists.** Add the policy to an existing archetype or management group.
 2. **If the requirement must apply to all workloads,** assign it at the intermediate root management group. The reference architecture does this for settings that must apply to all workloads.
@@ -238,21 +236,9 @@ Useful tags fall into five categories:
 - **Assuming tags are inherited.** Resources do not inherit tags from a resource group or subscription.
 - **Names you cannot change.** Most resource names cannot be changed after creation. Put only information that stays constant in a name.
 
-## From my own projects
-
-These situations came up in my own work: management groups created for each environment, more subscriptions than the design needed, no naming standard, and tags missing or inconsistent. Typical results are policy exceptions, hard cost reporting, and rework to reorganize later (judgement).
-
-## The files in my repo
-
-- Resource organization, with the recommended hierarchy and archetypes: [resource-organization.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/resource-organization.md)
-- Subscription design, with platform subscriptions, placement questions and anti-patterns: [subscription-design.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/subscription-design.md)
-- Naming, tagging and cost: [naming-tagging-cost.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/naming-tagging-cost.md)
-
 Next: [Network Topology and Connectivity](/azure-landing-zone/network-topology-and-connectivity/).
 
 ## Sources
-
-Microsoft Learn, checked October 2026:
 
 - [Management groups](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups)
 - [Subscription considerations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-subscriptions)

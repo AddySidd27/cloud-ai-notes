@@ -11,16 +11,14 @@ description: "Beginner Azure lab: create a network security group, attach it to 
 
 By the end of this lab you will have a network security group named `nsg-azb-vm` attached to the subnet `snet-vm`. You will have read its default rules, added one rule that allows Remote Desktop (RDP) from your own public IP address only, and removed that rule again.
 
-I have not run these steps in a live tenant for this article. The steps follow Microsoft Learn (Microsoft's documentation site).
-
-A network security group (NSG) is a list of allow and deny rules for network traffic. It works like a door list for a subnet: it decides which traffic may come in and which may go out.
+A network security group (NSG) is a list of allow and deny rules for network traffic. It works like a door list for a subnet: it decides which traffic may come in and which may go out. Two terms you will see in rules: a **port** is a numbered door on a computer (Remote Desktop uses port 3389), and **TCP** is the common way two computers keep a reliable connection open.
 
 ## What you need
 
-- [Lab 8: Virtual network and subnet](/azure-basics-labs/virtual-network-subnet/): the virtual network `vnet-azb` with the subnet `snet-vm`, in the resource group `rg-azb-lab`.
-- [Lab 2: Azure Cloud Shell and Azure CLI](/azure-basics-labs/cloud-shell-and-azure-cli/) if you want to use the CLI steps. Azure CLI 2.76 or newer.
-- Time: about 30 minutes. Cost: nothing for this lab. No VM, no public IP. (Learn lists a charge for NSG flow logs. This lab does not turn those on.)
-- Role: Learn says to use the Network Contributor role or a custom role with the right permissions. Owner on the subscription of your throwaway account is enough.
+- [Virtual network and subnet](/azure-basics-labs/virtual-network-subnet/): the virtual network `vnet-azb` with the subnet `snet-vm`, in the resource group `rg-azb-lab`.
+- [Azure Cloud Shell and Azure CLI](/azure-basics-labs/cloud-shell-and-azure-cli/) if you want to use the CLI steps. Azure CLI 2.76 or newer.
+- Time: about 30 minutes. Cost: nothing for this lab. No VM, no public IP. Network security groups have no charge of their own. Flow logging is a separate paid feature, and this lab does not turn it on.
+- Role: use the Network Contributor role or a custom role with the right permissions. Owner on the subscription of your throwaway account is enough.
 - A way to find your own public IP address. Step 10 shows how.
 
 ## Safety first
@@ -29,25 +27,25 @@ A network security group (NSG) is a list of allow and deny rules for network tra
 - Never use `Any` or `*` as the source for port 3389. That opens RDP to the whole internet.
 - The RDP rule is temporary. You remove it in the clean-up, and you do not leave it in place "for later".
 - This lab has no VM, so nothing can answer on port 3389 yet. The rule is for learning the rule format.
-- Use the region on your notes sheet from [Lab 1](/azure-basics-labs/start-azure-account-tenant-subscription/) everywhere. It is the same region as Lab 8. Learn says the NSG must be in the same subscription and location as the virtual network.
+- Use the region on your notes sheet from [the free account lab](/azure-basics-labs/start-azure-account-tenant-subscription/) everywhere. It is the same region as the virtual network lab. The NSG must be in the same subscription and location as the virtual network.
 
 ## What the lab builds
 
-![Your PC, with your own public IP address, sends TCP 3389 toward the subnet snet-vm, and the temporary rule allows it. Anyone else on the internet is denied by the default rule DenyAllInBound. The network security group nsg-azb-vm is its own resource in the resource group rg-azb-lab, outside the virtual network. Part 1 creates it and Part 2 attaches it to the subnet. Part 3 reads the default rules, and Part 4 adds the temporary rule above them. No VM exists yet.](/img/basics/network-security-group.svg)
+![Your PC, with your own public IP address, sends TCP 3389 toward the subnet snet-vm, and the temporary rule allows it. Anyone else on the internet is denied by the default rule DenyAllInBound. The network security group nsg-azb-vm is its own resource in the resource group rg-azb-lab, outside the virtual network. The steps create it, attach it to the subnet, read the default rules, and then add the temporary rule above them. No VM exists yet.](/img/basics/network-security-group.svg)
 
-*Source: [Azure network security groups overview](https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview) and [Create, change, or delete a network security group](https://learn.microsoft.com/en-us/azure/virtual-network/manage-network-security-group). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+*Based on the pages listed under Sources. Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
 ## Steps in the Azure portal
 
 **Idea 1: a rule has five parts.**
 
-Each rule says which traffic it matches and what to do with it. The parts are: a priority, a source, a destination, a port and protocol, and an action (Allow or Deny). Learn says rules match on source, source port, destination, destination port and protocol. It also says an NSG is stateful: if you allow traffic in, the reply goes out without a second rule.
+Each rule says which traffic it matches and what to do with it. The parts are: a priority, a source, a destination, a port and protocol, and an action (Allow or Deny). Rules match on source, source port, destination, destination port and protocol. It also says an NSG is stateful: if you allow traffic in, the reply goes out without a second rule.
 
 **Idea 2: the lowest number wins.**
 
 Priority is a number from 100 to 4096 for your own rules. Azure checks rules from the lowest number up, and stops at the first rule that matches. Azure also adds default rules to every NSG with numbers from 65000 to 65500, so your rules are always checked first. You cannot delete the default rules, but you can override them with a rule that has a lower number.
 
-### Part 1: Create the NSG
+### Create the NSG
 
 1. Sign in to the [Azure portal](https://portal.azure.com). Check the tenant name at the top right.
 2. In the search box at the top, enter **Network security group** and select **Network security groups**.
@@ -61,21 +59,21 @@ Priority is a number from 100 to 4096 for your own rules. Azure checks rules fro
 
 Check: `nsg-azb-vm` is listed under **Network security groups**.
 
-### Part 2: Attach it to the subnet
+### Attach it to the subnet
 
-**Idea 3: subnet or network card.** You can attach an NSG to a subnet, to a VM's network interface (its virtual network card, or NIC), or to both. Learn advises against attaching an NSG to both, because the rules can conflict and are hard to troubleshoot. In this series you attach the NSG to the subnet only, so there is one list of rules to read.
+**Idea 3: subnet or network card.** You can attach an NSG to a subnet, to a VM's network interface (its virtual network card, or NIC), or to both. Avoid attaching an NSG to both, because the rules can conflict and are hard to troubleshoot. In this series you attach the NSG to the subnet only, so there is one list of rules to read.
 
 6. Open `nsg-azb-vm`. Under **Settings**, select **Subnets**.
 7. Select **+ Associate**. Choose the virtual network `vnet-azb` and the subnet `snet-vm`. Select **OK**.
 
 Check: the **Subnets** page of `nsg-azb-vm` lists `vnet-azb / snet-vm`.
 
-### Part 3: Read the default rules
+### Read the default rules
 
 8. Under **Settings**, select **Inbound security rules**. You see three default rules. Write down their names, priorities and actions.
 9. Select **Outbound security rules** and do the same.
 
-Learn lists these defaults:
+These are the default rules:
 
 | Direction | Priority | Name | Action | What it means |
 |---|---|---|---|---|
@@ -86,28 +84,28 @@ Learn lists these defaults:
 | Outbound | 65001 | AllowInternetOutBound | Allow | Traffic out to the internet is allowed. |
 | Outbound | 65500 | DenyAllOutBound | Deny | Everything else going out is denied. |
 
-The first two rules in each direction use names such as `VirtualNetwork`, `AzureLoadBalancer` and `Internet`. Learn calls these service tags. A service tag stands for a group of IP addresses that Microsoft keeps up to date, so you do not type the addresses yourself.
+The first two rules in each direction use names such as `VirtualNetwork`, `AzureLoadBalancer` and `Internet`. These are called service tags. A service tag stands for a group of IP addresses that Microsoft keeps up to date, so you do not type the addresses yourself.
 
 So by default, nothing from the internet can reach the subnet. That is why a new VM is closed until you open it.
 
-The outbound rule `AllowInternetOutBound` only says that the NSG does not block outbound internet traffic. Whether a VM can reach the internet also depends on the subnet (see [Lab 8](/azure-basics-labs/virtual-network-subnet/): new subnets in the portal are private) and on having an outbound method, such as the public IP address in Lab 12.
+The outbound rule `AllowInternetOutBound` only says that the NSG does not block outbound internet traffic. Whether a VM can reach the internet also depends on the subnet (see the [virtual network lab](/azure-basics-labs/virtual-network-subnet/): new subnets in the portal are private) and on having an outbound method, such as the public IP address in the Windows VM lab.
 
-### Part 4: Add one RDP rule for your own IP only
+### Add one RDP rule for your own IP only
 
-10. Find your public IP address. This is the address the internet sees when you connect from home or work. Open a browser and search for "what is my IP". Learn's own RDP troubleshooting page also points to a "what is my IP" website for this. Use the IPv4 address (four numbers separated by dots). If you only see a long address with colons, search "what is my IPv4 address". `203.0.113.25` is only an example address from the documentation, not yours. Write your address on your notes sheet with today's date. If you use a VPN or a company proxy, the address is the one the VPN or proxy shows, and it can change. In Lab 12, check it again before you add the rule.
+10. Find your public IP address. This is the address the internet sees when you connect from home or work. Open a browser and search for "what is my IP". The RDP troubleshooting guide for Azure VMs also points to a "what is my IP" website for this. Use the IPv4 address (four numbers separated by dots). If you only see a long address with colons, search "what is my IPv4 address". `203.0.113.25` is only an example address from the documentation, not yours. Write your address on your notes sheet with today's date. If you use a VPN or a company proxy, the address is the one the VPN or proxy shows, and it can change. In the Windows VM lab, check it again before you add the rule.
 11. In `nsg-azb-vm`, select **Inbound security rules**, then **+ Add**.
 12. Set:
     - Source: **IP Addresses**.
     - Source IP addresses/CIDR ranges: your IP address from step 10.
     - Source port ranges: `*`.
     - Destination: **Any**. This is fine here: the rule is on the subnet, and the source is your own IP.
-    - Service: **RDP**. Learn says you can pick a predefined service such as RDP. After you pick it, check that the destination port range reads `3389` and the protocol reads TCP.
+    - Service: **RDP**. You can pick a predefined service such as RDP. After you pick it, check that the destination port range reads `3389` and the protocol reads TCP.
     - Action: **Allow**.
     - Priority: `1000`.
     - Name: `allow-rdp-my-ip`.
 13. Select **Add**.
 
-**Warning about "My IP address".** The Source list in the portal also has **My IP address**. Learn lists it as a source option. Do not rely on it blindly. It uses the address the portal sees from your browser, which may not be the address your RDP client will use, for example if you use a VPN or a proxy. Type the address yourself and check it. Never choose **Any** as the source for 3389.
+**Warning about "My IP address".** The Source list in the portal also has **My IP address**. Do not rely on it blindly. It uses the address the portal sees from your browser, which may not be the address your RDP client will use, for example if you use a VPN or a proxy. Type the address yourself and check it. Never choose **Any** as the source for 3389.
 
 Check: the **Inbound security rules** list shows `allow-rdp-my-ip` at priority 1000, source your IP address, port 3389, action Allow, above the default rules. Select the rule and read its source once more.
 
@@ -120,14 +118,14 @@ Check: the **Inbound security rules** list shows `allow-rdp-my-ip` at priority 1
 | A VM in the same virtual network, any port | ? |
 | Your PC, TCP 80 | ? |
 
-Check: row 1 is allowed by `allow-rdp-my-ip` (1000). Row 2 is denied by `DenyAllInBound` (65500). Row 3 is allowed by `AllowVnetInBound` (65000). Row 4 is denied by `DenyAllInBound` (65500). You will see rule 1000 work in Lab 12.
+Check: row 1 is allowed by `allow-rdp-my-ip` (1000). Row 2 is denied by `DenyAllInBound` (65500). Row 3 is allowed by `AllowVnetInBound` (65000). Row 4 is denied by `DenyAllInBound` (65500). You will see rule 1000 work in the Windows VM lab.
 
 ## Steps with the Azure CLI
 
 Do either the portal steps or these commands, not both. These are Bash commands for Cloud Shell, not PowerShell. Set the variables first. Replace the values with yours.
 
 ```bash
-LOCATION=eastus2                 # the region you used in Lab 8
+LOCATION=eastus2                 # the region you used for the virtual network
 RG=rg-azb-lab
 VNET=vnet-azb
 SUBNET=snet-vm
@@ -154,7 +152,7 @@ az network vnet subnet update \
     --network-security-group $NSG
 ```
 
-Read the default rules. Learn's reference for `az network nsg rule list` has an `--include-default` option for this.
+Read the default rules. The `--include-default` option of `az network nsg rule list` shows them.
 
 ```bash
 az network nsg rule list \
@@ -189,18 +187,18 @@ az network nsg rule list --resource-group $RG --nsg-name $NSG --output table
 
 ## Terraform
 
-No Terraform in this lab, because Terraform is taught in [Lab 10: Terraform basics](/azure-basics-labs/terraform-basics/). At the end of Lab 10, "Try it yourself" has a block that creates an NSG and attaches it to a subnet in code.
+No Terraform in this lab, because Terraform is taught in [Terraform basics](/azure-basics-labs/terraform-basics/). At the end of that lab, "Try it yourself" has a block that creates an NSG and attaches it to a subnet in code.
 
 ## Check that it works
 
 - `nsg-azb-vm` exists in `rg-azb-lab`, and its **Subnets** page lists `vnet-azb / snet-vm`.
-- The default rules match the table above. Learn lists these default rules, so the priorities and names should be the same. `DenyAllInBound` is at 65500 and your rule is at 1000, above it.
+- The default rules match the table above, so the priorities and names should be the same. `DenyAllInBound` is at 65500 and your rule is at 1000, above it.
 - While the rule exists, `allow-rdp-my-ip` shows your own address as the only source, never `Any` or `*`.
-- You cannot test a real RDP connection yet, because there is no VM. Lab 12 adds one.
+- You cannot test a real RDP connection yet, because there is no VM. The Windows VM lab adds one.
 
 ## The most common mistake
 
-Setting the source of the RDP rule to **Any**, or to the **Internet** tag, to "make it work". Learn says the Internet tag means all public IP addresses. Anyone on the internet can then try to sign in to your VM. Use your own address, and take the rule away when you finish.
+Setting the source of the RDP rule to **Any**, or to the **Internet** tag, to "make it work". The Internet tag means all public IP addresses. Anyone on the internet can then try to sign in to your VM. Use your own address, and take the rule away when you finish.
 
 A close second: a rule that never matches because a deny rule has a lower number. Azure stops at the first match, so check the numbers first.
 
@@ -219,28 +217,25 @@ az network nsg rule delete \
     --name allow-rdp-my-ip
 ```
 
-Learn says that removing a rule does not cut connections that are already open. It only affects new connections.
+Removing a rule does not cut connections that are already open. It only affects new connections.
 
 Check: **Inbound security rules** shows only the three default rules again.
 
 Keep for later labs:
 
-- `nsg-azb-vm`, attached to `snet-vm`. I found no charge for an NSG on Learn, and Lab 12 uses it.
+- `nsg-azb-vm`, attached to `snet-vm`. The Windows VM lab uses it.
 - `vnet-azb` and `rg-azb-lab`.
 
 ## Where this is used in AVD
 
-AVD does not need an inbound RDP rule from the internet. Learn says AVD uses reverse connect: the session host and the user's client both connect outward over HTTPS to the AVD service, and there is no TCP listener waiting for incoming RDP. So an AVD subnet keeps the default deny for inbound traffic and needs outbound access to the AVD service. Lab 12 opens RDP only because a plain VM needs it for the test. AVD does not. Read [Required connectivity for Azure Virtual Desktop](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/) for the outbound list, and [Plan Azure Virtual Desktop networking](/azure-virtual-desktop/plan-avd-networking/) for NSG review in a real design.
+AVD does not need an inbound RDP rule from the internet. AVD uses reverse connect: the session host and the user's client both connect outward over HTTPS to the AVD service, and there is no TCP listener waiting for incoming RDP. So an AVD subnet keeps the default deny for inbound traffic and needs outbound access to the AVD service. The Windows VM lab opens RDP only because a plain VM needs it for the test. AVD does not. Read [Required connectivity for Azure Virtual Desktop](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/) for the outbound list, and [Plan Azure Virtual Desktop networking](/azure-virtual-desktop/plan-avd-networking/) for NSG review in a real design.
 
 ## Next lab
 
-[Lab 10: Terraform basics](/azure-basics-labs/terraform-basics/) introduces Terraform, so you can describe a network like this one in code.
+[Terraform basics](/azure-basics-labs/terraform-basics/) introduces Terraform, so you can describe a network like this one in code.
 
 ## Sources
 
 - [Azure network security groups overview](https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview)
 - [Create, change, or delete a network security group](https://learn.microsoft.com/en-us/azure/virtual-network/manage-network-security-group)
 - [Azure service tags overview](https://learn.microsoft.com/en-us/azure/virtual-network/service-tags-overview)
-- [Troubleshoot network security group misconfigurations blocking traffic](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-network/virtual-network-troubleshoot-nsg-blocking-traffic)
-- [Troubleshoot RDP blocked by NSG rules on Azure Windows VMs](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-machines/windows/troubleshoot-rdp-nsg-problem)
-- [Understanding Azure Virtual Desktop network connectivity](https://learn.microsoft.com/en-us/azure/virtual-desktop/network-connectivity)

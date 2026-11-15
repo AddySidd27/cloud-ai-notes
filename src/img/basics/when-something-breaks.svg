@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1100 700" width="1100" height="700" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
-<title id="t">When something breaks: where to look, then clean up</title><desc id="d">Part A: six symptoms each point to the place to look. Create failed points to Deployments, who changed it to the Activity log, VM black screen or Unknown to Resource health and boot diagnostics, cannot sign in to the Microsoft Entra sign-in logs, quota or provider error to Usage and quotas, and RDP will not connect to Network Watcher IP flow verify. Part B: the clean up in the order of the Clean up steps. Steps 2 and 3 remove locks and policy assignments. Steps 4 and 5 check role assignments and destroy the Terraform project in rg-azb-tf. Steps 6 to 8 delete rg-azb-sandbox and rg-azb-lab and wait until they are gone. Step 9 purges the soft-deleted key vault. Step 10 removes the Microsoft Entra leftovers: the device vm-azb-win01, the storage account app and any Conditional Access policy. Last, check Cost analysis the next day. A green box keeps rg-azb-core with ag-azb-email, the subscription budget budget-azb-core, testuser1, TestUsers and the emergency accounts.</desc>
+<title id="t">When something breaks: where to look, then clean up</title><desc id="d">The tour: six symptoms each point to the place to look. Create failed points to Deployments, who changed it to the Activity log, VM black screen or Unknown to Resource health and boot diagnostics, cannot sign in to the Microsoft Entra sign-in logs, quota or provider error to Usage and quotas, and RDP will not connect to Network Watcher IP flow verify. The clean up, in order: first remove locks and policy assignments. Then check role assignments and destroy the Terraform project in rg-azb-tf. Then delete rg-azb-sandbox and rg-azb-lab and wait until they are gone. Then purge the soft-deleted key vault. Then remove the Microsoft Entra leftovers: the device vm-azb-win01, the storage account app and any Conditional Access policy. Last, check Cost analysis the next day. A green box keeps rg-azb-core with ag-azb-email, the subscription budget budget-azb-core, testuser1, TestUsers and the emergency accounts.</desc>
 <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
 <rect x="6" y="6" width="1088" height="688" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
 <rect x="24" y="24" width="1052" height="652" rx="8" fill="#ffffff" stroke="#6c7a89" stroke-width="1.8"/>
-<text x="50" y="54" font-size="15" font-weight="600" text-anchor="start" fill="#1f2933">Part A: where to look</text>
-<text x="640" y="54" font-size="15" font-weight="600" text-anchor="start" fill="#1f2933">Part B: clean up, in this order</text>
+<text x="50" y="54" font-size="15" font-weight="600" text-anchor="start" fill="#1f2933">Where to look</text>
+<text x="640" y="54" font-size="15" font-weight="600" text-anchor="start" fill="#1f2933">Clean up, in this order</text>
 <rect x="50" y="75" width="200" height="76" rx="8" fill="#ffffff" stroke="#b4bcc7" stroke-width="1.5"/>
 <text x="150.0" y="119" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">Create failed</text>
 <rect x="300" y="75" width="270" height="76" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
@@ -53,21 +53,21 @@
 <text x="850.0" y="112" font-size="12" text-anchor="middle" fill="#1f2933">rg-azb-core with ag-azb-email, budget-azb-core on the subscription</text>
 <text x="850.0" y="130" font-size="12" text-anchor="middle" fill="#1f2933">testuser1, TestUsers, emergency accounts</text>
 <rect x="640" y="155" width="420" height="70" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
-<text x="850.0" y="183" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">Steps 2 and 3: locks and policy assignments</text>
+<text x="850.0" y="183" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">1 Locks and policy assignments</text>
 <text x="850.0" y="207" font-size="12" text-anchor="middle" fill="#1f2933">rg-azb-sandbox, rg-azb-lab</text>
 <rect x="640" y="241" width="420" height="70" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
-<text x="850.0" y="269" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">Steps 4 and 5: roles and Terraform</text>
+<text x="850.0" y="269" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">2 Roles and Terraform</text>
 <text x="850.0" y="293" font-size="12" text-anchor="middle" fill="#1f2933">check TestUsers roles, terraform destroy in rg-azb-tf</text>
 <rect x="640" y="327" width="420" height="70" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
-<text x="850.0" y="355" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">Steps 6 to 8: delete the resource groups</text>
+<text x="850.0" y="355" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">3 Delete the resource groups</text>
 <text x="850.0" y="379" font-size="12" text-anchor="middle" fill="#1f2933">rg-azb-sandbox, then rg-azb-lab, wait until gone</text>
 <rect x="640" y="413" width="420" height="70" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
-<text x="850.0" y="441" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">Step 9: purge the key vault</text>
+<text x="850.0" y="441" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">4 Purge the key vault</text>
 <text x="850.0" y="465" font-size="12" text-anchor="middle" fill="#1f2933">if it is still soft-deleted</text>
 <rect x="640" y="499" width="420" height="70" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
-<text x="850.0" y="527" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">Step 10: Microsoft Entra leftovers</text>
+<text x="850.0" y="527" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">5 Microsoft Entra leftovers</text>
 <text x="850.0" y="551" font-size="12" text-anchor="middle" fill="#1f2933">device, storage app, Conditional Access policy</text>
 <rect x="640" y="585" width="420" height="70" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
-<text x="850.0" y="613" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">Cost analysis the next day</text>
+<text x="850.0" y="613" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">6 Cost analysis the next day</text>
 <text x="850.0" y="637" font-size="12" text-anchor="middle" fill="#1f2933">expect zero for the deleted resources</text>
 </svg>

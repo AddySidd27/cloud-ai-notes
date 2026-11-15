@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800" width="1000" height="800" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
   <title id="t">Management, control and data planes in Azure Virtual Desktop</title>
-  <desc id="d">Diagram with three horizontal bands. Management plane: you or your automation use Azure Resource Manager to create host pools, application groups and workspaces. If it fails, you cannot change settings and users are usually unaffected (judgement). Control plane: the Microsoft-run web service, broker service, resource directory and geographical or regional database. The web service asks the resource directory which database holds a user's information and gets feed data from the broker, and the broker reads the database. The gateway service sits on the boundary between the control plane and the data plane. If the control plane fails, the feed or new connections fail (judgement). Documented: a database failover briefly fails new connections, and a failed gateway instance drops the connections it relays. Data plane: the user device connects with RDP over TCP through the gateway, or directly over UDP with RDP Shortpath, to the session host, which connects outward to the gateway and uses profile storage and an identity service. If it fails, sessions are slow, freeze or drop (judgement).</desc>
+  <desc id="d">Diagram with three horizontal bands. Management plane: you or your automation use Azure Resource Manager to create host pools, application groups and workspaces. If it fails, you cannot change settings and users are usually unaffected. Control plane: the Microsoft-run web service, broker service, resource directory and geographical or regional database. The web service asks the resource directory which database holds a user's information and gets feed data from the broker, and the broker reads the database. The gateway service sits on the boundary between the control plane and the data plane. If the control plane fails, the feed or new connections fail. A database failover briefly fails new connections, and a failed gateway instance drops the connections it relays. Data plane: the user device connects with RDP over TCP through the gateway, or directly over UDP with RDP Shortpath, to the session host, which connects outward to the gateway and uses profile storage and an identity service. If it fails, sessions are slow, freeze or drop.</desc>
   <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
   <rect x="6" y="6" width="988" height="788" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
   <text x="500" y="36" font-size="20" font-weight="600" text-anchor="middle" fill="#1f2933">Three planes and what a problem in each affects</text>
@@ -21,7 +21,6 @@
   <text x="716" y="124" font-size="14" font-weight="600" text-anchor="start" fill="#c2570c">If it has a problem:</text>
   <text x="716" y="144" font-size="14" text-anchor="start" fill="#1f2933">you cannot change settings.</text>
   <text x="716" y="164" font-size="14" text-anchor="start" fill="#1f2933">Users are usually unaffected.</text>
-  <text x="716" y="184" font-size="14" text-anchor="start" fill="#1f2933">(Judgement.)</text>
   <rect x="20" y="222" width="960" height="250" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
   <text x="36" y="248" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Control plane</text>
   <text x="36" y="268" font-size="14" text-anchor="start" fill="#1f2933">The Microsoft-run services that connect users</text>
@@ -45,11 +44,11 @@
   <text x="371" y="378" font-size="13" text-anchor="start" fill="#1f2933">reads connection files</text>
   <text x="760" y="262" font-size="14" font-weight="600" text-anchor="start" fill="#3b6fb6">If it has a problem:</text>
   <text x="760" y="282" font-size="14" text-anchor="start" fill="#1f2933">the feed or new connections</text>
-  <text x="760" y="302" font-size="14" text-anchor="start" fill="#1f2933">fail (judgement). Documented:</text>
-  <text x="760" y="322" font-size="14" text-anchor="start" fill="#1f2933">a database failover briefly</text>
-  <text x="760" y="342" font-size="14" text-anchor="start" fill="#1f2933">fails new connections, and a</text>
-  <text x="760" y="362" font-size="14" text-anchor="start" fill="#1f2933">failed gateway instance drops</text>
-  <text x="760" y="382" font-size="14" text-anchor="start" fill="#1f2933">the connections it relays.</text>
+  <text x="760" y="302" font-size="14" text-anchor="start" fill="#1f2933">fail. A database failover</text>
+  <text x="760" y="322" font-size="14" text-anchor="start" fill="#1f2933">briefly fails new connections,</text>
+  <text x="760" y="342" font-size="14" text-anchor="start" fill="#1f2933">and a failed gateway instance</text>
+  <text x="760" y="362" font-size="14" text-anchor="start" fill="#1f2933">drops the connections it</text>
+  <text x="760" y="382" font-size="14" text-anchor="start" fill="#1f2933">relays.</text>
   <rect x="20" y="488" width="960" height="296" rx="8" fill="#eef6ee" stroke="#3c8d40" stroke-width="1.5"/>
   <text x="36" y="514" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Data plane</text>
   <text x="36" y="534" font-size="14" text-anchor="start" fill="#1f2933">The remote session itself</text>
@@ -90,5 +89,4 @@
   <text x="760" y="626" font-size="14" text-anchor="start" fill="#1f2933">or drop. Sign-in is slow</text>
   <text x="760" y="646" font-size="14" text-anchor="start" fill="#1f2933">or fails. A temporary</text>
   <text x="760" y="666" font-size="14" text-anchor="start" fill="#1f2933">profile can appear.</text>
-  <text x="760" y="686" font-size="14" text-anchor="start" fill="#1f2933">(Judgement.)</text>
 </svg>

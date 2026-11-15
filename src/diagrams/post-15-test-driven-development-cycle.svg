@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 56 900 510" width="900" height="510" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
   <title id="t">Test-driven development cycle for an Azure landing zone</title>
-  <desc id="d">Based on the Learn picture. A box, Definition of done, with an arrow labelled Acceptance criteria points into a cycle of five numbered circles that go clockwise: 1 create a test, 2 test the landing zone, 3 expand and refactor the landing zone, 4 deploy the landing zone, 5 test the landing zone, and back to 1.</desc>
+  <desc id="d">Based on the picture. A box, Definition of done, with an arrow labelled Acceptance criteria points into a cycle of five numbered circles that go clockwise: 1 create a test, 2 test the landing zone, 3 expand and refactor the landing zone, 4 deploy the landing zone, 5 test the landing zone, and back to 1.</desc>
   <polygon points="215.0,118.0 430.0,118.0 430.0,84.0 500.0,140.0 430.0,196.0 430.0,162.0 215.0,162.0" fill="#adbde8"/>
   <circle cx="630" cy="140" r="72" fill="#0078d4"/>
   <circle cx="811" cy="271" r="72" fill="#0078d4"/>

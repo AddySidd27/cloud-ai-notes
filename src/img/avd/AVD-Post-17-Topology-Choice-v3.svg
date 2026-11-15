@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 805" width="1000" height="805" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
   <title id="t">Hub and spoke compared with Virtual WAN for an AVD spoke</title>
-  <desc id="d">Original simplified drawing. Left panel: traditional hub and spoke, a hub virtual network with shared services (gateway and firewall) in Region 1, joined by virtual network peering to three spoke virtual networks, with an ExpressRoute icon below the hub. Right panel: Virtual WAN, a Microsoft-managed virtual hub in each of two regions with Azure Firewall and VPN and ExpressRoute gateways, joined by a Virtual WAN band; each hub is joined by a Virtual WAN hub connection to a workload virtual network and linked to a DNS spoke with DNS Private Resolver; ExpressRoute circuits connect to both hubs. Three boxes below: when hub and spoke fits and when Virtual WAN fits (both from the Cloud Adoption Framework and the Azure Architecture Center pages named in the boxes), and address plan checks.</desc>
+  <desc id="d">Left panel: traditional hub and spoke, a hub virtual network with shared services (gateway and firewall) in Region 1, joined by virtual network peering to three spoke virtual networks, with an ExpressRoute icon below the hub. Right panel: Virtual WAN, a Microsoft-managed virtual hub in each of two regions with Azure Firewall and VPN and ExpressRoute gateways, joined by a Virtual WAN band; each hub is joined by a Virtual WAN hub connection to a workload virtual network and linked to a DNS spoke with DNS Private Resolver; ExpressRoute circuits connect to both hubs. Three boxes below: when hub and spoke fits and when Virtual WAN fits, and address plan checks.</desc>
   <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
   <rect x="6" y="6" width="988" height="793" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
   <text x="500" y="38" font-size="20" font-weight="600" text-anchor="middle" fill="#1f2933">Two ways to connect an AVD spoke to the rest of the network</text>
@@ -87,21 +87,17 @@
   <line x1="586" y1="286" x2="660" y2="375" stroke="#5f6b7a" stroke-width="2.5"/>
   <rect x="30" y="490" width="300" height="295" rx="8" fill="#ffffff" stroke="#3b6fb6" stroke-width="1.8"/>
   <text x="180" y="516" font-size="15" font-weight="600" text-anchor="middle" fill="#3b6fb6">Hub and spoke fits when</text>
-  <text x="180" y="535" font-size="15" font-weight="600" text-anchor="middle" fill="#3b6fb6">(Cloud Adoption Framework)</text>
   <text x="50" y="568" font-size="14" text-anchor="start" fill="#1f2933">- one or several regions, with</text>
   <text x="70" y="588" font-size="14" text-anchor="start" fill="#1f2933">some traffic across regions</text>
   <text x="50" y="608" font-size="14" text-anchor="start" fill="#1f2933">- fewer than 30 IPsec site-to-site</text>
-  <text x="70" y="628" font-size="14" text-anchor="start" fill="#1f2933">tunnels per region (Define an</text>
-  <text x="70" y="648" font-size="14" text-anchor="start" fill="#1f2933">Azure network topology)</text>
-  <text x="50" y="668" font-size="14" text-anchor="start" fill="#1f2933">- ExpressRoute is the main hybrid</text>
-  <text x="70" y="688" font-size="14" text-anchor="start" fill="#1f2933">link; fewer than 100 VPN</text>
-  <text x="70" y="708" font-size="14" text-anchor="start" fill="#1f2933">connections per VPN gateway</text>
-  <text x="70" y="728" font-size="14" text-anchor="start" fill="#1f2933">(Traditional topology page)</text>
-  <text x="50" y="748" font-size="14" text-anchor="start" fill="#1f2933">- you want to control routing</text>
-  <text x="70" y="768" font-size="14" text-anchor="start" fill="#1f2933">yourself</text>
+  <text x="70" y="628" font-size="14" text-anchor="start" fill="#1f2933">tunnels per region</text>
+  <text x="50" y="648" font-size="14" text-anchor="start" fill="#1f2933">- ExpressRoute is the main hybrid</text>
+  <text x="70" y="668" font-size="14" text-anchor="start" fill="#1f2933">link; fewer than 100 VPN</text>
+  <text x="70" y="688" font-size="14" text-anchor="start" fill="#1f2933">connections per VPN gateway</text>
+  <text x="50" y="708" font-size="14" text-anchor="start" fill="#1f2933">- you want to control routing</text>
+  <text x="70" y="728" font-size="14" text-anchor="start" fill="#1f2933">yourself</text>
   <rect x="350" y="490" width="300" height="295" rx="8" fill="#ffffff" stroke="#6b4fa0" stroke-width="1.8"/>
   <text x="500" y="516" font-size="15" font-weight="600" text-anchor="middle" fill="#6b4fa0">Virtual WAN fits when</text>
-  <text x="500" y="535" font-size="15" font-weight="600" text-anchor="middle" fill="#6b4fa0">(Cloud Adoption Framework)</text>
   <text x="370" y="568" font-size="14" text-anchor="start" fill="#1f2933">- several regions that need</text>
   <text x="390" y="592" font-size="14" text-anchor="start" fill="#1f2933">global connectivity</text>
   <text x="370" y="616" font-size="14" text-anchor="start" fill="#1f2933">- SD-WAN, more than 30 branch</text>

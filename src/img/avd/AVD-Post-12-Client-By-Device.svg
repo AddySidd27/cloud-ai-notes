@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 775" width="1000" height="775" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+<title id="t">Which client each device uses</title>
+<desc id="d">Three columns: device, client, and what to watch for. Windows PC, macOS, iPhone and iPad, Android and Chrome OS, and Meta Quest all point to Windows App. Web browser points to Windows App in the browser. Notes beside each row say what to watch for. A red box at the bottom says the RemoteApp and Desktop Connections client and the Remote Desktop Connection client are not supported for Azure Virtual Desktop.</desc>
+<defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
+<rect x="6" y="6" width="988" height="763" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
+<text x="500" y="40" font-size="20" font-weight="600" text-anchor="middle" fill="#1f2933">Which client each device uses</text>
+<text x="40" y="78" font-size="15" font-weight="600" text-anchor="start" fill="#5f6b7a">Device</text>
+<text x="260" y="78" font-size="15" font-weight="600" text-anchor="start" fill="#5f6b7a">Client</text>
+<text x="610" y="78" font-size="15" font-weight="600" text-anchor="start" fill="#5f6b7a">Watch for</text>
+<rect x="30" y="92" width="200" height="80" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+<text x="130" y="138" font-size="15" font-weight="600" text-anchor="middle" fill="#1f2933">Windows PC</text>
+<rect x="250" y="92" width="330" height="80" rx="8" fill="#eef6ee" stroke="#3c8d40" stroke-width="1.5"/>
+<text x="415" y="138" font-size="15" font-weight="600" text-anchor="middle" fill="#1f2933">Windows App</text>
+<rect x="600" y="92" width="370" height="80" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="1.5"/>
+<text x="785" y="115" font-size="14" text-anchor="middle" fill="#1f2933">Remote Desktop (MSI) client: no longer supported</text>
+<text x="785" y="137" font-size="14" text-anchor="middle" fill="#1f2933">in public cloud since March 27, 2026.</text>
+<text x="785" y="159" font-size="14" text-anchor="middle" fill="#1f2933">Store app: support ended September 2025.</text>
+<line x1="230" y1="132" x2="250" y2="132" stroke="#3a3a3a" stroke-width="3" marker-end="url(#arr)"/>
+<rect x="30" y="188" width="200" height="80" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+<text x="130" y="234" font-size="15" font-weight="600" text-anchor="middle" fill="#1f2933">macOS</text>
+<rect x="250" y="188" width="330" height="80" rx="8" fill="#eef6ee" stroke="#3c8d40" stroke-width="1.5"/>
+<text x="415" y="234" font-size="15" font-weight="600" text-anchor="middle" fill="#1f2933">Windows App</text>
+<rect x="600" y="188" width="370" height="80" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="1.5"/>
+<text x="785" y="222" font-size="14" text-anchor="middle" fill="#1f2933">The Remote Desktop client for macOS was</text>
+<text x="785" y="244" font-size="14" text-anchor="middle" fill="#1f2933">replaced by Windows App.</text>
+<line x1="230" y1="228" x2="250" y2="228" stroke="#3a3a3a" stroke-width="3" marker-end="url(#arr)"/>
+<rect x="30" y="284" width="200" height="80" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+<text x="130" y="330" font-size="15" font-weight="600" text-anchor="middle" fill="#1f2933">iPhone, iPad</text>
+<rect x="250" y="284" width="330" height="80" rx="8" fill="#eef6ee" stroke="#3c8d40" stroke-width="1.5"/>
+<text x="415" y="330" font-size="15" font-weight="600" text-anchor="middle" fill="#1f2933">Windows App</text>
+<rect x="600" y="284" width="370" height="80" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="1.5"/>
+<text x="785" y="318" font-size="14" text-anchor="middle" fill="#1f2933">The Remote Desktop client for iOS and iPadOS</text>
+<text x="785" y="340" font-size="14" text-anchor="middle" fill="#1f2933">was replaced by Windows App.</text>
+<line x1="230" y1="324" x2="250" y2="324" stroke="#3a3a3a" stroke-width="3" marker-end="url(#arr)"/>
+<rect x="30" y="380" width="200" height="80" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+<text x="130" y="426" font-size="15" font-weight="600" text-anchor="middle" fill="#1f2933">Android, Chrome OS</text>
+<rect x="250" y="380" width="330" height="80" rx="8" fill="#eef6ee" stroke="#3c8d40" stroke-width="1.5"/>
+<text x="415" y="426" font-size="15" font-weight="600" text-anchor="middle" fill="#1f2933">Windows App</text>
+<rect x="600" y="380" width="370" height="80" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="1.5"/>
+<text x="785" y="414" font-size="14" text-anchor="middle" fill="#1f2933">A Remote Desktop app is also listed on</text>
+<text x="785" y="436" font-size="14" text-anchor="middle" fill="#1f2933">Google Play. Check its status first.</text>
+<line x1="230" y1="420" x2="250" y2="420" stroke="#3a3a3a" stroke-width="3" marker-end="url(#arr)"/>
+<rect x="30" y="476" width="200" height="80" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+<text x="130" y="522" font-size="15" font-weight="600" text-anchor="middle" fill="#1f2933">Web browser</text>
+<rect x="250" y="476" width="330" height="80" rx="8" fill="#eef6ee" stroke="#3b6fb6" stroke-width="1.5"/>
+<text x="415" y="522" font-size="15" font-weight="600" text-anchor="middle" fill="#1f2933">Windows App in the browser</text>
+<rect x="600" y="476" width="370" height="80" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="1.5"/>
+<text x="785" y="521" font-size="14" text-anchor="middle" fill="#1f2933">No install needed on a desktop or laptop.</text>
+<line x1="230" y1="516" x2="250" y2="516" stroke="#3a3a3a" stroke-width="3" marker-end="url(#arr)"/>
+<rect x="30" y="572" width="200" height="80" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
+<text x="130" y="618" font-size="15" font-weight="600" text-anchor="middle" fill="#1f2933">Meta Quest</text>
+<rect x="250" y="572" width="330" height="80" rx="8" fill="#eef6ee" stroke="#3c8d40" stroke-width="1.5"/>
+<text x="415" y="618" font-size="15" font-weight="600" text-anchor="middle" fill="#1f2933">Windows App</text>
+<rect x="600" y="572" width="370" height="80" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="1.5"/>
+<text x="785" y="606" font-size="14" text-anchor="middle" fill="#1f2933">Listed as a Windows App platform.</text>
+<text x="785" y="628" font-size="14" text-anchor="middle" fill="#1f2933">Support is in preview.</text>
+<line x1="230" y1="612" x2="250" y2="612" stroke="#3a3a3a" stroke-width="3" marker-end="url(#arr)"/>
+<rect x="30" y="672" width="940" height="70" rx="8" fill="#fceeec" stroke="#b42318" stroke-width="1.5"/>
+<text x="500" y="698" font-size="15" font-weight="600" text-anchor="middle" fill="#b42318">Not supported for Azure Virtual Desktop</text>
+<text x="500" y="724" font-size="14" text-anchor="middle" fill="#1f2933">The RemoteApp and Desktop Connections client and the Remote Desktop Connection (mstsc.exe) client.</text>
+</svg>

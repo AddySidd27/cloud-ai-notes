@@ -8,7 +8,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{% if title and not home %}{{ seoTitle or title }} | {% endif %}{{ site.name }}{% if home %}: {{ site.tagline }}{% endif %}</title>
+{%- set pageTitle = seoTitle or title -%}
+<title>{% if title and not home %}{{ pageTitle }}{% if (pageTitle.length + site.name.length + 3) <= 65 %} | {{ site.name }}{% endif %}{% else %}{{ site.name }}{% if home %}: {{ site.tagline }}{% endif %}{% endif %}</title>
+{%- if noindex %}
+<meta name="robots" content="noindex, follow">
+{%- endif %}
 <meta name="description" content="{{ desc }}">
 <link rel="canonical" href="{{ canon }}">
 <meta name="author" content="{{ site.author }}">
@@ -35,9 +39,9 @@
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0B1220" media="(prefers-color-scheme: dark)">
 <link rel="preload" href="/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/css/site.css?v=20261115-p8">
+<link rel="stylesheet" href="/css/site.css?v=20261115-p9">
 {%- if interactive %}
-<link rel="stylesheet" href="/css/interactive.css?v=20261115-p8">
+<link rel="stylesheet" href="/css/interactive.css?v=20261115-p9">
 {%- endif %}
 {%- if home %}
 <script type="application/ld+json">{{ site | ldHome | safe }}</script>
@@ -78,9 +82,9 @@
   </nav>
   <p class="copy">&copy; {{ site.year }} {{ site.author }}</p>
 </div></footer>
-<script src="/js/site.js?v=20261115-p8" defer></script>
+<script src="/js/site.js?v=20261115-p9" defer></script>
 {%- if interactive %}
-<script src="/js/interactive.js?v=20261115-p8" defer></script>
+<script src="/js/interactive.js?v=20261115-p9" defer></script>
 {%- endif %}
 </body>
 </html>

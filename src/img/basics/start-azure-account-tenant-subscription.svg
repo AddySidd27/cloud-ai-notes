@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1100 500" width="1100" height="500" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
-<title id="t">Subscription, tenant and resource providers</title><desc id="d">Your Free Trial subscription trusts one tenant, your test Microsoft Entra directory of people and sign-in settings, shown by an arrow from the subscription to the tenant. Eight resource providers, including Microsoft.DesktopVirtualization for Azure Virtual Desktop, are registered on the subscription. The numbers match the steps in the lab.</desc>
+<title id="t">Subscription, tenant and resource providers</title><desc id="d">Your Free Trial subscription trusts one tenant, your test Microsoft Entra directory of people and sign-in settings, shown by an arrow from the subscription to the tenant. Eight resource providers, including Microsoft.DesktopVirtualization for Azure Virtual Desktop, are registered on the subscription.</desc>
 <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
 <rect x="6" y="6" width="1088" height="488" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
 <rect x="24" y="24" width="1052" height="452" rx="8" fill="#ffffff" stroke="#6c7a89" stroke-width="1.8"/>
@@ -24,7 +24,7 @@
 <text x="456.0" y="174" font-size="13" text-anchor="middle" fill="#5f6b7a">trusts (one tenant)</text>
 <rect x="60" y="330" width="310" height="110" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
 <text x="215.0" y="360" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Resource providers</text>
-<text x="215.0" y="388" font-size="13" text-anchor="middle" fill="#1f2933">8 registered (step 5)</text>
+<text x="215.0" y="388" font-size="13" text-anchor="middle" fill="#1f2933">8 registered</text>
 <text x="215.0" y="410" font-size="13" text-anchor="middle" fill="#1f2933">including Microsoft.DesktopVirtualization</text>
 <circle cx="76" cy="346" r="13" fill="#2b5fa8"/>
 <text x="76" y="351" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">5</text>
@@ -32,6 +32,6 @@
 <text x="298.0" y="298" font-size="13" text-anchor="middle" fill="#5f6b7a">registered on</text>
 <rect x="560" y="350" width="480" height="90" rx="8" fill="#ffffff" stroke="#e6b866" stroke-width="1.5"/>
 <text x="800.0" y="378" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Stop check before every lab</text>
-<text x="800.0" y="404" font-size="13" text-anchor="middle" fill="#1f2933">Tenant name and ID: step 2</text>
-<text x="800.0" y="426" font-size="13" text-anchor="middle" fill="#1f2933">Subscription name and ID: step 3</text>
+<text x="800.0" y="404" font-size="13" text-anchor="middle" fill="#1f2933">Tenant name and ID</text>
+<text x="800.0" y="426" font-size="13" text-anchor="middle" fill="#1f2933">Subscription name and ID</text>
 </svg>

@@ -6,7 +6,6 @@ slug: "tenant-billing-subscriptions-and-management-groups"
 series: "Azure Landing Zone"
 part: ""
 post_number: 3
-status: draft
 preview_feature: false
 fictional_case: false
 learn_pages:
@@ -50,7 +49,6 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-entra-tenant"
     icons: "Azure Public Service Icons V24 (Management groups, Subscriptions, Resource groups) and Microsoft Entra architecture icons Oct 2023 (Microsoft Entra ID, color), all unmodified"
     source: "../diagrams/post-03-azure-building-blocks.drawio"
-production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/tenant-billing-subscriptions-and-management-groups/"
 order: 3
@@ -98,7 +96,7 @@ A Microsoft Entra tenant provides identity and access management, which means it
 
 A billing offer is the type of Azure offer a subscription is bought under. Common examples are an Enterprise Agreement (EA), a Microsoft Customer Agreement (MCA) and a Cloud Solution Provider (CSP) agreement. You can use more than one at the same time, and an Azure landing zone supports subscriptions from any offer.
 
-One billing agreement can pay for subscriptions in more than one tenant. For example, an Enterprise Agreement can cover subscriptions in different tenants, even though the landing zone itself is built in one tenant. Learn says the same for a Microsoft Customer Agreement: its billing account is managed by a single tenant, but a single agreement supports subscriptions across different tenants ([Plan for the Microsoft customer agreement](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-customer-agreement#design-considerations)).
+One billing agreement can pay for subscriptions in more than one tenant. For example, an Enterprise Agreement can cover subscriptions in different tenants, even though the landing zone itself is built in one tenant. The documentation says the same for a Microsoft Customer Agreement: its billing account is managed by a single tenant, but a single agreement supports subscriptions across different tenants ([Plan for the Microsoft customer agreement](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-customer-agreement#design-considerations)).
 
 ## Subscription: where resources live
 
@@ -144,24 +142,5 @@ Azure has four scopes: management groups, subscriptions, resource groups and res
 - **Too much assigned at the root.** Whatever you assign at the tenant root group reaches everything in the tenant.
 - **Big workloads share a subscription with everything else.** Large specialized workloads should use their own subscriptions so they do not run into subscription quotas. Examples are high-performance computing (very demanding calculation jobs), Internet of Things (IoT) device systems and large business-software systems.
 
-## From my own projects
-
-These situations came up in my own work: more than one tenant, a large workload that ran into subscription quotas, and subscriptions where nobody was clear who owned the cost. Learn names more management work and more security risk as the cost of extra tenants ([Define Microsoft Entra tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-ad-define)). In my experience (judgement), the other results were slower delivery and confusion about who pays.
-
-## The files in my GitHub repository
-
-- Billing and tenant: [billing-and-tenant.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/billing-and-tenant.md)
-- Subscriptions: [subscription-design.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/subscription-design.md)
-- Management groups: [resource-organization.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/resource-organization.md)
-
 Next: [The Cloud Operating Model](/azure-landing-zone/the-cloud-operating-model/).
 
-## Sources
-
-Microsoft Learn, checked October 2026:
-
-- [Defining tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-ad-define)
-- [Subscriptions](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-subscriptions)
-- [Management groups](https://learn.microsoft.com/en-us/azure/governance/management-groups/overview)
-- [Quotas overview](https://learn.microsoft.com/en-us/azure/quotas/quotas-overview)
-- [Azure billing offers and Microsoft Entra tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-entra-tenant)

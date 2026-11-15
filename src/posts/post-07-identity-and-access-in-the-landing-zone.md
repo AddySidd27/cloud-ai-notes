@@ -5,7 +5,6 @@ slug: "identity-and-access-in-the-landing-zone"
 series: "Azure Landing Zone"
 part: ""
 post_number: 7
-status: draft
 preview_feature: false
 fictional_case: false
 learn_pages:
@@ -64,7 +63,6 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/identity-access (and its three child articles)"
     icons: "Azure Public Service Icons V24 (Management groups, Subscriptions, Resource groups, Microsoft Entra Domain Services) and Microsoft Entra architecture icons Oct 2023 (Microsoft Entra ID, color), all unmodified"
     source: "../diagrams/post-07-roles-groups-scopes.drawio"
-production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/identity-and-access-in-the-landing-zone/"
 order: 7
@@ -236,7 +234,7 @@ The first picture shows the two kinds of roles and where elevated access acts. T
 
 ![Microsoft Entra roles (top) and Azure RBAC roles (bottom). Azure RBAC roles apply down a staircase of scopes: root management group, management group, subscription, resource group and resource. Elevating access gives a Global Administrator the User Access Administrator role at root scope (/), above the root management group.](/diagrams/post-07-entra-vs-azure-roles.svg)
 
-*Based on the diagram in [Landing zone identity and access management](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/identity-access-landing-zones). Simplified: the Learn diagram also lists the Application Administrator, Application Developer and Billing Administrator roles, and this version shows only the roles named in this post. A Global Administrator who elevates access gets the User Access Administrator role at root scope (/). Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) and [Microsoft Entra](https://learn.microsoft.com/en-us/entra/architecture/architecture-icons) architecture icon sets.*
+*Based on the diagram in [Landing zone identity and access management](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/identity-access-landing-zones). Simplified: the diagram also lists the Application Administrator, Application Developer and Billing Administrator roles, and this version shows only the roles named in this post. A Global Administrator who elevates access gets the User Access Administrator role at root scope (/). Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) and [Microsoft Entra](https://learn.microsoft.com/en-us/entra/architecture/architecture-icons) architecture icon sets.*
 
 ![Identity and access in four parts, A to D. A: who needs access (employees, administrators, external users, applications). B: where identities live (Microsoft Entra ID, plus an Identity subscription with AD DS or Microsoft Entra Domain Services for apps that need Kerberos or NTLM). C: protect sign-in and admin access (MFA, Conditional Access, PIM, emergency access accounts). D: what they can do (Azure RBAC, a role given to a group at a management group, subscription, resource group or resource scope). Notes: Microsoft Entra ID roles and Azure RBAC roles are different, and in the reference architecture Azure Policy is assigned at the management group](/diagrams/post-07-roles-groups-scopes.svg)
 
@@ -252,19 +250,9 @@ The first picture shows the two kinds of roles and where elevated access acts. T
 - **MFA that skips some users.** Include Reader roles, and prefer phishing-resistant methods over SMS, email and push.
 - **Credentials stored in code.** Use managed identities and Azure Key Vault instead.
 
-## From my own projects
-
-This situation came up in my own work: too many Global Administrators and Owners. Typical results are access that is hard to manage at scale, and a security risk (judgement).
-
-## The files in my repo
-
-- Identity and access baseline: [identity-and-access.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/identity-and-access.md)
-
 Next: [Privileged Access: MFA, Conditional Access and PIM](/azure-landing-zone/privileged-access-mfa-conditional-access-and-pim/).
 
 ## Sources
-
-Microsoft Learn, checked October 2026:
 
 - [Identity and access](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/identity-access)
 - [Landing zone identity](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/identity-access-landing-zones)

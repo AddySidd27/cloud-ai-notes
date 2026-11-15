@@ -101,7 +101,7 @@
   <text x="843" y="550" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Domain controllers</text>
   <text x="843" y="570" font-size="13" text-anchor="middle" fill="#1f2933">(AD DS)</text>
   <text x="840" y="640" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">On-premises network</text>
-  <line x1="222" y1="530" x2="222" y2="193" stroke="#c2570c" stroke-width="3" marker-end="url(#arr)"/>
+  <polyline points="188,503 222,503 222,193" fill="none" stroke="#c2570c" stroke-width="3" marker-end="url(#arr)"/>
   <text x="244" y="236" font-size="13" text-anchor="start" fill="#1f2933">Session hosts connect</text>
   <text x="244" y="253" font-size="13" text-anchor="start" fill="#1f2933">outbound (reverse connect)</text>
   <line x1="940" y1="392" x2="940" y2="207" stroke="#5f6b7a" stroke-width="2.5" stroke-dasharray="3 4" marker-end="url(#arr)"/>

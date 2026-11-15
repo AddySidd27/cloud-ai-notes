@@ -5,7 +5,6 @@ slug: "greenfield-rollout"
 series: "Azure Landing Zone"
 part: ""
 post_number: 61
-status: draft
 preview_feature: false
 fictional_case: false
 learn_pages:
@@ -86,7 +85,6 @@ diagrams:
     based_on: "The management group table (resource-org-management-groups), the text descriptions of the reference architecture pictures (landing-zone, design-areas, network and subscription pages) and the tailoring page. The layout is simplified: management groups above their subscriptions."
     icons: "Azure Public Service Icons V24 (Management groups, Subscriptions, Policy, Microsoft Sentinel, Log Analytics workspaces, Microsoft Entra Domain Services, Virtual networks, Azure Firewall, Virtual Network Gateways, DNS zones, DDoS protection plans), unmodified"
     source: "../diagrams/post-61-greenfield-architecture.drawio"
-production_section_written_by_addy: true
 layout: post.njk
 permalink: "/azure-landing-zone/greenfield-rollout/"
 order: 61
@@ -98,7 +96,7 @@ tags: [alz]
 
 "Greenfield" means a new environment where nothing is built yet. You have an Azure account, or can get one, and no governed environment. This post walks you through that start.
 
-No documentation page is named "greenfield". The page "Journey toward the target architecture" uses the word for its Start on-ramp, the starting path for a brand-new environment. This post follows that page, the pages it links to, and the subscription, management group and network pages they rely on. Where the order or the reading is my own opinion and not on Microsoft Learn, I mark it "(judgement)".
+No documentation page is named "greenfield". The page "Journey toward the target architecture" uses the word for its Start on-ramp, the starting path for a brand-new environment. This post follows that page, the pages it links to, and the subscription, management group and network pages they rely on.
 
 ## Key terms
 
@@ -136,7 +134,7 @@ The sections below follow these six stages in order. Stage 1 is the section "Bef
 The Start on-ramp begins with the reference architecture, so look at the end state first. The deployment options differ in technology and in how you customize them, so the result might not be identical for each option.
 
 - **Management groups.** One intermediate root management group sits below the tenant root group, named with your organization's prefix (the Microsoft example is Contoso) so you do not build on the tenant root group. Below it: Platform (Security, Management, Identity and Connectivity), Landing zones (Corp, Online and Local; Local is for workloads on Azure Local, Microsoft's Azure infrastructure that runs in your own datacenter), Sandboxes, and Decommissioned. Azure deletes canceled landing zones that you move to Decommissioned after 30-60 days. For many organizations, Corp, Online and Local are an ideal starting point.
-- **Platform subscriptions.** One dedicated subscription under each Platform group. Security holds Microsoft Sentinel and other security tooling. Management holds the central Azure Monitor Logs workspace (the Log Analytics workspace, where logs are stored). Connectivity holds the shared network: a hub network (the shared central network that other networks connect to) or Virtual WAN, Azure Firewall, private DNS zones and gateways. Learn recommends one Azure DDoS Network Protection plan in the connectivity subscription, shared by the platform and workload virtual networks ([Virtual WAN network topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/virtual-wan-network-topology#plan-your-virtual-wan-deployment)), so it sits here in the picture below. Identity is a placeholder for Active Directory Domain Services (AD DS) virtual machines or Microsoft Entra Domain Services. Large deployments can hit subscription quota limits (limits on how many resources a subscription can hold) and may add dedicated connectivity subscriptions per region.
+- **Platform subscriptions.** One dedicated subscription under each Platform group. Security holds Microsoft Sentinel and other security tooling. Management holds the central Azure Monitor Logs workspace (the Log Analytics workspace, where logs are stored). Connectivity holds the shared network: a hub network (the shared central network that other networks connect to) or Virtual WAN, Azure Firewall, private DNS zones and gateways. The documentation recommends one Azure DDoS Network Protection plan in the connectivity subscription, shared by the platform and workload virtual networks ([Virtual WAN network topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/virtual-wan-network-topology#plan-your-virtual-wan-deployment)), so it sits here in the picture below. Identity is a placeholder for Active Directory Domain Services (AD DS) virtual machines or Microsoft Entra Domain Services. Large deployments can hit subscription quota limits (limits on how many resources a subscription can hold) and may add dedicated connectivity subscriptions per region.
 - **Policy.** Azure Policy is assigned at management group level and inherited downward. Rules for all workloads go on the intermediate root. Landing zones get rules that fit every kind of workload. Sandboxes get a less restrictive set.
 
 ## The architecture you end up with at a glance
@@ -155,9 +153,9 @@ These are the things to have in place before you deploy anything. Each has a rea
 |---|---|
 | An Azure account | You need one to create subscriptions. |
 | One Microsoft Entra tenant | A subscription trusts only one tenant, and the landing zone is deployed to one tenant. Avoid several tenants for one organization unless a business need requires it: they add complexity and security risk. The `onmicrosoft.com` name must be globally unique and cannot be changed, so choose it with care. Add your own custom domain names. |
-| A billing offer | Subscriptions come from a billing offer, such as an Enterprise Agreement, a Microsoft Customer Agreement or a Microsoft Partner Agreement (Cloud Solution Provider, CSP). Any of them works. Learn lists these three agreement types for [creating subscriptions from code](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/programmatically-create-subscription). If your offer is not one of them, create subscriptions by hand and automate the rest. |
+| A billing offer | Subscriptions come from a billing offer, such as an Enterprise Agreement, a Microsoft Customer Agreement or a Microsoft Partner Agreement (Cloud Solution Provider, CSP). Any of them works. The documentation lists these three agreement types for [creating subscriptions from code](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/programmatically-create-subscription). If your offer is not one of them, create subscriptions by hand and automate the rest. |
 | A Global Administrator, for set-up only | By default no one has access to the root management group. Only a Global Administrator can give themselves access (steps below), and then assign roles to others, including making their own account an Owner of the tenant root group. Global Administrator is a highly privileged role, so use it only for this step. |
-| Azure roles for the person who deploys | Owner is the built-in role that can create management groups, assign access and assign policy. Contributor can create groups but cannot assign access or policy ([Management group access](https://learn.microsoft.com/en-us/azure/governance/management-groups/overview#management-group-access)). For a platform landing zone generated from Azure Migrate, Learn says Owner may be needed temporarily at the tenant root group or a management group for initial tenant setup, and that a standard deployment needs Contributor and User Access Administrator at the target management group ([Platform landing zone from Azure Migrate](https://learn.microsoft.com/en-us/azure/migrate/platform-landing-zone#permissions)). That page is about the Azure Migrate route. Each accelerator's own guide states the exact role and scope it needs. The Global Administrator grants the role. |
+| Azure roles for the person who deploys | Owner is the built-in role that can create management groups, assign access and assign policy. Contributor can create groups but cannot assign access or policy ([Management group access](https://learn.microsoft.com/en-us/azure/governance/management-groups/overview#management-group-access)). For a platform landing zone generated from Azure Migrate, the documentation says Owner may be needed temporarily at the tenant root group or a management group for initial tenant setup, and that a standard deployment needs Contributor and User Access Administrator at the target management group ([Platform landing zone from Azure Migrate](https://learn.microsoft.com/en-us/azure/migrate/platform-landing-zone#permissions)). That page is about the Azure Migrate route. Each accelerator's own guide states the exact role and scope it needs. The Global Administrator grants the role. |
 | Emergency access, multifactor authentication and privileged access | Plan emergency access (break-glass) accounts, which are accounts kept aside so you cannot lock yourself out of the tenant. Enforce multifactor authentication and Conditional Access for privileged accounts, and use Privileged Identity Management (PIM). |
 | The tools for your option | The portal option needs a browser and a sign-in. The IaC option needs your choice of Bicep or Terraform, a version control system (Azure DevOps or GitHub, which stores your code and its history), a PowerShell module (a package of PowerShell commands) that does the one-time bootstrap (the first run that sets up Azure and your code repository), and pipelines (automated steps that deploy your code, run on machines called runners). |
 
@@ -170,7 +168,7 @@ Each accelerator's own guide lists its detailed prerequisites, so read the guide
 3. Under **Access management for Azure resources**, set the toggle to **Yes** and save.
 4. Sign out and back in.
 
-You now hold the User Access Administrator role at the root. It lets you view all resources and assign access in every subscription and management group of the tenant. On the Learn role table, it can assign access and policy but cannot create, rename, move or delete management groups ([Management group access](https://learn.microsoft.com/en-us/azure/governance/management-groups/overview#management-group-access)). So the person who deploys also needs the roles that the permissions row above describes for the rest of the work. This setting applies only to you.
+You now hold the User Access Administrator role at the root. It lets you view all resources and assign access in every subscription and management group of the tenant. On the role table, it can assign access and policy but cannot create, rename, move or delete management groups ([Management group access](https://learn.microsoft.com/en-us/azure/governance/management-groups/overview#management-group-access)). So the person who deploys also needs the roles that the permissions row above describes for the rest of the work. This setting applies only to you.
 
 When the set-up is done, set the toggle back to No, as the same user, and sign out. If you use PIM, set the toggle to No before you deactivate your role: deactivating the role does not reset the toggle.
 
@@ -178,9 +176,9 @@ When the set-up is done, set the toggle back to No, as the same user, and sign o
 
 Define your organization's requirements across the design areas before you build the platform landing zone. The [design principles](/azure-landing-zone/what-is-an-azure-landing-zone/) are a compass for these decisions. You may deviate from them, but know what you give up ([Azure landing zone design principles](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-principles#impact-of-design-deviations)).
 
-A new environment has settled none of the eight areas, so expect to work through all of them (judgement). The table gives the main decisions, the simple choices, and what to pick if you are unsure. The last column is my reading of the Microsoft recommendations, not a default set by Microsoft (judgement). Where Microsoft gives no default, the table says so.
+A new environment has settled none of the eight areas, so expect to work through all of them. The table gives the main decisions, the simple choices, and what to pick if you are unsure. The last column is a suggestion based on the Microsoft recommendations, not a default set by Microsoft. Where Microsoft gives no default, the table says so.
 
-| Design area | Decide | Simple choices | If unsure (judgement) |
+| Design area | Decide | Simple choices | If unsure |
 |---|---|---|---|
 | [Billing and tenant](/azure-landing-zone/billing-and-tenant-in-depth/) | Which billing offer. How many tenants. | Enterprise Agreement, Microsoft Customer Agreement or Microsoft Partner Agreement (CSP). One tenant or several. | No offer is preferred, so use the agreement you have. Use one tenant. |
 | [Identity](/azure-landing-zone/identity-and-access-in-the-landing-zone/) | How people and workloads sign in. | Microsoft Entra only; Microsoft Entra with on-premises Active Directory; Microsoft Entra Domain Services; domain controllers in the identity subscription. | With no identity infrastructure, start Microsoft Entra-only. Use groups, least privilege and PIM. |
@@ -201,7 +199,7 @@ You can use an accelerator or a custom build. The reference implementations help
 |---|---|---|---|
 | Portal accelerator | A deployment in the Azure portal that gives a complete implementation of the reference architecture, with preset settings for key parts, including management groups and policies. | Your organization lacks IaC expertise or prefers a visual approach. | Less flexible and scalable. Updates and version control are hard without IaC. Move to IaC when you can. |
 | IaC accelerator with Bicep or Terraform | A customizable deployment built on Azure Verified Modules. It also sets up the delivery environment: version control, deployment pipelines and runners, with Azure DevOps or GitHub. | You can work with code. It is the recommended approach. | Four phases: planning, prerequisites, bootstrap and run. [The platform automation post](/azure-landing-zone/platform-automation-and-devops/) explains them. |
-| Azure Verified Modules alone | The same building blocks, used without the accelerator. | You want to assemble your own deployment. | You then set up the delivery environment yourself (judgement). |
+| Azure Verified Modules alone | The same building blocks, used without the accelerator. | You want to assemble your own deployment. | You then set up the delivery environment yourself. |
 | Custom build or partner | You design and build it, or work with Microsoft or a partner. Partner programs such as Azure Accelerate can help. | Neither standard option fits. | More design and maintenance work for you. Verified modules reduce the maintenance burden of custom code. |
 
 Between Bicep and Terraform, the planning phase asks you to select your preferred language and version control system. Choose the one your team knows.
@@ -219,7 +217,7 @@ Two special cases. If you must deploy to Azure US Government or Azure operated b
 
 ## Build the platform, then check it
 
-With an accelerator, the tool performs the build for you, so the table below is what to check afterward. The steps are manual only in a custom build. The lifecycle runs in this order: create the platform subscriptions, create the platform, set up subscription vending, then deploy workloads. Inside "create the platform", the grouping below is my own (judgement). It follows what the reference architecture contains. The checks are adapted from the readiness checks in [the minimum viable platform landing zone post](/azure-landing-zone/minimum-viable-platform-landing-zone/). That post is written for migrations from on-premises, so skip checks about an on-premises network if you have none.
+With an accelerator, the tool performs the build for you, so the table below is what to check afterward. The steps are manual only in a custom build. The lifecycle runs in this order: create the platform subscriptions, create the platform, set up subscription vending, then deploy workloads. Inside "create the platform", the grouping below follows what the reference architecture contains. The checks are adapted from the readiness checks in [the minimum viable platform landing zone post](/azure-landing-zone/minimum-viable-platform-landing-zone/). That post is written for migrations from on-premises, so skip checks about an on-premises network if you have none.
 
 | Step | What gets created | How to check |
 |---|---|---|
@@ -229,7 +227,7 @@ With an accelerator, the tool performs the build for you, so the table below is 
 | 4. Management and security tooling | The Log Analytics workspace, alerts, Defender for Cloud and Microsoft Sentinel. | The policy that sends diagnostic settings to the central workspace works, and one expected alert reaches the right place. |
 | 5. Connectivity and identity | The hub network or Virtual WAN, Azure Firewall, gateways, private DNS, and the identity services you chose. | Names resolve from a representative spoke network once one is connected, and the path that traffic takes through the firewall is confirmed. |
 
-To create a subscription by hand under a Microsoft Customer Agreement, go to Subscriptions in the Azure portal and select Add. Give it a name that shows the workload and the environment (judgement). Choose the billing account, billing profile, invoice section and plan, then on the Advanced tab the directory, the management group and one or more subscription owners, and on the Tags tab your standard tags ([Create a Microsoft Customer Agreement subscription](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/create-subscription)). Learn has separate pages for other agreement types. Set a budget for spending alerts afterward (judgement).
+To create a subscription by hand under a Microsoft Customer Agreement, go to Subscriptions in the Azure portal and select Add. Give it a name that shows the workload and the environment. Choose the billing account, billing profile, invoice section and plan, then on the Advanced tab the directory, the management group and one or more subscription owners, and on the Tags tab your standard tags ([Create a Microsoft Customer Agreement subscription](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/create-subscription)). Other agreement types have their own pages. Set a budget for spending alerts afterward.
 
 Two settings protect the hierarchy while you build it. By default any user can create management groups, and new subscriptions land in the root group. It is recommended to turn on Azure RBAC authorization for management group operations (the "require authorization" setting) and to set a default, dedicated management group for new subscriptions, with sandbox as a good candidate.
 
@@ -237,7 +235,7 @@ Both are set on the root management group, in **Settings**. The first is the tog
 
 When the checks pass, remove the elevated access you used.
 
-**A cost note.** A full platform deployment creates billable resources. Hub resources such as Azure Firewall and gateways are billed separately ([Virtual WAN topology](https://learn.microsoft.com/en-us/azure/networking/design-guide/virtual-wan) and [Azure pricing](https://azure.microsoft.com/pricing/)). My suggestion (judgement): before you apply a full-platform profile, review the services that can keep charging while idle, such as Azure Firewall, Log Analytics ingestion and public IP addresses, plus Azure Bastion and DNS Private Resolver if you deploy them, and set a subscription budget first. That is my suggestion, not a Microsoft rule.
+**A cost note.** A full platform deployment creates billable resources. Hub resources such as Azure Firewall and gateways are billed separately ([Virtual WAN topology](https://learn.microsoft.com/en-us/azure/networking/design-guide/virtual-wan) and [Azure pricing](https://azure.microsoft.com/pricing/)). Before you apply a full-platform profile, review the services that can keep charging while idle, such as Azure Firewall, Log Analytics ingestion and public IP addresses, plus Azure Bastion and DNS Private Resolver if you deploy them, and set a subscription budget first. This is advice, not a Microsoft rule.
 
 ## Hand over the first workload
 
@@ -255,11 +253,11 @@ The platform team then does this:
 
 Then the platform team hands the subscription over, usually empty but already governed. The workload team updates the budget, builds its resources and runs the workload. The platform team keeps control of governance.
 
-You can do this by hand for the first few requests (judgement). As requests grow, automate it: vending modules exist for Bicep and for Terraform. Without vending, teams wait, or create subscriptions elsewhere without management, which is shadow IT.
+You can do this by hand for the first few requests. As requests grow, automate it: vending modules exist for Bicep and for Terraform. Without vending, teams wait, or create subscriptions elsewhere without management, which is shadow IT.
 
 ## What comes next
 
-A landing zone is not finished when it is built, and the journey takes time. How long depends on the size of the organization, its technical footprint and the skills of its teams. Learn covers this in [Keep your Azure landing zone up to date](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/keep-azure-landing-zone-up-to-date). The next post covers environments that already exist (brownfield).
+A landing zone is not finished when it is built, and the journey takes time. How long depends on the size of the organization, its technical footprint and the skills of its teams. The documentation covers this in [Keep your Azure landing zone up to date](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/keep-azure-landing-zone-up-to-date).
 
 ## Common mistakes
 
@@ -267,25 +265,7 @@ A landing zone is not finished when it is built, and the journey takes time. How
 - **Giving workload teams access at management group level.** It over-permissions them. Give access on their own subscriptions or resource groups.
 - **Elevated access left on after set-up.** Set the toggle back to No.
 
-## From my own projects
-
-This post has no lab results. Nothing in it is marked as something I saw in my own projects.
-
-## The files in my repo
-
-My repo is a learning implementation, and its own order and habits are the repository's approach, not the documentation's.
-
-- Learning path: the order I suggest, in six phases from understanding the platform to two end-to-end cases. Its build phase uses Terraform and it does not cover the portal accelerator: [learning-path.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/00-start-here/learning-path.md)
-- Prerequisites: the knowledge, tools and Azure access I assume, with advice to use a dedicated lab tenant. It assumes you already know basic Azure resources and Terraform syntax, so it is not a zero-knowledge start: [prerequisites.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/00-start-here/prerequisites.md)
-- Lab versus enterprise: a table of what a personal lab can and cannot reproduce: [lab-vs-enterprise.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/00-start-here/lab-vs-enterprise.md)
-- Build Azure from the beginning: an end-to-end case for a fictional company with 600 employees and no governed Azure platform, in twelve phases, each with evidence and an exit condition. The repository's habits include starting new policies in audit mode and giving every shared service an owner. The phases are the repository's own process, not an official one: [greenfield.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/05-use-cases/greenfield.md)
-- IaC accelerator and Azure Verified Modules: the four accelerator phases, the Terraform modules, and how my learning repo differs from the official implementation. It has no steps for the portal accelerator or for Bicep: [avm-and-accelerator.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/03-implementation/avm-and-accelerator.md)
-- Deployment guide: the eight Terraform steps for my lab, from checking the Azure context to cleanup: [deployment-guide.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/03-implementation/deployment-guide.md)
-- Cost and safety: which services keep charging while idle, and the controls the lab setup uses, such as a dedicated lab subscription and audit-mode policies: [cost-and-safety.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/03-implementation/cost-and-safety.md)
-
 ## Sources
-
-Microsoft Learn, checked October 2026:
 
 - [Journey toward the target architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/landing-zone-journey)
 - [Deploy Azure landing zones](https://learn.microsoft.com/en-us/azure/architecture/landing-zones/landing-zone-deploy)

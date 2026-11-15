@@ -5,7 +5,6 @@ slug: "billing-and-tenant-in-depth"
 series: "Azure Landing Zone"
 part: ""
 post_number: 6
-status: draft
 preview_feature: false
 fictional_case: false
 learn_pages:
@@ -85,7 +84,6 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/multi-tenant/considerations-recommendations and https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/plan-connect-topologies"
     icons: "Azure Public Service Icons V24 (Azure Lighthouse), Microsoft Entra architecture icons Oct 2023 (Microsoft Entra ID, Microsoft Entra Connect Sync), all unmodified"
     source: "../diagrams/post-06-two-brand-shapes.drawio"
-production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/billing-and-tenant-in-depth/"
 order: 6
@@ -169,8 +167,8 @@ Use your existing corporate tenant, and create another one only when a requireme
 
 - Add a custom domain (a domain name that you add to your tenant, such as contoso.com, next to the `*.onmicrosoft.com` name that each tenant gets when it is created). The `*.onmicrosoft.com` name must be globally unique and cannot be changed once created.
 - Plan emergency access (break-glass) accounts (accounts kept only for emergencies, to sign in and recover access if all other administrators are locked out), to prevent a tenant-wide lockout.
-- Use multifactor authentication, and add Conditional Access policies for privileged accounts. Conditional Access is a Microsoft Entra feature that checks details of a sign-in, such as user, device and location, and then applies your access rules. [Post 8](/azure-landing-zone/privileged-access-mfa-conditional-access-and-pim/) explains it.
-- Use Microsoft Entra Privileged Identity Management (PIM) to manage privileged access. PIM gives administrators access only when they need it, for a limited time, and needs a Microsoft Entra license that includes it. See [post 8](/azure-landing-zone/privileged-access-mfa-conditional-access-and-pim/) for both, and for emergency access accounts.
+- Use multifactor authentication, and add Conditional Access policies for privileged accounts. Conditional Access is a Microsoft Entra feature that checks details of a sign-in, such as user, device and location, and then applies your access rules. [The privileged access post](/azure-landing-zone/privileged-access-mfa-conditional-access-and-pim/) explains it.
+- Use Microsoft Entra Privileged Identity Management (PIM) to manage privileged access. PIM gives administrators access only when they need it, for a limited time, and needs a Microsoft Entra license that includes it. See [the privileged access post](/azure-landing-zone/privileged-access-mfa-conditional-access-and-pim/) for both, and for emergency access accounts.
 - Send Microsoft Entra diagnostic logs to a central Log Analytics workspace (a data store that collects log data from your Azure and non-Azure resources and applications).
 - Use Azure Lighthouse to give partners access to resources in your tenant.
 
@@ -223,7 +221,7 @@ On-premises Active Directory is arranged in a hierarchy. The top-level container
 
 Here is an example setup for a group with several brands. One parent organization runs a main tenant. Other brands are separate businesses, connected to the parent and managed from it. Each brand has its own on-premises Active Directory and its own domain name. The question is: does a separate directory and domain per brand mean a separate Microsoft Entra tenant? The official documentation does not answer this exact question.
 
-The Microsoft Entra Connect topologies page shows that several on-premises forests can sync to one tenant, so a separate directory per brand does not by itself force a separate tenant (judgement: this is my reading of that page). In this example, each brand's Active Directory is its own forest, with its own domain. A single forest with several domains can also sync to one tenant. This is a generic example to explain the choice, not a description of any customer.
+The Microsoft Entra Connect topologies page shows that several on-premises forests can sync to one tenant, so a separate directory per brand does not by itself force a separate tenant. In this example, each brand's Active Directory is its own forest, with its own domain. A single forest with several domains can also sync to one tenant. This is a generic example to explain the choice, not a description of any customer.
 
 **Shape 1: one tenant, several Active Directory forests.** Microsoft Entra Connect Sync supports multiple on-premises forests that sync to a single Microsoft Entra tenant. This can be the situation after a merger or acquisition, or in an organization where each business unit operates independently. Three things to know:
 
@@ -238,9 +236,7 @@ The Microsoft Entra Connect topologies page shows that several on-premises fores
 - One Enterprise Agreement enrollment or Microsoft customer agreement can provide subscriptions to several tenants, so billing can stay central. For an EA, this works when the enrollment's authentication level is set to work or school account cross-tenant ([multitenant considerations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/multi-tenant/considerations-recommendations)). Create account owners in the tenant where the subscriptions should live, so that you do not have to change directories later.
 - Microsoft Entra ID P1 and P2 licenses do not span tenants.
 - Azure services that have built-in Microsoft Entra sign-in, such as Azure Virtual Desktop, Azure Files and Azure SQL, are typically supported against the home tenant, normally your corporate Microsoft Entra tenant where your users' identities are. Azure Virtual Desktop is a virtual desktop service, Azure Files a file-share service and Azure SQL a database service. Check which tenant your identities live in before you choose.
-- Moving a subscription to another tenant is complex. It is easier to rebuild the workload in a new subscription in the destination tenant. CSP subscriptions cannot be transferred to a different tenant.
-
-(judgement) Start with Shape 1, because one tenant is the default. Move to Shape 2 only for a clear requirement, such as a brand that may be sold, or a regulatory need.
+- Moving a subscription to another tenant is complex. It is easier to rebuild the workload in a new subscription in the destination tenant. CSP subscriptions cannot be transferred to a different tenant. Start with Shape 1, because one tenant is the default. Move to Shape 2 only for a clear requirement, such as a brand that may be sold, or a regulatory need.
 
 ## Billing agreements and tenant shapes at a glance
 
@@ -266,19 +262,9 @@ The Microsoft Entra Connect topologies page shows that several on-premises fores
 - **A separate tenant just because a brand has its own Active Directory.** Several forests can sync to one tenant, so create more tenants only for requirements one tenant cannot meet.
 - **An extra tenant as a workaround.** A separate tenant is not the place to host dev/test workloads, and it is not the fix for friction between teams.
 
-## From my own projects
-
-(judgement) Two gaps came up in my own work: no emergency (break-glass) access plan, and a partner (CSP) creating subscriptions outside your tenant. The lesson: plan emergency access accounts before you need them, and agree with your partner, in writing, that subscriptions are created in your own tenant.
-
-## The files in my repo
-
-- Billing and tenant, with a list of decisions to make: [billing-and-tenant.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/billing-and-tenant.md)
-
 Next: [Identity and Access in the Landing Zone](/azure-landing-zone/identity-and-access-in-the-landing-zone/).
 
 ## Sources
-
-Microsoft Learn, checked October 2026:
 
 - [Billing offers and tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-entra-tenant)
 - [Multitenant considerations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/multi-tenant/considerations-recommendations)

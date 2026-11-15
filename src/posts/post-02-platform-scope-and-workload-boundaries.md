@@ -4,7 +4,6 @@ slug: "platform-scope-and-workload-boundaries"
 series: "Azure Landing Zone"
 part: ""
 post_number: 2
-status: draft
 preview_feature: false
 fictional_case: false
 learn_pages:
@@ -60,7 +59,6 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups"
     icons: "Azure Public Service Icons V24 (Management groups, Subscriptions, Microsoft Entra Domain Services, Virtual networks, Azure Firewall, DNS zones, Log Analytics workspaces, Microsoft Sentinel), unmodified"
     source: "../diagrams/post-02-ownership-boundary.drawio"
-production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/platform-scope-and-workload-boundaries/"
 order: 2
@@ -76,7 +74,7 @@ First, platform and workload mix. A workload team changes a shared network becau
 
 Second, learners mix up a lab and a real landing zone. A lab is a good way to learn the steps. It is not the same as a production environment. If a post, a repo or a resume presents a lab as production, anyone who knows the topic will notice.
 
-This post sets the boundary, and then shows where the learning lab in my GitHub repo stops short of an enterprise design.
+This post sets the boundary, and then shows where a simple learning lab stops short of an enterprise design.
 
 ## Key terms
 
@@ -94,7 +92,7 @@ Terms from [the landing zone introduction post](/azure-landing-zone/what-is-an-a
 | DNS and private DNS zone | DNS (Domain Name System) turns a service name into a network address. A private DNS zone manages and resolves names inside a virtual network. Its records cannot be looked up from the internet, only from virtual networks linked to the zone. |
 | Hub-and-spoke network | A network layout where a central hub virtual network connects to many spoke virtual networks. The spokes connect to the hub and can isolate workloads. |
 | Hybrid connectivity | A link between your own networks (on-premises, for example in your datacenter) and your Azure resources, so that systems in both places work together as one network. |
-| Azure Local | Microsoft's distributed infrastructure solution that extends Azure capabilities to environments you own, such as your own datacenter. The Learn management groups page calls the Azure Local systems "Azure Local clusters". |
+| Azure Local | Microsoft's distributed infrastructure solution that extends Azure capabilities to environments you own, such as your own datacenter. The management groups page calls the Azure Local systems "Azure Local clusters". |
 | Terraform and Terraform state | Terraform is an open-source tool that builds cloud infrastructure from configuration files. Terraform state is what Terraform uses to match the deployed resources to those files, so it knows what to add, update or delete. |
 
 In [the landing zone introduction post](/azure-landing-zone/what-is-an-azure-landing-zone/) we said an Azure landing zone has two parts: the platform landing zone and the workload landing zones. Now we look at where each one lives.
@@ -110,13 +108,13 @@ Create a management group called Platform. It holds the common platform policies
 | Management | Monitoring, for example a Log Analytics workspace |
 | Security | Security tooling, for example Microsoft Sentinel |
 
-The idea is simple: each shared job gets its own subscription, instead of one big pile of shared resources. This lets you apply different policies and role assignments to each area. The Platform group also keeps the billing for common resources in one set of foundational subscriptions. (judgement) I would not combine platform jobs in one subscription.
+The idea is simple: each shared job gets its own subscription, instead of one big pile of shared resources. This lets you apply different policies and role assignments to each area. The Platform group also keeps the billing for common resources in one set of foundational subscriptions. Do not combine platform jobs in one subscription.
 
 The full hierarchy, the six-level limit, the default management group and the sandbox group are explained in [Resource organization](/azure-landing-zone/resource-organization/).
 
 ## Where workloads live
 
-Workload landing zones are kept apart from the platform, under a separate **Landing zones** management group (the Learn overview page also calls it "Workload landing zones"). Each workload has one workload landing zone, which holds its environments such as dev, test and production, each as one or more subscriptions. Three management groups sit under it:
+Workload landing zones are kept apart from the platform, under a separate **Landing zones** management group (the overview page also calls it "Workload landing zones"). Each workload has one workload landing zone, which holds its environments such as dev, test and production, each as one or more subscriptions. Three management groups sit under it:
 
 - **Corp (also called Internal):** for workloads that need connectivity, or hybrid connectivity, with the corporate network. That connection goes through the hub in the connectivity subscription.
 - **Online:** for workloads that might need direct internet access, or that might not need a virtual network.
@@ -129,9 +127,9 @@ Workload subscriptions inherit the Azure Policy rules applied above them, so wor
 - **Keep workload resources apart from platform resources.** Workload teams manage the workload landing zones. Platform teams manage the platform landing zone.
 - **Keep the hierarchy shallow.** Ideally use no more than three to four levels. The six-level limit and the policy-at-the-root advice are in [Resource organization](/azure-landing-zone/resource-organization/).
 
-## The lab in my repo, and where it stops
+## What the sample lab covers
 
-My repo's lab is for learning the deployment steps. The "core lab" is the basic, hands-on version of that lab, and the repo says plainly not to present it as a complete production landing zone. In the table, "Enterprise target" means what a real organization's design would add. Here is how the lab compares with an enterprise target. The Enterprise target column is my own design choice (judgement), not a Microsoft statement. Later posts cover [identity](/azure-landing-zone/identity-and-access-in-the-landing-zone/), [network](/azure-landing-zone/network-topology-and-connectivity/) and [governance](/azure-landing-zone/governance-and-azure-policy/) in detail.
+The sample lab is for learning the deployment steps. The "core lab" is its basic, hands-on version, and it is not a complete production landing zone. In the table, "Enterprise target" means what a real organization's design would add. Here is how the lab compares with an enterprise target. The Enterprise target column is a suggested design, not a Microsoft statement. Later posts cover [identity](/azure-landing-zone/identity-and-access-in-the-landing-zone/), [network](/azure-landing-zone/network-topology-and-connectivity/) and [governance](/azure-landing-zone/governance-and-azure-policy/) in detail.
 
 | Area | Core lab | Enterprise target |
 |---|---|---|
@@ -160,19 +158,9 @@ The lab teaches the workflow. The enterprise column shows what a real design add
 - **Workload teams get access at management group level.** Avoid this because it gives people more access than they need and adds risk through inheritance. Give workload teams access at the subscription or resource group instead. Platform teams may need wider access, but give it through Privileged Identity Management (PIM) so it is only active when needed.
 - **Management groups copy the org chart, the environments or the regions.** Do not copy your organization chart into a deeply nested hierarchy. Use management groups for policy, not for billing or access control. Do not create groups for production, test and development, or groups made only to model Azure regions. If you need separate environments, use separate subscriptions in the same management group. The exception is a location-based regulatory requirement, such as data residency, which can justify a structure based on location.
 
-## From my own projects
-
-These situations came up in my own work: platform and workload resources in the same subscription, and broad access given high up in the hierarchy. (judgement) In my experience, typical results are slower delivery, security and audit issues, and confusion about cost.
-
-## The files in my repo
-
-- This post: [lab-vs-enterprise.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/00-start-here/lab-vs-enterprise.md)
-
 Next: [Tenant, Billing, Subscriptions and Management Groups](/azure-landing-zone/tenant-billing-subscriptions-and-management-groups/).
 
 ## Sources
-
-Microsoft Learn, checked October 2026:
 
 - [Management groups](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups)
 - [Landing zone overview](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/)

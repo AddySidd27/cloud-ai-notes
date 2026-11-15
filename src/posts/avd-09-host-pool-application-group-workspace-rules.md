@@ -25,7 +25,7 @@ This article explains those objects and the rules between them, shows which choi
 | Application group | Controls access to a full desktop, or to a set of applications, from a single host pool. |
 | Desktop application group | An application group that publishes the full Windows desktop. |
 | RemoteApp application group | An application group that publishes individual applications you select. |
-| Workspace | A logical grouping of application groups ([terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology#workspaces)). Users see its application groups' resources in their client (judgement: plain-language gloss, not a Learn quote). |
+| Workspace | A logical grouping of application groups ([terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology#workspaces)). Users see its application groups' resources in their client. |
 | Assignment | Giving a user or group access to an application group. |
 | Azure RBAC role | A set of permissions you give to a person or group at a scope. A scope is a resource, such as an application group. |
 | Feed | The list of desktops and apps a user sees in the client. |
@@ -44,13 +44,13 @@ This article explains those objects and the rules between them, shows which choi
 
 ![A workspace at the top lists a desktop application group and two RemoteApp application groups. All three point to one pooled host pool that contains session hosts. Microsoft Entra ID users and user groups are assigned to the application groups. A panel lists four rules about how the objects relate.](/img/avd/AVD-Post-09-Object-Relationships-v3.png)
 
-*Source: [Azure Virtual Desktop terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology) and the [FAQ](https://learn.microsoft.com/en-us/azure/virtual-desktop/faq). The documentation has no diagram of these relationships, so the layout is simplified. It leaves out personal host pools and the session host configuration. Icons: Microsoft Azure and Microsoft Entra architecture icons, used unmodified under the terms on Microsoft's icons page.*
+*How the four objects relate. Personal host pools and the session host configuration are left out. Source: [Azure Virtual Desktop terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology).*
 
 Each arrow points from the object that lists or uses something to the object it uses. The workspace lists application groups. Each application group publishes from one host pool. The host pool contains session hosts. Users are assigned to application groups, not to host pools and not to workspaces.
 
 ## The rules
 
-These rules are documented. Several of them decide whether a design works.
+These rules decide whether a design works.
 
 | Rule | Detail |
 |---|---|
@@ -79,11 +79,11 @@ Three choices are fixed when you create the object. A fourth, the preferred appl
 
 The management approach decides who looks after session hosts. With a session host configuration, AVD creates, updates and scales the hosts using the stored settings. It works with pooled host pools only, and you cannot create, update or scale hosts outside the service with tools built for standard management. With standard management you create and update the hosts yourself, and you decide how many exist (autoscale can still turn them on and off). This suits existing automation scripts. The article on [creating, updating and replacing session hosts](/azure-virtual-desktop/create-update-replace-session-hosts/) covers host management in depth.
 
-Regional scope is offered only in some regions, and Learn's pages disagree on whether it is still in preview. Check the [Regional host pools page](https://learn.microsoft.com/en-us/azure/virtual-desktop/regional-host-pools) before you choose it.
+Regional scope is offered only in some regions and was in preview at the time of writing. Check the [Regional host pools](https://learn.microsoft.com/en-us/azure/virtual-desktop/regional-host-pools) page for its current status before you choose it.
 
 ## Where assignment happens
 
-AVD publishes an application group to users by assigning the Desktop Virtualization User role to the user or group, with the application group as the scope. The documentation shows this with the `New-AzRoleAssignment` PowerShell command (a cmdlet). You can also do it in the portal ([Deploy Azure Virtual Desktop, Assign users to an application group](https://learn.microsoft.com/en-us/azure/virtual-desktop/deploy-azure-virtual-desktop#assign-users-to-an-application-group)).
+AVD publishes an application group to users by assigning the Desktop Virtualization User role to the user or group, with the application group as the scope. The `New-AzRoleAssignment` PowerShell command (a cmdlet) does this. You can also do it in the portal ([Deploy Azure Virtual Desktop, Assign users to an application group](https://learn.microsoft.com/en-us/azure/virtual-desktop/deploy-azure-virtual-desktop#assign-users-to-an-application-group)).
 
 The person who makes the assignment needs the User Access Administrator or Owner role (or any role that can create role assignments) on the application group. Creating host pools and other objects needs the Contributor role on the subscription or resource group.
 
@@ -94,7 +94,7 @@ Two points to remember.
 
 ## Desktop and RemoteApp on the same host pool
 
-A pooled host pool can have both a desktop application group and RemoteApp application groups. That can give one user two sessions on the same pool: one for the desktop and one for an application. The documentation warns that two sessions to the same host pool can overload session hosts, leave users stuck at sign-in, make connections fail, turn the remote session black and crash applications.
+A pooled host pool can have both a desktop application group and RemoteApp application groups. That can give one user two sessions on the same pool: one for the desktop and one for an application. Microsoft warns that two sessions to the same host pool can overload session hosts, leave users stuck at sign-in, make connections fail, turn the remote session black and crash applications.
 
 The **preferred application group type** setting reduces this. If a user is assigned to both types on one pool, the client shows only the preferred type.
 
@@ -106,18 +106,16 @@ The **preferred application group type** setting reduces this. If a user is assi
 | Desktop and RemoteApp | Desktop only | Either | Desktop |
 | Desktop and RemoteApp | RemoteApp only | Either | RemoteApp applications |
 
-Four details from the documentation.
+Four details to know.
 
 - The setting affects only users who are assigned to both types on the same pool. A user can still see a desktop from one pool and RemoteApp applications from another.
 - In the Azure portal, the default is Desktop. The portal also creates a desktop application group named after the host pool with the suffix `-DAG`, for example `hp01-DAG`, whichever preferred type you choose. You can delete it afterward if you want only RemoteApp. These two portal behaviors do not happen when you create the pool with PowerShell or the Azure CLI.
-- Older pools with no preferred type now show only the desktop to users assigned to both types. The documentation says this enforcement is still rolling out to all Azure regions.
-- The setting controls what the client shows, not what the service allows. The `ms-avd:connect` URI scheme (a link format that starts a connection directly) can still open both, and the documentation does not recommend this.
+- Older pools with no preferred type now show only the desktop to users assigned to both types. This enforcement is still rolling out to all Azure regions.
+- The setting controls what the client shows, not what the service allows. The `ms-avd:connect` URI scheme (a link format that starts a connection directly) can still open both, and Microsoft does not recommend this.
 
-(judgement) This is a recommendation, not a documented rule. If the same users need both a full desktop and RemoteApp applications, consider separate host pools. It costs more virtual machines, but it removes the two-sessions problem instead of hiding it.
+As a recommendation: if the same users need both a full desktop and RemoteApp applications, consider separate host pools. It costs more virtual machines, but it removes the two-sessions problem instead of hiding it.
 
-## Plan the objects for your design (judgement)
-
-This section is my judgement, because the documentation gives the rules but not a design.
+## Plan the objects for your design
 
 - **Create a host pool for each group of users whose compute, image or security needs differ.** Do not create one just because a department asked. The [host pool planning article](/azure-virtual-desktop/plan-your-host-pools/) shows how to group users.
 - **Create an application group for each distinct set of resources and each distinct audience.** Assign security groups to application groups so that adding a person is a group membership change.
@@ -126,12 +124,12 @@ This section is my judgement, because the documentation gives the rules but not 
 
 ## When a user sees nothing
 
-Start at the top and work down. The order is how quickly each check can be ruled out (judgement). The Learn page [Troubleshoot Azure Virtual Desktop service connections](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-service-connection) covers the first three rows (assignment, account and cached credentials, security group), the tenant move row and the Conditional Access row. The workspace, scope, location and preferred type rows come from the rules above, not from that page.
+Start at the top and work down. The order is how quickly each check can be ruled out. [Troubleshoot Azure Virtual Desktop service connections](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-service-connection) covers the first three checks, the tenant move and Conditional Access. The workspace, scope, location and preferred type checks come from the rules above.
 
 | Check | What it tells you |
 |---|---|
-| Is the user assigned to an application group, directly or through a group? | The documentation suggests confirming the assignment, for example with `Get-AzRoleAssignment -SignInName <userupn>`. That command lists only assignments made directly to the user. The cmdlet reference says to add `-ExpandPrincipalGroups` to include assignments made to groups the user belongs to (judgement: use the switch when you assign through groups). |
-| Is the user signing in with the expected account? | A different account has a different assignment (judgement: inference from the assignment check above, not a Learn quote). In the web client, also rule out cached credentials. |
+| Is the user assigned to an application group, directly or through a group? | Confirm the assignment, for example with `Get-AzRoleAssignment -SignInName <userupn>`. That command lists only assignments made directly to the user. Add `-ExpandPrincipalGroups` to include assignments made to groups the user belongs to, which you need when you assign through groups. |
+| Is the user signing in with the expected account? | A different account has a different assignment. In the web client, also rule out cached credentials. |
 | Is the user's group a security group? | Distribution groups are not supported. |
 | Is the application group in a workspace? | Each application group must be associated with a workspace for users to see it. |
 | Is the workspace the same deployment scope and location as the application group? | Mixed scope is not allowed, and the service requires the same location. |
@@ -141,7 +139,7 @@ Start at the top and work down. The order is how quickly each check can be ruled
 
 If the desktop appears but will not open, the object model is working and the problem is in the connection or the session host. The [failure article](/azure-virtual-desktop/how-azure-virtual-desktop-fails/) separates those cases, and the [connection article](/azure-virtual-desktop/follow-a-connection-step-by-step/) walks through a connection step by step.
 
-## Common mistakes (judgement)
+## Common mistakes
 
 - **Assigning users to a host pool.** The assignment belongs on the application group.
 - **Building a host pool for each department.** Pools exist to group hosts with the same needs.
@@ -152,29 +150,17 @@ If the desktop appears but will not open, the object model is working and the pr
 
 ## How to validate your object model
 
-These checks are my judgement. Run them before you add users.
+Run these checks before you add users.
 
 1. For each application group, note its host pool and workspace, and confirm both are in the same location and deployment scope.
 2. Assign a test user through a security group and sign in with Windows App. Confirm the expected resources appear and nothing extra.
 3. Test a user who is in two groups, one for each application group type, on a pool with each setting of the preferred type. Confirm the client shows what the table says.
 4. Remove the test user from the group and confirm the resources disappear after the client refreshes.
 
-## Related book chapter, labs and project
-
-[Chapter 3](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch03-avd-object-model.md) of the book covers the object model. [Lab 2](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-02-terraform-foundation-and-governance.md) builds the Terraform foundation (Terraform is a tool that describes Azure resources as code), [Lab 7](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-07-avd-host-pool.md) creates the host pool, workspace and desktop application group, and [Lab 9](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-09-application-groups.md) publishes a RemoteApp.
-
-The labs walk through those steps. None has been run end to end in Azure. [Project 10](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/scenarios/project-10-remoteapp-line-of-business.md) is a fictional case study.
-
 Next: [Follow a Connection Step by Step: Reverse Connect, RDP Shortpath and Where It Breaks](/azure-virtual-desktop/follow-a-connection-step-by-step/).
 
 ## Sources
 
 - [Azure Virtual Desktop terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology)
-- [preferred application group type](https://learn.microsoft.com/en-us/azure/virtual-desktop/preferred-application-group-type)
-- [FAQ](https://learn.microsoft.com/en-us/azure/virtual-desktop/faq)
-- [host pool management approaches](https://learn.microsoft.com/en-us/azure/virtual-desktop/host-pool-management-approaches)
-- [regional host pools](https://learn.microsoft.com/en-us/azure/virtual-desktop/regional-host-pools)
-- [service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience)
-- [troubleshoot service connections](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-service-connection)
-- [troubleshoot PowerShell](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-powershell)
-- [Get-AzRoleAssignment](https://learn.microsoft.com/en-us/powershell/module/az.resources/get-azroleassignment)
+- [Regional host pools](https://learn.microsoft.com/en-us/azure/virtual-desktop/regional-host-pools)
+- [Troubleshoot Azure Virtual Desktop service connections](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-service-connection)

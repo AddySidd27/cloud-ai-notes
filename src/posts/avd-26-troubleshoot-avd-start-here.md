@@ -38,7 +38,7 @@ For the bigger picture of what can fail, read [How Azure Virtual Desktop fails](
 
 ## Turn on diagnostics first
 
-Diagnostics are off until you turn them on, and each AVD object (each host pool, application group and workspace) has its own setting. The documentation says to enable diagnostics for each object you want to monitor. Data is available only for activity after you enable it, and it might take a few hours after the first set-up.
+Diagnostics are off until you turn them on, and each AVD object (each host pool, application group and workspace) has its own setting. Enable diagnostics for each object you want to monitor. Data is available only for activity after you enable it, and it might take a few hours after the first set-up.
 
 You need a Log Analytics workspace before you start. If you do not have one, create one in the Azure portal first (search for **Log Analytics workspaces**, then **Create**). Then repeat these steps for each host pool, application group and workspace:
 
@@ -65,7 +65,7 @@ All AVD diagnostic tables start with `WVD`. A table is a list of rows, one row p
 
 You can also use **Monitor** > **Logs** and set the scope there. In the example queries screen, set the filter to **Category** and choose **Azure Virtual Desktop** to see ready-made queries.
 
-Log data can arrive late. The AVD Insights troubleshooting page says Azure Monitor has a 15-minute latency for log data, so if you see nothing from the last few minutes, wait and refresh.
+Log data can arrive late. Azure Monitor can take up to 15 minutes to show log data, so Insights can be that far behind. If you see nothing from the last few minutes, wait and refresh.
 
 ## What each table holds
 
@@ -93,7 +93,7 @@ A few details from the table pages:
 
 ## One connection, one CorrelationId
 
-Each connection attempt has a `CorrelationId`. It is the ID of that activity, and the documentation says it is assigned to every diagnostic within the connection. So you find the failing attempt in `WVDConnections`, copy its `CorrelationId`, and look for the same value in `WVDErrors`, `WVDCheckpoints` and `WVDConnectionNetworkData`.
+Each connection attempt has a `CorrelationId`. It is the ID of that activity, and it is assigned to every diagnostic within the connection. So you find the failing attempt in `WVDConnections`, copy its `CorrelationId`, and look for the same value in `WVDErrors`, `WVDCheckpoints` and `WVDConnectionNetworkData`.
 
 `WVDConnections` reports a connection in three states:
 
@@ -109,7 +109,7 @@ A connection with Started but no Connected never reached a session host. A conne
 
 **Connections that never reach AVD leave no rows.** The diagnostics service is part of AVD. If the user's network, DNS or client stops the connection before it reaches the service, nothing is logged. "The user says it failed and the logs are empty" points to the client side or the network, not to a missing log. See [Required connectivity](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/).
 
-**`ServiceError` tells you who can fix it.** In `WVDErrors`, `ServiceError` equal to `false` means the issue can be resolved by an admin task. `true` means you need to escalate to Microsoft, and the documentation says to give the CorrelationId when you do.
+**`ServiceError` tells you who can fix it.** In `WVDErrors`, `ServiceError` equal to `false` means the issue can be resolved by an admin task. `true` means you need to escalate to Microsoft, and give them the CorrelationId when you do.
 
 ## How to read a KQL query
 
@@ -185,15 +185,15 @@ Known limits from the Insights troubleshooting page: a connection's completion e
 
 ## Logs on the session host
 
-Some evidence is only on the session host. Sign in to the host as an administrator, the way you normally manage a VM (for example over Azure Bastion or RDP), search the Start menu for **Event Viewer** and open it. Then go to **Windows Logs** > **Application** and look for events from these sources: WVD-Agent, WVD-Agent-Updater, RDAgentBootLoader and MsiInstaller. These are the sources the documentation names for agent and connection problems. The host articles in this series use them.
+Some evidence is only on the session host. Sign in to the host as an administrator, the way you normally manage a VM (for example over Azure Bastion or RDP), search the Start menu for **Event Viewer** and open it. Then go to **Windows Logs** > **Application** and look for events from these sources: WVD-Agent, WVD-Agent-Updater, RDAgentBootLoader and MsiInstaller. These are the sources that log agent and connection problems. The host articles in this series use them.
 
 FSLogix keeps its own logs. The text logs are in `C:\ProgramData\FSLogix\Logs`, and the profile log is in the `Profile` folder under it. Logging settings must be configured first. The FSLogix event logs are in Event Viewer under **Applications and Services Logs** > **FSLogix**. The FSLogix profile articles in this series cover how to read them.
 
 ## What to do in the first two minutes
 
-This order is a suggestion built from the pages above, not a documented procedure.
+This order is my suggestion.
 
-1. Check Azure status and Azure Service Health. The AVD troubleshooting overview says to do this before anything else.
+1. Check Azure status and Azure Service Health. Do this before anything else.
 2. Run the all-connections query for the user. Did a row appear for the time of the problem? If not, the connection did not reach AVD.
 3. If rows appear, look at the last `State` and copy the `CorrelationId`.
 4. Run the errors query. Look at `ServiceError`, `CodeSymbolic` and `Message`.

@@ -40,7 +40,7 @@ To read statuses you need access to the host pool in the Azure portal. To fix mo
 
 ## What the status means
 
-Open the host pool, select Session hosts, and read the Status column. The table is from the session host statuses page.
+Open the host pool, select Session hosts, and read the Status column. The table below explains each status.
 
 | Status | What it means | New sessions go to it? |
 |---|---|---|
@@ -71,18 +71,18 @@ In the Azure portal, open the VM and read its power state. If it is stopped, sta
 2. Select the host pool, then Session hosts.
 3. Select the name of the session host. The page shows which health checks failed.
 
-Match the failed check to this table, from the statuses page.
+Match the failed check to this table.
 
 | Health check | If it fails | What to do |
 |---|---|---|
 | Domain joined | Fatal. Users cannot connect. | Join the session host to a domain. |
-| Domain trust check | Fatal. The service cannot connect if the host cannot reach the authentication domain. | Fix the trust or the path to the domain. The page gives no steps. |
+| Domain trust check | Fatal. The service cannot connect if the host cannot reach the authentication domain. | Fix the trust or the path to the domain. |
 | Side-by-side (SxS) Stack Listener | Fatal. Users cannot connect. | Restart the VM. If that does not work, see check 5 and then contact support. |
 | Geneva Monitoring Agent | Semi-fatal. Connections can work but have no logging information. | Make sure a monitoring agent is installed. If it is, contact support. See check 6. |
 | App Attach health check | Not fatal, but some apps stop working for users. | Check that the app attach service works during package staging and destaging. |
 | Metadata service check | Not fatal. | See check 6, the IMDS part. |
 
-The names differ between pages. The agent troubleshooting page calls the three Needs Assistance checks `UrlsAccessibleCheck`, `MetaDataServiceCheck` and `MonitoringAgentCheck`. The sample Log Analytics query below uses a list of 11 other names, such as `DomainJoin`, `SxSStack`, `URLCheck` and `GenevaAgent`. These are not one list. Use the name the portal shows for your host.
+The check names differ between sources. The agent troubleshooting guidance calls the three Needs Assistance checks `UrlsAccessibleCheck`, `MetaDataServiceCheck` and `MonitoringAgentCheck`. The sample Log Analytics query below uses a list of 11 other names, such as `DomainJoin`, `SxSStack`, `URLCheck` and `GenevaAgent`. These are not one list. Use the name the portal shows for your host.
 
 ### 3. Read the agent events on the host
 
@@ -106,7 +106,7 @@ Also open Services (search the Start menu for `services.msc`) and check that Rem
 | ID 3389, `MissingMethodException: Method not found` | The agent update failed and rolled back. The .NET Framework on the VM is older than 4.7.2. | Upgrade .NET Framework to 4.7.2 or later. |
 | Event 7000 or 7011 (service start timeouts) | The boot loader does not start fast enough at boot. | See check 7. |
 | "Connection not found: RDAgent does not have an active connection to the broker" | The host is at its connection limit. | Lower the maximum session limit, or give the VMs more resources. |
-| `DisableRegistryTools` set to 1 | A registry setting stops the agent from installing the side-by-side stack, which causes an `InstallMsiException`. | Remove the key from the three places the agent troubleshooting page lists, remove the broken stack install, restart, and let the agent reinstall the stack. |
+| `DisableRegistryTools` set to 1 | A registry setting stops the agent from installing the side-by-side stack, which causes an `InstallMsiException`. | Remove the key from the three places where it can be set (`HKU\DEFAULT`, `HKU\S-1-5-18` and `HKCU`, under `SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System`), remove the broken stack install, restart, and let the agent reinstall the stack. |
 
 ### 5. Check the stack listener
 
@@ -116,7 +116,7 @@ The side-by-side stack must be listening for the host to take connections. On th
 qwinsta.exe
 ```
 
-Note the version number next to `rdp-sxs`. In the STATE column, both `rdp-tcp` and `rdp-sxs` should say `Listen`. If they do not, or are missing, there is a stack problem.
+`qwinsta.exe` lists the sessions and listeners on the host. Note the version number next to `rdp-sxs`. In the STATE column, both `rdp-tcp` and `rdp-sxs` should say `Listen`. If they do not, or are missing, there is a stack problem.
 
 If the listener is not working on Windows 10 version 2004, check these in the registry:
 
@@ -152,7 +152,7 @@ These three checks keep a host at Needs Assistance. Users can still connect.
 If the boot loader is stopped after a restart, or Windows logs service start timeouts (events 7000 or 7011), or users cannot connect with start on connect, the boot loader may not start quickly enough. Try these in order:
 
 1. In Services, set Remote Desktop Agent Loader to Automatic (Delayed Start).
-2. Raise the service timeout. In an administrator command prompt run `reg add "HKLM\SYSTEM\CurrentControlSet\Control" /v ServicesPipeTimeout /t REG_DWORD /d 60000 /f`. The page says to start at 60,000 ms and tune as needed. Restart the host.
+2. Raise the service timeout. In an administrator command prompt run `reg add "HKLM\SYSTEM\CurrentControlSet\Control" /v ServicesPipeTimeout /t REG_DWORD /d 60000 /f`. Start at 60,000 ms and tune as needed. Restart the host.
 3. Check boot performance. Make sure the VM meets the recommended IOPS and that startup tasks, such as antivirus scans, heavy logon scripts or large group policies, do not starve the agent.
 4. If the host still shows Needs Assistance or Unavailable, run `WVDAgentUrlTool.exe` and fix any endpoint that fails.
 
@@ -163,7 +163,7 @@ After a restart, the host should become Available within a few minutes.
 Use this when the host is stuck in Upgrading or Unavailable, the stack listener does not work, the Remote Desktop Agent Loader service or the `RdAgentBootLoader` process is missing, or nothing above helped.
 
 1. Sign in to the host as an administrator. In Programs and Features, uninstall all of these, remove every instance, then restart the VM: Remote Desktop Agent Boot Loader, Remote Desktop Services Infrastructure Agent, Remote Desktop Services Infrastructure Geneva Agent, Remote Desktop Services SxS Network Stack. If you are connected over RDP when you uninstall the SxS stack, choose "Do not close applications" when asked, or your connection drops.
-2. In the host pool, select Session hosts, tick the host and select Remove. If this is a personal host pool, write down which user the host is assigned to first, so you can assign it again after it registers (this is a precaution, not a step from the agent page).
+2. In the host pool, select Session hosts, tick the host and select Remove. If this is a personal host pool, write down which user the host is assigned to first, so you can assign it again after it registers.
 3. On the host pool Overview, select Registration key, then Generate new key. Choose an expiration date and generate the key only for as long as you need it. Copy it.
 4. Download the Azure Virtual Desktop Agent installer and the Boot Loader installer from the links in [Register session hosts to a host pool](https://learn.microsoft.com/en-us/azure/virtual-desktop/add-session-hosts-host-pool#register-session-hosts-to-a-host-pool). Run the agent installer and paste the key when asked. Then run the Boot Loader installer. The agent installer also installs the side-by-side stack and the Geneva monitoring agent. You might need to unblock the downloaded files in their Properties first.
 5. Restart the VM. After a few minutes the host should show Available in the host pool.
@@ -174,7 +174,7 @@ These need the host pool's diagnostic setting for Agent Health Status to be on.
 
 ### Health checks over time
 
-This is the "HealthChecks of SessionHost" sample from the Azure Monitor query reference. It shows, per host and per check, how many times each result happened and when it was first and last seen. Its comment says that in some states, such as Unavailable or Upgrading, hosts do not run health checks, so those hosts may be missing from the result.
+This is the "HealthChecks of SessionHost" sample from the Azure Monitor query reference. It shows, per host and per check, how many times each result happened and when it was first and last seen. In some states, such as Unavailable or Upgrading, hosts do not run health checks, so those hosts may be missing from the result.
 
 How to read it. The two `let` blocks at the top are lookup lists. The agent stores each check and each result as a number, and these lists turn the numbers into names such as `SxSStack` and `Succeeded`. The `WVDAgentHealthStatus` part then splits the stored check results into one row per check (`mv-expand` and `bag_unpack`), adds the check name, and counts each result for each host with the first and last time it was seen.
 
@@ -218,7 +218,7 @@ WVDAgentHealthStatus
 
 ### Latest status for each host
 
-This query was written for this article. It is not a documentation sample. It uses only columns that the `WVDAgentHealthStatus` table lists. Try it in a test workspace first. It takes each host's newest row in the last day.
+This query is not a published sample. It uses only columns that the `WVDAgentHealthStatus` table lists. Try it in a test workspace first. It takes each host's newest row in the last day.
 
 ```kusto
 WVDAgentHealthStatus
@@ -229,11 +229,11 @@ WVDAgentHealthStatus
 
 Line by line: line 2 keeps the last day of agent reports. Line 3 (`arg_max`) keeps, for each host, only the row with the newest `TimeGenerated` and shows the listed columns from that row. Line 4 sorts by `Status`. You get one row per host. A healthy host has a recent `LastHeartBeat` (the last time the agent reported in), an `UpgradeState` that is not a failure, and an empty `UpgradeErrorMsg`. A bad host has an old `LastHeartBeat`, which means the agent stopped reporting (go to check 3 and check 8), or an `UpgradeErrorMsg` that names an upgrade problem. A host that is missing from the result sent no report in the last day.
 
-The table page only describes `Status` as "the current status of the VM, whether its healthy or not", and does not list its possible values. Read the values in your own results before you filter on a word.
+The table reference only describes `Status` as "the current status of the VM, whether its healthy or not", and does not list its possible values. Read the values in your own results before you filter on a word.
 
 ### Is the same error hitting other users?
 
-This is a sample from the diagnostics page. Take `CodeSymbolic` from a failing row in `WVDErrors` and put it in place of `ErrorSymbolicCode`.
+This is a sample from the diagnostics reference. Take `CodeSymbolic` from a failing row in `WVDErrors` and put it in place of `ErrorSymbolicCode`.
 
 ```kusto
 WVDErrors
@@ -245,7 +245,7 @@ In `WVDErrors`, `ServiceError` is `false` for problems an administrator can fix.
 
 ## If the host is still not Available
 
-If the host is still Unavailable after the steps above, the statuses page says to open a support case. Put these in the case: what you changed, the Application log entries from the agent sources, the output of `qwinsta.exe`, the health check that failed, and any CorrelationId from `WVDErrors` rows with `ServiceError` set to `true`.
+If the host is still Unavailable after the steps above, open a support case. Put these in the case: what you changed, the Application log entries from the agent sources, the output of `qwinsta.exe`, the health check that failed, and any CorrelationId from `WVDErrors` rows with `ServiceError` set to `true`.
 
 Next: [Troubleshoot AVD Disconnects and Slow Sessions](/azure-virtual-desktop/troubleshoot-disconnects-and-slow-sessions/).
 

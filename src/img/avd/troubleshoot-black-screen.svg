@@ -63,7 +63,7 @@
 <rect x="560" y="341" width="480" height="84" rx="8" fill="#ffffff" stroke="#b4bcc7" stroke-width="1.5"/>
 <text x="800.0" y="367" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
 <text x="800.0" y="370.0" font-size="12" font-weight="600" text-anchor="middle" fill="#1f2933">Known issue: KB5124008 and explorer.exe</text>
-<text x="800.0" y="388.0" font-size="12" text-anchor="middle" fill="#1f2933">No fix is listed yet: collect dumps, open a case</text>
+<text x="800.0" y="388.0" font-size="12" text-anchor="middle" fill="#1f2933">Collect dumps and logs, then open a support request</text>
 <text x="800.0" y="406.0" font-size="11" text-anchor="middle" fill="#5f6b7a">Source: FSLogix known issues</text>
 <rect x="560" y="471" width="480" height="84" rx="8" fill="#ffffff" stroke="#b4bcc7" stroke-width="1.5"/>
 <text x="800.0" y="497" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933"></text>

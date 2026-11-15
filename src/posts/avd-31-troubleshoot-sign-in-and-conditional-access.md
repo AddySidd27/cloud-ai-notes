@@ -16,7 +16,7 @@ These all happen at the sign-in stage, but the cause can sit in three different 
 
 Two earlier articles explain the background and this article does not repeat it. [How sign-in works](/azure-virtual-desktop/how-sign-in-works-three-authentications-and-sso/) describes the three sign-ins and single sign-on. [Conditional Access and MFA for AVD](/azure-virtual-desktop/conditional-access-and-mfa-for-avd/) shows how to build the policies.
 
-Some checks below use Log Analytics (Azure's log search tool), which returns nothing until diagnostics are on. The article [Turn on the logs and learn to read them](/azure-virtual-desktop/troubleshoot-avd-start-here/) shows how to turn them on and explains the query keywords. Before any check, look at the public Azure status page and Azure Service Health (in the Azure portal, search for **Service Health**), as the troubleshooting overview says.
+Some checks below use Log Analytics (Azure's log search tool), which returns nothing until diagnostics are on. The article [Turn on the logs and learn to read them](/azure-virtual-desktop/troubleshoot-avd-start-here/) shows how to turn them on and explains the query keywords. Before any check, look at the public Azure status page and Azure Service Health (in the Azure portal, search for **Service Health**).
 
 ## Key terms
 
@@ -57,7 +57,7 @@ Some checks below use Log Analytics (Azure's log search tool), which returns not
 | Feed loads but the session does not start | Conditional Access on the Windows Cloud Login app, or a role on the session host |
 | Asked for full credentials after a screen lock | Session lock setting |
 
-This grouping is a guide built from the pages listed at the end, not a documented list.
+This grouping is a guide.
 
 ![Decision tree for Azure Virtual Desktop sign-in failures. The first question is whether the feed is empty after sign-in, which leads to the application group assignment; if not, it asks whether the Microsoft Entra sign-in log shows a failed entry and whether the user is prompted again and again. Then it asks which error code appears, grouped as AADSTS50058 or 50076, AADSTS530002 or 530032, and AADSTS65001 or registration required, and each yes leads to one fix. Anything left over leads to the session host roles and a support request.](/img/avd/troubleshoot-sign-in-and-conditional-access.svg)
 
@@ -65,7 +65,7 @@ This grouping is a guide built from the pages listed at the end, not a documente
 
 ## Check 1: where does it fail?
 
-A user goes through three sign-ins: to the service (which loads the feed), through the gateway to start a connection, and to the session host. The documentation puts it this way: when a user can start the client and sign in but sees no icons, check permissions and Conditional Access. If the feed appears but the session fails to start, the problem is probably in the connection or on the session host. Ask the user two things: what did you see, and at which step?
+A user goes through three sign-ins: to the service (which loads the feed), through the gateway to start a connection, and to the session host. When a user can start the client and sign in but sees no icons, check permissions and Conditional Access. If the feed appears but the session fails to start, the problem is probably in the connection or on the session host. Ask the user two things: what did you see, and at which step?
 
 ## Check 2: is the user assigned to a desktop?
 
@@ -77,18 +77,18 @@ Get-AzRoleAssignment -SignInName <userupn>
 
 Look in the output for the role **Desktop Virtualization User** and a `Scope` that is an application group (the path contains `applicationGroups`). If the user is meant to get access through a group, check the group on the application group's **Assignments** page instead. If neither the user nor one of their groups is assigned, the user has no desktops and the feed is empty. To fix it, in the Azure portal open **Azure Virtual Desktop**, then **Application groups**, then the application group, select **Assignments**, then **+ Add**, and pick the user or a security group.
 
-The documentation then lists these checks:
+Run these checks:
 
 1. Confirm the user is assigned to an application group.
 2. Confirm the user signs in with the right credentials.
 3. If the web client is used, check for cached credential problems.
 4. If the user is in a Microsoft Entra group, make sure it is a security group. Azure Virtual Desktop does not support Microsoft Entra distribution groups (mail lists).
 
-The documentation also names two causes of a feed that disappears: a subscription moved from one Microsoft Entra tenant to another (reassign the users to their application groups), and a subscription created by a CSP provider and then transferred to the customer (re-register the Microsoft.DesktopVirtualization resource provider under Subscriptions, Resource providers).
+Two other causes of a feed that disappears: a subscription moved from one Microsoft Entra tenant to another (reassign the users to their application groups), and a subscription created by a CSP provider and then transferred to the customer (re-register the Microsoft.DesktopVirtualization resource provider under Subscriptions, Resource providers).
 
 ## Check 3: did the user reach Azure Virtual Desktop at all?
 
-Connections that never reach the service do not show up in diagnostics. Look the user up in the connection table. These are documentation samples; replace `userupn` with the user's sign-in name:
+Connections that never reach the service do not show up in diagnostics. Look the user up in the connection table. These are published samples; replace `userupn` with the user's sign-in name:
 
 ```kusto
 WVDConnections
@@ -105,7 +105,7 @@ WVDErrors
 
 The first query lists the user's connection rows, oldest first. The second lists the user's error rows. Both are explained line by line in the start article. Reading the result:
 
-- **No rows at all.** The documentation says connections that do not reach the service are missing from the data. So the failure probably happened before Azure Virtual Desktop, in the client, the network or the Microsoft Entra sign-in. Go to check 5.
+- **No rows at all.** Connections that do not reach the service are missing from the data. So the failure probably happened before Azure Virtual Desktop, in the client, the network or the Microsoft Entra sign-in. Go to check 5.
 - **Rows in `WVDErrors`.** Note the `CodeSymbolic`, the `Message` and the `ServiceError` value. `false` means an admin can fix it. `true` means escalate to Microsoft with the CorrelationId.
 - **Rows in `WVDConnections`.** `SessionHostJoinType` shows how the host is joined (`DomainJoined`, `HybridAzureADJoined` or `AzureADJoined`), and `AadTenantId` shows the user's tenant. Use them to pick the right checks below.
 
@@ -124,7 +124,7 @@ Line by line: line 2 keeps errors where `ServiceError` is `false`, the ones an a
 
 ## Check 4: the prerequisites
 
-The sign-in troubleshooting page asks you to confirm three things before anything else:
+Confirm three things before anything else:
 
 - Single sign-on is enabled on the host pool.
 - The Azure Virtual Desktop app and the Windows Cloud Login app exist in the tenant (the app IDs are in the table below).
@@ -132,7 +132,7 @@ The sign-in troubleshooting page asks you to confirm three things before anythin
 
 Conditional Access needs Microsoft Entra ID P1 or P2 licensing. It cannot be used while Security Defaults are on.
 
-These are the apps that matter, from the Conditional Access setup page:
+These are the apps that matter:
 
 | App | App ID | What it covers |
 |---|---|---|
@@ -141,11 +141,11 @@ These are the apps that matter, from the Conditional Access setup page:
 | Windows 365 | `0af06dc6-e4b5-4f28-818e-e78e62d137a5` | Windows App signs in to this app too, even if the user has no Cloud PC. No policy should block it. |
 | Azure Virtual Desktop Azure Resource Manager Provider | `50e95039-b200-4007-bc97-8d5790743a63` | Used only to get the feed. Do not add it to a Conditional Access policy, and do not require MFA on it. |
 
-When a user signs in through the web client, the sign-in log lists the client app ID `a85cf173-4192-42f8-81fa-777a763e6e2c` (Azure Virtual Desktop client). The documentation explains that this client app is linked to the server app where the policy was set.
+When a user signs in through the web client, the sign-in log lists the client app ID `a85cf173-4192-42f8-81fa-777a763e6e2c` (Azure Virtual Desktop client). This client app is linked to the server app where the policy was set.
 
 ## Check 5: read the Microsoft Entra sign-in log
 
-This is the main tool for any sign-in problem. The documentation gives these steps:
+This is the main tool for any sign-in problem. Follow these steps:
 
 1. In the Microsoft Entra admin center, go to Identity, then Monitoring & health, then Sign-in logs.
 2. Filter by the affected user.
@@ -154,7 +154,7 @@ This is the main tool for any sign-in problem. The documentation gives these ste
 
 If the sign-in log shows no failed entry for these apps, the sign-in probably did not get that far. Check the client and the network. The [client article](/azure-virtual-desktop/choose-the-avd-client/) and the [connectivity article](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/) cover those.
 
-**Optional: query the sign-in log in Log Analytics.** The sign-in log only reaches a workspace if you send it there. In the Microsoft Entra admin center, go to Entra ID, Monitoring & health, Diagnostic settings, add a diagnostic setting, select `SigninLogs`, choose Send to Log Analytics workspace and save. You need at least the Security Administrator role, and the data can take up to 15 minutes to appear. The query below is written for this article. It is not a documentation sample. It uses only columns on the `SigninLogs` table page:
+**Optional: query the sign-in log in Log Analytics.** `SigninLogs` has data only if a Microsoft Entra diagnostic setting sends the sign-in logs to your workspace. To set that up, go to the Microsoft Entra admin center, then Entra ID, Monitoring & health, Diagnostic settings. Add a diagnostic setting, select `SigninLogs`, choose Send to Log Analytics workspace and save. You need at least the Security Administrator role, and the data can take up to 15 minutes to appear. The query below is not a published sample. It uses only columns of the `SigninLogs` table:
 
 ```kusto
 SigninLogs
@@ -167,7 +167,7 @@ SigninLogs
 
 Line by line: line 2 keeps the last day. Line 3 keeps this user (replace `userupn` as before). Line 4 keeps only sign-ins to the Azure Virtual Desktop app and the Windows Cloud Login app, using their app IDs from the table above. Line 5 keeps the columns that matter. Line 6 puts the newest first. Healthy: the rows have `ResultType` 0. Bad: a row with another `ResultType`, which is the error number without the `AADSTS` letters, such as 50076. Look it up in the table in check 6. If `ConditionalAccessStatus` is `failure` on that row, a policy blocked it, and the **Conditional Access** tab of the same entry in the sign-in log names the policy.
 
-The table page says `ResultType` is the error code and 0 means success, and that `ConditionalAccessStatus` is `success`, `failure` or `notApplied`. Note that this CorrelationId belongs to the Microsoft Entra sign-in. It is not the same value as the CorrelationId in the Azure Virtual Desktop tables (they come from different services, and the pages do not say the two match).
+`ResultType` is the error code and 0 means success, and that `ConditionalAccessStatus` is `success`, `failure` or `notApplied`. Note that this CorrelationId belongs to the Microsoft Entra sign-in. It is not the same value as the CorrelationId in the Azure Virtual Desktop tables (they come from different services, so the two values do not match).
 
 ## Check 6: match the error to a fix
 
@@ -182,11 +182,11 @@ The table page says `ResultType` is the error code and 0 means success, and that
 | A Conditional Access block when signing in to Windows App or connecting | A policy blocks access to an Entra resource. | If Windows App is used in a browser, the user needs access to both the Azure Virtual Desktop and Windows 365 apps. If SSO is on, the user needs access to the Windows Cloud Login app. |
 | AD FS log shows `MSIS7102: Requested Authentication Method is not supported on the STS` | Windows App sends `prompt=login`. If the federated domain's `PromptLoginBehavior` is unset, Microsoft Entra ID can turn it into a password request that AD FS does not support. | For supported AD FS versions, set `PromptLoginBehavior = nativeSupport` on the affected federated domain. |
 
-For `AADSTS530002`, the documentation adds that most deployments should not apply user-device compliance policies to session hosts at connection time, and should scope connection-time compliance to client devices.
+For `AADSTS530002`, most deployments should not apply user-device compliance policies to session hosts at connection time, and should scope connection-time compliance to client devices.
 
 ## Check 7: repeated prompts
 
-If the user is asked again and again, the documentation lists these causes:
+If the user is asked again and again, these are the causes:
 
 | Cause | Fix |
 |---|---|
@@ -197,7 +197,7 @@ If the user is asked again and again, the documentation lists these causes:
 | The consent prompt is not hidden. It looks like a sign-in prompt on the first connection to each session host | Hide the consent prompt. |
 | The session lock shows the remote lock screen, so users enter full credentials after a lock or idle time | Set the session to disconnect on lock. The user can then reconnect with SSO. |
 
-The Conditional Access setup page also says reauthentication happens when a new access token is needed, and that users must reauthenticate if a network drop forces the session to be set up again after the sign-in frequency has passed. That can mean more prompts on unstable networks. For slow or dropped sessions, see the [disconnects and slow sessions playbook](/azure-virtual-desktop/troubleshoot-disconnects-and-slow-sessions/).
+Users reauthenticate when a new access token is needed, and also when a network drop forces the session to be set up again after the sign-in frequency has passed. That can mean more prompts on unstable networks. For slow or dropped sessions, see the [disconnects and slow sessions playbook](/azure-virtual-desktop/troubleshoot-disconnects-and-slow-sessions/).
 
 ### How to hide the consent prompt
 
@@ -211,9 +211,9 @@ By default, with single sign-on on, users see a dialog that asks them to allow t
 
 ## Check 8: the session host
 
-If the feed loads and the Conditional Access checks pass, but the session still will not start, look at the host. For Entra joined session hosts in host pools that do not use a session host configuration, the documentation says to assign users the **Virtual Machine User Login** role, and admins who need local administrator rights the **Virtual Machine Administrator Login** role. You can assign them on the VMs, the resource group or the subscription. For host pools that use a session host configuration, the page says the extra role assignment is not required.
+If the feed loads and the Conditional Access checks pass, but the session still will not start, look at the host. For Entra joined session hosts in host pools that do not use a session host configuration, assign users the **Virtual Machine User Login** role, and admins who need local administrator rights the **Virtual Machine Administrator Login** role. You can assign them on the VMs, the resource group or the subscription. For host pools that use a session host configuration, the extra role assignment is not required.
 
-Two more points from the same page:
+Two more points:
 
 - If you use MFA with Entra joined hosts and do not want to limit sign-in to strong methods such as Windows Hello for Business, exclude the Azure Windows VM Sign-In app from the Conditional Access policy.
 - If you do not use SSO, a Windows desktop client can connect to an Entra joined host only when the local PC is Entra joined, hybrid joined, or Entra registered (on Windows 11 or Windows 10 version 2004 or later) in the same tenant as the host. Otherwise, and for web, Android, macOS and iOS clients, add the custom RDP property `targetisaadjoined:i:1` to the host pool. These connections accept only a user name and password.
@@ -223,7 +223,7 @@ Two more points from the same page:
 1. Note the AADSTS code, the time (UTC), the user, the app and the CorrelationId from the sign-in log. Note the policy name from the Conditional Access tab.
 2. If the failure is in `WVDErrors`, note the `ServiceError` value. `true` means escalate to Microsoft with the CorrelationId.
 3. Check the Azure status page and Azure Service Health once more.
-4. Open an Azure support request and choose Azure Virtual Desktop as the service. For third-party sign-in tools, the documentation says to check that the provider supports Azure Virtual Desktop and ask them about known issues.
+4. Open an Azure support request and choose Azure Virtual Desktop as the service. For third-party sign-in tools, check that the provider supports Azure Virtual Desktop and ask them about known issues.
 
 Next: [Troubleshoot AVD Session Hosts That Do Not Register to the Host Pool](/azure-virtual-desktop/troubleshoot-host-pool-registration-failures/).
 

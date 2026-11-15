@@ -4,7 +4,6 @@ slug: "the-cloud-operating-model"
 series: "Azure Landing Zone"
 part: ""
 post_number: 4
-status: draft
 preview_feature: false
 fictional_case: false
 learn_pages:
@@ -50,7 +49,6 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/prepare-organization-for-cloud"
     icons: "Azure Public Service Icons V24 (Subscriptions, Azure Policy), unmodified"
     source: "../diagrams/post-04-cloud-operating-models.drawio"
-production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/the-cloud-operating-model/"
 order: 4
@@ -60,7 +58,7 @@ next_title: "Business Requirements: Compliance, Region, Recovery, Connectivity a
 tags: [alz]
 ---
 
-A landing zone covers areas such as management groups, subscriptions, networking and policy ([the landing zone introduction post](/azure-landing-zone/what-is-an-azure-landing-zone/)). A subscription is a container for Azure resources and billing, and a management group groups subscriptions ([the tenant and subscriptions post](/azure-landing-zone/tenant-billing-subscriptions-and-management-groups/)). Tools do not decide who approves a new subscription, who owns the network, or who gets the call when something breaks. People decide that (judgement).
+A landing zone covers areas such as management groups, subscriptions, networking and policy ([the landing zone introduction post](/azure-landing-zone/what-is-an-azure-landing-zone/)). A subscription is a container for Azure resources and billing, and a management group groups subscriptions ([the tenant and subscriptions post](/azure-landing-zone/tenant-billing-subscriptions-and-management-groups/)). Tools do not decide who approves a new subscription, who owns the network, or who gets the call when something breaks. People decide that.
 
 A cloud operating model is how your organization manages cloud resources, team responsibilities and collaboration. A well-designed model helps align cloud work with business goals, speed up workload delivery, clarify accountability and reduce operational overhead.
 
@@ -135,7 +133,7 @@ The full table also covers compliance, deployment, development, reliability and 
 
 ## More detail for the shared management model
 
-The Learn page on [shared management operations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/shared-management-operating-model) adds four points. Platform and workload teams agree service level agreements (SLAs, written promises about how fast requests are handled) and metrics for requests and support. Platform services are treated as internal products, with a backlog and feedback from workload teams.
+The documentation page on [shared management operations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/shared-management-operating-model) adds four points. Platform and workload teams agree service level agreements (SLAs, written promises about how fast requests are handled) and metrics for requests and support. Platform services are treated as internal products, with a backlog and feedback from workload teams.
 
 Large enterprises use several platform teams, one per area such as networking or identity. A team of 6 to 10 people ("two-pizza" team) is the suggested starting size. The page [Prepare your organization for the cloud](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/prepare-organization-for-cloud#choose-a-cloud-operating-model) also says to involve business and IT leaders, so the model has support.
 
@@ -147,31 +145,10 @@ Large enterprises use several platform teams, one per area such as networking or
 - **The model is chosen once and never reviewed.** Reassess regularly whether the current model still supports your goals and needs. In a centralized model, one team can become a bottleneck as adoption scales.
 - **Platform services are hard to find or use.** Platform services should be easy to find, and ready for workload teams to use on their own, which reduces dependency on the platform team.
 
-## From my own projects
-
-These situations came up in my own work: a central team that became a bottleneck for everyone else, and, in other cases, platform and workload teams that worked well together. Typical results of the bottleneck are slow delivery and confusion during incidents about who should act (judgement).
-
-## The files in my repo
-
-- Operating model, with a responsibility table and a list of decisions to record: [operating-model.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/01-foundations/operating-model.md)
-
 Next: [Business Requirements: Compliance, Region, Recovery, Connectivity and Cost](/azure-landing-zone/business-requirements-compliance-region-recovery-connectivity-and-cost/).
 
 ## Sources
 
-Microsoft Learn, checked 14 November 2026:
-
 - [Choose a cloud operating model](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/prepare-organization-for-cloud#choose-a-cloud-operating-model)
 - [Shared management operations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/shared-management-operating-model)
 - [Ready your cloud operations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/manage/ready-cloud-operations)
-- [Cloud Adoption Framework overview](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/overview)
-- [Build a cloud governance team](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/govern/build-cloud-governance-team)
-- [Azure landing zone design areas](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-areas)
-- [What is a hybrid cloud?](https://learn.microsoft.com/training/modules/intro-to-azure-hybrid-services/2-hybrid-cloud-overview)
-- [Azure Policy](https://learn.microsoft.com/en-us/azure/governance/policy/overview)
-- [Microsoft Entra](https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra)
-- [Defender for Cloud](https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction)
-- [Resource tags](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-tagging)
-- [Quotas](https://learn.microsoft.com/en-us/azure/quotas/quotas-overview)
-- [Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management)
-- [Budgets](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/quick-create-budget-bicep)

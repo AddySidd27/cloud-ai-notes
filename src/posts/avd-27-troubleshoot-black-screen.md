@@ -35,7 +35,7 @@ This article gives you an order for checking. It first separates a black screen 
 Three versions of "black screen" have different causes:
 
 1. **Black right after the credentials, and it stays black.** This is the case the Windows black-screen guide covers: the system fails to load the user profile and desktop. Most of this article is about it.
-2. **Black for a few minutes, then the desktop loads.** The Windows guide says it does not cover this case. A slow profile load is one possible cause. The FSLogix profile log shows how long the load took.
+2. **Black for a few minutes, then the desktop loads.** The standard black-screen steps do not cover this case. A slow profile load is one possible cause. The FSLogix profile log shows how long the load took.
 3. **Black only when sharing the screen in Microsoft Teams.** See Check 1.
 
 The Windows guide also does not cover a black screen that appears right after boot, before credentials are asked for.
@@ -59,11 +59,11 @@ Ask in this order. The first checks are the cheapest, and each one rules out a w
 
 ## Check 1: Only the Teams screen share
 
-Screen capture protection blocks remote content in screenshots and screen sharing on the client. The documentation says Teams sharing depends on supported client configurations. With an unsupported configuration, protected content might appear as a black screen during sharing. The page points to a Teams compatibility section for current requirements.
+Screen capture protection blocks remote content in screenshots and screen sharing on the client. Teams sharing depends on supported client configurations. With an unsupported configuration, protected content might appear as a black screen during sharing. Check the Teams compatibility requirements for the current list.
 
 A sign of this cause is that the session looks normal to the user and only the shared view is black. To check, look for the policy setting **Enable screen capture protection** on the session host. In Intune it is under **Administrative templates** > **Windows Components** > **Remote Desktop Services** > **Remote Desktop Session Host** > **Azure Virtual Desktop**. In Group Policy the same path starts at **Computer Configuration** > **Policies** > **Administrative Templates**. The options are **Block screen capture on client** and **Block screen capture on client and server**.
 
-On macOS, the page says that enabling screen capture protection might interfere with Teams sharing, so shared windows can appear blank.
+On macOS, enabling screen capture protection might interfere with Teams sharing, so shared windows can appear blank.
 
 ## Check 2: One user or many, and did the connection finish
 
@@ -110,7 +110,7 @@ Many users on one host point to the host. One user points to the profile or the 
 
 ## Check 3: A known Windows update issue
 
-The FSLogix known issues page lists this: users can see a black screen during sign-in after Windows update KB5124008. The black screen results from `explorer.exe` crashing during shell start-up. The page lists the affected FSLogix version as 2210 hotfix 4 (2.9.8884.27471) or later, and the state as In progress. When this was written, the page gave no workaround and said the fix would come in a future release or a coordinated release with Windows. Check the page for the current state.
+Known issue: users can see a black screen during sign-in after Windows update KB5124008. The black screen results from `explorer.exe` crashing during shell start-up. It affects FSLogix 2210 hotfix 4 (2.9.8884.27471) or later. The fix is still in progress, with no workaround, and is planned for a future release or a coordinated release with Windows. Check the FSLogix known issues page for the current state.
 
 If many users broke after that update, treat it as this issue. Collect the evidence in Check 6 and open a support case.
 
@@ -123,7 +123,7 @@ On the session host, open the newest `Profile_%date%.log` in `C:\ProgramData\FSL
 3. Note the process ID. It stays the same for the whole sign-in.
 4. Look at `Begin Session: Logon`, `loadProfile time:` and any `[WARN:xxxxxx]` or `[ERROR:xxxxxx]` line.
 
-Each line starts with `[INFO]`, `[WARN:xxxxxx]` or `[ERROR:xxxxxx]`. Warnings and errors have an error code. An example error from the FSLogix documentation, for a share the user cannot read:
+Each line starts with `[INFO]`, `[WARN:xxxxxx]` or `[ERROR:xxxxxx]`. Warnings and errors have an error code. An example error, for a share the user cannot read:
 
 ```text
 [ERROR:00000005]   LoadProfile failed. Version: 2.9.8440.42104 User: %username%. SID: %sid%. SessionId: 10. FrxStatus: 31 (Access is denied.)
@@ -131,11 +131,11 @@ Each line starts with `[INFO]`, `[WARN:xxxxxx]` or `[ERROR:xxxxxx]`. Warnings an
 
 A `LoadProfile failed` line means the profile did not load. The FSLogix profile article covers the causes and fixes: [Troubleshoot FSLogix: Profile Does Not Load or Is Temporary](/azure-virtual-desktop/troubleshoot-fslogix-profile-fails-to-load/).
 
-FSLogix can also block sign-in on purpose. When `PreventLoginWithFailure` or `PreventLoginWithTempProfile` is enabled, FSLogix uses `frxshell.exe` in place of the normal shell, to stop a user from signing in when the profile fails to attach or Windows gives a temporary profile. The documentation says users of a RemoteApp are not blocked this way. If a user is blocked, the cause is still the profile, so use the profile article.
+FSLogix can also block sign-in on purpose. When `PreventLoginWithFailure` or `PreventLoginWithTempProfile` is enabled, FSLogix uses `frxshell.exe` in place of the normal shell, to stop a user from signing in when the profile fails to attach or Windows gives a temporary profile. Users of a RemoteApp are not blocked this way. If a user is blocked, the cause is still the profile, so use the profile article.
 
 ## Check 5: The RoamRecycleBin issue in FSLogix 2210
 
-The known issues page lists a black screen at sign-in, or `sihost.exe` hanging, in FSLogix 2210 (2.9.8361.52326). It happened with the `RoamRecycleBin` setting on, which is the default. The page lists it as Fixed, and the fix is to install the latest FSLogix version. The profile log notes the FSLogix version near the top.
+FSLogix 2210 (2.9.8361.52326) can cause a black screen at sign-in, or `sihost.exe` hanging. It happened with the `RoamRecycleBin` setting on, which is the default. It is fixed, so install the latest FSLogix version. The profile log notes the FSLogix version near the top.
 
 ## Check 6: The Windows shell on the session host
 
@@ -159,7 +159,7 @@ The `Shell` value must be `explorer.exe`. Also check the key's permissions. They
   Then analyze them, or give them to Microsoft Support.
 - If they are not running, they stopped responding, exited, or `explorer.exe` is not the shell.
 
-**Did they stop responding?** In **Event Viewer** > **Windows Logs** > **Application**, search for Event ID 1000. The guide says it indicates an application that stops responding. See whether it names `explorer.exe` or `userinit.exe` at the time of the problem. If so, turn on Windows Error Reporting dumps. Create a folder such as `C:\dumps`, then under `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting` (create the key if it is missing) add these values:
+**Did they stop responding?** In **Event Viewer** > **Windows Logs** > **Application**, search for Event ID 1000. It indicates an application that stops responding. See whether it names `explorer.exe` or `userinit.exe` at the time of the problem. If so, turn on Windows Error Reporting dumps. Create a folder such as `C:\dumps`, then under `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting` (create the key if it is missing) add these values:
 
 | Value name | Type | Data |
 |---|---|---|
@@ -200,7 +200,7 @@ Collect these before you open a support case:
 - Process dumps of `explorer.exe` and `userinit.exe` if you could capture them.
 - Whether KB5124008 is installed on the host.
 
-The FSLogix Support Tool collects the FSLogix logs into one zipped archive. The documentation recommends collecting logs before you open a support case.
+The FSLogix Support Tool collects the FSLogix logs into one zipped archive. Collect logs before you open a support case.
 
 ## Common mistakes
 

@@ -5,7 +5,6 @@ slug: "landing-zone-use-cases"
 series: "Azure Landing Zone"
 part: ""
 post_number: 63
-status: draft
 preview_feature: false
 fictional_case: false
 learn_pages:
@@ -45,7 +44,7 @@ repo_links:
 diagrams:
   - file: "../diagrams/post-63-use-cases-finder.svg"
     type: own-layout
-    based_on: "No Learn page has a picture of this, so the layout is simplified. The three groups are a judgement sorting of the scenarios on the tailoring, application environments, sandbox, multiple locations, multitenant, ISV, sovereign landing zone and hybrid pages."
+    based_on: "No documentation page has a picture of this, so the layout is simplified."
     icons: "none"
     source: "../diagrams/post-63-use-cases-finder.drawio"
   - file: "../diagrams/post-63-use-cases-placement.svg"
@@ -53,7 +52,6 @@ diagrams:
     based_on: "The management groups design area table (Platform with Security, Management, Connectivity and Identity; Landing zones with Online, Corp and Local; Sandboxes; Decommissioned) and the tailoring page (an extra group under Landing zones). Learn's management group hierarchy diagram (on the Azure landing zone index page) has more detail; this one is simplified."
     icons: "Azure Public Service Icons V24 (Management groups), unmodified"
     source: "../diagrams/post-63-use-cases-placement.drawio"
-production_section_written_by_addy: true
 interactive: true
 layout: post.njk
 permalink: "/azure-landing-zone/landing-zone-use-cases/"
@@ -66,7 +64,7 @@ tags: [alz]
 
 You have read how to build a landing zone from nothing ([the greenfield rollout](/azure-landing-zone/greenfield-rollout/)) and how to bring an existing environment in ([the brownfield rollout](/azure-landing-zone/brownfield-rollout/)). This post covers the situations that come up after that. Each one is a short card: the situation, what to do, and what to watch for. Find yours and read only that card.
 
-Where the documentation gives a clear answer, I state it. Where a line is my own opinion and not Microsoft guidance, I mark it "(judgement)". I list only situations the documentation covers. In this post, "group" means management group.
+This post lists only situations the documentation covers. In this post, "group" means management group.
 
 ## Key terms
 
@@ -91,13 +89,13 @@ Earlier posts defined [landing zone and guardrail](/azure-landing-zone/what-is-a
 
 **Figure 1. Which situation are you in?**
 
-![A box at the top asks what you are deciding. Three columns follow. First, where does this workload go: internet-facing or internal app, development test and production, experiments and learning, an extra compliance rule, more than one region, an AI workload, a platform shared by teams, retiring a subscription. Second, what shape is my company: one tenant with many subscriptions, several tenants after mergers, many countries with conflicting rules, a software company. Third, do special rules apply: sovereignty controls, servers that stay on premises.](/diagrams/post-63-use-cases-finder.svg)
+![A box at the top asks what you are deciding. Three columns follow. First, where does this workload go: internet-facing or internal app, development test and production, experiments and learning, an extra compliance rule, more than one region, an AI workload, a platform shared by teams, retiring a subscription. Second, what shape is your company: one tenant with many subscriptions, several tenants after mergers, many countries with conflicting rules, a software company. Third, do special rules apply: sovereignty controls, servers that stay on premises.](/diagrams/post-63-use-cases-finder.svg)
 
-*Simplified. The Learn pages have no picture of this, so the three groups are a judgement.*
+*Simplified. The documentation has no picture of this.*
 
 <div class="path-picker" data-path-picker>
-<p class="path-picker__label">I am deciding about</p>
-<div class="path-picker__buttons"><button type="button" data-path="workload">One workload</button> <button type="button" data-path="company">My whole company</button> <button type="button" data-path="special">Special rules</button> <button type="button" data-path="unsure">Not sure</button></div>
+<p class="path-picker__label">You are deciding about</p>
+<div class="path-picker__buttons"><button type="button" data-path="workload">One workload</button> <button type="button" data-path="company">Whole company</button> <button type="button" data-path="special">Special rules</button> <button type="button" data-path="unsure">Not sure</button></div>
 <div class="path-picker__panel" data-path-panel="workload"><p>Read the first group of cards: the internet-facing or internal app, the three environments, experiments, an extra compliance rule, more than one region, an AI workload, a shared platform, and retiring a subscription.</p></div>
 <div class="path-picker__panel" data-path-panel="company"><p>Read the second group of cards: one tenant with many subscriptions, several tenants, many countries, and a software company.</p></div>
 <div class="path-picker__panel" data-path-panel="special"><p>Read the third group of cards: sovereignty controls, and servers that stay on premises.</p></div>
@@ -142,7 +140,7 @@ The groups under Landing zones exist for kinds of workload. Understand this pict
 - An expiry date, kept as a tag, with automation that cancels the subscription when the date comes.
 - Owner access for the sandbox user, removed when the sandbox is cancelled.
 
-**Watch for.** Keep sensitive data out. Tell users this before they start; Learn also suggests Microsoft Purview to raise an alert if labelled sensitive data appears. After a sandbox expires, move it to Decommissioned.
+**Watch for.** Keep sensitive data out. Tell users this before they start; the documentation also suggests Microsoft Purview to raise an alert if labelled sensitive data appears. After a sandbox expires, move it to Decommissioned.
 
 ### A workload with an extra compliance rule
 
@@ -174,7 +172,7 @@ The groups under Landing zones exist for kinds of workload. Understand this pict
 
 **What to do.** Use the shared management model. The central IT team looks after the underlying service (for example AKS). Each workload team looks after its own application on top. The controls and access rights differ from those for a landing zone that the central team runs entirely.
 
-**Watch for.** (judgement) Agree who owns what before the first team onboards.
+**Watch for.** Agree who owns what before the first team onboards.
 
 ### Retiring a subscription
 
@@ -182,7 +180,7 @@ The groups under Landing zones exist for kinds of workload. Understand this pict
 
 **What to do.** Cancel the subscription and move it to Decommissioned. Azure deletes cancelled subscriptions after 30 to 60 days.
 
-**Watch for.** Some organizations reuse a cleaned subscription instead of creating a new one. Learn says to consider this if you:
+**Watch for.** Some organizations reuse a cleaned subscription instead of creating a new one. The documentation says to consider this if you:
 
 - plan more than 5,000 subscriptions on one Enterprise Agreement billing account (deleted ones count);
 - plan more than 5,000 active subscriptions on a Microsoft Customer Agreement or Microsoft Partner Agreement (these are other billing contracts);
@@ -193,7 +191,7 @@ Clean the subscription first. Remove resources, role assignments (including Priv
 
 Hidden resources are ones the portal does not list; `az resource list -o table` helps find them. Then reassign the subscription. [The FAQ](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/faq#should-we-create-a-new-azure-subscription-every-time-or-should-we-reuse-azure-subscriptions) has the full list.
 
-## What shape is my company
+## What shape is your company
 
 ### One tenant, many subscriptions
 
@@ -201,7 +199,7 @@ Hidden resources are ones the portal does not list; `az resource list -o table` 
 
 **What to do.** Place each subscription by the kind of workload (Corp, Online and so on) and let the policies of that group apply. [The brownfield rollout](/azure-landing-zone/brownfield-rollout/) has a company case showing who controls billing, who controls access, and how new subscriptions get approved.
 
-**Watch for.** (judgement) Billing and access are two systems, and the person who creates a subscription is often not the person who runs it.
+**Watch for.** Billing and access are two systems, and the person who creates a subscription is often not the person who runs it.
 
 ### Several tenants after mergers
 
@@ -250,7 +248,7 @@ Use separate tenants only if the rules need complete isolation, such as clearanc
 
 **What to do.** The Sovereign Landing Zone is a variant of the platform landing zone. It adds three groups under Landing zones: Public, Confidential Corp and Confidential Online. It also adds extra policies depending on your sovereignty needs. It lines up Azure capabilities such as service residency, customer-managed keys (encryption keys you control), Azure Private Link (reaching Azure services over a private network) and confidential computing (protecting data while it is processed).
 
-**Watch for.** Decide first whether you need these controls at all. Learn says to consider this carefully before you adopt it.
+**Watch for.** Decide first whether you need these controls at all. The documentation says to consider this carefully before you adopt it.
 
 ### Servers that stay on premises
 
@@ -258,47 +256,20 @@ Use separate tenants only if the rules need complete isolation, such as clearanc
 
 **What to do.** Azure Arc shows these servers inside Azure, so Azure Policy and monitoring can cover them. Microsoft's guidance for connecting Azure with datacenters and edge sites, including Azure Arc, is in [Azure hybrid and adaptive cloud architecture](https://learn.microsoft.com/en-us/azure/architecture/hybrid/hybrid-start-here). If the servers run on Azure Local clusters, place them in Local.
 
-**Watch for.** (judgement) Place the subscriptions for Arc-connected servers by the same Corp or Online test as other workloads. The page this card used to rely on has been removed from Learn, so I no longer give its datacenter guidance here.
+**Watch for.** Place the subscriptions for Arc-connected servers by the same Corp or Online test as other workloads. The documentation page that covered this case has been removed, so this post gives no datacenter guidance for it.
 
-## What comes next
+## What comes next Write down which cards fit your company, and take that list to your platform team before you design any group.
 
-(judgement) Write down which cards fit your company, and take that list to your platform team before you design any group.
-
-A landing zone is not finished when the groups are in place. The next post covers keeping it up to date.
+A landing zone is not finished when the groups are in place.
 
 ## Common mistakes
 
 - **Making a group for every team, region or environment.** Groups are for workload kinds that need different policies. Teams, regions and environments are handled with subscriptions, resource groups and tags, not management groups.
 - **Choosing a group by who asked, not by what the workload needs.** Choose by where the workload connects: the corporate hub means Corp; direct internet traffic, or no virtual network, means Online.
-- **Adding a tenant when one tenant can meet the need.** Learn says to create more tenants only when the corporate tenant cannot meet a requirement. Every extra tenant adds cost and work.
-
-## From my own projects
-
-This post has no items from my own projects.
-
-## The files in my repo
-
-The repository is a learning implementation, and its structure and conventions are intended as an educational approach, not as official Microsoft guidance.
-
-- Ten short use cases in my own words: [use-cases.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/05-use-cases/use-cases.md)
-- How I would hand a new subscription to a workload team: [subscription-vending.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/05-use-cases/subscription-vending.md)
-- A ten-step decommissioning process, cancelling only after final approval: [decommissioning.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/05-use-cases/decommissioning.md)
-- Where an Azure Virtual Desktop workload fits: [avd-workload-integration.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/05-use-cases/avd-workload-integration.md)
+- **Adding a tenant when one tenant can meet the need.** The documentation says to create more tenants only when the corporate tenant cannot meet a requirement. Every extra tenant adds cost and work.
 
 ## Sources
-
-Microsoft Learn, checked 14 November 2026:
 
 - [Tailor the Azure landing zone architecture to meet requirements](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/tailoring-alz)
 - [Management groups](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups)
 - [Subscriptions](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-subscriptions)
-- [Manage application development environments](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management-application-environments)
-- [Sandbox environments](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/considerations/sandbox-environments)
-- [Modify an Azure landing zone architecture to meet requirements across multiple locations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/landing-zone-multinational)
-- [Azure landing zones and multiple Microsoft Entra tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/multi-tenant/considerations-recommendations)
-- [ISV considerations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/isv-landing-zone)
-- [Azure landing zone FAQ](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/faq)
-- [What is an Azure landing zone?](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/)
-- [Deploy Azure landing zones](https://learn.microsoft.com/en-us/azure/architecture/landing-zones/landing-zone-deploy)
-- [Azure hybrid and adaptive cloud architecture](https://learn.microsoft.com/en-us/azure/architecture/hybrid/hybrid-start-here)
-- [Sovereign Landing Zone](https://learn.microsoft.com/en-us/azure/azure-sovereign-clouds/public/overview-sovereign-landing-zone)

@@ -48,13 +48,13 @@ You have decided who the users are for Azure Virtual Desktop (AVD), which apps t
 | Deallocated | A VM that is stopped and no longer billed for compute. |
 | Frame encoding and codec | Before the session picture is sent to the user, it is compressed. The method is called a codec. AVC/H.264 and HEVC/H.265 are two codecs. |
 
-![Four steps. 1: know the workload (light, medium, heavy or power; single-session or multi-session). 2: choose the VM: size, GPU (optional), OS disk and security type. 3: quota and capacity can stop a deployment, so check both before you deploy. If both are enough, the VM is created and you go to step 4. If not, the deployment fails: go back to step 2 and change the size, zone or region, or request more quota. 4: after it runs, measure with AVD Insights, use autoscale, and use savings plans or reserved instances.](/img/avd/AVD-Session-Host-VM-Size.svg)
+![Four steps from workload to session host VM: know the workload, choose the VM, check quota and capacity, then measure and tune after it runs.](/img/avd/AVD-Session-Host-VM-Size.png)
 
-*Source: [Session host virtual machine sizing guidelines](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/virtual-machine-recs), [Check vCPU quotas](https://learn.microsoft.com/en-us/azure/virtual-machines/quotas) and [Enable GPU acceleration for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/graphics-enable-gpu-acceleration). The documentation has no single diagram of these steps, so the layout is simplified.*
+*Source: [Session host virtual machine sizing guidelines](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/virtual-machine-recs).*
 
 ## Start from the sizing guidelines
 
-The documentation has a page of session host sizing guidelines. It says its examples are generic and only for initial estimates, and that you should scale the deployment to what your users need.
+The session host sizing guidelines say their examples are generic and only for initial estimates, and that you should scale the deployment to what your users need.
 
 For a single-session host, the page recommends at least two physical CPU cores per VM, typically four vCPUs with hyper-threading. That means two cores run as about four vCPUs. It gives these examples:
 
@@ -73,7 +73,7 @@ For a multi-session host, the page also gives users per vCPU. [The host pool pla
 
 NV6 is a first-generation NV size. It is in the sizing page but not in the GPU table later in this article, so check that table before you use it.
 
-The page suggests at least 30 GB of profile storage for each user in both tables. The size names are explained in the next section. The examples are v4 and v5 sizes. The pages used for this article do not say which newer series are supported, so check any size you choose against the unsupported list below. Then test it (judgement).
+Plan at least 30 GB of profile storage for each user in both tables. The size names are explained in the next section. The examples are v4 and v5 sizes. Check any newer size you choose against the unsupported list below, and then test it.
 
 ### Few big VMs or many small VMs
 
@@ -118,7 +118,7 @@ The prerequisites page lists what you cannot use as a session host:
 - 32-bit operating systems.
 - N, KN, LTSC and other Windows editions that the page does not list.
 - Ultra disks as the OS disk type.
-- Ephemeral OS disks for Azure VMs. The pages disagree: this page says not supported, but the AVD ephemeral page says AVD supports them. See the section on OS disks and the table at the end.
+- Ephemeral OS disks for Azure VMs. The AVD page on ephemeral OS disks does support them in some cases (see the section on OS disks).
 - Virtual Machine Scale Sets.
 - Arm64-based Azure VMs.
 
@@ -158,14 +158,14 @@ To check that it works, open Task Manager in the session and look at the GPU, or
 
 Each session host has an OS disk that holds Windows and the apps you install on that host. The sizing tables ask for 32 GB of OS storage as a minimum, and 340 GB for the power workload. The user's profile is not on this disk. It lives on shared storage such as Azure Files, as the host pool article explains.
 
-**Ephemeral OS disks.** The AVD page on ephemeral OS disks says AVD now supports them, but its notes still say "during preview" for the limits below. The What's new page called this a public preview in October 2025 and said "now available" in June 2026. The prerequisites page and the AVD FAQ still say they are not supported. The AVD ephemeral OS disk page says they suit hosts that keep no user data on the disk. They give lower latency and faster reimaging (rebuilding the VM from the image). The pages disagree, so check the current status before you use them. What to know:
+**Ephemeral OS disks.** Azure Virtual Desktop now supports ephemeral OS disks for hosts that keep no user data on the disk. They give lower latency and faster reimaging (rebuilding the VM from the image). The feature began as a public preview in October 2025, and the limits below are still marked "during preview". The prerequisites and FAQ pages still list ephemeral OS disks for Azure VMs as not supported, so check the current status before you use them. What to know:
 
 - They are supported only in pooled host pools that use a session host configuration. [The lifecycle article](/azure-virtual-desktop/create-update-replace-session-hosts/) explains session host configurations.
 - During the preview, only the Standard SSD disk type is supported. Premium SSD and NVMe are not. It is not supported in Azure Government during the preview.
 - The Windows image must fit in the VM's temporary disk (or its cache). The page gives an example: a 127 GiB Windows 11 multi-session marketplace image fits on the 200 GiB temporary disk of Standard_D8s_v3. GiB is a slightly bigger unit than GB (1 GiB is about 1.07 GB).
 - The VM cannot be deallocated. It can only be restarted, reimaged or deleted. The page therefore recommends dynamic autoscale with "Minimum percentage of active hosts" set to 100%, so that scaling only creates and deletes hosts.
 - Snapshots, image capture, Azure Disk Encryption, Azure Backup and Azure Site Recovery are not supported.
-- The Learn troubleshooting page for ephemeral OS disks says to keep user profiles in FSLogix profile containers (profiles stored on shared storage), because the OS disk is not kept when the host is rebuilt.
+- Keep user profiles in FSLogix profile containers (profiles stored on shared storage), because the OS disk is not kept when the host is rebuilt.
 
 ## Security type and image generation
 
@@ -201,39 +201,31 @@ Get-AzVMUsage -Location "Central US"
 az vm list-usage --location "Central US" -o table
 ```
 
-More points from the documentation:
+More points to know:
 
-- The limit on session hosts you can create in one step differs by page: 400 on the [regional host pools page](https://learn.microsoft.com/en-us/azure/virtual-desktop/regional-host-pools), 500 on the [session host configuration deployment page](https://learn.microsoft.com/en-us/azure/virtual-desktop/deploy-azure-virtual-desktop#create-a-host-pool-with-a-session-host-configuration), and about 132 for each template run in the [FAQ](https://learn.microsoft.com/en-us/azure/virtual-desktop/faq#is-there-a-scale-limit-for-host-pools-created-in-the-azure-portal) (800 template objects, about 6 per VM). Quota can lower all of them. Check the page for your method.
+- The limit on session hosts you can create in one step depends on the method: 400 on the [regional host pools page](https://learn.microsoft.com/en-us/azure/virtual-desktop/regional-host-pools), 500 on the [session host configuration deployment page](https://learn.microsoft.com/en-us/azure/virtual-desktop/deploy-azure-virtual-desktop#create-a-host-pool-with-a-session-host-configuration), and about 132 for each template run in the [FAQ](https://learn.microsoft.com/en-us/azure/virtual-desktop/faq#is-there-a-scale-limit-for-host-pools-created-in-the-azure-portal) (800 template objects, about 6 per VM). Quota can lower all of them. Check the page for your method.
 - When you run a session host update, the service checks the subnet and the core quota first. The check does not guarantee capacity during the update, so the page says to keep the batch size within the remaining quota.
-- The [prerequisites page](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites#azure-regions) says West US 3 is not supported for automated host pools, which are host pools that use a session host configuration. Regions can change. Checking the page first is my advice (judgement).
+- Some regions do not support automated host pools (host pools that use a session host configuration). West US 3 is one of them at the time of writing. Check the [prerequisites page](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites#azure-regions) for the current list before you pick a region.
 
 ## Keep the cost down
 
-The documentation says the VM instances are usually the biggest part of the cost of session hosts. These are the levers it describes:
+VM instances are usually the biggest part of the cost of session hosts. These are the levers:
 
 - **Autoscale.** A scaling plan starts and stops hosts to match demand. You cannot use autoscale and the older Azure Automation scaling tool on the same host pool.
-- **Savings plans and reserved VM instances.** The cost page says you can use either to reduce compute cost.
-- **AVD Insights.** Its utilization view shows when sessions peak and when hosts sit idle. The page says this can show where to use a scaling plan, resize VMs or reduce the number of hosts.
+- **Savings plans and reserved VM instances.** Either can reduce compute cost.
+- **AVD Insights.** Its utilization view shows when sessions peak and when hosts sit idle. This can show where to use a scaling plan, resize VMs or reduce the number of hosts.
 
 ## A simple way to choose
 
-This order is my own method, not a documented procedure (judgement):
+Order to follow:
 
 1. Start from the user group, the apps and the number of users that the host pool plan gives you.
-2. Pick candidate sizes from the sizing guidelines. The sizing page gives two ranges, 6 to 24 vCPUs in one place and 4 to 24 in another. I use 4 to 24 as a working range for multi-session hosts (judgement). The multi-session table suggests 8 or more for most workloads. Using only a few different sizes keeps things simple (judgement).
+2. Pick candidate sizes from the sizing guidelines. Use 4 to 24 vCPUs as a working range for multi-session hosts. The multi-session table suggests 8 or more for most workloads. Using only a few different sizes keeps things simple.
 3. Decode the name. Check that the size is not Arm64 or otherwise unsupported.
 4. Decide if you need a GPU, an ephemeral OS disk or a security type other than Standard.
 5. Check the region, the quota for the size family and the capacity, with a small test deployment.
 6. Test with real work. Watch CPU, memory and input delay, as the host pool article describes.
 7. Write down the size, the reasons and the tests, so that the next change starts from facts.
-
-## Where the documentation differs
-
-| # | Topic | What the pages say | What to do |
-|---|---|---|---|
-| 1 | Ephemeral OS disks | The prerequisites page and the FAQ list ephemeral OS disks for Azure VMs as not supported. The AVD ephemeral OS disk page says AVD supports them, with limits marked "during preview", for pooled host pools with a session host configuration. The What's new pages say public preview (October 2025) and now available (June 2026). | Not resolved. The article describes the AVD page and tells you to confirm the current status before use. |
-| 2 | Smallest multi-session VM | The sizing table gives 8 vCPUs as the minimum for light, medium and heavy workloads. The text says four cores is the lowest recommended number, and 6 vCPUs is the minimum for power work. | These do not clash. Four cores is the lowest a stable multi-session VM should have. Eight vCPUs is where the table starts for light, medium and heavy work. Start at 8 or more and test. |
-| 3 | Upper and lower size limit | The same page says vCPUs in one place and cores in another: it first says to limit VM size to between 6 and 24 vCPUs, and later gives 4 to 24 cores as the recommended range. | The checklist uses 4 to 24 as a working range (judgement). |
 
 ## Common mistakes
 

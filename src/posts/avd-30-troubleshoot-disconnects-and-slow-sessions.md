@@ -12,9 +12,9 @@ description: "Ordered checks for Azure Virtual Desktop sessions that drop, lag o
 
 A user says the session keeps dropping. Another says the mouse lags behind their hand. A third waits minutes for the desktop to appear after signing in. These sound alike, but they have different causes, and the quickest way to find the cause is to check things in a fixed order.
 
-This article gives that order. It covers three symptoms: a session that drops and reconnects, a session that is slow while connected, and a slow sign-in. Each check says where to look and what the documentation says about it. The checks use Log Analytics (Azure's log search tool) and Azure Virtual Desktop Insights (a ready-made dashboard built on Azure Monitor workbooks). Neither returns anything until diagnostics are switched on. The [Turn on the logs and learn to read them](/azure-virtual-desktop/troubleshoot-avd-start-here/) shows how to turn them on and how to read the tables, so do that first.
+This article gives that order. It covers three symptoms: a session that drops and reconnects, a session that is slow while connected, and a slow sign-in. Each check says where to look and what to expect. The checks use Log Analytics (Azure's log search tool) and Azure Virtual Desktop Insights (a ready-made dashboard built on Azure Monitor workbooks). Neither returns anything until diagnostics are switched on. The [Turn on the logs and learn to read them](/azure-virtual-desktop/troubleshoot-avd-start-here/) shows how to turn them on and how to read the tables, so do that first.
 
-Before any check, look at the Azure status page and Azure Service Health (the pages that show current Azure problems). The troubleshooting overview says to do this before anything else.
+Before any check, look at the Azure status page and Azure Service Health (the pages that show current Azure problems). Do this before anything else.
 
 ## Key terms
 
@@ -41,7 +41,7 @@ Before any check, look at the Azure status page and Azure Service Health (the pa
 
 ## What the user says, and where to start
 
-This table is a suggested mapping, not one from the documentation.
+This table is a suggested mapping.
 
 | What the user says | Start with |
 |---|---|
@@ -67,9 +67,9 @@ Insights is the quickest place for this. Open it from the host pool (Azure porta
 - **Connection Performance.** It shows round-trip time by gateway region, with the median (the middle value) and the 95th percentile (the value that 95% of measurements stay below). A 95th percentile far above the median means some users have periods of high latency.
 - **Host Performance.** It shows input delay for each session host, and CPU, memory and disk graphs.
 
-The documentation also lists a **Clients** tab that shows users with outdated clients. It says older clients may lack fixes. If the drops cluster on one client version, update that client.
+There is also a **Clients** tab that shows users with outdated clients. Older clients may lack fixes. If the drops cluster on one client version, update that client.
 
-You can get the same client information with a query. This one is a documentation sample:
+You can get the same client information with a query. This one is a published sample:
 
 ```kusto
 WVDConnections
@@ -83,63 +83,63 @@ It counts the different users (`dcount`) for each client type and version. The r
 
 A slow session is slow either because the path between the user and the host is slow, or because the host itself is busy. Look at both.
 
-**The network side.** The `WVDConnectionNetworkData` table holds the estimated round-trip time and the estimated available bandwidth of each connection. The service writes a row every two minutes during an active session. Each row carries the connection's CorrelationId. The round-trip time is measured the same way for TCP and UDP. Two cautions from the documentation: a session that is not actively used sends data less often, and if no rows arrive, check the diagnostic settings, the session host configuration and whether the session is in use.
+**The network side.** The `WVDConnectionNetworkData` table holds the estimated round-trip time and the estimated available bandwidth of each connection. The service writes a row every two minutes during an active session. Each row carries the connection's CorrelationId. The round-trip time is measured the same way for TCP and UDP. Two cautions: a session that is not actively used sends data less often, and if no rows arrive, check the diagnostic settings, the session host configuration and whether the session is in use.
 
-The documentation gives different numbers for what is acceptable. They are not reconciled, and this article does not pick one:
+Published guidance gives different numbers for what is acceptable:
 
-| Page | What it says about round-trip time |
+| Guide | Round-trip time |
 |---|---|
-| Troubleshoot connection quality | Up to 150 ms should not affect work that has no rendering or video. 150 to 200 ms should be fine for text processing. Above 200 ms might affect the experience. Round-trip time from the client's network to the Azure region of the host pool should be under 150 ms. |
-| Use cases for Insights | Ideal interaction needs latency generally below 100 ms. A session broadly becomes low quality over 200 ms. |
+| Connection quality guide | Up to 150 ms should not affect work that has no rendering or video. 150 to 200 ms should be fine for text processing. Above 200 ms might affect the experience. Round-trip time from the client's network to the Azure region of the host pool should be under 150 ms. |
+| Insights use cases | Ideal interaction needs latency generally below 100 ms. A session broadly becomes low quality over 200 ms. |
 
 One reasonable reading: hold graphics and video users to the lower numbers and text users to the higher ones. The first query below shows round-trip time for one user.
 
-**The graphics side.** If the complaint is a choppy picture, the documentation also describes a connection graphics table (preview). The service writes to it only when the quality drops to "okay" or "bad", at most once every two minutes. It covers the graphics stream only. It does not capture slowness from an application or from the virtual machine's CPU or storage. The page says to read it together with the VM's own metrics. The thresholds it gives for end-to-end delay per frame are under 150 ms good, 150 to 300 ms okay and over 300 ms bad. To collect this table, select the Connection Graphics category in the host pool's diagnostic setting.
+**The graphics side.** If the complaint is a choppy picture, there is also a connection graphics table (preview). The service writes to it only when the quality drops to "okay" or "bad", at most once every two minutes. It covers the graphics stream only. It does not capture slowness from an application or from the virtual machine's CPU or storage. Read it together with the VM's own metrics. The thresholds for end-to-end delay per frame are under 150 ms good, 150 to 300 ms okay and over 300 ms bad. To collect this table, select the Connection Graphics category in the host pool's diagnostic setting.
 
-**The host side.** Open the Host Performance tab and read the **Input delay by host** table. Input delay is the time a mouse or keyboard action waits before the program picks it up. The documentation gives two sets of numbers here as well:
+**The host side.** Open the Host Performance tab and read the **Input delay by host** table. Input delay is the time a mouse or keyboard action waits before the program picks it up. There are two sets of numbers here as well:
 
-| Page | What it says about input delay |
+| Guide | Input delay |
 |---|---|
 | Insights glossary | Good is below 150 ms. Acceptable is 150 to 500 ms. Poor is 500 to 2,000 ms. Bad is over 2,000 ms. |
-| Use cases for Insights | Ideally the input delay for each host should be below 100 ms. Above 100 ms, look at CPU, memory and disk. |
+| Insights use cases | Ideally the input delay for each host should be below 100 ms. Above 100 ms, look at CPU, memory and disk. |
 
-The counter behind it is `User Input Delay per Session` (and `per Process`). It reports the longest delay in each interval, because users notice the slowest input, not the average. It works on Windows Server 2019 or later and Windows 10 version 1809 or later. Insights collects it every 30 seconds.
+The counter behind it is `User Input Delay per Session` (and `per Process`). It reports the longest delay in each interval, because users notice the slowest input, not the average. Insights collects it every 30 seconds.
 
 ## Check 3: which transport is the session using?
 
-By default, a session starts on TCP through the gateway and then tries to set up UDP. If UDP works, the TCP connection drops. If not, the session stays on TCP. The documentation says UDP offers better connection reliability and more consistent latency, while TCP has the best compatibility.
+By default, a session starts on TCP through the gateway and then tries to set up UDP. If UDP works, the TCP connection drops. If not, the session stays on TCP. UDP offers better connection reliability and more consistent latency, while TCP has the best compatibility.
 
-To see which transport sessions use, query `WVDConnections` and look at the `TransportType` column. The table page lists the values `Shortpath`, `TURN` and `Websocket`. Insights groups the same data by **Transport** and lists different words: `Multipath`, `Relay`, `ShortpathPublic` and `ShortpathPrivate` for UDP, and `NotUsed` for TCP. The pages do not explain the difference, so expect different words in the two places.
+To see which transport sessions use, query `WVDConnections` and look at the `TransportType` column. The `TransportType` values are `Shortpath`, `TURN` and `Websocket`. Insights groups the same data by **Transport** and lists different words: `Multipath`, `Relay`, `ShortpathPublic` and `ShortpathPrivate` for UDP, and `NotUsed` for TCP. Expect different words in the two places.
 
-To test one device, run the `avdnettest.exe` tool from the Troubleshoot RDP Shortpath page on that device. It checks DNS, TURN support and the NAT type. On success, the page shows output that ends with a line like this:
+To test one device, run the `avdnettest.exe` tool from the Troubleshoot RDP Shortpath page on that device. It checks DNS, TURN support and the NAT type. On success, the output ends with a line like this:
 
 ```output
 You have access to TURN servers and your NAT type appears to be 'cone shaped'.
 Shortpath for public networks is very likely to work on this host.
 ```
 
-The page presents this as example output. If the test fails, UDP is probably blocked. The documentation says the session then falls back to TCP. The [connection article](/azure-virtual-desktop/follow-a-connection-step-by-step/) covers the ports and the switches that decide whether UDP is used. The [bandwidth and latency article](/azure-virtual-desktop/plan-bandwidth-latency-and-quality-of-service/) covers what a good round-trip time looks like.
+This output is an example. If the test fails, UDP is probably blocked, and the session falls back to TCP. The [connection article](/azure-virtual-desktop/follow-a-connection-step-by-step/) covers the ports and the switches that decide whether UDP is used. The [bandwidth and latency article](/azure-virtual-desktop/plan-bandwidth-latency-and-quality-of-service/) covers what a good round-trip time looks like.
 
 ## Check 4: which disconnect reasons appear?
 
-The Shortpath troubleshooting page names a few errors that "might be logged in Log Analytics". These are the only disconnect names this article uses:
+Shortpath errors you may see:
 
-| Name | What the documentation says |
+| Name | What it means |
 |---|---|
-| `ShortpathTransportNetworkDrop` | Under this name the page explains how TCP and UDP differ. TCP can signal a hard shutdown with a reset, but UDP has no such signal, so the only way to know the other side is gone is a time-out. |
+| `ShortpathTransportNetworkDrop` | TCP can signal a hard shutdown with a reset, but UDP has no such signal, so the only way to know the other side is gone is a time-out. |
 | `ShortpathTransportReliabilityThresholdFailure` | A specific packet did not get through even though the connection was not dead. The packet is resent up to 50 times. It can happen when a fast, stable connection suddenly stops working, or when the packet is large and the maximum packet size has shrunk. |
 | `ConnectionBrokenMissedHeartbeatThresholdExceeded` | An RDP-level time-out. Because of a misconfiguration, it can sometimes trigger before the UDP time-out. |
 | `ConnectionFailedClientDisconnect` and `ConnectionFailedServerDisconnect` | Most errors like these are caused by TCP Reset packets (a signal that hard-closes a TCP connection), not by a time-out. |
 
-The page does not say which table or column holds these names. The query in the next section searches two columns that exist in `WVDErrors`, `CodeSymbolic` and `Message`, and it is written for this article. If it returns nothing, that does not prove there were no drops.
+The query in the next section searches two columns of `WVDErrors`, `CodeSymbolic` and `Message`, for these names. If it returns nothing, that does not prove there were no drops.
 
 ## Check 5: the path between the user and the host
 
-If round-trip time is high, the documentation lists these steps:
+If round-trip time is high, do these steps:
 
-- **Reduce the distance.** Where possible, users should connect to VMs in the Azure region closest to them. The Azure network round-trip latency statistics page shows which regions are closest. The documentation suggests reviewing it every two to three months.
+- **Reduce the distance.** Where possible, users should connect to VMs in the Azure region closest to them. The Azure network round-trip latency statistics page shows which regions are closest. Review it every two to three months.
 - **Check the network configuration.** Firewalls, ExpressRoute and other network features can affect round-trip time.
-- **Check the bandwidth.** The documentation says users may lose the connection or see input delay when the network is saturated or rate-limited, or when a user's internet connection is unstable and latency is over 200 ms.
+- **Check the bandwidth.** Users may lose the connection or see input delay when the network is saturated or rate-limited, or when a user's internet connection is unstable and latency is over 200 ms.
 
 Proxies are a common cause of slow or unstable sessions. The proxy guidelines say:
 
@@ -149,28 +149,28 @@ Proxies are a common cause of slow or unstable sessions. The proxy guidelines sa
 - Do not use a proxy that needs authentication, because the session host components do not support one.
 - Place any proxy in the same geography as the clients and the hosts.
 
-The Shortpath page adds general advice for UDP to work: avoid force tunnelling if users connect over the internet, avoid double NAT or carrier-grade NAT, avoid cloud packet-inspection services and TCP-based VPNs, and enable IPv6 or Teredo. It also says a TURN relay update can drop a session, and that the client reconnects within a few seconds. The [required connectivity article](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/) covers the URLs and ports.
+For UDP to work: avoid force tunnelling if users connect over the internet, avoid double NAT or carrier-grade NAT, avoid cloud packet-inspection services and TCP-based VPNs, and enable IPv6 or Teredo. It also says a TURN relay update can drop a session, and that the client reconnects within a few seconds. The [required connectivity article](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/) covers the URLs and ports.
 
 ## Check 6: is the session host overloaded?
 
 On the Host Performance tab, if input delay is above 100 ms, look at the graphs for CPU, memory, disk timing and disk queue length for the same period. The Host Diagnostics tab shows which hosts crossed thresholds for available memory, page faults, CPU use, disk space and input delay per session.
 
-The documentation says that if CPU use is too high or available memory too low, the VM size or storage might be too small for the workload. It also says that where a host has long periods of high use, you should consider a larger VM size. The [VM size article](/azure-virtual-desktop/choose-session-host-vm-sizes/) covers sizing. The documentation does not give a sessions-per-host number here, so fewer sessions per host is an inference from an overloaded host, not a documented figure.
+If CPU use is too high or available memory too low, the VM size or storage might be too small for the workload. Where a host has long periods of high use, consider a larger VM size. The [VM size article](/azure-virtual-desktop/choose-session-host-vm-sizes/) covers sizing. There is no fixed sessions-per-host number; fewer sessions per host is a sensible response to an overloaded host.
 
 ## Check 7: is the slow part the sign-in?
 
 Insights breaks "time to connect" into parts. It starts when the connection state is `Started` and ends when the shell is ready (`ShellReady` for a desktop). The parts are:
 
-| Part | What it is | Where the documentation points |
+| Part | What it is | What to look at |
 |---|---|---|
 | User route | From selecting the icon to the service finding a host | Network paths |
 | Stack connected | From finding the host to the remote client connecting to it | Network routing, proxy settings on client and hosts |
 | Logon | From the connection to the start of the shell. It has four parts: profiles, Group Policy objects, shell start and FSLogix | Profile size and location, number of policies, how close the domain controller is, FSLogix share placement |
 | Shell start to shell ready | From the shell starting to it being ready | Host overload (CPU, memory, disk) or configuration |
 
-The page also says a new session takes longer than reconnecting to an existing one, and the time the user spends typing credentials is subtracted.
+A new session takes longer than reconnecting to an existing one, and the time the user spends typing credentials is subtracted.
 
-The four parts run partly in parallel, so they do not add up to the total. The total is measured separately. This query from the documentation shows the average time between the `Started` and `Connected` states by host pool and by session type. That is not the same as the Insights "time to connect": it ends at `Connected`, not at shell ready, and it still includes the time a user spends typing credentials. Use it to compare hosts and pools, not as a logon time:
+The four parts run partly in parallel, so they do not add up to the total. The total is measured separately. This published query shows the average time between the `Started` and `Connected` states by host pool and by session type. That is not the same as the Insights "time to connect": it ends at `Connected`, not at shell ready, and it still includes the time a user spends typing credentials. Use it to compare hosts and pools, not as a logon time:
 
 ```kusto
 WVDConnections
@@ -198,7 +198,7 @@ WVDConnections
 | sort by AvgDuration desc
 ```
 
-How to read it: each row is one host pool and one session type (`ExistingSession` means the user reconnected, any other value is a new session). `AvgDuration` is the average time from `Started` to `Connected`, in `hh:mm:ss` form. The same query is explained in the [FSLogix playbook](/azure-virtual-desktop/troubleshoot-fslogix-profile-fails-to-load/). The documentation gives no "too long" number, so compare host pools and days with each other. A host pool that is much slower than the others, or slower than it was last week, is the one to look into.
+How to read it: each row is one host pool and one session type (`ExistingSession` means the user reconnected, any other value is a new session). `AvgDuration` is the average time from `Started` to `Connected`, in `hh:mm:ss` form. The same query is explained in the [FSLogix playbook](/azure-virtual-desktop/troubleshoot-fslogix-profile-fails-to-load/). There is no fixed "too long" number, so compare host pools and days with each other. A host pool that is much slower than the others, or slower than it was last week, is the one to look into.
 
 If the logon part is the long one, look at the profile first. Go to the [FSLogix playbook](/azure-virtual-desktop/troubleshoot-fslogix-profile-fails-to-load/). The glossary says a long FSLogix launch time might mean a problem with the shares that hold profiles, and that large profiles slow it down.
 
@@ -210,9 +210,9 @@ If an admin changed it to show the remote lock screen, users have to enter full 
 
 ## Queries
 
-Replace `userupn` with the user's sign-in name. The first query is a documentation sample. The other three are written for this article and are not documentation samples. They use only columns listed on the table pages. Read the results with care and check them against Insights.
+Replace `userupn` with the user's sign-in name. The first query is a published sample. The other three are not. They use only columns from the table reference. Read the results with care and check them against Insights.
 
-**Session length by user (documentation sample).** A run of short durations for one user means repeated drops:
+**Session length by user (published sample).** A run of short durations for one user means repeated drops:
 
 ```kusto
 let Events = WVDConnections | where UserName == "userupn" ;
@@ -229,7 +229,7 @@ on CorrelationId
 
 How it works: the first line saves the user's connection rows as `Events`. The query then pairs each `Connected` row with the `Completed` row that has the same `CorrelationId` and subtracts the times to get the session length. Healthy: a few long sessions, such as hours, that match the user's working time. Bad: many sessions of a few minutes or less, or only short ones at the top of the list. A session that never completed has no `Completed` row, so it does not appear at all.
 
-**Automatic reconnects per day (written for this article).** The table page says `PredecessorConnectionId` is filled when a connection is an automatic reconnect:
+**Automatic reconnects per day.** `PredecessorConnectionId` is filled when a connection is an automatic reconnect:
 
 ```kusto
 WVDConnections
@@ -238,9 +238,9 @@ WVDConnections
 | summarize AutoReconnects = dcount(CorrelationId) by bin(TimeGenerated, 1d)
 ```
 
-Line 2 keeps this user's rows. Line 3 keeps only rows where `PredecessorConnectionId` is not empty, which are automatic reconnects. Line 4 counts the different connections for each day (`bin(TimeGenerated, 1d)` groups times into one-day buckets). Healthy: no rows, or a count of 0 to 1 on most days. Bad: a day with many reconnects, which matches "keeps dropping". No fixed number is given in the documentation, so compare days with each other.
+Line 2 keeps this user's rows. Line 3 keeps only rows where `PredecessorConnectionId` is not empty, which are automatic reconnects. Line 4 counts the different connections for each day (`bin(TimeGenerated, 1d)` groups times into one-day buckets). Healthy: no rows, or a count of 0 to 1 on most days. Bad: a day with many reconnects, which matches "keeps dropping". There is no fixed number, so compare days with each other.
 
-**Round-trip time for one user's connections (written for this article).** It joins the network data to the connection rows on CorrelationId. The latest row of each connection supplies the gateway region, transport and session host. The documentation notes that client information can be missing from some connection rows, so some values may be blank:
+**Round-trip time for one user's connections.** It joins the network data to the connection rows on CorrelationId. The latest row of each connection supplies the gateway region, transport and session host. Client information can be missing from some connection rows, so some values may be blank:
 
 ```kusto
 let userConnections =
@@ -264,7 +264,7 @@ How it works: the `let` block builds a short list of this user's connections fro
 
 Healthy: median and 95th percentile both low and close to each other, judged against the round-trip table in check 2. Bad: a 95th percentile far above the median, a high median, or a low `MinBandwidthKBps`. Look at which `GatewayRegion`, `TransportType` and `SessionHostName` the bad rows share. If the query returns no rows, there is no network data for that user in the last day. Check the Network category in the diagnostic setting.
 
-**Disconnect names in the error table (written for this article).** The page that names these errors does not say where they are logged, so this searches two columns that exist. Treat an empty result as "not found here", not as "did not happen":
+**Disconnect names in the error table.** This searches two columns of `WVDErrors`. Treat an empty result as "not found here", not as "did not happen":
 
 ```kusto
 let names = dynamic(["ShortpathTransportNetworkDrop", "ShortpathTransportReliabilityThresholdFailure", "ConnectionBrokenMissedHeartbeatThresholdExceeded", "ConnectionFailedClientDisconnect", "ConnectionFailedServerDisconnect"]);
@@ -276,7 +276,7 @@ WVDErrors
 
 The first line lists the five names as a set (`dynamic` makes a list). The query looks at the last seven days of errors, keeps rows where either column contains one of the names (`has_any`), and counts them for each name and day. Healthy: no rows. Bad: a name that repeats on many days or on the day the user complained. Then look up that name in the table in check 4.
 
-To check whether an error hit other users, the documentation sample swaps in the symbolic code you found:
+To check whether an error hit other users, the published sample swaps in the symbolic code you found:
 
 ```kusto
 WVDErrors
@@ -286,14 +286,13 @@ WVDErrors
 
 ## Fix by cause
 
-Every row comes from the documentation pages listed at the end.
 
 | Cause | How you know | Fix |
 |---|---|---|
 | Users far from the host region | High round-trip time for one gateway region in Insights | Create session hosts in the Azure region closest to users. Check the Azure network round-trip latency statistics. |
 | Firewall, ExpressRoute or other network feature adds delay | High round-trip time on a path that goes through it | Check that network configuration. |
 | Saturated or rate-limited network, or unstable local internet | High round-trip time, low available bandwidth, drops | Follow the Remote Desktop network guidelines. Check what is using the bandwidth. |
-| Host short of CPU, memory or disk | High input delay, with high CPU, low available memory or slow disk in the same period | Move to a larger VM size. The documentation names storage as a possible limit too. |
+| Host short of CPU, memory or disk | High input delay, with high CPU, low available memory or slow disk in the same period | Move to a larger VM size. Storage can be a limit too. |
 | Session stuck on TCP | `TransportType` is `Websocket`, or `avdnettest.exe` fails | Allow outbound UDP. Avoid force tunnelling, double NAT, TCP-based VPNs and packet inspection. |
 | Proxy in the path | Sessions on TCP, unstable sessions, slow sign-in | Bypass the proxy for Azure Virtual Desktop traffic. No SSL inspection. No proxy that needs authentication. |
 | TURN relay update | A short drop, then an automatic reconnect | The client reconnects within a few seconds. Nothing to fix. |
@@ -306,7 +305,7 @@ Every row comes from the documentation pages listed at the end.
 
 1. Write down the CorrelationId of one bad connection, the user, the session host, the time (UTC) and the transport.
 2. In `WVDErrors`, look at `ServiceError`. `false` means the problem is one you can fix. `true` means escalate to Microsoft with the CorrelationId.
-3. If the problem is tied to one application or product, the documentation says to contact the team responsible for that product.
+3. If the problem is tied to one application or product, contact the team responsible for that product.
 4. Otherwise, open an Azure support request and choose Azure Virtual Desktop as the service. Include the CorrelationId.
 
 Next: [Troubleshoot AVD Sign-in Failures: Conditional Access, MFA and Single Sign-on](/azure-virtual-desktop/troubleshoot-sign-in-and-conditional-access/).
