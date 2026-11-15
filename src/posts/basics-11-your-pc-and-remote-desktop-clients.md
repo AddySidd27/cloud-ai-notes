@@ -37,9 +37,7 @@ The virtual machine (VM) comes in the next lab, [Windows VM with Entra sign-in](
 
 ## What the lab builds
 
-![A diagram with one idea: check your PC, then pick a client. The Windows PC card is numbered 1 winver, 2 dsregcmd /status, 3 pick a client. Three clients follow. Remote Desktop Connection (mstsc.exe) and Windows App both reach the Windows VM vm-azb-win01 over RDP on TCP port 3389; the VM is drawn dashed because you create it in the next lab. The web browser client is crossed out because it only works for Azure Virtual Desktop and Windows 365. Below, a Microsoft Entra ID box says your PC and the VM must be in the same directory.](/img/basics/your-pc-and-remote-desktop-clients.svg)
-
-*Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+![Diagram: Your PC and the ways to reach a Windows VM.](/img/basics/your-pc-and-remote-desktop-clients.svg)
 
 ## Steps
 

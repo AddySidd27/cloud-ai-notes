@@ -24,9 +24,9 @@ You need a Windows 365 Enterprise Cloud PC managed in Intune, an admin role that
 
 Restore is one of several Cloud PC actions. The others are restart, resize, move to another region, and reprovision, which means building the Cloud PC again.
 
-![A Cloud PC has restore points. The service makes 10 short-term points at an interval set in the Cloud PC user setting in Intune, of 4, 6, 12, 16 or 24 hours. The service makes 4 long-term points, one every 7 days, which cannot be changed. An administrator can make one manual point on demand, which a newer manual point replaces and which expires after about 28 days. You choose the closest healthy point. A point with a triangle warning is unhealthy and less likely to restore. An administrator starts the restore in Intune for one Cloud PC or in bulk, and a user can start it only if the user setting allows it. The Cloud PC returns to the chosen point. Everything saved on it after that point is lost, but data in external services such as OneDrive is kept. After the restore the user signs in to check it. If the user cannot connect, restore to a more recent point.](/img/windows-365/windows-365-point-in-time-restore.svg)
+![Diagram: How point-in-time restore works.](/img/windows-365/windows-365-point-in-time-restore.svg)
 
-*Source: [Point-in-time restore overview](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-overview). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+*Source: [Point-in-time restore overview](https://learn.microsoft.com/en-us/windows-365/enterprise/restore-overview).*
 
 ## Step 1: understand the restore points
 

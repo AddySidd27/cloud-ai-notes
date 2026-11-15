@@ -204,9 +204,9 @@ If the enterprise already uses Virtual WAN, follow its approved virtual-hub conn
 
 ## Read the hub-and-spoke diagram
 
-![The example hub-and-spoke network. A hub virtual network holds Azure Firewall, a VPN or ExpressRoute gateway and a DNS Private Resolver. It is connected to the on-premises datacenter and sends internet traffic through the firewall. Five spoke virtual networks, for production operations, production engineering, production finance, development and test, are each peered to the hub.](/img/avd/AVD-Post-05-Hub-Spoke-v3.png)
+![Diagram: Hub and spoke network for the example deployment.](/img/avd/AVD-Post-05-Hub-Spoke-v3.png)
 
-*The example hub and spoke network. Sources: [Hub-spoke network topology in Azure](https://learn.microsoft.com/en-us/azure/architecture/networking/architecture/hub-spoke) and [Azure Virtual Desktop landing zone design guide](https://learn.microsoft.com/en-us/azure/architecture/landing-zones/azure-virtual-desktop/design-guide).*
+*Sources: [Hub-spoke network topology in Azure](https://learn.microsoft.com/en-us/azure/architecture/networking/architecture/hub-spoke) and [Azure Virtual Desktop landing zone design guide](https://learn.microsoft.com/en-us/azure/architecture/landing-zones/azure-virtual-desktop/design-guide).*
 
 The figure shows the layout used in this article: the firewall, the hybrid gateway and the DNS Private Resolver in the hub, with five spokes for the production, development and test networks from the environment layout earlier, each peered to the hub. Other layouts exist, such as directly peered spokes or hubs in several regions joined to each other.
 
@@ -397,7 +397,7 @@ These addresses are not a sizing recommendation: the /16 ranges are not the appr
 
 ## Understand the connection before opening ports
 
-![Network connections for Azure Virtual Desktop. A client and a session host connect to the Azure Virtual Desktop infrastructure, which holds the web, gateway and broker services. The client reaches it through the public internet and signs in with Microsoft Entra ID. The session host connects outbound to the gateway and broker services and to AD DS. Microsoft Entra Connect synchronizes AD DS to Microsoft Entra ID.](/img/avd/AVD-Post-05-Connections-v3.png)
+![Diagram: Azure Virtual Desktop network connections.](/img/avd/AVD-Post-05-Connections-v3.png)
 
 *Source: [Azure Virtual Desktop network connectivity](https://learn.microsoft.com/en-us/azure/virtual-desktop/network-connectivity).*
 

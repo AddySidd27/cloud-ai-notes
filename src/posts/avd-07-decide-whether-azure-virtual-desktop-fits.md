@@ -96,9 +96,9 @@ Which of these is cheaper depends on how many people use how much capacity, and 
 
 ## Questions to ask, in order
 
-![Flow diagram with four numbered questions on the left and the option each answer points to on the right. 1: do users need Windows desktops or apps that run centrally; if not, another approach may be simpler. 2: must session hosts stay in your datacenter; if yes, Azure Virtual Desktop Hybrid or Azure Virtual Desktop for Azure Local. 3: do you need a platform from Citrix or Omnissa; if yes, Citrix DaaS or Omnissa Horizon Cloud. 4: is one dedicated Cloud PC per user enough (Windows 365 Enterprise, Business or Government); if yes, Windows 365. If none apply, Azure Virtual Desktop in Azure, with pooled or personal hosts.](/img/avd/AVD-Post-07-Decision-Questions-v3.png)
+![Diagram: Questions to ask when choosing a virtual desktop option.](/img/avd/AVD-Post-07-Decision-Questions-v3.png)
 
-*The four questions in order, and the option each answer points to. Source: [What is Azure Virtual Desktop?](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview).*
+*Source: [What is Azure Virtual Desktop?](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview).*
 
 Read the questions from top to bottom and stop at the first match. The order is a recommendation, not a rule. Real projects also have constraints the diagram does not show, such as existing contracts and skills.
 

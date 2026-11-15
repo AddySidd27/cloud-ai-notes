@@ -34,9 +34,9 @@ By the end of this lab the group `TestUsers` will have Reader on your subscripti
 
 ## What the lab builds
 
-![The group TestUsers, with member testuser1, gets two roles. First: Reader at the subscription, which is inherited by the resource group rg-azb-core inside it. Second: Contributor on rg-azb-core. As a result testuser1 can change a tag in rg-azb-core but cannot add a role assignment there, and cannot create a new resource group.](/img/basics/rbac-roles.svg)
+![Diagram: Reader on the subscription, Contributor on a resource group.](/img/basics/rbac-roles.svg)
 
-*Based on the pages listed under Sources. Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+*Source: Microsoft Learn pages listed under Sources.*
 
 ## Steps in the Azure portal
 

@@ -87,9 +87,9 @@ The page [Assign Azure RBAC roles or Microsoft Entra roles to the Azure Virtual 
 | Autoscale, dynamic | Power On Off Contributor and Desktop Virtualization Virtual Machine Contributor | Subscription. A lower scope stops autoscale from working properly. |
 | Start VM on Connect | Power On Contributor ([Configure Start VM on Connect](https://learn.microsoft.com/en-us/azure/virtual-desktop/start-virtual-machine-connect)) | Subscription is recommended for several host pools. A lower scope is allowed if it contains the target session hosts. |
 
-![A nine-row table with three columns: task, built-in role and scope or extra role. The tasks are sign users out, drain and remove session hosts, manage a host pool, publish apps, manage a workspace, manage all AVD resources, view only, use a desktop or app, and sign in to a Microsoft Entra joined virtual machine. The roles are User Session Operator, Session Host Operator, Host Pool Contributor, Application Group Contributor, Workspace Contributor, Desktop Virtualization Contributor, Desktop Virtualization Reader, Desktop Virtualization User and Virtual Machine User Login.](/img/avd/AVD-Post-15-Role-Task-Scope-v3.png)
+![Diagram: Which built-in role fits which task, and where to assign it.](/img/avd/AVD-Post-15-Role-Task-Scope-v3.png)
 
-*Read each row from left to right: the task, the role that fits it, then the scope or extra role you also need. Source: [Built-in Azure RBAC roles for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rbac). The picture leaves out the reader roles for host pools, application groups and workspaces, the service roles, and the Start VM on Connect permission that can be given at a lower scope. Virtual Machine User Login is not needed for host pools that use a session host configuration.*
+*Source: [Built-in Azure RBAC roles for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rbac).*
 
 ## Scope matters more than the role
 

@@ -224,9 +224,9 @@ One more warning: do not spend months or years designing the landing zone withou
 
 ## The five requirement areas at a glance
 
-![Diagram: five business requirements (compliance, region, connectivity, recovery, cost) with arrows to the landing zone parts each one changes](/diagrams/post-05-requirements-to-landing-zone.svg)
+![Five business requirements (compliance, region, connectivity, recovery, cost) with arrows to the landing zone part each one changes, such as management groups, Azure Policy and the connectivity subscription.](/diagrams/post-05-requirements-to-landing-zone.svg)
 
-*Source: [What is an Azure landing zone?](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/). Simplified layout. Icons are from the [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/) set.*
+*Simplified from [What is an Azure landing zone?](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/), Microsoft Learn. Icons: [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
 ## Common mistakes
 

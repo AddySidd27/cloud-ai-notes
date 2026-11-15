@@ -59,7 +59,7 @@ Some checks below use Log Analytics (Azure's log search tool), which returns not
 
 This grouping is a guide.
 
-![Decision tree for Azure Virtual Desktop sign-in failures. The first question is whether the feed is empty after sign-in, which leads to the application group assignment; if not, it asks whether the Microsoft Entra sign-in log shows a failed entry and whether the user is prompted again and again. Then it asks which error code appears, grouped as AADSTS50058 or 50076, AADSTS530002 or 530032, and AADSTS65001 or registration required, and each yes leads to one fix. Anything left over leads to the session host roles and a support request.](/img/avd/troubleshoot-sign-in-and-conditional-access.svg)
+![Diagram: Decision tree for AVD sign-in failures and Conditional Access.](/img/avd/troubleshoot-sign-in-and-conditional-access.svg)
 
 *Source: Troubleshoot single sign-on and Conditional Access, Troubleshoot service connections, Log Analytics diagnostics, Enforce MFA with Conditional Access and Troubleshooting overview.*
 

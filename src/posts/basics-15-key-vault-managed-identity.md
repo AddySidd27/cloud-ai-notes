@@ -46,9 +46,7 @@ Azure Key Vault is a service that stores sensitive values, such as passwords and
 
 ## What the lab builds
 
-![A numbered diagram. Step 1: you, with the role Key Vault Secrets Officer, create a demo secret in the key vault in the resource group rg-azb-lab. Step 2: the Windows VM asks its local identity endpoint at 169.254.169.254 for a token. Step 3: Microsoft Entra ID issues the token for the VM's system-assigned managed identity. Step 4: the VM sends the token to the key vault, which allows the read because the VM identity has the role Key Vault Secrets User, and returns the secret value. No password is stored on the VM.](/img/basics/key-vault-managed-identity.svg)
-
-*Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+![Diagram: A VM reads a secret from Key Vault with a managed identity.](/img/basics/key-vault-managed-identity.svg)
 
 ## Steps in the Azure portal
 

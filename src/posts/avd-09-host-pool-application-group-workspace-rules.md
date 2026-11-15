@@ -42,9 +42,9 @@ This article explains those objects and the rules between them, shows which choi
 
 ## The four objects in one picture
 
-![A workspace at the top lists a desktop application group and two RemoteApp application groups. All three point to one pooled host pool that contains session hosts. Microsoft Entra ID users and user groups are assigned to the application groups. A panel lists four rules about how the objects relate.](/img/avd/AVD-Post-09-Object-Relationships-v3.png)
+![Diagram: How host pools, application groups and workspaces relate.](/img/avd/AVD-Post-09-Object-Relationships-v3.png)
 
-*How the four objects relate. Personal host pools and the session host configuration are left out. Source: [Azure Virtual Desktop terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology).*
+*Source: [Azure Virtual Desktop terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology).*
 
 Each arrow points from the object that lists or uses something to the object it uses. The workspace lists application groups. Each application group publishes from one host pool. The host pool contains session hosts. Users are assigned to application groups, not to host pools and not to workspaces.
 

@@ -32,9 +32,9 @@ If you ever had an Azure subscription before, the free trial may not be availabl
 
 ## What the lab builds
 
-![A subscription box with an arrow labeled trusts that points to a tenant box, which is your Microsoft Entra directory of people and sign-in settings. Eight resource providers are registered on the subscription. The numbers match the numbered steps below.](/img/basics/start-azure-account-tenant-subscription.svg)
+![Diagram: Subscription, tenant and resource providers.](/img/basics/start-azure-account-tenant-subscription.svg)
 
-*Based on the pages listed under Sources. Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+*Source: Microsoft Learn pages listed under Sources.*
 
 ## Steps in the Azure portal
 

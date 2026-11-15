@@ -102,7 +102,7 @@ export default function (eleventyConfig) {
   const articleFigures = (html) => String(html).replace(/<p>\s*(<img[^>]*src="([^"]+)"[^>]*>)\s*<\/p>(?:\s*<p>((?:<em>[\s\S]*?<\/em>)|(?:Figure \d+\.[\s\S]*?))<\/p>)?/g, (_, image, src, caption) => {
     const alt = (image.match(/alt="([^"]*)"/) || [])[1] || "Article illustration";
     const compact = src.includes("AVD-Post-01-Components") ? " compact" : "";
-    return `<figure class="article-figure${compact}">${image}<figcaption><span class="figure-caption">${caption || (src.startsWith("/diagrams/") ? "" : alt)}</span><span class="figure-zoom">Tap or click the image to enlarge.${fullSize(src, alt)}</span></figcaption></figure>`;
+    return `<figure class="article-figure${compact}"><div class="fig-scroll" tabindex="0" role="region" aria-label="Diagram, scrolls sideways on small screens">${image}</div>${compact ? "" : '<span class="fig-hint" aria-hidden="true">Swipe sideways to see the whole diagram.</span>'}<figcaption><span class="figure-caption">${caption || (src.startsWith("/diagrams/") ? "" : alt)}</span><span class="figure-zoom">Tap or click the image to enlarge.${fullSize(src, alt)}</span></figcaption></figure>`;
   });
   eleventyConfig.addFilter("articleFigures", articleFigures);
   eleventyConfig.addFilter("avdFigures", articleFigures);

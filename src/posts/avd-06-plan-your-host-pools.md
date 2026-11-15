@@ -107,7 +107,7 @@ A **full desktop** gives users Windows and their applications. **RemoteApp**, av
 
 ![Flow from a user group, through an application group offering a desktop or RemoteApps, to a workspace feed and a host pool of session-host VMs](/img/avd/AVD-Post-06-published-resource-relationships.png)
 
-*How access reaches a desktop. Source: [Azure Virtual Desktop terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology).*
+*Source: [Azure Virtual Desktop terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology).*
 
 The **application group** publishes the desktop or apps and controls user access. Its association with a **workspace** makes the resources available in the user's feed. Record the user group, publication type and preferred application group type. For users assigned desktop and RemoteApp groups from the same pooled pool, the preference determines which type they see. See [the application group and workspace rules post](/azure-virtual-desktop/host-pool-application-group-workspace-rules/) for the full rules.
 
@@ -153,7 +153,7 @@ A suitable Marketplace image can start the compatibility assessment. A custom im
 
 ![Five-step image release: source and inputs, build candidate, validate, approve release, roll out in waves, with failed tests looping back to the build](/img/avd/AVD-Post-06-image-release-plan.png)
 
-*An example image release process. Image storage is described in [Azure Compute Gallery](https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery).*
+*Source: [Azure Compute Gallery](https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery).*
 
 Azure Compute Gallery organizes **image definitions** and **versions**. A definition names one image; each version under it is one release of that image. Record the exact approved version (the golden image), build inputs, target-region replication and permissions. Keep production and test images in separate galleries, and plan replicas for the number of VMs created concurrently.
 

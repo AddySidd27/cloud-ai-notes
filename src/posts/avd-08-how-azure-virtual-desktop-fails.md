@@ -123,7 +123,7 @@ A caution about Regional scope. At the time of writing, Regional scope is in pre
 
 ![Three horizontal bands for the management, control and data planes, with what runs in each and what a problem in it affects.](/img/avd/AVD-Post-08-Three-Planes-v3.png)
 
-*The three planes and what a problem in each one affects. Azure Files is one example of profile storage. Source: [Service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience).*
+*Source: [Service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience).*
 
 ## What users see when each part fails
 

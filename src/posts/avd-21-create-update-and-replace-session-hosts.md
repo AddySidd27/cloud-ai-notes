@@ -86,7 +86,7 @@ To generate the registration token you need the Desktop Virtualization Host Pool
 
 ![A host pool gives a registration token to a session host virtual machine, and session host update replaces hosts in batches.](/img/avd/AVD-Session-Host-Lifecycle.png)
 
-*Source: [session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update). The picture leaves out the Windows Server role, the second step of the update schedule, most settings, the statuses (the article on how Azure Virtual Desktop fails covers them) and what to do when a host fails.*
+*Source: [session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update).*
 
 The steps are:
 

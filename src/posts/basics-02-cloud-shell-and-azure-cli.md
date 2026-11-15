@@ -29,9 +29,9 @@ By the end you will have run your first Azure commands in the browser, and you w
 
 ## What the lab builds
 
-![Left to right: you sign in to the Azure portal and open Cloud Shell (Bash), which sends az commands to your test subscription. A gray, optional path below shows the Azure CLI on your own PC, signed in with az login, used for the Terraform lab.](/img/basics/cloud-shell-and-azure-cli.svg)
+![Diagram: Two ways to run Azure CLI commands.](/img/basics/cloud-shell-and-azure-cli.svg)
 
-*Based on the pages listed under Sources. Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+*Source: Microsoft Learn pages listed under Sources.*
 
 No resources are deployed. You only connect and read.
 

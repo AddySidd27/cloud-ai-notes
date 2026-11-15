@@ -33,9 +33,9 @@ If a step fails, select the bell icon at the top right of the portal. The notifi
 
 ## What the lab builds
 
-![Your test subscription holds the monthly budget budget-azb-core, which sits on the whole subscription and has four alert thresholds, and the resource group rg-azb-core, which holds the action group ag-azb-email. The budget calls the action group, which sends email to you. A second group, rg-azb-practice, has the tags env, owner and series and a virtual network, and is deleted again. Numbers 1 to 4 match the four sections of the steps below.](/img/basics/resource-group-tags-budget.svg)
+![Diagram: Resource groups, tags, action group and budget.](/img/basics/resource-group-tags-budget.svg)
 
-*Based on the pages listed under Sources. Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+*Source: Microsoft Learn pages listed under Sources.*
 
 ## Steps in the Azure portal
 

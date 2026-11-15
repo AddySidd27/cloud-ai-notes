@@ -68,9 +68,9 @@ Versions must be within the Microsoft lifecycle dates, so check the dates for th
 
 You can use different operating systems in different host pools. The images can come from the Azure Marketplace (Microsoft's catalog of ready-made images) or from your own images in an Azure Compute Gallery or as a managed image (a saved copy of a generalized VM).
 
-![Four questions from top to bottom. Whether several users share one virtual machine leads to Windows 11 Enterprise multi-session or Windows Server with their license types. Whether users are employees or paying customers leads to per-user access pricing for Windows client only. Whether you manage hosts with Intune notes that Windows Server cannot be enrolled. Where hosts run notes that on Azure Local the portal joins hosts to Active Directory Domain Services only, while PowerShell can join them to Microsoft Entra ID, and that AVD Hybrid has no multi-session. A last box says to apply the Windows license and confirm activation.](/img/avd/AVD-Post-11-OS-And-License-Choice-v3.png)
+![Diagram: Questions that decide the session host operating system and license.](/img/avd/AVD-Post-11-OS-And-License-Choice-v3.png)
 
-*Four questions that decide the operating system and license. Per-user access tiers, activation methods on Azure Local and Dev/Test pricing are left out. Source: [Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites).*
+*Source: [Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites).*
 
 ## Multi-session or single-session
 

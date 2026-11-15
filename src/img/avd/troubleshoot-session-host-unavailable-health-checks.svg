@@ -4,60 +4,60 @@
 <rect x="6" y="6" width="1088" height="722" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
 <rect x="50" y="40" width="420" height="64" rx="8" fill="#eaf2fb" stroke="#5b8fc9" stroke-width="1.5"/>
 <text x="260.0" y="67" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Is the VM running?</text>
-<text x="260.0" y="87" font-size="12" text-anchor="middle" fill="#1f2933">Power state in the Azure portal</text>
+<text x="260.0" y="87" font-size="14" text-anchor="middle" fill="#1f2933">Power state in the Azure portal</text>
 <rect x="620" y="30" width="430" height="84" rx="8" fill="#ffffff" stroke="#e6b866" stroke-width="1.5"/>
 <text x="835.0" y="54" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Start the VM and read the status again</text>
-<text x="835.0" y="76" font-size="12" text-anchor="middle" fill="#1f2933">Unavailable is expected while it is off</text>
-<text x="835.0" y="94" font-size="12" text-anchor="middle" fill="#1f2933">Source: Session host statuses and health checks</text>
+<text x="835.0" y="76" font-size="14" text-anchor="middle" fill="#1f2933">Unavailable is expected while it is off</text>
+<text x="835.0" y="94" font-size="14" text-anchor="middle" fill="#1f2933">Source: Session host statuses and health checks</text>
 <line x1="472" y1="72.0" x2="618" y2="72.0" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="545.0" y="64.0" font-size="13" font-weight="600" text-anchor="middle" fill="#b02a2a">No</text>
+<text x="545.0" y="64.0" font-size="14" font-weight="600" text-anchor="middle" fill="#b02a2a">No</text>
 <line x1="260.0" y1="106" x2="260.0" y2="156" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="268.0" y="128" font-size="13" font-weight="600" text-anchor="start" fill="#3c7a50">Yes</text>
+<text x="268.0" y="128" font-size="14" font-weight="600" text-anchor="start" fill="#3c7a50">Yes</text>
 <rect x="50" y="158" width="420" height="64" rx="8" fill="#eaf2fb" stroke="#5b8fc9" stroke-width="1.5"/>
 <text x="260.0" y="185" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Status is Needs Assistance?</text>
-<text x="260.0" y="205" font-size="12" text-anchor="middle" fill="#1f2933">URL, IMDS or Geneva check failed</text>
+<text x="260.0" y="205" font-size="14" text-anchor="middle" fill="#1f2933">URL, IMDS or Geneva check failed</text>
 <rect x="620" y="148" width="430" height="84" rx="8" fill="#ffffff" stroke="#e6b866" stroke-width="1.5"/>
 <text x="835.0" y="172" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Unblock URLs and 169.254.169.254; fix the Geneva agent</text>
-<text x="835.0" y="194" font-size="12" text-anchor="middle" fill="#1f2933">Users can still connect</text>
-<text x="835.0" y="212" font-size="12" text-anchor="middle" fill="#1f2933">Source: Troubleshoot agent issues</text>
+<text x="835.0" y="194" font-size="14" text-anchor="middle" fill="#1f2933">Users can still connect</text>
+<text x="835.0" y="212" font-size="14" text-anchor="middle" fill="#1f2933">Source: Troubleshoot agent issues</text>
 <line x1="472" y1="190.0" x2="618" y2="190.0" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="545.0" y="182.0" font-size="13" font-weight="600" text-anchor="middle" fill="#3c7a50">Yes</text>
+<text x="545.0" y="182.0" font-size="14" font-weight="600" text-anchor="middle" fill="#3c7a50">Yes</text>
 <line x1="260.0" y1="224" x2="260.0" y2="274" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="268.0" y="246" font-size="13" font-weight="600" text-anchor="start" fill="#b02a2a">No</text>
+<text x="268.0" y="246" font-size="14" font-weight="600" text-anchor="start" fill="#b02a2a">No</text>
 <rect x="50" y="276" width="420" height="64" rx="8" fill="#eaf2fb" stroke="#5b8fc9" stroke-width="1.5"/>
 <text x="260.0" y="303" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Unavailable: domain, trust or stack check failed?</text>
-<text x="260.0" y="323" font-size="12" text-anchor="middle" fill="#1f2933">Open the host under Session hosts</text>
+<text x="260.0" y="323" font-size="14" text-anchor="middle" fill="#1f2933">Open the host under Session hosts</text>
 <rect x="620" y="266" width="430" height="84" rx="8" fill="#ffffff" stroke="#e6b866" stroke-width="1.5"/>
 <text x="835.0" y="290" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Join the domain or fix trust; restart; repair the stack</text>
-<text x="835.0" y="312" font-size="12" text-anchor="middle" fill="#1f2933">Check qwinsta: rdp-tcp and rdp-sxs say Listen</text>
-<text x="835.0" y="330" font-size="12" text-anchor="middle" fill="#1f2933">Source: Statuses and health checks</text>
+<text x="835.0" y="312" font-size="14" text-anchor="middle" fill="#1f2933">Check qwinsta: rdp-tcp and rdp-sxs say Listen</text>
+<text x="835.0" y="330" font-size="14" text-anchor="middle" fill="#1f2933">Source: Statuses and health checks</text>
 <line x1="472" y1="308.0" x2="618" y2="308.0" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="545.0" y="300.0" font-size="13" font-weight="600" text-anchor="middle" fill="#3c7a50">Yes</text>
+<text x="545.0" y="300.0" font-size="14" font-weight="600" text-anchor="middle" fill="#3c7a50">Yes</text>
 <line x1="260.0" y1="342" x2="260.0" y2="392" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="268.0" y="364" font-size="13" font-weight="600" text-anchor="start" fill="#b02a2a">No</text>
+<text x="268.0" y="364" font-size="14" font-weight="600" text-anchor="start" fill="#b02a2a">No</text>
 <rect x="50" y="394" width="420" height="64" rx="8" fill="#eaf2fb" stroke="#5b8fc9" stroke-width="1.5"/>
 <text x="260.0" y="421" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Agent errors in the Application log?</text>
-<text x="260.0" y="441" font-size="12" text-anchor="middle" fill="#1f2933">Events 3277, 3703, 3019, 3389</text>
+<text x="260.0" y="441" font-size="14" text-anchor="middle" fill="#1f2933">Events 3277, 3703, 3019, 3389</text>
 <rect x="620" y="384" width="430" height="84" rx="8" fill="#ffffff" stroke="#e6b866" stroke-width="1.5"/>
 <text x="835.0" y="408" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Match the event to its fix</text>
-<text x="835.0" y="430" font-size="12" text-anchor="middle" fill="#1f2933">URLs, broker address, installer, .NET Framework</text>
-<text x="835.0" y="448" font-size="12" text-anchor="middle" fill="#1f2933">Source: Troubleshoot agent issues</text>
+<text x="835.0" y="430" font-size="14" text-anchor="middle" fill="#1f2933">URLs, broker address, installer, .NET Framework</text>
+<text x="835.0" y="448" font-size="14" text-anchor="middle" fill="#1f2933">Source: Troubleshoot agent issues</text>
 <line x1="472" y1="426.0" x2="618" y2="426.0" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="545.0" y="418.0" font-size="13" font-weight="600" text-anchor="middle" fill="#3c7a50">Yes</text>
+<text x="545.0" y="418.0" font-size="14" font-weight="600" text-anchor="middle" fill="#3c7a50">Yes</text>
 <line x1="260.0" y1="460" x2="260.0" y2="510" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="268.0" y="482" font-size="13" font-weight="600" text-anchor="start" fill="#b02a2a">No</text>
+<text x="268.0" y="482" font-size="14" font-weight="600" text-anchor="start" fill="#b02a2a">No</text>
 <rect x="50" y="512" width="420" height="64" rx="8" fill="#eaf2fb" stroke="#5b8fc9" stroke-width="1.5"/>
 <text x="260.0" y="550" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Stuck in Upgrading or Upgrade Failed?</text>
 <rect x="620" y="502" width="430" height="84" rx="8" fill="#ffffff" stroke="#e6b866" stroke-width="1.5"/>
 <text x="835.0" y="526" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Reinstall the SxS stack, then the agent</text>
-<text x="835.0" y="548" font-size="12" text-anchor="middle" fill="#1f2933">Then re-register if the stack still does not listen</text>
-<text x="835.0" y="566" font-size="12" text-anchor="middle" fill="#1f2933">Source: Troubleshoot agent issues</text>
+<text x="835.0" y="548" font-size="14" text-anchor="middle" fill="#1f2933">Then re-register if the stack still does not listen</text>
+<text x="835.0" y="566" font-size="14" text-anchor="middle" fill="#1f2933">Source: Troubleshoot agent issues</text>
 <line x1="472" y1="544.0" x2="618" y2="544.0" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="545.0" y="536.0" font-size="13" font-weight="600" text-anchor="middle" fill="#3c7a50">Yes</text>
+<text x="545.0" y="536.0" font-size="14" font-weight="600" text-anchor="middle" fill="#3c7a50">Yes</text>
 <line x1="260.0" y1="578" x2="260.0" y2="618" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="268.0" y="600" font-size="13" font-weight="600" text-anchor="start" fill="#b02a2a">No</text>
+<text x="268.0" y="600" font-size="14" font-weight="600" text-anchor="start" fill="#b02a2a">No</text>
 <rect x="50" y="620" width="420" height="84" rx="8" fill="#ffffff" stroke="#e6b866" stroke-width="1.5"/>
 <text x="260.0" y="644" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Still failing: reinstall, re-register, then open a case</text>
-<text x="260.0" y="666" font-size="12" text-anchor="middle" fill="#1f2933">New registration key; include the agent events</text>
-<text x="260.0" y="684" font-size="12" text-anchor="middle" fill="#1f2933">Source: Troubleshoot agent issues</text>
+<text x="260.0" y="666" font-size="14" text-anchor="middle" fill="#1f2933">New registration key; include the agent events</text>
+<text x="260.0" y="684" font-size="14" text-anchor="middle" fill="#1f2933">Source: Troubleshoot agent issues</text>
 </svg>

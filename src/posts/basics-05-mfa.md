@@ -32,9 +32,9 @@ MFA means you prove who you are with more than a password. A password is somethi
 
 ## What the lab builds
 
-![A left-to-right diagram in three columns. Column 1: a Global Administrator looks at the Microsoft Entra admin center: Azure already requires MFA, security defaults are only looked at, and per-user MFA stays Disabled. Column 2: in a private window, the test user opens the Security info page, adds a method and scans a QR code in Microsoft Authenticator on a phone. Column 3: the test user signs in to the Azure portal with a password and then approves the prompt. The sign-in log then shows an Authenticator step.](/img/basics/mfa.svg)
+![Diagram: MFA: check what is on, register, sign in.](/img/basics/mfa.svg)
 
-*Based on the pages listed under Sources. Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+*Source: Microsoft Learn pages listed under Sources.*
 
 ## Steps in the Azure portal
 

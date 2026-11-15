@@ -44,9 +44,9 @@ A bad Conditional Access rule can lock every admin out of a tenant. That is why 
 
 ## What the lab builds
 
-![The group TestUsers is included in one Conditional Access policy. The group EmergencyAccess and your admin account are excluded, and exclude wins. The policy reads as a rule: if the user is in TestUsers and opens Azure Virtual Desktop or Windows Cloud Login, then require multifactor authentication. Its state goes Report-only, On, Off, then Delete. The What If tool simulates a sign-in against the policy, and the policy's report-only result shows in the sign-in log. Never use All users or All resources.](/img/basics/conditional-access.svg)
+![Diagram: One Conditional Access policy for a test group.](/img/basics/conditional-access.svg)
 
-*Based on the pages listed under Sources. Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+*Source: Microsoft Learn pages listed under Sources.*
 
 ## Steps in the Entra admin center
 

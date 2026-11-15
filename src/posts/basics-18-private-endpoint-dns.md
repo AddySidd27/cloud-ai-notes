@@ -44,9 +44,7 @@ This lab is optional. Nothing later depends on it. It is the one lab in this ser
 
 ## What the lab builds
 
-![A left-to-right diagram. Inside the resource group rg-azb-lab, a Windows VM in the subnet snet-vm of the virtual network vnet-azb asks the private DNS zone privatelink.file.core.windows.net for the name of the storage account. The zone answers with a 10.10.2.x address. That address belongs to the private endpoint pe-azb-file in the second subnet snet-pe, which connects over private link to the file service of the storage account from the Azure Files lab. The VM mounts the share through the private endpoint. A separate arrow from the public internet to the storage account is blocked once public network access is disabled.](/img/basics/private-endpoint-dns.svg)
-
-*Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+![Diagram: Private endpoint and private DNS for Azure Files.](/img/basics/private-endpoint-dns.svg)
 
 ## Steps in the Azure portal
 

@@ -41,9 +41,7 @@ State at the start: VM Stopped (deallocated), no RDP rule. At the end: VM Stoppe
 
 ## What the lab builds
 
-![Step 1: testuser1 signs in to the VM vm-azb-win01, which asks Microsoft Entra ID for a Kerberos ticket for the storage account. Step 2: Entra ID returns the ticket. Step 3: the VM mounts the file share azbshare in the storage account stazb-digits over SMB on port 445. The role Storage File Data SMB Share Contributor, given to the group TestUsers on the share, decides what the user may do. A Conditional Access box points at Entra ID and says that no MFA policy may cover the storage account app. Entra ID and the users belong to the tenant. The VM and the storage account are in the resource group rg-azb-lab.](/img/basics/storage-azure-files.svg)
-
-*Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+![Diagram: Azure Files with Microsoft Entra sign-in.](/img/basics/storage-azure-files.svg)
 
 ## Steps in the Azure portal
 

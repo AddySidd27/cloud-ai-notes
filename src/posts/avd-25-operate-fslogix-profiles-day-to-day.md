@@ -73,9 +73,9 @@ Pick standard containers first. Choose Cloud Cache only if you have a clear reas
 
 If you use standard containers, you can skip to "Keep containers from filling up". The picture below shows the parts. Then the steps in words:
 
-![Cloud Cache keeps a local copy of the container on the session host. The user works on the local copy. FSLogix reads from the first healthy storage provider when data is missing, and writes every change to all providers. At sign-out, if a provider is behind, sign-out waits until the providers match, for as long as the timeout setting allows. If all providers are down, the user keeps working on the local cache, but data that is not in it cannot be read, which can hang the session.](/img/avd/AVD-FSLogix-Cloud-Cache.svg)
+![Diagram: How FSLogix Cloud Cache moves data between the session host and storage providers.](/img/avd/AVD-FSLogix-Cloud-Cache.svg)
 
-*Source: [Cloud Cache overview](https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache). The picture is simplified. Its steps 4, 5 and 6 match steps 4, 5 and 6 in the list below. Its steps 1 to 3 combine list steps 1 to 3, and list step 7 is not drawn. `CcdUnregisterTimeout` is explained in "Set up Cloud Cache".*
+*Source: [Cloud Cache overview](https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache).*
 
 1. **First sign-in.** FSLogix creates a local container in `C:\ProgramData\FSLogix\Cache`. It copies data from a provider into it as Windows asks for it.
 2. **Later sign-ins.** By default FSLogix looks for the old local cache and mounts it. The Cloud Cache overview says this default can lead to low disk space events on the host.

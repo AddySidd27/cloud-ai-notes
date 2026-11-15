@@ -31,9 +31,9 @@ By the end of this lab you will have one standard test user, one security group 
 
 ## What the lab builds
 
-![Diagram of one Microsoft Entra tenant, in two rows. Row 1: the standard test user testuser1 is a member of the security group TestUsers. Row 2: two cloud-only emergency access accounts, each with the Global Administrator role, are members of the security group EmergencyAccess. The admin account you work from is in neither group, and EmergencyAccess is excluded from the sign-in rule you build in the Conditional Access lab.](/img/basics/entra-users-groups-break-glass.svg)
+![Diagram: Test user and emergency access accounts in one Entra tenant.](/img/basics/entra-users-groups-break-glass.svg)
 
-*Based on the pages listed under Sources. Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+*Source: Microsoft Learn pages listed under Sources.*
 
 ## Steps in the Azure portal
 

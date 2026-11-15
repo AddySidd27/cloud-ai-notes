@@ -31,9 +31,9 @@ A network security group (NSG) is a list of allow and deny rules for network tra
 
 ## What the lab builds
 
-![Your PC, with your own public IP address, sends TCP 3389 toward the subnet snet-vm, and the temporary rule allows it. Anyone else on the internet is denied by the default rule DenyAllInBound. The network security group nsg-azb-vm is its own resource in the resource group rg-azb-lab, outside the virtual network. The steps create it, attach it to the subnet, read the default rules, and then add the temporary rule above them. No VM exists yet.](/img/basics/network-security-group.svg)
+![Diagram: A network security group on a subnet.](/img/basics/network-security-group.svg)
 
-*Based on the pages listed under Sources. Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+*Source: Microsoft Learn pages listed under Sources.*
 
 ## Steps in the Azure portal
 

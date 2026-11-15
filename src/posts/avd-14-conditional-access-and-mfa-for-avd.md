@@ -69,9 +69,9 @@ If you connect with thin clients, ask the client's provider whether Windows Clou
 
 The next section calls the two policies Policy 1 (service) and Policy 2 (session host).
 
-![A three-column diagram. Subscribing, gateway sign-in and diagnostics use the Azure Virtual Desktop application, covered by policy one. Session host sign-in with single sign-on uses the Windows Cloud Login application, covered by policy two. Retrieving the feed uses the Resource Manager Provider application, which must not be in any policy. Windows App also signs in to the Windows 365 application, which must not be blocked. The last two applications have a red outline. A note at the bottom says per-user multifactor authentication should be disabled.](/img/avd/AVD-Post-14-Apps-And-Policies.png)
+![Diagram: Which application covers which stage.](/img/avd/AVD-Post-14-Apps-And-Policies.png)
 
-*Which application covers which stage. Boxes with a red outline are applications you must not put in an MFA policy or must not block. The classic applications, client app conditions and license details are left out. Source: [Enforce Microsoft Entra multifactor authentication for Azure Virtual Desktop using Conditional Access](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-mfa).*
+*Source: [Enforce Microsoft Entra multifactor authentication for Azure Virtual Desktop using Conditional Access](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-mfa).*
 
 ## The two-policy structure
 

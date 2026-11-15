@@ -47,9 +47,7 @@ State at the start: no VM exists. At the end: the VM exists and is **Stopped (de
 
 ## What the lab builds
 
-![Four numbered steps. 1: your PC connects over RDP, TCP 3389, to the temporary public IP pip-azb-win01. 2: the network security group nsg-azb-vm on the subnet snet-vm allows 3389 from your IP only. 3: the Windows Server VM vm-azb-win01 in snet-vm, which has a system-assigned managed identity and the Microsoft Entra sign-in extension, checks the sign-in with Microsoft Entra ID over port 443. 4: the group TestUsers, with testuser1, holds the role Virtual Machine User Login on the resource group rg-azb-lab, so the check passes.](/img/basics/windows-vm-entra-sign-in.svg)
-
-*Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+![Diagram: A Windows VM with Microsoft Entra sign-in.](/img/basics/windows-vm-entra-sign-in.svg)
 
 ## Steps in the Azure portal
 

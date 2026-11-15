@@ -29,9 +29,9 @@ By the end you will have a resource group called `rg-azb-lab`, a virtual network
 
 ## What the lab builds
 
-![Three nested boxes. The outer box is the resource group rg-azb-lab. Inside it is the virtual network vnet-azb with the range 10.10.0.0/16, which is 10.10.0.0 to 10.10.255.255, and inside the network the subnet snet-vm with the range 10.10.1.0/24, which is 256 addresses of which 251 are usable. A virtual machine comes in a later lab and gets 10.10.1.4 first.](/img/basics/virtual-network-subnet.svg)
+![Diagram: A virtual network and a subnet.](/img/basics/virtual-network-subnet.svg)
 
-*Based on the pages listed under Sources. Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+*Source: Microsoft Learn pages listed under Sources.*
 
 ## Steps in the Azure portal
 

@@ -125,9 +125,9 @@ The sections below follow these six stages in order. Stage 1 is the section "Bef
 
 **Figure 1. The greenfield path, from preparation to the first workload.**
 
-![A path of six numbered stages in three grouped panels. Prepare and plan: 1 Get ready, 2 Plan, 3 Choose a tool. Build and check: 4 Build the platform, 5 Check it. Hand over: 6 Hand over the first workload. Each stage shows what you decide and what you end up with, ending in a governed workload subscription.](/diagrams/post-61-greenfield-path.svg)
+![Six stages in three groups: prepare and plan (get ready, plan, choose a tool), build and check (build the platform, check it), and hand over the first workload. Each stage shows what you decide and what you end up with.](/diagrams/post-61-greenfield-path.svg)
 
-*Simplified diagram. The six stages group the guidance in [Journey toward the target architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/landing-zone-journey), [Platform landing zone implementation options](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/implementation-options) and [Subscription vending](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/subscription-vending). Icons are from the official [Azure architecture icon set](https://learn.microsoft.com/en-us/azure/architecture/icons/), unmodified.*
+*Simplified from [Journey toward the target architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/landing-zone-journey), Microsoft Learn. Icons: [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
 ## What you will have at the end
 
@@ -141,9 +141,9 @@ The Start on-ramp begins with the reference architecture, so look at the end sta
 
 **Figure 2. The architecture you end up with.**
 
-![Management groups above their subscriptions. Top: the Microsoft Entra tenant, the tenant root group, then the intermediate root management group, where policy for every workload is assigned. Left: the Platform group with Connectivity (hub network, Azure Firewall, gateways, private DNS, DDoS plan), Security (Microsoft Sentinel), Management (Log Analytics workspace) and Identity (Active Directory Domain Services or Microsoft Entra Domain Services) subscriptions. Right: the Landing zones group with Corp, Online and Local, each with example workload subscriptions; a dashed arrow labeled private connection links Corp to the hub. Below: Sandboxes and Decommissioned.](/diagrams/post-61-greenfield-architecture.svg)
+![The target architecture: Entra tenant, tenant root group and intermediate root above the Platform group (four subscriptions) and the Landing zones group (Corp, Online, Local), with Sandboxes and Decommissioned.](/diagrams/post-61-greenfield-architecture.svg)
 
-*Simplified diagram based on [Management groups](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups) and [What is an Azure landing zone?](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/). Management groups are drawn above their subscriptions. The picture shows a hub network; Virtual WAN is the alternative. The second region and the workload contents are left out. Icons are from the official [Azure architecture icon set](https://learn.microsoft.com/en-us/azure/architecture/icons/), unmodified.*
+*Simplified from [Management groups](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), Microsoft Learn. Icons: [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
 ## Before you start
 

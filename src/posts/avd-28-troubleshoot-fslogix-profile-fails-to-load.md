@@ -50,7 +50,7 @@ The AVD logs tell you whether the user connected and how long sign-in took. The 
 
 The picture shows the same order as a decision tree. Each leaf names its source.
 
-![Decision tree for a temporary or slow FSLogix profile. The first question is whether FSLogix profile containers are enabled and VHDLocations is set; if not, turn them on. If yes, the tree asks in turn whether the profile log shows Access is denied (fix storage permissions), whether it shows a locked container (sign out the other session or choose the lock behavior), whether the host can reach the share on SMB (fix name resolution or network), whether the container or storage is full (raise the size or capacity), and whether an old local profile or a changed folder-name setting exists. If none applies, collect the logs and open a support case.](/img/avd/troubleshoot-fslogix-profile-fails-to-load.svg)
+![Diagram: Decision tree: FSLogix profile does not load or is temporary.](/img/avd/troubleshoot-fslogix-profile-fails-to-load.svg)
 
 *Source: [Old, temporary or local profiles](https://learn.microsoft.com/en-us/fslogix/troubleshooting-old-temp-local-profiles), [Container attach or detach](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-attach-detach) and [FSLogix codes](https://learn.microsoft.com/en-us/fslogix/troubleshooting-error-codes).*
 

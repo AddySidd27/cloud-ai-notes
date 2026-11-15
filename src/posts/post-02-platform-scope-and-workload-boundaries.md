@@ -147,9 +147,9 @@ The lab teaches the workflow. The enterprise column shows what a real design add
 
 ## Platform and workload boundary at a glance
 
-![Platform landing zone with four subscriptions (Identity, Connectivity, Management, Security) on the left, workload landing zones under the Corp, Online and Local management groups on the right, separated by a dashed ownership boundary](/diagrams/post-02-ownership-boundary.svg)
+![Who owns what: the platform team owns Identity, Connectivity, Management and Security subscriptions on the left. Workload teams own subscriptions under the Corp, Online and Local management groups on the right. A dashed line marks the boundary.](/diagrams/post-02-ownership-boundary.svg)
 
-*Simplified diagram based on [Management groups in the Azure landing zone architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups). It shows the Platform group with its four child management groups and subscriptions, and the Corp, Online and Local groups with example subscriptions. Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/) set. Microsoft's own reference diagrams are on the [What is an Azure landing zone?](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/) page.*
+*Simplified from [Management groups](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), Microsoft Learn. Icons: [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
 ## Common mistakes
 

@@ -99,9 +99,9 @@ Any device that runs an AVD client app, such as the Remote Desktop client or Win
 
 ## Where each control sits
 
-![At the top, the Microsoft-run Azure Virtual Desktop service reached by name on TCP 443 (UDP 3478 for the relay), with no IP range list to use instead of names, but an FQDN tag or a service tag. On the left, a user device behind a firewall or proxy on the client network. On the right, a session host in a subnet, with network security group rules, a route table and a firewall or proxy on its outbound path. At the bottom left, an optional Private Link panel with the private endpoints and DNS zones. At the bottom right, a red panel for the two Azure platform addresses that must not be proxied, intercepted or sent through VPN tunnels.](/img/avd/AVD-Post-16-Enforcement-Points-v3.png)
+![Diagram: Where the network controls sit on the connectivity path.](/img/avd/AVD-Post-16-Enforcement-Points-v3.png)
 
-*Source: [Required FQDNs and endpoints for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/required-fqdn-endpoint), [proxy server guidelines](https://learn.microsoft.com/en-us/azure/virtual-desktop/proxy-server-support), [Private Link with Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/private-link-overview) and [Azure fabric communication IPs](https://learn.microsoft.com/en-us/azure/virtual-desktop/azurecommunicationips). The drawing leaves out the client path through Azure Front Door and RDP Shortpath. Icons: Microsoft Azure and Microsoft Entra architecture icons, used unmodified under the terms on Microsoft's icons page.*
+*Source: [Required FQDNs and endpoints for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/required-fqdn-endpoint), [proxy server guidelines](https://learn.microsoft.com/en-us/azure/virtual-desktop/proxy-server-support), [Private Link with Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/private-link-overview) and [Azure fabric communication IPs](https://learn.microsoft.com/en-us/azure/virtual-desktop/azurecommunicationips).*
 
 Three places can block a connection, and they are often owned by different teams: the client network, the session host subnet and the platform addresses. When a user cannot connect, find out which side is failing before you open any rule.
 

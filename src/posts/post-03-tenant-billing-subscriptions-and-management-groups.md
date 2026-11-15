@@ -131,9 +131,9 @@ Azure has four scopes: management groups, subscriptions, resource groups and res
 
 ## Tenant, billing, subscriptions and management groups at a glance
 
-![One Microsoft Entra tenant at the top. Under it is one management group (the tenant root group) with two child management groups. One holds a subscription bought under an Enterprise Agreement (EA). The other holds two subscriptions, one under a Cloud Solution Provider agreement (CSP) and one under a Microsoft Customer Agreement (MCA). Each subscription has a resource group, and each resource group holds resources.](/diagrams/post-03-azure-building-blocks.svg)
+![One Microsoft Entra tenant, a tenant root group with two child management groups, three subscriptions (EA, CSP, MCA), a resource group in each, and resources inside the resource groups.](/diagrams/post-03-azure-building-blocks.svg)
 
-*Simplified diagram based on the Azure scopes diagram in [Azure billing offers and Microsoft Entra tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-entra-tenant) and on [What are Azure management groups?](https://learn.microsoft.com/en-us/azure/governance/management-groups/overview). The original labels its third subscription PAYG (pay-as-you-go). This version shows MCA instead, because this post defines MCA. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) and [Microsoft Entra](https://learn.microsoft.com/en-us/entra/architecture/architecture-icons) architecture icon sets. The original diagram is on the first linked page.*
+*Simplified from [Azure billing offers and Microsoft Entra tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-entra-tenant), Microsoft Learn. Icons: [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
 ## Common mistakes
 

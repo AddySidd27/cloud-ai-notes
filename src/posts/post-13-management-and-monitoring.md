@@ -221,9 +221,9 @@ Centralized logging in the reference architecture is mainly about platform opera
 
 ## Management and monitoring at a glance
 
-![Management and monitoring in the landing zone. Four stacked bands, each with a two-column grid of cards. Inventory and visibility: a central logging workspace, guardrails (Azure Policy, deny policies, resource locks), service and resource health events, Traffic Analytics, and the rule that data born in Azure stays in Azure. Operational compliance: Azure Update Manager for patching, and Azure Policy and Azure Machine Configuration for configuration drift. Protect and recover: Azure Site Recovery, Azure Backup, availability zones or sets, ExpressRoute in several regions and no overlapping IP ranges. Last, monitoring the platform landing zone: policy initiatives assigned at three management group levels (the intermediate root, then the platform and landing zones management groups) deploy alert rules, alert processing rules and action groups, with a list of components that have baseline alerts, the action group rule, an out-of-scope note, and a note on questions Microsoft asks about update management.](/diagrams/post-13-management-and-monitoring.svg)
+![Management design area in four bands: inventory and visibility, operational compliance, protect and recover, and baseline alerts for the platform landing zone deployed by Azure Policy.](/diagrams/post-13-management-and-monitoring.svg)
 
-*Simplified summary of the Management design area. The documentation has an alert-topology diagram, which the text describes instead of redrawing: [Monitor Azure platform landing zone components](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management-monitor). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/), unmodified.*
+*Simplified from [Monitor Azure platform landing zone components](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management-monitor), Microsoft Learn. Icons: [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
 ## Common mistakes
 

@@ -54,9 +54,9 @@ Windows App is the new way to connect to cloud and remote resources, and it repl
 
 Two clients are not supported for AVD at all: the RemoteApp and Desktop Connections client, and the Remote Desktop Connection client (`mstsc.exe`).
 
-![A diagram with three columns: device, client, and what to watch for. Windows PC, macOS, iPhone and iPad, Android and Chrome OS, and Meta Quest all point to Windows App. Web browser points to Windows App in the browser. Notes beside each row say what to watch for: the Windows row gives the retirement dates of the older Remote Desktop clients for Windows, and the Meta Quest row says it is in preview. A red box at the bottom says the RemoteApp and Desktop Connections client and the Remote Desktop Connection client are not supported for Azure Virtual Desktop.](/img/avd/AVD-Post-12-Client-By-Device.png)
+![Diagram: Which client each device uses.](/img/avd/AVD-Post-12-Client-By-Device.png)
 
-*Which client each device uses. Feature differences between clients are left out. Source: [Get started with Windows App](https://learn.microsoft.com/en-us/windows-app/get-started-connect-devices-desktops-apps).*
+*Source: [Get started with Windows App](https://learn.microsoft.com/en-us/windows-app/get-started-connect-devices-desktops-apps).*
 
 **Recommendation:** standardize on Windows App for every platform you support, and treat any user still on an older client as a migration item with a date.
 

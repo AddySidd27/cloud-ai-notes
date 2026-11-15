@@ -266,27 +266,27 @@ These four pictures follow the layout of the pictures on Microsoft Learn. They f
 
 **Figure 1. The landing zone governance design.**
 
-![Landing zone governance design. A landing zone subscription holds IAM and Policy next to Management and Monitoring. Roles (for example NetOps, SecOps, DevOps) sit beside IAM. Subscription policy (for example allowed resource providers, encryption at rest, no public IP) sits beside Policy. Metrics, logs and alerts and Microsoft Defender for Cloud sit beside Management and Monitoring. Inside are applications, with Cost Management and Azure Monitor on the left. An application template holds app resources (VM, DB, storage, hybrid), IAM, Policy, Keys and Monitor, with Network Watcher and Microsoft Defender for Cloud on the right. Shared Services (for example Active Directory on IaaS) and Networking sit at the bottom.](/diagrams/post-14-governance-design.svg)
+![Landing zone governance design. A landing zone subscription holds IAM, Policy, management and monitoring, shared services, networking and an application template, with roles, policy and cost tools around it.](/diagrams/post-14-governance-design.svg)
 
-*Source: [Design area: Azure governance](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/governance). Icons are from the official Azure architecture icons, unmodified. IAM means identity and access management.*
+*Source: [Design area: Azure governance](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/governance), Microsoft Learn. Icons: Azure architecture icons.*
 
 **Figure 2. The three DINE phases.**
 
-![DINE phases overview. Three arrows from left to right: disable DINE and Modify policies automated actions; enable DINE and Modify policies on a specific policy or reduced scope; enable DINE and Modify policies everywhere.](/diagrams/post-14-dine-phases.svg)
+![Three phases left to right: disable DINE and Modify policies, enable them on a specific policy or reduced scope, then enable them everywhere.](/diagrams/post-14-dine-phases.svg)
 
-*Source: [Adopt policy-driven guardrails](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/dine-guidance). Phase 1, 2 and 3 are the phases in the table above. The numbers are added; the picture has none.*
+*Source: [Adopt policy-driven guardrails](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/dine-guidance), Microsoft Learn.*
 
 **Figure 3. Updating landing zone custom policies.**
 
-![Decision tree for custom policy updates. Start: policy updates required, policies in scope for updating. Not assigned: replace the outdated definition. Assigned directly: if parameters are unchanged, replace the policy contents; if changed, delete or update the assignments, update the outdated policy and reassign. Assigned through an initiative that is not outdated: replace the policy contents if parameters are unchanged; otherwise delete the initiative assignments, update the policy or initiative definition and reassign. Initiative outdated: delete the initiative assignments, update the definition and assign the initiative.](/diagrams/post-14-update-custom-policies.svg)
+![Decision tree for updating custom policies: whether the policy is assigned directly or through an initiative, and whether parameters changed, leading to delete, update and reassign steps.](/diagrams/post-14-update-custom-policies.svg)
 
-*Source: [Update Azure landing zone custom policies](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/update-custom-policies). The picture is simplified.*
+*Source: [Update Azure landing zone custom policies](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/update-custom-policies), Microsoft Learn.*
 
 **Figure 4. Moving landing zone custom policies to built-in policies.**
 
-![Decision tree for migrating to built-in policies. Not assigned: delete the landing zone policy or initiative definition. Assigned directly: assign the Azure built-in policy, delete the landing zone policy assignments, then delete the policy definition. Assigned through an initiative that a built-in initiative replaces: assign the built-in initiative, delete the landing zone initiative assignments, then delete the initiative definition. If the initiative is not replaced: update the landing zone initiative definition.](/diagrams/post-14-migrate-to-built-in.svg)
+![Decision tree for migrating to built-in policies: assign the built-in policy or initiative, then delete the landing zone assignment and definition. Unassigned definitions are deleted.](/diagrams/post-14-migrate-to-built-in.svg)
 
-*Source: [Migrate Azure landing zone policies to Azure built-in policies](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/migrate-azure-landing-zone-policies). The picture is simplified.*
+*Source: [Migrate Azure landing zone policies to Azure built-in policies](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/migrate-azure-landing-zone-policies), Microsoft Learn.*
 
 ## Common mistakes
 

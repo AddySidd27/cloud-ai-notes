@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 925" width="1000" height="925" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
   <title id="t">Azure Files with Microsoft Entra Kerberos: hybrid users</title>
   <desc id="d">Domain controllers in on-premises Active Directory synchronize identities to Microsoft Entra ID. Numbered setup steps: 1 enable Microsoft Entra Kerberos on the storage account, 2 assign a share-level role, 3 set folder and file permissions from a device with connectivity to AD DS, 4 enable cloud Kerberos ticket retrieval on the session hosts. At sign-in, lettered steps: A the session host retrieves a cloud Kerberos ticket from Microsoft Entra ID, B the session host uses Kerberos tickets from Microsoft Entra ID to access the share over SMB. A final note says to exclude the storage account&#x27;s Entra app from MFA Conditional Access policies.</desc>
-  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
   <rect x="6" y="6" width="988" height="913" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
   <text x="500" y="38" font-size="20" font-weight="600" text-anchor="middle" fill="#1f2933">Azure Files with Microsoft Entra Kerberos: hybrid users</text>
   <rect x="30" y="100" width="220" height="110" rx="8" fill="#f5f5f5" stroke="#5f6b7a" stroke-width="1.5"/>
@@ -28,15 +28,15 @@
   <image x="460" y="408" width="40" height="40" href="data:image/svg+xml;base64,PHN2ZyBpZD0iZmQ0NTRmMWMtNTUwNi00NGI4LTg3NGUtODgxNGI4YjJmNzBiIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImYzNGQ5NTY5LTJiZDAtNDAwMi04ZjE2LTNkMDFkODEwNmNiNSIgeDE9IjguODgiIHkxPSIxMi4yMSIgeDI9IjguODgiIHkyPSIwLjIxIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMDA3OGQ0IiAvPjxzdG9wIG9mZnNldD0iMC44MiIgc3RvcC1jb2xvcj0iIzVlYTBlZiIgLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iYmRiNDVhMGItZWI1OC00OTcwLWE2MGEtZmIyY2UzMTRmODY2IiB4MT0iOC44OCIgeTE9IjE2Ljg0IiB4Mj0iOC44OCIgeTI9IjEyLjIxIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agb2Zmc2V0PSIwLjE1IiBzdG9wLWNvbG9yPSIjY2NjIiAvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzcwNzA3MCIgLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48dGl0bGU+SWNvbi1jb21wdXRlLTIxPC90aXRsZT48cmVjdCB4PSItMC4xMiIgeT0iMC4yMSIgd2lkdGg9IjE4IiBoZWlnaHQ9IjEyIiByeD0iMC42IiBmaWxsPSJ1cmwoI2YzNGQ5NTY5LTJiZDAtNDAwMi04ZjE2LTNkMDFkODEwNmNiNSkiIC8+PHBvbHlnb24gcG9pbnRzPSIxMS44OCA0LjQ2IDExLjg4IDcuOTUgOC44OCA5LjcxIDguODggNi4yMSAxMS44OCA0LjQ2IiBmaWxsPSIjNTBlNmZmIiAvPjxwb2x5Z29uIHBvaW50cz0iMTEuODggNC40NiA4Ljg4IDYuMjIgNS44OCA0LjQ2IDguODggMi43MSAxMS44OCA0LjQ2IiBmaWxsPSIjYzNmMWZmIiAvPjxwb2x5Z29uIHBvaW50cz0iOC44OCA2LjIyIDguODggOS43MSA1Ljg4IDcuOTUgNS44OCA0LjQ2IDguODggNi4yMiIgZmlsbD0iIzljZWJmZiIgLz48cG9seWdvbiBwb2ludHM9IjUuODggNy45NSA4Ljg4IDYuMjEgOC44OCA5LjcxIDUuODggNy45NSIgZmlsbD0iI2MzZjFmZiIgLz48cG9seWdvbiBwb2ludHM9IjExLjg4IDcuOTUgOC44OCA2LjIxIDguODggOS43MSAxMS44OCA3Ljk1IiBmaWxsPSIjOWNlYmZmIiAvPjxwYXRoIGQ9Ik0xMi40OSwxNS44NGMtMS43OC0uMjgtMS44NS0xLjU2LTEuODUtMy42M0g3LjExYzAsMi4wNy0uMDYsMy4zNS0xLjg0LDMuNjNhMSwxLDAsMCwwLS44OSwxaDlBMSwxLDAsMCwwLDEyLjQ5LDE1Ljg0WiIgZmlsbD0idXJsKCNiZGI0NWEwYi1lYjU4LTQ5NzAtYTYwYS1mYjJjZTMxNGY4NjYpIiAvPjwvc3ZnPg=="/>
   <text x="480" y="474" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Session hosts</text>
   <text x="480" y="493" font-size="14" text-anchor="middle" fill="#1f2933">(hybrid users)</text>
-  <text x="480" y="512" font-size="13" text-anchor="middle" fill="#1f2933">Entra joined or hybrid joined</text>
+  <text x="480" y="512" font-size="14" text-anchor="middle" fill="#1f2933">Entra joined or hybrid joined</text>
   <rect x="390" y="410" width="26" height="26" rx="13" fill="#3b6fb6" stroke="#3b6fb6" stroke-width="1"/>
   <text x="403" y="429" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">4</text>
-  <line x1="480" y1="400" x2="480" y2="220" stroke="#c2570c" stroke-width="3" marker-end="url(#arr)"/>
+  <line x1="480" y1="400" x2="480" y2="220" stroke="#c2570c" stroke-width="2.5" marker-end="url(#arr)"/>
   <rect x="494" y="290" width="26" height="26" rx="13" fill="#c2570c" stroke="#c2570c" stroke-width="1"/>
   <text x="507" y="309" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">A</text>
   <text x="528" y="303" font-size="14" text-anchor="start" fill="#1f2933">Gets a cloud Kerberos</text>
   <text x="528" y="321" font-size="14" text-anchor="start" fill="#1f2933">ticket at sign-in</text>
-  <line x1="580" y1="465" x2="730" y2="465" stroke="#c2570c" stroke-width="3" marker-end="url(#arr)"/>
+  <line x1="580" y1="465" x2="730" y2="465" stroke="#c2570c" stroke-width="2.5" marker-end="url(#arr)"/>
   <rect x="640" y="452" width="26" height="26" rx="13" fill="#c2570c" stroke="#c2570c" stroke-width="1"/>
   <text x="653" y="471" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">B</text>
   <text x="594" y="495" font-size="14" text-anchor="start" fill="#1f2933">Uses the tickets</text>
@@ -48,7 +48,7 @@
   <text x="140" y="656" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Device used to set</text>
   <text x="140" y="675" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">folder permissions</text>
   <line x1="250" y1="645" x2="850" y2="645" stroke="#3b6fb6" stroke-width="3"/>
-  <line x1="850" y1="645" x2="850" y2="532" stroke="#3b6fb6" stroke-width="3" marker-end="url(#arr)"/>
+  <line x1="850" y1="645" x2="850" y2="532" stroke="#3b6fb6" stroke-width="2.5" marker-end="url(#arr)"/>
   <rect x="262" y="604" width="26" height="26" rx="13" fill="#3b6fb6" stroke="#3b6fb6" stroke-width="1"/>
   <text x="275" y="623" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">3</text>
   <text x="298" y="622" font-size="14" text-anchor="start" fill="#1f2933">Sets folder and file permissions (ACLs)</text>

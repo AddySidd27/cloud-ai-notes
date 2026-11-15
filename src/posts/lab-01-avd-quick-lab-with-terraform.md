@@ -49,9 +49,9 @@ Everything below describes what the code does. It is a lab, not a production des
 
 ## What the lab builds
 
-![Terraform builds one resource group in one subscription. It holds a workspace linked to a desktop application group, which is linked to a pooled host pool. A virtual network 10.20.0.0/16 holds a subnet 10.20.1.0/24 with a network security group and two Windows 11 multi-session session hosts. The session hosts register to the host pool and reach a profiles file share in a storage account over SMB port 445. A Microsoft Entra group that you create first receives three roles: Desktop Virtualization User on the application group, Virtual Machine User Login on the session hosts, and Storage File Data SMB Share Contributor on the file share.](/img/avd/AVD-Terraform-Quick-Lab.svg)
+![Diagram: What the Terraform quick lab deploys: one resource group with an AVD workspace, desktop application group, host pool, two session hosts and an Azure Files profile share.](/img/avd/AVD-Terraform-Quick-Lab.svg)
 
-*Source: the lab's Terraform code, in the [terraform-azure-avd](https://github.com/AddySidd27/terraform-azure-avd) repository. Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/). Terraform has no icon in that set, so it is a plain box.*
+*Source: the lab's Terraform code, in the [terraform-azure-avd](https://github.com/AddySidd27/terraform-azure-avd).*
 
 With the default settings, one `terraform apply` creates these things in one Azure region (default `eastus`):
 

@@ -31,9 +31,9 @@ Below is what the code does, how Microsoft describes the features it uses, and a
 
 ## What the lab builds
 
-![A budget named budget-avd-dev applies to the resource group rg-avd-dev. It reads the cost of the lab resources. When actual cost reaches 50, 80 and 100 percent of the budget, or the forecast goes above 100 percent, it sends an email to up to five addresses. An alert only sends a message and does not stop or change any resource.](/img/avd/AVD-Terraform-Budget-Lab.svg)
+![Diagram: How the budget lab raises a cost alert.](/img/avd/AVD-Terraform-Budget-Lab.svg)
 
-*Source: the lab's Terraform code and the page [Tutorial: Create and manage budgets](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+*Source: the lab's Terraform code and the page [Tutorial: Create and manage budgets](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets).*
 
 The code creates one resource: a monthly budget on an existing resource group. It does not create or change the resource group, and it does not touch anything inside it.
 

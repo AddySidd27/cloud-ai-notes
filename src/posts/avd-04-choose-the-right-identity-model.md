@@ -69,7 +69,7 @@ Microsoft Entra ID authenticates users to the AVD service in every option below.
 
 ![Diagram with three columns: Entra joined, AD DS joined and Domain Services joined. Each column shows where the users come from and what Windows joins, under a banner saying Entra ID authenticates access to the AVD service in every path](/img/avd/AVD-Post-04-Identity-Models-v2.png)
 
-*Read each column from top to bottom. Account synchronization and Windows join are different operations. Source: [Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites).*
+*Source: [Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites).*
 
 ### Microsoft Entra joined
 
@@ -147,9 +147,9 @@ Do not transfer the Azure Files cloud-only conclusion to Azure NetApp Files. The
 
 The diagram shows the Azure Files path for hybrid users. Cloud-only users follow a different setup; this diagram is for users synchronized from AD DS. The directory supplies the synchronized user identity. Entra supplies the Azure Files ticket. The profile share also needs permissions.
 
-![Diagram: on-premises domain controllers sync identities to Microsoft Entra ID. Four numbered setup steps: enable Microsoft Entra Kerberos on the storage account and grant admin consent, assign a share-level role, set folder and file permissions from a device that can reach AD DS, and turn on cloud Kerberos ticket retrieval on the session hosts. At sign-in, the session host gets a cloud Kerberos ticket from Microsoft Entra ID (A) and uses the tickets to access the Azure Files share over SMB (B). A note says to exclude the storage account's Entra app from Conditional Access policies that require MFA for all apps.](/img/avd/AVD-Post-04-Entra-Kerberos-v3.png)
+![Diagram: Azure Files with Microsoft Entra Kerberos: hybrid users.](/img/avd/AVD-Post-04-Entra-Kerberos-v3.png)
 
-*Hybrid users accessing Azure Files through Microsoft Entra Kerberos. Source: [Enable Microsoft Entra Kerberos authentication for hybrid and cloud-only identities on Azure Files](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-auth-hybrid-identities-enable).*
+*Source: [Enable Microsoft Entra Kerberos authentication for hybrid and cloud-only identities on Azure Files](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-auth-hybrid-identities-enable).*
 
 Numbers are one-time setup steps and letters are what happens at each sign-in. The numbers are configuration responsibilities, not network packets, and they are not a strict order: the share role and the folder permissions are separate layers. Enabling authentication does not assign permissions, and granting a share role does not set the user's folder permissions. For hybrid identities, step 3 needs unimpeded network connectivity to a domain controller. For the Azure Files ticket, session hosts do not need a path to a domain controller. A hybrid joined host still needs one for its own domain join.
 

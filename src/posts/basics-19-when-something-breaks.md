@@ -66,9 +66,7 @@ Most Azure problems in this series come from a short list: a missing permission,
 
 ## What the lab builds
 
-![A diagram with two jobs. The tour, left and middle: six symptoms each point to one place to look. Create failed points to Deployments, who changed it points to the Activity log, VM black screen or Unknown points to Resource health and boot diagnostics, cannot sign in points to the Microsoft Entra sign-in logs, quota or provider error points to Usage and quotas, and RDP will not connect points to Network Watcher IP flow verify. The clean up, right, in the order of the Clean up steps. First remove locks and policy assignments. Then check role assignments and destroy the Terraform project in rg-azb-tf. Then delete rg-azb-sandbox and rg-azb-lab and wait until they are gone. Then purge the soft-deleted key vault. Then remove the Microsoft Entra leftovers: the device vm-azb-win01, the storage account app and any Conditional Access policy. The last box is Cost analysis the next day. A green box keeps rg-azb-core, testuser1, TestUsers and the emergency accounts.](/img/basics/when-something-breaks.svg)
-
-*Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+![Diagram: When something breaks: where to look, then clean up.](/img/basics/when-something-breaks.svg)
 
 ## Steps in the Azure portal
 

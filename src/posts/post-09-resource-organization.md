@@ -220,9 +220,9 @@ Useful tags fall into five categories:
 
 ## The baseline hierarchy at a glance
 
-![The baseline management group hierarchy: the tenant root group and the intermediate root management group sit above Platform (Security, Management, Identity and Connectivity, each with a dedicated subscription), Landing zones (Corp, Online and Local, with workload landing zone subscriptions, and a dashed example PCI group), Decommissioned and Sandboxes. If you need to separate development, test and production, use separate subscriptions in the same management group, not separate management groups](/diagrams/post-09-management-group-hierarchy.svg)
+![Management group hierarchy: tenant root group and intermediate root above Platform (Security, Management, Connectivity, Identity), Landing zones (Corp, Online, Local), Decommissioned and Sandboxes, each with its subscriptions.](/diagrams/post-09-management-group-hierarchy.svg)
 
-*Simplified from the hierarchy diagram on [Management groups](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups#management-groups-in-the-azure-landing-zone-architecture). Each group of management groups has its own band, with the subscriptions in a band below it. The dashed PCI group (PCI DSS, the payment card security standard) is the tailoring example from [Tailor the Azure landing zone architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/tailoring-alz). The subscription labels (A1, P1, A2, LC1, LA1) are example names, and no subscription is drawn under Online in this example. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) architecture icon set.*
+*Simplified from [Management groups](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups#management-groups-in-the-azure-landing-zone-architecture), Microsoft Learn. The PCI group is the tailoring example from [Tailor the Azure landing zone architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/tailoring-alz). Icons: [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
 ## Common mistakes
 

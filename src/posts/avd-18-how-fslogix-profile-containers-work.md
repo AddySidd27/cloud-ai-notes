@@ -62,7 +62,7 @@ FSLogix is not part of Windows. It has to be installed on each session host. The
 
 ![Two session hosts and an SMB file share holding one profile container per user.](/img/avd/AVD-FSLogix-Profile-Container-Flow.png)
 
-*Source: [User profile management for Azure Virtual Desktop with FSLogix profile containers](https://learn.microsoft.com/en-us/azure/virtual-desktop/fslogix-profile-containers). The drawing leaves out Cloud Cache, the second (ODFC) container and the settings. The `VHDLocations` setting and the `local_` folder in the drawing are explained in the text below it. DNS in the drawing is the system that turns a name into an IP address.*
+*Source: [User profile management for Azure Virtual Desktop with FSLogix profile containers](https://learn.microsoft.com/en-us/azure/virtual-desktop/fslogix-profile-containers).*
 
 The steps are:
 

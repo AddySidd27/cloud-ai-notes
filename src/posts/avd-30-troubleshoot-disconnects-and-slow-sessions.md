@@ -53,9 +53,9 @@ This table is a suggested mapping.
 
 The picture asks the sign-in question early because the user can answer it in seconds. The numbered checks below go deeper into each branch, in the order of the Insights tabs.
 
-![Decision tree for disconnects and slow sessions. The first question is whether the problem affects one user or many; many leads to Service Health and Insights, one leads on to a series of yes or no questions. Those ask about sign-in only, high round-trip time, a busy host, TCP instead of UDP, and Shortpath, client or server disconnect errors, and each yes leads to one action.](/img/avd/troubleshoot-disconnects-and-slow-sessions.svg)
+![Diagram: Decision tree for AVD disconnects and slow sessions.](/img/avd/troubleshoot-disconnects-and-slow-sessions.svg)
 
-*Source: Troubleshooting overview, Insights use cases and glossary, Troubleshoot connection quality, Troubleshoot RDP Shortpath, RDP Shortpath and Proxy server guidelines. The order of the questions is a suggestion.*
+*Source: Troubleshooting overview, Insights use cases and glossary, Troubleshoot connection quality, Troubleshoot RDP Shortpath, RDP Shortpath and Proxy server guidelines.*
 
 ## Check 1: how wide is the problem?
 

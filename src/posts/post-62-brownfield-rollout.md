@@ -196,9 +196,9 @@ Seven stages; the two stages "See the effect" and "Move in" repeat for each wave
 
 **Figure 1. The brownfield path, from today's environment to governed workloads.**
 
-![A path of seven numbered stages in three grouped panels. Look and decide: 1 Take stock, 2 Choose a path, 3 Plan the target. Build beside, then test: 4 Build beside, 5 See the effect. Move and finish: 6 Move in, 7 Finish. Each stage shows what you decide and what you end up with, ending in governed workloads and retired subscriptions waiting in the Decommissioned group. A loop arrow from stage 6 back to stage 5 is labeled "Repeat for each wave".](/diagrams/post-62-brownfield-path.svg)
+![Seven stages in three groups: look and decide (take stock, choose a path, plan the target), build beside and test, then move in and finish. Moving in repeats for each wave.](/diagrams/post-62-brownfield-path.svg)
 
-*Simplified diagram. No Microsoft page shows this sequence; the stages group the guidance in [Journey toward the target architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/landing-zone-journey) and [Transition an existing Azure environment to the Azure landing zone reference architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/transition). Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) architecture icon set, unmodified.*
+*Simplified from [Journey toward the target architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/landing-zone-journey), Microsoft Learn. Icons: [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
 The end state is the architecture in [the greenfield rollout](/azure-landing-zone/greenfield-rollout/#what-you-will-have-at-the-end), built beside your old environment. The old environment keeps running, and old subscriptions can retire into Decommissioned.
 
@@ -220,9 +220,9 @@ An account owner creates subscriptions. That role is a billing role, set in the 
 
 **Figure 2. Billing and access meet at the subscription.**
 
-![Two stacks join at one subscription box. Left, billing under an Enterprise Agreement: enrollment, then departments, then accounts, where each account has one account owner who creates subscriptions. Right, access: the Microsoft Entra tenant, then management groups, then role assignments and policy, passed down from the groups. Below the subscription sit resource groups and resources. A note says billing roles and Azure roles are separate systems.](/diagrams/post-62-brownfield-billing-and-access.svg)
+![Billing (enrollment, departments, accounts) and access (Entra tenant, management groups, role assignments) are two separate stacks that meet at one subscription.](/diagrams/post-62-brownfield-billing-and-access.svg)
 
-*Simplified from the hierarchy picture in [Manage Azure Enterprise Agreement roles](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/understand-ea-roles); the layout differs from that picture. Also based on [What are Azure management groups?](https://learn.microsoft.com/en-us/azure/governance/management-groups/overview). Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) architecture icon set, unmodified.*
+*Simplified from [Manage Azure Enterprise Agreement roles](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/understand-ea-roles), Microsoft Learn. Icons: [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
 What matters here:
 
@@ -408,9 +408,9 @@ For DeployIfNotExists and Modify policies the assignment needs a managed identit
 
 **Figure 3. How existing subscriptions meet the new groups.**
 
-![Left, the existing environment with its existing subscriptions, which keeps running. Right, the new landing zone hierarchy, built beside it in the same Microsoft Entra tenant: an intermediate root management group above duplicate landing zones (Corp and Online, policy assignments copied and set to audit only) and landing zones (Corp and Online, policies as designed). Below them, Decommissioned, Platform and Sandboxes. Arrow 1: new subscriptions that hold migrated workloads go into the duplicate groups (confirm with your platform team for existing subscriptions). Arrow 2: when compliance is in the required state, the subscription moves to the matching group. Arrow 3: eventually cancel the old subscription and place it in Decommissioned.](/diagrams/post-62-brownfield-existing-subscriptions.svg)
+![The existing environment keeps running while a new landing zone hierarchy is built beside it. Numbered arrows: 1 new subscriptions go to the duplicate groups, 2 they move to the matching group, 3 old ones are cancelled.](/diagrams/post-62-brownfield-existing-subscriptions.svg)
 
-*Simplified from the pictures on [the duplicate landing zone group approach](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/align-approach-duplicate-brownfield-audit-only) and [the transition guidance](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/transition). The documentation does not say where the duplicate groups sit; here they sit under the intermediate root. Decommissioned, Platform and Sandboxes also sit under the intermediate root; their connectors are left out to keep the picture readable. Arrow 1 shows new subscriptions that hold migrated workloads, as the approach page describes; for existing subscriptions, confirm with your platform team (see "The small example as a plan"). Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) architecture icon set, unmodified.*
+*Simplified from [Duplicate landing zone group approach](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/align-approach-duplicate-brownfield-audit-only), Microsoft Learn. Icons: [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
 ## See the effect in audit-only mode
 
@@ -600,9 +600,9 @@ Today, approval is an email. In the target state, a central group (the documenta
 
 **Figure 4. A new subscription, from request to workload.**
 
-![Five steps, each with who does it. 1 The workload team asks, naming budget, owner, network needs and how critical the workload is. 2 The approval runs through the process the Cloud Center of Excellence (CCoE, the central cloud team) built. 3 The platform team creates the subscription, places it in the right management group and sets tags, budget, owner and access groups. 4 The platform team hands it over. 5 The workload team adjusts the budget, deploys and runs the workload.](/diagrams/post-62-brownfield-new-subscription-flow.svg)
+![Five steps, each with who does it: the workload team asks, the central cloud team approves, the platform team creates and hands over, and the workload team deploys.](/diagrams/post-62-brownfield-new-subscription-flow.svg)
 
-*Simplified from the pictures in [Subscription vending](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/subscription-vending).*
+*Simplified from [Subscription vending](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/subscription-vending), Microsoft Learn.*
 
 Two settings protect the root: a default management group for new subscriptions, so one an account owner creates does not land under the root, and require authorization, so people cannot create management groups freely. Both are in "Build beside the old environment". They do not stop an account owner from creating a subscription outside this flow. That is a billing-role decision.
 

@@ -69,9 +69,9 @@ Each topology fits different conditions. Which one fits you is a decision.
 | ExpressRoute is the main hybrid link and there are fewer than 100 VPN connections per VPN gateway ([Traditional Azure networking topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology#design-recommendations)). The [Define an Azure network topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/define-an-azure-network-topology) page says fewer than 30 IPsec site-to-site tunnels | You want to minimize network management work |
 | You depend on central network virtual appliances and granular routing | You use SD-WAN to bring branch offices into Azure, or need native IPsec for more than 30 branch sites ([Define an Azure network topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/define-an-azure-network-topology)) |
 
-![A left panel shows the traditional hub and spoke picture: three spoke networks each joined by virtual network peering to one hub with a gateway and a firewall in Region 1. A right panel shows the Virtual WAN picture: two virtual hubs with Azure Firewall and gateways joined by a Virtual WAN band, a DNS spoke with DNS Private Resolver beside each hub, Virtual WAN hub connections to a workload network per region, and ExpressRoute circuits. Three boxes below list when each topology fits, as the Cloud Adoption Framework describes it, and address plan checks.](/img/avd/AVD-Post-17-Topology-Choice-v3.png)
+![Diagram: Hub and spoke compared with Virtual WAN for an AVD spoke.](/img/avd/AVD-Post-17-Topology-Choice-v3.png)
 
-*Source: [Traditional Azure networking topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology). The Virtual WAN side shows the AVD workload only as a workload network. Icons: Microsoft Azure and Microsoft Entra architecture icons, used unmodified under the terms on Microsoft's icons page.*
+*Source: [Traditional Azure networking topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology).*
 
 Points that change the AVD design:
 

@@ -56,9 +56,9 @@ An AVD connection has three separate authentication phases.
 | Remote session authentication | Signing in to the session host. | SSO, or a prompt, or saved credentials. |
 | In-session authentication | Signing in to applications and web sites inside the desktop. | Inside the session: passwordless sign-in through WebAuthn redirection, smart cards or passwords. |
 
-![Three boxes joined by arrows. Cloud service authentication with Microsoft Entra ID, where Conditional Access applies. Remote session authentication to the session host, where Conditional Access also applies when single sign-on is on, with single sign-on, without it, and with smart cards using Kerberos. In-session authentication to apps and sites. A panel below lists the five tasks to enable single sign-on.](/img/avd/AVD-Post-13-Three-Authentications-v3.png)
+![Diagram: The three authentications and the single sign-on steps.](/img/avd/AVD-Post-13-Three-Authentications-v3.png)
 
-*The three authentications in one connection. Single sign-on with AD FS, external identities and the Kerberos details are left out. The third happens only if an app inside the desktop asks for credentials. Source: [Supported identities and authentication methods](https://learn.microsoft.com/en-us/azure/virtual-desktop/authentication).*
+*Source: [Supported identities and authentication methods](https://learn.microsoft.com/en-us/azure/virtual-desktop/authentication).*
 
 One rule governs all three. AVD does not support signing in to Microsoft Entra ID with one account and then to Windows with a different account. That includes local Windows accounts. Doing so can reconnect users to the wrong session host, show wrong information in the portal and bypass Microsoft Entra authentication and Conditional Access. Use the same identity throughout.
 

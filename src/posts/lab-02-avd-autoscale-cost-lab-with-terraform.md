@@ -62,9 +62,9 @@ One risk comes first. The documentation recommends Autoscale with VMs created by
 
 ## What is new compared with the quick lab
 
-![The scaling plan is assigned to the host pool. The Azure Virtual Desktop service principal holds two roles on the subscription, Desktop Virtualization Power On Off Contributor and Desktop Virtualization Power On Contributor, so it can start and deallocate the two session hosts. A user who connects when all hosts are off starts one through Start VM on Connect. Below, the default schedule: on weekdays, ramp-up from 07:00, peak from 09:00, ramp-down from 18:00 and off-peak from 22:00. At weekends, ramp-up from 09:00, peak from 10:00, ramp-down from 14:00 and off-peak from 18:00.](/img/avd/AVD-Terraform-Autoscale-Lab.svg)
+![Diagram: How the autoscale lab turns session hosts on and off.](/img/avd/AVD-Terraform-Autoscale-Lab.svg)
 
-*Source: the lab's Terraform code, in the [terraform-azure-avd-autoscaling-cost-optimization](https://github.com/AddySidd27/terraform-azure-avd-autoscaling-cost-optimization) repository, and the page [Autoscale scaling plans and example scenarios](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scenarios). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/). The scaling plan has no icon in that set, so it is a plain box.*
+*Source: the lab's Terraform code, in the [terraform-azure-avd-autoscaling-cost-optimization](https://github.com/AddySidd27/terraform-azure-avd-autoscaling-cost-optimization) repository, and the page [Autoscale scaling plans and example scenarios](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scenarios).*
 
 The lab keeps the same resources as the quick lab: one resource group, a pooled host pool with two Windows 11 multi-session session hosts, a virtual network, an NSG and an Azure Files share for FSLogix profiles. It adds three things and changes one default:
 

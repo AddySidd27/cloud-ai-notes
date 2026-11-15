@@ -33,9 +33,9 @@ Terms used in this article:
 | Updates | Ring assignment and reporting | Windows Update history and build |
 | Restart | Action status and later Intune check-in | Reconnect, desktop and Edge policy |
 
-![Four tasks in the Microsoft Intune admin center reach the Cloud PC, which is Microsoft Entra joined and enrolled in Intune. A settings catalog profile sets values such as an Edge setting, and the Cloud PC check is the effective value at edge://policy. An app assigned as Required or Available for enrolled devices is checked in the Company Portal Installed view. An update ring assigned to a device group is checked in Windows Update history. A remote action such as Restart is checked by reconnecting. Restore and reprovision lose data and are not tested on your only Cloud PC. The Cloud PC reports status and its last check-in back to Intune, shown as device status, app installation status, the update ring report and the Cloud PC actions report.](/img/windows-365/windows-365-manage-intune.svg)
+![Diagram: What Microsoft Intune manages on a Cloud PC.](/img/windows-365/windows-365-manage-intune.svg)
 
-*Source: [Intune as the management plane for Windows 365](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-deployment-guidance-management). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+*Source: [Intune as the management plane for Windows 365](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-deployment-guidance-management).*
 
 ## A visible setting
 

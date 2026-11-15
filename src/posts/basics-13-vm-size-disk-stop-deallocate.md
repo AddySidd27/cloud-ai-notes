@@ -34,9 +34,7 @@ State at the start: VM Stopped (deallocated), no RDP rule. At the end: VM Stoppe
 
 ## What the lab builds
 
-![The VM vm-azb-win01 in the resource group rg-azb-lab moves through numbered steps. It starts Running as Standard_B2s_v2. Step 1, Stop, makes it Stopped (deallocated), where compute is not billed. While it is deallocated, step 2 changes the size and step 3 changes the OS disk type. Step 4, Start, makes it Running again as Standard_B2ls_v2. A red box shows that shutting down inside Windows leaves the VM only Stopped, and compute is still billed. A group at the bottom shows that the OS disk and the static public IP pip-azb-win01 are billed in every state.](/img/basics/vm-size-disk-stop-deallocate.svg)
-
-*Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+![Diagram: VM size, disk type and power states.](/img/basics/vm-size-disk-stop-deallocate.svg)
 
 ## Steps in the Azure portal
 

@@ -67,7 +67,7 @@ If you rebuild the image every month, a template is easier to repeat and review 
 
 ![Two routes into one Azure Compute Gallery: a build virtual machine with Sysprep and capture, or Azure Image Builder. Session hosts are created from a gallery image version.](/img/avd/AVD-Golden-Image-Two-Routes.png)
 
-*Source: [Azure VM Image Builder overview](https://learn.microsoft.com/en-us/azure/virtual-machines/image-builder-overview). The drawing leaves out sharing, managed images, VHD output, networking and how session hosts are created from a version.*
+*Source: [Azure VM Image Builder overview](https://learn.microsoft.com/en-us/azure/virtual-machines/image-builder-overview).*
 
 ## Route 1: build a virtual machine and capture it
 

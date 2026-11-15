@@ -106,9 +106,9 @@ A landing zone gives the workload a governed place to run. In an existing organi
 
 A management group is a container that holds subscriptions. The top management group, created by Azure for your tenant, is called the root. A scope is the set of resources a role applies to. Azure permissions assigned at a parent scope are inherited by its children. The diagram shows the four levels where an Azure permission can be assigned. The fourth level, resources, is the items inside the resource groups.
 
-![Nested boxes with four levels: a management group contains two subscriptions, the subscriptions contain three resource groups, and the resource groups contain a virtual machine, a virtual network, a storage account and another virtual machine.](/img/avd/AVD-Post-03-Access-Scope-v2.png)
+![Diagram: Azure RBAC scope: four levels, each inside the one above.](/img/avd/AVD-Post-03-Access-Scope-v2.png)
 
-*The Azure RBAC scope levels: management group, subscription, resource group and resource. A role assigned at one level applies to everything below it. Source: [Understand scope for Azure RBAC](https://learn.microsoft.com/en-us/azure/role-based-access-control/scope-overview).*
+*Source: [Understand scope for Azure RBAC](https://learn.microsoft.com/en-us/azure/role-based-access-control/scope-overview).*
 
 The complete [Resource Organization](https://adnanasiddiqui.com/azure-landing-zone/resource-organization/) article covers the platform hierarchy. Here, record the specific subscription and resource groups your AVD deployment will use.
 

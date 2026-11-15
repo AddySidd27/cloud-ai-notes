@@ -38,9 +38,9 @@ Below is what the code does, how Microsoft describes the features it uses, and a
 
 ## What the lab builds
 
-![The host pool, AVD workspace and application group send logs to a Log Analytics workspace through diagnostic settings. A data collection rule, applied to each session host with the Azure Monitor Agent, sends performance counters and Windows events to the same workspace. An alert rule on the workspace checks every 15 minutes whether a session host has stopped sending heartbeats and notifies an action group that sends an email.](/img/avd/AVD-Terraform-Monitoring-Lab.svg)
+![Diagram: How the monitoring lab collects data and raises an alert.](/img/avd/AVD-Terraform-Monitoring-Lab.svg)
 
-*Source: the lab's Terraform code and the pages [Enable Insights to monitor Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/insights) and [Send diagnostic data to Log Analytics for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/diagnostics-log-analytics). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+*Source: the lab's Terraform code and the pages [Enable Insights to monitor Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/insights) and [Send diagnostic data to Log Analytics for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/diagnostics-log-analytics).*
 
 The lab does not create any AVD resource. It reads the resources that the quick lab made (the resource group, host pool, workspace, application group and two session hosts) and adds monitoring to them. Azure Virtual Desktop Insights needs three kinds of data, and the lab covers all three:
 

@@ -189,9 +189,9 @@ It is not one resource, one subscription or one script. It is the combination of
 
 ## The landing zone at a glance
 
-![Inside one Azure landing zone, the platform landing zone panel on top shows the Platform and Landing zones management groups (Corp, Online and Local), Azure Policy and the platform subscriptions. An arrow leads down to the workload landing zones panel, which shows example Internal (Corp), Online and Local workloads, each with production, test and development environments in subscriptions](/diagrams/post-01-platform-vs-workload.svg)
+![Azure landing zone: a platform landing zone on top (management groups Platform and Landing zones, Azure Policy, platform subscriptions) hands subscriptions down to workload landing zones for Corp, Online and Local workloads.](/diagrams/post-01-platform-vs-workload.svg)
 
-*Simplified from the detailed architecture diagram on [What is an Azure landing zone?](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/) (platform landing zone on top, workload landing zones below). Parts that this series explains later are left out, such as the intermediate root, Sandboxes and Decommissioned management groups. The management group, subscription and Azure Policy icons are from the [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/) set. The full diagrams are on the linked page.*
+*Simplified from [What is an Azure landing zone?](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/), Microsoft Learn. Icons: [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
 ## Common mistakes
 

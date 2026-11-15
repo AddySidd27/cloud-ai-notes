@@ -242,9 +242,9 @@ Microsoft gives the seven capabilities and the readiness checks as text and a ta
 
 **Figure 1. The minimum viable platform landing zone and the readiness check.**
 
-![The minimum viable platform landing zone. A large box called Platform landing zone, built once before any workload moves, holds seven boxes: management group hierarchy, baseline policy, hub network with hybrid connectivity, DNS that reaches on-premises name servers, identities that match the workload mix, central logging, and a firewall or equivalent. An arrow leads to a box called Readiness check, which lists ten areas, and then to a box called First workload landing zone.](/diagrams/post-16-minimum-viable-platform-landing-zone.svg)
+![Seven capabilities of the minimum viable platform landing zone, an arrow to a ten-point readiness check, then an arrow to the first workload landing zone.](/diagrams/post-16-minimum-viable-platform-landing-zone.svg)
 
-*Simplified diagram based on [Azure landing zones for on-premises experts](https://learn.microsoft.com/en-us/azure/migration/migrate-from-on-premises-platform-landing-zone). The arrows show the order: build the platform, check it, then land the first workload. The checks are explained in the readiness table above. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) architecture icon set.*
+*Simplified from [Azure landing zones for on-premises experts](https://learn.microsoft.com/en-us/azure/migration/migrate-from-on-premises-platform-landing-zone), Microsoft Learn. Icons: [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
 ## Common mistakes
 

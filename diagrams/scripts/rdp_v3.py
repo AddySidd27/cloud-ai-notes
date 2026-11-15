@@ -2,7 +2,7 @@ from common3 import *
 NAME = "AVD-Post-02-RDP-Connection-v3"
 W, H = 1000, 640
 d = D(W, H, "The RDP connection, redrawn from Learn",
- "Not an official Microsoft diagram. It follows the Learn RDP connection diagram. A client has a two-way link to Azure Front Door, and Azure Front Door has a two-way TCP link to the gateway service. Inside a box labelled Region 1 are the gateway service, the broker service and the session host, with dotted two-way links from gateway to broker and from broker to session host, and a two-way TCP link between the gateway service and the session host. Two RDP Shortpath boxes, one for managed networks and one for public networks, also sit inside Region 1. Purple UDP lines run from the client to both Shortpath boxes and to the session host, and from the session host to both Shortpath boxes.", marker=True)
+ "It follows the Learn RDP connection diagram. A client has a two-way link to Azure Front Door, and Azure Front Door has a two-way TCP link to the gateway service. Inside a box labelled Region 1 are the gateway service, the broker service and the session host, with dotted two-way links from gateway to broker and from broker to session host, and a two-way TCP link between the gateway service and the session host. Two RDP Shortpath boxes, one for managed networks and one for public networks, also sit inside Region 1. Purple UDP lines run from the client to both Shortpath boxes and to the session host, and from the session host to both Shortpath boxes.", marker=True)
 d.rect(6, 6, W-12, H-12, "#ffffff", GREYL, 2, 8)
 d.text(500, 36, "The RDP connection: TCP through the gateway, and UDP RDP Shortpath", 20, True, "middle", INK)
 UDP = "#7a3fa0"

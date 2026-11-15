@@ -4,7 +4,7 @@ from common3 import *
 NAME = "AVD-Post-01-Components-v3"
 W, H = 1000, 520
 d = D(W, H, "Who manages what in Azure Virtual Desktop",
- "Not an official Microsoft diagram. A stack of eight labelled boxes with two braces, following the layout of the Learn diagram. Microsoft-managed, six boxes: web service, broker service, gateway service, resource directory, geographical database and regional database. Customer-managed, two boxes: session hosts and user identities. The right side adds notes taken from the text of the same Learn page about what the customer manages for session hosts and user identities. The diagram shows no connections between components.", marker=True)
+ "A stack of eight labelled boxes with two braces, following the layout of the Learn diagram. Microsoft-managed, six boxes: web service, broker service, gateway service, resource directory, geographical database and regional database. Customer-managed, two boxes: session hosts and user identities. The right side adds notes taken from the text of the same Learn page about what the customer manages for session hosts and user identities. The diagram shows no connections between components.", marker=True)
 d.rect(6, 6, W-12, H-12, "#ffffff", GREYL, 2, 8)
 d.text(500, 38, "Who manages what in Azure Virtual Desktop", 20, True, "middle", INK)
 d.text(500, 62, "Same two groups and eight components as the Learn diagram. No links are drawn between them.", 14, False, "middle", INK)

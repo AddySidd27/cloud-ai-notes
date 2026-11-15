@@ -13,18 +13,21 @@
     document.querySelectorAll('.prose h2[id]').forEach(function(h){io.observe(h)});
   }
 
-  // diagram zoom
+  // diagram zoom: opens at natural size, scrolls and pinch-zooms natively; Escape or Close to leave, focus stays inside
   var imgs=document.querySelectorAll('.prose img');
   if(imgs.length&&typeof HTMLDialogElement==='function'){
     var d=document.createElement('dialog');d.className='zoom';d.setAttribute('aria-label','Enlarged diagram');
-    d.innerHTML='<div class="zoom-tools"><button type="button" class="zoom-toggle" aria-pressed="false">Zoom in</button><button type="button" class="zoom-close">Close</button></div><div class="zoom-image"><img alt=""></div>'; document.body.appendChild(d);
-    var big=d.querySelector('img');
-    d.querySelector('.zoom-close').addEventListener('click',function(){d.close()});
-    var z=d.querySelector('.zoom-toggle');
-    z.addEventListener('click',function(){var expanded=d.classList.toggle('expanded');z.textContent=expanded?'Zoom out':'Zoom in';z.setAttribute('aria-pressed',expanded?'true':'false')});
+    d.innerHTML='<div class="zoom-tools"><button type="button" class="zoom-toggle" aria-pressed="false">Fit to screen</button><button type="button" class="zoom-close">Close</button></div><div class="zoom-image" tabindex="0" role="group"><img alt=""></div>'; document.body.appendChild(d);
+    var big=d.querySelector('img'),box=d.querySelector('.zoom-image'),z=d.querySelector('.zoom-toggle'),cl=d.querySelector('.zoom-close'),opener=null;
+    function setFit(f){d.classList.toggle('fit',f);z.textContent=f?'Actual size':'Fit to screen';z.setAttribute('aria-pressed',f?'true':'false')}
+    cl.addEventListener('click',function(){d.close()});
+    z.addEventListener('click',function(){setFit(!d.classList.contains('fit'))});
     d.addEventListener('click',function(e){if(e.target===d)d.close()});
+    d.addEventListener('close',function(){document.documentElement.style.overflow='';if(opener&&opener.focus)opener.focus()});
+    d.addEventListener('keydown',function(e){if(e.key!=='Tab')return;var f=[z,cl,box],i=f.indexOf(document.activeElement);
+      if(e.shiftKey&&i<=0){e.preventDefault();f[f.length-1].focus()}else if(!e.shiftKey&&(i===f.length-1||i<0)){e.preventDefault();f[0].focus()}});
     imgs.forEach(function(i){i.tabIndex=0;i.setAttribute('role','button');i.title='Click to enlarge';
-      function open(){d.classList.remove('expanded');z.textContent='Zoom in';z.setAttribute('aria-pressed','false');d.style.setProperty('--zoom-width',Math.max(i.naturalWidth,1200)+'px');big.src=i.currentSrc||i.src;big.alt=i.alt;d.querySelector('.zoom-image').scrollTop=0;d.querySelector('.zoom-image').scrollLeft=0;d.showModal()}
+      function open(){opener=i;setFit(false);var w=i.naturalWidth||1200;d.style.setProperty('--zoom-width',Math.max(w,Math.min(1200,w*2))+'px');big.src=i.currentSrc||i.src;big.alt=i.alt;box.setAttribute('aria-label',i.alt||'Enlarged diagram');box.scrollTop=0;box.scrollLeft=0;document.documentElement.style.overflow='hidden';d.showModal();cl.focus()}
       i.addEventListener('click',open);i.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open()}})});
   }
 

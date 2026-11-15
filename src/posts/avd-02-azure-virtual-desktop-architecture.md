@@ -64,9 +64,9 @@ A partner can do this work for the customer. The work still needs an owner.
 
 ## A typical hybrid setup, box by box
 
-![Diagram of a hybrid Azure Virtual Desktop setup. The Microsoft-managed service (web, gateway, broker, resource directory, database) and Microsoft Entra ID are at the top. User devices sign in to Entra ID and connect to the service over the internet. In Azure, session hosts in a spoke virtual network connect outbound to the service, reach profile storage in Azure Files or Azure NetApp Files, send logs to Azure Monitor, and connect through peering to a hub virtual network with a gateway subnet and an optional Azure Firewall. ExpressRoute or VPN joins the hub to an on-premises network with Microsoft Entra Connect and domain controllers.](/img/avd/AVD-Post-02-Hybrid-Architecture-v3.png)
+![Diagram: Azure Virtual Desktop in a hybrid environment.](/img/avd/AVD-Post-02-Hybrid-Architecture-v3.png)
 
-*Figure 1. A typical hybrid Azure Virtual Desktop setup. Sources: [Service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience) and [Virtual desktop architecture guidance](https://learn.microsoft.com/en-us/azure/architecture/virtual-desktop/virtual-desktop-get-started). Hub and spoke, firewall, storage and monitoring are one example, not a requirement.*
+*Figure 1. Sources: [Service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience) and [Virtual desktop architecture guidance](https://learn.microsoft.com/en-us/azure/architecture/virtual-desktop/virtual-desktop-get-started).*
 
 This is one typical example, not a list of components every deployment must buy. ExpressRoute or VPN, on-premises Active Directory Domain Services (AD DS) and the hub-and-spoke layout reflect that example.
 
@@ -182,9 +182,9 @@ The [identity model article](/azure-virtual-desktop/choose-the-right-identity-mo
 
 ## First, discover the desktops and apps
 
-![Diagram of feed discovery in one Azure region. A client and the web service are joined by a two-way arrow, and the web service and the resource directory are joined by a two-way arrow, inside a box labeled Region 1. A dashed two-way link joins the client and Azure Traffic Manager. Below, a geographical deployment scope box and a regional deployment scope box each hold a broker joined by a two-way arrow to its database. One line from the resource directory leads to both brokers.](/img/avd/AVD-Post-02-Feed-Discovery-v3.png)
+![Diagram: Feed discovery in one Azure region, as drawn on Learn.](/img/avd/AVD-Post-02-Feed-Discovery-v3.png)
 
-*Figure 2. Feed discovery in one Azure region. Source: [Azure Virtual Desktop service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience). A host pool uses either the geographical or the regional broker and database.*
+*Figure 2. Source: [Azure Virtual Desktop service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience).*
 
 The **feed** is the list of desktops and applications available to the user. Retrieving that list happens before a desktop session opens.
 
@@ -210,9 +210,9 @@ If the user already has an active or disconnected session, AVD reconnects them t
 
 ## Then, establish the remote connection
 
-![Diagram of the RDP connection. A client and Azure Front Door are joined by a two-way arrow, and Azure Front Door joins the gateway service by a two-way TCP link. In a box labeled Region 1 are the gateway service, the broker service and the session host, joined by dotted two-way links, with a two-way TCP link between the gateway service and the session host. A separate UDP line runs straight from the client to the session host, labeled RDP Shortpath, used if it works, for managed networks and public networks.](/img/avd/AVD-Post-02-RDP-Connection-v3.png)
+![Diagram: The RDP connection.](/img/avd/AVD-Post-02-RDP-Connection-v3.png)
 
-*Figure 3. The RDP connection. Sources: [Service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience) and [RDP Shortpath](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-shortpath). The dotted links are service-internal traffic.*
+*Figure 3. Sources: [Service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience) and [RDP Shortpath](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-shortpath).*
 
 Remote Desktop Protocol, or **RDP**, carries the remote display and user input. The broker arranges the connection; the session host runs Windows.
 

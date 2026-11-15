@@ -44,9 +44,7 @@ Everything in this lab happens inside one resource group that you create for it.
 
 ## What the lab builds
 
-![A left-to-right diagram. Inside one subscription is the resource group rg-azb-sandbox. Two policy assignments are attached to it: Allowed locations, which goes from Audit to Deny, and Require a tag on resources, which goes from enforcement Disabled to Enabled. A storage account in the wrong region is refused by Allowed locations with a RequestDisallowedByPolicy error (a Forbidden, 403, response). A storage account without the env tag is refused by Require a tag. A storage account in the right region with the tag is created. A CanNotDelete lock on that account blocks its delete. The clean up order is: 1 remove the lock, 2 delete the policy assignments, 3 delete the resource group.](/img/basics/azure-policy-locks.svg)
-
-*Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+![Diagram: Azure Policy and a lock in a sandbox resource group.](/img/basics/azure-policy-locks.svg)
 
 ## Steps in the Azure portal
 

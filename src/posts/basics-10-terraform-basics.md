@@ -47,9 +47,9 @@ Copy each file exactly: a missing brace is the most common error. If `terraform 
 
 ## What the lab builds
 
-![Terraform code in a local folder is read by Terraform on your PC, which uses your az login sign-in. Terraform builds the resource group rg-azb-tf. Inside it are the virtual network vnet-azb-tf with address space 10.20.0.0/16, a subnet, and a network security group joined to the subnet. The join is the fifth item Terraform creates. Terraform also writes a local state file. The order of work, numbered as in the list above: 1 sign in, 2 write the files, 3 Pass 1, 4 check in the portal, 5 Pass 2, 6 change a tag, 7 destroy.](/img/basics/terraform-basics.svg)
+![Diagram: Terraform builds a resource group, network, subnet and NSG.](/img/basics/terraform-basics.svg)
 
-*Based on the pages listed under Sources. Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+*Source: Microsoft Learn pages listed under Sources.*
 
 ## Steps with the Azure CLI
 
