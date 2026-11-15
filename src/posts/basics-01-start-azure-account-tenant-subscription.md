@@ -8,9 +8,9 @@ tags: [azure-basics-lab]
 deck: "A free Azure account in a separate test tenant, with the tenant and subscription names read, the free-account limits understood and the Azure Virtual Desktop resource providers registered."
 description: "Create a free Azure account in a test tenant, learn tenant vs subscription, know the $200 and 30-day limits, and register the resource providers AVD needs."
 ---
-By the end you will have a free Azure account in a test tenant. You will be able to tell a tenant from a subscription, you will know what the free account does after 30 days, and you will have registered the resource providers that Azure Virtual Desktop (AVD) uses.
+By the end you will have a free Azure account in a test tenant. You will be able to tell a tenant from a subscription, you will know what the free account does after 30 days, and you will have switched on (registered) the Azure services that Azure Virtual Desktop (AVD) needs later.
 
-I have not run these steps in a live tenant for this article. The steps follow Microsoft Learn.
+I have not run these steps in a live tenant for this article. The steps follow Microsoft Learn (Microsoft's documentation site).
 
 ## What you need
 
@@ -18,7 +18,7 @@ I have not run these steps in a live tenant for this article. The steps follow M
 - A new email address that is only for testing. Do not use your work email.
 - A phone that can receive a text message or a call, for identity verification.
 - A credit or debit card. Microsoft says virtual and prepaid cards are not accepted.
-- About 30 minutes. Cost: nothing, if you stay inside the free account limits.
+- About 40 minutes. Cost: nothing, if you stay inside the free account limits.
 - Role: none to start with. You sign up, so the account is yours. If the **Register** button in step 5 is greyed out later, you do not have permission to register providers.
 
 If you ever had an Azure subscription before, the free trial may not be available to you. Microsoft limits the free trial to people who are new to Azure. In that case a pay-as-you-go subscription is the other route, and you pay for what you use.
@@ -28,12 +28,12 @@ If you ever had an Azure subscription before, the free trial may not be availabl
 - Use a test tenant only. Never run these labs in your employer's tenant or any tenant you do not own.
 - Before every change, read the tenant name and the subscription name on screen. This is the stop check, and you will repeat it as a habit.
 - Azure asks for multifactor authentication (MFA) when you sign in to manage Azure. Do not try to turn it off. For a test tenant too, Microsoft says there is no exception.
-- Budgets only send alerts. They never stop anything. The free account itself stops services when the credit ends, but a budget does not.
+- Your card is only charged if you upgrade to pay-as-you-go. Ignore any **Upgrade** banner in the portal.
 - Register only the providers listed in this lab. Microsoft says to register a provider only when you are ready to use it, so do not register everything.
 
 ## What the lab builds
 
-![A tenant box on the left that holds a subscription box. Inside the subscription are the registered resource providers, and a region label shows where resources will be placed.](/img/basics/start-azure-account-tenant-subscription.svg)
+![A subscription box with an arrow labelled trusts that points to a tenant box, which is your Microsoft Entra directory of people and sign-in settings. Eight resource providers are registered on the subscription. The numbers match the steps in the lab.](/img/basics/start-azure-account-tenant-subscription.svg)
 
 *Source: [Associate or add an Azure subscription to your Microsoft Entra tenant](https://learn.microsoft.com/en-us/entra/fundamentals/how-subscriptions-associated-directory), [Azure resource providers and types](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types), [What are Azure regions?](https://learn.microsoft.com/en-us/azure/reliability/regions-overview). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
@@ -43,15 +43,24 @@ If you ever had an Azure subscription before, the free trial may not be availabl
 
 Two ideas first.
 
-**Free account limits.** You get $200 of credit for the first 30 days, in your billing currency. After that you can use only a limited amount of some services, free for 12 months. Credit you do not use in the 30 days is lost. The $200 does not cover third-party Marketplace purchases. When the credit runs out, or when 30 days pass, your subscription and services are disabled. To keep using Azure you must upgrade the account to pay-as-you-go. After you upgrade you still get the free services for 12 months, and you pay only for use beyond them. One warning from Microsoft: if you used resources that are not free, the subscription got disabled, and you then upgrade, those resources are enabled again and you are charged for them. So delete what you do not need before you upgrade.
+**Free account limits.**
 
-**Why a separate tenant.** A tenant is your own copy of Microsoft Entra ID. It holds the users, groups and sign-in settings. Each tenant is separate from the others. Microsoft says the Entra "create a tenant" feature is for paid customers only, and that people with a free tenant or a trial subscription cannot create extra tenants there. Their advice for a new tenant is to sign up for a free account. So the safe route is simple: sign up with a brand-new email that is not tied to any work tenant, in a private browser window so you are not signed in to anything else. Learn says that when you activate a subscription, your identity is either tied to an organization's tenant or a new directory is created for it. Step 2 shows you the tenant name, so you can check what you got.
+- You get $200 of credit for the first 30 days. Credit you do not use in that time is lost.
+- After 30 days, or when the credit runs out, your subscription and services are disabled until you upgrade to pay-as-you-go. Your card is not charged unless you upgrade.
+- After you upgrade you still get some services free for 12 months, and you pay only for use beyond them. The $200 does not cover third-party purchases from the Azure Marketplace (an app store).
+- Microsoft warns: if you used resources that are not free and the subscription was disabled, those resources are switched on again when you upgrade, and you are charged. Delete what you do not need before you upgrade.
+
+**Why a separate tenant.** A tenant is your own private directory of people and sign-in settings. Microsoft calls this service Microsoft Entra ID (the Microsoft sign-in service). Each tenant is separate from the others. The safe route is to sign up with a brand-new email that is not tied to any work tenant, in a private browser window so you are not signed in to anything else. Step 2 shows you the tenant name, so you can check what you got.
 
 1. Open a private (InPrivate or incognito) browser window.
 2. Go to the Azure free account page: [azure.microsoft.com/pricing/purchase-options/azure-account](https://azure.microsoft.com/pricing/purchase-options/azure-account). Find the button that starts the free account sign-up. Its label may change over time.
-3. Sign in with your new test email, or create a Microsoft account for it. If the page shows a work or school address you know, stop and use a private window again.
-4. Complete the four parts of sign-up: About you, identity verification by phone, identity verification by card, and the Agreement. Allow up to four minutes for the phone code. Internet phone numbers (VoIP) do not work. If you get no text message, try the **Call me** option. The card check may show a small temporary hold. Microsoft says it is removed within three to five days.
+3. Sign in with a Microsoft account that is only for testing. If you have none, look for a link such as **Create one** on the sign-in page and make a new account. If the page shows a work or school address you know, stop and use a private window again.
+4. Complete the four parts of sign-up: About you, identity verification by phone, identity verification by card, and the Agreement. Allow up to four minutes for the phone code. Internet phone numbers (such as Google Voice) do not work. If you get no text message, try the **Call me** option. The card check may show a small temporary hold. Microsoft says it is removed within three to five days.
 5. When sign-up ends, open the [Azure portal](https://portal.azure.com) and sign in.
+
+Expect a new tenant with a name you do not recognise from work, and a domain that ends in `.onmicrosoft.com`. If you see your employer's name, close the window and start again in a private window with a different email.
+
+You can stop here and finish the rest tomorrow. Sign-up with phone and card checks often takes 20 minutes.
 
 ### 2. Find the tenant name and ID (stop check, part 1)
 
@@ -69,24 +78,26 @@ The tenant ID is sometimes called the directory ID. They are the same thing.
 A subscription is where your resources live and where the bill goes. Every Azure resource belongs to one subscription. A subscription trusts exactly one tenant. One tenant can be trusted by many subscriptions. A subscription is not tied to a region.
 
 1. In the portal, search for **Subscriptions** and open it.
-2. Find the subscription that the sign-up created. Learn calls it the Free Trial subscription, but the name on your screen may differ. Write down its name and its **Subscription ID**. The list has a column for the ID.
+2. Find the subscription that the sign-up created. Microsoft calls it the Free Trial subscription, but the name on your screen may differ. Write down its name and its **Subscription ID**. The list has a column for the ID.
 3. Select the subscription name. On the page that opens, read the top section. Check that it is the subscription you expect.
 
-If the list is empty, or you do not see the right one, you may be in a different directory. Switch directories (step 2.4).
+Check: your notes sheet (at the end of step 5) has a tenant name, tenant ID, subscription name and subscription ID, and the tenant ID matches the one on the Entra ID page. If the list is empty, or you do not see the right subscription, you may be in a different directory. Switch directories (step 2.4).
 
 **Make this a habit.** Before you start any lab and before any change, do both checks: the tenant name and ID under Microsoft Entra ID, and the subscription name on the Subscriptions page. If either one is not your test tenant, stop.
 
 ### 4. Know what a region is
 
-A region is a set of datacenters in one area, joined by a fast network. When you create most resources, you pick a region. Pick one close to your users, because distance adds delay. For AVD, Microsoft says the round-trip time from the user to the region should be under 150 ms, and that the virtual network must be in the same region as the session host. The subscription itself is not in a region, but the resources inside it are.
+A region is a set of datacenters in one area, joined by a fast network. When you create most resources, you pick a region. Pick one close to your users, because distance adds delay. For AVD, Microsoft says the delay between the user and the region (round-trip time) should be under 150 milliseconds, and that the virtual network must be in the same region as the session host. The subscription itself is not in a region, but the resources inside it are.
 
-For these labs, choose one region and use it every time. Check that it is on the region list in [Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites). That list shows where AVD can store host pool data. Session hosts can be in any region. The same page says West US 3 is not supported for automated host pools.
+Pick the region closest to you that is on the region list in [Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites). That list shows where AVD can store its data. Write the region name on your notes sheet (step 5). Every later lab says "your region". That means this one.
+
+The portal shows a region as, for example, East US 2. Commands use another spelling, `eastus2` (lower case, no spaces). Write both on your notes sheet. The CLI section below has a command that lists the spellings.
 
 ### 5. Register the resource providers
 
-A resource provider is the part of Azure behind one service. For example, Microsoft.KeyVault is the provider behind Key Vault. Registering it sets up your subscription to use that service. Microsoft says to register a provider only when you are ready to use it, and that unneeded registrations can add apps you do not recognise to your tenant. When you create a resource in the portal, the portal usually registers the provider for you. I register them here so that later labs do not stop on a registration error. Some providers may already show **Registered**. That is fine, and you can skip those.
+A resource provider is the part of Azure behind one service. For example, Microsoft.KeyVault is the provider behind Key Vault. Registering it sets up your subscription to use that service. Microsoft says to register a provider only when you are ready to use it, because unneeded registrations can add apps you do not recognise to your tenant. When you create a resource in the portal, the portal usually registers the provider for you. I register them here so that later labs do not stop on a registration error. Some providers may already show **Registered**. That is fine, and you can skip those.
 
-You need permission to register a provider (`*/register/action`). Learn says the Owner and Contributor roles include it.
+You need permission to register a provider (`*/register/action`). Microsoft says the Owner and Contributor roles include it.
 
 1. In the portal, open **Subscriptions** and select your subscription.
 2. Under **Settings**, select **Resource providers**.
@@ -101,13 +112,30 @@ You need permission to register a provider (`*/register/action`). Learn says the
    - Microsoft.CloudShell (needed to start Cloud Shell, used in Lab 2 and in the CLI part below)
 5. Refresh the list. Wait until each one shows **Registered**. Registering can take a short while. It is fine if one still says **Registering** for a minute.
 
-Check: the tenant name and ID are written down, the subscription name and ID are written down, you can say which one is the directory and which one holds the bill, and each provider above shows **Registered**.
+Check: you can say which one is the directory and which one holds the bill, and each provider above shows **Registered**.
+
+### Your notes sheet
+
+Copy this into a text note and fill it in. Every later lab asks for one of these lines.
+
+```text
+Tenant name:
+Tenant domain (.onmicrosoft.com):
+Tenant ID:
+Subscription name:
+Subscription ID:
+Region name in the portal (for example East US 2):
+Region name for commands (for example eastus2):
+Sign-up date, and the date 30 days later:
+```
 
 ## Steps with the Azure CLI
 
-This part is optional. It does the same registration as step 5, by command. If you finished step 5, you can read it and move on. Lab 2 sets up Cloud Shell and the Azure CLI properly. Here you use Cloud Shell only to read your context and to register and check providers.
+This part is optional. It does the same registration as step 5, by command. Use it or the clicks in step 5, not both. Lab 2 sets up Cloud Shell and the Azure CLI properly. Here you use Cloud Shell only to read your context and to register and check providers.
 
-Cloud Shell needs the Microsoft.CloudShell provider from step 5 to be registered first. Open Cloud Shell with the icon in the top bar of the portal. If it asks which shell, choose **Bash**. In the **Getting started** pane, choose **No storage account required**, pick your subscription and select **Apply**. Do not use `az login --use-device-code`. Cloud Shell is already signed in for you.
+Cloud Shell needs the Microsoft.CloudShell provider from step 5 to be registered first. Select the Cloud Shell icon in the top bar of the portal (a small box with `>_`). If it asks which shell, choose **Bash**. In the **Getting started** pane, choose **No storage account required**, pick your subscription and select **Apply**. Do not use `az login --use-device-code`. Cloud Shell is already signed in for you.
+
+Every command block in this series is Bash. Run it in Cloud Shell (Bash), not in PowerShell.
 
 Show the subscription and tenant that Cloud Shell is using:
 
@@ -120,7 +148,7 @@ Compare the three values with your notes from steps 2 and 3. They must match. If
 Register the providers and check one of them:
 
 ```bash
-for p in Microsoft.DesktopVirtualization Microsoft.Compute Microsoft.Network Microsoft.Storage Microsoft.KeyVault Microsoft.OperationalInsights Microsoft.Insights
+for p in Microsoft.DesktopVirtualization Microsoft.Compute Microsoft.Network Microsoft.Storage Microsoft.KeyVault Microsoft.OperationalInsights Microsoft.Insights Microsoft.CloudShell
 do
   az provider register --namespace $p
 done
@@ -129,6 +157,12 @@ az provider show --namespace Microsoft.DesktopVirtualization --query "{Registrat
 ```
 
 You can run `az provider register` again for a provider that is already registered. It does no harm. Registration can take a moment, so run the `show` command again if it says `Registering`. The other providers register the same way. Check them in the portal list from step 5.
+
+To see the command spelling of your region, run this and find your region in the list. Write both names on your notes sheet:
+
+```bash
+az account list-locations --query "[].{Name:displayName, CLI:name}" --output table
+```
 
 Check: `az account show` prints your test subscription and tenant ID, and `az provider show` prints `Registered`.
 
@@ -141,26 +175,26 @@ No Terraform in this lab, because creating the account and the tenant is done by
 - Microsoft Entra ID > Overview shows your test tenant name and ID.
 - Subscriptions shows the subscription from your sign-up, and you can read its name and ID.
 - Resource providers lists Microsoft.DesktopVirtualization and the others as **Registered**.
-- You can say in one sentence each: what a tenant is, what a subscription is, what a region is.
-- You can say what happens at 30 days: the subscription and services are disabled until you upgrade. Use an upgrade only when you want to pay for Azure.
+- You can say in one sentence each: what a tenant is, what a subscription is, what a region is. Compare with this: a tenant is the directory of identities. A subscription is where resources live and the bill goes, and it trusts one tenant. A region is the place where resources are physically hosted.
+- You can say what happens at 30 days: the subscription and services are disabled until you upgrade. Use an upgrade only when you want to pay for Azure. Your notes sheet has the date 30 days after sign-up.
 
 ## The most common mistake
 
 Working in the wrong tenant. If you are also signed in to a work account, the portal may open the work directory, and everything you create lands there. Always read the tenant name and the subscription name first. Use a private browser window or a separate browser profile for the test account.
 
+How to spot it: the organisation name next to your profile picture at the top right is your employer's, or the Subscriptions list shows subscriptions you do not recognise. Close everything, open a private window and sign in again.
+
 ## Clean up
 
 There is nothing to delete in this lab. Keep everything: the account, the tenant, the subscription and the registered providers. All later labs use them.
 
-Do not delete the tenant while you still want to do the labs. If you later stop using the test tenant, Learn's way to remove it is to switch to that directory, open **Microsoft Entra ID**, and select **Delete directory** on the Overview page. Azure may refuse and tell you why. Follow what it says. Do this only for the test tenant, after you have read its name.
-
 ## Where this is used in AVD
 
-AVD needs an Azure subscription with the Microsoft.DesktopVirtualization provider registered, and users who exist in Microsoft Entra ID. See [Prepare your Azure environment](/azure-virtual-desktop/prepare-your-azure-environment/).
+If the Microsoft.DesktopVirtualization provider is not registered, creating an AVD host pool fails with a registration error. You have already done that step. AVD users also have to exist in the Microsoft Entra tenant you just read. See [Prepare your Azure environment](/azure-virtual-desktop/prepare-your-azure-environment/).
 
 ## Next lab
 
-[Lab 2: Cloud Shell and the Azure CLI](/azure-basics-labs/cloud-shell-and-azure-cli/) adds a working command line, so you can read and change things by command as well as by click.
+[Lab 2: Azure Cloud Shell and Azure CLI](/azure-basics-labs/cloud-shell-and-azure-cli/) adds a working command line, so you can read and change things by command as well as by click.
 
 ## Sources
 
@@ -169,7 +203,6 @@ AVD needs an Azure subscription with the Microsoft.DesktopVirtualization provide
 - [Reactivate a disabled Azure subscription](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/subscription-disabled)
 - [Upgrade your Azure free account](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/upgrade-azure-subscription)
 - [Troubleshoot issues when you sign up for a new account](https://learn.microsoft.com/en-us/azure/cost-management-billing/troubleshoot-subscription/troubleshoot-azure-sign-up)
-- [Quickstart: Create a new tenant in Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/fundamentals/create-new-tenant)
 - [Associate or add an Azure subscription to your Microsoft Entra tenant](https://learn.microsoft.com/en-us/entra/fundamentals/how-subscriptions-associated-directory)
 - [How to find your Microsoft Entra tenant ID](https://learn.microsoft.com/en-us/entra/fundamentals/how-to-find-tenant)
 - [Get subscription and tenant IDs in the Azure portal](https://learn.microsoft.com/en-us/azure/azure-portal/get-subscription-tenant-id)

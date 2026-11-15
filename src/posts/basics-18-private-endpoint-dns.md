@@ -18,25 +18,35 @@ I have not run these steps in a live tenant for this article. The steps follow M
 ## What you need
 
 - [Lab 8: Virtual network and subnet](/azure-basics-labs/virtual-network-subnet/): `vnet-azb` in `rg-azb-lab`. The virtual network's DNS servers must still read **Default (Azure-provided)**.
-- [Lab 12: Windows VM with Entra sign-in](/azure-basics-labs/windows-vm-entra-sign-in/): the VM `vm-azb-win01` in `vnet-azb`, and a way to sign in to it. The VM must be running. Lab 12 told you to remove the RDP rule (`allow-rdp-my-ip`) from `nsg-azb-vm` at the end, so add it again for your current public IP address, as Lab 12 showed, and remove it again in "Clean up".
-- [Lab 14: Storage account and Azure Files](/azure-basics-labs/storage-azure-files/): the storage account (named `stazb` and five digits) and the file share `azbshare`, mounted from the VM as `testuser1` with Microsoft Entra Kerberos. Keep the account name to hand. This lab calls it `<account>`.
+- [Lab 12: Windows VM with Entra sign-in](/azure-basics-labs/windows-vm-entra-sign-in/): the VM `vm-azb-win01` in `vnet-azb`, and a way to sign in to it. The VM is stopped now, so Part 1 starts it and connects you.
+- [Lab 14: Storage and Azure Files](/azure-basics-labs/storage-azure-files/): the storage account (named `stazb` and five digits) and the file share `azbshare`, mounted from the VM as `testuser1` with Microsoft Entra Kerberos. Keep the account name to hand. This lab calls it `<account>`.
 - For the CLI part only: Cloud Shell or the Azure CLI from [Lab 2](/azure-basics-labs/cloud-shell-and-azure-cli/). Azure CLI 2.76 or newer.
-- The same region as the virtual network. Learn says a private endpoint must be in the same region as its virtual network.
+- Your region from the notes sheet in [Lab 1](/azure-basics-labs/start-azure-account-tenant-subscription/), the same one as the virtual network. A private endpoint must be in the same region as its virtual network.
 - A role that can create network resources and change the storage account. Owner or Contributor on the test subscription is enough.
-- Time: about 45 minutes. Cost: this lab creates two things that are billed while they exist, a private endpoint and a private DNS zone. See "Safety first". Delete them the same day.
+- Time: about 60 minutes. Cost: this lab creates two things that are billed while they exist, a private endpoint and a private DNS zone. See "Safety first". Delete them the same day. The VM bills for compute while it runs, and this lab ends with it stopped.
+
+**State of your resources**
+
+| | At the start | At the end |
+| --- | --- | --- |
+| VM `vm-azb-win01` | Stopped (deallocated), as Lab 14 leaves it. Step 2 starts it. | Stopped (deallocated) |
+| Rule `allow-rdp-my-ip` in `nsg-azb-vm` | Not there. Step 3 adds it. | Not there. "Clean up" deletes it. |
+| Public IP `pip-azb-win01` | Exists. It stays. | Exists |
+| Storage account `stazb<digits>` | Public network access enabled | Enabled again in "Clean up" |
+| New in this lab | Nothing | Nothing. The endpoint `pe-azb-file`, the DNS zone and its link are deleted. The empty subnet `snet-pe` can stay. |
 
 ## Safety first
 
 - Use the throwaway tenant only. Read the tenant and subscription name at the top of the portal before you change anything.
-- Cost. Learn lists a private endpoint as billed per endpoint per hour, plus the data processed through it. Learn also says DNS zones are billed, by the number of zones and the number of DNS queries. I am not giving prices, because they change. Use the pricing pages in "Sources", and delete both resources when you finish. Budgets from Lab 3 only send alerts. They do not stop anything.
-- Lockout. Part 6 turns off public network access on the storage account. After that, nothing on the public internet can reach the share, including your own PC. Only clients that use the private endpoint can. Do not start Part 6 until the VM has mounted the share over the private address (steps 17 and 18). If something goes wrong, the way back is in "The most common mistake".
+- Cost. A private endpoint is billed per endpoint per hour, plus the data processed through it. A private DNS zone is billed by the number of zones and the number of DNS queries. Prices change, so use the pricing pages in "Sources". Do the lab in one sitting and delete both resources in "Clean up". If you must stop halfway, delete the endpoint first. Budgets from Lab 3 only send alerts. They do not stop anything.
+- Lockout. Part 6 turns off public network access on the storage account. After that, nothing on the public internet can reach the share, including your own PC. Only clients that use the private endpoint can. Do not start Part 6 until the VM has mounted the share over the private address (steps 19 and 20). If something goes wrong, the way back is: **Storage account** > **Networking** > **Public network access** > **Manage** > **Enabled from all networks**. Nothing is deleted. More in "The most common mistake".
 - Use only the storage account from Lab 14. Do not do this on an account that holds anything you need.
 - If you ever do this in a real tenant, ask the team that owns DNS first. A private DNS zone changes how a name resolves for everything in the linked network.
 - Azure already requires multifactor authentication (MFA) for Azure management work. If you are asked for it, that is expected.
 
 ## What the lab builds
 
-![A left-to-right diagram. Inside the resource group rg-azb-lab, a Windows VM in the subnet snet-vm of the virtual network vnet-azb asks the private DNS zone privatelink.file.core.windows.net for the name of the storage account. The zone answers with a 10.10.2.x address. That address belongs to the private endpoint pe-azb-file in the second subnet snet-pe, which connects to the file service of the storage account from Lab 14. A separate arrow from the public internet to the storage account is marked closed once public network access is disabled.](/img/basics/private-endpoint-dns.svg)
+![A left-to-right diagram. Inside the resource group rg-azb-lab, a Windows VM in the subnet snet-vm of the virtual network vnet-azb asks the private DNS zone privatelink.file.core.windows.net for the name of the storage account. The zone answers with a 10.10.2.x address. That address belongs to the private endpoint pe-azb-file in the second subnet snet-pe, which connects to the file service of the storage account from Lab 14. The mount goes from the VM to the private endpoint, which connects over private link to the file service of the storage account from Lab 14. A separate arrow from the public internet to the storage account is blocked once public network access is disabled.](/img/basics/private-endpoint-dns.svg)
 
 *Source: [Configure network endpoints for Azure file shares](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-networking-endpoints), [Azure Private Endpoint private DNS zone values](https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-dns) and [Quickstart: Create a private endpoint by using the Azure CLI](https://learn.microsoft.com/en-us/azure/private-link/create-private-endpoint-cli). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
@@ -47,51 +57,43 @@ I have not run these steps in a live tenant for this article. The steps follow M
 DNS (the Domain Name System) turns a name into an IP address. Your storage account has a name like `<account>.file.core.windows.net`. Before you change anything, look at what that name gives you from inside the VM.
 
 1. Sign in to the [Azure portal](https://portal.azure.com) and check the subscription name.
-2. Sign in to the VM `vm-azb-win01` the way you did in Lab 12.
-3. On the VM, open PowerShell and run this. Replace `<account>` with your storage account name (`stazb` and five digits).
+2. Start the VM: **Virtual machines** > `vm-azb-win01` > **Start**. Wait until the status says **Running** (two to three minutes).
+3. Connect to the VM. Follow "Connect again later" in [Lab 12](/azure-basics-labs/windows-vm-entra-sign-in/): look up your public IP address again, add `allow-rdp-my-ip` to `nsg-azb-vm` for that address only, connect with your route from [Lab 11](/azure-basics-labs/your-pc-and-remote-desktop-clients/) (A: PC already in your tenant, B: personal PC that you registered, C: web account setting and the `hosts` line), and sign in as `testuser1`. You need `testuser1` here because Part 5 mounts the share as that user.
+4. On the VM, open PowerShell and run this. Replace `<account>` with your storage account name (`stazb` and five digits).
 
 ```powershell
 nslookup <account>.file.core.windows.net
 ```
 
-4. Write down the address in the answer. It is a public address, not one that starts with `10.`. This is the baseline.
+5. Write down the address in the answer. It is a public address, not one that starts with `10.`, and the name in the answer does not contain `privatelink`. This is the baseline.
 
 ### Part 2: A second subnet for the private endpoint
 
-**Idea 1: a private endpoint is a network card with a private address.** A private endpoint is a network interface that Azure places in your subnet. It gets an address from the subnet's range (for example `10.10.2.4`), and it is linked to one service, here the file service of your storage account. A VM that talks to that address reaches the service over Azure's network and not over the public internet. Learn says the private endpoint must be in the same region as the virtual network, and the storage account itself can be in a different region.
+**Idea 1: a private endpoint is a network card with a private address.** A private endpoint is a network interface that Azure places in your subnet. It gets an address from the subnet's range (for example `10.10.2.4`), and it is linked to one service, here the file service of your storage account. A VM that talks to that address reaches the service over Azure's network and not over the public internet. The private endpoint must be in the same region as the virtual network. The storage account itself can be in a different region.
 
-Learn does not say the private endpoint needs a subnet of its own. It says several private endpoints can sit in the same or in different subnets. I use a second subnet, `snet-pe`, for one practical reason. Learn says the network policy setting for private endpoints applies to every private endpoint in the subnet. A separate subnet keeps that setting away from the VM's subnet. Learn also says network policies for private endpoints are off by default, and this lab leaves them off. So the network security group you attached to `snet-vm` in Lab 9 does not apply to the private endpoint.
+Put the endpoint in its own subnet, `snet-pe`. It keeps the endpoint's network policy setting away from the VM's subnet. Network policies for private endpoints are off by default, and this lab leaves them off. The network security group you attached to `snet-vm` in Lab 9 is on a different subnet, so it does not filter traffic to the private endpoint in `snet-pe`.
 
-5. In the portal search box, enter **Virtual networks** and open `vnet-azb`.
-6. Under **Settings**, select **Subnets**, then select **+ Subnet** (the button may read **+ Add subnet**).
-7. Set **Name** to `snet-pe`. Set the starting address to `10.10.2.0` and the size to `/24`. Leave everything else as offered. Select **Save** (or **Add**).
+6. In the portal search box, enter **Virtual networks** and open `vnet-azb`.
+7. Under **Settings**, select **Subnets**, then select **+ Subnet** (the button may read **+ Add subnet**).
+8. Set **Name** to `snet-pe`. Set the starting address to `10.10.2.0` and the size to `/24`. Leave everything else as offered. Select **Save** (or **Add**).
 
 Check: **Subnets** now lists `snet-vm` (`10.10.1.0/24`) and `snet-pe` (`10.10.2.0/24`).
 
 ### Part 3: The private endpoint, with its DNS zone
 
-**Idea 2: the name stays the same, the answer changes.** You will not point the VM at a new name. You keep using `<account>.file.core.windows.net`. Here is how that works, as Learn describes it.
+**Idea 2: the name stays the same, the answer changes.** You keep using `<account>.file.core.windows.net`. Inside your virtual network, a private DNS zone called `privatelink.file.core.windows.net` answers that name with the private address of the endpoint. Outside, the same name gives the public address. A private DNS zone is a DNS zone that only the virtual networks linked to it can see. You mount the share with the original name, not the `privatelink` name. The portal wizard creates the zone (or reuses a matching one), links it to the virtual network and adds the record. Learn calls this automatic DNS integration.
 
-- When a private endpoint exists for the storage account, Azure's public DNS adds an alias (a CNAME record) that sends `<account>.file.core.windows.net` on to `<account>.privatelink.file.core.windows.net`. A CNAME says "this name is another name for that one".
-- Inside your virtual network, a private DNS zone called `privatelink.file.core.windows.net` answers for that second name with the private address of the endpoint.
-- A private DNS zone is a DNS zone that only the virtual networks linked to it can see. Learn says the zone name must follow the recommended name for the service. For the `file` sub-resource of a storage account, that name is `privatelink.file.core.windows.net`.
-- Learn says the connection URL of your application does not change, and you mount the share with the original name, not the `privatelink` name.
+9. In the portal search box, enter **Private endpoints**. Select **Private endpoints**, then **+ Create**.
+10. **Basics** tab: choose your subscription and set **Resource group** to `rg-azb-lab`. Set **Name** to `pe-azb-file`. Leave the network interface name as offered. Set **Region** to the same region as `vnet-azb`. Select **Next: Resource**.
+11. **Resource** tab: set **Resource type** to `Microsoft.Storage/storageAccounts`. Set **Resource** to your Lab 14 storage account. Set **Target sub-resource** to `file`. This picks the file service of the account. Select **Next: Virtual Network**. If the tab asks for a connection method first, choose the option that connects to an Azure resource in your directory.
+12. **Virtual Network** tab: set **Virtual network** to `vnet-azb` and **Subnet** to `snet-pe`. Leave the IP address on dynamic. Leave the network policy and application security group settings as they are. Select **Next: DNS**.
+13. **DNS** tab: check that integration with a private DNS zone is turned on, and that the zone listed is `privatelink.file.core.windows.net`, in subscription and resource group `rg-azb-lab`. Select **Next: Tags**, then **Next: Review + create**, then **Create**.
 
-A machine outside the linked network still gets the alias, but it has no private zone to answer the second name, so it ends up with the public address. That is how one name can give two different answers.
-
-The portal wizard sets all of this up for you. Learn describes it as "automatic DNS integration": the wizard creates the zone (or reuses a matching one), links it to the virtual network and adds the record.
-
-8. In the portal search box, enter **Private endpoints**. Select **Private endpoints**, then **+ Create**. (Learn also describes starting from the resource group: open it, select **+ Create**, search for **Private Endpoint**.)
-9. **Basics** tab: choose your subscription and set **Resource group** to `rg-azb-lab`. Set **Name** to `pe-azb-file`. Leave the network interface name as offered. Set **Region** to the same region as `vnet-azb`. Select **Next: Resource**.
-10. **Resource** tab: set **Resource type** to `Microsoft.Storage/storageAccounts`. Set **Resource** to your Lab 14 storage account. Set **Target sub-resource** to `file`. Select **Next: Virtual Network**. If the tab asks for a connection method first, choose the option that connects to an Azure resource in your directory.
-11. **Virtual Network** tab: set **Virtual network** to `vnet-azb` and **Subnet** to `snet-pe`. Leave the IP address on dynamic. Leave the network policy and application security group settings as they are. Select **Next: DNS**.
-12. **DNS** tab: check that integration with a private DNS zone is turned on, and that the zone listed is `privatelink.file.core.windows.net`, in subscription and resource group `rg-azb-lab`. Select **Next: Tags**, then **Next: Review + create**, then **Create**.
-
-Check: when the deployment finishes, open `pe-azb-file`. Its connection status is **Approved**. Open the private DNS zone `privatelink.file.core.windows.net` in `rg-azb-lab`. Under **DNS Management** > **Recordsets** you see an A record named after your storage account, with a `10.10.2.x` address. Under **Virtual network links** you see `vnet-azb`. I could not confirm the exact menu names on Learn, so look for the record list and the links list.
+Check: when the deployment finishes, open `pe-azb-file`. Its connection status is **Approved**. Open the private DNS zone `privatelink.file.core.windows.net` in `rg-azb-lab`. Find the list of records (it can be called **Recordsets** or sit under **DNS Management**): you see an A record named after your storage account, with a `10.10.2.x` address. Find the list of virtual network links: you see `vnet-azb`.
 
 ### Part 4: See the private address from the VM
 
-13. Back on the VM, run the same command as in step 3.
+14. Back on the VM, run the same command as in step 4.
 
 ```powershell
 nslookup <account>.file.core.windows.net
@@ -109,26 +111,23 @@ Address:  10.10.2.4
 Aliases:  <account>.file.core.windows.net
 ```
 
-Read it from the bottom. You asked for `<account>.file.core.windows.net`. That is listed under `Aliases`, which is the CNAME. The name it points to is `<account>.privatelink.file.core.windows.net`, and the private zone answered that with a `10.10.2.x` address from `snet-pe`. The `168.63.129.16` line is Azure's own DNS service, which every VM in a virtual network with default DNS uses.
+Read it from the bottom. You asked for `<account>.file.core.windows.net`. That is listed under `Aliases`. It is another name (a CNAME) for `<account>.privatelink.file.core.windows.net`, and the private zone answered that with a `10.10.2.x` address from `snet-pe`. The `168.63.129.16` line is Azure's own DNS service, which every VM in a virtual network with default DNS uses.
 
-If you still see the public address from step 4, do not go on. Read "The most common mistake".
+If you see `Address: 20.x.x.x` (a public address) and no `Aliases` line, the zone link or the zone name is wrong. Do not go on. Read "The most common mistake".
 
-14. Run `nslookup` for the same name on your own PC, outside Azure. You get the public address, and your PC is not on the private network. That is the second answer from Idea 2. Do not worry about it. It is the reason the next part exists.
+15. Run `nslookup` for the same name on your own PC, outside Azure. You get the public address, because your PC is not on the private network. That is the second answer from Idea 2.
 
 ### Part 5: Mount the share over the private address
 
-Mounting needs the same sign-in as in Lab 14: you sign in to the VM as `testuser1` and the share is reached with Microsoft Entra Kerberos. Read the next box first.
+Mounting needs the same sign-in as in Lab 14: you are signed in to the VM as `testuser1` and the share is reached with Microsoft Entra Kerberos. Because Lab 14 used Microsoft Entra Kerberos, step 16 is required. Without it the mount asks for credentials and then rejects them (error 1326), because a Kerberos ticket cannot be issued for the private link name.
 
-**Microsoft Entra Kerberos over a private endpoint.** Because Lab 14 used Microsoft Entra Kerberos, there is one extra step. Learn says that when you connect through a private endpoint with Microsoft Entra Kerberos, you must add the private link name to the storage account's Microsoft Entra application. Without it, the mount asks for credentials and then rejects them (Learn lists this as error 1326), because the Kerberos ticket cannot be issued for the private link name. The steps from Learn:
+16. Add the private link name to the storage account's Microsoft Entra application. Do this as an administrator, in the Microsoft Entra admin center on your own PC, not as `testuser1` on the VM.
+    1. Go to **App registrations** > **All applications**, and open the application named `[Storage Account] <account>.file.core.windows.net`.
+    2. Select **Manifest**. Copy the existing text somewhere safe as a backup.
+    3. In `identifierUris`, for every `<account>.file.core.windows.net` entry add a matching `<account>.privatelink.file.core.windows.net` entry. Select **Save**.
 
-- In the Microsoft Entra admin center, go to **App registrations** > **All applications**, and open the application named `[Storage Account] <account>.file.core.windows.net`.
-- Select **Manifest**. Copy the existing text somewhere safe as a backup.
-- In `identifierUris`, for every `<account>.file.core.windows.net` entry add a matching `<account>.privatelink.file.core.windows.net` entry. Select **Save**.
-- Retry the mount.
-
-Both Learn pages are in "Sources". Do the manifest step as an administrator, not as `testuser1`.
-
-15. On the VM, check that the SMB port answers. SMB (Server Message Block) is the protocol Windows uses for file shares, and it uses TCP port 445. Learn lists `Test-NetConnection` for this check.
+    Check: the manifest saves with no error, and `identifierUris` now holds both names.
+17. On the VM, check that the SMB port answers. SMB (Server Message Block) is the protocol Windows uses for file shares, and it uses TCP port 445. `Test-NetConnection` is the check.
 
 ```powershell
 Test-NetConnection -ComputerName <account>.file.core.windows.net -Port 445
@@ -136,34 +135,34 @@ Test-NetConnection -ComputerName <account>.file.core.windows.net -Port 445
 
 `TcpTestSucceeded : True` and a `RemoteAddress` of `10.10.2.x` mean the VM reached the private endpoint.
 
-16. If the share is still mounted from Lab 14, disconnect it first. Learn says file shares connected through the public endpoint must be remounted. In File Explorer, right-click the drive and select **Disconnect**, or run `net use Z: /delete` (use your drive letter).
-17. Mount the share again the way you did in Lab 14, as `testuser1`. Use `\\<account>.file.core.windows.net\azbshare`, with the original name and not the `privatelink` name.
-18. Create a small test file in the share, for example `private-test.txt`.
+18. If the share is still mounted from Lab 14, disconnect it first. File shares connected through the public endpoint must be remounted. In File Explorer, right-click the drive and select **Disconnect**, or run `net use Z: /delete` (use your drive letter).
+19. Mount the share again the way you did in Lab 14, as `testuser1`. Use `\\<account>.file.core.windows.net\azbshare`, with the original name and not the `privatelink` name. If you get error 1326, step 16 is missing or not saved.
+20. Create a small test file in the share, for example `private-test.txt`.
 
 Check: the share opens and the test file is there.
 
 ### Part 6: Close the public door
 
-**Idea 3: two doors.** A storage account has a public door and, now, a private one. They are separate. Learn says disabling public network access means clients cannot connect through the public endpoint, including through service endpoints, and that clients can still connect through private endpoints. It also says the setting does not restrict outbound traffic from the clients. Turning off the public door does not touch the private one.
+**Idea 3: two doors.** A storage account has a public door and, now, a private one. They are separate. Disabling public network access means clients cannot connect through the public endpoint, and clients can still connect through private endpoints. It does not restrict outbound traffic from the clients.
 
 Stop here and look at this checklist before you go on.
 
-- You saw a `10.10.2.x` answer from the VM in step 13.
-- The VM mounted the share and wrote a file in steps 17 and 18.
-- You know the way back (see "The most common mistake").
+- You saw a `10.10.2.x` answer from the VM in step 14.
+- The VM mounted the share and wrote a file in steps 19 and 20.
+- You know the way back: **Storage account** > **Networking** > **Public network access** > **Manage** > **Enabled from all networks**. Nothing is deleted.
 
-19. In the portal, open your storage account.
-20. In the left menu, under **Security + networking**, select **Networking**.
-21. Under **Public network access**, select **Manage**.
-22. Select **Disable**, then **Proceed**, then **Save**.
-23. On the VM, open the share again, read the test file and write a second file, `private-test-2.txt`. Both should work. If the share was already open, disconnect and mount it again to be sure.
-24. On your own PC, try to open the same share, or open the storage account's file share in the portal. It should fail or show an access error. The exact message depends on the client.
+21. In the portal, open your storage account.
+22. In the left menu, under **Security + networking**, select **Networking**.
+23. Under **Public network access**, select **Manage**.
+24. Choose **Disable** (the wording may differ), confirm any prompt, then **Save**. Success: the page says **Disabled**.
+25. On the VM, open the share again, read the test file and write a second file, `private-test-2.txt`. Both should work. If the share was already open, disconnect and mount it again to be sure.
+26. On your own PC, run `nslookup <account>.file.core.windows.net`. It still gives a public address. Then open the storage account in the portal and go to **File shares** > `azbshare`. You should see an access or network error. A failure here is expected. Your PC could never have mounted this share, and many home networks block port 445 anyway, so do not use the PC as the real test. The VM in step 25 is the test.
 
-Check: the VM can read and write, and your PC cannot reach the share.
+Check: the VM can read and write, and the portal cannot browse the share from your PC.
 
 ## Steps with the Azure CLI
 
-Run these in Cloud Shell (Bash) from Lab 2. Skip them if you did the portal steps. Check the subscription, then set the variables. Use your own region and your own storage account name.
+Run these in Cloud Shell (Bash) from Lab 2. Skip them if you did the portal steps. Do steps 1 to 5 of Part 1 in the portal first: start the VM, connect, and run `nslookup` on the VM. Check the subscription, then set the variables. Run `echo "$SA"` before you use it. If Cloud Shell restarts, set the variables again.
 
 ```bash
 az account show --query "{name:name, tenant:tenantId}" -o table
@@ -172,7 +171,7 @@ VNET=vnet-azb
 SUBNET_PE=snet-pe
 PE=pe-azb-file
 ZONE=privatelink.file.core.windows.net
-SA=stazb<5 digits>         # the Lab 14 account
+SA=stazb48213              # replace 48213 with the five digits of your Lab 14 account
 LOCATION=$(az network vnet show --resource-group $RG --name $VNET --query location --output tsv)   # the region of vnet-azb
 ```
 
@@ -233,7 +232,7 @@ az network private-dns link vnet list --resource-group $RG --zone-name $ZONE -o 
 az network private-dns record-set a list --resource-group $RG --zone-name $ZONE -o table
 ```
 
-You should see `Approved`, the link `link-vnet-azb`, and an A record named after the storage account. Then do Parts 4 and 5 from the portal steps on the VM (steps 13 to 18).
+You should see `Approved`, the link `link-vnet-azb`, and an A record named after the storage account. Then do Parts 4 and 5 from the portal steps on the VM (steps 14 to 20, including the Microsoft Entra manifest in step 16).
 
 Only when the VM has mounted the share over the private address, turn off public network access.
 
@@ -247,7 +246,7 @@ az storage account update \
 az storage account show --resource-group $RG --name $SA --query publicNetworkAccess -o tsv
 ```
 
-The last command should print `Disabled`. Then repeat steps 23 and 24 from the portal steps.
+The last command should print `Disabled`. Then repeat steps 25 and 26 from the portal steps.
 
 ## Terraform
 
@@ -265,34 +264,34 @@ No Terraform in this lab, because I could not check the resource names and argum
 
 Two mistakes, in the order you are likely to hit them.
 
-**The name still resolves to the public address.** The usual causes, from Learn and from this lab's setup:
+**The name still resolves to the public address.** The usual causes:
 
 - The private DNS zone is not linked to `vnet-azb`. Check **Virtual network links** on the zone.
-- The zone name is wrong. Learn says the automatic DNS records are created only if you use the recommended zone name. For Azure Files it is exactly `privatelink.file.core.windows.net`.
+- The zone name is wrong. The automatic DNS records are created only if you use the recommended zone name. For Azure Files it is exactly `privatelink.file.core.windows.net`.
 - The VM does not use Azure's DNS. If someone changed the DNS servers of `vnet-azb` away from **Default (Azure-provided)**, the VM asks another server, and that server does not know the private zone. Lab 8 left this setting alone.
 - You tested from your own PC and not from the VM. Run `nslookup` on the VM.
 
 If you turned off public access while the name still pointed to the public address, the VM now fails to mount the share. Do not panic. Nothing is deleted.
 
-**Locking yourself out.** Public network access is off, the VM cannot reach the share, and you cannot browse it from your PC either. The setting is a property of the storage account, so you can change it back from the portal or the CLI. In the portal, go to the storage account, **Security + networking** > **Networking**, and under **Public network access** select **Manage**, then choose the option that allows access from all networks (the wording may read **Enable** or **Enabled from all networks**). With the CLI:
+**Locking yourself out.** Public network access is off, the VM cannot reach the share, and you cannot browse it from your PC either. The setting is a property of the storage account, so you can change it back from the portal or the CLI. In the portal, go to the storage account, **Security + networking** > **Networking**, and under **Public network access** select **Manage**, then choose **Enabled from all networks** (the wording may read **Enable**). With the CLI (replace `stazb48213` with the name of your own account):
 
 ```bash
-az storage account update --resource-group rg-azb-lab --name <account> --public-network-access Enabled
+az storage account update --resource-group rg-azb-lab --name stazb48213 --public-network-access Enabled
 ```
 
 Then fix the DNS problem and try again.
 
 ## Clean up
 
-Delete in this order. The private endpoint and the DNS zone cost money while they exist, so do not leave them running.
+Do this the same day. The private endpoint and the DNS zone cost money while they exist, so do not leave them running. Delete in this order:
 
-1. Re-enable public network access on the storage account, so the later labs and your own PC can reach it again (the portal steps or the CLI command in the section above). You can skip this step if you want to keep it closed, but then you can only reach the share from inside `vnet-azb`.
-2. Delete the private endpoint `pe-azb-file`. Portal: open the private endpoint, select **Delete**. Learn says that when you delete a private endpoint, the DNS records in its DNS zone group are deleted too.
-3. Delete the virtual network link from the private DNS zone. Portal: open the zone, **Virtual network links**, select the link, **Delete**.
+1. Re-enable public network access on the storage account (the portal way back from Part 6, or the CLI command in the section above). Skip this step if you are going straight to Lab 19, which deletes the account. You can also keep it closed, but then you can only reach the share from inside `vnet-azb`.
+2. Delete the private endpoint `pe-azb-file`. Portal: open the private endpoint, select **Delete**. The DNS records in its DNS zone group are deleted too.
+3. Delete the virtual network link from the private DNS zone. Portal: open the zone, find the list of virtual network links, select the link, **Delete**.
 4. Delete the private DNS zone `privatelink.file.core.windows.net`.
 5. Optional: delete the subnet `snet-pe` from `vnet-azb`. It is empty now, and an empty subnet costs nothing, so you can keep it.
 
-The same in the CLI:
+The same in the CLI. Set the variables from the CLI section again first (`RG`, `VNET`, `SUBNET_PE`, `PE`, `ZONE`, `SA`):
 
 ```bash
 az storage account update --resource-group $RG --name $SA --public-network-access Enabled --output none
@@ -306,13 +305,16 @@ If you made the zone link in the portal, the link may have a different name. Lis
 
 Check: `az network private-endpoint list --resource-group $RG -o table` is empty, and `az network private-dns zone list --resource-group $RG -o table` no longer lists the zone.
 
-Also remove the RDP rule again, as in Lab 12: open `nsg-azb-vm`, **Inbound security rules**, tick `allow-rdp-my-ip`, **Delete**. Sign out of the VM first.
+6. Sign out of the VM (do not just lock it). Then delete the RDP rule: open `nsg-azb-vm` > **Inbound security rules**, tick `allow-rdp-my-ip`, **Delete**.
+7. Stop the VM: `vm-azb-win01` > **Stop**. Read the status. It must say **Stopped (deallocated)**.
 
-Keep for later labs: `rg-azb-lab`, `vnet-azb`, `snet-vm`, the VM `vm-azb-win01` and the storage account with its file share `azbshare`. Remount the share on the VM if it was mounted over the private address, because the name now resolves to the public address again. If you added `privatelink` names to the storage account's Microsoft Entra app, they do no harm. [Lab 19](/azure-basics-labs/when-something-breaks/) deletes the storage account and tells you to check that app.
+End state: VM Stopped (deallocated), no `allow-rdp-my-ip` rule.
+
+The public IP `pip-azb-win01` is still there, and no private endpoint or private DNS zone is left. Keep for later labs: `rg-azb-lab`, `vnet-azb`, `snet-vm`, the VM `vm-azb-win01` and the storage account with its file share `azbshare`. Remount the share on the VM next time, because the name resolves to the public address again. The Kerberos client setting on the VM (`CloudKerberosTicketRetrievalEnabled`) and the `[Storage Account]` app in Entra are unchanged from Lab 14. If you added `privatelink` names to that app, they do no harm. [Lab 19](/azure-basics-labs/when-something-breaks/) deletes the storage account and tells you to check that app.
 
 ## Where this is used in AVD
 
-Azure Virtual Desktop session hosts usually keep user profiles (FSLogix profile containers) on an Azure Files share, and many companies close that storage account to the public internet and reach it through a private endpoint and a private DNS zone, exactly as you did here. See [Choose Storage and Set Access for FSLogix Profile Containers](/azure-virtual-desktop/choose-storage-and-set-access-for-fslogix-profile-containers/) for the storage choices, and [Required Connectivity for Azure Virtual Desktop: Endpoints, Proxies, DNS and Private Link](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/) for how DNS and Private Link fit into the wider network.
+Azure Virtual Desktop session hosts usually keep user profiles (FSLogix profile containers) on an Azure Files share, and many companies close that storage account to the public internet and reach it through a private endpoint and a private DNS zone, exactly as you did here. In AVD, a missing private DNS link looks like the wrong answer you can see in Part 4: the name resolves to a public address. See [Choose Storage and Set Access for FSLogix Profile Containers](/azure-virtual-desktop/choose-storage-and-set-access-for-fslogix-profile-containers/) for the storage choices, and [Required Connectivity for Azure Virtual Desktop: Endpoints, Proxies, DNS and Private Link](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/) for how DNS and Private Link fit into the wider network.
 
 ## Next lab
 

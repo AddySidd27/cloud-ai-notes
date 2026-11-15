@@ -8,64 +8,64 @@ tags: [azure-basics-lab]
 deck: "A test user, a security group, and two emergency-access admin accounts in a throwaway Entra tenant."
 description: "Create a standard Entra test user, a security group, and two cloud-only emergency access accounts, and learn why they matter before you set up Conditional Access."
 ---
-By the end of this lab you will have one standard test user, one security group with that user in it, two emergency-access (break-glass) Global Administrator accounts, and a second group named EmergencyAccess that holds those two accounts.
+By the end of this lab you will have one standard test user, one security group with that user in it, two emergency-access (break-glass) Global Administrator accounts, and a second group named EmergencyAccess that holds those two accounts. Global Administrator is the most powerful role in Microsoft Entra. A break-glass account is a spare admin account that you keep for emergencies.
 
-I have not run these steps in a live tenant for this article. The steps follow Microsoft Learn.
+I have not run these steps in a live tenant for this article. The steps follow Microsoft Learn (Microsoft's documentation site).
 
 ## What you need
 
 - A throwaway tenant from [Lab 1: Start safely: Azure free account, tenant and subscription](/azure-basics-labs/start-azure-account-tenant-subscription/). Never use your employer's tenant or a real one.
 - Your own admin account in that tenant. By default, the person who creates a tenant gets the Global Administrator role.
-- Optional for the CLI part: [Lab 2: Cloud Shell and the Azure CLI](/azure-basics-labs/cloud-shell-and-azure-cli/). The CLI part needs the User Administrator role (and Groups Administrator or User Administrator for groups). As the creator of the tenant you are Global Administrator, which is enough.
+- The notes sheet from Lab 1, with your `.onmicrosoft.com` domain on it.
 - A password manager, or paper and a safe place, for two long passwords.
-- Time: about 30 minutes.
+- Time: about 50 minutes.
 - Cost: nothing. Users and groups are included with the free tier of Microsoft Entra ID.
 
 ## Safety first
 
 - Check the tenant name in the top right corner of the portal before you change anything. If it is not your throwaway tenant, stop.
 - Do not use your daily admin account as the test user. Do not use a personal Microsoft account either. The reasons are in the steps.
-- Do not sign in to a break-glass account just to see what happens. A sign-in on that account should always be a planned test or a real emergency.
+- Do not sign in to a break-glass account just to see what happens. A sign-in on that account should always be a planned test or a real emergency. The planned test for this series is in Lab 6.
 - Do not use `az login --use-device-code`.
-- Write the two break-glass passwords down before you close the page that shows them. You cannot read them again.
+- Write the test user's password down before you close the page that shows it. For the two emergency accounts you type the passwords yourself, so save each one in your password manager before you select **Create**.
 - Azure already requires multifactor authentication (MFA) when you manage Azure. This includes break-glass accounts. Do not plan on turning MFA off for them.
 
 ## What the lab builds
 
-![Diagram of one Microsoft Entra tenant. A standard test user is a member of a security group named TestUsers. Two cloud-only emergency access accounts, each with the Global Administrator role, are members of a security group named EmergencyAccess.](/img/basics/entra-users-groups-break-glass.svg)
+![Diagram of one Microsoft Entra tenant, in two rows. Row 1, Parts A and B: the standard test user testuser1 is a member of the security group TestUsers. Row 2, Part C: two cloud-only emergency access accounts, each with the Global Administrator role, are members of the security group EmergencyAccess. The admin account you work from is in neither group, and EmergencyAccess is excluded from the sign-in rule you build in Lab 6.](/img/basics/entra-users-groups-break-glass.svg)
 
 *Source: [Create, invite, and delete users](https://learn.microsoft.com/en-us/entra/fundamentals/how-to-create-delete-users), [Manage groups](https://learn.microsoft.com/en-us/entra/fundamentals/how-to-manage-groups), [Manage emergency access accounts](https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/security-emergency-access). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
 ## Steps in the Azure portal
 
-Learn writes these steps for the Microsoft Entra admin center at `https://entra.microsoft.com`. I use that site below. Sign in there with your admin account from Lab 1. The menu names are the ones Learn uses: **Entra ID** > **Users**, and so on.
+This lab uses a second website, the Microsoft Entra admin center (`https://entra.microsoft.com`), not portal.azure.com. Open it in a new tab. Use the same admin account as in Lab 1. The menu names are the ones Microsoft uses: **Entra ID** > **Users**, and so on. In this lab, steps are numbered again in each part, so a reference such as "Part A, step 5" names the part.
 
 **Idea 1: every user has a sign-in name that ends in your tenant domain.**
-Your tenant came with a domain that ends in `.onmicrosoft.com`. A sign-in name (the user principal name, or UPN) looks like `testuser1@yourtenant.onmicrosoft.com`. Find your domain name first. Open **Entra ID** > **Users** and select your own account. Your own sign-in name may look long and odd, for example with `#EXT#` in the middle. That is fine. The part after the last `@` is your `.onmicrosoft.com` domain. Write it down. In the steps below, `yourtenant.onmicrosoft.com` stands for your own domain.
+Your tenant came with a domain that ends in `.onmicrosoft.com`. A sign-in name (the user principal name, or UPN) looks like `testuser1@yourtenant.onmicrosoft.com`. Easiest way to find your domain: open **Entra ID** > **Overview** and read **Primary domain**. It is also on your notes sheet from Lab 1. In the steps below, `yourtenant.onmicrosoft.com` stands for your own domain. Do not copy your own sign-in name from the Users list: it may look long and odd, for example with `#EXT#` in the middle. You only need the part after the last `@`.
 
 ### Part A: a standard test user
 
-Why a separate test user? Later labs need to show what a normal person sees. An admin account sees and can do far more, so it tells you the wrong story. Learn also says to test with a non-administrator account when you test password reset, because admins get a different reset policy.
+Why a separate test user? Later labs need to show what a normal person sees. An admin account sees and can do far more, so it tells you the wrong story. Microsoft also says to test with a non-administrator account when you test password reset, because admins get a different reset policy.
 
 1. Sign in to the [Microsoft Entra admin center](https://entra.microsoft.com) as your admin account.
 2. Browse to **Entra ID** > **Users**.
 3. Select **New user** > **Create new user**.
 4. On the **Basics** tab:
-   - **User principal name**: type `testuser1` and pick your `.onmicrosoft.com` domain.
+   - **User principal name**: type `testuser1` and pick your `.onmicrosoft.com` domain in the drop-down next to the name.
    - **Display name**: `Test User 1`.
-   - **Password**: leave **Auto-generate password** on. Copy the password when it is shown.
+   - **Password**: leave **Auto-generate password** on. The password appears on the **Review + create** tab (copy icon). Copy it into a text note now.
    - Leave **Account enabled** checked.
-5. Select **Next: Properties**. Under **Settings**, set the user's location to your country. Learn calls this the global location. The field may be labelled **Usage location**.
+5. Select **Next: Properties**. Under **Settings**, set **Usage location** (a country) to your country. If you see **Location** instead, use that.
 
-   Learn says to check that users have a location assigned before you assign licences. Setting it now saves you a surprise later.
+   Microsoft says to check that users have a location assigned before you assign licenses. Setting it now saves you a surprise in Lab 6.
 6. Leave the **Assignments** tab alone. Select **Review + create**, then **Create**.
 7. Open a new private window (InPrivate in Edge, Incognito in Chrome). Go to `https://portal.azure.com` and sign in as the test user with the temporary password.
-8. Learn says a new user might be asked to change the password at the next sign-in. If you see that prompt, choose a new password and write it down. Learn also says security defaults are being rolled out to all new tenants at creation, with a 24-hour grace period before protections are enforced. If they are on, the test user may be asked to set up the Microsoft Authenticator app now. You can follow the screens, or close the window and do it in [Lab 5: Multifactor authentication](/azure-basics-labs/mfa/), which walks through it.
+8. Azure asks for MFA when you sign in to the Azure portal, so `testuser1` will probably be asked to set up MFA at this first sign-in. Close the window. You set it up properly in [Lab 5: Multifactor authentication (MFA)](/azure-basics-labs/mfa/). If the page asks for a new password first, choose one and write it down. What you should see otherwise: the portal opens, or the MFA setup screen opens, and no subscription or resources are shown. That is correct, because the user has no role yet (Lab 7). The check below does not need the sign-in to finish.
 9. Sign out and close the private window.
 
-Check: In **Entra ID** > **Users**, `Test User 1` is listed as a **Member**, and the properties page shows the usage location you set.
+Check: In **Entra ID** > **Users**, `Test User 1` is listed as a **Member**, the properties page shows the usage location you set, and the sign-in got as far as the password or MFA setup screen.
 
-**Why not a personal Microsoft account?** A personal account such as `name@outlook.com` does not live in your tenant. If you add one, it comes in as an external guest. Learn says external guests sign in with an external method and have guest-level privileges. Azure Virtual Desktop also lists extra requirements and limits for external identities. For learning the basics, a normal member account in your own tenant is the plain case.
+**Why not a personal Microsoft account?** A personal account such as `name@outlook.com` does not live in your tenant. If you add one, it comes in as an external guest. Microsoft says external guests sign in with an external method and have guest-level privileges. Azure Virtual Desktop also lists extra requirements and limits for external identities. For learning the basics, a normal member account in your own tenant is the plain case.
 
 ### Part B: a security group with the user in it
 
@@ -76,7 +76,7 @@ Check: In **Entra ID** > **Users**, `Test User 1` is listed as a **Member**, and
 3. **Group type**: **Security**.
 4. **Group name**: `TestUsers`. Add a short description if you like.
 5. **Membership type**: **Assigned**.
-6. Leave **Microsoft Entra roles can be assigned to the group** on **No**. Learn says this option needs a Microsoft Entra ID P1 or P2 licence, so you may not see it at all.
+6. Leave **Microsoft Entra roles can be assigned to the group** on **No**. This option is only offered with a paid Entra plan, so you may not see it at all.
 7. Under **Members**, select the link, tick `Test User 1`, then choose **Select**. If it asks for owners, you can leave them empty.
 8. Select **Create**.
 
@@ -84,95 +84,45 @@ Check: Open `TestUsers` > **Members**. `Test User 1` is listed. The group overvi
 
 ### Part C: two emergency-access accounts
 
-**Idea 3: a break-glass account is your way back in when everything else fails.** Learn gives these examples: your identity provider is down, all your admins' phones are unavailable, or the last Global Administrator left. Learn asks for at least two accounts. They should be cloud-only, use the `*.onmicrosoft.com` domain, not be federated or synced from on-premises, and hold the Global Administrator role. They are not tied to one person. You use them only in a real emergency or a planned test.
+**Idea 3: a break-glass account is your way back in when everything else fails.** It is a spare way into the tenant when normal sign-in fails. You need two. They are cloud-only (created in Entra, not copied from a company server), they use the `*.onmicrosoft.com` domain, and they hold the Global Administrator role. They are not tied to one person. You use them only in a real emergency or a planned test. Later, in [Lab 6: Conditional Access](/azure-basics-labs/conditional-access/), you will build sign-in rules (Conditional Access). These accounts must be excluded from those rules, so a mistake in a rule cannot lock you out.
 
-Give the accounts plain names that say what they are, so no one deletes them by mistake. I use `emergency-access-01` and `emergency-access-02` below. Learn's security benchmark uses names like EmergencyAccess01 for the same reason. The emergency access page itself gives no naming rule.
+Give the accounts plain names that say what they are, so no one deletes them by mistake. I use `emergency-access-01` and `emergency-access-02` below. Microsoft's security benchmark uses names like EmergencyAccess01 for the same reason. The emergency access page itself gives no naming rule.
 
 1. Browse to **Entra ID** > **Users** > **New user** > **Create new user**.
-2. **User principal name**: `emergency-access-01`, with your `.onmicrosoft.com` domain. **Display name**: `Emergency Access 01`.
-3. **Password**: untick **Auto-generate password** and enter a long random password. Learn's Microsoft 365 guidance says 16 or more characters, and longer is fine. Entra accepts up to 256. Make it fully random, with upper case, lower case, numbers and symbols. A password manager can generate it. Save it before you continue. Learn says the default is no password expiry, but a tenant created before 2021 can have a 90-day expiry. Learn also says an emergency credential must not expire, so check this setting if your tenant is old.
+2. **User principal name**: `emergency-access-01`, with your `.onmicrosoft.com` domain from the drop-down. **Display name**: `Emergency Access 01`.
+3. **Password**: untick **Auto-generate password**. Let your password manager generate a long random password. Microsoft 365 guidance says 16 characters or more, and longer is fine. I use 20 or more. Paste it into the field and save the entry in your password manager before you select **Create**. Microsoft says the default is no password expiry, but a tenant created before 2021 can have a 90-day expiry. Microsoft also says an emergency credential must not expire, so check this setting if your tenant is old.
 4. Select **Review + create**, then **Create**.
 5. Repeat for the second account: `emergency-access-02`, display name `Emergency Access 02`, and a different password.
-6. Give each account the Global Administrator role. Learn says you need at least the Privileged Role Administrator role to do this. The account that created the tenant is a Global Administrator by default.
-   1. Open **Entra ID** > **Users** and select the account.
-   2. Select **Assigned roles**, then **Add assignments**.
-   3. Pick **Global Administrator**, then **Next**.
-   4. Choose an **Assignment type** of **Active**. With the free tier you can only assign roles as active. If you see a time-limit option, leave the assignment permanent. If your tenant has Privileged Identity Management, Learn says to make the assignment active and permanent, not eligible.
-   5. Select **Assign**.
-7. Create the group that you will use to exclude both accounts from Conditional Access in a later lab. Go to **Entra ID** > **Groups** > **All groups** > **New group**. Use **Security**, name `EmergencyAccess`, membership type **Assigned**. Under **Members**, add both emergency accounts. Select **Create**. Do not add `Test User 1` or your own admin account.
+6. Give each account the Global Administrator role. Microsoft says you need at least the Privileged Role Administrator role to do this. The account that created the tenant is a Global Administrator by default. Do the next five actions for `emergency-access-01`, then again for `emergency-access-02`.
+7. Open **Entra ID** > **Users** and select the account.
+8. Select **Assigned roles**, then **Add assignments**.
+9. Pick **Global Administrator**, then **Next**.
+10. Choose an **Assignment type** of **Active**. With the free tier you can only assign roles as active. If you see a time-limit option, leave the assignment permanent.
+11. Select **Assign**.
+12. Create the group that you will use to exclude both accounts from Conditional Access in a later lab. Go to **Entra ID** > **Groups** > **All groups** > **New group**. Use **Security**, name `EmergencyAccess`, membership type **Assigned**. Under **Members**, add both emergency accounts. Select **Create**. Do not add `Test User 1` or your own admin account.
 
 Check: Both emergency accounts show **Global Administrator** under **Assigned roles** > **Active assignments**. The group `EmergencyAccess` has 2 members.
 
-**Where to keep the passwords.** Learn says to store the credentials in a known secure place that more than one authorised admin can reach, and not on one person's device. Its example is a fireproof safe. For your lab, a password manager entry that is not your daily vault, or a sealed printout, is enough. Do not store both in the same place as your own admin password.
+**Where to keep the passwords.** Microsoft says to store the credentials in a known secure place that more than one authorised admin can reach, and not on one person's device. Its example is a fireproof safe. For your lab, a password manager entry that is not your daily vault, or a sealed printout, is enough. Do not store both in the same place as your own admin password.
 
 ### The MFA problem, said plainly
 
 This part matters, so I will not hide it.
 
-Learn says break-glass accounts must also sign in with MFA once enforcement starts, and the FAQ says there is no exception for them, not even in a test tenant. Learn's answer is: register a passkey (FIDO2) on each account, or use certificate-based authentication if you already have a public key infrastructure. Learn names passkey as the recommended choice. It also says the method should differ from the one your normal admin accounts use, and should not be tied to an employee's own phone.
+Microsoft says emergency access accounts must also sign in with MFA, and there is no exception for them, not even in a test tenant. Its recommended method is a passkey (a FIDO2 security key that you plug in or touch), registered on each account. It also says to keep these accounts off personal phones, and to use a method that differs from the one your normal admin accounts use.
 
-Most beginners have no hardware security key and no certificate infrastructure. So here are your options.
+Most beginners have no security key. So here is the plan for this series.
 
-- **If you have a FIDO2 security key** (or two), follow Learn: [enable passkeys (FIDO2)](https://learn.microsoft.com/en-us/entra/identity/authentication/how-to-authentication-passkeys-fido2) in the tenant, then [register a passkey on each emergency account](https://learn.microsoft.com/en-us/entra/identity/authentication/how-to-register-passkey-with-security-key). Keep the keys in different places.
-- **If you have no key,** you can still finish this lab. The accounts exist, hold the role and are in the group. What you cannot do is count on them as a real way in.
+- **If you have a FIDO2 security key** (or two), follow Microsoft: [enable passkeys (FIDO2)](https://learn.microsoft.com/en-us/entra/identity/authentication/how-to-authentication-passkeys-fido2) in the tenant, then [register a passkey on each emergency account](https://learn.microsoft.com/en-us/entra/identity/authentication/how-to-register-passkey-with-security-key). Keep the keys in different places.
+- **If you have no key,** you register nothing in this lab and you do not sign in with these accounts now. The accounts exist, hold the role and are in the group, which is all that Lab 5 needs. Lab 6 requires one planned sign-in with `emergency-access-01` before you build a sign-in rule, and it walks you through it. For that test it uses an authenticator app on your own phone. That is only acceptable because this tenant is a throwaway. Microsoft advises against it, and I would never do it in a real tenant.
 
-**My judgement, not Learn:** in a throwaway test tenant with nothing in it, I would register the Microsoft Authenticator app on a phone I own for each emergency account, so I can run the one sign-in test below. This goes against Learn's advice to keep emergency accounts off personal phones, and I would never do it in a real tenant. It is only so that you can practise. Delete the accounts when you finish the series, or move them to a key. If you would rather not, skip the sign-in test. The accounts still exist and still do their job in later labs.
+In a real tenant, also test each emergency account at least every 90 days, and alert on every sign-in to them. The Azure Monitor alert steps are on [Manage emergency access accounts](https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/security-emergency-access). This lab does not build the alert.
 
-Learn also says to test emergency accounts at least every 90 days, and to alert on every sign-in with them. In a real tenant, set that up. The Azure Monitor alert steps are on [Manage emergency access accounts](https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/security-emergency-access). This lab does not build the alert.
+Checkpoint: you now have everything that Lab 5 and Lab 7 need. The emergency accounts are only needed in Lab 6. You can stop here.
 
 ## Steps with the Azure CLI
 
-The CLI covers Parts A and B, and adding members to a group. It cannot finish the rest, for these reasons:
-
-- The `az ad user create` reference lists no option for usage location. Set it in the portal (Part A, step 5).
-- The `az ad` commands I checked have no command to assign a Microsoft Entra role. Do the Global Administrator assignment in the portal (Part C, step 6).
-- Your CLI sign-in needs a role that can create users and groups. Learn lists User Administrator to create users, and Groups Administrator or User Administrator for groups.
-
-Azure CLI 2.76 or newer is the Learn-recommended version for MFA. In Cloud Shell you are already signed in, so skip `az login`. On your own PC, run `az login` and sign in as yourself in the browser. Do not use device code.
-
-```bash
-az account show --query "{tenant:tenantId, user:user.name}" -o table
-```
-
-Check: The tenant ID and user name are the throwaway tenant and your admin account. If not, stop.
-
-Set variables. Replace `yourtenant.onmicrosoft.com` with the domain you wrote down. Type the password at the prompt so it does not stay in your shell history. It needs 8 or more characters and three of the four types: lower case, upper case, numbers, symbols.
-
-```bash
-DOMAIN="yourtenant.onmicrosoft.com"
-TEST_UPN="testuser2@$DOMAIN"
-read -rs -p "Temporary password: " TEST_PW; echo
-```
-
-Create the test user. The `--force-change-password-next-sign-in` flag marks the user as needing to update the password at the next sign-in.
-
-```bash
-az ad user create \
-  --display-name "Test User 2" \
-  --user-principal-name "$TEST_UPN" \
-  --password "$TEST_PW" \
-  --force-change-password-next-sign-in true
-```
-
-Check: The command prints JSON that includes the `userPrincipalName` you gave.
-
-Create a security group and add the user. `--member-id` takes the user's object ID.
-
-```bash
-az ad group create \
-  --display-name "TestUsersCli" \
-  --mail-nickname "TestUsersCli"
-
-USER_ID=$(az ad user show --id "$TEST_UPN" --query id -o tsv)
-az ad group member add --group "TestUsersCli" --member-id "$USER_ID"
-az ad group member list --group "TestUsersCli" --query "[].userPrincipalName" -o tsv
-```
-
-Check: The last command prints `testuser2@...`. In the portal, open the group and confirm **Group type** shows **Security**. The `az ad group create` reference does not state the type, so look.
-
-Open `testuser2` in the portal to set the location as in Part A, step 5. The CLI part is optional, and the later labs use `testuser1`.
-
-You could create the emergency accounts with `az ad user create` in the same way, then use the portal for the role. I do those in the portal, so you can see the passwords and roles on screen.
+No CLI in this lab. Creating a user and a group is a one-time portal task here, and the CLI would create a second user and group that you would have to delete. The commands (`az ad user create`, `az ad group create`) do exist. The CLI also cannot set the usage location or assign the Global Administrator role, so the portal is needed anyway.
 
 ## Terraform
 
@@ -180,14 +130,16 @@ No Terraform in this lab, because Terraform comes in [Lab 10: Terraform basics](
 
 ## Check that it works
 
-- `Test User 1` signed in once from a private window and sits in `TestUsers`.
+- `Test User 1` sits in `TestUsers`, and its first sign-in from a private window reached the password or MFA setup screen.
 - Both emergency accounts (`emergency-access-01` and `emergency-access-02`) are cloud-only on `.onmicrosoft.com`, hold an active, permanent Global Administrator role, and sit in `EmergencyAccess`.
-- You have both passwords stored somewhere you can find them, and it is not only your own head or your own laptop.
-- If you registered a key or an authenticator on an emergency account: sign in once in a private window, confirm it works, and sign out. Then open the sign-in logs in the Entra admin center (search for "sign-in logs" if you cannot find the menu) and look for your own test sign-in. That is how a real alert would look.
+- Open the password manager entry and confirm both emergency entries have a user name and a password saved, in a place that is not only your own head or your own laptop.
+- If you registered a key on an emergency account: sign in once in a private window, confirm it works, and sign out. Then open **Entra ID** > **Monitoring & health** > **Sign-in logs** in the Entra admin center and look for your own test sign-in. If you have no key, Lab 6 does this check.
 
 ## The most common mistake
 
 Making only one emergency account, or making none, and then locking yourself out with a Conditional Access policy in [Lab 6: Conditional Access](/azure-basics-labs/conditional-access/). The second most common: creating the accounts and then forgetting to add them to `EmergencyAccess`. When you build the policy, the exclusion has to use that group.
+
+A fourth: skipping the usage location on `testuser1`. Lab 6 cannot assign a license without it.
 
 A close third is using your own admin account as the "test user" and thinking the policy works. It works for you because you are an admin, not because it is right for a normal user.
 
@@ -198,22 +150,15 @@ Keep, for later labs:
 - `Test User 1` and the `TestUsers` group. Later labs use them.
 - Both emergency accounts, the `EmergencyAccess` group, and the stored passwords.
 
-Delete if you made them from the CLI:
-
-```bash
-az ad group delete --group "TestUsersCli"
-az ad user delete --id "$TEST_UPN"
-```
-
-Learn says a deleted user stays in **Deleted users** for 30 days and can be restored in that time. You can clear the variable with `unset TEST_PW`.
+Nothing to delete in this lab. Later labs use all of these objects.
 
 ## Where this is used in AVD
 
-Azure Virtual Desktop needs users who exist in Microsoft Entra ID. A test user plus a group is the normal way to give people access to a desktop. See [Choose the right identity model for Azure Virtual Desktop](/azure-virtual-desktop/choose-the-right-identity-model/).
+Azure Virtual Desktop needs users who exist in Microsoft Entra ID. In AVD you assign an application group to a group, not to single people. Later you will give `TestUsers` access to a desktop, then add or remove people from the group. See [Choose the right identity model for Azure Virtual Desktop](/azure-virtual-desktop/choose-the-right-identity-model/).
 
 ## Next lab
 
-[Lab 5: Multifactor authentication](/azure-basics-labs/mfa/) adds multifactor authentication for your test user and shows what Azure already requires of admins.
+[Lab 5: Multifactor authentication (MFA)](/azure-basics-labs/mfa/) adds multifactor authentication for your test user and shows what Azure already requires of admins.
 
 ## Sources
 
