@@ -2,10 +2,9 @@
 title: "Deploy an AVD Quick Lab with Terraform: Host Pool, Two Session Hosts and FSLogix Profiles"
 seoTitle: "Azure Virtual Desktop Terraform Lab: Host Pool, Entra Join, FSLogix"
 layout: post.njk
-permalink: "/azure-virtual-desktop/deploy-avd-quick-lab-with-terraform/"
-order: 126
-part: 26
-tags: [avd-series]
+permalink: "/terraform-labs/avd-quick-lab/"
+order: 301
+tags: [terraform-lab]
 deck: "What a small Terraform project builds for Azure Virtual Desktop, how to run it, and the manual steps that Terraform does not do for you."
 description: "A walk through a Terraform quick lab for Azure Virtual Desktop: a pooled host pool, two Microsoft Entra joined session hosts and an Azure Files share for FSLogix profiles, with the steps to run it and the checks to make afterwards."
 ---
@@ -242,6 +241,8 @@ The lab leaves out things that production needs. Each of these is a choice in th
 One more thing to read before you rely on it: the FSLogix page on Learn carries a warning about an April 2026 Windows Server update that changes the default Kerberos encryption type from RC4 to AES-SHA1. The Azure Files page says that with Microsoft Entra Kerberos the ticket encryption is always AES-256, so this lab is probably not affected. Read both pages before you deploy.
 
 For the design behind these choices, read [How FSLogix profile containers work](/azure-virtual-desktop/how-fslogix-profile-containers-work/).
+
+To cut the compute cost of this lab, see the next lab, [Cut AVD Compute Cost with Autoscale](/terraform-labs/avd-autoscale-cost-lab/). It adds a scaling plan to this same environment.
 
 ## Sources
 
