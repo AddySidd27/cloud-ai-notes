@@ -10,7 +10,7 @@ description: "Open Azure Cloud Shell, run az account show, az group list, --outp
 ---
 By the end you will have run your first Azure commands in the browser, and you will know how to install the Azure CLI on a Windows PC and sign in. Every command in this lab only reads information. The only thing that can be created is the Cloud Shell storage account, and only if you choose that option.
 
-I have not run these steps in a live tenant for this article. Each step is checked against Microsoft Learn.
+I have not run these steps in a live tenant for this article. The steps follow Microsoft Learn.
 
 ## What you need
 

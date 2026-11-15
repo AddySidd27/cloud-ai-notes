@@ -10,7 +10,7 @@ description: "Create a free Azure account in a test tenant, learn tenant vs subs
 ---
 By the end you will have a free Azure account in a test tenant. You will be able to tell a tenant from a subscription, you will know what the free account does after 30 days, and you will have registered the resource providers that Azure Virtual Desktop (AVD) uses.
 
-I have not run these steps in a live tenant for this article. Each step is checked against Microsoft Learn.
+I have not run these steps in a live tenant for this article. The steps follow Microsoft Learn.
 
 ## What you need
 

@@ -10,7 +10,7 @@ description: "Create a standard Entra test user, a security group, and two cloud
 ---
 By the end of this lab you will have one standard test user, one security group with that user in it, two emergency-access (break-glass) Global Administrator accounts, and a second group named EmergencyAccess that holds those two accounts.
 
-I have not run these steps in a live tenant for this article. Each step is checked against Microsoft Learn.
+I have not run these steps in a live tenant for this article. The steps follow Microsoft Learn.
 
 ## What you need
 

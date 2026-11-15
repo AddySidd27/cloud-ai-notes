@@ -11,7 +11,7 @@ description: "Create a resource group and tags in Azure, set up an email action 
 
 By the end you will have a resource group called `rg-azb-core` that stays for the rest of this series, an action group that sends you email, and a monthly budget on that group with alerts at 50, 80 and 100 percent of actual cost plus one forecast alert. You will also create a second, practice resource group with tags, and delete it to see what a delete does.
 
-I have not run these steps in a live tenant for this article, and I have not run `terraform validate` on the Terraform block. Each step is checked against Microsoft Learn (Microsoft's documentation site).
+I have not run these steps in a live tenant for this article, and I have not run `terraform validate` on the Terraform block. The steps follow Microsoft Learn (Microsoft's documentation site).
 
 ## What you need
 
@@ -235,7 +235,7 @@ az group delete --name rg-azb-practice
 - `ag-azb-email`
 - `budget-azb-core`
 
-Later labs put their resources in `rg-azb-core`, so the budget watches their cost. To remove the budget later, open it under **Budgets** on `rg-azb-core` and delete it.
+`rg-azb-core` only holds the budget and the action group. The later labs put their resources in other groups: `rg-azb-lab` (created in [Lab 8](/azure-basics-labs/virtual-network-subnet/)), `rg-azb-tf` ([Lab 10](/azure-basics-labs/terraform-basics/)) and `rg-azb-sandbox` ([Lab 17](/azure-basics-labs/azure-policy-locks/)). This budget is set on `rg-azb-core`, so it does not see the cost of those groups. To watch the whole subscription, open **Subscriptions**, select your subscription, select **Budgets** and add a second budget there. Learn's budget tutorial says you create a budget by opening a scope and selecting **Budgets**, and that the subscription is a supported scope. To remove a budget later, open it under **Budgets** and delete it.
 
 ## Where this is used in AVD
 
@@ -243,7 +243,7 @@ An Azure Virtual Desktop deployment puts its host pool, session hosts and networ
 
 ## Next lab
 
-[Lab 4: Microsoft Entra users, groups and break-glass accounts](/azure-basics-labs/entra-users-groups-break-glass/) adds the people and groups that you will give access to `rg-azb-core`.
+[Lab 4: Microsoft Entra users, groups and break-glass accounts](/azure-basics-labs/entra-users-groups-break-glass/) adds the people and groups that you will give access to your resources in later labs.
 
 ## Sources
 
