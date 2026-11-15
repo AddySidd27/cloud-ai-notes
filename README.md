@@ -2,8 +2,6 @@
 
 Source for [adnanasiddiqui.com](https://adnanasiddiqui.com), a technical publication on Azure Virtual Desktop, Windows 365, Azure landing zones and cloud infrastructure. Built with [Eleventy](https://www.11ty.dev/).
 
-This is an independent personal project. It is not affiliated with or endorsed by Microsoft.
-
 ## Build locally
 
 Requires Node.js 22 or later.
