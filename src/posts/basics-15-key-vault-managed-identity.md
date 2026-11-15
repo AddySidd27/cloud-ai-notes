@@ -6,7 +6,7 @@ permalink: "/azure-basics-labs/key-vault-managed-identity/"
 order: 325
 tags: [azure-basics-lab]
 deck: "You store a demo secret in Azure Key Vault and read it from inside your Windows VM, using the VM's own identity instead of a password."
-description: "Beginner Azure lab: create a Key Vault with Azure RBAC, store a demo secret, and read it from a Windows VM with its managed identity and the IMDS token endpoint."
+description: "Beginner Azure lab: create a Key Vault with Azure RBAC, store a demo secret, and read it from a Windows VM with its managed identity, no password."
 ---
 
 By the end of this lab you will have a Key Vault with one demo secret in it, and your Windows VM from Lab 12 will read that secret by itself. No password, key or connection string is saved on the VM to make that work.

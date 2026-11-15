@@ -91,7 +91,7 @@ Check: on **Overview**, **Size** shows `Standard_B2ls_v2`.
 
 ### Part 4: Change the OS disk type
 
-**Background: the disk bills even when the VM does not.** A managed disk is billed by its size and type, by the hour, whether or not the VM is running. Premium SSD is the fastest and costs the most. Standard SSD is cheaper. Do not choose Standard HDD for an OS disk. You can only change a disk type twice per day, and Premium SSD needs a VM size with Premium storage support. Learn lists Premium storage as supported for the Bsv2-series.
+**Background: the disk bills even when the VM does not.** A managed disk is billed by its size and type, by the hour, whether or not the VM is running. Premium SSD is the fastest and costs the most. Standard SSD is cheaper. Do not choose Standard HDD for an OS disk. Premium SSD needs a VM size with Premium storage support. Learn lists Premium storage as supported for the Bsv2-series.
 
 13. In the VM menu select **Disks**, then select the OS disk.
 14. Select **Size + performance**.
@@ -184,7 +184,7 @@ Second most common: forgetting that the disk and the static public IP keep billi
 - The VM must end this lab **Stopped (deallocated)**. Check the status once more.
 - No RDP rule was added in this lab, so there is nothing to remove.
 - Do not delete anything yet. Keep the VM, its OS disk, its network interface, `pip-azb-win01` and the NSG. Labs 14 to 18 use them.
-- Pausing the series for more than a week? A deallocated VM still bills for its disk and the static public IP. Delete `rg-azb-lab` (Lab 19 shows how) and rebuild the VM with Lab 12. Deleting a resource group deletes everything in it and cannot be undone.
+- Pausing the series for more than a week? A deallocated VM still bills for its disk and the static public IP. Delete the VM and the public IP with "Delete the VM and the public IP" in the Clean up of [Lab 12](/azure-basics-labs/windows-vm-entra-sign-in/), and rebuild the VM with Lab 12 when you come back. Keep `vnet-azb` and `nsg-azb-vm`. If you want to remove the whole lab group instead, Lab 19 shows how. Deleting a resource group deletes everything in it and cannot be undone.
 
 Keep for later labs:
 

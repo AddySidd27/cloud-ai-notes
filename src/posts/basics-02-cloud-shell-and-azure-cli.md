@@ -52,7 +52,7 @@ Check: a Cloud Shell pane opens in the portal with a Bash prompt, and it accepts
 
 Azure CLI is a command-line tool for managing Azure. You type `az` to run it. Run these in the Cloud Shell Bash window you just opened.
 
-Every command block in this series is Bash. Run it in Cloud Shell (Bash). It does not work in PowerShell on your PC. Lab 10 is the only lab where you use PowerShell.
+Command blocks are Bash unless they say otherwise. Run them in Cloud Shell (Bash). They do not work in PowerShell on your PC. The only PowerShell blocks are the PC install part of this lab and Lab 10, and they are marked.
 
 **The shape of a command.** Commands are organised as command groups, and each group is an area of an Azure service. A command is `az`, then the group, then often a subgroup, then the action, then parameters that start with `--`. Example: `az account show`. The group is `account`, the action is `show`.
 

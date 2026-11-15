@@ -19,7 +19,7 @@ I have not run these steps in a live tenant for this article. I have also not ru
 
 - An Azure subscription from [Lab 1](/azure-basics-labs/start-azure-account-tenant-subscription/). The Azure free account gives $200 of credit for 30 days.
 - A Windows PC. (On macOS or Linux the Terraform install differs. This lab covers Windows.)
-- The Azure CLI on that PC, version 2.76 or newer, installed as in the part "Install Azure CLI on your own Windows PC" of [Lab 2: Azure Cloud Shell and Azure CLI](/azure-basics-labs/cloud-shell-and-azure-cli/) (macOS and Linux readers use the install page that Lab 2 links to). Cloud Shell is not used here. Lab 10 is the only lab in this series that uses PowerShell; every other CLI block is Bash.
+- The Azure CLI on that PC, version 2.76 or newer, installed as in the part "Install Azure CLI on your own Windows PC" of [Lab 2: Azure Cloud Shell and Azure CLI](/azure-basics-labs/cloud-shell-and-azure-cli/) (macOS and Linux readers use the install page that Lab 2 links to). Cloud Shell is not used here. Lab 10 is the only lab where you run `az` in PowerShell on your own PC; every other `az` block in the series is Bash.
 - The notes sheet from [Lab 1](/azure-basics-labs/start-azure-account-tenant-subscription/), for your subscription ID and region.
 - A role that can create resources in the subscription, such as Contributor.
 - Do [Lab 8: Virtual network and subnet](/azure-basics-labs/virtual-network-subnet/) and [Lab 9: Network security group](/azure-basics-labs/network-security-group/) first. This lab builds the same kinds of resources from code. It uses new names, so it does not clash with them.
@@ -47,7 +47,7 @@ I have not run these steps in a live tenant for this article. I have also not ru
 
 ## What the lab builds
 
-![Terraform code in a local folder is read by Terraform on your PC, which uses your az login sign-in. Terraform builds the resource group rg-azb-tf. Inside it are the virtual network vnet-azb-tf with address space 10.20.0.0/16, a subnet, and a network security group joined to the subnet. The join is the fifth item Terraform creates. Terraform also writes a local state file. The order of work is: az login, write the files, init, validate and plan, apply and check in the portal, then destroy.](/img/basics/terraform-basics.svg)
+![Terraform code in a local folder is read by Terraform on your PC, which uses your az login sign-in. Terraform builds the resource group rg-azb-tf. Inside it are the virtual network vnet-azb-tf with address space 10.20.0.0/16, a subnet, and a network security group joined to the subnet. The join is the fifth item Terraform creates. Terraform also writes a local state file. The order of work, numbered as in the list above: 1 sign in, 2 write the files, 3 Pass 1, 4 check in the portal, 5 Pass 2, 6 change a tag, 7 destroy.](/img/basics/terraform-basics.svg)
 
 *Source: Learn pages [Quickstart: Install and configure Terraform](https://learn.microsoft.com/en-us/azure/developer/terraform/quickstart-configure), [Install Terraform on Windows with Azure PowerShell](https://learn.microsoft.com/en-us/azure/developer/terraform/get-started/get-started-windows-powershell) and [Authenticate Terraform to Azure](https://learn.microsoft.com/en-us/azure/developer/terraform/authenticate-to-azure). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
@@ -82,7 +82,7 @@ Learn describes the Windows install in [Install Terraform on Windows with Azure 
 3. Add that folder to your PATH. PATH is the list of folders Windows searches when you type a command. Press the Windows key, type `environment variables` and open **Edit the system environment variables**. Select **Environment Variables**. Under **User variables**, select **Path**, then **Edit**, **New**, type `C:\terraform`, and select **OK** three times.
 4. Close all PowerShell windows and open a new one. Run `terraform -version`.
 
-If you prefer, `winget` can do steps 1 to 3. Run `winget search terraform` and look for the package from HashiCorp. I could not confirm the package name on Learn, so check the name before you install.
+If you prefer, `winget` can do steps 1 to 3. Run `winget search terraform` and look for the package from HashiCorp. Check the package name before you install.
 
 Check: `terraform -version` prints a version number, and that version is 1.9.0 or newer. The code in this lab says `>= 1.9.0, < 2.0.0`. If PowerShell says that `terraform` is not recognized, the PATH entry is missing or the old PowerShell window is still open. Close all PowerShell windows, open a new one and try again. If it still fails, open the **Path** list again and check that the folder name is exactly right.
 
@@ -432,7 +432,7 @@ resource "azurerm_subnet" "vm" {
 }
 ```
 
-The portal makes a private subnet. This block does not set the outbound setting. Learn says tools that use an earlier API version keep the older default, which allows default outbound access. After apply, open the subnet in the portal and read **Default outbound access**. If you want the subnet private, look in the `azurerm_subnet` page of the provider documentation for an argument named `default_outbound_access_enabled`, and check its name and default there before you add it. I could not check the registry here.
+The portal makes a private subnet. This block does not set the outbound setting. Learn says tools that use an earlier API version keep the older default, which allows default outbound access. After apply, open the subnet in the portal and read **Default outbound access**. If you want the subnet private, look in the `azurerm_subnet` page of the provider documentation for an argument named `default_outbound_access_enabled`, and check its name and default there before you add it.
 
 **Lab 9: the network security group on the subnet.** Get the subnet ID and put it in `terraform.tfvars` as `subnet_id = "..."`.
 

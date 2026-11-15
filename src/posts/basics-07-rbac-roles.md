@@ -11,7 +11,7 @@ description: "Beginner Azure lab: assign Reader and Contributor to a group at tw
 
 By the end of this lab the group `TestUsers` will have Reader on your subscription and Contributor on the resource group `rg-azb-core`. You will have looked at that access in **Check access**, signed in as `testuser1` and seen what the user can and cannot do, and then removed both assignments again.
 
-I have not run these steps in a live tenant for this article, The steps follow Microsoft Learn.
+I have not run these steps in a live tenant for this article. The steps follow Microsoft Learn (Microsoft's documentation site).
 
 ## What you need
 
@@ -36,7 +36,7 @@ I have not run these steps in a live tenant for this article, The steps follow M
 
 ## What the lab builds
 
-![The group TestUsers, with member testuser1, gets two roles. Step 1: Reader at the subscription, which is inherited by the resource group rg-azb-core inside it. Step 2: Contributor on rg-azb-core. As a result testuser1 can change a tag in rg-azb-core but cannot add a role assignment there, and cannot create a new resource group.](/img/basics/rbac-roles.svg)
+![The group TestUsers, with member testuser1, gets two roles. Part 1: Reader at the subscription, which is inherited by the resource group rg-azb-core inside it. Part 2: Contributor on rg-azb-core. As a result testuser1 can change a tag in rg-azb-core but cannot add a role assignment there, and cannot create a new resource group.](/img/basics/rbac-roles.svg)
 
 *Source: [What is Azure role-based access control?](https://learn.microsoft.com/en-us/azure/role-based-access-control/overview), [Understand scope for Azure RBAC](https://learn.microsoft.com/en-us/azure/role-based-access-control/scope-overview), [Assign Azure roles using the Azure portal](https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal) and [Azure built-in roles for Privileged](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/privileged). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 

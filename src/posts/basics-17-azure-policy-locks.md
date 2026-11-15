@@ -295,7 +295,7 @@ echo "$RG_ID $STG_TAGGED"
 1. Remove the lock. Portal: open the tagged account, **Settings** > **Locks**, then select **Delete** next to `lock-azb-nodelete`. CLI:
 
    ```bash
-   az lock delete --name lock-azb-nodelete --resource-group $RG --resource $STG_TAGGED --resource-type Microsoft.Storage/storageAccounts
+   az lock delete --name lock-azb-nodelete --resource-group $RG --resource-name $STG_TAGGED --resource-type Microsoft.Storage/storageAccounts
    az lock list --resource-group $RG -o table
    ```
 

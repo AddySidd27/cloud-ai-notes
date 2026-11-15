@@ -67,7 +67,7 @@ Check: both rows show room for at least 2 vCPUs.
 
 **The size.** This lab uses `Standard_B2s_v2`: 2 vCPUs and 8 GiB of memory, from the burstable B-series for small test servers. If the portal does not offer it for your region, choose another size with 2 vCPUs and at least 4 GiB of memory.
 
-**The image.** Use **Windows Server 2025 Datacenter: Azure Edition**, not the one with **Core** in its name. Learn says Entra sign-in works on Windows Server 2022 or 2025 installed with Desktop Experience. This lab uses 2025 on purpose: [Lab 14: Storage and Azure Files](/azure-basics-labs/storage-azure-files/) needs it. A server image needs no extra licence for a short test. Leave the box for an existing Windows Server licence (Azure Hybrid Benefit) unticked. Windows 11 images need a qualifying licence for production use, and Windows 11 multi-session is for Azure Virtual Desktop only. It is a server, not the Windows 11 desktop your AVD users will see, but for the question "can an Entra user sign in to this VM" it behaves the same.
+**The image.** Use **Windows Server 2025 Datacenter: Azure Edition**, not the one with **Core** in its name. Learn says Entra sign-in works on Windows Server 2022 or 2025 installed with Desktop Experience. This lab uses 2025 on purpose: [Lab 14: Storage and Azure Files](/azure-basics-labs/storage-azure-files/) needs it. A server image needs no extra licence for a short test. Leave the box for an existing Windows Server licence (Azure Hybrid Benefit) unticked. Windows 11 images need a qualifying licence for production use, and Windows 11 multi-session is for Azure Virtual Desktop only. This VM is a server, not the Windows 11 desktop your AVD users will see, but for the question "can an Entra user sign in to this VM" it behaves the same.
 
 ### Part 2: Create the VM
 
@@ -97,7 +97,7 @@ Check: both rows show room for at least 2 vCPUs.
    - Tick **Delete public IP and NIC when VM is deleted**.
 10. Select **Next: Management**. Set:
     - Under **Identity**, tick **Enable system assigned managed identity**.
-    - Look for the option for Microsoft Entra ID login on the **Management** tab and tick it. It installs the extension. If you cannot find it, skip it. The Check below shows how to add the extension afterwards.
+    - Look for the option for Microsoft Entra ID login on the **Management** tab (it is usually called **Login with Microsoft Entra ID**) and tick it. It installs the extension. If you cannot find it, skip it. The Check below shows how to add the extension afterwards.
     - If you see any option to enrol the VM in Intune or MDM, leave it off.
     - Auto-shutdown: tick **Enable auto-shutdown**, choose a time later today and your time zone. It is a safety net, not a replacement for stopping the VM yourself. The next day check the status. If it says **Stopped** and not **Stopped (deallocated)**, select **Stop**.
 11. Select **Review + create**. Write the hourly price shown for the VM in your notes. When you see **Validation passed**, select **Create**. Wait for the deployment, then select **Go to resource**.
@@ -329,7 +329,7 @@ The last command should print `VM deallocated`. [Lab 13](/azure-basics-labs/vm-s
 
 ```bash
 az vm delete --resource-group $RG --name $VM --yes
-az network public-ip delete --resource-group $RG --name $PIP
+az network public-ip delete --resource-group $RG --name $PIP   # if it says the IP was not found, the VM delete already removed it
 az resource list --resource-group $RG --output table
 ```
 

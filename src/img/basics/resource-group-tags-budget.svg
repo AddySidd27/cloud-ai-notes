@@ -52,7 +52,7 @@
 <text x="936" y="187.0" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">You</text>
 <text x="936" y="206.0" font-size="13" text-anchor="start" fill="#1f2933">email inbox</text>
 <line x1="322" y1="195" x2="453" y2="195" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="393.0" y="179" font-size="13" text-anchor="middle" fill="#5f6b7a">calls it</text>
+<text x="393.0" y="179" font-size="13" text-anchor="middle" fill="#5f6b7a">calls it (optional)</text>
 <line x1="719" y1="195" x2="878" y2="195" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
 <text x="817.0" y="179" font-size="13" text-anchor="middle" fill="#5f6b7a">sends email</text>
 <circle cx="72" cy="442" r="13" fill="#2b5fa8"/>

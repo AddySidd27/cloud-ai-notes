@@ -6,7 +6,7 @@ permalink: "/azure-basics-labs/mfa/"
 order: 315
 tags: [azure-basics-lab]
 deck: "You see which MFA protection your tenant already has, leave per-user MFA off, and sign in as your test user with the Microsoft Authenticator app."
-description: "Beginner Azure lab: check mandatory MFA and security defaults, leave per-user MFA Disabled, register Microsoft Authenticator for a test user and sign in with MFA."
+description: "Check mandatory MFA and security defaults, leave per-user MFA Disabled, register Microsoft Authenticator for a test user and sign in with MFA."
 ---
 
 By the end of this lab you will know which multifactor authentication (MFA) protection your tenant already has, you will have looked at the per-user MFA page and left everyone on **Disabled**, and your test user will be registered for the Microsoft Authenticator app and will have signed in with MFA.
@@ -42,9 +42,9 @@ Multifactor authentication (MFA) means you prove who you are with more than a pa
 
 Part 1 and the check at the end use a second website, the Microsoft Entra admin center (`https://entra.microsoft.com`), not portal.azure.com. Open it in a new tab. Use the same admin account. The sign-in in Part 3 uses portal.azure.com.
 
-**Idea 1: three ways MFA is switched on.**
+**Idea 1: four things that can switch MFA on.**
 
-There are three ways, and they are separate from each other:
+They are separate from each other:
 
 | Way | What it is | License |
 |---|---|---|
@@ -55,7 +55,7 @@ There are three ways, and they are separate from each other:
 
 Microsoft says the best way to protect users with MFA is a Conditional Access policy. For tenants without that license, it points to security defaults. It says changing per-user states is not recommended unless your licenses do not include Conditional Access and you do not want security defaults. It also says not to enable per-user MFA if you use Conditional Access policies. Security defaults and Conditional Access cannot be used together, and Microsoft says you must disable security defaults before you can use Conditional Access policies. That is what Lab 6 is about.
 
-The fourth row is Azure's own rule, which you cannot opt out of. The note at the top of Part 1 explains it.
+The last row is Azure's own rule, which you cannot opt out of. The note at the top of Part 1 explains it.
 
 ### Part 1: See what protection is already on
 

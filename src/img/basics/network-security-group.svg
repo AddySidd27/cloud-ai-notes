@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1100 660" width="1100" height="660" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
-<title id="t">A network security group on a subnet</title><desc id="d">Your PC, with your own public IP address, sends TCP 3389 toward the subnet snet-vm, and the temporary rule 1000 allows it. Any other source on the internet is denied by the default rule DenyAllInBound, priority 65500. The network security group nsg-azb-vm is its own resource in the resource group rg-azb-lab, outside the virtual network vnet-azb. Step 1 creates it, step 2 attaches it to the subnet, and step 3 adds the temporary rule. A virtual machine comes in Lab 12.</desc>
+<title id="t">A network security group on a subnet</title><desc id="d">Your PC, with your own public IP address, sends TCP 3389 toward the subnet snet-vm, and the temporary rule 1000 allows it. Any other source on the internet is denied by the default rule DenyAllInBound, priority 65500. The network security group nsg-azb-vm is its own resource in the resource group rg-azb-lab, outside the virtual network vnet-azb. Part 1 creates it and Part 2 attaches it to the subnet. Part 3 reads the default rules, and Part 4 adds the temporary rule above them. A virtual machine comes in Lab 12.</desc>
 <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
 <rect x="6" y="6" width="1088" height="648" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
 <defs><marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2e7d32"/></marker><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c0392b"/></marker></defs>
@@ -39,7 +39,7 @@
 <text x="480.0" y="414" font-size="12" text-anchor="middle" fill="#5f6b7a">attached to the subnet</text>
 <rect x="660" y="420" width="370" height="180" rx="8" fill="#ffffff" stroke="#e6b866" stroke-width="1.5"/>
 <text x="845.0" y="446" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
-<circle cx="680" cy="444" r="12" fill="#1f4e79"/><text x="680" y="449" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">3</text>
+<circle cx="680" cy="444" r="12" fill="#1f4e79"/><text x="680" y="449" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">4</text>
 <text x="700" y="450" font-size="13" font-weight="600" text-anchor="start" fill="#1f2933">Lowest number first. First match wins.</text>
 <rect x="678" y="468" width="334" height="28" rx="14.0" fill="#fff8e6" stroke="#e6b866" stroke-width="1.5"/>
 <text x="845.0" y="486.0" font-size="12" text-anchor="middle" fill="#1f2933">1000  Allow TCP 3389 from your IP (temporary)</text>

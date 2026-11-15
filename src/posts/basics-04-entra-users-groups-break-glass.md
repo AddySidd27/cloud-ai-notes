@@ -6,7 +6,7 @@ permalink: "/azure-basics-labs/entra-users-groups-break-glass/"
 order: 314
 tags: [azure-basics-lab]
 deck: "A test user, a security group, and two emergency-access admin accounts in a throwaway Entra tenant."
-description: "Create a standard Entra test user, a security group, and two cloud-only emergency access accounts, and learn why they matter before you set up Conditional Access."
+description: "Create a standard Entra test user, a security group and two cloud-only emergency access accounts, and learn why they matter before Conditional Access."
 ---
 By the end of this lab you will have one standard test user, one security group with that user in it, two emergency-access (break-glass) Global Administrator accounts, and a second group named EmergencyAccess that holds those two accounts. Global Administrator is the most powerful role in Microsoft Entra. A break-glass account is a spare admin account that you keep for emergencies.
 
@@ -139,9 +139,9 @@ No Terraform in this lab, because Terraform comes in [Lab 10: Terraform basics](
 
 Making only one emergency account, or making none, and then locking yourself out with a Conditional Access policy in [Lab 6: Conditional Access](/azure-basics-labs/conditional-access/). The second most common: creating the accounts and then forgetting to add them to `EmergencyAccess`. When you build the policy, the exclusion has to use that group.
 
-A fourth: skipping the usage location on `testuser1`. Lab 6 cannot assign a license without it.
+A third is using your own admin account as the "test user" and thinking the policy works. It works for you because you are an admin, not because it is right for a normal user.
 
-A close third is using your own admin account as the "test user" and thinking the policy works. It works for you because you are an admin, not because it is right for a normal user.
+A fourth: skipping the usage location on `testuser1`. Lab 6 cannot assign a license without it.
 
 ## Clean up
 

@@ -135,7 +135,7 @@ This part is optional. It does the same registration as step 5, by command. Use 
 
 Cloud Shell needs the Microsoft.CloudShell provider from step 5 to be registered first. Select the Cloud Shell icon in the top bar of the portal (a small box with `>_`). If it asks which shell, choose **Bash**. In the **Getting started** pane, choose **No storage account required**, pick your subscription and select **Apply**. Do not use `az login --use-device-code`. Cloud Shell is already signed in for you.
 
-Every command block in this series is Bash. Run it in Cloud Shell (Bash), not in PowerShell.
+Command blocks in this series are Bash unless they say otherwise. Run them in Cloud Shell (Bash), not in PowerShell.
 
 Show the subscription and tenant that Cloud Shell is using:
 

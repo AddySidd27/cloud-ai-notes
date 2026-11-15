@@ -173,7 +173,7 @@ Check: the policy is listed on the **Report-only** tab with **Not applied**, and
 36. Learn says to move the **Enable policy** toggle from **Report-only** to **On** after you have confirmed the settings with report-only mode. Set it to **On**. Select **Save**.
 37. Run the What If tool again for `testuser1` on **Azure Virtual Desktop**. The policy should still apply, now enforced. Run it for `emergency-access-01`. It should still not apply.
 38. Close all private windows first. Then open a new private window and sign in as `emergency-access-01` once more at `https://portal.azure.com`. It must succeed. This is the proof that the policy did not lock out the emergency account. Sign out.
-39. Rollback. Open the policy and look at **Enable policy**. Learn names **Report-only** and **On** for this switch. Look for a third position, **Off**. Set it to **Off** and select **Save**. If you do not see **Off**, go straight to Part 7 and delete the policy. Check that the list shows the policy as off, or that it is gone.
+39. Rollback. Open the policy and look at **Enable policy**. The switch has three positions: **Report-only**, **On** and **Off**. Set it to **Off** and select **Save**. If you do not see **Off**, go straight to Part 7 and delete the policy. Check that the list shows the policy as off, or that it is gone.
 
 Check: the policy went **Report-only**, **On**, then off, and each time you read the state in the list.
 

@@ -156,7 +156,7 @@ Stop here and look at this checklist before you go on.
 23. Under **Public network access**, select **Manage**.
 24. Choose **Disable** (the wording may differ), confirm any prompt, then **Save**. Success: the page says **Disabled**.
 25. On the VM, open the share again, read the test file and write a second file, `private-test-2.txt`. Both should work. If the share was already open, disconnect and mount it again to be sure.
-26. On your own PC, run `nslookup <account>.file.core.windows.net`. It still gives a public address. Then open the storage account in the portal and go to **File shares** > `azbshare`. You should see an access or network error. A failure here is expected. Your PC could never have mounted this share, and many home networks block port 445 anyway, so do not use the PC as the real test. The VM in step 25 is the test.
+26. On your own PC, run `nslookup <account>.file.core.windows.net`. It still gives a public address. Then open the storage account in the portal and go to **Classic file shares** > `azbshare`. You should see an access or network error. A failure here is expected. Your PC could never have mounted this share, and many home networks block port 445 anyway, so do not use the PC as the real test. The VM in step 25 is the test.
 
 Check: the VM can read and write, and the portal cannot browse the share from your PC.
 

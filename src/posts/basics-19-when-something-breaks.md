@@ -52,7 +52,7 @@ Most Azure problems in this series come from a short list: a missing permission,
 
 | | At the start | At the end |
 | --- | --- | --- |
-| VM `vm-azb-win01` | Stopped (deallocated). Parts 3 and 6 need it running, so start it there (**Virtual machines** > `vm-azb-win01` > **Start**). | Deleted with `rg-azb-lab` in Part B |
+| VM `vm-azb-win01` | Stopped (deallocated). Parts 3 and 6 need it running, so start it there (**Virtual machines** > `vm-azb-win01` > **Start**). | Stopped (deallocated) at the end of Part A (step 25), then deleted with `rg-azb-lab` in Part B |
 | Rule `allow-rdp-my-ip` in `nsg-azb-vm` | Not there. Part 6 expects that. | Deleted with `rg-azb-lab` |
 | Public IP `pip-azb-win01` | Exists | Deleted with `rg-azb-lab` |
 | Kept | `rg-azb-core`, `ag-azb-email`, `budget-azb-core`, `testuser1`, `TestUsers`, the emergency accounts | Same |
@@ -147,6 +147,8 @@ When a VM is running but you cannot connect, the cause is often a network securi
 23. Optional: to see **Access allowed**, add `allow-rdp-my-ip` again (follow "Connect again later" in [Lab 12](/azure-basics-labs/windows-vm-entra-sign-in/), step 3 only), run the test again, and then delete the rule. The result now names your rule.
 24. Check the NSGs together. Open the VM, then **Networking** > **Network settings**, select the network interface, and select **Effective security rules**. It shows the combined rules from the subnet NSG and the NIC NSG, and traffic must pass both.
 
+25. Stop the VM so nothing bills while you read on: **Virtual machines** > `vm-azb-win01` > **Stop**. Check that the status says **Stopped (deallocated)**. If you added `allow-rdp-my-ip` in step 23, make sure you deleted it again.
+
 Check: you got **Access denied** with a rule name, and you can say why. If IP flow verify says allowed and you still cannot connect, the block is not the NSG. Look at the VM (Part 3), then at the client ([Lab 11](/azure-basics-labs/your-pc-and-remote-desktop-clients/)).
 
 #### Self-test
@@ -205,6 +207,8 @@ az network watcher test-ip-flow --direction Inbound --protocol TCP \
   --vm $VM --resource-group $RG --out table
 az network nic list-effective-nsg --name $NIC --resource-group $RG --output table
 ```
+
+When you are done, stop the VM: `az vm deallocate --resource-group $RG --name $VM`.
 
 Check: each command prints a table or text and no error. With no RDP rule, `test-ip-flow` prints `Deny` and a rule name ending in `DenyAllInBound`. If a command says the VM or NIC does not exist, you already deleted it, which is fine. Sign-in logs have no stable `az` command that I could confirm on Learn, so use the Entra admin center for those.
 
