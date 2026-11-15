@@ -13,13 +13,13 @@ description: "Azure Files or Azure NetApp Files for FSLogix profile containers i
 
 FSLogix keeps each user's profile in one container file on a file share. If the share is slow, or far from the session hosts, the user experience suffers. If users cannot open their own folder, their profiles cannot load from the share. If they can open other people's folders, profile data is exposed. Two decisions therefore sit side by side: which Azure service holds the share, and who is allowed to open what on it.
 
-Three limits on scope. The recovery section reports only what the cited documentation pages say about the Azure Files share and FSLogix Cloud Cache. It is not a runbook, it was not tested, and it gives no recovery time or data-loss figures. Cross-region disaster recovery is not covered in full in this article, and session-host recovery is not covered at all. For cloud-only users, the article lists what the documentation covers about folder permissions and gives no procedure (see "Cloud-only users: what the documentation covers about folder permissions"). The pages also label cloud-only identity support differently (see "Cloud-only identities on Azure Files: generally available or preview").
+Access has two layers. The first is an Azure role: a set of permissions that Azure gives to a user or group on the share. The second is a set of Windows permissions on the folders inside it. Both are explained in the Key terms table below. A "cloud-only user" is a user who exists only in Microsoft Entra ID, with no on-premises Active Directory account.
 
 [Choose the Right Identity Model for Azure Virtual Desktop](/azure-virtual-desktop/choose-the-right-identity-model/) covers the identity sources table, the Microsoft Entra Kerberos requirements, the multifactor authentication exclusion, the ticket-retrieval client setting and the limits for external (guest) users, so this article does not repeat them. The storage network path (private endpoint, private DNS, TCP 445) is in [Plan Azure Virtual Desktop Networking](/azure-virtual-desktop/plan-avd-networking/).
 
 ## Key terms
 
-The identity model article defines Kerberos, SID, ACL, MFA, SMB, Entra joined, hybrid joined, AD DS and Microsoft Entra Domain Services. These terms are new here.
+The identity model article defines Kerberos, SID, ACL, MFA, SMB, Entra joined, hybrid joined, AD DS and Microsoft Entra Domain Services. The table below adds the terms this article needs.
 
 | Term | Meaning |
 |---|---|
@@ -32,18 +32,28 @@ The identity model article defines Kerberos, SID, ACL, MFA, SMB, Entra joined, h
 | Azure role-based access control (Azure RBAC) | The system that controls who can do what to Azure resources. A role (a set of permissions) is attached to a user or group at a scope (the resources it applies to). |
 | Windows ACL (NTFS permissions) | The list of entries on a folder or file. Each entry names a user or group and says which access is allowed or denied. |
 | Microsoft Entra Kerberos, hybrid identity, cloud-only identity | Microsoft Entra Kerberos is a setup where Microsoft Entra ID issues the Kerberos tickets itself. A hybrid identity exists in both on-premises AD DS and Microsoft Entra ID. A cloud-only identity exists only in Microsoft Entra ID. |
+| GiB, TiB, PiB | Storage sizes. 1 TiB is 1,024 GiB. 1 PiB is 1,024 TiB. |
+| IOPS and GBps | IOPS is input/output operations per second. GBps is gigabytes per second. |
+| Open handle | An open connection to a file or folder. A share has a limit on how many it can hold at once. |
+| Classic file share and NFS | A classic file share is the usual Azure Files share inside a storage account. NFS is a file-sharing protocol used mostly by Linux. FSLogix on Windows uses SMB. |
+| Share snapshot and soft delete | A share snapshot is a read-only, point-in-time copy of a share. Soft delete keeps a deleted share for a set time so that it can be undeleted. |
 | Account failover | Switching a geo-redundant storage account so that its secondary region becomes the primary region. |
+| Last Sync Time | A property of a geo-redundant account that shows when data was last copied to the second region. |
 | FSLogix Cloud Cache | An FSLogix feature that runs a user's container from a local copy on the session host and writes the changes to one or more remote storage providers listed in `CCDLocations`. |
 
 ## The choices at a glance
 
 The decision has five checks, in this order:
 
-1. Identity. Azure Files accepts three identity sources. Azure NetApp Files documents two, and two preview pages describe a third, Microsoft Entra Kerberos, as a preview (see the caveats near the end).
+1. Identity. Azure Files accepts three identity sources. Azure NetApp Files documents two, and two preview pages describe a third, Microsoft Entra Kerberos (see Key terms), as a preview. A preview is a feature that is not yet generally available. The caveats near the end cover this.
 2. Region. Azure NetApp Files is available only in select regions.
 3. Size and performance. Compare the documented ceilings and tier guidance with the user count and workload type.
 4. What the storage must survive. Redundancy options differ, and Azure Files premium shares cannot be geo-redundant.
-5. Access. On Azure Files, a profile folder is reached through an identity source (who the user is), then an Azure role on the share (whether the user can reach it), then a Windows ACL on the folder and file (what the user can do inside it). If the two permission checks differ, the more restrictive one applies. For cloud-only users the pages differ on whether the Windows ACL is enforced (see the first caveat under "Where the pages differ").
+5. Access. On Azure Files, a profile folder is reached through an identity source (who the user is), then an Azure role on the share (whether the user can reach it), then a Windows ACL on the folder and file (what the user can do inside it). If the two permission checks differ, the more restrictive one applies. For cloud-only users the pages differ on whether the Windows ACL is enforced (see "Cloud-only identities and Windows ACL enforcement" under "Where the pages differ").
+
+Three limits on scope. The recovery section reports only what the cited documentation pages say about the Azure Files share and FSLogix Cloud Cache. It is not a runbook, it was not tested, and it gives no recovery time or data-loss figures. Cross-region disaster recovery is not covered in full here, and session-host recovery is not covered at all. For cloud-only users, the article lists what the documentation covers about folder permissions and gives no procedure (see "Cloud-only users: what the documentation covers about folder permissions"). The pages also label cloud-only identity support differently (see "Cloud-only identities on Azure Files: generally available or preview").
+
+The sections follow the checks in this order: service comparison (checks 2 and 3), identity (check 1), recovery (check 4), then access (check 5). The last two sections show common permission mistakes and how to test a setup.
 
 ## What the storage has to do
 
@@ -67,7 +77,7 @@ Both are Azure-native services and both offer SMB shares that FSLogix can use. T
 | Redundancy | LRS, ZRS, GRS, GZRS | Locally redundant, zone-redundant with cross-zone replication, geo-redundant with cross-region replication (another FSLogix page lists locally redundant and cross-region replication only) |
 | Backup | Azure Backup snapshot integration | Azure NetApp Files snapshots and backup |
 
-The ceilings are the top of what the services allow, not what one profile share will deliver. Standard (HDD) Azure Files shares have lower limits: a standard pay-as-you-go storage account is limited to 20,000 IOPS by default, or 40,000 in select regions, according to the Azure Files limits page.
+The ceilings are the top of what the services allow, not what one profile share will deliver. The Azure Files limits page says other variables can affect these targets, so test your own usage pattern. Standard (HDD) Azure Files shares have lower limits: a standard pay-as-you-go storage account is limited to 20,000 IOPS by default, or 40,000 in select regions, according to the Azure Files limits page.
 
 ### Azure Files tiers
 
@@ -79,23 +89,29 @@ The storage options page gives this guidance, based on the example scenarios in 
 | Light, more than 200 users | Premium, or standard with multiple file shares |
 | Medium, Heavy, Power | Premium |
 
-The tiers bill differently, the main cost lever the page documents. Premium shares use a provisioned billing model: you pay for the storage you set up, whether you use it or not. Standard shares use pay-as-you-go billing: you pay for what you use, including data stored and transactions.
+The tiers bill differently. Premium shares use a provisioned billing model: you pay for the storage you set up, whether you use it or not. The storage options page describes standard shares as pay-as-you-go: you pay for what you use, including data stored and transactions. The [Azure Files limits page](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-scale-targets) also lists a provisioned v2 model for standard shares, so check the billing model when you create the account.
 
-A share allows [10,000 open handles on its root folder](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-scale-targets). A [release note](https://learn.microsoft.com/en-us/azure/storage/files/files-whats-new) says that after the root-folder handle limit was raised to 10,000, FSLogix on Azure Files supports 10,000 active users per share, and that the real number depends on what the applications do.
+A share allows [10,000 open handles on its root folder (see Key terms)](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-scale-targets). A [release note](https://learn.microsoft.com/en-us/azure/storage/files/files-whats-new) says that after the root-folder handle limit was raised to 10,000, FSLogix on Azure Files supports 10,000 active users per share, and that the real number depends on what the applications do.
 
-FSLogix profiles on Azure Files use a classic file share in a storage account, because new shares created with the `Microsoft.FileShares` resource provider currently offer NFS only, according to the Azure Files FAQ and release notes.
+FSLogix profiles on Azure Files use a classic file share in a storage account, because new shares created with the `Microsoft.FileShares` resource provider currently offer NFS only (see Key terms), according to the Azure Files FAQ and release notes.
 
 ### Azure NetApp Files tiers
 
-Performance is a function of level times capacity. The storage options page says more provisioned capacity gives a higher performance budget, which "likely" lets you use a lower level, and that this gives a more optimal total cost of ownership. It points to a calculator to choose the level and volume size.
+Performance depends on the service level and the size you provision. The storage options page says more provisioned capacity gives a higher performance budget, which "likely" lets you use a lower level, and that this gives a more optimal total cost of ownership. It points to a calculator to choose the level and volume size.
 
-The tier guidance by workload type is: Light, Standard. Medium and Heavy, Premium for a small or medium number of users and Standard for a large number. Power, Ultra for a small number of users, Premium for a medium number and Standard for a large number.
+The tier guidance by workload type:
 
-Two documented limits shape larger designs. The [FSLogix page for Azure NetApp Files](https://learn.microsoft.com/en-us/fslogix/how-to-configure-profile-container-netapp) says to keep the number of profiles in active use on one regular volume to 3,000 or fewer, because going above that can significantly increase latency. For more than 3,000 concurrent users it suggests spreading users over several volumes, each in a different availability zone. The same page recommends turning on Continuous Availability for the SMB volume when it holds FSLogix profiles.
+| Workload | Small number of users | Medium number | Large number |
+|---|---|---|---|
+| Light | Standard | Standard | Standard |
+| Medium and Heavy | Premium | Premium | Standard |
+| Power | Ultra | Premium | Standard |
+
+Two documented limits shape larger designs. The [FSLogix page for Azure NetApp Files](https://learn.microsoft.com/en-us/fslogix/how-to-configure-profile-container-netapp) says to keep the number of profiles in active use on one regular volume to 3,000 or fewer, because going above that can significantly increase latency. For more than 3,000 concurrent users it suggests spreading users over several volumes, each in a different availability zone. The same page recommends turning on Continuous Availability (a setting that keeps SMB connections alive during maintenance events) for the SMB volume when it holds FSLogix profiles.
 
 ### Which to start with
 
-The pages do not give one rule for choosing. Without a reason to leave it, the documented default is Azure Files. Another [FSLogix page](https://learn.microsoft.com/en-us/fslogix/concepts-container-storage-options) describes Azure NetApp Files as for ultra performance or for migration from NetApp on-premises. Work through the five checks in order, because the identity check can narrow the choice before speed or price matters.
+The pages do not give one rule for choosing. Without a reason to leave it, the documented default is Azure Files. Another [FSLogix page](https://learn.microsoft.com/en-us/fslogix/concepts-container-storage-options) describes Azure NetApp Files as for ultra performance or for migration from NetApp on-premises. Work through the five checks in order, because the identity check can narrow the choice before speed or price matters (judgement).
 
 ## Identity can rule out a storage choice
 
@@ -105,33 +121,47 @@ Azure Files accepts three identity sources: AD DS, Microsoft Entra Domain Servic
 
 The FSLogix page for Azure NetApp Files says profile containers on Azure NetApp Files need Kerberos authentication and can be reached only by users who authenticate from AD DS or Microsoft Entra Domain Services. It works with Microsoft Entra joined or hybrid joined session hosts when the user identities are backed by AD DS, for example hybrid identities.
 
-The [SMB FAQ](https://learn.microsoft.com/en-us/azure/azure-netapp-files/faq-smb) says an SMB volume needs an Active Directory connection first, that the domain controllers must be reachable from the subnet Azure NetApp Files uses, and that one NetApp account supports one Active Directory connection. Its answer on Microsoft Entra ID is about AD join and does not mention Microsoft Entra Kerberos. For cloud-only users, that FAQ and the FSLogix page differ from two preview pages; both sides are quoted in the third caveat under "Where the pages differ".
+The [SMB FAQ](https://learn.microsoft.com/en-us/azure/azure-netapp-files/faq-smb) says an SMB volume needs an Active Directory connection first, that the domain controllers must be reachable from the subnet Azure NetApp Files uses, and that one NetApp account supports one Active Directory connection. Its answer on Microsoft Entra ID is about AD join and does not mention Microsoft Entra Kerberos. For cloud-only users, that FAQ and the FSLogix page differ from two preview pages; both sides are quoted under "Azure NetApp Files and Microsoft Entra Kerberos" in "Where the pages differ".
 
 ## What the storage survives
 
-Azure Files always keeps three copies of the data in the primary region, according to the [redundancy page](https://learn.microsoft.com/en-us/azure/storage/files/files-redundancy). LRS keeps them in one or more availability zones and is the least expensive option, but a disaster such as fire or flood in the data center could lose all the copies, so the page recommends ZRS, GRS or GZRS for protection. The page recommends ZRS for scenarios that need high availability, and GZRS for applications that need high availability or maximum durability; GZRS is not available for premium shares (see below). With ZRS, a zone failure needs no remounting of the share by clients, though the DNS updates Azure makes in that case can affect access until they finish.
+Azure Files always keeps three copies of the data in the primary region, according to the [redundancy page](https://learn.microsoft.com/en-us/azure/storage/files/files-redundancy). LRS keeps them in one or more availability zones and is the least expensive option, but a disaster such as fire or flood in the data center could lose all the copies, so the page recommends ZRS, GRS or GZRS for protection. The page recommends ZRS for scenarios that need high availability, and GZRS for applications that need high availability or maximum durability; GZRS is not available for premium shares (see below). With ZRS, a zone failure needs no remounting of the share by clients, though the DNS updates Azure makes in that case can affect access until they finish, so users may briefly be unable to connect.
 
 | What fails | LRS | ZRS | GRS | GZRS |
 |---|---|---|---|---|
 | One server in a data center | Data stays available | Data stays available | Data stays available | Data stays available |
-| A whole data center | Not available | Available | Available. An account failover is needed to restore writes if the primary region is unavailable | Available |
+| A whole data center | Not available | Available | Available. An account failover is needed to make the share writable again if the primary region is unavailable | Available |
 | The whole primary region | Not available | Not available | Available after an account failover | Available after an account failover |
 
-The part that links two decisions: geo-redundancy (GRS or GZRS) is supported only for standard (HDD) file shares. Premium (SSD) shares must use LRS or ZRS, and ZRS support for premium shares depends on the region, so check the [region list](https://learn.microsoft.com/en-us/azure/storage/files/redundancy-premium-file-shares). The tier guidance above recommends premium shares for medium, heavy and power workloads. If you follow that recommendation, geo-redundancy is not available for that share.
+These two decisions affect each other: geo-redundancy (GRS or GZRS) is supported only for standard (HDD) file shares. Premium (SSD) shares must use LRS or ZRS, and ZRS support for premium shares depends on the region, so check the [region list](https://learn.microsoft.com/en-us/azure/storage/files/redundancy-premium-file-shares). The tier guidance above recommends premium shares for medium, heavy and power workloads. If you follow that recommendation, geo-redundancy is not available for that share.
 
-Redundancy is set per storage account and applies to every share in it. Use separate storage accounts for shares with different needs. With GRS or GZRS the shares cannot be reached in the second region unless a failover happens. During a failover the data is inaccessible, and afterward clients must unmount and remount the share.
+Redundancy is set per storage account and applies to every share in it. Use separate storage accounts for shares with different needs. With GRS or GZRS the shares cannot be reached in the second region unless a failover happens. During a failover the data is inaccessible, and afterward clients must disconnect the share and connect it again.
 
 ## Storage recovery: what the documentation says
 
-Redundancy is not a recovery copy.
+Redundancy keeps copies for availability. It is not a backup (judgement).
 
-For geo-redundant accounts (standard HDD shares only), the [disaster recovery page](https://learn.microsoft.com/en-us/azure/storage/files/files-disaster-recovery) describes account failover: DNS is updated so the secondary endpoint becomes the primary, file handles and leases are not retained, and the account is then locally redundant until geo-redundancy is configured again. An unplanned (forced) account failover usually involves some data loss because copying to the secondary region is asynchronous (see the Last Sync Time property), and the [redundancy page](https://learn.microsoft.com/en-us/azure/storage/files/files-redundancy) says it is blocked if no system snapshot exists in the secondary region. The page also describes customer-managed planned failover and Microsoft-managed failover. For premium shares, which have no geo-redundant option, the [multiregion page](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/azure-virtual-desktop/azure-virtual-desktop-multi-region-bcdr) says that if you require Premium performance for FSLogix profile storage, you should rely on FSLogix Cloud Cache for cross-region replication rather than storage built-in geo-replication.
+For geo-redundant accounts (standard HDD shares only), the [disaster recovery page](https://learn.microsoft.com/en-us/azure/storage/files/files-disaster-recovery) describes account failover: DNS is updated so the secondary endpoint becomes the primary, file handles and leases are not retained, and the account is then locally redundant until geo-redundancy is configured again. An unplanned (forced) account failover usually involves some data loss because copying to the secondary region is asynchronous (see Last Sync Time in Key terms). The [redundancy page](https://learn.microsoft.com/en-us/azure/storage/files/files-redundancy) says it is blocked if no system snapshot exists in the secondary region. The page also describes customer-managed planned failover and Microsoft-managed failover.
 
-A [share snapshot](https://learn.microsoft.com/en-us/azure/storage/files/storage-snapshots-files) is a read-only, point-in-time copy taken at share level; a share can hold up to 200, and snapshots follow the share's redundancy. They give only file-level protection and do not prevent deletion of a share or storage account. [Azure Backup for Azure Files](https://learn.microsoft.com/en-us/azure/backup/azure-file-share-backup-overview) has a snapshot tier, whose snapshots stay in the same storage account (deleting the account loses them, and Azure Backup takes a delete lock on it, according to the [backup FAQ](https://learn.microsoft.com/en-us/azure/backup/backup-azure-files-faq)), and a vault-standard tier, which also transfers changed data to a backup vault. According to the [support matrix](https://learn.microsoft.com/en-us/azure/backup/azure-file-share-support-matrix), the snapshot tier supports full-share and item-level restore; the vault-standard tier supports full-share restore only ("File-level recovery is not supported"), shares up to 10 TB and 10 million files, and only the regions it lists. The [release notes](https://learn.microsoft.com/en-us/azure/storage/files/files-whats-new) list vaulted backup as generally available for HDD (2025 quarter 1) and SSD (2025 quarter 3) shares and recommend it over snapshot backups. Azure Backup uses key-based access, so key access must be enabled on source and target storage accounts even if identity-based access is configured. After a customer-managed unplanned failover, backups are not supported and only cross-region restore from the vault is. The multiregion page recommends Azure Backup for user profile data; the snapshot, soft delete and backup pages do not mention FSLogix.
+For premium shares, which have no geo-redundant option, the [multiregion page](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/azure-virtual-desktop/azure-virtual-desktop-multi-region-bcdr) says that if you require Premium performance for FSLogix profile storage, you should rely on FSLogix Cloud Cache for cross-region replication rather than storage built-in geo-replication.
+
+A [share snapshot](https://learn.microsoft.com/en-us/azure/storage/files/storage-snapshots-files) is a read-only, point-in-time copy taken at share level; a share can hold up to 200, and snapshots follow the share's redundancy. They let you restore earlier versions of files, or copy a whole share back from a snapshot. They do not protect against deleting the share or the storage account.
+
+[Azure Backup for Azure Files](https://learn.microsoft.com/en-us/azure/backup/azure-file-share-backup-overview) has two tiers:
+
+- **Snapshot tier.** The snapshots stay in the same storage account. Deleting the account loses them, and Azure Backup takes a delete lock on the account, according to the [backup FAQ](https://learn.microsoft.com/en-us/azure/backup/backup-azure-files-faq). According to the [support matrix](https://learn.microsoft.com/en-us/azure/backup/azure-file-share-support-matrix), it supports full-share and item-level restore.
+- **Vault-standard tier.** It also transfers changed data to a backup vault. It supports full-share restore only ("File-level recovery is not supported"), shares up to 10 TB and 10 million files, and only the regions the matrix lists. The [release notes](https://learn.microsoft.com/en-us/azure/storage/files/files-whats-new) list vaulted backup as generally available for HDD (2025 quarter 1) and SSD (2025 quarter 3) shares and recommend it over snapshot backups.
+
+Azure Backup uses key-based access, so key access must be enabled on source and target storage accounts even if identity-based access is configured. After a customer-managed unplanned failover, backups are not supported and only cross-region restore from the vault is. The multiregion page recommends Azure Backup for user profile data; the snapshot, soft delete and backup pages do not mention FSLogix.
 
 [Soft delete](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-prevent-file-share-deletion) keeps a deleted classic file share and its snapshots for a retention period so that it can be undeleted. It works only at share level (for deleted files, the page points to share snapshots or Azure Backup), applies to the whole storage account, and is on by default for new accounts. The backup FAQ says a soft-deleted share must be undeleted before a restore, and a permanently deleted share cannot be restored.
 
-The Cloud Cache [overview](https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache) says it provides resiliency and high availability and, with providers in different regions, can support a business continuity and disaster recovery plan, at the cost of a performance and storage requirement on the session host; sign-out is delayed until all providers are at the same sequence (how long depends on the `HealthyProvidersRequiredForUnregister` and `CcdUnregisterTimeout` values), and a read that no provider can fill can cause a session hang or system crash. The [FSLogix FAQ](https://learn.microsoft.com/en-us/fslogix/overview-faq) says Cloud Cache is not required for high availability: standard containers on a highly available provider such as Azure Files with ZRS are acceptable. The [FSLogix business continuity page](https://learn.microsoft.com/en-us/fslogix/concepts-container-recovery-business-continuity) describes designs with two providers in different locations, says disaster recovery events are rarely graceful and users could see data loss or container corruption, and says critical data belongs on platforms such as OneDrive or SharePoint.
+The Cloud Cache [overview](https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache) says it provides resiliency and high availability and, with providers in different regions, can support a business continuity and disaster recovery plan, at the cost of a performance and storage requirement on the session host. Two more points from the overview:
+
+- Sign-out is delayed until all providers are at the same sequence. How long depends on two Cloud Cache registry settings, `HealthyProvidersRequiredForUnregister` and `CcdUnregisterTimeout`.
+- A read that no provider can fill can cause a session hang or system crash.
+
+The [FSLogix FAQ](https://learn.microsoft.com/en-us/fslogix/overview-faq) says Cloud Cache is not required for high availability: standard containers on a highly available provider such as Azure Files with ZRS are acceptable. The [FSLogix business continuity page](https://learn.microsoft.com/en-us/fslogix/concepts-container-recovery-business-continuity) describes designs with two providers in different locations, says disaster recovery events are rarely graceful and users could see data loss or container corruption, and says critical data belongs on platforms such as OneDrive or SharePoint. The automatic or manual failover wording is compared in "Cloud Cache failover: automatic or manual" below, and [Operate FSLogix Profiles Day to Day](/azure-virtual-desktop/operate-fslogix-profiles-day-to-day/) covers the same point for daily operations.
 
 Two figures differ between pages; see the soft delete and Cloud Cache caveats below.
 
@@ -153,7 +183,7 @@ There are two ways to give share-level permission:
 - **To specific users or groups.** The share-level page says most people do this and that it is the most secure option. Hybrid users and groups must be synced from AD to Microsoft Entra ID first. With AD DS, a user who is not synced still gets the role of a synced on-premises group the user belongs to, because Azure Files reads the group identifiers in the Kerberos ticket. With Microsoft Entra Domain Services and scoped synchronization, [role assignments for identities that are not synchronized to the managed domain are ignored](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-auth-domain-services-enable).
 - **A default share-level permission for all authenticated identities.** It applies to every share in the storage account. It starts as None, which means no access. It is meant for cases where you cannot sync AD DS to Microsoft Entra ID, or where you prefer to enforce access only with Windows ACLs.
 
-If both are set, a user gets the higher of the two. The [FSLogix permissions page](https://learn.microsoft.com/en-us/fslogix/how-to-configure-storage-permissions) recommends the default share-level permission set to Storage File Data SMB Share Contributor for all authenticated identities, plus Storage File Data SMB Share Elevated Contributor for the specific users or groups who set the Windows ACLs. The two pages stress different options, so decide on purpose which one you follow.
+If both are set, a user gets the higher of the two. The [FSLogix permissions page](https://learn.microsoft.com/en-us/fslogix/how-to-configure-storage-permissions) recommends the default share-level permission set to Storage File Data SMB Share Contributor for all authenticated identities, plus Storage File Data SMB Share Elevated Contributor for the specific users or groups who set the Windows ACLs. The two pages stress different options, so decide on purpose which one you follow (judgement).
 
 A change to a share-level permission usually takes effect within 30 minutes and can take longer. Wait before testing.
 
@@ -173,15 +203,15 @@ The FSLogix permissions page recommends a user-based setup. Each user has access
 
 | Who | Access | Applies to | Why |
 |---|---|---|---|
-| CREATOR OWNER (the owner of the object) | Modify | Subfolders and files only | The folder a user creates gets permissions for that user only. |
+| CREATOR OWNER (a built-in Windows name that means whoever created the item) | Modify | Subfolders and files only | The folder a user creates gets permissions for that user only. |
 | Your administrator group (the page uses Domain Admins as the example) | Full Control | This folder, subfolders and files | Lets administrators manage the share. |
 | Your users group (the page uses Domain Users as the example) | Modify | This folder only | Lets users create their own profile folder. |
 
-The page shows how to apply these with icacls or File Explorer. FSLogix also has a setting, `SIDDirSDDL`, that sets the ACLs on each user's folder when the folder is created.
+The page shows how to apply these with icacls or File Explorer. FSLogix also has a setting, `SIDDirSDDL`, that sets the ACLs (written in SDDL, a text format for permissions) on each user's folder when the folder is created.
 
 ### Who can set ACLs on Azure Files, and with what
 
-Setting ACLs with File Explorer or icacls on Azure Files needs extra rights, because there are two checks. The file-level page says to skip the admin-level mount for the Azure portal and `RestSetAcls`. The documented ways to mount with admin-level access are:
+Setting ACLs (icacls is the Windows command-line tool for ACLs) with File Explorer or icacls on Azure Files needs extra rights, because there are two checks. The file-level page says to skip the admin-level mount for the Azure portal and `RestSetAcls` (an Azure Files PowerShell module that sets ACLs through the REST API). The documented ways to mount with admin-level access are:
 
 - Give the person the Storage File Data SMB Share Elevated Contributor role. The FSLogix page names this role for setting ACLs without the account key. The file-level page adds that the person also needs a Full Control ACL, or the Storage File Data SMB Admin role, which lets an administrator mount the share with their own identity and take ownership where needed. It calls the SMB Admin approach more secure than the next one.
 - Mount the share with the storage account key. The file-level page calls this less secure and advises it only when identity-based access cannot be used.
@@ -217,10 +247,13 @@ The FSLogix permissions page says Azure NetApp Files relies solely on Windows AC
 Three requirements on the Azure Files [setup page](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-auth-hybrid-identities-enable) are not in the identity model article, which covers the rest of the Microsoft Entra Kerberos requirements:
 
 - Two Windows services must be running on the clients: WinHTTP Web Proxy Auto-Discovery (`WinHttpAutoProxySvc`) and IP Helper (`iphlpsvc`).
-- A Kerberos ticket can hold at most 1,010 group identifiers (SIDs). The setup page says that for cloud-only identities the ticket must include both on-premises and cloud group SIDs, and that updating the tag (`kdc_enable_cloud_group_sids`) in the storage account's app manifest is mandatory for cloud-only identities, or authentication fails. The Microsoft Entra Kerberos introduction page describes the tag as a short-term solution and does not say that leaving it out causes authentication to fail. The pages also word the result of exceeding 1,010 differently (see "Group limit effect" under "Smaller differences"). The pages also label cloud-only identity support differently (see "Cloud-only identities on Azure Files: generally available or preview").
+- A Kerberos ticket can hold at most 1,010 group identifiers (SIDs, the unique IDs of groups). The tag in the storage account's app manifest (the app's settings file in Microsoft Entra ID) is `kdc_enable_cloud_group_sids`.
+  - The setup page says that for cloud-only identities the ticket must include both on-premises and cloud group SIDs. It says updating the tag is mandatory for cloud-only identities, or authentication fails.
+  - The Microsoft Entra Kerberos introduction page describes the tag as a short-term solution. It does not say that leaving it out causes authentication to fail.
+  - The pages word the result of exceeding 1,010 differently (see "Group limit effect" under "Smaller differences").
 - Kerberos ticket encryption with Microsoft Entra Kerberos is always AES-256.
 
-The setup page also says the storage account's app needs admin consent, and that without the multifactor authentication exclusion (covered in the identity model article) mapping the share with `net use` returns system error 1327. The [Microsoft Entra Kerberos introduction page](https://learn.microsoft.com/en-us/entra/identity/authentication/kerberos) says "Microsoft Entra Kerberos authentication for Azure file shares doesn't support MFA" and that Conditional Access policies that enforce MFA must exclude the storage account application, or users experience authentication failures.
+The setup page also says an administrator must grant admin consent (approve the app's permissions for the whole organization) for the storage account's app. It also says that without the multifactor authentication exclusion (covered in the identity model article) mapping the share with `net use` returns system error 1327. The [Microsoft Entra Kerberos introduction page](https://learn.microsoft.com/en-us/entra/identity/authentication/kerberos) says "Microsoft Entra Kerberos authentication for Azure file shares doesn't support MFA" and that Conditional Access policies that enforce MFA must exclude the storage account application, or users experience authentication failures.
 
 ## Where the pages differ
 
@@ -236,7 +269,7 @@ The pages describe permissions for cloud-only users on Azure Files in two differ
 
 **FSLogix permissions page.** It tells you to configure the Windows ACLs for profile containers, and it does not separate cloud-only users from others.
 
-The pages do not settle this, so this article does not claim either result. Design recommendation, not a documented step: before rollout, test with two cloud-only users that one cannot open the other's profile folder.
+The pages do not settle this, so this article does not claim either result. (judgement) Before rollout, test with two cloud-only users that one cannot open the other's profile folder.
 
 ### Cloud-only identities on Azure Files: generally available or preview
 
@@ -276,25 +309,27 @@ The Azure Files soft delete page says "By default, the retention period for file
 
 - **Service principal password expiry.** The Microsoft Entra Kerberos introduction page says the storage account's service principal password expires every six months and must be rotated. The Azure Files setup page ties its expiry warning to accounts set up through the earlier manual limited-preview steps. The pages do not say whether other setups are affected.
 - **Storage File Data SMB Admin role.** The [share-level permissions page](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-assign-share-level-permissions) describes it as equivalent to a storage account key. The [file-level permissions page](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-configure-file-level-permissions) says it does not work the same way, because existing ACLs still apply and the role adds the right to take ownership. The pages differ, and they do not say which description applies in every case. Check both before you rely on the role.
-- **Group limit effect.** The Microsoft Entra Kerberos introduction page says in its limits section that if the cap of 1,010 groups is exceeded, "only the first 1,010 are included", and in its group-limit section that if the combined group SIDs exceed 1,010 "the Kerberos ticket cannot be issued and authentication fails." The same page also says heavily grouped users can fail intermittently. The Azure Files setup page says the ticket "can't be issued" in that case. The pages do not reconcile the results. Design recommendation, not a documented step: test with a user who belongs to many groups.
-- **A Kerberos change.** Several FSLogix pages carry a notice that the default Kerberos encryption type in Windows is changing from RC4 to AES-SHA1 with the April 2026 Windows Server update. File shares that are not upgraded might have access problems afterward. The notice is still worded as upcoming and links a blog post; read both and check the current state before you deploy. The setup page says Microsoft Entra Kerberos always uses AES-256, and the Microsoft Entra Domain Services page recommends AES-256.
+- **Group limit effect.** The Microsoft Entra Kerberos introduction page says in its limits section that if the cap of 1,010 groups is exceeded, "only the first 1,010 are included", and in its group-limit section that if the combined group SIDs exceed 1,010 "the Kerberos ticket cannot be issued and authentication fails." The same page also says heavily grouped users can fail intermittently. The Azure Files setup page says the ticket "can't be issued" in that case. The pages do not reconcile the results. (judgement) Test with a user who belongs to many groups.
+- **A Kerberos change.** Several FSLogix pages carry a notice that the default Kerberos encryption type in Windows is changing from RC4 to AES-SHA1 with the April 2026 Windows Server update. RC4 and AES are two encryption types Kerberos can use. File shares that are not upgraded might have access problems afterward. The notice is still worded as upcoming and links a blog post; read both and check the current state before you deploy. The setup page says Microsoft Entra Kerberos always uses AES-256, and the Microsoft Entra Domain Services page recommends AES-256.
 - **Azure NetApp Files limits.** One FSLogix page gives 25 TiB as the default quota per subscription, and the Azure NetApp Files limits page gives a regional capacity quota of 100 TiB per subscription. The storage options page gives up to 12.5 PiB per NetApp account, which the limits page does not list, and three performance levels where the limits page also lists Flexible.
 
 ## Permission mistakes to avoid
 
-- **Setting only one permission layer.** Access needs both a share-level permission and a matching Windows ACL. With only the Azure role, the default ACLs stay in place. The file-level page lists default root permissions that include Modify for authenticated users, so users would not be limited to their own folders. With only the ACLs and no Azure role, access is denied, and so it is with the default share-level permission left at None and no roles assigned. For cloud-only users the pages differ on whether ACLs are enforced (first caveat).
+- **Setting only one permission layer.** Access needs both a share-level permission and a matching Windows ACL. With only the Azure role, the default ACLs stay in place. The file-level page lists default root permissions that include Modify for authenticated users, so users would not be limited to their own folders. With only the ACLs and no Azure role, access is denied, and so it is with the default share-level permission left at None and no roles assigned. For cloud-only users the pages differ on whether ACLs are enforced (see "Cloud-only identities and Windows ACL enforcement").
 - **Expecting a portal ACL change to reach existing folders.** The file-level page says inheritable permissions edited in the portal apply only to new items, and names the `Restore-AzFileAclInheritance` command from the RestSetAcls module for existing ones.
-- **Mounting with PowerShell when setting ACLs with File Explorer.** Use `net use`. A share mounted with PowerShell is not visible to File Explorer or cmd.exe.
+- **Mounting with PowerShell when setting ACLs with File Explorer.** Use `net use` (for example `net use Z: \\<storage-account>.file.core.windows.net\<share>`). A share mounted with PowerShell is not visible to File Explorer or cmd.exe.
 
 ## How to check a setup
 
 The checks for the host join state, the host pool sign-in setting and the storage identity source are in the identity model article. These checks cover the profile itself; run them in a test environment.
 
-1. Sign in as a test user who has never had a local profile on the session host. A user who has signed in before already has a local profile, and FSLogix keeps using it unless you set `DeleteLocalProfileWhenVHDShouldApply`. The Azure NetApp Files page says that setting makes FSLogix permanently delete the local profile when a user should have an FSLogix profile.
+1. Sign in as a test user who has never had a local profile on the session host. A user who has signed in before already has a local profile, and FSLogix keeps using it unless you set `DeleteLocalProfileWhenVHDShouldApply`. A local profile is the profile folder stored on the session host's own disk. The Azure NetApp Files page says that setting makes FSLogix permanently delete the local profile when a user should have an FSLogix profile.
 2. On Azure Files, open the share in the Azure portal. A folder named `<user SID>_<username>` should appear, according to the Azure Virtual Desktop setup page.
 3. On Azure NetApp Files, open the volume in the Azure portal and confirm that space is in use. Then open the mount path in File Explorer and confirm that a profile VHD or VHDX file exists.
-4. Design recommendation, not a documented step: sign in as a second test user and confirm that the first user's profile folder cannot be opened, especially for cloud-only users.
+4. (judgement) Sign in as a second test user and confirm that the first user's profile folder cannot be opened, especially for cloud-only users.
 
 ## Sources
+
+Main sources:
 
 [Storage options for FSLogix profile containers](https://learn.microsoft.com/en-us/azure/virtual-desktop/store-fslogix-profile), [Directory and file-level permissions for Azure file shares](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-configure-file-level-permissions) and [Configure SMB storage permissions for FSLogix](https://learn.microsoft.com/en-us/fslogix/how-to-configure-storage-permissions).

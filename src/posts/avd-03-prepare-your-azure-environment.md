@@ -10,7 +10,7 @@ deck: "Prepare the tenant, subscription, access, licensing, quota and cost contr
 description: "Prepare an Azure tenant and subscription for Azure Virtual Desktop: access roles, user licensing, resource provider, quota, policy checks and a cost budget."
 ---
 
-In the previous post, we followed how an Azure Virtual Desktop connection works. Now, we will prepare the Azure environment before building the first host pool (a group of virtual machines, built from the same image, that deliver desktops to users).
+In the previous post, we followed how an Azure Virtual Desktop connection works. Now, we will prepare the Azure environment before building the first host pool for Azure Virtual Desktop (AVD). A host pool is a group of virtual machines, built from the same image, that deliver desktops to users. The virtual machines in a host pool are called session hosts. Later posts in the series deploy with Terraform, so some steps here mention it.
 
 ## Key terms
 
@@ -33,6 +33,7 @@ Each term is explained again where it is first used. This table is for quick loo
 | Landing zone | The shared Azure foundation, such as networks, identity and policy, that workloads like AVD sit on. |
 | Hub | The shared network that holds common services. Other networks, called spokes, connect to it. |
 | Host pool | A group of virtual machines, built from the same image, that deliver desktops to users. |
+| Session host | A virtual machine in a host pool. Users connect to it to get their desktop. |
 | Peering | A link that lets two virtual networks communicate directly. |
 | Default outbound access | A public outbound IP address that Azure gives a VM automatically when no explicit outbound method is set up. |
 | Per-user access pricing | A pay-as-you-go charge for external users who connect to AVD. It is billed through an Azure subscription. |
@@ -44,23 +45,23 @@ Before opening the deployment wizard, answer three questions: Which directory ho
 
 A **Microsoft Entra tenant** is the organization's cloud directory. It holds identities such as users and groups. An **Azure subscription** is where Azure resources are created and their usage is billed. A **resource group** organizes related resources inside that subscription.
 
-These serve different purposes. An Azure subscription does not, by itself, give a user access to an AVD desktop.
+A tenant and a subscription do different jobs. An Azure subscription does not, by itself, give a user access to an AVD desktop.
 
-Our Azure Landing Zone series introduced the landing zone, the shared foundation of networks, identity and policy that workloads sit on. AVD is a workload that uses it. The platform provides shared services and controls; the AVD environment adds the desktops, applications and their workload configuration.
+Our Azure Landing Zone series introduced the landing zone, the shared foundation of networks, identity and policy that workloads sit on. AVD is a workload that uses it. The landing zone provides shared services and controls. AVD adds the desktops, applications and their settings.
 
 | Your starting point | What to do here |
 |---|---|
 | An organization already has a landing zone | Confirm the approved tenant, workload subscription, resource placement and platform owners. Reuse their services. |
-| You already built the platform lab | Check its actual outputs and controls before adding AVD. Do not deploy another hub (the shared network that holds common services) simply because this is a new series. |
+| You already built the lab from the Azure Landing Zone series | Check its actual outputs and controls before adding AVD. Do not deploy another hub (the shared network that holds common services) simply because this is a new series. |
 | You are starting a personal lab | Use an active subscription in the intended tenant. Prepare the access and resource organization described below. Plan the network in the [networking article](/azure-virtual-desktop/plan-avd-networking/). |
 
 The [Minimum Viable Platform Landing Zone](https://adnanasiddiqui.com/azure-landing-zone/minimum-viable-platform-landing-zone/) post explains the wider foundation. Here, we cover the checks needed to continue with AVD.
 
 If you have no active subscription, request one through your organization or complete Azure account and subscription setup first. Confirm its tenant association before following the steps below.
 
-The screenshots below come from an existing development environment. We check the existing foundation, add the selected test user to its access group and create a workload budget. Identifiers and account details are hidden.
+The screenshots below come from an existing development environment. We checked the existing foundation, added the selected test user to its access group and created a workload budget. Identifiers and account details are hidden.
 
-The administrator prepares the environment. A separate non-administrator account will test the desktop after the identity model is selected.
+The administrator prepares the environment. A separate non-administrator account will test the desktop after the identity model is selected (covered in the next article).
 
 ## 1. Confirm the tenant and subscription together
 
@@ -107,15 +108,15 @@ The AVD test user needs a supported identity in the Microsoft Entra tenant used 
 
 A landing zone gives the workload a governed place to run. In an existing organization, ask for the approved AVD workload subscription and the services available from the platform team.
 
-Management groups organize subscriptions. Azure permissions assigned at a parent scope are inherited by its children. The diagram shows the four levels where an Azure permission can be assigned.
+A management group is a container that holds subscriptions. The top management group, created by Azure for your tenant, is called the root. A scope is the set of resources a role applies to. Azure permissions assigned at a parent scope are inherited by its children. The diagram shows the four levels where an Azure permission can be assigned. The fourth level, resources, is the items inside the resource groups.
 
 ![Nested boxes with four levels: a management group contains two subscriptions, the subscriptions contain three resource groups, and the resource groups contain a virtual machine, a virtual network, a storage account and another virtual machine.](/img/avd/AVD-Post-03-Access-Scope-v2.png)
 
-*The Azure RBAC scope levels: management group, subscription, resource group and resource. A role assigned at one level applies to everything below it. Drawn by the author from [Understand scope for Azure RBAC](https://learn.microsoft.com/en-us/azure/role-based-access-control/scope-overview), which has its own diagrams to compare. Not an official Microsoft diagram. Icons: Microsoft Azure and Microsoft Entra architecture icons, used unmodified under the terms on Microsoft's icons page.*
+*The Azure RBAC scope levels: management group, subscription, resource group and resource. A role assigned at one level applies to everything below it. The resources shown are examples. Based on [Understand scope for Azure RBAC](https://learn.microsoft.com/en-us/azure/role-based-access-control/scope-overview), which has its own diagram of the same levels. Icons: Microsoft Azure architecture icons, used unmodified under the terms on Microsoft's icons page.*
 
 The complete [Resource Organization](https://adnanasiddiqui.com/azure-landing-zone/resource-organization/) post covers the platform hierarchy. Here, record the specific subscription and resource groups your AVD deployment will use.
 
-The existing development group inspected here is **rg-avd-dev**, in **East US**. Its tags include Environment: dev, Project: avd and ManagedBy: Terraform (a tool that builds Azure resources from configuration files). A tag is a label on a resource. A ManagedBy tag says how the owner intends to manage it, but the tag does not prove it. Check the real configuration before you change anything. Use your organization's naming standard when one exists.
+The existing development group inspected here is **rg-avd-dev**, in **East US**. A tag is a label on a resource. Its tags include Environment: dev, Project: avd and ManagedBy: Terraform (a tool that builds Azure resources from configuration files). A ManagedBy tag says how the owner intends to manage it, but the tag does not prove it. Check the real configuration before you change anything. Use your organization's naming standard when one exists.
 
 If the platform team has provided a suitable group, open **Resource groups**, select it and verify the subscription, name and location. Record its owner.
 
@@ -127,13 +128,13 @@ If the platform team has provided a suitable group, open **Resource groups**, se
 
 If no workload group exists, record the intended name and approved location. The Terraform deployment will create the group it manages. Keep a supplied group as an existing dependency in that design.
 
-A resource group's region controls its metadata location; resources inside it can be in other regions. Use the same region for the group and its resources where you can, and choose each resource's location deliberately when it is deployed.
+A resource group's region controls its metadata location; resources inside it can be in other regions. (judgement) Use the same region for the group and its resources where you can, and choose each resource's location deliberately when it is deployed.
 
-Keep resources that you intend to manage and retire together in the same group. Shared platform resources have a separate lifecycle: an AVD lab cleanup must not remove the shared hub, DNS or logging environment.
+Keep resources that you intend to manage and retire together in the same group. Shared platform resources have a separate lifecycle: an AVD lab cleanup must not remove the shared hub, name-resolution (DNS) or logging environment.
 
 ### Record the platform services the workload will use
 
-A virtual network is the private network for Azure resources. A subnet is a section of that network. **DNS** resolves names to addresses. Before building hosts, record which network and name-resolution service they will use.
+A virtual network (VNet) is the private network for Azure resources. A subnet is a section of that network. **DNS** resolves names to addresses. Before building hosts, record which network and name-resolution service they will use.
 
 1. Open the existing workload's VM **Overview** and read **Virtual network/subnet**. Here, avdsh-01 uses **vnet-avd-dev/snet-sessionhosts** (the VM overview is not pictured).
 2. Open that VNet and check its region and **DNS servers**. This lab uses East US and **Azure provided DNS service**.
@@ -146,12 +147,16 @@ A virtual network is the private network for Azure resources. A subnet is a sect
 | Dependency | Preparation decision |
 |---|---|
 | Session-host network | Record the VNet, subnet, region and network owner. The virtual network must be in the same Azure region as the session hosts. Confirm available address space before adding hosts. |
-| DNS and identity | Record the DNS service. If the chosen design uses AD DS or Entra Domain Services, confirm access to the required domain controllers and DNS servers. |
-| Outbound access | Identify who owns outbound routing and filtering. The later network build must allow the required AVD endpoints. |
+| DNS and identity | Record the DNS service. If the chosen design joins hosts to a Windows domain (AD DS, the domain directory you run yourself) or Microsoft Entra Domain Services (a domain that Azure runs for you), confirm access to the required domain controllers and DNS servers. |
+| Outbound access | Identify who owns outbound routing and filtering. The later network build must allow the required AVD endpoints (see the [networking article](/azure-virtual-desktop/plan-avd-networking/)). |
 | Applications and profiles | Identify the application/data locations and intended profile-storage service. Record who supplies their access and connectivity. |
 | Monitoring | Agree where AVD diagnostics will be collected and who reviews alerts. Reuse an approved logging destination where suitable. |
 
-**Our starting point:** the existing VNet is identified. In our check it had no peerings configured (a peering is a link that lets two virtual networks communicate directly), so we have not established a shared hub dependency. The peerings list and the VM overview are not pictured above. The VM overview flagged default outbound access. Default outbound access means Azure gives a VM a public outbound IP address automatically when no explicit outbound method is set. That address is owned by Microsoft and can change without notice. Subnets in new virtual networks created with the API version released after 31 March 2026 are private by default, and existing virtual networks are not changed. A later networking step will select and validate an explicit outbound design. Do not treat this inventory as proof of enterprise network readiness.
+**Our starting point:** the existing VNet is identified. In our check it had no peerings configured (a peering is a link that lets two virtual networks communicate directly), so we have not established a shared hub dependency. The peerings list and the VM overview are not pictured above.
+
+The VM overview flagged default outbound access. Default outbound access means Azure gives a VM a public outbound IP address automatically when no explicit outbound method is set. That address is owned by Microsoft and can change without notice.
+
+Azure is changing this default. Virtual networks created in the portal, or through the API version released after 31 March 2026, get private subnets (no default outbound access). Existing virtual networks are not changed. Deployments that use an earlier API version, which can include Terraform, keep the old default. A VM on a private subnet needs an explicit outbound method, for example for Windows activation and updates. A later networking step will select and validate an explicit outbound design. Do not treat this inventory as proof of enterprise network readiness.
 
 ## 3. Confirm the user's licensing before desktop deployment
 
@@ -164,11 +169,15 @@ For Windows 10 or Windows 11 desktops used for internal commercial purposes, the
 | Microsoft 365 | E3, E5, A3, A5, F3, Business Premium, Student Use Benefit |
 | Windows Enterprise | E3 or E5 |
 | Windows Education | A3 or A5 |
-| Windows VDA | Per user |
+| Windows VDA (Virtual Desktop Access) | Per user |
 
 Confirm the exact eligible product assigned to every test user. Similar product names are easy to confuse: the list names Microsoft 365 E3, not Office 365 E3, so check the exact product name on the user.
 
-Contractors working for an organization can fall under internal commercial use. Selling application access to customers is a different scenario: external commercial use has per-user access pricing, a pay-as-you-go charge for each external user, billed by enrolling an Azure subscription. Internal means your own staff and contractors. External means your customers use your application. Do not select that pricing simply because a user is a contractor or guest. Windows Server hosts have separate RDS licensing requirements.
+Internal use means your own staff and contractors. External use means your customers use your application. Contractors working for an organization can fall under internal commercial use.
+
+Selling application access to customers is a different scenario. External commercial use has per-user access pricing, a pay-as-you-go charge for each external user, billed by enrolling an Azure subscription. Do not select that pricing simply because a user is a contractor or guest.
+
+Windows Server hosts have separate Remote Desktop Services (RDS) licensing requirements.
 
 AVD access licensing also does not remove the Azure charges for VMs, disks, storage and networking.
 
@@ -186,17 +195,19 @@ AVD access licensing also does not remove the Azure charges for VMs, disks, stor
 
 ### Confirm the Dev/Test route used here
 
-This development subscription shows offer ID **MS-AZR-0063P**. Visual Studio subscribers can use Azure Dev/Test credits to run Azure Virtual Desktop workloads, but no page I read states which offer ID those credit subscriptions carry, so the link between this offer ID and the Dev/Test benefit is unconfirmed. We read the actual offer ID, rather than relying on the subscription name or a dev tag.
+Azure Dev/Test is a discounted offer for non-production work. The offer ID is the code the portal shows for the type of subscription you have. We read the actual offer ID, rather than relying on the subscription name or a dev tag.
+
+This development subscription shows offer ID **MS-AZR-0063P**. Learn lists this ID as the Visual Studio Enterprise subscribers offer ([Use Windows client in Azure for dev/test scenarios](https://learn.microsoft.com/azure/virtual-machines/windows/client-images)). Two Learn pages say different things about licensing in a Dev/Test subscription. The [AVD prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites) say users in an Azure Dev/Test subscription may connect without a separate license to run acceptance tests or give feedback. The [Visual Studio subscribers page](https://learn.microsoft.com/visualstudio/subscriptions/vs-windows-virtual-desktop) says Dev/Test credits can pay for AVD usage, but access still requires eligible user licenses. Neither page says that this offer ID gets the waiver. (judgement) Until your licensing contact confirms it, assign an eligible license to every test user.
 
 1. Open **Subscriptions > selected subscription > Overview**.
 2. Read **Offer ID** and **Status**. Compare the offer with the published Azure Dev/Test terms.
-3. Confirm what the users will do. In an Azure Dev/Test subscription, users may connect without a separate license to run acceptance tests or give feedback. Be aware that the page for Visual Studio subscribers says Azure Dev/Test credits can pay for Azure Virtual Desktop usage but that access still requires eligible user licenses, so the two pages need reconciling for a Visual Studio subscription.
+3. Confirm what the users will do. In an Azure Dev/Test subscription, the prerequisites page says users may connect without a separate license to run acceptance tests or give feedback. The Visual Studio page says licenses are still required. See the note above.
 
 ![Subscription overview with status Active and Offer and Offer ID rows present; the subscription name, subscription ID, directory, offer name and offer ID are hidden](/img/avd/AVD-Post-03-offer-redacted.png)
 
-*The subscription overview shows status Active. The offer name and offer ID are hidden here, because the offer is unconfirmed licensing detail that this figure does not establish.*
+*The subscription overview shows status Active. The offer name and offer ID are hidden in this screenshot.*
 
-**Our result:** the subscription shows offer MS-AZR-0063P. If that offer counts as an Azure Dev/Test subscription, the test user may be able to connect for acceptance tests without a separate license; confirm this in the Azure Dev/Test terms before relying on it. The test user still has zero assigned product licenses; no Microsoft 365 license was assigned. No page I read states that this offer qualifies, so treat it as unconfirmed. For a production deployment, confirm the eligible user entitlement before providing desktops.
+**Our result:** the subscription shows offer MS-AZR-0063P. The test user has zero assigned product licenses; no Microsoft 365 license was assigned. We did not confirm that the Dev/Test waiver applies, so this walkthrough does not rely on it. For a production deployment, confirm the eligible user entitlement before providing desktops.
 
 ### New user: confirm the licensing route first
 
@@ -210,26 +221,26 @@ There are two administration systems to distinguish. **Microsoft Entra roles** m
 
 An Azure subscription Owner is not automatically a Microsoft Entra user administrator. A Microsoft Entra Global Administrator does not automatically receive access to every Azure resource.
 
-For the later standard-management AVD deployment, check the following permissions or their equivalent. This table is for these tasks; networking, storage and additional integrations have their own access requirements.
+For the later AVD deployment through the portal wizard, check the following permissions or their equivalent. This table is for these tasks; networking, storage and additional integrations have their own access requirements.
 
 | Task | Access to check |
 |---|---|
 | Create host pools, workspaces and application groups | Desktop Virtualization Contributor on the target resource group or subscription. |
 | Create session-host VMs | Virtual Machine Contributor on the target resource group or subscription. |
-| Assign users/groups to an application group | Microsoft.Authorization/roleAssignments/write at that scope. User Access Administrator and Owner include it. |
-| Register a resource provider | register/action at subscription scope; included in Contributor and Owner. |
+| Assign users/groups to an application group | Permission to create role assignments (`Microsoft.Authorization/roleAssignments/write`) at that scope. User Access Administrator and Owner include it. |
+| Register a resource provider | The permission to register resource providers (`*/register/action`) at subscription scope; included in Contributor and Owner. |
 | Create a budget on the resource group | Contributor, Cost Management Contributor or Owner on that resource group. |
 | Create the test user | User Administrator in the Microsoft Entra directory. |
 | Create/manage the ordinary test security group | Groups Administrator or User Administrator in the Microsoft Entra directory. |
 
-The account you inspect below is the human administrator. Later, we will separately check the identity used by Terraform and the operations its deployment needs. A deployment identity is the user, application or managed identity under which the code runs.
+The account you inspect below is the human administrator. Later, we will separately check the identity used by Terraform and the operations its deployment needs. A deployment identity is the user, application or managed identity under which the code runs. For the full role list and who should hold each role, see [Who Can Administer Azure Virtual Desktop](/azure-virtual-desktop/who-can-administer-azure-virtual-desktop/).
 
 ### Inspect the access you already have
 
 1. Open the target subscription or resource group.
-2. Select **Access control (IAM) > Check access**. Read your assignments in the current view. If your portal shows the previous layout, select the link under Check access that offers the previous view.
+2. Select **Access control (IAM)**. On the **Check access** tab, select **View my access**. The pane lists your assignments at this scope and those inherited from parent scopes. If your page looks different from the screenshot, use the link under Check access to switch between the new and the previous view.
 3. Read both direct and inherited assignments. Record the role and where it was assigned.
-4. If your organization uses eligible PIM roles, activate the approved role for the task. PIM is Privileged Identity Management: a process for activating eligible privileged access when needed.
+4. If your organization uses Privileged Identity Management (PIM), a Microsoft Entra service that lets you activate eligible privileged roles when you need them, activate the approved role for the task. With a Microsoft Entra ID P2 or ID Governance license, eligible roles show on the Check access tab with an **Activate role** button.
 
 
 
@@ -254,7 +265,7 @@ Use an existing suitable identity before creating another account. **Active Dire
 
 ![Test user overview: account enabled, 1 group membership, 0 assigned roles and 0 assigned licenses; account name, user principal name and object ID hidden](/img/avd/AVD-Post-03-user-redacted.png)
 
-*The test account is Enabled, has one group membership, zero assigned directory roles and zero assigned product licenses. Whether the Dev/Test route above covers the planned acceptance test is still to be confirmed.*
+*The test account is Enabled, has one group membership, zero assigned directory roles and zero assigned product licenses. The Dev/Test waiver above is not confirmed, so this account has no license yet.*
 
 ### Check what the group already grants
 
@@ -313,11 +324,11 @@ A **quota** is an allocation limit. For VM vCPUs, both the total regional quota 
 2. Filter to **Compute** and the intended host region.
 3. Search for **Total Regional vCPUs**, then separately check the family you plan to use. A VM family is a group of VM sizes that share one quota. Record usage, limit and remaining allowance.
 
-Our existing session host **avdsh-01** is in **East US**, using **Standard D4s v5** with four vCPUs. We checked the corresponding **Standard DSv5 Family vCPUs** quota in that same region.
+Our existing session host **avdsh-01** is in **East US**, using **Standard D4s v5** with four vCPUs. The D4s v5 size is part of the DSv5 family, so it uses that family's quota. We checked the corresponding **Standard DSv5 Family vCPUs** quota in that same region.
 
 ![Usage + quotas filtered to Compute in East US: Total Regional vCPUs 8 of 20 (40%) and Total Regional Spot vCPUs 0 of 20; subscription name hidden](/img/avd/AVD-Post-03-quota-redacted.png)
 
-*East US: Total Regional vCPUs shows 8 of 20 used, leaving 12. The Spot allowance is a separate row.*
+*East US: Total Regional vCPUs shows 8 of 20 used, leaving 12. The Spot allowance (for Spot VMs, cheaper VMs that Azure can remove when it needs the capacity) is a separate row.*
 
 4. Keep the same region selected, then search for the matching VM family. Do not use another family's allowance.
 
@@ -325,9 +336,9 @@ Our existing session host **avdsh-01** is in **East US**, using **Standard D4s v
 
 *East US: Standard DSv5 Family vCPUs also shows 8 of 20 used, leaving 12.*
 
-For example, adding two more 4-vCPU hosts would require eight additional vCPUs. At this check, both allowances have room for that increase. This is quota arithmetic, not a user-capacity or production sizing recommendation. Existing consumption is already included; do not count the existing hosts again as new capacity.
+For example, adding two more 4-vCPU hosts would require eight additional vCPUs. At this check, both allowances have room for that increase. This is quota arithmetic, not a user-capacity or production sizing recommendation. Existing consumption is already included; do not count the existing hosts again as new capacity. Stopped (deallocated) VMs still count against quota; see [Choose Session Host VM Sizes](/azure-virtual-desktop/choose-session-host-vm-sizes/).
 
-Quota and Azure capacity are separate. Available quota does not guarantee that a VM size can be allocated in the selected region or zone. Recheck both quota tiers if the later design changes the region or VM family.
+Quota and Azure capacity are separate. Available quota does not guarantee that a VM size can be allocated in the selected region or availability zone (a separate datacenter location inside a region). Recheck both quota tiers if the later design changes the region or VM family.
 
 ### Create and verify the workload budget
 
@@ -335,7 +346,7 @@ Our agreed budget is **$106 per billing month** for **rg-avd-dev**. This is the 
 
 1. Open **Resource groups > rg-avd-dev > Budgets**. Check the resource-group scope before selecting **Add**.
 2. Enter **budget-avd-dev**. Select **Billing month** and enter **106 USD**.
-3. Check the evaluation start and expiry dates. The saved budget uses the billing period starting **18 September 2026** and expires **17 September 2028**. Choose dates appropriate to your own environment.
+3. Check the evaluation start and expiry dates. The saved budget uses the billing period starting **18 September 2026** and expires **17 September 2028**. Choose dates appropriate to your own environment. When the expiry date passes, Azure deletes the budget, so choose a date you will remember.
 4. Continue to the alert settings and enter the following conditions.
 
 | Alert type | Threshold | Amount |
@@ -373,11 +384,11 @@ A budget sends alerts; it does not stop consumption. The cost owner must review 
 4. Record region, tag and resource-type requirements when they are assigned. Use these values in the later deployment configuration.
 5. Open **Compliance** to inspect reported findings. A successful deployment does not mean the environment meets every policy.
 
-![Azure Policy Assignments page at subscription scope: 1 total assignment, 1 initiative assignment (ASC Default) and 0 policy assignments; subscription name hidden](/img/avd/AVD-Post-03-policy-redacted.png)
+![Azure Policy Assignments page at subscription scope: 1 total assignment, 1 initiative assignment (ASC Default, the default Microsoft Defender for Cloud initiative) and 0 policy assignments; subscription name hidden](/img/avd/AVD-Post-03-policy-redacted.png)
 
 *The checked subscription view shows one initiative assignment, ASC Default, and zero standalone policy assignments.*
 
-**Our result:** the assignment detail page (not pictured) describes ASC Default as the default security initiative of Microsoft Defender for Cloud (formerly Security Center). It has subscription scope, no excluded scopes and Default enforcement. The assignment list did not show separate region, required-tag or allowed-resource-type assignments. Existing tags alone are not evidence of tag enforcement.
+**Our result:** the assignment detail page (not pictured) describes ASC Default as the assignment of the default initiative of Microsoft Defender for Cloud (formerly Security Center), the Microsoft cloud security benchmark. It has subscription scope, no excluded scopes and Default enforcement. The assignment list did not show separate region, required-tag or allowed-resource-type assignments. Existing tags alone are not evidence of tag enforcement.
 
 The subscription Compliance view reported the initiative as **Non-compliant**. This preparation check is not a production compliance sign-off. Review the relevant findings with the security owner before production use. We did not change policies or create exemptions to hide findings.
 
@@ -389,13 +400,13 @@ Keep IDs and private addresses in your build notes. The table below records what
 |---|---|
 | Tenant and subscription | Directory association checked; subscription Active. |
 | Workload placement | Existing rg-avd-dev inspected; East US metadata location and development tags recorded. |
-| Licensing route | Offer MS-AZR-0063P read from the portal; Dev/Test eligibility still to be confirmed against the Azure Dev/Test terms. The test user has no assigned product license. Production needs eligible entitlement. |
+| Licensing route | Offer MS-AZR-0063P read from the portal; Dev/Test waiver not confirmed; the test user has no assigned product license. Production needs eligible entitlement. |
 | Administrator access | Existing direct and inherited assignments inspected. Broad lab access is not the production role design. Terraform access is checked when the infrastructure code is prepared. |
 | Test identity and group | Existing synchronized test user reused; saved membership in AVD_Users verified. Existing group assignments inspected. |
 | AVD provider | Microsoft.DesktopVirtualization Registered. |
 | Region and VM-family quota | East US regional and Standard DSv5 allowances each show 8 of 20 used; 12 vCPUs remain at this check. |
 | Platform dependencies | Existing vnet-avd-dev/snet-sessionhosts and Azure-provided DNS recorded. Identity, outbound connectivity and logging decisions feed the following posts. |
-| Policy check | ASC Default audit initiative inspected; non-compliance reported. No production compliance approval claimed. |
+| Policy check | ASC Default initiative inspected; non-compliance reported. No production compliance approval claimed. |
 | Cost controls | Saved rg-avd-dev budget: $106 per billing month, three alert conditions and owner email recipient verified. |
 
 You now have the deployment context, test identity, cost control and existing dependencies recorded. Next, choose the supported identity model and plan the network. Recheck quota if that design changes the region or VM family.
@@ -411,6 +422,7 @@ You now have the deployment context, test identity, cost control and existing de
 | A license assignment fails | Available seats, usage location and the reported assignment error |
 | The group exists but the user is absent | Membership in that exact tenant and group |
 | Registration is denied | Subscription-level provider-registration permission |
+| A new subscription cannot create a budget yet | Wait. It can take up to 48 hours before all Cost Management features work |
 | Planned VM deployment exceeds quota | Both total regional and VM-family allowances |
 | Deployment is denied by policy | The reported assignment, scope, effect and parameters; work with its owner |
 
@@ -424,4 +436,4 @@ Go deeper: [How Azure Virtual Desktop Fails](/azure-virtual-desktop/how-azure-vi
 
 ## Sources
 
-[Prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites), [licensing](https://learn.microsoft.com/en-us/azure/virtual-desktop/licensing) and [built-in roles for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rbac).
+[Prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites), [licensing](https://learn.microsoft.com/en-us/azure/virtual-desktop/licensing), [built-in roles for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rbac), [Understand scope for Azure RBAC](https://learn.microsoft.com/en-us/azure/role-based-access-control/scope-overview), [Check access](https://learn.microsoft.com/en-us/azure/role-based-access-control/check-access), [Manage resource groups](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal), [Default outbound access in Azure](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/default-outbound-access), [Check vCPU quotas](https://learn.microsoft.com/en-us/azure/virtual-machines/quotas), [Create and manage budgets](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets), [Use Azure Virtual Desktop with your Visual Studio Subscriptions](https://learn.microsoft.com/visualstudio/subscriptions/vs-windows-virtual-desktop) and [Use Windows client in Azure for dev/test scenarios](https://learn.microsoft.com/azure/virtual-machines/windows/client-images).

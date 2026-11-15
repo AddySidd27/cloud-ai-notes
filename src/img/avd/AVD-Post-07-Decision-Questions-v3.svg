@@ -18,7 +18,7 @@
   <text x="750" y="147" font-size="14" text-anchor="middle" fill="#1f2933">for example a managed laptop</text>
   <text x="750" y="169" font-size="14" text-anchor="middle" fill="#1f2933">with the app installed</text>
   <line x1="250" y1="192" x2="250" y2="244" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
-  <text x="262" y="226" font-size="14" text-anchor="start" fill="#5f6b7a">Otherwise, continue</text>
+  <text x="262" y="226" font-size="14" text-anchor="start" fill="#5f6b7a">Yes, continue</text>
   <rect x="30" y="244" width="440" height="100" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
   <rect x="42" y="281" width="26" height="26" rx="13" fill="#3b6fb6" stroke="#3b6fb6" stroke-width="1"/>
   <text x="55" y="300" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">2</text>
@@ -31,7 +31,7 @@
   <text x="750" y="299" font-size="14" text-anchor="middle" fill="#1f2933">Azure Virtual Desktop for Azure Local</text>
   <text x="750" y="321" font-size="14" text-anchor="middle" fill="#1f2933">(hosts on premises, service in Azure)</text>
   <line x1="250" y1="344" x2="250" y2="396" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
-  <text x="262" y="378" font-size="14" text-anchor="start" fill="#5f6b7a">Otherwise, continue</text>
+  <text x="262" y="378" font-size="14" text-anchor="start" fill="#5f6b7a">No, continue</text>
   <rect x="30" y="396" width="440" height="100" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
   <rect x="42" y="433" width="26" height="26" rx="13" fill="#3b6fb6" stroke="#3b6fb6" stroke-width="1"/>
   <text x="55" y="452" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">3</text>
@@ -43,18 +43,20 @@
   <text x="750" y="440" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Citrix DaaS, or Omnissa Horizon Cloud</text>
   <text x="750" y="462" font-size="14" text-anchor="middle" fill="#1f2933">on Azure (not covered in this series)</text>
   <line x1="250" y1="496" x2="250" y2="548" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
-  <text x="262" y="530" font-size="14" text-anchor="start" fill="#5f6b7a">Otherwise, continue</text>
+  <text x="262" y="530" font-size="14" text-anchor="start" fill="#5f6b7a">No, continue</text>
   <rect x="30" y="548" width="440" height="100" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
   <rect x="42" y="585" width="26" height="26" rx="13" fill="#3b6fb6" stroke="#3b6fb6" stroke-width="1"/>
   <text x="55" y="604" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">4</text>
-  <text x="84" y="592" font-size="15" text-anchor="start" fill="#1f2933">Is one dedicated Cloud PC per user,</text>
-  <text x="84" y="614" font-size="15" text-anchor="start" fill="#1f2933">run by Microsoft, enough?</text>
+  <text x="84" y="584" font-size="15" text-anchor="start" fill="#1f2933">Is one dedicated Cloud PC per user</text>
+  <text x="84" y="604" font-size="15" text-anchor="start" fill="#1f2933">(Enterprise, Business or Government),</text>
+  <text x="84" y="624" font-size="15" text-anchor="start" fill="#1f2933">run by Microsoft, enough?</text>
   <line x1="470" y1="598" x2="520" y2="598" stroke="#3c8d40" stroke-width="3" marker-end="url(#arr)"/>
   <text x="495" y="586" font-size="14" font-weight="600" text-anchor="middle" fill="#3c8d40">Yes</text>
   <rect x="530" y="548" width="440" height="100" rx="8" fill="#ffffff" stroke="#3c8d40" stroke-width="1.5"/>
-  <text x="750" y="581" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Windows 365</text>
-  <text x="750" y="603" font-size="14" text-anchor="middle" fill="#1f2933">(one Cloud PC per user, fixed</text>
-  <text x="750" y="625" font-size="14" text-anchor="middle" fill="#1f2933">monthly fee; network costs may apply)</text>
+  <text x="750" y="572" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Windows 365</text>
+  <text x="750" y="592" font-size="14" text-anchor="middle" fill="#1f2933">(Enterprise, Business or Government)</text>
+  <text x="750" y="612" font-size="14" text-anchor="middle" fill="#1f2933">one Cloud PC per user, fixed monthly fee;</text>
+  <text x="750" y="632" font-size="14" text-anchor="middle" fill="#1f2933">network costs may apply</text>
   <line x1="250" y1="648" x2="250" y2="682" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
   <text x="262" y="670" font-size="14" font-weight="600" text-anchor="start" fill="#5f6b7a">No</text>
   <rect x="30" y="684" width="940" height="58" rx="8" fill="#eef6ee" stroke="#3c8d40" stroke-width="1.5"/>

@@ -13,7 +13,7 @@ description: "What the Azure Virtual Desktop documentation says about bandwidth,
 
 A user says the session is slow. The picture stutters, typing lags behind the keys, or a video call breaks up. Those complaints can come from the network between the user's device and the session host (the virtual machine that runs the session), or from the session host itself. The documentation puts it this way: graphical quality during a connection is affected by many factors, such as network configuration, network load or virtual machine load.
 
-This article covers the network part and shows how to tell it from the others. It explains bandwidth, round-trip time, packet loss and jitter, what the documentation says about each, what Quality of Service (QoS) can and cannot do, which settings decide whether UDP is used, how Microsoft Teams is set up, and which logs show what a connection saw. The terms are defined in Key terms below. Which transport carries a session (TCP through the gateway, or UDP with RDP Shortpath) and how a connection is built are covered in [the connection article](/azure-virtual-desktop/follow-a-connection-step-by-step/). Sizing the session hosts is covered in [the host pool planning article](/azure-virtual-desktop/plan-your-host-pools/).
+This article covers the network part and shows how to tell it from the others. It explains bandwidth, round-trip time, packet loss and jitter, what the documentation says about each, what Quality of Service (QoS, a way to give real-time traffic priority) can and cannot do, which settings decide whether UDP (a fast transport that does not resend lost packets) is used, how Microsoft Teams is set up, and which logs show what a connection saw. The terms are defined in Key terms below. Which transport carries a session (TCP through the gateway, or UDP with RDP Shortpath) and how a connection is built are covered in [the connection article](/azure-virtual-desktop/follow-a-connection-step-by-step/). Sizing the session hosts is covered in [the host pool planning article](/azure-virtual-desktop/plan-your-host-pools/).
 
 ## Key terms
 
@@ -30,30 +30,39 @@ This article covers the network part and shows how to tell it from the others. I
 | Jitter | Variation in the time between packets arriving. It can cause visual and audio glitches. |
 | Frame rate and resolution | How many pictures per second are sent, and how large each picture is. A higher frame rate or a higher resolution needs more bandwidth. |
 | Graphics mode | The way RDP encodes the picture. The documentation compares the default mode with the H.264/AVC 444 mode. |
-| TURN and STUN | Methods that help two devices find a UDP path when a direct one is not possible. TURN relays the traffic through a server in Azure. The connection article covers them. |
+| ICE, STUN and TURN | Methods that help two devices find a UDP path when a direct one is not possible. ICE is the process that tries the possible paths and picks one. STUN helps a device learn its public address. TURN relays the traffic through a server in Azure. The connection article covers them. |
 | RDP Shortpath for managed networks | A direct UDP path between a client and a session host over a private connection, such as ExpressRoute private peering (a private link from your network to Azure) or a VPN (a private, encrypted tunnel over another network). By default the session host listens on UDP port 3390. The connection article explains it in full. |
 | Quality of Service (QoS) | A way to tell the network which traffic to handle first, so real-time traffic such as RDP is not stuck behind traffic that can wait. |
 | DSCP (Differentiated Services Code Point) | A marker in the header of an IP packet that says what type of traffic it is. Routers and other network devices can be set up to read the marker and place the packet in a higher-priority queue. |
+| Expedited Forwarding (EF) | A traffic class, marked with DSCP value 46, that network devices can send first. |
 | Throttle rate | A limit on how much outbound data RDP sends for each session. |
-| Media optimization for Teams | A setup that sends Teams calling and meeting media to the user's own device, The documentation describes it as redirecting calling and meeting functionality to the user's local device. It uses a component called SlimCore or the WebRTC Redirector Service. |
-| Input delay | The delay between a user's input and the session host processing it. Azure Virtual Desktop Insights shows it for each session host. |
-| Connection Information | A dialog in the Windows client that shows which transport the session uses. |
+| Media optimization for Teams | A setup that sends Teams calling and meeting media to the user's own device. The documentation describes it as redirecting calling and meeting functionality to the user's local device. It uses a component called SlimCore or the WebRTC Redirector Service. |
+| Input delay | How long a user's input waits in a queue on the session host before the application handles it. It is not a network round-trip measure. Azure Virtual Desktop Insights shows it for each session host. |
+| Connection Information | A dialog in Windows App or the Remote Desktop client that shows which transport the session uses. |
+| Gateway region | The Azure region of the gateway that a connection uses. Insights groups round-trip time by it. |
+| NAT (network address translation) | A router feature that lets many devices on a home or office network share one public address. It can block or change UDP paths. |
 | Log Analytics | The Azure service that stores and queries logs. Azure Virtual Desktop can send its diagnostic data there. |
 | Azure Virtual Desktop Insights | A set of dashboards in the Azure portal that shows connection, session host and client data for a host pool. |
 
 ## What decides how a session feels
 
-Three questions come first. Is the path long (round-trip time)? Is the path full or lossy (bandwidth, packet loss, jitter)? Is the virtual machine busy? (This split is the author's way of organizing the documentation, not a list from it.) The next sections take bandwidth and then round-trip time, then packet loss and QoS, then Teams. The last sections cover the logs and the checks that tell the three causes apart.
+Three questions come first. The diagram below numbers them the same way:
 
-![A drawing with Azure icons. A user's device on the left and a session host on the right are joined by a box called the network path, which holds two checks: how long the path is (round-trip time) and how full it is (bandwidth, packet loss, jitter). A third check, how busy the host is (CPU, memory and input delay), is attached to the session host. Below, a box called Where to look has four items: the Connection Information dialog on the client, the connection network data table and the connection graphics data table in Log Analytics, and Azure Virtual Desktop Insights. A note says QoS and the throttle rate apply only to the RDP Shortpath for managed networks path.](/img/avd/AVD-Session-Quality-Checks.svg)
+1. Is the path long (round-trip time)?
+2. Is the path full or lossy (bandwidth, packet loss, jitter)?
+3. Is the virtual machine busy?
 
-*Drawn by the author from the documentation pages named in the text, with Azure icons. Not an official Microsoft diagram. The layout is the author's own.*
+(This three-way split is my judgement, not a list from the documentation.) The next sections take bandwidth and then round-trip time, then packet loss and QoS, then Teams. The last sections cover the logs and the checks that tell the three causes apart.
+
+![A diagram of a user's device on the left and a session host on the right are joined by a box called the network path, which holds two checks: how long the path is (round-trip time) and how full it is (bandwidth, packet loss, jitter). A third check, how busy the host is (CPU, memory and input delay), is attached to the session host. Below, a box called Where to look has four items: the Connection Information dialog on the client, the connection network data table and the connection graphics data table in Log Analytics, and Azure Virtual Desktop Insights. A note says QoS and the throttle rate apply only to the RDP Shortpath for managed networks path.](/img/avd/AVD-Session-Quality-Checks.svg)
+
+*Source: based on [RDP bandwidth requirements](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-bandwidth), [Quality of Service for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-quality-of-service-qos) and [Troubleshoot connection quality](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-connection-quality). The documentation has no single diagram of these checks, so the layout is simplified.*
 
 ## Bandwidth
 
 ### What uses it
 
-RDP carries many kinds of data, and the amount depends on what the user does. A user can work with plain text for most of a session and use very little bandwidth, then print a large document to a local printer, and that print job can use a lot (the author's example). The documentation gives these starting points for what to expect:
+RDP carries many kinds of data, and the amount depends on what the user does. A user can work with plain text for most of a session and use very little bandwidth, then print a large document to a local printer, and that print job can use a lot. The documentation gives the 200-page printout as its own example. It gives these starting points for what to expect:
 
 | Type of data | Direction | How to estimate |
 |---|---|---|
@@ -63,7 +72,7 @@ RDP carries many kinds of data, and the amount depends on what the user does. A 
 | File transfers | Both ways | The data is compressed in bulk, so use `.zip` compression rates as an approximation. |
 | Printing | Session host to client | Depends on the driver. The data is compressed in bulk, so use `.zip` rates as an approximation. |
 
-Graphics are the largest part. RDP sends the whole desktop picture, composed on the server. The page says an uncompressed 1080p picture is about 8 Mb, and that showing it at 30 frames per second would need about 237 Mbps. The numbers match megabytes, not megabits: 1920 × 1080 pixels at 4 bytes each is about 8 MB, and 8 MB × 30 is about 237 MB per second. So the page's unit looks like a typo (judgement), but the point stands that raw video is far too large to send. RDP uses several techniques to cut that down: frame rate optimization, screen content classification, content-specific codecs, progressive image encoding and client-side caching. Because of them:
+Graphics are the largest part. RDP sends the whole desktop picture, composed on the server. The page says an uncompressed 1080p picture is about 8 Mb, and that showing it at 30 frames per second would need about 237 Mbps. The units look like megabytes, not megabits (judgement), but the point stands: raw video is far too large to send. RDP uses several techniques to cut that down: frame rate optimization, screen content classification, content-specific codecs, progressive image encoding and client-side caching. Because of them:
 
 - Text, window elements and solid color areas use the least bandwidth. Natural images use the most, although caching reduces it.
 - Only the parts of the screen that changed are sent. With no visible change, nothing is sent, and an idle session needs very little.
@@ -108,11 +117,11 @@ The bandwidth requirements page gives measured estimates for one monitor at 1920
 
 The second table shows that the graphics mode changes the numbers in both directions: H.264/AVC 444 mode uses less for graphically rich content and more for Word and Excel. The pages do not say how the two sets relate. The measured browsing and video figures in the default mode are above the 5 Mbps minimum for 1080p, so one reasonable reading (judgement) is to treat the minimums as a floor, not as a sizing figure, and to measure real sessions.
 
-Neither page gives a formula for a site with many users. One way to use the numbers (the author's judgement, not a documented method) is to take the figure that fits what your users do, multiply it by the number of users who are connected at the same time over the same link, and then check the result against real measurements. The documentation says the best way to understand bandwidth requirements is to monitor real user connections, with the built-in performance counters or with the network equipment. It also says to load test scenarios such as voice and video conferencing, real-time communication and 4K video, with a simulation tool such as Login VSI.
+Neither page gives a formula for a site with many users. One way to use the numbers (judgement, not a documented method) is to take the figure that fits what your users do, multiply it by the number of users who are connected at the same time over the same link, and then check the result against real measurements. The documentation says the best way to understand bandwidth requirements is to monitor real user connections, with the built-in performance counters or with the network equipment. It also says to load test scenarios such as voice and video conferencing, real-time communication and 4K video, with a simulation tool such as Login VSI.
 
 ### Limiting bandwidth with a throttle rate
 
-In most cases there is no need to limit bandwidth, and limiting can hurt the user experience. The documentation names two cases where it can make sense: a constrained network, and a leased network that is charged for the traffic. The limit is a throttle rate set in a QoS policy on the session host. It works only on the RDP Shortpath for managed networks transport. It is not supported for reverse connect transport. The QoS policy shown later in this article sets a throttle rate instead when `-ThrottleRateActionBitsPerSecond 10mb` replaces `-DSCPAction 46`. The bandwidth requirements page shows that form.
+In most cases there is no need to limit bandwidth, and limiting can hurt the user experience. The documentation names two cases where it can make sense: a constrained network, and a leased network that is charged for the traffic. The limit is a throttle rate set in a QoS policy on the session host. It works only on the RDP Shortpath for managed networks transport. It is not supported for reverse connect transport. To set a throttle rate instead of a DSCP marker, replace `-DSCPAction 46` with `-ThrottleRateActionBitsPerSecond 10mb` in the QoS policy command shown later. The bandwidth requirements page shows that form.
 
 ## Latency
 
@@ -139,7 +148,7 @@ The documentation lists four steps:
 - **Check what is using the bandwidth.** If the available bandwidth is too low, the network settings might need to change to follow the network guidelines.
 - **Check the session host.** Look at CPU use and available memory on the virtual machine. If CPU use is too high or memory too low, the virtual machine size or storage might be too small for the workload.
 
-To choose a region, the documentation points to the Azure network round-trip latency statistics and to the Azure Virtual Desktop experience estimator, and says the region can affect the experience as much as network conditions. The statistics page lists median round-trip times between Azure regions, and it says the values are directional and are updated every 6 to 9 months. The troubleshooting page recommends reviewing them every two to three months, as the service rolls out to new areas.
+To choose a region, the documentation points to the Azure network round-trip latency statistics and to the Azure Virtual Desktop experience estimator, and says the region can affect the experience as much as network conditions. The statistics page lists the median (P50) round-trip time between Azure regions over 30 days. Each value is for one direction, so A to B can differ from B to A. The page says to expect an update every 6 to 9 months. The troubleshooting page recommends reviewing them every two to three months, as the service rolls out to new areas.
 
 ## Packet loss, jitter and Quality of Service
 
@@ -156,33 +165,34 @@ QoS has limits that decide whether it will help your users:
 
 ### How it is set up
 
-The documentation sets QoS in a Group Policy Object, or with PowerShell on the session host. The policy marks the Remote Desktop traffic with DSCP value 46, which maps to the Expedited Forwarding class. It applies to the `svchost.exe` application, to UDP, and to source port 3390, which is the default port of the RDP Shortpath listener.
+The documentation sets QoS in a Group Policy Object, or with PowerShell on the session host. The policy marks the Remote Desktop traffic with DSCP value 46, which maps to the Expedited Forwarding (EF) class. It applies to the `svchost.exe` application, to UDP, and to source port 3390, which is the default port of the RDP Shortpath listener.
 
 ```powershell
 New-NetQosPolicy -Name "RDP Shortpath for managed networks" -AppPathNameMatchCondition "svchost.exe" -IPProtocolMatchCondition UDP -IPSrcPortStartMatchCondition 3390 -IPSrcPortEndMatchCondition 3390 -DSCPAction 46 -NetworkProfile All
 ```
 
-A Group Policy version takes effect after the policy refreshes on the session hosts, which `gpupdate /force` forces. The pages do not say what to match if you change the listener port, or if the connection does not use the listener.
+A Group Policy version takes effect after the policy refreshes on the session hosts, which `gpupdate /force` forces. The pages do not say what to match if you change the listener port, or if the connection does not use the listener. The example matches the listener port, so it applies only when the RDP Shortpath listener is enabled on the session host (see the connection article). Managed networks with ICE/STUN use a dynamic port, so this policy would not match them (judgement, based on the documented port match).
 
 ## Settings that decide whether UDP is used
 
 The connection article covers how the UDP paths work, which ports to allow and how to verify the transport. These settings decide whether a session can use UDP at all. QoS and the throttle rate need the managed-network path in particular, which is covered by the first two switches below.
 
 - **Windows settings can turn UDP off.** UDP and TCP are both on by default. A policy named "Select RDP transport protocols" on the session host, or "Turn Off UDP On Client" on a Windows client, can change that. The configuration page gives PowerShell checks for both, and says a value of "Use only TCP" is likely to have come from an Intune policy or Group Policy.
-- **The host pool has its own switches.** Under Networking in the host pool, four RDP Shortpath options (managed networks, managed networks with ICE/STUN, public networks with ICE/STUN, and public networks through TURN) can each be Default, Enabled or Disabled. ICE and STUN are explained in the connection article. Default means Enabled. Where the host pool and the session host disagree, the most restrictive setting is used. For example, if the host pool disables RDP Shortpath for managed networks, it does not work even when the listener is on.
-- **Keep TURN on.** The configuration page says to keep the TURN option enabled unless you are troubleshooting, because it gives a predictable path when a direct UDP path is not possible, and turning it off reduces the success rate and can force TCP.
-- **The port range can be narrowed.** Options that use STUN or TURN use ports 49152 to 65535 by default. A policy can set a smaller range, with a default base port of 38300 and a pool size of 1000. The whole range, base port plus pool size, must fall between 1024 and 49151. If the range runs out, connections use the default range.
+- **The host pool has its own switches.** Under Networking in the host pool, four RDP Shortpath options (managed networks, managed networks with ICE/STUN, public networks with ICE/STUN, and public networks through TURN) can each be Default, Enabled or Disabled. ICE, STUN and TURN are defined in Key terms. Default means Enabled. Where the host pool and the session host disagree, the most restrictive setting is used. For example, if the host pool disables RDP Shortpath for managed networks, it does not work even when the listener is on.
+- **Keep TURN on, and mind the port range.** The configuration page says to keep the TURN option enabled unless you are troubleshooting. The ports for ICE, STUN and TURN, and how to narrow them, are covered in [the connection article](/azure-virtual-desktop/follow-a-connection-step-by-step/).
 
 ## Microsoft Teams
 
-Teams calls and meetings are real-time traffic that depends on delay, so the documentation treats them with their own setup. With media optimization, the documentation says calling and meeting functionality is redirected to the user's local device. The documentation lists what this needs:
+Teams calls and meetings are real-time traffic that depends on delay, so I treat them as their own setup (judgement). With media optimization, the documentation says calling and meeting functionality is redirected to the user's local device. The documentation lists what this needs:
 
 - **A redirect component.** New Teams can use either SlimCore or the WebRTC Redirector Service, and the page says to also install the WebRTC Redirector Service so users can fall back to it, for example when they move to a device that does not support the newer setup. Classic Teams uses the WebRTC Redirector Service. SlimCore comes with new Teams and the client.
+- **The latest Microsoft Visual C++ Redistributable.** It is required on the client device and on the session hosts for Windows.
+- **The WebRTC Redirector Service on each session host.** It is installed from an MSI file.
 - **A registry value on each session host.** `IsWVDEnvironment` set to 1 under `HKLM\SOFTWARE\Microsoft\Teams`.
 - **Supported setups.** Windows 10 or 11 multi-session or Enterprise on the session host (N and KN editions are not supported), and one of the supported clients. For a pooled host pool, Teams is installed per machine. With FSLogix (the profile container software) and new Teams, FSLogix 2210 hotfix 3 or later.
 - **Classic Teams dates.** The page says that for classic Teams in VDI environments on Windows endpoints, end of support was October 1, 2026 and end of availability is April 1, 2027, after which the new Teams app is required. Check these dates against the Teams pages before you plan.
 
-To check that it works, restart Teams in a remote session and open About Teams. The banner reads "AVD SlimCore Media Optimized" or "AVD Media Optimized" when optimization is loaded. "AVD Media not connected" means quit Teams and try again. If media optimization is not used, the documentation lists RDP properties that redirect the microphone and camera instead: `audiocapturemode:i:1`, `audiomode:i:0` and `camerastoredirect:s:*`.
+To check that it works, restart Teams in a remote session and open About Teams. The banner reads "AVD SlimCore Media Optimized" or "AVD Media Optimized" when optimization is loaded. "AVD Media not connected" means quit Teams and try again. If media optimization is not used, the documentation lists RDP properties that redirect the microphone and camera instead: `audiocapturemode:i:1`, `audiomode:i:0` and `camerastoredirect:s:*`. Do not put a proxy in the path of Teams media optimization traffic. [The connectivity article](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/) says it is not supported.
 
 ## Measure what a connection saw
 
@@ -194,7 +204,7 @@ It shows the transport: UDP (Private Network), UDP, or UDP (Relay). The connecti
 
 ### The connection network data table
 
-This Log Analytics table is called NetworkData in the documentation. Send the host pool's diagnostics to a Log Analytics workspace first. The service writes a record every two minutes during an active session, with the estimated available bandwidth, the estimated round-trip time and the correlation ID of the connection, so a record can be tied to a connection. The round-trip time in this table is measured the same way for TCP and UDP. The page lists this as an advantage over the RemoteFX network performance counters.
+This Log Analytics table is called NetworkData in the documentation, and the sample queries use the name `WVDConnectionNetworkData`. Choose Network Data Logs in the host pool's diagnostic settings. Data can take up to 15 minutes to appear. Send the host pool's diagnostics to a Log Analytics workspace first. The service writes a record every two minutes during an active session, with the estimated available bandwidth, the estimated round-trip time and the correlation ID of the connection, so a record can be tied to a connection. The round-trip time in this table is measured the same way for TCP and UDP. The page lists this as an advantage over the RemoteFX network performance counters (older Windows counters for remote sessions). Bandwidth in this table is in kilobytes per second (column `EstAvailableBandwidthKBps`), not bits, and is an average over the interval. Multiply by 8 (simple arithmetic) to compare it with the Mbps figures in this article.
 
 ### The connection graphics data table (preview)
 
@@ -210,11 +220,11 @@ The table is not filled regularly through a session, so the page says it is not 
 
 ### Azure Virtual Desktop Insights
 
-The Connection Performance tab shows round-trip time by gateway region, with the median (the middle value) and the 95th percentile (the value that 95% of measurements stay below). The 95th percentile is often much higher than the median, which means some users have periods of higher latency. The Host Performance tab shows user input delay for each session host, and the page says it should ideally be below 100 ms. If it is higher, the page suggests looking at CPU, memory, disk timing and disk queue length for the same period.
+The Connection Performance tab shows round-trip time by gateway region (the Azure region of the gateway), with the median (the middle value) and the 95th percentile (the value that 95% of measurements stay below). The 95th percentile is often much higher than the median, which means some users have periods of higher latency. The Host Performance tab shows user input delay for each session host, and the page says it should ideally be below 100 ms. If it is higher, the page suggests looking at CPU, memory, disk timing and disk queue length for the same period.
 
 ## Work through a slow-session report
 
-This table maps a report to the first thing to look at. The mapping is the author's reading of the pages, not a table from the documentation.
+This table maps a report to the first thing to look at. This mapping is my judgement, built on the pages. It is not a table from the documentation.
 
 | What the user reports | Look first at | Why |
 |---|---|---|
@@ -237,7 +247,7 @@ This table maps a report to the first thing to look at. The mapping is the autho
 
 - **Expecting QoS or a throttle rate to help every session.** The pages support them for RDP Shortpath for managed networks and say they are not supported for reverse connect transport.
 - **Using one latency number for every user.** Text, graphics and assistive technology work have different figures in the documentation.
-- **Testing from one network.** An office test says little about home users, who can differ in NAT, VPN and UDP rules.
+- **Testing from one network.** An office test says little about home users, who can differ in NAT (see Key terms), VPN and UDP rules.
 - **Treating the connection graphics data as a baseline.** It is written only when quality drops and it ignores the virtual machine.
 
 ## How to check a setup
@@ -252,4 +262,4 @@ This table maps a report to the first thing to look at. The mapping is the autho
 
 ## Sources
 
-[RDP bandwidth requirements](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-bandwidth), [Quality of Service for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-quality-of-service-qos) and [troubleshoot connection quality](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-connection-quality).
+[RDP bandwidth requirements](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-bandwidth), [Quality of Service for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-quality-of-service-qos) and [troubleshoot connection quality](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-connection-quality), [Prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites), [Network guidelines](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/network-guidance), [Use cases for Azure Virtual Desktop Insights](https://learn.microsoft.com/en-us/azure/virtual-desktop/insights-use-cases), [RDP Shortpath](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-shortpath), [Configure RDP Shortpath](https://learn.microsoft.com/en-us/azure/virtual-desktop/configure-rdp-shortpath), [Use Microsoft Teams on Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/teams-on-avd), [Azure network round-trip latency statistics](https://learn.microsoft.com/en-us/azure/networking/azure-network-latency), [Connection latency](https://learn.microsoft.com/en-us/azure/virtual-desktop/connection-latency) and [Collect and query connection quality data](https://learn.microsoft.com/en-us/azure/virtual-desktop/connection-quality-monitoring).
