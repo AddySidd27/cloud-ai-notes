@@ -25,8 +25,8 @@
   <text x="505" y="221" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Session Host Operator</text>
   <line x1="670" y1="205" x2="690" y2="205" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
   <rect x="690" y="172" width="280" height="66" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="1.5"/>
-  <text x="830" y="199" font-size="14" text-anchor="middle" fill="#1f2933">Add VM Contributor to add</text>
-  <text x="830" y="221" font-size="14" text-anchor="middle" fill="#1f2933">hosts outside the portal</text>
+  <text x="830" y="199" font-size="14" text-anchor="middle" fill="#1f2933">Add Virtual Machine Contributor</text>
+  <text x="830" y="221" font-size="14" text-anchor="middle" fill="#1f2933">to add hosts outside the portal</text>
   <rect x="30" y="252" width="290" height="66" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
   <text x="175" y="290" font-size="14" text-anchor="middle" fill="#1f2933">Manage one host pool</text>
   <line x1="320" y1="285" x2="340" y2="285" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
@@ -35,8 +35,8 @@
   <text x="505" y="301" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Host Pool Contributor</text>
   <line x1="670" y1="285" x2="690" y2="285" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
   <rect x="690" y="252" width="280" height="66" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="1.5"/>
-  <text x="830" y="279" font-size="14" text-anchor="middle" fill="#1f2933">Add VM Contributor to</text>
-  <text x="830" y="301" font-size="14" text-anchor="middle" fill="#1f2933">create virtual machines</text>
+  <text x="830" y="279" font-size="14" text-anchor="middle" fill="#1f2933">Add Virtual Machine Contributor</text>
+  <text x="830" y="301" font-size="14" text-anchor="middle" fill="#1f2933">to create virtual machines</text>
   <rect x="30" y="332" width="290" height="66" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
   <text x="175" y="359" font-size="14" text-anchor="middle" fill="#1f2933">Publish apps, manage</text>
   <text x="175" y="381" font-size="14" text-anchor="middle" fill="#1f2933">application groups</text>
@@ -76,7 +76,7 @@
   <text x="505" y="621" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Reader</text>
   <line x1="670" y1="605" x2="690" y2="605" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
   <rect x="690" y="572" width="280" height="66" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="1.5"/>
-  <text x="830" y="610" font-size="14" text-anchor="middle" fill="#1f2933">Any scope you choose</text>
+  <text x="830" y="599" font-size="14" text-anchor="middle" fill="#1f2933">Any scope; assign the</text>
   <rect x="30" y="652" width="290" height="66" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.5"/>
   <text x="175" y="690" font-size="14" text-anchor="middle" fill="#1f2933">Use a desktop or app</text>
   <line x1="320" y1="685" x2="340" y2="685" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
@@ -95,6 +95,8 @@
   <text x="505" y="781" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">User Login</text>
   <line x1="670" y1="765" x2="690" y2="765" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
   <rect x="690" y="732" width="280" height="66" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="1.5"/>
-  <text x="830" y="759" font-size="14" text-anchor="middle" fill="#1f2933">VMs, resource group or subscription.</text>
-  <text x="830" y="781" font-size="14" text-anchor="middle" fill="#1f2933">Not needed with session host config.</text>
+  <text x="830" y="749" font-size="14" text-anchor="middle" fill="#1f2933">VMs, resource group, subscription.</text>
+  <text x="830" y="768" font-size="14" text-anchor="middle" fill="#1f2933">Not needed with a session host</text>
+  <text x="830" y="621" font-size="14" text-anchor="middle" fill="#1f2933">narrowest one that works</text>
+  <text x="830" y="787" font-size="14" text-anchor="middle" fill="#1f2933">configuration.</text>
 </svg>

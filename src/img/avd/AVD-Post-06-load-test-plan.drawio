@@ -19,7 +19,7 @@
             <Array as="points" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="edge2" value="Workload access" edge="1" parent="1" style="edgeStyle=none;endArrow=block;strokeColor=#527d9e;fontSize=18;labelBackgroundColor=#ffffff;">
+        <mxCell id="edge2" value="Sessions use" edge="1" parent="1" style="edgeStyle=none;endArrow=block;strokeColor=#527d9e;fontSize=18;labelBackgroundColor=#ffffff;">
           <mxGeometry as="geometry" relative="1">
             <mxPoint as="sourcePoint" x="965" y="145" />
             <mxPoint as="targetPoint" x="965" y="328" />
@@ -52,7 +52,7 @@
         <mxCell id="plan" value="Agreed test plan&lt;br&gt;Persona tasks + test accounts&lt;br&gt;Acceptance targets" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf5fc;strokeColor=#7e9ab0;fontSize=19;fontColor=#17324d;">
           <mxGeometry as="geometry" x="25" y="35" width="320" height="110" />
         </mxCell>
-        <mxCell id="launch" value="Test system&lt;br&gt;Appliance + separate launchers&lt;br&gt;Ramp AVD sessions via connector" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf5fc;strokeColor=#7e9ab0;fontSize=19;fontColor=#17324d;">
+        <mxCell id="launch" value="Test system&lt;br&gt;Test tool + machines that&lt;br&gt;create sessions&lt;br&gt;Ramps up AVD sessions in stages" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf5fc;strokeColor=#7e9ab0;fontSize=19;fontColor=#17324d;">
           <mxGeometry as="geometry" x="415" y="35" width="320" height="110" />
         </mxCell>
         <mxCell id="pool" value="Representative host pool&lt;br&gt;Image + business applications&lt;br&gt;Candidate VM and OS disk" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf5fc;strokeColor=#7e9ab0;fontSize=19;fontColor=#17324d;">
@@ -67,7 +67,7 @@
         <mxCell id="accept" value="Business-owner review&lt;br&gt;Accept or revise configuration&lt;br&gt;Record usable session density" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eaf5ee;strokeColor=#7e9ab0;fontSize=19;fontColor=#17324d;">
           <mxGeometry as="geometry" x="25" y="330" width="320" height="110" />
         </mxCell>
-        <mxCell id="note0" value="Simulation generates work; Insights and PerfMon help explain the observed performance." vertex="1" parent="1" style="text;html=0;strokeColor=none;fillColor=none;fontSize=18;">
+        <mxCell id="note0" value="Simulation generates work; AVD Insights and Performance Monitor help explain the observed performance." vertex="1" parent="1" style="text;html=0;strokeColor=none;fillColor=none;fontSize=18;">
           <mxGeometry as="geometry" x="20" y="495" width="1110" height="40" />
         </mxCell>
         <mxCell id="note1" value="Confirm the load-test platform can generate the intended ramp and concurrent session count." vertex="1" parent="1" style="text;html=0;strokeColor=none;fillColor=none;fontSize=18;">

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 596" width="1000" height="596" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
   <title id="t">Two routes to a golden image: build by hand, or use Azure Image Builder</title>
-  <desc id="d">Draft drawing, own layout. Route 1: a clean build virtual machine, not registered to a host pool and not domain joined, is generalized with Sysprep and captured into an Azure Compute Gallery. Route 2: a source image and customizations go into the Azure Image Builder service, which builds the image, generalizes it for you and distributes it to the gallery. Both routes end as an image version in an image definition; the newest version is listed first. Each version is copied to replicas in target regions. Session hosts in a host pool are created from a version. A panel lists what must stay out of the image: a registered AVD agent and a domain join.</desc>
+  <desc id="d">Route 1: a clean build virtual machine, not registered to a host pool and not domain joined, is generalized with Sysprep and captured into an Azure Compute Gallery. Route 2: a source image and customizations go into the Azure Image Builder service, which builds the image, generalizes it for you and distributes it to the gallery. Both routes end as an image version in an image definition; the newest version is listed first. Each version is copied to replicas in target regions. Session hosts in a host pool are created from a version in their region. A panel lists what must stay out of the image: a registered AVD agent and a domain join.</desc>
   <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
   <rect x="6" y="6" width="988" height="584" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
   <text x="500" y="36" font-size="18" font-weight="600" text-anchor="middle" fill="#1f2933">Two routes lead to the same place: an image version in a gallery</text>
@@ -15,8 +15,8 @@
   <rect x="282" y="96" width="198" height="100" rx="8" fill="#fff7e8" stroke="#c2570c" stroke-width="1.8"/>
   <text x="381" y="122" font-size="14" font-weight="600" text-anchor="middle" fill="#c2570c">Sysprep</text>
   <text x="381" y="148" font-size="13" text-anchor="middle" fill="#1f2933">Generalize and shut down.</text>
-  <text x="381" y="168" font-size="13" text-anchor="middle" fill="#1f2933">Do not restart: it</text>
-  <text x="381" y="188" font-size="13" text-anchor="middle" fill="#1f2933">cannot be undone.</text>
+  <text x="381" y="168" font-size="13" text-anchor="middle" fill="#1f2933">Do not restart.</text>
+  <text x="381" y="188" font-size="13" text-anchor="middle" fill="#1f2933">This cannot be undone.</text>
   <line x1="238" y1="146" x2="282" y2="146" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
   <rect x="24" y="222" width="470" height="216" rx="8" fill="#f7f9fb" stroke="#5f6b7a" stroke-width="1.4"/>
   <text x="38" y="246" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Route 2: describe the image, the service builds it</text>
@@ -39,13 +39,13 @@
   <line x1="234" y1="298" x2="282" y2="322" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
   <line x1="234" y1="387" x2="282" y2="366" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
   <rect x="580" y="58" width="220" height="380" rx="8" fill="#eef6ee" stroke="#3c8d40" stroke-width="1.8"/>
-  <g aria-hidden="true"><rect x="590.0" y="66.0" width="34.0" height="34.0" rx="5.1" fill="#EAF2FB" stroke="#3B6EA5" stroke-width="2"/><rect x="596.8" y="72.8" width="20.4" height="12.2" rx="2" fill="none" stroke="#3B6EA5" stroke-width="2"/><line x1="598.8" y1="91.2" x2="615.2" y2="91.2" stroke="#3B6EA5" stroke-width="2" stroke-linecap="round"/></g>
+  <g aria-hidden="true"><rect x="593.0" y="81.0" width="28.0" height="14.0" rx="3.0" fill="#EAF2FB" stroke="#3B6EA5" stroke-width="2"/><rect x="593.0" y="75.0" width="28.0" height="14.0" rx="3.0" fill="#EAF2FB" stroke="#3B6EA5" stroke-width="2"/><rect x="593.0" y="69.0" width="28.0" height="14.0" rx="3.0" fill="#EAF2FB" stroke="#3B6EA5" stroke-width="2"/></g>
   <text x="630" y="88" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Azure Compute Gallery</text>
-  <g aria-hidden="true"><rect x="594.0" y="114.0" width="30.0" height="30.0" rx="4.5" fill="#EAF2FB" stroke="#3B6EA5" stroke-width="2"/><rect x="600.0" y="120.0" width="18.0" height="10.8" rx="2" fill="none" stroke="#3B6EA5" stroke-width="2"/><line x1="602.0" y1="136.0" x2="616.0" y2="136.0" stroke="#3B6EA5" stroke-width="2" stroke-linecap="round"/></g>
+  <g aria-hidden="true"><rect x="596.6" y="127.2" width="24.7" height="12.4" rx="2.6" fill="#EAF2FB" stroke="#3B6EA5" stroke-width="2"/><rect x="596.6" y="121.9" width="24.7" height="12.4" rx="2.6" fill="#EAF2FB" stroke="#3B6EA5" stroke-width="2"/><rect x="596.6" y="116.6" width="24.7" height="12.4" rx="2.6" fill="#EAF2FB" stroke="#3B6EA5" stroke-width="2"/></g>
   <text x="632" y="134" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Image definition</text>
-  <g aria-hidden="true"><rect x="624.0" y="156.0" width="28.0" height="28.0" rx="4.2" fill="#EAF2FB" stroke="#3B6EA5" stroke-width="2"/><rect x="629.6" y="161.6" width="16.8" height="10.1" rx="2" fill="none" stroke="#3B6EA5" stroke-width="2"/><line x1="631.6" y1="176.4" x2="644.4" y2="176.4" stroke="#3B6EA5" stroke-width="2" stroke-linecap="round"/></g>
+  <g aria-hidden="true"><rect x="626.5" y="168.4" width="23.1" height="11.5" rx="2.5" fill="#EAF2FB" stroke="#3B6EA5" stroke-width="2"/><rect x="626.5" y="163.4" width="23.1" height="11.5" rx="2.5" fill="#EAF2FB" stroke="#3B6EA5" stroke-width="2"/><rect x="626.5" y="158.5" width="23.1" height="11.5" rx="2.5" fill="#EAF2FB" stroke="#3B6EA5" stroke-width="2"/></g>
   <text x="660" y="175" font-size="13" text-anchor="start" fill="#1f2933">Version 1.1.0</text>
-  <g aria-hidden="true"><rect x="624.0" y="192.0" width="28.0" height="28.0" rx="4.2" fill="#EAF2FB" stroke="#3B6EA5" stroke-width="2"/><rect x="629.6" y="197.6" width="16.8" height="10.1" rx="2" fill="none" stroke="#3B6EA5" stroke-width="2"/><line x1="631.6" y1="212.4" x2="644.4" y2="212.4" stroke="#3B6EA5" stroke-width="2" stroke-linecap="round"/></g>
+  <g aria-hidden="true"><rect x="626.5" y="204.4" width="23.1" height="11.5" rx="2.5" fill="#EAF2FB" stroke="#3B6EA5" stroke-width="2"/><rect x="626.5" y="199.4" width="23.1" height="11.5" rx="2.5" fill="#EAF2FB" stroke="#3B6EA5" stroke-width="2"/><rect x="626.5" y="194.5" width="23.1" height="11.5" rx="2.5" fill="#EAF2FB" stroke="#3B6EA5" stroke-width="2"/></g>
   <text x="660" y="211" font-size="13" text-anchor="start" fill="#1f2933">Version 1.0.0</text>
   <text x="594" y="248" font-size="13" text-anchor="start" fill="#1f2933">Newest version listed first.</text>
   <text x="594" y="274" font-size="13" text-anchor="start" fill="#1f2933">latest = highest version</text>
@@ -74,7 +74,7 @@
   <text x="908" y="380" font-size="13" text-anchor="middle" fill="#1f2933">a few hours.</text>
   <text x="908" y="408" font-size="13" text-anchor="middle" fill="#1f2933">Status per region.</text>
   <line x1="908" y1="438" x2="908" y2="476" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
-  <text x="898" y="462" font-size="13" font-weight="600" text-anchor="end" fill="#5f6b7a">create from a version</text>
+  <text x="898" y="462" font-size="13" font-weight="600" text-anchor="end" fill="#5f6b7a">session hosts are created from a version in their region</text>
   <rect x="24" y="476" width="590" height="100" rx="8" fill="#fdecec" stroke="#b42318" stroke-width="1.8"/>
   <text x="40" y="504" font-size="14" font-weight="600" text-anchor="start" fill="#b42318">Must stay out of the image</text>
   <rect x="42" y="520" width="14" height="14" rx="3" fill="#b42318" stroke="#b42318" stroke-width="1"/>

@@ -33,18 +33,21 @@ FSLogix profile containers solve this (both terms are defined in Key terms below
 | `VHDLocations` | The FSLogix setting, stored as a registry value (a setting kept in the Windows registry), that tells FSLogix where the containers are stored, for example the path of an SMB file share. |
 | Filter driver | Low-level Windows code that sits between apps and the file system and can change where a file request goes. |
 | Redirect | Pointing a known location, such as `C:\Users\<username>`, at somewhere else, so apps use it as normal without knowing. |
-| ODFC container | A second, optional container that holds only Microsoft 365 app data (Outlook, OneDrive, Teams, SharePoint and similar).  |
+| ODFC container | A second, optional container that holds only Microsoft 365 app data (Outlook, OneDrive, Teams, SharePoint and similar). ODFC is the name FSLogix uses for it. |
+| Single (standard) connection | One session per container. This is the default. |
 | Concurrent connections | One user has a second session on the same computer, using the same container. |
 | Multiple connections | One user has a session on each of two different computers, using the same container. |
 | Remote application | A single application the user connects to instead of a full desktop. In Azure Virtual Desktop it is published as a RemoteApp; [the post on host pools, application groups and workspaces](/azure-virtual-desktop/host-pool-application-group-workspace-rules/) covers that. |
+| Multi-session | A Windows edition that lets many users sign in to one virtual machine at the same time. Pooled host pools often use it. |
 | Temporary profile | A profile Windows issues when an error stops the user's real profile from loading. It is deleted at the end of the session, so the user's changes to settings and files are lost at sign-out. |
+| Group Policy | A Windows feature that sets configuration on many computers from one place. |
 | Cloud Cache | An optional FSLogix setup that can keep a container in more than one place. Not covered here. |
 
 ## Why pooled desktops need a profile stored elsewhere
 
 By default Windows creates a local profile, which is stored on the disk of that one computer.
 
-That is a problem in a virtual desktop service. The operating system under a user can change in three situations: the operating system is upgraded, a session host is replaced, or the user is in a pooled host pool and connects to a different session host each time. A local profile is tightly integrated with the operating system, so the user's data is not kept apart from changes like these.
+That is a problem in a virtual desktop service. The operating system under a user can change in three situations: the operating system is upgraded, a session host is replaced, or the user is in a pooled host pool and connects to a different session host each time. A local profile is tightly integrated with the operating system, so when the operating system or the machine changes, the user's data does not stay apart from that change.
 
 If the profile is stored remotely, the user's data is separate from the operating system. You can change or replace the operating system without affecting the user data. FSLogix profile containers are the recommended way to do this in Azure Virtual Desktop.
 
@@ -54,13 +57,13 @@ There are two more reasons. FSLogix profile containers can resolve performance p
 
 A profile container is a single virtual disk file (VHD or VHDX) that holds the data of a user's profile. Nearly all files and folders under `C:\Users\<username>` are included. The container is stored on a storage provider, and an SMB file share is the most common one.
 
-FSLogix is not part of Windows. It has to be installed on each session host. The Azure Marketplace Windows 10 and Windows 11 multi-session images include it, but the version should be checked. After installation, none of its features is turned on until you configure them.
+FSLogix is not part of Windows. It has to be installed on each session host. The Azure Marketplace Windows 10 and Windows 11 multi-session images (see Key terms) include it, but the FAQ says to verify which version is installed and upgrade if necessary. After installation, none of its features is turned on until you configure them.
 
 ## What happens at sign-in and sign-out
 
-![A drawing with two session hosts on the left and an SMB file share on the right. The file share holds one profile container file per user. At sign-in a container is attached to session host A over SMB, and at sign-out it is detached. Session host B attaches the same container when the user lands there next. A panel below lists five documented reasons the container might fail to attach, and says that, depending on the cause and the settings, the user may get a temporary profile or be blocked from signing in.](/img/avd/AVD-FSLogix-Profile-Container-Flow.svg)
+![A drawing with two session hosts on the left and an SMB file share on the right. The file share holds one profile container file per user. At sign-in a container is attached to session host A over SMB, and at sign-out it is detached. Session host B attaches the same container when the user lands there next. A panel below lists five of the documented reasons the container might fail to attach, and says that, depending on the cause and the settings, the user may get a temporary profile or be blocked from signing in.](/img/avd/AVD-FSLogix-Profile-Container-Flow.svg)
 
-*Drawn by the author from [User profile management for Azure Virtual Desktop with FSLogix profile containers](https://learn.microsoft.com/en-us/azure/virtual-desktop/fslogix-profile-containers), [Types of containers](https://learn.microsoft.com/en-us/fslogix/concepts-container-types) and [Troubleshooting issues with old, temporary, or local profiles](https://learn.microsoft.com/en-us/fslogix/troubleshooting-old-temp-local-profiles). Not an official Microsoft diagram. The pages listed have no diagram of this flow, so the layout is the author's. The drawing leaves out Cloud Cache, the second (ODFC) container and the settings. The `VHDLocations` setting and the `local_` folder in the drawing are explained in the text below it. DNS in the drawing is the system that turns a name into an IP address.*
+*Based on [User profile management for Azure Virtual Desktop with FSLogix profile containers](https://learn.microsoft.com/en-us/azure/virtual-desktop/fslogix-profile-containers), [Types of containers](https://learn.microsoft.com/en-us/fslogix/concepts-container-types) and [Troubleshooting issues with old, temporary, or local profiles](https://learn.microsoft.com/en-us/fslogix/troubleshooting-old-temp-local-profiles). These pages have no diagram of this flow, so the layout is simplified. The drawing leaves out Cloud Cache, the second (ODFC) container and the settings. The `VHDLocations` setting and the `local_` folder in the drawing are explained in the text below it. DNS in the drawing is the system that turns a name into an IP address.*
 
 The steps are:
 
@@ -72,17 +75,17 @@ The steps are:
 
 Because the container is attached as a disk, the profile is not copied to and from the network at sign-in. This avoids the delays often linked to solutions that copy profiles to and from a network location.
 
-Container size does not affect sign-in time, according to the FSLogix FAQ. Other factors are much more important when sign-in is slow, and the long sign-in troubleshooting page is the place to start.
+Container size does not affect sign-in time, according to the [FSLogix FAQ](https://learn.microsoft.com/en-us/fslogix/overview-faq). Other factors are much more important when sign-in is slow, and [Troubleshooting issues with long or failed sign-ins](https://learn.microsoft.com/en-us/fslogix/troubleshooting-long-failed-signin) is the place to start.
 
 ## What goes in the container and what stays out
 
 Almost everything in the profile goes in. FSLogix leaves out a few items in two ways.
 
-**Redirected to a local folder.** Some content cannot be kept inside the container. FSLogix redirects these paths to a folder named `C:\Users\local_<username>` on the session host. That folder is deleted at sign-out. The local copy exists so apps and processes still work if the storage provider is unavailable. The redirected paths are the `Protect` folder, the roaming and local `Credentials` folders, and the Office file cache folder.
+**Redirected to a local folder.** Some content cannot be kept inside the container. FSLogix redirects these paths to a folder named `C:\Users\local_<username>` on the session host. That folder is deleted at sign-out. The local copy exists so apps and processes still work if the storage provider is unavailable. The redirected paths are the `Protect` folder, the roaming and local `Credentials` folders, and the Office file cache folder. These are folders for stored credentials, encryption keys and cached Office files. You do not need to manage them.
 
-**Deleted at sign-out.** Content that is not meant to move between virtual machines is deleted from the container at sign-out. This covers some data of apps packaged as MSIX and identity data such as sign-in token caches. Roaming the identity data with the `RoamIdentity` setting (off by default) is not recommended.
+**Deleted at sign-out.** Content that is not meant to move between virtual machines is deleted from the container at sign-out. This covers some data of apps packaged as MSIX (a Windows app package format) and identity data such as sign-in token caches. Roaming the identity data with the `RoamIdentity` setting (off by default) is not recommended, and the settings reference says not to enable it if you use Microsoft Intune to manage your devices or if your devices are Microsoft Entra joined.
 
-You can also write your own exclusions in a file called `redirections.xml`. The FSLogix FAQ advises against excluding profile data unless the application owner has documented that the data can be excluded, and says that a long list of rules can slow the virtual machine down. Excluding data later does not remove it from containers that already exist.
+You can also write your own exclusions in a file called `redirections.xml`. The [FSLogix FAQ](https://learn.microsoft.com/en-us/fslogix/overview-faq) advises against excluding profile data unless the application owner has documented that the data can be excluded, and says that a long list of rules can slow the virtual machine down. Excluding data later does not remove it from containers that already exist.
 
 ## One container or two
 
@@ -91,23 +94,20 @@ FSLogix has two container types:
 - The **profile container** holds the whole profile.
 - The **ODFC container** holds only Microsoft 365 data.
 
-One container, the profile container, holding everything is the recommended setup. ODFC is optional. It is mostly used when another roaming profile product handles the rest of the profile. Use two containers only for a specific reason, such as keeping Office data in a different storage location or giving it a different size.
+One container, the profile container, holding everything is the recommended setup. ODFC is optional. It is mostly used when another roaming profile product (for example traditional roaming profiles or Citrix User Profile Management) handles the rest of the profile. Use two containers only for a specific reason, such as keeping Office data in a different storage location or giving it a different size.
 
 ## One session at a time
 
-By default FSLogix allows one session per container. The container is locked while the user is signed in. If the same user starts a second session on another virtual machine without signing out of the first one, the second session cannot attach the container and, in the default configuration, the user gets a temporary profile.
+By default FSLogix allows one session per container. The container is locked while the user is signed in (see [Troubleshooting issues with container locked or in use](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-locked)). If the same user starts a second session on another virtual machine without signing out of the first one, the second session cannot attach the container and, in the default configuration, the user gets a temporary profile.
 
-There are three choices for that situation: accept the temporary profile, teach users to sign out before they start a new connection, or turn on multiple or concurrent connections (both defined in Key terms). Four FSLogix pages word concurrent and multiple connections differently, and the pages do not say how the wordings relate:
+There are three choices for that situation: accept the temporary profile, teach users to sign out before they start a new connection, or turn on multiple or concurrent connections (both defined in Key terms). For Azure Virtual Desktop, Learn gives two clear statements:
 
-- The concurrent and multiple connections page defines concurrent connections as two sessions on the same computer and says they are "NOT supported" on session hosts in an Azure Virtual Desktop host pool.
-- The same page defines multiple connections as one session on each of two different computers and says they need virtual disk differencing disks.
-- The attach and detach troubleshooting page says "Concurrent access is supported" and points to the concurrent and multiple connections article.
-- The locked container troubleshooting page, in its section on concurrent or multiple connections to a single container, says they are "supported in some configurations".
-- The [configuration examples page](https://learn.microsoft.com/fslogix/concepts-configuration-examples), in its complex example that uses multiple connections, says Azure Virtual Desktop does not support multiple connections within the same host pool.
-- The concurrent and multiple connections page calls one session per container a standard connection.
-- The same page says OneDrive does not support concurrent or multiple connections to the same container.
+- Concurrent connections (two sessions on the same session host) are not supported on session hosts in an Azure Virtual Desktop host pool ([Concurrent or multiple connections to a single container](https://learn.microsoft.com/en-us/fslogix/concepts-multi-concurrent-connections)).
+- Multiple connections (one session on each of two session hosts) are not supported within the same host pool ([Configuration examples](https://learn.microsoft.com/en-us/fslogix/concepts-configuration-examples)).
 
-Read the concurrent and multiple connections page, the attach and detach troubleshooting page, the locked container troubleshooting page and the configuration examples page before changing this setting. This article does not say which wording applies to a particular host pool.
+Two other FSLogix pages say "Concurrent access is supported" or "supported in some configurations" without mentioning Azure Virtual Desktop. I read the Azure Virtual Desktop statements as the rule for a host pool (judgement).
+
+Two more facts from the first page. Profile containers use `ProfileType` = 3 for these modes and need differencing disks (extra disk files that record changes to the main container disk). OneDrive does not support concurrent or multiple connections to the same container. Read that page and the [locked container troubleshooting page](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-locked) before you change this setting.
 
 ## The settings you meet first
 
@@ -117,44 +117,51 @@ The documented profile container setup uses registry values under `HKEY_LOCAL_MA
 |---|---|---|
 | `Enabled` | 1, required | Turns profile containers on. |
 | `VHDLocations` | The SMB share path | Where the containers are stored. |
-| `VolumeType` | VHDX, recommended | The disk format. VHDX is preferred for its supported size and fewer corruption cases. |
+| `VolumeType` | VHDX, recommended. If you do not set it, the default is VHD. | The disk format. VHDX is preferred for its supported size and fewer corruption cases. |
 | `SizeInMBs` | 30000, the default | The maximum container size in megabytes. |
 | `DeleteLocalProfileWhenVHDShouldApply` | 1, recommended | If a local profile already exists, delete it and use the container. Review local profiles first, because this deletes the local profile at sign-in and data can be lost. |
-| `ProfileType` | 0, the default | Single connections. |
+| `ProfileType` | 0, the default | Single connections (one session per container). |
 | `PreventLoginWithFailure` | 0, the default | When set to 1 and attaching or using an existing profile container fails, FSLogix gives the user a prompt to call support and the user can only sign out. |
 | `PreventLoginWithTempProfile` | 0, the default | When set to 1 and FSLogix determines that a temporary profile has been created, the user gets the same prompt and can only sign out. |
 
-FSLogix also provides Group Policy templates for configuring settings, but not every setting can be set that way. For the full list of settings and the exact registry steps, use the FSLogix setup pages.
+FSLogix also provides Group Policy template files (`.admx` and `.adml`) so you can set these values from Group Policy instead of editing the registry by hand. Profile settings set this way are written as preferences: if you later remove the policy, the registry value stays on the session host ([Using FSLogix Group Policy Template Files](https://learn.microsoft.com/en-us/fslogix/how-to-use-group-policy-templates)). For the full list of settings and the exact registry steps, use the FSLogix setup pages.
 
 ## When the profile does not load
 
-When the container cannot be attached, what the user gets depends on the cause and the settings. In a default configuration the troubleshooting page for old, temporary or local profiles documents a temporary profile when the container is in use in another session, and says users may end up with a temporary or local profile when the storage provider is full. For some of the causes below it states only the cause and the fix, not what the user sees. If `PreventLoginWithFailure` or `PreventLoginWithTempProfile` is set to 1 (both are in the settings table above), the user instead gets a prompt to call support and can only sign out. The page says users who connect to a remote application instead of a full desktop are not blocked this way. The last row is different: the container is not missing, a new empty one is created. These are the documented causes. That page says that, in general, the root cause of these problems is not FSLogix itself. Several of the causes below are about what the session host can reach and what the user is allowed to do on the share.
+The causes below come from three FSLogix troubleshooting pages: [old, temporary or local profiles](https://learn.microsoft.com/en-us/fslogix/troubleshooting-old-temp-local-profiles), [container attach or detach](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-attach-detach) and [container locked or in use](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-locked). The table also covers a feature that is not turned on and an empty profile.
+
+What the user gets depends on the cause and the settings. In a default configuration, a container in use in another session gives a temporary profile, and a full storage provider can leave users with a temporary or local profile. For some causes the pages state only the cause and the fix, not what the user sees.
+
+If `PreventLoginWithFailure` or `PreventLoginWithTempProfile` is set to 1 (both are in the settings table above), the user instead gets a prompt to call support and can only sign out. Users who connect to a remote application instead of a full desktop are not blocked this way.
+
+The old, temporary or local profiles page says that, in general, the root cause of these problems is not FSLogix itself. Several causes are about what the session host can reach and what the user is allowed to do on the share. In the last row, the container is not missing: FSLogix creates a new empty one.
 
 | Symptom | Documented cause | What to check |
 |---|---|---|
-| Container fails to attach, "access denied" in the log. Depending on the configuration, the user might be prevented from signing in | Permissions on the storage provider are wrong. This is one of the most common FSLogix misconfigurations. | Share-level permissions, NTFS access control lists, or Azure role-based access control (RBAC), depending on the storage provider. |
+| Container fails to attach, "access denied" in the log. Depending on the configuration, the user might be prevented from signing in | Permissions on the storage provider are wrong. This is one of the most common FSLogix misconfigurations. | Share-level permissions (the access rules on the share itself), NTFS access control lists (the file and folder permissions on the share), or Azure role-based access control (RBAC, Azure's permission system), depending on the storage provider. |
 | Temporary profile after signing in on a second session host (default configuration) | The container is in use in another session. | Whether the user is still signed in on another session host. |
-| Not stated on the page (symptom unverified); the page lists this cause under old, temporary or local profiles | The `VHDLocations` value is missing or wrong, or the session host cannot access the location. | The `VHDLocations` registry value, and whether the session host can reach the path. |
-| Storage provider full: users may end up with a temporary or local profile, or a hung session. Container full: the container fails to attach | The share or container is full. The size check on the attach and detach troubleshooting page says a container must have more than 200 MB to attach successfully. | Free space on the share and the container size setting. |
+| No symptom is documented. The old, temporary or local profiles page lists this cause. | The `VHDLocations` value is missing or wrong, or the session host cannot access the location. | The `VHDLocations` registry value, and whether the session host can reach the path. |
+| Storage provider full: users may end up with a temporary or local profile, or a hung session. Container full: the container fails to attach | The share or container is full. The attach and detach page says the container "must have more than 200 MB to attach successfully" (I read this as 200 MB of room left under `SizeInMBs` (judgement)). The FAQ says to plan for at least 30% free space. | Free space on the share and the container size setting. |
 | Errors attaching the container | Network or DNS problems reaching the share. | Whether the session host can resolve the share's name (DNS, the system that turns a name into an IP address, covered in [the networking post](/azure-virtual-desktop/plan-avd-networking/)) and reach it over SMB. The same page uses `Test-NetConnection -ComputerName <server-fully-qualified-domain-name> -CommonTCPPort SMB`. |
-| Long sign-in | The session host has too many users or is too small for the workload. FSLogix needs network and virtual machine performance to work. | How many users share each session host, the VM size, and disk performance. |
-| Not stated on the page (symptom unverified); the page lists this cause under old, temporary or local profiles | FSLogix is installed but the profile container feature is not enabled. After installation none of its features is enabled until you configure them. | The `Enabled` setting. |
-| Empty profile, no temporary profile | A folder-naming setting changed after containers were created, so FSLogix cannot find the old container and creates a new one. The old data is not lost. | The folder-naming settings against the folder names on the share. |
+| No symptom is documented. The old, temporary or local profiles page lists this cause. | FSLogix is installed but the profile container feature is not enabled. After installation none of its features is enabled until you configure them. | The `Enabled` setting. |
+| Empty profile, no temporary profile | One of the folder-naming settings (`FlipFlopProfileDirectoryName`, `SIDDirNameMatch`, `SIDDirNamePattern`, `VHDNameMatch` or `VHDNamePattern`) changed after containers were created, so FSLogix cannot find the old container and creates a new one. The old data is not lost. | The folder-naming settings against the folder names on the share. |
 
-Two error codes appear in the example logs: `FrxStatus: 31` with "Access is denied" or "The user name or password is incorrect", and `FrxStatus: 33` for a container locked by another process.
+For slow sign-ins see [Troubleshooting issues with long or failed sign-ins](https://learn.microsoft.com/en-us/fslogix/troubleshooting-long-failed-signin).
 
-Where to look: the profile log file at `C:\ProgramData\FSLogix\Logs\Profile\Profile_<date>.log` (it needs logging settings to be configured), and the FSLogix logs in Windows Event Viewer under Applications and Services Logs. In the profile log, search for `LoadProfile: <username>` to find a user's sign-in.
+Where to look is below. Two error codes appear in the example profile logs: `FrxStatus: 31` with "Access is denied" or "The user name or password is incorrect", and `FrxStatus: 33` for a container locked by another process.
+
+Where to look: the profile log file at `C:\ProgramData\FSLogix\Logs\Profile\Profile_<date>.log` (logging must be configured first; see [Logging and diagnostics](https://learn.microsoft.com/en-us/fslogix/troubleshooting-events-logs-diagnostics)), and the FSLogix logs in Windows Event Viewer under Applications and Services Logs. In the profile log, search for `LoadProfile: <username>` to find a user's sign-in.
 
 ## Before you design anything
 
-- Several FSLogix pages carry a notice about a Windows change to the default Kerberos encryption type (Kerberos is the authentication protocol Windows uses for file share access), from RC4 to AES-SHA1. File shares that host containers and are not upgraded might have access problems. The notice names the April 2026 Windows Server update but is still worded as upcoming, so read the notice and the FSLogix blog post it links to, and check the current state before you deploy to SMB storage.
-- The FSLogix FAQ says Microsoft Entra ID cloud-only identities (users who exist only in Microsoft Entra ID, covered in [the identity model post](/azure-virtual-desktop/choose-the-right-identity-model/)) can be used with FSLogix, but it requires understanding the risks. The status of cloud-only identity support is worded differently on other pages. The Azure Files release notes list Entra-only identity support for SMB Azure file shares as generally available under 2026 quarter 2. The Azure Virtual Desktop what's new page lists FSLogix support for cloud-only and external identities as generally available under May 2026. The Microsoft Entra Kerberos introduction page carries Preview in its headings for cloud-only identity support. The pages do not reconcile these labels. Read the FAQ answer and check the current status before you plan for cloud-only users.
-- FSLogix needs a qualifying license. The prerequisites page lists them, and an Azure Virtual Desktop per-user access license is one of them.
+- Several FSLogix pages carry a notice about a Windows change to the default Kerberos encryption type (Kerberos is the authentication protocol Windows uses for file share access), from RC4 to AES-SHA1. File shares that host containers and are not upgraded might have access problems. Read the notice and the FSLogix blog post it links to, and see [the day-to-day operations post](/azure-virtual-desktop/operate-fslogix-profiles-day-to-day/) before you deploy to SMB storage.
+- The FSLogix FAQ says Microsoft Entra ID cloud-only identities (users who exist only in Microsoft Entra ID) can be used with FSLogix, but it requires understanding the risks. Learn words the status of cloud-only support differently on different pages. See [the identity model post](/azure-virtual-desktop/choose-the-right-identity-model/) and [the storage post](/azure-virtual-desktop/choose-storage-and-set-access-for-fslogix-profile-containers/) for the details, and check the current status before you plan for cloud-only users.
+- FSLogix needs a qualifying license. The prerequisites page lists them, and an Azure Virtual Desktop per-user access license (a license that covers each user who connects) is one of them (see [FSLogix prerequisites](https://learn.microsoft.com/en-us/fslogix/overview-prerequisites)).
 
 ## Common mistakes
 
 - **Turning FSLogix on without checking local profiles.** The default behavior keeps an existing local profile. The `DeleteLocalProfileWhenVHDShouldApply` setting changes that, and it deletes the local profile at sign-in, so review the local profiles first.
-- **Changing folder-naming settings after users have containers.** Users get new empty profiles. Decide these at the start.
+- **Changing folder-naming settings after users have containers** (`FlipFlopProfileDirectoryName`, `SIDDirNameMatch`, `SIDDirNamePattern`, `VHDNameMatch`, `VHDNamePattern`). Users get new empty profiles. Decide these at the start.
 - **Wrong permissions on the share.** The container can fail to attach (the profile log shows "Access is denied") and, depending on the configuration, the user might be prevented from signing in. Test with a standard user before rollout.
 - **Letting the share fill up.** Users may be unable to create new containers and end up with a temporary or local profile, a hung session, or containers that fail to mount or detach correctly.
 - **Skipping antivirus exclusions.** A published list names the FSLogix files, drivers, registry keys and container files to exclude. Missing exclusions can cause delays or timeouts when profiles mount.
@@ -163,12 +170,12 @@ Where to look: the profile log file at `C:\ProgramData\FSLogix\Logs\Profile\Prof
 
 ## How to check a setup
 
-These steps follow the FSLogix profile container setup page. Try them in a test environment first; that advice is not from the page.
+These steps follow the FSLogix profile container setup page. Try them in a test environment first (judgement; this advice is not from the page).
 
 1. After configuring a session host, sign in as a standard user.
-2. In a terminal, go to `C:\Program Files\FSLogix\Apps` and run `.\frx.exe list-redirects` (`frx.exe` is the FSLogix command-line tool). The output lists the active redirections, including the profile path.
+2. In PowerShell or Command Prompt (run as that standard user), go to `C:\Program Files\FSLogix\Apps` and run `.\frx.exe list-redirects` (`frx.exe` is the FSLogix command-line tool). The output lists the active redirections, including the profile path.
 3. Open the folder from the `VHDLocations` value in File Explorer, open the user's folder and confirm the VHDX file exists.
 
 ## Sources
 
-[User profile management for Azure Virtual Desktop with FSLogix profile containers](https://learn.microsoft.com/en-us/azure/virtual-desktop/fslogix-profile-containers), [Types of containers](https://learn.microsoft.com/en-us/fslogix/concepts-container-types) and [Troubleshooting issues with old, temporary, or local profiles](https://learn.microsoft.com/en-us/fslogix/troubleshooting-old-temp-local-profiles).
+[User profile management for Azure Virtual Desktop with FSLogix profile containers](https://learn.microsoft.com/en-us/azure/virtual-desktop/fslogix-profile-containers), [Types of containers](https://learn.microsoft.com/en-us/fslogix/concepts-container-types), [Troubleshooting issues with old, temporary, or local profiles](https://learn.microsoft.com/en-us/fslogix/troubleshooting-old-temp-local-profiles), [Troubleshooting issues with container attach or detach](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-attach-detach), [Troubleshooting issues with container locked or in use](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-locked), [Troubleshooting long or failed sign-ins](https://learn.microsoft.com/en-us/fslogix/troubleshooting-long-failed-signin), [Logging and diagnostics](https://learn.microsoft.com/en-us/fslogix/troubleshooting-events-logs-diagnostics), [Concurrent or multiple connections to a single container](https://learn.microsoft.com/en-us/fslogix/concepts-multi-concurrent-connections), [Configuration examples](https://learn.microsoft.com/en-us/fslogix/concepts-configuration-examples), [Configuration setting reference](https://learn.microsoft.com/en-us/fslogix/reference-configuration-settings), [Configure profile containers](https://learn.microsoft.com/en-us/fslogix/tutorial-configure-profile-containers), [Using FSLogix Group Policy Template Files](https://learn.microsoft.com/en-us/fslogix/how-to-use-group-policy-templates), [FSLogix FAQ](https://learn.microsoft.com/en-us/fslogix/overview-faq), [FSLogix prerequisites](https://learn.microsoft.com/en-us/fslogix/overview-prerequisites) and [Temporary User Profiles](https://learn.microsoft.com/en-us/windows/win32/shell/temporary-user-profiles).
