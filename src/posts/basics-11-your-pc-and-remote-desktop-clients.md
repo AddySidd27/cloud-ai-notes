@@ -59,7 +59,7 @@ Microsoft Entra ID is the sign-in service you met in the first labs. Your tenant
 | State | In plain words |
 |---|---|
 | Microsoft Entra registered | You added a work or school account to the PC, but you still sign in to Windows with your own account. Often a personal PC. |
-| Microsoft Entra joined | Windows itself signs in with a work or school account. The PC belongs to the organisation. |
+| Microsoft Entra joined | Windows itself signs in with a work or school account. The PC belongs to the organization. |
 | Microsoft Entra hybrid joined | The PC is joined to an on-premises Active Directory domain and is also known to Entra ID. |
 
 An on-premises domain is a company's own server-based sign-in system inside an office. A home PC is almost never in one. A PC that is only in such a domain is not known to Entra ID.
@@ -102,9 +102,9 @@ Do not paste this output in a forum. It can contain your tenant ID.
 |---|---|
 | The PC is registered, joined or hybrid joined, and the tenant is your throwaway tenant. | **A.** The next lab uses the normal sign-in. |
 | The PC is not known to Entra ID (all NO), it is your own personal PC, and you are willing to register it. | **B.** Register it as shown below, then sign in as in route A. |
-| The PC belongs to another organisation's tenant, or to an employer, or you cannot or do not want to register it. | **C.** The next lab uses the web account setting and one extra line in the `hosts` file of this PC. That file needs administrator rights. If you cannot change it, do the next lab from a personal PC and choose B. |
+| The PC belongs to another organization's tenant, or to an employer, or you cannot or do not want to register it. | **C.** The next lab uses the web account setting and one extra line in the `hosts` file of this PC. That file needs administrator rights. If you cannot change it, do the next lab from a personal PC and choose B. |
 
-**Only if you chose B: register your personal PC.** Open **Settings** > **Accounts** > **Access work or school** and select **Connect**. Sign in with your admin account of the throwaway tenant. Registering adds the account to that page. It does not join the PC and does not let anyone manage it. Registration is per Windows user profile. Read every prompt: if one offers to join the PC to Microsoft Entra ID, or to let the organisation manage it, cancel and choose route C. You can undo registration on the same page with **Disconnect**. Never do this on a PC your employer manages.
+**Only if you chose B: register your personal PC.** Open **Settings** > **Accounts** > **Access work or school** and select **Connect**. Sign in with your admin account of the throwaway tenant. Registering adds the account to that page. It does not join the PC and does not let anyone manage it. Registration is per Windows user profile. Read every prompt: if one offers to join the PC to Microsoft Entra ID, or to let the organization manage it, cancel and choose route C. You can undo registration on the same page with **Disconnect**. Never do this on a PC your employer manages.
 
 Route C works because Windows has a second way in. The setting **Use a web account to sign in to the remote computer** in Remote Desktop Connection needs no registration or join. It has two conditions: you connect by computer name, not by IP address, and the name must match the VM's host name in Entra ID and resolve to the VM's IP address. That is why route C needs the `hosts` line. You will see the setting later in this lab.
 
@@ -128,7 +128,7 @@ Azure Bastion opens a VM in the browser, but it bills by the hour from the momen
 11. A security box shows the computer name `testpc01` and tick boxes for local resources such as drives and the clipboard. They are off by default. Leave every box unticked and select **Cancel**. You may see "Unknown publisher". That is normal for a file you made yourself. Success: no connection is made.
 12. Open Remote Desktop Connection again, select **Show Options**, then the **Advanced** tab. Under **User authentication**, find the box **Use a web account to sign in to the remote computer**. Do not tick it now. You only need to know where it is.
 
-Check: you wrote down your Windows version and your route (A, B or C), `test.rdp` opened the dialogs and you cancelled, and you know where the web account box is.
+Check: you wrote down your Windows version and your route (A, B or C), `test.rdp` opened the dialogs and you canceled, and you know where the web account box is.
 
 ### Preview of the next lab (do not do this now)
 
@@ -151,7 +151,7 @@ No Terraform in this lab, because nothing is deployed.
 - You can say your Windows name, version and build.
 - You wrote down A, B or C, and the tenant name if the output showed one.
 - Windows App opens and shows its welcome page.
-- Double-clicking `test.rdp` opened a Remote Desktop Connection dialog, and you cancelled it with every resource box left unticked.
+- Double-clicking `test.rdp` opened a Remote Desktop Connection dialog, and you canceled it with every resource box left unticked.
 - You know where the **Use a web account to sign in to the remote computer** box is.
 
 ## The most common mistake

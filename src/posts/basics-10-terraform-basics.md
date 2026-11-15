@@ -190,7 +190,7 @@ Create `.gitignore`. If you will never put this folder in Git, you can skip this
 
 The `.terraform.lock.hcl` file that Terraform creates is not in this list on purpose. It records the exact provider version, and people usually commit it.
 
-### Pass 1: format, initialise and validate
+### Pass 1: format, initialize and validate
 
 Run these in PowerShell, in the project folder.
 

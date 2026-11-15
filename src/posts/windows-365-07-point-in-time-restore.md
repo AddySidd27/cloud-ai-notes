@@ -34,7 +34,7 @@ Microsoft lists three types of restore point for Enterprise:
 
 - **Short-term:** ten points that the service creates on its own. You choose the interval: 4, 6, 12, 16 or 24 hours. A shorter interval means a shorter history, because ten points always cover ten intervals.
 - **Long-term:** four points that the service creates on its own every seven days. You cannot change them.
-- **Manual:** one on-demand point per Cloud PC that an administrator creates. A new manual point replaces the existing one. If it is not replaced, it expires in approximately 28 days (Microsoft documentation). The documentation also says a new manual point can take up to an hour or more to appear in the list. See [Create on-demand manual restore points](https://learn.microsoft.com/en-us/windows-365/enterprise/create-manual-restore-point).
+- **Manual:** one on-demand point per Cloud PC that an administrator creates. A new manual point replaces the existing one. If it is not replaced, it expires in approximately 28 days. A new manual point can take up to an hour or more to appear in the list. See [Create on-demand manual restore points](https://learn.microsoft.com/en-us/windows-365/enterprise/create-manual-restore-point).
 
 These are service rules. Your actual device list depends on its history and settings.
 

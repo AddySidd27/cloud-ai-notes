@@ -127,9 +127,9 @@ The full table also covers compliance, deployment, development, reliability and 
 
 ## The three operating models at a glance
 
-![Three panels. Centralized: one cloud team owns governance, security and operations for all workloads. Shared management: a platform team owns the platform landing zone, guardrails and subscription vending, and workload teams operate within the guardrails, with Azure Policy shown as one tool for setting guardrails. Decentralized: each team owns its own platform landing zone and workloads. Each workload box is labelled as a subscription](/diagrams/post-04-cloud-operating-models.svg)
+![Three panels. Centralized: one cloud team owns governance, security and operations for all workloads. Shared management: a platform team owns the platform landing zone, guardrails and subscription vending, and workload teams operate within the guardrails, with Azure Policy shown as one tool for setting guardrails. Decentralized: each team owns its own platform landing zone and workloads. Each workload box is labeled as a subscription](/diagrams/post-04-cloud-operating-models.svg)
 
-*Simplified diagram based on [Prepare your organization for the cloud](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/prepare-organization-for-cloud#choose-a-cloud-operating-model). The documentation has no diagram of the three models, so the layout is simplified. The subscription boxes and the three example teams are illustrations, not from the documentation. Icons are from the [Azure architecture icon set](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+*Simplified diagram based on [Prepare your organization for the cloud](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/prepare-organization-for-cloud#choose-a-cloud-operating-model). Simplified layout. The subscription boxes and the three example teams are illustrations. Icons are from the [Azure architecture icon set](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
 ## More detail for the shared management model
 

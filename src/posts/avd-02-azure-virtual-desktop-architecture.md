@@ -182,7 +182,7 @@ The [identity model article](/azure-virtual-desktop/choose-the-right-identity-mo
 
 ## First, discover the desktops and apps
 
-![Diagram of feed discovery in one Azure region. A client and the web service are joined by a two-way arrow, and the web service and the resource directory are joined by a two-way arrow, inside a box labelled Region 1. A dashed two-way link joins the client and Azure Traffic Manager. Below, a geographical deployment scope box and a regional deployment scope box each hold a broker joined by a two-way arrow to its database. One line from the resource directory leads to both brokers.](/img/avd/AVD-Post-02-Feed-Discovery-v3.png)
+![Diagram of feed discovery in one Azure region. A client and the web service are joined by a two-way arrow, and the web service and the resource directory are joined by a two-way arrow, inside a box labeled Region 1. A dashed two-way link joins the client and Azure Traffic Manager. Below, a geographical deployment scope box and a regional deployment scope box each hold a broker joined by a two-way arrow to its database. One line from the resource directory leads to both brokers.](/img/avd/AVD-Post-02-Feed-Discovery-v3.png)
 
 *Figure 2. Feed discovery in one Azure region. Source: [Azure Virtual Desktop service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience). A host pool uses either the geographical or the regional broker and database.*
 
@@ -210,7 +210,7 @@ If the user already has an active or disconnected session, AVD reconnects them t
 
 ## Then, establish the remote connection
 
-![Diagram of the RDP connection. A client and Azure Front Door are joined by a two-way arrow, and Azure Front Door joins the gateway service by a two-way TCP link. In a box labelled Region 1 are the gateway service, the broker service and the session host, joined by dotted two-way links, with a two-way TCP link between the gateway service and the session host. A separate UDP line runs straight from the client to the session host, labelled RDP Shortpath, used if it works, for managed networks and public networks.](/img/avd/AVD-Post-02-RDP-Connection-v3.png)
+![Diagram of the RDP connection. A client and Azure Front Door are joined by a two-way arrow, and Azure Front Door joins the gateway service by a two-way TCP link. In a box labeled Region 1 are the gateway service, the broker service and the session host, joined by dotted two-way links, with a two-way TCP link between the gateway service and the session host. A separate UDP line runs straight from the client to the session host, labeled RDP Shortpath, used if it works, for managed networks and public networks.](/img/avd/AVD-Post-02-RDP-Connection-v3.png)
 
 *Figure 3. The RDP connection. Sources: [Service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience) and [RDP Shortpath](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-shortpath). The dotted links are service-internal traffic.*
 

@@ -10,7 +10,7 @@ export default {
   linkedin: "https://www.linkedin.com/in/adnan-a-siddiqui-768b5714",
   credentials: [],
   focusAreas: ["Azure", "AVD", "Windows 365", "Citrix", "AWS"],
-  footerCredentials: ["MCT", "Azure Solutions Architect Expert", "AZ-140", "CCP-V", "Nerdio NCE"],
+  footerCredentials: ["MCT", "Azure Solutions Architect Expert", "AZ-140", "CCP-V", "Nerdio Engineer"],
   certifications: [
     { code: "MCT", name: "Microsoft Certified Trainer", issuer: "Microsoft" },
     { code: "ASA", name: "Microsoft Certified: Azure Solutions Architect Expert", issuer: "Microsoft" },
@@ -19,7 +19,7 @@ export default {
     { code: "CCP-V", name: "Citrix Certified Professional – Virtualization (CCP-V)", issuer: "Citrix" },
     { code: "CCA-V", name: "Citrix Certified Associate – Virtualization (CCA-V)", issuer: "Citrix" },
     { code: "CVAD", name: "Citrix Virtual Apps and Desktops 7 on Citrix Cloud", issuer: "Citrix" },
-    { code: "NCE", name: "Nerdio Certified Engineer (NCE)", issuer: "Nerdio" },
+    { code: "NCE", name: "Nerdio Engineer", issuer: "Nerdio" },
   ],
   workAreas: [
     { name: "Azure and hybrid infrastructure", text: "Azure landing zones, Azure Virtual Desktop, Windows 365, and Citrix environments that run in Azure and on-premises." },

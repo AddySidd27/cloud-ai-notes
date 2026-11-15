@@ -455,9 +455,9 @@ Link the Azure Files private zone to the resolver's hub VNet. For datacenter app
 4. Check whether individual NICs override the VNet setting. Restart existing VMs, or renew their DHCP lease with `ipconfig /renew`, after a VNet DNS change so they receive the updated settings.
 5. From the first host, resolve a public Microsoft name, the internal application name and the normal Azure Files name. The storage name must return the intended private endpoint IP.
 
-![Azure Firewall Policy DNS page with DNS enabled, Custom DNS servers set to 10.30.1.4, an input row below it showing grey placeholder text 168.63.129.16, and DNS Proxy set to Enabled](/img/avd/AVD-Post-05-v7-firewall-dns.jpg)
+![Azure Firewall Policy DNS page with DNS enabled, Custom DNS servers set to 10.30.1.4, an input row below it showing gray placeholder text 168.63.129.16, and DNS Proxy set to Enabled](/img/avd/AVD-Post-05-v7-firewall-dns.jpg)
 
-*Saved firewall policy: DNS proxy enabled, with 10.30.1.4 as the custom upstream DNS server (the hub resolver's inbound endpoint). The grey 168.63.129.16 in the row below is the portal's placeholder text, not a second configured resolver.*
+*Saved firewall policy: DNS proxy enabled, with 10.30.1.4 as the custom upstream DNS server (the hub resolver's inbound endpoint). The gray 168.63.129.16 in the row below is the portal's placeholder text, not a second configured resolver.*
 
 Hosts send DNS queries to the firewall proxy; the firewall forwards them to the shared resolver. The resolver's rules handle datacenter names and its linked zones handle Azure private names. Permit the necessary DNS traffic on this path. A platform that uses direct shared DNS must review its firewall rule model separately rather than mix the two arrangements.
 

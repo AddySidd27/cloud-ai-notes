@@ -139,7 +139,7 @@ tags: [alz]
 
 "Brownfield" means an environment that already exists, with subscriptions, resources and running workloads; its opposite, "greenfield", is a new one where nothing is built yet. If you have nothing yet, read [the greenfield rollout post](/azure-landing-zone/greenfield-rollout/).
 
-No documentation page is named "brownfield rollout". The page "Journey toward the target architecture" names three starting points, Start (new), Align (existing, needs changes) and Enhance (already in line), and uses the word "brownfield" for Align. It links to a transition page ("Transition an existing Azure environment to the Azure landing zone reference architecture"), three scenario pages, an approach page ("Scenario: Transition an environment by duplicating a landing zone management group") and a page on refactoring a landing zone. This post turns those, plus the moving, policy and Azure CLI pages, into a playbook.
+Microsoft's "Journey toward the target architecture" names three starting points, Start (new), Align (existing, needs changes) and Enhance (already in line), and uses the word "brownfield" for Align. It links to a transition page ("Transition an existing Azure environment to the Azure landing zone reference architecture"), three scenario pages, an approach page ("Scenario: Transition an environment by duplicating a landing zone management group") and a page on refactoring a landing zone. This post turns those, plus the moving, policy and Azure CLI pages, into a playbook.
 
 **How to read this post.** The top of each section is the short version. Commands, runbooks and tables sit in boxes you can open. If you only have five minutes, read the manager summary and the company case.
 
@@ -196,7 +196,7 @@ Seven stages; the two stages "See the effect" and "Move in" repeat for each wave
 
 **Figure 1. The brownfield path, from today's environment to governed workloads.**
 
-![A path of seven numbered stages in three grouped panels. Look and decide: 1 Take stock, 2 Choose a path, 3 Plan the target. Build beside, then test: 4 Build beside, 5 See the effect. Move and finish: 6 Move in, 7 Finish. Each stage shows what you decide and what you end up with, ending in governed workloads and retired subscriptions waiting in the Decommissioned group. A loop arrow from stage 6 back to stage 5 is labelled "Repeat for each wave".](/diagrams/post-62-brownfield-path.svg)
+![A path of seven numbered stages in three grouped panels. Look and decide: 1 Take stock, 2 Choose a path, 3 Plan the target. Build beside, then test: 4 Build beside, 5 See the effect. Move and finish: 6 Move in, 7 Finish. Each stage shows what you decide and what you end up with, ending in governed workloads and retired subscriptions waiting in the Decommissioned group. A loop arrow from stage 6 back to stage 5 is labeled "Repeat for each wave".](/diagrams/post-62-brownfield-path.svg)
 
 *Simplified diagram. No Microsoft page shows this sequence; the stages group the guidance in [Journey toward the target architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/landing-zone-journey) and [Transition an existing Azure environment to the Azure landing zone reference architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/enterprise-scale/transition). Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) architecture icon set, unmodified.*
 

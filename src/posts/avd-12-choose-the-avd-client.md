@@ -75,11 +75,15 @@ A browser is a good fallback for contractors and kiosks. It is a poor primary cl
 
 Windows App has a comparison of features across platforms, with a separate view for Azure Virtual Desktop. The table follows that view, as of November 2026.
 
+Terms used in the table. STUN and TURN are two methods RDP Shortpath uses over public networks (see the [networking article](/azure-virtual-desktop/plan-avd-networking/)). WebRTC and SlimCore are two ways Teams media optimization works. TWAIN is a standard for scanners. RAW printing sends print data to the printer without converting it first. Publisher Imagesetter is a printer driver. YubiKey is a brand of hardware security key.
+
+RDP Multipath lets one session use several network paths at once. Input Protection protects typed keys from keyloggers on the device. Display Protection stops the session display from being captured. Screen capture protection blocks screenshots of the session. Watermarking shows a visible label over the session. Managed networks are networks you control, such as a company network. Public networks are the open internet.
+
 | Feature | Where the Windows App comparison shows support |
 |---|---|
 | Multiple monitors | Windows and macOS. Android and Chrome OS is listed, but only on Chrome OS devices. Not iOS and iPadOS, the web client or Meta Quest. An external monitor is listed for Windows, macOS, iOS and iPadOS, and Android and Chrome OS (the last depends on the local device), but not the web client or Meta Quest. |
 | USB and serial port redirection | Windows only. |
-| Scanner redirection | Windows only, and TWAIN scanner redirection is labelled preview. |
+| Scanner redirection | Windows only, and TWAIN scanner redirection is labeled preview. |
 | Multimedia redirection (video playback and calls) | Windows only. |
 | Teams media optimizations | WebRTC: Windows, macOS, iOS and iPadOS, and Android and Chrome OS. SlimCore: Windows and macOS. Neither is listed for the web client or Meta Quest. |
 | WebAuthn redirection | Windows. macOS, iOS and iPadOS, and Android are listed as preview with minimum client versions. On those platforms only passkey sign-ins to Microsoft Entra ID work. On Android the passkey must be stored on the device, for example in Microsoft Authenticator. Not the web client or Meta Quest. |
@@ -93,10 +97,6 @@ Windows App has a comparison of features across platforms, with a separate view 
 | RDP Multipath | UDP: Windows (version 2.0.559.0 or later) and macOS (beta build). UDP and TCP: Windows (version 2.0.1069.0 or later) ([Windows App comparison](https://learn.microsoft.com/en-us/windows-app/compare-platforms-features?pivots=azure-virtual-desktop)). |
 | Input Protection and Display Protection (preview) | Windows only, with a minimum Windows App version and session host configuration. Input Protection also needs the Windows Cloud Input Protect MSI on the device. |
 | Private Link | Windows, macOS, iOS and iPadOS, and Android and Chrome OS. Not the web client or Meta Quest. |
-
-Terms in the table. STUN and TURN are two methods RDP Shortpath uses over public networks (see the [networking article](/azure-virtual-desktop/plan-avd-networking/)). WebRTC and SlimCore are two ways Teams media optimization works. TWAIN is a standard for scanners. RAW printing sends print data to the printer without converting it first. Publisher Imagesetter is a printer driver. YubiKey is a brand of hardware security key.
-
-RDP Multipath lets one session use several network paths at once. Input Protection protects typed keys from keyloggers on the device. Display Protection stops the session display from being captured. Screen capture protection blocks screenshots of the session. Watermarking shows a visible label over the session. Managed networks are networks you control, such as a company network. Public networks are the open internet.
 
 The comparison marks a feature as present or absent on a platform and labels some entries preview. It gives version numbers for only a few features and does not say how well a feature works, so treat a tick as a reason to test, not a guarantee. Redirection also depends on what your administrator allows. If the host pool setting and the session host policy differ, the most restrictive one wins.
 

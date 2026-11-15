@@ -103,7 +103,7 @@ Gaps in these requirements can show up late. Three examples:
 - **Connectivity not planned.** Hybrid connectivity (a link between your own network and Azure) must be ready before workloads move, or they may not be reachable.
 - **No guardrails for compliance.** Without guardrails from Azure Policy (explained in Key terms below), keeping environments compliant takes more operational and management effort.
 
-This post covers five requirements and shows which part of the landing zone each one changes. The official documentation does not list these five together. This post groups them because each one is an input to the landing zone design.
+This post covers five requirements and shows which part of the landing zone each one changes. This post groups them because each one is an input to the landing zone design.
 
 ## Key terms
 
@@ -226,7 +226,7 @@ One more warning: do not spend months or years designing the landing zone withou
 
 ![Diagram: five business requirements (compliance, region, connectivity, recovery, cost) with arrows to the landing zone parts each one changes](/diagrams/post-05-requirements-to-landing-zone.svg)
 
-*Source: [What is an Azure landing zone?](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/). The documentation has no diagram of this, so the layout is simplified. Icons are from the [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/) set.*
+*Source: [What is an Azure landing zone?](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/). Simplified layout. Icons are from the [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/) set.*
 
 ## Common mistakes
 

@@ -67,7 +67,7 @@ Check: both rows show room for at least 2 vCPUs.
 
 **The image.** Use **Windows Server 2025 Datacenter: Azure Edition**, not the one with **Core** in its name. Entra sign-in works on Windows Server 2022 or 2025 installed with Desktop Experience. This lab uses 2025 on purpose: the [Azure Files lab](/azure-basics-labs/storage-azure-files/) needs it.
 
-The Windows Server licence is included in the VM price, so you need nothing extra. Leave the Azure Hybrid Benefit box unticked: it is only for licences you already own.
+The Windows Server license is included in the VM price, so you need nothing extra. Leave the Azure Hybrid Benefit box unticked: it is only for licenses you already own.
 
 ### Create the VM
 
@@ -98,7 +98,7 @@ The Windows Server licence is included in the VM price, so you need nothing extr
 10. Select **Next: Management**. Set:
     - Under **Identity**, tick **Enable system assigned managed identity**.
     - Under the Microsoft Entra ID heading on the **Management** tab, tick **Login with Microsoft Entra ID**. It installs the extension. If you cannot find it, skip it. The Check below shows how to add the extension afterwards.
-    - If you see any option to enrol the VM in Intune or MDM, leave it off.
+    - If you see any option to enroll the VM in Intune or MDM, leave it off.
     - Auto-shutdown: tick **Enable auto-shutdown**, choose a time later today and your time zone. It is a safety net, not a replacement for stopping the VM yourself. The next day check the status. If it says **Stopped** and not **Stopped (deallocated)**, select **Stop**.
 11. Select **Review + create**. Write the hourly price shown for the VM in your notes. When you see **Validation passed**, select **Create**. Wait for the deployment, then select **Go to resource**.
 
@@ -382,7 +382,7 @@ Keep for later labs:
 
 AVD session hosts that are joined to Entra use the same extension idea and the same two roles, and the user also needs the Desktop Virtualization User role on the app group. In AVD the session host has no public IP and no inbound 3389 rule: the user connects through the AVD service. What you did here is the plain-VM version of the same sign-in.
 
-The sign-in is one of three separate steps in AVD: [How Sign-In Works in Azure Virtual Desktop: Three Authentications and SSO](/azure-virtual-desktop/how-sign-in-works-three-authentications-and-sso/). The choice of image and the licence it needs is in [Choose the Session Host Operating System and Licensing](/azure-virtual-desktop/session-host-operating-system-and-licensing/).
+The sign-in is one of three separate steps in AVD: [How Sign-In Works in Azure Virtual Desktop: Three Authentications and SSO](/azure-virtual-desktop/how-sign-in-works-three-authentications-and-sso/). The choice of image and the license it needs is in [Choose the Session Host Operating System and Licensing](/azure-virtual-desktop/session-host-operating-system-and-licensing/).
 
 ## Next lab
 

@@ -357,7 +357,7 @@ SUB_ID=$(az account show --query id -o tsv)
     3. **Storage account app.** Browse to **Entra ID** > **App registrations** > **All applications** and search for `[Storage Account]`. The Azure Files lab turned on Microsoft Entra Kerberos for the account, and Azure created an app for it. The account is gone now. If an app named for it is still listed, open it and delete it.
     4. **Your PC and notes.** If you registered your PC in the Remote Desktop clients lab (route B): **Settings** > **Accounts** > **Access work or school**, select the account and select **Disconnect**. If you used route C in the Windows VM lab: delete the `hosts` line that names `vm-azb-win01` (open Notepad as administrator, open `C:\Windows\System32\drivers\etc\hosts`, delete the line, save). It points at `pip-azb-win01`, which is gone now. Delete `test.rdp` from your PC.
     5. **Security defaults.** If security defaults were **Enabled** when you started the Conditional Access lab (your note from that lab), turn them back on under **Entra ID** > **Overview** > **Properties** > **Manage security defaults**. They cannot be used together with Conditional Access, so do this only after the policy is gone.
-    6. If you started a trial or bought a licence for the Conditional Access lab, end it where you got it. If you added the storage app to the excluded apps of an all-resources MFA policy in the Azure Files lab, leave that policy as it is. The exclusion is harmless once the account is gone.
+    6. If you started a trial or bought a license for the Conditional Access lab, end it where you got it. If you added the storage app to the excluded apps of an all-resources MFA policy in the Azure Files lab, leave that policy as it is. The exclusion is harmless once the account is gone.
 
 11. **Final check.**
 
@@ -390,7 +390,7 @@ These are separate and optional. Read each name twice before you run it.
 
 - The Terraform project folder from the Terraform basics lab, once you have copied what you want. Delete `terraform.tfstate` and `main.tfplan`, or keep the folder out of Git.
 - `testuser1` and `TestUsers`, only if you will not build the AVD labs. They are easy to create again from the [users and groups lab](/azure-basics-labs/entra-users-groups-break-glass/).
-- The whole test tenant. To remove the test tenant itself, follow Microsoft's [Delete a tenant in Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/identity/users/directory-delete-howto) page. Do that only for the test tenant, after reading its name. A Global Administrator must do it, and that the tenant must pass several checks first: no users except that one Global Administrator, no applications, and no subscription that still uses the tenant, so your Azure subscription has to be cancelled and deleted first.
+- The whole test tenant. To remove the test tenant itself, follow Microsoft's [Delete a tenant in Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/identity/users/directory-delete-howto) page. Do that only for the test tenant, after reading its name. A Global Administrator must do it, and that the tenant must pass several checks first: no users except that one Global Administrator, no applications, and no subscription that still uses the tenant, so your Azure subscription has to be canceled and deleted first.
 
 ### Cost check the next day
 

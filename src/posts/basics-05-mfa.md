@@ -51,7 +51,7 @@ They are separate from each other:
 | Conditional Access | Rules you write: who, which app, what must happen. MFA is one of the things a rule can ask for. | Microsoft Entra ID P1 or P2 |
 | Azure mandatory MFA | Always on, no opt-out, for managing Azure. You do not set it. | None |
 
-The best way to protect users with MFA is a Conditional Access policy. For tenants without that licence, use security defaults. Changing per-user states is not recommended unless your licences do not include Conditional Access and you do not want security defaults, and you should not enable per-user MFA if you use Conditional Access policies. Security defaults and Conditional Access cannot be used together: you must disable security defaults before you can use Conditional Access policies. That is what the Conditional Access lab is about.
+The best way to protect users with MFA is a Conditional Access policy. For tenants without that license, use security defaults. Changing per-user states is not recommended unless your licenses do not include Conditional Access and you do not want security defaults, and you should not enable per-user MFA if you use Conditional Access policies. Security defaults and Conditional Access cannot be used together: you must disable security defaults before you can use Conditional Access policies. That is what the Conditional Access lab is about.
 
 The last row is Azure's own rule, which you cannot opt out of. The note at the top of the next section explains it.
 

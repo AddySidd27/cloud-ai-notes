@@ -132,7 +132,7 @@ Microsoft Cost Management (its tool for cost oversight, with billing scopes, bud
 - Think about how your organization splits cost between teams and charges them for what they use, and decide which data points show your cloud spend.
 - Choose a tag structure that fits how you split and charge cost.
 - Use the Azure pricing calculator to estimate monthly costs.
-- Use Azure Hybrid Benefit, Azure reservations and the Azure savings plan for compute. Reservations and the savings plan are commitments of one or three years. Hybrid Benefit lets you use on-premises Windows Server and SQL Server licenses that have Software Assurance (a Microsoft licence add-on). Reservations can cut resource costs by up to 72 percent compared with pay-as-you-go prices, and the savings plan by up to 65 percent. You can combine a savings plan with reservations.
+- Use Azure Hybrid Benefit, Azure reservations and the Azure savings plan for compute. Reservations and the savings plan are commitments of one or three years. Hybrid Benefit lets you use on-premises Windows Server and SQL Server licenses that have Software Assurance (a Microsoft license add-on). Reservations can cut resource costs by up to 72 percent compared with pay-as-you-go prices, and the savings plan by up to 65 percent. You can combine a savings plan with reservations.
 - Use Azure policies to allow only specific regions, resource types and SKUs.
 - Use the rule-based policy of Azure Storage lifecycle management (a Storage feature, not an Azure Policy) to move stored data to a cheaper access tier (hot, cool or archive), or delete it at the end of its life.
 - Use Azure dev/test subscriptions for a discount on selected services for nonproduction workloads.

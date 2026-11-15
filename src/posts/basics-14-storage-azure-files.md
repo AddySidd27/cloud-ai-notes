@@ -51,7 +51,7 @@ State at the start: VM Stopped (deallocated), no RDP rule. At the end: VM Stoppe
 
 **Background: account, share and the other services.** A storage account is the top-level resource: it has a name, a region and a bill. Inside it you use services. Azure Files is a file server in the cloud. It uses SMB, the Windows file-sharing protocol, so Windows can show it as a drive letter. A file share is one shared folder inside the account. So the order is: account, then Azure Files service, then share, then folders and files. The account name must be 3 to 24 characters, only numbers and lowercase letters, and unique across all of Azure. That is why `storage` or `files` is already taken.
 
-**Background: which type.** Two choices set the price: HDD or SSD, and how you pay. This lab uses HDD, LRS and pay-as-you-go, so an almost empty share costs almost nothing. LRS (locally redundant storage) keeps three copies in one data centre. It is the cheapest redundancy and is enough for a test. Premium (SSD) bills for reserved size from day one: do not pick it here. For a real share, read the Azure Files pricing page first.
+**Background: which type.** Two choices set the price: HDD or SSD, and how you pay. This lab uses HDD, LRS and pay-as-you-go, so an almost empty share costs almost nothing. LRS (locally redundant storage) keeps three copies in one data center. It is the cheapest redundancy and is enough for a test. Premium (SSD) bills for reserved size from day one: do not pick it here. For a real share, read the Azure Files pricing page first.
 
 ### Create the storage account and the share
 

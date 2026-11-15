@@ -204,7 +204,7 @@ If the logon part is the long one, look at the profile first. Go to the [FSLogix
 
 ## Check 8: prompted for credentials after a lock
 
-If users must give full credentials after the session locks, the session lock behaviour is the likely cause. With single sign-on through Microsoft Entra ID, the default is to disconnect the session on lock. The user can then reconnect without being asked again, when the Conditional Access policies allow it.
+If users must give full credentials after the session locks, the session lock behavior is the likely cause. With single sign-on through Microsoft Entra ID, the default is to disconnect the session on lock. The user can then reconnect without being asked again, when the Conditional Access policies allow it.
 
 If an admin changed it to show the remote lock screen, users have to enter full credentials. The setting is "Disconnect remote session on lock for Microsoft identity platform authentication". The [sign-in article](/azure-virtual-desktop/how-sign-in-works-three-authentications-and-sso/) and the [sign-in playbook](/azure-virtual-desktop/troubleshoot-sign-in-and-conditional-access/) cover the rest.
 

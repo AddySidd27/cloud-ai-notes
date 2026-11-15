@@ -10,7 +10,7 @@ deck: "A beginner's guide to Windows 365 Cloud PCs, from the first decision to d
 
 Windows 365 gives an assigned user a Cloud PC, a Windows desktop they reach from a supported device or a browser. The organization manages it with Microsoft Intune, Microsoft's device management service. This series is for IT administrators who are new to Windows 365 Enterprise, the edition your organization's IT team manages. It follows one pilot (a small trial rollout with a few users) from planning to support. Each article says what to do in your own tenant and what to check.
 
-## Words to know
+## Key terms
 
 | Term | Meaning |
 |---|---|

@@ -115,7 +115,7 @@ For an Azure page blob provider, use the name of a protected key in the connecti
 | Value | Setting | Why the tutorial uses it |
 |---|---|---|
 | 1 | `ClearCacheOnLogoff` | Saves local disk space and reduces the risk of data loss with pooled host pools. |
-| 1 | `HealthyProvidersRequiredForRegister` | Tutorial: stops users from creating a local cache when a provider is not healthy. The settings reference adds that sign-in then fails when no provider is healthy, and says to set `PreventLoginWithFailure` or `PreventLoginWithTempProfile` for the behaviour you want (see below). |
+| 1 | `HealthyProvidersRequiredForRegister` | Tutorial: stops users from creating a local cache when a provider is not healthy. The settings reference adds that sign-in then fails when no provider is healthy, and says to set `PreventLoginWithFailure` or `PreventLoginWithTempProfile` for the behavior you want (see below). |
 | 1 | `DeleteLocalProfileWhenVHDShouldApply` | Users do not lose data in a local profile by accident. |
 | 0 | `ProfileType` | One connection at a time. This is the default. The tutorial says it is simpler and faster. |
 
@@ -129,7 +129,7 @@ Three settings in the table differ from the defaults in the settings reference:
 
 The tutorial sets all three to 1. I suggest the same values for pooled hosts. Read the data loss warning below before you change the sign-out settings.
 
-If you set `HealthyProvidersRequiredForRegister` above 0, also set `PreventLoginWithFailure` or `PreventLoginWithTempProfile`. These two settings stop the sign-in when the container does not attach. The [settings reference](https://learn.microsoft.com/en-us/fslogix/reference-configuration-settings) says to use them to get the sign-in behaviour you want. By default, a profile that cannot attach can end in a temporary profile ([old, temporary or local profiles page](https://learn.microsoft.com/en-us/fslogix/troubleshooting-old-temp-local-profiles)).
+If you set `HealthyProvidersRequiredForRegister` above 0, also set `PreventLoginWithFailure` or `PreventLoginWithTempProfile`. These two settings stop the sign-in when the container does not attach. The [settings reference](https://learn.microsoft.com/en-us/fslogix/reference-configuration-settings) says to use them to get the sign-in behavior you want. By default, a profile that cannot attach can end in a temporary profile ([old, temporary or local profiles page](https://learn.microsoft.com/en-us/fslogix/troubleshooting-old-temp-local-profiles)).
 
 The tutorial's retry values also differ from the defaults. They set how often and how long FSLogix retries a locked or detached container:
 

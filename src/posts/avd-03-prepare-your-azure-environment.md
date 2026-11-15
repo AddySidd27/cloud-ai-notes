@@ -186,7 +186,7 @@ AVD access licensing also does not remove the Azure charges for VMs, disks, stor
 
 ![Licenses page of the test user in Microsoft Entra reading No license assignments found, with a note that changes are made in the M365 admin center; account name and directory name hidden](/img/avd/AVD-Post-03-license-redacted-v2.png)
 
-*The selected user shows No license assignments found. This does not confirm production AVD licensing.*
+*The selected user shows No license assignments found.*
 
 ### Confirm the Dev/Test route used here
 
@@ -202,9 +202,9 @@ The [Visual Studio subscribers page](https://learn.microsoft.com/visualstudio/su
 
 ![Subscription overview with status Active and Offer and Offer ID rows present; the subscription name, subscription ID, directory, offer name and offer ID are hidden](/img/avd/AVD-Post-03-offer-redacted.png)
 
-*The subscription overview shows status Active. The offer name and offer ID are hidden in this screenshot.*
+*The subscription overview shows status Active.*
 
-**Example result:** the subscription shows offer MS-AZR-0063P and the test user has no assigned product licenses. The Dev/Test waiver is not confirmed, so this walkthrough does not rely on it. For a production deployment, confirm the eligible user entitlement before providing desktops.
+**Example result:** the subscription shows offer MS-AZR-0063P and the test user has no assigned product licenses. Assign an eligible license to every test user unless your licensing contact confirms the Dev/Test waiver, and confirm the entitlement before you provide desktops in production.
 
 ### New user: confirm the licensing route first
 
@@ -260,7 +260,7 @@ Use an existing suitable identity before creating another account. **Active Dire
 
 ![Test user overview: account enabled, 1 group membership, 0 assigned roles and 0 assigned licenses; account name, user principal name and object ID hidden](/img/avd/AVD-Post-03-user-redacted.png)
 
-*The test account is Enabled, has one group membership, zero assigned directory roles and zero assigned product licenses. The Dev/Test waiver above is not confirmed, so this account has no license yet.*
+*The test account is Enabled, has one group membership, zero assigned directory roles and zero assigned product licenses. It has no license yet.*
 
 ### Check what the group already grants
 
@@ -288,7 +288,7 @@ These are different access layers: the published desktop, Windows sign-in and th
 3. Select the account, then **Select** to save the membership.
 4. Refresh **Members** and check that the test user appears in the saved member list. The screenshot below hides the account names.
 
-![AVD_Users Members page listing five direct members of type User; all five account names are covered by grey boxes; the Email column is empty](/img/avd/AVD-Post-03-members-redacted.png)
+![AVD_Users Members page listing five direct members of type User; all five account names are covered by gray boxes; the Email column is empty](/img/avd/AVD-Post-03-members-redacted.png)
 
 *The group now contains five members. Their account names are covered with solid boxes. This is the saved result.*
 
@@ -395,7 +395,7 @@ Keep IDs and private addresses in your build notes. The table below summarizes t
 |---|---|
 | Tenant and subscription | Directory association checked; subscription Active. |
 | Workload placement | Existing rg-avd-dev inspected; East US metadata location and development tags recorded. |
-| Licensing route | Offer MS-AZR-0063P read from the portal; Dev/Test waiver not confirmed; the test user has no assigned product license. Production needs eligible entitlement. |
+| Licensing route | Offer MS-AZR-0063P; the test user has no assigned product license. Assign an eligible license to every test user; production needs an eligible entitlement. |
 | Administrator access | Existing direct and inherited assignments inspected. Broad access like this is not a production role design. Terraform access is checked when the infrastructure code is prepared. |
 | Test identity and group | Existing synchronized test user reused; saved membership in AVD_Users checked. Existing group assignments inspected. |
 | AVD provider | Microsoft.DesktopVirtualization Registered. |

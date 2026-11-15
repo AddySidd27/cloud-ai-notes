@@ -19,7 +19,7 @@ By the end of this lab the group `TestUsers` will have Reader on your subscripti
 - [Multifactor authentication (MFA)](/azure-basics-labs/mfa/): `testuser1` is registered for the Authenticator app, so the private-window sign-in works.
 - For the CLI part: Cloud Shell or the Azure CLI from the [Cloud Shell and Azure CLI](/azure-basics-labs/cloud-shell-and-azure-cli/) lab, version 2.76 or newer.
 - A private browser window (InPrivate in Edge, Incognito in Chrome).
-- A role that can assign roles: Owner or User Access Administrator on the subscription. As the creator of the free account you are already Owner. If **Add role assignment** is greyed out for you, you do not have it. Stop and fix that first.
+- A role that can assign roles: Owner or User Access Administrator on the subscription. As the creator of the free account you are already Owner. If **Add role assignment** is grayed out for you, you do not have it. Stop and fix that first.
 - Time: about 50 minutes. Cost: nothing. Role assignments are free.
 
 ## Safety first
@@ -67,7 +67,7 @@ The difference between Contributor and Owner is one thing: Contributor cannot gi
 5. On the **Role** tab, stay on **Job function roles**, search for `Reader` and select **Reader**. (**Job function roles** are roles for general Azure resource management. If you do not find Reader there, use the search box.) Select **Next**. Do not use the **Privileged administrator roles** tab for this step.
 6. On the **Members** tab, leave **Assign access to** on **User, group, or service principal**. Select **Select members**, type `TestUsers`, select the group, then select **Select**.
 7. Optional: in **Description** type `temporary`. It helps when you clean up. Select **Next**.
-8. If you see a **Conditions** or **Assignment type** tab, leave the defaults. An **Assignment type** tab only appears with a Microsoft Entra ID P2 or Governance licence. If it appears, keep **Active** and **Permanent**.
+8. If you see a **Conditions** or **Assignment type** tab, leave the defaults. An **Assignment type** tab only appears with a Microsoft Entra ID P2 or Governance license. If it appears, keep **Active** and **Permanent**.
 9. Select **Review + assign**, then **Review + assign** again.
 
 Check: on the **Role assignments** tab for the subscription, `TestUsers` is listed under **Reader**. It can take a few moments to show.

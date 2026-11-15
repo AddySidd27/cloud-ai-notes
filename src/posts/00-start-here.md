@@ -69,7 +69,7 @@ What a landing zone is, the eight design areas (topics such as identity, network
 
 ### [Azure Virtual Desktop](/azure-virtual-desktop/)
 
-What AVD is, its architecture and how it fails, then identity, network, host pools, sign-in, FSLogix user profiles (the service that stores each user's profile in a container), images, applications and day-to-day operation. 25 posts.
+What AVD is, its architecture and how it fails, then identity, network, host pools, sign-in, FSLogix user profiles (the service that stores each user's profile in a container), images, applications and day-to-day operation, then troubleshooting. 32 posts.
 
 - [What Is Azure Virtual Desktop?](/azure-virtual-desktop/what-is-azure-virtual-desktop/)
 - [Azure Virtual Desktop Architecture: From Sign-in to a Working Desktop](/azure-virtual-desktop/azure-virtual-desktop-architecture/)
@@ -97,6 +97,16 @@ What AVD is, its architecture and how it fails, then identity, network, host poo
 - [Choose Session Host VM Sizes: Compute, GPU, Disks and Quota](/azure-virtual-desktop/choose-session-host-vm-sizes/)
 - [Operate FSLogix Profiles Day to Day: Cloud Cache, Size, Locks and Corruption](/azure-virtual-desktop/operate-fslogix-profiles-day-to-day/)
 
+Troubleshooting:
+
+- [Troubleshoot AVD: Turn On the Logs and Learn to Read Them](/azure-virtual-desktop/troubleshoot-avd-start-here/)
+- [Troubleshoot an AVD Black Screen After Sign-in](/azure-virtual-desktop/troubleshoot-black-screen/)
+- [Troubleshoot FSLogix: Profile Does Not Load or Is Temporary](/azure-virtual-desktop/troubleshoot-fslogix-profile-fails-to-load/)
+- [Troubleshoot an AVD Session Host That Is Unavailable or Needs Assistance](/azure-virtual-desktop/troubleshoot-session-host-unavailable-health-checks/)
+- [Troubleshoot AVD Disconnects and Slow Sessions](/azure-virtual-desktop/troubleshoot-disconnects-and-slow-sessions/)
+- [Troubleshoot AVD Sign-in Failures: Conditional Access, MFA and Single Sign-on](/azure-virtual-desktop/troubleshoot-sign-in-and-conditional-access/)
+- [Troubleshoot AVD Session Hosts That Do Not Register to the Host Pool](/azure-virtual-desktop/troubleshoot-host-pool-registration-failures/)
+
 ### [Windows 365 Enterprise](/windows-365-enterprise/)
 
 A pilot of Cloud PCs (Windows desktops that Microsoft runs for each user), from planning to daily operations. 10 articles.
@@ -120,6 +130,30 @@ Four labs that build Azure Virtual Desktop environments from Terraform code, fro
 - [AVD Autoscale Lab with Terraform: Weekday and Weekend Schedules and How to Measure the Saving](/terraform-labs/avd-autoscale-cost-lab/)
 - [Add a Cost Budget and Alerts to Your AVD Lab with Terraform](/terraform-labs/avd-budget-alert-lab/)
 - [AVD Monitoring Starter Lab with Terraform: Log Analytics, Insights Data and One Alert](/terraform-labs/avd-monitoring-lab/)
+
+### [Azure basics labs](/azure-basics-labs/)
+
+Short hands-on labs on the Azure skills you need before Azure Virtual Desktop. Do them in order in a test tenant. 19 labs.
+
+- [Start safely: Azure free account, tenant and subscription](/azure-basics-labs/start-azure-account-tenant-subscription/)
+- [Azure Cloud Shell and Azure CLI: your first commands](/azure-basics-labs/cloud-shell-and-azure-cli/)
+- [Resource Group, Tags, Budget and Action Group](/azure-basics-labs/resource-group-tags-budget/)
+- [Microsoft Entra Users, Groups and Break-Glass Accounts](/azure-basics-labs/entra-users-groups-break-glass/)
+- [Multifactor authentication (MFA): See What Is On and Register Your Phone](/azure-basics-labs/mfa/)
+- [Conditional Access: A Safe First Policy That Asks for MFA](/azure-basics-labs/conditional-access/)
+- [Azure RBAC: Give a Group Reader and Contributor, Then Test It](/azure-basics-labs/rbac-roles/)
+- [Virtual Network and Subnet](/azure-basics-labs/virtual-network-subnet/)
+- [Network Security Group: Control What Can Reach Your Subnet](/azure-basics-labs/network-security-group/)
+- [Terraform Basics: Build a Resource Group and Network from Code](/azure-basics-labs/terraform-basics/)
+- [Your PC and the Remote Desktop Clients: Get Ready to Connect to a Windows VM](/azure-basics-labs/your-pc-and-remote-desktop-clients/)
+- [Windows VM with Microsoft Entra Sign-In](/azure-basics-labs/windows-vm-entra-sign-in/)
+- [VM Size, Disk Type and Power States: Stop, Deallocate and What You Pay](/azure-basics-labs/vm-size-disk-stop-deallocate/)
+- [Storage Account and Azure Files Share with Identity-Based Access](/azure-basics-labs/storage-azure-files/)
+- [Key Vault and Managed Identity: Let a VM Read a Secret Without a Password](/azure-basics-labs/key-vault-managed-identity/)
+- [Log Analytics, Azure Monitor Agent and a Heartbeat Alert for Your VM](/azure-basics-labs/log-analytics-alert/)
+- [Azure Policy and Resource Locks in a Sandbox Resource Group](/azure-basics-labs/azure-policy-locks/)
+- [Private Endpoint and Private DNS for Azure Files (Optional)](/azure-basics-labs/private-endpoint-dns/)
+- [When Something Breaks: Where to Look, and How to Clean Up the Whole Series](/azure-basics-labs/when-something-breaks/)
 
 ## Why the landing zone comes first
 

@@ -264,7 +264,7 @@ You repeat the cycle until the full definition of done is met. Azure Policy is t
 
 **Figure 1. The test-driven development cycle, steps 1 to 5.**
 
-![Test-driven development cycle for an Azure landing zone. A box, Definition of done, with an arrow labelled Acceptance criteria points into a cycle of five numbered circles that go clockwise: 1 create a test, 2 test the landing zone, 3 expand and refactor the landing zone, 4 deploy the landing zone, 5 test the landing zone, and back to 1.](/diagrams/post-15-test-driven-development-cycle.svg)
+![Test-driven development cycle for an Azure landing zone. A box, Definition of done, with an arrow labeled Acceptance criteria points into a cycle of five numbered circles that go clockwise: 1 create a test, 2 test the landing zone, 3 expand and refactor the landing zone, 4 deploy the landing zone, 5 test the landing zone, and back to 1.](/diagrams/post-15-test-driven-development-cycle.svg)
 
 *Based on [Test-driven development for an Azure landing zone](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/considerations/development-strategy-test-driven-development), with the same layout. Simplified: the picture has no icons and does not show the red and green tests. The step numbers are added here.*
 

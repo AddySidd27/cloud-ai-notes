@@ -96,7 +96,7 @@ tags: [alz]
 
 "Greenfield" means a new environment where nothing is built yet. You have an Azure account, or can get one, and no governed environment. This post walks you through that start.
 
-No documentation page is named "greenfield". The page "Journey toward the target architecture" uses the word for its Start on-ramp, the starting path for a brand-new environment. This post follows that page, the pages it links to, and the subscription, management group and network pages they rely on.
+In Microsoft's "Journey toward the target architecture", the Start on-ramp is the starting path for a brand-new environment. This post follows that path.
 
 ## Key terms
 
@@ -127,7 +127,7 @@ The sections below follow these six stages in order. Stage 1 is the section "Bef
 
 ![A path of six numbered stages in three grouped panels. Prepare and plan: 1 Get ready, 2 Plan, 3 Choose a tool. Build and check: 4 Build the platform, 5 Check it. Hand over: 6 Hand over the first workload. Each stage shows what you decide and what you end up with, ending in a governed workload subscription.](/diagrams/post-61-greenfield-path.svg)
 
-*Simplified diagram. No Microsoft diagram shows this sequence, so the six stages group the guidance in [Journey toward the target architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/landing-zone-journey), [Platform landing zone implementation options](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/implementation-options) and [Subscription vending](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/subscription-vending). Icons are from the official [Azure architecture icon set](https://learn.microsoft.com/en-us/azure/architecture/icons/), unmodified.*
+*Simplified diagram. The six stages group the guidance in [Journey toward the target architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/landing-zone-journey), [Platform landing zone implementation options](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/implementation-options) and [Subscription vending](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/subscription-vending). Icons are from the official [Azure architecture icon set](https://learn.microsoft.com/en-us/azure/architecture/icons/), unmodified.*
 
 ## What you will have at the end
 

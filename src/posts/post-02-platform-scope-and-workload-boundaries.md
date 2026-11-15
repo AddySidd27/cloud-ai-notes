@@ -72,7 +72,7 @@ The platform is the shared part of Azure (identity, network, monitoring, securit
 
 First, platform and workload mix. A workload team changes a shared network because it is "just one rule". Or the platform team ends up fixing an application because the application's resources sit in a platform subscription. Each change looks small. Together they make the shared foundation hard to trust.
 
-Second, learners mix up a lab and a real landing zone. A lab is a good way to learn the steps. It is not the same as a production environment. If a post, a repo or a resume presents a lab as production, anyone who knows the topic will notice.
+Second, learners mix up a lab and a real landing zone. A lab is a good way to learn the steps. It is not the same as a production environment. If anyone presents a lab as production, people who know the topic will notice.
 
 This post sets the boundary, and then shows where a simple learning lab stops short of an enterprise design.
 
@@ -129,7 +129,7 @@ Workload subscriptions inherit the Azure Policy rules applied above them, so wor
 
 ## What the sample lab covers
 
-The sample lab is for learning the deployment steps. The "core lab" is its basic, hands-on version, and it is not a complete production landing zone. In the table, "Enterprise target" means what a real organization's design would add. Here is how the lab compares with an enterprise target. The Enterprise target column is a suggested design, not a Microsoft statement. Later posts cover [identity](/azure-landing-zone/identity-and-access-in-the-landing-zone/), [network](/azure-landing-zone/network-topology-and-connectivity/) and [governance](/azure-landing-zone/governance-and-azure-policy/) in detail.
+The [Azure_landing_zone learning repository](https://github.com/AddySidd27/Azure_landing_zone) is a sample lab for learning the deployment steps. Its "core lab" is the basic, hands-on version, and it is not a complete production landing zone. In the table, "Enterprise target" means what a real organization's design would add. Here is how the lab compares with an enterprise target. The Enterprise target column is a suggested design, not a Microsoft statement. Later posts cover [identity](/azure-landing-zone/identity-and-access-in-the-landing-zone/), [network](/azure-landing-zone/network-topology-and-connectivity/) and [governance](/azure-landing-zone/governance-and-azure-policy/) in detail.
 
 | Area | Core lab | Enterprise target |
 |---|---|---|

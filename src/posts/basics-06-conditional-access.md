@@ -15,18 +15,18 @@ Conditional Access is a set of rules in Microsoft Entra ID. A rule reads like an
 
 A bad Conditional Access rule can lock every admin out of a tenant. That is why this lab has more safety steps than most. Do them in order. Do not skip any.
 
-**Before you start:** this lab needs a Microsoft Entra ID P1 or P2 licence. The free tenant does not have one. The first section shows how to check for a trial and read its terms. If no trial is available to you, skip this lab and go to [Azure RBAC roles](/azure-basics-labs/rbac-roles/). No later lab needs this one.
+**Before you start:** this lab needs a Microsoft Entra ID P1 or P2 license. The free tenant does not have one. The first section shows how to check for a trial and read its terms. If no trial is available to you, skip this lab and go to [Azure RBAC roles](/azure-basics-labs/rbac-roles/). No later lab needs this one.
 
 ## What you need
 
 - [Start safely: Azure free account, tenant and subscription](/azure-basics-labs/start-azure-account-tenant-subscription/): a throwaway tenant and a Global Administrator sign-in for it.
 - [Microsoft Entra users, groups and break-glass accounts](/azure-basics-labs/entra-users-groups-break-glass/): the test user `testuser1` (with a usage location set), the group `TestUsers` (with `testuser1` in it), the two emergency accounts `emergency-access-01` and `emergency-access-02` with the passwords you saved, and the group `EmergencyAccess` (with both accounts in it).
 - [Multifactor authentication (MFA)](/azure-basics-labs/mfa/): `testuser1` registered for the Authenticator app, per-user MFA left at **Disabled**, and your note of what security defaults showed.
-- A Microsoft Entra ID P1 or P2 licence. Most people do not have this yet. The first section below shows how to look for a trial and how to assign it.
+- A Microsoft Entra ID P1 or P2 license. Most people do not have this yet. The first section below shows how to look for a trial and how to assign it.
 - A phone with the Microsoft Authenticator app, the same one you used in the MFA lab.
 - A private browser window (InPrivate in Edge, Incognito in Chrome).
 - Role: at least the Conditional Access Administrator role to create policies. Global Administrator covers it.
-- Time: about 90 minutes. Do it in two sittings: from the licence to the sign-in log, then switching the policy on and deleting it. If you stop between sittings, set the policy to **Off** or delete it first. Cost: nothing from Azure. A trial or licence has its own terms, shown on its sign-up page.
+- Time: about 90 minutes. Do it in two sittings: from the license to the sign-in log, then switching the policy on and deleting it. If you stop between sittings, set the policy to **Off** or delete it first. Cost: nothing from Azure. A trial or license has its own terms, shown on its sign-up page.
 
 ## Safety first
 
@@ -40,7 +40,7 @@ A bad Conditional Access rule can lock every admin out of a tenant. That is why 
 - Target only two apps: Azure Virtual Desktop and Windows Cloud Login. Never **All resources** (older name: **All cloud apps**). Do not add the Azure Virtual Desktop Azure Resource Manager Provider app or the Windows 365 app to this policy.
 - Grant control: **Require multifactor authentication**. Never **Block access**.
 - Turning security defaults off lowers the protection of the whole tenant. You must do it before you can use Conditional Access. Read "Idea 1" before you do it.
-- At the end, delete the policy. When the licence expires, policies are not removed, and you can view and delete them but you cannot update them. A policy you cannot edit is a policy you cannot fix.
+- At the end, delete the policy. When the license expires, policies are not removed, and you can view and delete them but you cannot update them. A policy you cannot edit is a policy you cannot fix.
 
 ## What the lab builds
 
@@ -52,21 +52,21 @@ A bad Conditional Access rule can lock every admin out of a tenant. That is why 
 
 This lab uses the Microsoft Entra admin center at `https://entra.microsoft.com`, not the Azure portal. The menu path is **Entra ID** > **Conditional Access** > **Policies**. Some older pages say **Protection** > **Conditional Access**. It is the same place.
 
-### Get the licence
+### Get the license
 
-The free Entra tier does not include Conditional Access. You need Microsoft Entra ID P1 or P2 in your tenant, and `testuser1` needs the licence assigned.
+The free Entra tier does not include Conditional Access. You need Microsoft Entra ID P1 or P2 in your tenant, and `testuser1` needs the license assigned.
 
-1. Go to `https://entra.microsoft.com` and sign in with your Global Administrator account from the first lab. Check the tenant name at the top right: it must be your throwaway tenant. Open **Billing** > **Licenses** > **All products**. If **Microsoft Entra ID P2** (or P1) is listed, you already have a licence. Go to step 3.
+1. Go to `https://entra.microsoft.com` and sign in with your Global Administrator account from the first lab. Check the tenant name at the top right: it must be your throwaway tenant. Open **Billing** > **Licenses** > **All products**. If **Microsoft Entra ID P2** (or P1) is listed, you already have a license. Go to step 3.
 2. If it is not listed, look for a trial. The sign-up page for Microsoft Entra ID P1 or P2 (linked under Sources) points to a **Microsoft Entra ID P2** trial. Open that link while signed in as your Global Administrator. Read what the sign-up page says before you accept anything: how long the trial lasts, whether it asks for a card and whether it renews. Write the end date on your notes sheet. A trial is not offered to every tenant. If none is offered to yours, or the page asks for something you do not want to give, stop here. This lab is optional and nothing in it is needed later. You have nothing to undo, so go on to the [Azure RBAC roles](/azure-basics-labs/rbac-roles/) lab.
 3. After the trial starts, sign in to `https://entra.microsoft.com` again and open **Billing** > **Licenses** > **All products**. You should see **Microsoft Entra ID P2**.
-4. Assign the licence to `testuser1`. Licences are assigned in the Microsoft 365 admin center, at `https://admin.microsoft.com`. Go to **Billing** > **Licenses**, select **Microsoft Entra ID P2**, select **Assign licenses**, start typing `testuser1`, select the user and select **Assign**. If the assignment fails, the most likely reason is a missing usage location. Set it on the user (see the users and groups lab) and try again.
+4. Assign the license to `testuser1`. Licenses are assigned in the Microsoft 365 admin center, at `https://admin.microsoft.com`. Go to **Billing** > **Licenses**, select **Microsoft Entra ID P2**, select **Assign licenses**, start typing `testuser1`, select the user and select **Assign**. If the assignment fails, the most likely reason is a missing usage location. Set it on the user (see the users and groups lab) and try again.
 
 Check: back in the Entra admin center, open **Entra ID** > **Users** > **All users** > `testuser1` > **Licenses**. It lists **Microsoft Entra ID P2**.
 
 ### Stop check
 
 5. Sign in to the [Microsoft Entra admin center](https://entra.microsoft.com) as your Global Administrator. Read the tenant name at the top right.
-6. Check the licence. Open **Entra ID** > **Conditional Access** > **Policies**. If the page opens and offers **New policy**, the tenant has the licence for it. If **New policy** is missing or greyed out, or the page offers a trial or a purchase link, go back to the licence section. If it still does not show after you assigned the licence, sign out, sign in again and look again.
+6. Check the license. Open **Entra ID** > **Conditional Access** > **Policies**. If the page opens and offers **New policy**, the tenant has the license for it. If **New policy** is missing or grayed out, or the page offers a trial or a purchase link, go back to the license section. If it still does not show after you assigned the license, sign out, sign in again and look again.
 7. Check the groups. Go to **Entra ID** > **Groups** > **All groups**. Open `TestUsers`: it must hold `testuser1` and must not hold your admin account. Open `EmergencyAccess`: it must hold both emergency accounts.
 8. Prove that `emergency-access-01` can sign in with MFA. This is a planned test, so it is allowed. The users and groups lab left this test to this lab. This is the check that tells you the exclusion works before you need it. Do these sub-steps:
     - Open a private window. Go to `https://aka.ms/mysecurityinfo`. This is the Security info page, where a user manages their sign-in methods. Sign in as `emergency-access-01` (full name ending in `.onmicrosoft.com`) with the password you saved in the users and groups lab.
@@ -81,7 +81,7 @@ Emergency accounts should normally stay off a personal phone. In a throwaway ten
 **Stop check.** All of these must be true before you go on:
 
 - You are in the throwaway tenant, and you read its name.
-- Conditional Access shows **New policy** (the licence works).
+- Conditional Access shows **New policy** (the license works).
 - `testuser1` is in `TestUsers`. Your admin account is not.
 - Both emergency accounts are in `EmergencyAccess`.
 - `emergency-access-01` signed in successfully today, and the sign-in log shows it.
@@ -206,13 +206,13 @@ Choosing **All users** and **All resources** because the picker did not show the
 
 If the AVD apps are not in the list, stop. Some apps do not appear in the picker at all, and the only ways around it are **All resources** or adding the missing service principal with PowerShell or Graph. This lab takes neither way. Leave the lab for when you have an AVD deployment.
 
-A second mistake: leaving the policy behind. If the licence ends, the policy stays, and you can view and delete it but not update it.
+A second mistake: leaving the policy behind. If the license ends, the policy stays, and you can view and delete it but not update it.
 
 ## Clean up
 
 1. Delete the policy (the last section of the steps).
 2. Look at your notes sheet. If security defaults were ON when you started, turn them back on now: **Entra ID** > **Overview** > **Properties** > **Manage security defaults** > **Enabled** > **Save**. Security defaults and Conditional Access cannot be used together, so do this only after the delete. If they were already OFF, leave them off.
-3. If you started a trial or bought a licence only for this lab, write its end date on your notes sheet and set a reminder two days before it. Check on the sign-up page whether the trial renews or asks for a card. To end it early, look in the Microsoft 365 admin center under **Billing** > **Your products** for the trial and a cancel option. If you cannot find one, let the trial run out.
+3. If you started a trial or bought a license only for this lab, write its end date on your notes sheet and set a reminder two days before it. Check on the sign-up page whether the trial renews or asks for a card. To end it early, look in the Microsoft 365 admin center under **Billing** > **Your products** for the trial and a cancel option. If you cannot find one, let the trial run out.
 
 Check: **Manage security defaults** shows the same state as at the start (or you decided to leave it off in this throwaway tenant), and the policy list no longer shows your policy.
 

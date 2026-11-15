@@ -29,7 +29,7 @@ By the end you will have run your first Azure commands in the browser, and you w
 
 ## What the lab builds
 
-![Left to right: you sign in to the Azure portal and open Cloud Shell (Bash), which sends az commands to your test subscription. A grey, optional path below shows the Azure CLI on your own PC, signed in with az login, used for the Terraform lab.](/img/basics/cloud-shell-and-azure-cli.svg)
+![Left to right: you sign in to the Azure portal and open Cloud Shell (Bash), which sends az commands to your test subscription. A gray, optional path below shows the Azure CLI on your own PC, signed in with az login, used for the Terraform lab.](/img/basics/cloud-shell-and-azure-cli.svg)
 
 *Based on the pages listed under Sources. Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
@@ -53,7 +53,7 @@ Azure CLI is a command-line tool for managing Azure. You type `az` to run it. Ru
 
 Command blocks are Bash unless they say otherwise. Run them in Cloud Shell (Bash). They do not work in PowerShell on your PC. The only PowerShell blocks are the PC install part of this lab and the Terraform lab, and they are marked.
 
-**The shape of a command.** Commands are organised as command groups, and each group is an area of an Azure service. A command is `az`, then the group, then often a subgroup, then the action, then parameters that start with `--`. Example: `az account show`. The group is `account`, the action is `show`.
+**The shape of a command.** Commands are organized as command groups, and each group is an area of an Azure service. A command is `az`, then the group, then often a subgroup, then the action, then parameters that start with `--`. Example: `az account show`. The group is `account`, the action is `show`.
 
 **Command 1. Check the version.**
 

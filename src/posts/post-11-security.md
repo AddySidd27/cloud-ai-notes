@@ -258,7 +258,7 @@ For a brownfield (existing) environment, four services bring the same principles
 
 ![Security in the landing zone, as three stacked panels. Top, security operations tooling in a two-column grid of cards: alerts (Defender for Cloud, Sentinel), logs, controls and patching, encryption and keys (Key Vault), and Azure Attestation. Middle, access control: network security controls and Zero Trust access controls, with the pillar names. Bottom, what the reference architecture includes: six tools and six policies. A footer notes what is out of scope.](/diagrams/post-11-security-design-area.svg)
 
-*Source: [Design area: Security](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/security). That page has no diagram, so this picture is a simplified summary of its text. It shows only the pillar names and leaves out the benchmark and the brownfield services. Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/), unmodified.*
+*Source: [Design area: Security](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/security). This picture is a simplified summary of that page. It shows only the pillar names and leaves out the benchmark and the brownfield services. Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/), unmodified.*
 
 ## Common mistakes
 

@@ -44,7 +44,7 @@ repo_links:
 diagrams:
   - file: "../diagrams/post-63-use-cases-finder.svg"
     type: own-layout
-    based_on: "No documentation page has a picture of this, so the layout is simplified."
+    based_on: "Simplified layout."
     icons: "none"
     source: "../diagrams/post-63-use-cases-finder.drawio"
   - file: "../diagrams/post-63-use-cases-placement.svg"
@@ -91,7 +91,7 @@ Earlier posts defined [landing zone and guardrail](/azure-landing-zone/what-is-a
 
 ![A box at the top asks what you are deciding. Three columns follow. First, where does this workload go: internet-facing or internal app, development test and production, experiments and learning, an extra compliance rule, more than one region, an AI workload, a platform shared by teams, retiring a subscription. Second, what shape is your company: one tenant with many subscriptions, several tenants after mergers, many countries with conflicting rules, a software company. Third, do special rules apply: sovereignty controls, servers that stay on premises.](/diagrams/post-63-use-cases-finder.svg)
 
-*Simplified. The documentation has no picture of this.*
+*Simplified overview diagram.*
 
 <div class="path-picker" data-path-picker>
 <p class="path-picker__label">You are deciding about</p>
@@ -108,7 +108,7 @@ The groups under Landing zones exist for kinds of workload. Understand this pict
 
 **Figure 2. Where each kind of workload goes.**
 
-![An intermediate root management group sits at the top with three branches. Platform holds Security, Management, Connectivity and Identity for shared services. Landing zones holds Corp for internal apps that need the hub network, Online for internet-facing apps, Local for workloads on Azure Local, and an optional extra group for a subset with an extra compliance rule. Sandboxes holds experiments, and Decommissioned holds cancelled subscriptions. A note says development, test and production are subscriptions in the same group, not groups.](/diagrams/post-63-use-cases-placement.svg)
+![An intermediate root management group sits at the top with three branches. Platform holds Security, Management, Connectivity and Identity for shared services. Landing zones holds Corp for internal apps that need the hub network, Online for internet-facing apps, Local for workloads on Azure Local, and an optional extra group for a subset with an extra compliance rule. Sandboxes holds experiments, and Decommissioned holds canceled subscriptions. A note says development, test and production are subscriptions in the same group, not groups.](/diagrams/post-63-use-cases-placement.svg)
 
 *Based on the table in [Management groups](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups); simplified. Icons are from the official [Azure architecture icon set](https://learn.microsoft.com/en-us/azure/architecture/icons/), unmodified.*
 
@@ -138,9 +138,9 @@ The groups under Landing zones exist for kinds of workload. Understand this pict
 - Audit logging turned on, sent to a central workspace.
 - A budget with alerts. An alert is only a warning, so you may cancel the sandbox if the budget is passed.
 - An expiry date, kept as a tag, with automation that cancels the subscription when the date comes.
-- Owner access for the sandbox user, removed when the sandbox is cancelled.
+- Owner access for the sandbox user, removed when the sandbox is canceled.
 
-**Watch for.** Keep sensitive data out. Tell users this before they start; the documentation also suggests Microsoft Purview to raise an alert if labelled sensitive data appears. After a sandbox expires, move it to Decommissioned.
+**Watch for.** Keep sensitive data out. Tell users this before they start; the documentation also suggests Microsoft Purview to raise an alert if labeled sensitive data appears. After a sandbox expires, move it to Decommissioned.
 
 ### A workload with an extra compliance rule
 
@@ -178,7 +178,7 @@ The groups under Landing zones exist for kinds of workload. Understand this pict
 
 **Situation.** A workload is switched off.
 
-**What to do.** Cancel the subscription and move it to Decommissioned. Azure deletes cancelled subscriptions after 30 to 60 days.
+**What to do.** Cancel the subscription and move it to Decommissioned. Azure deletes canceled subscriptions after 30 to 60 days.
 
 **Watch for.** Some organizations reuse a cleaned subscription instead of creating a new one. Consider this if you:
 

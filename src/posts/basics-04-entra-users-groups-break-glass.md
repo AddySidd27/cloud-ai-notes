@@ -56,7 +56,7 @@ Why a separate test user? Later labs need to show what a normal person sees. An 
    - Leave **Account enabled** checked.
 5. Select **Next: Properties**. Under **Settings**, set the location (**Usage location**, a country) to your country. If the label differs, use the country or location setting on that tab.
 
-   A user needs a location before you can assign a licence. Setting it now saves you a surprise in the Conditional Access lab.
+   A user needs a location before you can assign a license. Setting it now saves you a surprise in the Conditional Access lab.
 6. Leave the **Assignments** tab alone. Select **Review + create**, then **Create**.
 7. Open a new private window (InPrivate in Edge, Incognito in Chrome). Go to `https://portal.azure.com` and sign in as the test user with the temporary password.
 8. Azure asks for MFA when you sign in to the Azure portal, so `testuser1` will probably be asked to set up MFA at this first sign-in. Close the window. You set it up properly in [Multifactor authentication (MFA)](/azure-basics-labs/mfa/). If the page asks for a new password first, choose one and write it down. What you should see otherwise: the portal opens, or the MFA setup screen opens, and no subscription or resources are shown. That is correct, because the user has no role yet (the RBAC lab gives it one). The check below does not need the sign-in to finish.
@@ -102,7 +102,7 @@ Give the accounts plain names that say what they are, so no one deletes them by 
 
 Check: Both emergency accounts show **Global Administrator** under **Assigned roles** > **Active assignments**. The group `EmergencyAccess` has 2 members.
 
-**Where to keep the passwords.** Store the credentials in a known secure place that more than one authorised admin can reach, and not on one person's device, for example a fireproof safe. For your lab, a password manager entry that is not your daily vault, or a sealed printout, is enough. Do not store both in the same place as your own admin password.
+**Where to keep the passwords.** Store the credentials in a known secure place that more than one authorized admin can reach, and not on one person's device, for example a fireproof safe. For your lab, a password manager entry that is not your daily vault, or a sealed printout, is enough. Do not store both in the same place as your own admin password.
 
 ### The MFA problem, said plainly
 
@@ -140,7 +140,7 @@ Making only one emergency account, or making none, and then locking yourself out
 
 A third is using your own admin account as the "test user" and thinking the policy works. It works for you because you are an admin, not because it is right for a normal user.
 
-A fourth: skipping the usage location on `testuser1`. The Conditional Access lab cannot assign a licence without it.
+A fourth: skipping the usage location on `testuser1`. The Conditional Access lab cannot assign a license without it.
 
 ## Clean up
 

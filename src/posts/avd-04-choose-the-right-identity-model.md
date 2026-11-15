@@ -190,7 +190,7 @@ This is a practical inspection of an existing environment. It does not require c
 3. Stay on **Overview** (or open the **Properties** tab) and scroll to **On-premises**.
 4. Check **On-premises sync enabled** and the last synchronization time. For a hybrid deployment, also compare the represented identity with the source AD account: the supported matching condition is UPN or SID.
 
-![Entra user page scrolled to the On-premises section: On-premises sync enabled is Yes and the last sync date is 14 June 2024. The account name and several directory identifier fields are hidden by grey boxes](/img/avd/AVD-Post-04-user-source-redacted.png)
+![Entra user page scrolled to the On-premises section: On-premises sync enabled is Yes and the last sync date is 14 June 2024. The account name and several directory identifier fields are hidden by gray boxes](/img/avd/AVD-Post-04-user-source-redacted.png)
 
 *Example: the test user has On-premises sync enabled set to Yes. The account name and private directory identifiers are hidden.*
 
@@ -248,7 +248,7 @@ The host-pool overview also reports Uses Session Host Configuration: No. The ext
 3. Select the **Identity-based access** status.
 4. Read the enabled identity source and default share-permission setting.
 
-![Storage account Identity-based access page where Microsoft Entra Kerberos shows Enabled, the other two identity sources are greyed out, and default share-level permissions are set to disable permissions](/img/avd/AVD-Post-04-storage.png)
+![Storage account Identity-based access page where Microsoft Entra Kerberos shows Enabled, the other two identity sources are grayed out, and default share-level permissions are set to disable permissions](/img/avd/AVD-Post-04-storage.png)
 
 *Example: Microsoft Entra Kerberos is enabled. Default share-level permissions are disabled.*
 

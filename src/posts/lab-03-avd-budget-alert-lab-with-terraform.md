@@ -97,7 +97,7 @@ provider "azurerm" {
 | `actual_cost_thresholds` | `[50, 80, 100]` | Percentages of the budget that trigger an alert on actual cost. |
 | `forecast_cost_threshold` | `100` | The percentage that triggers an alert when the forecast goes above it. |
 
-The start date has no default on purpose. Set it to the first day of the month you run the lab in. It must be the first day of a month, that a past start date must fall inside the budget period, that a future start date can be at most twelve months ahead, and that changing it later forces Terraform to replace the budget. The code checks only the format. A budget can have up to five thresholds. The forecast alert counts as one of them, so the code allows at most four actual cost thresholds.
+The start date has no default on purpose. Set it to the first day of the month you run the lab in. Azure requires a first-of-month date. A past date must fall inside the current budget period, a future date can be at most twelve months ahead, and changing it later makes Terraform replace the budget. The code checks only the format. A budget can have up to five thresholds. The forecast alert counts as one of them, so the code allows at most four actual cost thresholds.
 
 The full file:
 

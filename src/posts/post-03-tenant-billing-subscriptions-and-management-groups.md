@@ -144,3 +144,8 @@ Azure has four scopes: management groups, subscriptions, resource groups and res
 
 Next: [The Cloud Operating Model](/azure-landing-zone/the-cloud-operating-model/).
 
+## Sources
+
+- [Azure billing offers and Microsoft Entra tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-entra-tenant)
+- [What are Azure management groups?](https://learn.microsoft.com/en-us/azure/governance/management-groups/overview)
+- [Subscriptions design area](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-subscriptions)

@@ -18,7 +18,7 @@ By the end you will have a free Azure account in a test tenant. You will be able
 - A phone that can receive a text message or a call, for identity verification.
 - A credit or debit card. Virtual and prepaid cards are often refused, so use a normal card.
 - About 40 minutes. Cost: nothing, if you stay inside the free account limits.
-- Role: none to start with. You sign up, so the account is yours. If the **Register** button in step 5 is greyed out later, you do not have permission to register providers.
+- Role: none to start with. You sign up, so the account is yours. If the **Register** button in step 5 is grayed out later, you do not have permission to register providers.
 
 If you ever had an Azure subscription before, the free trial may not be available to you. Microsoft limits the free trial to people who are new to Azure. In that case a pay-as-you-go subscription is the other route, and you pay for what you use.
 
@@ -32,7 +32,7 @@ If you ever had an Azure subscription before, the free trial may not be availabl
 
 ## What the lab builds
 
-![A subscription box with an arrow labelled trusts that points to a tenant box, which is your Microsoft Entra directory of people and sign-in settings. Eight resource providers are registered on the subscription. The numbers match the numbered steps below.](/img/basics/start-azure-account-tenant-subscription.svg)
+![A subscription box with an arrow labeled trusts that points to a tenant box, which is your Microsoft Entra directory of people and sign-in settings. Eight resource providers are registered on the subscription. The numbers match the numbered steps below.](/img/basics/start-azure-account-tenant-subscription.svg)
 
 *Based on the pages listed under Sources. Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
@@ -57,7 +57,7 @@ Two ideas first.
 4. Complete the sign-up pages: your details, identity verification by phone, identity verification by card, and the agreement. Allow a few minutes for the phone code. Internet phone numbers (such as Google Voice) are often refused, so use a normal mobile number. If you get no text message, try the call option. The card check may show a small temporary hold that goes away by itself.
 5. When sign-up ends, open the [Azure portal](https://portal.azure.com) and sign in.
 
-Expect a new tenant with a name you do not recognise from work, and a domain that ends in `.onmicrosoft.com`. If you see your employer's name, close the window and start again in a private window with a different email.
+Expect a new tenant with a name you do not recognize from work, and a domain that ends in `.onmicrosoft.com`. If you see your employer's name, close the window and start again in a private window with a different email.
 
 You can stop here and finish the rest tomorrow. Sign-up with phone and card checks often takes 20 minutes.
 
@@ -94,7 +94,7 @@ The portal shows a region as, for example, East US 2. Commands use another spell
 
 ### 5. Register the resource providers
 
-A resource provider is the part of Azure behind one service. For example, Microsoft.KeyVault is the provider behind Key Vault. Registering it sets up your subscription to use that service. Register a provider only when you are ready to use it, because unneeded registrations can add apps you do not recognise to your tenant. When you create a resource in the portal, the portal usually registers the provider for you. You register them here so that later labs do not stop on a registration error. Some providers may already show **Registered**. That is fine, and you can skip those.
+A resource provider is the part of Azure behind one service. For example, Microsoft.KeyVault is the provider behind Key Vault. Registering it sets up your subscription to use that service. Register a provider only when you are ready to use it, because unneeded registrations can add apps you do not recognize to your tenant. When you create a resource in the portal, the portal usually registers the provider for you. You register them here so that later labs do not stop on a registration error. Some providers may already show **Registered**. That is fine, and you can skip those.
 
 You need permission to register a provider (`*/register/action`). The Owner and Contributor roles include it.
 
@@ -181,7 +181,7 @@ No Terraform in this lab, because creating the account and the tenant is done by
 
 Working in the wrong tenant. If you are also signed in to a work account, the portal may open the work directory, and everything you create lands there. Always read the tenant name and the subscription name first. Use a private browser window or a separate browser profile for the test account.
 
-How to spot it: the organisation name next to your profile picture at the top right is your employer's, or the Subscriptions list shows subscriptions you do not recognise. Close everything, open a private window and sign in again.
+How to spot it: the organization name next to your profile picture at the top right is your employer's, or the Subscriptions list shows subscriptions you do not recognize. Close everything, open a private window and sign in again.
 
 ## Clean up
 
