@@ -36,6 +36,7 @@ export default {
   123: { tags: ["AVD", "Networking", "Performance", "QoS"], published: "2026-11-08" },
   124: { tags: ["AVD", "Session hosts", "VM sizing", "GPU"], published: "2026-11-11" },
   125: { tags: ["AVD", "FSLogix", "Cloud Cache", "Profiles"], published: "2026-11-14" },
+  126: { tags: ["AVD", "Terraform", "FSLogix"], published: "2026-11-15" },
 
 
 
