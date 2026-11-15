@@ -395,6 +395,7 @@ dialog.zoom.expanded .zoom-image img{width:var(--zoom-width);max-width:none;max-
 .foot-grid{display:grid;gap:2rem}
 @media (min-width:40rem){.foot-grid{grid-template-columns:repeat(2,1fr)}}
 @media (min-width:64rem){.foot-grid{grid-template-columns:1.4fr 1fr 1fr 1fr 1.3fr}}
+@media (min-width:64rem){.foot-grid.no-brand{grid-template-columns:1fr 1fr 1fr 1.3fr}}
 .foot .brand-role{display:none}
 .foot-brand p{margin-top:.5rem;max-width:30ch;font-size:1rem;color:var(--on-navy-muted)}
 .foot h2{font:600 1rem/1.4 var(--sans);color:#F6F5F1;margin-bottom:.625rem}
