@@ -46,7 +46,7 @@ repo_links:
   - "https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/resource-organization.md"
 diagrams:
   - file: "../diagrams/post-03-azure-building-blocks.svg"
-    type: own-layout-official-icons
+    type: learn-based
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-entra-tenant"
     icons: "Azure Public Service Icons V24 (Management groups, Subscriptions, Resource groups) and Microsoft Entra architecture icons Oct 2023 (Microsoft Entra ID, color), all unmodified"
     source: "../diagrams/post-03-azure-building-blocks.drawio"
@@ -64,7 +64,7 @@ tags: [alz]
 
 Four words are easy to mix up when you start with Azure: tenant, billing offer (the type of Azure offer your subscriptions are bought under, such as an Enterprise Agreement), subscription and management group. They sound close, but each one answers a different question.
 
-When they get mixed up, design decisions can go wrong. One mistake is adding extra tenants, which you should avoid without a specific business requirement. Another is treating a subscription as only a bill, and missing that it is also a boundary for cost, quotas (the number of resources a subscription is assigned), policy and access.
+When they get mixed up, design decisions can go wrong. One mistake is adding extra tenants, which you should avoid without a specific business requirement. Another is treating a subscription as only a bill, and missing that it is also a boundary for cost, quotas (the number of resources a subscription is assigned), policy and access. A boundary is a limit where separate rules, costs or permissions can apply.
 
 This post gives you the four words in plain language and shows how they fit together. Later posts go deep: [the billing and tenant post](/azure-landing-zone/billing-and-tenant-in-depth/) covers billing and tenant, and [the resource organization post](/azure-landing-zone/resource-organization/) covers resource organization.
 
@@ -77,16 +77,17 @@ Terms from [the landing zone introduction post](/azure-landing-zone/what-is-an-a
 |---|---|
 | Authentication | Proving that you are who you say you are. |
 | Authorization | Giving a person or app that has proved who they are permission to do something. It sets what they can access and what they can do. |
-| Scope | A level at which you can apply a setting. Azure has four: management groups, subscriptions, resource groups and resources. |
-| Quota | The number of resources your Azure subscription is assigned. Quotas used to be called limits. |
+| Scope | A level at which you can apply a setting. Azure has four: management groups, subscriptions, resource groups and resources. (These are not the same four as the building blocks above.) |
+| Quota | The number of resources your Azure subscription is assigned. Quotas used to be called limits, and this post says "quota". Quotas apply per region and do not guarantee capacity. For quotas you can adjust, you can request an increase ([Quotas overview](https://learn.microsoft.com/en-us/azure/quotas/quotas-overview)). |
 | Scale | How far your workloads can grow before they reach the limits Azure sets for one subscription. |
 | Billing offer | The type of Azure offer a subscription is bought under, for example an Enterprise Agreement, a Microsoft Customer Agreement or a Cloud Solution Provider agreement. |
 | Enterprise Agreement (EA) | The commercial agreement between Microsoft and your organization about how you use Azure. It provides the billing foundation for your subscriptions. |
 | Microsoft Customer Agreement (MCA) | A recent, modern agreement between Microsoft and your organization about how you use Azure. It is a streamlined electronic agreement that does not expire. |
 | Cloud Solution Provider (CSP) | A service where a Microsoft partner (a company that works with Microsoft) sets the price and terms, bills you directly, and provisions and manages your subscriptions. |
+| Governance | The rules and controls you apply to keep an environment safe and consistent. |
 | Data sovereignty | Data residency, plus rules about who controls customer data stored in the cloud. |
 
-Picture one tenant at the top. Below it are management groups, and below those are subscriptions. Inside each subscription are resource groups, and inside those are the resources you actually run. Each subscription is bought under a billing offer (the picture shows EA, CSP and MCA), and the offer decides how that subscription is paid for.
+Picture one tenant at the top. Below it are management groups, and below those are subscriptions. Inside each subscription are resource groups, and inside those are the resources you actually run. Each subscription is bought under a billing offer (the diagram near the end of this post shows EA, CSP and MCA), and the offer decides how that subscription is paid for.
 
 ## Microsoft Entra tenant: who can sign in
 
@@ -98,9 +99,9 @@ A Microsoft Entra tenant provides identity and access management, which means it
 
 ## Billing offer: how you pay
 
-A billing offer is the type of Azure offer a subscription is bought under. Common examples are an Enterprise Agreement, a Microsoft Customer Agreement and a cloud solution provider agreement. You can use more than one at the same time, and an Azure landing zone supports subscriptions from any offer.
+A billing offer is the type of Azure offer a subscription is bought under. Common examples are an Enterprise Agreement (EA), a Microsoft Customer Agreement (MCA) and a Cloud Solution Provider (CSP) agreement. You can use more than one at the same time, and an Azure landing zone supports subscriptions from any offer.
 
-Billing can reach further than one tenant. For example, an Enterprise Agreement can cover subscriptions in different tenants, even though the landing zone itself is built in one tenant.
+One billing agreement can pay for subscriptions in more than one tenant. For example, an Enterprise Agreement can cover subscriptions in different tenants, even though the landing zone itself is built in one tenant.
 
 ## Subscription: where resources live
 
@@ -108,15 +109,15 @@ A subscription is a unit of management, billing and scale (scale is defined abov
 
 ## Management group: rules for many subscriptions
 
-Management groups sit above subscriptions, as a level for governance. Rules you apply to a management group flow down to every subscription under it. For example, apply a policy to a management group that allows virtual machines (computers you run in Azure) only in approved regions, and it applies to every nested group, subscription and resource. One Azure RBAC role assignment (a permission given to a person or app at a chosen level) on a management group can give a person access to all the subscriptions below it.
+Management groups sit above subscriptions, as a level for governance (defined above). Rules you apply to a management group flow down to every subscription under it. For example, apply a policy to a management group that allows virtual machines (computers you run in Azure) only in approved regions, and it applies to every nested group, subscription and resource. One Azure RBAC role assignment on a management group can give a person access to all the subscriptions below it.
 
-Every tenant has one top-level management group, called the *tenant root group* by default. By default, new subscriptions land there automatically. Anything assigned at the root applies to the whole tenant, so keep root assignments to "must have" items only. [The platform scope post](/azure-landing-zone/platform-scope-and-workload-boundaries/) showed how the landing zone arranges the groups below the root.
+New subscriptions land in the tenant root group by default. Anything assigned there applies to the whole tenant, so keep assignments at the tenant root group to "must have" items only. [The platform scope post](/azure-landing-zone/platform-scope-and-workload-boundaries/) shows the groups below it.
 
 ## Below the subscription: resource groups and resources
 
-A resource group holds related resources that share the same lifecycle, which means you deploy, update and delete them together.
+A resource group holds related resources that you deploy, update and delete together.
 
-Azure has four levels of management scope: management groups, subscriptions, resource groups and resources. Lower levels inherit settings from higher levels.
+Azure has four scopes: management groups, subscriptions, resource groups and resources. Lower levels inherit settings from higher levels. These are not the same four as the building blocks at the top of this post.
 
 ## The four building blocks side by side
 
@@ -130,28 +131,28 @@ Azure has four levels of management scope: management groups, subscriptions, res
 ## Three common mix-ups
 
 1. **Tenant and subscription.** A tenant is the identity home. A subscription is a container for resources. One tenant holds many subscriptions, and each subscription trusts one tenant.
-2. **Subscription and region.** A subscription is not tied to a region. One subscription can hold resources from different regions, so you do not need one subscription per region. Add extra subscriptions per region only for region-specific governance needs, such as data sovereignty, or to get past quota limits.
-3. **Management group and resource group.** A management group sits above subscriptions and groups subscriptions (and other management groups). A resource group sits below a subscription and groups resources. A management group is the top of the four levels. A resource group is the third level, just above the resources.
+2. **Subscription and region.** A subscription is not tied to a region. One subscription can hold resources from different regions, so you do not need one subscription per region. Add extra subscriptions per region only for region-specific governance needs, such as data sovereignty, or to get past quotas.
+3. **Management group and resource group.** A management group sits above subscriptions and groups subscriptions (and other management groups). A resource group sits below a subscription and groups resources. Of the four scopes, a management group is the highest. A resource group is the third, just above the resources.
 
 ## Tenant, billing, subscriptions and management groups at a glance
 
-![One Microsoft Entra tenant at the top, then a management group with two management groups below it. One holds a subscription bought under an Enterprise Agreement (EA). The other holds two subscriptions, one under a Cloud Solution Provider agreement (CSP) and one under a Microsoft Customer Agreement (MCA). Each subscription has a resource group, and each resource group holds resources](/diagrams/post-03-azure-building-blocks.svg)
+![One Microsoft Entra tenant at the top. Under it is one management group (the tenant root group) with two child management groups. One holds a subscription bought under an Enterprise Agreement (EA). The other holds two subscriptions, one under a Cloud Solution Provider agreement (CSP) and one under a Microsoft Customer Agreement (MCA). Each subscription has a resource group, and each resource group holds resources.](/diagrams/post-03-azure-building-blocks.svg)
 
-*Simplified diagram, redrawn by me to follow the layout of the Azure scopes diagram in the official documentation (one tenant, management groups, subscriptions, resource groups, resources). The original labels its third subscription PAYG (pay-as-you-go); I show MCA instead, because this post defines MCA. Based on: [Azure billing offers and Microsoft Entra tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-entra-tenant) and [What are Azure management groups?](https://learn.microsoft.com/en-us/azure/governance/management-groups/overview) Not an official Microsoft diagram. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) and [Microsoft Entra](https://learn.microsoft.com/en-us/entra/architecture/architecture-icons) architecture icon sets. Microsoft's own diagram is on the first linked page.*
+*Simplified diagram based on the Azure scopes diagram in [Azure billing offers and Microsoft Entra tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-entra-tenant) and on [What are Azure management groups?](https://learn.microsoft.com/en-us/azure/governance/management-groups/overview). The original labels its third subscription PAYG (pay-as-you-go). This version shows MCA instead, because this post defines MCA. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) and [Microsoft Entra](https://learn.microsoft.com/en-us/entra/architecture/architecture-icons) architecture icon sets. The original diagram is on the first linked page.*
 
 
 ## Common mistakes
 
 - **More tenants than you need.** Avoid several tenants for one organization without a specific business requirement.
-- **Subscriptions can move in and out of your tenant.** A user with the required permissions can change which tenant a subscription is linked to. Set both the "subscription leaving" and "subscription entering" directory options (the settings call the tenant a directory) to *Permit no one*, with a short list of exempted users, for example members of the platform operations team.
+- **Subscriptions can move in and out of your tenant.** A user with the required permissions can change which tenant a subscription is linked to. Set both the "subscription leaving" and "subscription entering" directory options (the settings call the tenant a directory) to *Permit no one*, with a short list of exempted users. Include members of the platform operations team and break-glass (emergency) accounts. Only users with the Global Administrator role (with elevated access) can change these settings, and exempted users must be individual accounts, not groups. Subscriptions you move into a tenant land in its default management group. CSP subscriptions cannot be transferred to another tenant ([Subscriptions design area](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-subscriptions)).
 - **Too much assigned at the root.** Whatever you assign at the tenant root group reaches everything in the tenant.
-- **Big workloads share a subscription with everything else.** Large specialized workloads should use their own subscriptions so they do not run into subscription limits. Examples are high-performance computing (very demanding calculation jobs), Internet of Things (IoT) device systems and large business-software systems.
+- **Big workloads share a subscription with everything else.** Large specialized workloads should use their own subscriptions so they do not run into subscription quotas. Examples are high-performance computing (very demanding calculation jobs), Internet of Things (IoT) device systems and large business-software systems.
 
 ## From my own projects
 
-These situations came up in my own work: more than one tenant, a large workload that ran into subscription limits, and subscriptions where nobody was clear who owned the cost. Typical results are extra admin work, security and access gaps, slower delivery, and confusion about billing.
+These situations came up in my own work: more than one tenant, a large workload that ran into subscription quotas, and subscriptions where nobody was clear who owned the cost. Learn names more management work and more security risk as the cost of extra tenants ([Define Microsoft Entra tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-ad-define)). In my experience (judgement), the other results were slower delivery and confusion about who pays.
 
-## The files in my repo
+## The files in my GitHub repository
 
 - Billing and tenant: [billing-and-tenant.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/billing-and-tenant.md)
 - Subscriptions: [subscription-design.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/subscription-design.md)
@@ -159,5 +160,5 @@ These situations came up in my own work: more than one tenant, a large workload 
 
 ## Sources
 
-Microsoft Learn, checked October 2026: [Defining tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-ad-define) · [Subscriptions](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-subscriptions) · [Management groups](https://learn.microsoft.com/en-us/azure/governance/management-groups/overview)
+Microsoft Learn, checked October 2026: [Defining tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-ad-define) · [Subscriptions](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-subscriptions) · [Management groups](https://learn.microsoft.com/en-us/azure/governance/management-groups/overview) · [Quotas overview](https://learn.microsoft.com/en-us/azure/quotas/quotas-overview) · [Azure billing offers and Microsoft Entra tenants](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-billing-microsoft-entra-tenant)
 

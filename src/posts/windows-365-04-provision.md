@@ -10,58 +10,60 @@ deck: "Follow the license, group, network, image and provisioning policy in the 
 ---
 
 
-In the [identity and network article](/windows-365/identity-network/), we chose an identity and network path. Here we use **Microsoft Entra join** and a **Microsoft-hosted network** for a small Enterprise pilot. You can follow the same order in your own tenant. The Azure network connection (ANC) path is a separate lab in the [ANC health failure article](/windows-365/anc-troubleshooting/).
+In the [identity and network article](/windows-365/identity-network/), we chose an identity and network path. Here we use **Microsoft Entra join** and a **Microsoft-hosted network** for a small Enterprise pilot. You can follow the same order in your own tenant.
 
-**What you will build:** one licensed pilot user in one Microsoft Entra group, targeted by one provisioning policy. The intended result is a provisioned Cloud PC that the user can open and that an administrator can inspect in Intune.
+A Cloud PC is a Windows desktop that Windows 365 builds and runs for one user. A provisioning policy is the set of rules (join type, network, image, region) that tells Windows 365 how to build Cloud PCs for the users in a group. Microsoft Entra join means the Cloud PC joins Microsoft Entra ID directly, with no on-premises domain. A Microsoft-hosted network means Windows 365 runs the Cloud PC network for you. The Azure network connection (ANC) is the other choice: you bring your own Azure virtual network. The ANC path is a separate lab in the [ANC health failure article](/windows-365/anc-troubleshooting/). The [identity and network article](/windows-365/identity-network/) explains both choices.
+
+**What you will build:** one licensed pilot user in one Microsoft Entra group, targeted by one provisioning policy. The intended result is a Cloud PC with the status **Provisioned** (built and ready for sign-in) that the user can open and that an administrator can inspect in Intune. The screenshots below show the wizard, not a finished build.
 
 ![Illustrated pilot provisioning sequence for example user AVDtest](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/architecture/diagrams/exported/windows-365-provisioning-illustration.png)
 
-*Illustration 1. Example user AVDtest. This is an original workflow diagram, not an Intune screenshot or proof of a completed lab. [Edit the draw.io source](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/architecture/diagrams/exported/windows-365-provisioning-illustration.drawio).*
+*Illustration 1. Example user AVDtest (only an example name). This is a workflow illustration, not an Intune screenshot or proof of a completed lab. Steps 4 and 5 of this article (network, image and wizard) are combined in the third box. Based on [Create provisioning policies](https://learn.microsoft.com/en-us/windows-365/enterprise/create-provisioning-policy). [Edit the draw.io source](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/architecture/diagrams/exported/windows-365-provisioning-illustration.drawio).*
 
-**Evidence boundary:** My tenant already has a Provisioned Enterprise Cloud PC. I verified its current policy and inventory on October 12, 2026. On October 12, I opened a new policy wizard in my own Intune tenant and captured its six pages as an unassigned draft. I closed the wizard without creating a policy. These screens show the current controls, not the original creation of the already Provisioned Cloud PC or a fresh license-to-first-sign-in run.
+**Evidence boundary:** My tenant already has an Enterprise Cloud PC with the status Provisioned. I verified its current policy and inventory on October 12, 2026. On October 12, I opened a new policy wizard in my own Intune tenant and captured its six pages as an unassigned draft. The General and Review captures show only the upper part of their pages. I closed the wizard without creating a policy. These screens show the current wizard. They do not show how the existing Cloud PC was first created, they are not a fresh start-to-finish run, and they do not prove a second Cloud PC was provisioned.
 
 ## 1. Check the prerequisites
 
-Before you create anything, check the [Windows 365 Enterprise requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements). You need a suitable Windows 365 Enterprise license, a user who receives that license, a Microsoft Entra group for the policy assignment, and an administrator with the required [Windows 365 permissions](https://learn.microsoft.com/en-us/windows-365/enterprise/customer-permissions). For this Microsoft-hosted, Entra joined path, you do not need to create an Azure virtual network.
+Before you create anything, check the [Windows 365 Enterprise requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements). You need a suitable Windows 365 Enterprise license, a user who receives that license, a Microsoft Entra group for the policy assignment, and an administrator who holds the Intune Administrator or Windows 365 Administrator role in Microsoft Entra ID ([Role and identity requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements#role-and-identity-requirements)). Users also need licenses for Windows E3, Intune and Microsoft Entra ID P1 as well as Windows 365, and Intune must allow Windows (MDM) enrollment; the [plan the pilot article](/windows-365/plan-the-pilot/) lists these. For this Microsoft-hosted, Entra joined path, you do not need to create an Azure virtual network.
 
 | Check | Where | Continue when |
 | --- | --- | --- |
 | Enterprise license | Microsoft 365 admin center > Billing > Licenses | The intended user has the license assigned |
 | Pilot group | Microsoft Entra admin center > Groups | The intended user is a member |
-| Administrator | Intune and Entra roles | You can create a provisioning policy |
-| Network choice | Pilot design | Microsoft-hosted network is selected |
+| Administrator | Microsoft Entra roles | You hold the Intune Administrator or Windows 365 Administrator role |
+| Network choice | Your pilot plan (a decision, not a portal page) | Microsoft-hosted network is selected |
 
-My sanitized license inventory from September 24 shows **one assigned Enterprise seat and zero available**. It proves inventory, not which user received the license.
+My sanitized license inventory from September 24 shows **one assigned Enterprise seat and zero available**. It proves inventory, not which user received the license. The capture is from September 24, 2026.
 
 ![Sanitized Enterprise license inventory showing one assigned seat](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-01-2026-09-24-license-inventory.jpg)
 
-*Figure 1. Real pilot license inventory. Verify the user's license assignment separately in your own tenant.*
+*Figure 1. License inventory from my pilot tenant, captured September 24, 2026 (sanitized). Verify the user's license assignment separately in your own tenant.*
 
 ## 2. Assign the license to the pilot user
 
-Open the [Microsoft 365 admin center](https://admin.microsoft.com/), go to **Billing > Licenses**, and select your Windows 365 Enterprise product. Assign a license to the intended user and confirm it appears on that user's license page. If your organization uses group-based licensing, check that the assignment has completed before expecting a Cloud PC. A purchased seat alone does not trigger provisioning. Follow Microsoft's [license assignment guide](https://learn.microsoft.com/en-us/windows-365/enterprise/assign-licenses) if the navigation differs in your tenant.
+Assign a Windows 365 Enterprise license to the intended user, as described in step 1 of [plan the pilot](/windows-365/plan-the-pilot/). A purchased seat alone does not trigger provisioning. Follow Microsoft's [license assignment guide](https://learn.microsoft.com/en-us/windows-365/enterprise/assign-licenses) if the navigation differs in your tenant.
 
-**Checkpoint:** Record the SKU, assigned user, date and license state in a private lab worksheet. Blur the user principal name before publishing any screenshot.
+**Checkpoint:** Record the license type (SKU), assigned user, date and license state in a private lab worksheet (judgement). Blur the user principal name before publishing any screenshot.
 
 ## 3. Put the user in a pilot group
 
-In the [Microsoft Entra admin center](https://entra.microsoft.com/), open **Groups > All groups**. Create a security group with a clear pilot name, or open a dedicated existing group. Under **Members**, add the licensed user. Use a narrow group so a new policy cannot accidentally target a wider population.
+In the [Microsoft Entra admin center](https://entra.microsoft.com/), open **Groups > All groups**. Use the narrow pilot group from step 2 of [plan the pilot](/windows-365/plan-the-pilot/) and add the licensed user under **Members**. Do not use a nested group; provisioning policies do not support them. A narrow group stops a new policy from targeting a wider population (judgement).
 
 **Checkpoint:** Confirm the same user appears in both the license assignment and group membership views. The provisioning policy will target the group, while the license makes the member eligible for a Cloud PC. Microsoft's [provisioning policy guide](https://learn.microsoft.com/en-us/windows-365/enterprise/create-provisioning-policy) describes this relationship.
 
 ## 4. Choose the network and image
 
-For this first pilot choose **Microsoft Entra join** and **Microsoft-hosted network**. Windows 365 manages the Cloud PC network for that choice. If your Cloud PC must use a specific Azure virtual network, DNS path or private resources, plan an ANC, meet its Azure permissions and network requirements, and wait for the ANC health checks before selecting it in a policy. Do not select my failed ANC for a production policy.
+For this first pilot choose **Microsoft Entra join** and **Microsoft-hosted network**. Windows 365 manages the Cloud PC network for that choice. If your Cloud PC must use a specific Azure virtual network, DNS path or private resources, plan an ANC, meet its Azure permissions and network requirements, and wait for the ANC health checks before selecting it in a policy. Do not select an ANC that has failed its health checks. My own failed example is in the [ANC health failure article](/windows-365/anc-troubleshooting/).
 
-Choose a **gallery image** for the first exercise. This avoids adding custom image maintenance to the initial pilot. A custom image can come later when an application or configuration requirement justifies it; see [device images](https://learn.microsoft.com/en-us/windows-365/enterprise/device-images).
+Choose a **gallery image** for the first exercise. Gallery images need no preparation and Microsoft updates them monthly. This avoids custom image maintenance in the first pilot (judgement). A custom image can come later when an application requirement justifies it; it must meet the image requirements in [device images](https://learn.microsoft.com/en-us/windows-365/enterprise/device-images).
 
 ## 5. Walk through the provisioning policy wizard
 
-In [Microsoft Intune admin center](https://intune.microsoft.com/), open **Devices > Provision Cloud PCs > Provisioning policies > Create policy**. I used a new, unassigned Enterprise draft to capture the current six pages below. I closed it at the end. These images are from my tenant, but they do not prove a second Cloud PC was provisioned.
+In [Microsoft Intune admin center](https://intune.microsoft.com/), open **Devices > Provision Cloud PCs > Provisioning policies > Create policy**. I used a new, unassigned Enterprise draft to capture the six pages below (see the evidence boundary above).
 
 ### General: desktop, license, join and network
 
-Enter a policy name and description. For a dedicated Cloud PC, select **Access a full Cloud PC desktop** and **Enterprise**. Choose **Microsoft Entra Join** and **Microsoft hosted network**. Select the geography and inspect its region groups. The draft below used the example name **AVDtest-pilot-draft** and **US Central**. Choose geography based on your own data residency and user needs. The single sign-on setting is optional and was left off in this draft.
+Enter a policy name and description. To give each user their own Cloud PC, select **Access a full Cloud PC desktop** and the license type **Enterprise**. Choose the **Microsoft Entra Join** option and the **Microsoft hosted network** option (the wizard's own labels). Select the geography and look at its region groups (a region group is a set of Azure regions inside the geography). Learn recommends all default regions within the geography for resiliency, unless you must pin a region group or region. The draft below used the example name **AVDtest-pilot-draft** and **US Central**. Choose geography based on your own data residency and user needs. The single sign-on setting is optional and was left off in this draft.
 
 ![General page in my Intune provisioning policy draft](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/w365-general-own-20261012.png)
 
@@ -71,17 +73,17 @@ Enter a policy name and description. For a dedicated Cloud PC, select **Access a
 
 ### Image: operating system
 
-Select a gallery or custom image that meets the pilot's requirements. The wizard offered **Windows 11 Enterprise + Microsoft 365 Apps 26H2** as the draft gallery selection when I opened it. The existing working policy in this tenant uses **25H2**. A visible gallery choice is not evidence that I deployed or tested that version.
+Select a gallery or custom image that meets the pilot's requirements. The wizard offered **Windows 11 Enterprise + Microsoft 365 Apps 26H2** as the draft gallery selection when I opened it. The existing working policy in this tenant uses **25H2**. These names are Windows 11 feature-update versions; the lab shows what the portal offered, and you should pick a supported gallery image for your pilot. A visible gallery choice is not evidence that I deployed or tested that version.
 
 ![Image page in my Intune provisioning policy draft](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/w365-image-own-20261012.png)
 
 *Figure 3. Image page captured October 12, 2026; the 26H2 gallery image was not deployed in this walkthrough.*
 
-**Before Next:** Check image support, application compatibility and the pilot license size. See [Microsoft's device image guidance](https://learn.microsoft.com/en-us/windows-365/enterprise/device-images).
+**Before Next:** Gallery images need no preparation; custom images must meet Microsoft's image requirements, and the OS disk size follows the license. See [Microsoft's device image guidance](https://learn.microsoft.com/en-us/windows-365/enterprise/device-images).
 
 ### Configuration: language, naming and services
 
-Choose a language and region. The draft showed **English (United States)**, optional device naming, an optional Windows Autopilot device preparation policy, and **Windows Autopatch** or **None** under Additional Services. I left optional naming and Autopilot unset and selected **None** for the draft. Do not describe Autopatch as enabled merely because the option is visible.
+Choose a language and region. The draft showed **English (United States)**, optional device naming, an optional Windows Autopilot device preparation policy (it prepares the device at first sign-in), and **Windows Autopatch** (it manages Windows updates for you) or **None** under Additional Services. Selecting Autopatch replaces an existing Autopatch policy for those Cloud PCs. I left optional naming and Autopilot unset and selected **None** for the draft. Do not describe Autopatch as enabled merely because the option is visible.
 
 ![Configuration page in my Intune provisioning policy draft](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/w365-configuration-own-20261012.png)
 
@@ -89,7 +91,7 @@ Choose a language and region. The draft showed **English (United States)**, opti
 
 ### Scope tags: administrator visibility
 
-Review the scope tags for the policy. The draft showed **Default**. Use your organization's delegated administration design before adding or removing tags.
+Scope tags limit which administrators can see and manage this policy. Review them. The draft showed **Default**. Use your organization's delegated administration design before adding or removing tags.
 
 ![Scope tags page in my Intune provisioning policy draft](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/w365-scope-own-20261012.png)
 
@@ -97,7 +99,7 @@ Review the scope tags for the policy. The draft showed **Default**. Use your org
 
 ### Assignments: who receives the policy
 
-For a real pilot, select the dedicated **pilot user group** from step 3, then confirm its members are licensed. The screenshot below intentionally has **no group selected**. I did not target the working Cloud PC user or any other user while recording these pages.
+For a real pilot, select the dedicated **pilot user group** from step 3, then confirm its members are licensed. The screenshot below intentionally has **no group selected**. I did not target any user while recording these pages.
 
 ![Empty Assignments page in my Intune provisioning policy draft](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/w365-assignments-own-20261012.png)
 
@@ -105,7 +107,7 @@ For a real pilot, select the dedicated **pilot user group** from step 3, then co
 
 ### Review + create: inspect before saving
 
-Compare the join type, network, region, image, configuration, scope tags and group with your worksheet. The draft review below confirms **Microsoft Entra Join**, **US Central**, a gallery image and an empty assignment table. I used **Close**, not **Create**. In your own deployment, selecting Create saves the policy; provisioning for an eligible licensed user must then be verified separately.
+Compare the join type, network, region, image, configuration, scope tags and group with your worksheet. The draft review below shows **Microsoft Entra Join**, **US Central** and a gallery image. Its lower part (scope tags and assignments) is not in the capture; Figure 6 shows the empty Assignments page. I used **Close**, not **Create**. In your own deployment, selecting Create saves the policy; provisioning for an eligible licensed user must then be verified separately.
 
 ![Review page of my unassigned Intune provisioning policy draft](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/w365-review-own-20261012.png)
 
@@ -115,9 +117,9 @@ Follow the current [Microsoft Learn provisioning policy instructions](https://le
 
 ## 6. Watch provisioning, then test the user session
 
-In Intune, open **Devices > Provision Cloud PCs > All Cloud PCs**. Find the pilot user and record the policy, status and any error. If the status fails, note the exact stage before changing a setting. Microsoft's [automated provisioning steps](https://learn.microsoft.com/en-us/windows-365/enterprise/automated-provisioning-steps) explain where to investigate.
+In Intune, open **Devices > Provision Cloud PCs > All Cloud PCs**. Find the pilot user and record the policy, status and any error. If the status fails, note the exact stage before changing a setting. Microsoft's [automated provisioning steps](https://learn.microsoft.com/en-us/windows-365/enterprise/automated-provisioning-steps) list the stages Windows 365 runs (core provisioning, post-provisioning configuration and assignment), so you can name the stage that failed. A failed post-provisioning step gives the status **Success with warnings** on that page; Intune lists it as **Provisioned with warnings** on [Device management overview](https://learn.microsoft.com/en-us/windows-365/enterprise/device-management-overview#column-details).
 
-When the Cloud PC is **Provisioned**, have the user open [windows365.microsoft.com](https://windows365.microsoft.com/), select the Cloud PC, sign in, then disconnect and reconnect. Back in Intune, inspect its managed device record and last check-in. A Provisioned status and a working user session are two separate checks.
+When the Cloud PC is **Provisioned**, have the user open [windows.cloud.microsoft](https://windows.cloud.microsoft/) or Windows App, select the Cloud PC and sign in; see [connect and verify](/windows-365/connect-verify/). Then ask them to disconnect and reconnect (the reconnect step is a plan, not yet verified in my lab). Back in Intune, inspect its managed device record and last check-in. A Provisioned status and a working user session are two separate checks.
 
 | Result | Evidence to record |
 | --- | --- |
@@ -129,18 +131,22 @@ When the Cloud PC is **Provisioned**, have the user open [windows365.microsoft.c
 
 ## What my lab currently proves
 
-On October 12, the live policy showed **Microsoft Entra join**, a **US Central** Microsoft-hosted geography, and a gallery image labelled **Windows 11 Enterprise with Microsoft 365 Apps 25H2**. **All Cloud PCs** showed one Provisioned Enterprise Cloud PC associated with this policy, sized **2 vCPU, 4 GB RAM and 64 GB storage**; its row showed no ANC. The policy's separate Devices action view displayed zero entries, so I used All Cloud PCs for this count. The [dated inventory note](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-02-2026-10-12-enterprise-policy-inventory.md) records exactly what I checked. The September [portal check](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-02-2026-09-24-portal-check.md) records a user session and Intune device state.
+On October 12, the live policy showed **Microsoft Entra join**, a **US Central** Microsoft-hosted geography, and a gallery image labelled **Windows 11 Enterprise with Microsoft 365 Apps 25H2**. **All Cloud PCs** showed one Provisioned Enterprise Cloud PC associated with this policy, sized **2 vCPU, 4 GB RAM and 64 GB storage**; its row showed no ANC. The policy's own device list displayed zero entries, so I used All Cloud PCs for this count.
 
-That evidence does **not** establish a fresh end-to-end provisioning run. It also does not turn the separate failed ANC health check into a successful ANC deployment. The six wizard captures above document only an unassigned draft from October 12; the working Cloud PC remains on its existing policy.
+The [dated inventory note](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-02-2026-10-12-enterprise-policy-inventory.md) records exactly what I checked. The September [portal check](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/evidence/UC-02-2026-09-24-portal-check.md) records a user session and Intune device state.
+
+That evidence does **not** establish a fresh end-to-end provisioning run. It also does not turn the separate failed ANC health check into a successful ANC deployment. The wizard captures above are an unassigned draft; the working Cloud PC remains on its existing policy.
 
 ## If your result differs
 
 | Symptom | First place to look |
 | --- | --- |
-| No Cloud PC row | User license, pilot group, policy assignment and time since assignment |
+| No row at all | The license is not assigned or not yet applied |
+| Row shows Not provisioned | No policy targets the user; check the group and policy assignment |
+| Row shows Pending | Not enough free licenses |
 | ANC unavailable | ANC health and network prerequisites; return to the Microsoft-hosted pilot path |
 | Provisioning failed | Exact Intune stage and error, then identity and network requirements |
-| Provisioned but cannot sign in | User access, authentication and connection diagnostics |
+| Provisioned but cannot sign in | The user's sign-in result and Conditional Access, then connection diagnostics |
 | Sign-in works but device is missing | Intune enrollment and device record |
 
 Continue to [connect and verify](/windows-365/connect-verify/). The [Enterprise provisioning use case](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-02-enterprise-provisioning.md) has the deeper operator checklist.
@@ -150,4 +156,6 @@ Continue to [connect and verify](/windows-365/connect-verify/). The [Enterprise 
 - [Windows 365 Enterprise requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements)
 - [Assign Windows 365 licenses](https://learn.microsoft.com/en-us/windows-365/enterprise/assign-licenses)
 - [Create provisioning policies](https://learn.microsoft.com/en-us/windows-365/enterprise/create-provisioning-policy)
+- [Role and identity requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements#role-and-identity-requirements)
+- [Device images](https://learn.microsoft.com/en-us/windows-365/enterprise/device-images)
 - [Automated provisioning steps](https://learn.microsoft.com/en-us/windows-365/enterprise/automated-provisioning-steps)
