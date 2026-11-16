@@ -23,7 +23,7 @@ export default {
   ],
   workAreas: [
     { name: "Microsoft Azure", text: "Azure landing zones, Azure Virtual Desktop, Windows 365 and FSLogix, designed and built with Terraform." },
-    { name: "Citrix", text: "Citrix DaaS and on-premises Delivery Controllers, NetScaler/ADC, and hybrid Citrix and Azure Virtual Desktop environments." },
+    { name: "Citrix", text: "Citrix Virtual Apps and Desktops (CVAD) and Citrix DaaS, on premises and running on Azure and Google Cloud VMware Engine (GCVE). Also NetScaler/ADC, and hybrid Citrix and Azure Virtual Desktop environments." },
     { name: "Nerdio", text: "Nerdio Manager for Enterprise for managing Azure Virtual Desktop and Windows 365." },
     { name: "AWS and multicloud", text: "Hybrid Azure and AWS infrastructure, and architecture that spans more than one cloud." },
     { name: "Operations", text: "Daily health checks, troubleshooting and runbooks for end-user computing platforms." },
