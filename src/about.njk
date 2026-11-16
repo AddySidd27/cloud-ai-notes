@@ -11,9 +11,9 @@ permalink: "/about/"
   <p class="lead">{{ deck }}</p>
 </div></header>
 <div class="wrap sec"><div class="prose narrow">
-  <h2>About the author</h2>
-  <p><strong>{{ site.author }}</strong> is a {{ site.role }} with 15 years in enterprise IT. He works as an architect, an engineer and an operator: he designs cloud and end-user computing platforms, builds them with Terraform and automation, and runs them day to day. His work covers Microsoft Azure, Citrix and AWS, and in recent years AI tools for IT operations.</p>
-  <p>He writes this site to explain that work in plain language, starting from the basics.</p>
+  <h2>About me</h2>
+  <p>I am {{ site.author }}, a {{ site.role }} with 15 years in enterprise IT. I work across architecture, engineering and operations: I design cloud and end-user computing platforms, build them with Terraform and automation, and run them day to day. My work covers Microsoft Azure, Citrix and AWS, and AI tools for IT operations.</p>
+  <p>This site is where I write that work down, with step-by-step guides, diagrams and labs that start from the basics.</p>
   <h2>Expertise</h2>
   <ul>
     {%- for a in site.workAreas %}
@@ -25,16 +25,6 @@ permalink: "/about/"
     {%- for c in site.certifications %}
     <li><strong>{{ c.name }}</strong>, {{ c.issuer }}</li>
     {%- endfor %}
-  </ul>
-  <h2>Agentic AI for IT operations</h2>
-  <p>Agentic AI means an AI model that does more than answer questions: it chooses which tools to call, reads what they return and decides what to check next. The Model Context Protocol (MCP) is an open standard for giving a model a set of tools like this. A RAG pipeline (retrieval-augmented generation) lets a model look up your own documents before it answers.</p>
-  <p>The site covers this kind of tooling for end-user computing operations: MCP servers, RAG pipelines and diagnostic agents for Azure Virtual Desktop and Citrix environments. An example is an agent that follows one user problem from the session, through the session host and FSLogix, down to the profile storage, to find the root cause.</p>
-  <p>The rules these tools follow:</p>
-  <ul>
-    <li><strong>Read-only first.</strong> A diagnostic tool reads and reports. Fixing things comes later, in a controlled way, if at all.</li>
-    <li><strong>Official APIs only.</strong> Each call is checked against the Microsoft documentation before it is used. No tool runs arbitrary commands.</li>
-    <li><strong>One tool at a time.</strong> Each tool is built, tested and approved before the next one starts.</li>
-    <li><strong>No production claims before testing.</strong> A tool is not called production-ready until it has been tested in a real environment with permission.</li>
   </ul>
   <h2>About this site</h2>
   <p>This site is a collection of technical articles. Most articles define the terms first, explain the idea with a diagram, walk through the steps or decisions, and end with the sources.</p>
