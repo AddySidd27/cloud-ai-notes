@@ -23,7 +23,9 @@ export default {
   ],
   workAreas: [
     { name: "Citrix", text: "Design and implementation of Citrix Virtual Apps and Desktops (CVAD) and Citrix DaaS projects, on premises and running on Azure and Google Cloud VMware Engine (GCVE), plus NetScaler/ADC and hybrid Citrix and Azure Virtual Desktop environments." },
-    { name: "Azure Virtual Desktop and Windows 365", text: "Architecture, design and implementation of Azure Virtual Desktop and Windows 365 for enterprise organizations, including FSLogix profiles and image management." },
+    { name: "Citrix Workspace Environment Management (WEM)", text: "Tuning and managing user sessions and resources in Citrix environments with WEM." },
+    { name: "Azure Virtual Desktop", text: "Architecture, design and implementation of Azure Virtual Desktop for enterprise organizations, including host pools, FSLogix profiles and image management." },
+    { name: "Windows 365", text: "Architecture, design and implementation of Windows 365 Cloud PCs for enterprise organizations." },
     { name: "Microsoft Azure", text: "Azure landing zones and the platform under end-user computing, designed and built with Terraform." },
     { name: "Nerdio", text: "Nerdio Manager for Enterprise for managing Azure Virtual Desktop and Windows 365." },
     { name: "AWS and multicloud", text: "Hybrid Azure and AWS infrastructure, and architecture that spans more than one cloud." },
