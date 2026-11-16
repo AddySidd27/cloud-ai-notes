@@ -22,6 +22,7 @@ export default {
     { code: "NCE", name: "Nerdio Engineer", issuer: "Nerdio" },
   ],
   workAreas: [
+    { name: "Enterprise delivery", text: "Many projects for large enterprise organizations across on-premises, hybrid and cloud environments, from architecture and design to implementation and operations." },
     { name: "Citrix", text: "Design and implementation of Citrix Virtual Apps and Desktops (CVAD) and Citrix DaaS projects, on premises and running on Azure and Google Cloud VMware Engine (GCVE), plus NetScaler/ADC and hybrid Citrix and Azure Virtual Desktop environments." },
     { name: "Citrix Workspace Environment Management (WEM)", text: "Tuning and managing user sessions and resources in Citrix environments with WEM." },
     { name: "Azure Virtual Desktop", text: "Architecture, design and implementation of Azure Virtual Desktop for enterprise organizations, including host pools, FSLogix profiles and image management." },
