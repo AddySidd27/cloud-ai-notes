@@ -1,8 +1,8 @@
 ---
 layout: base.njk
 title: "About"
-deck: "About this site and its author."
-description: "About this site, a collection of articles on Azure Virtual Desktop, Windows 365 and Azure landing zones, and about its author."
+deck: "Senior Solutions Architect for Citrix, Azure Virtual Desktop and Windows 365, hybrid and multicloud platforms, and AI for IT operations."
+description: "About Adnan Ahmed Siddiqui, a Senior Solutions Architect with 15 years in enterprise IT: Citrix CVAD and DaaS, Azure Virtual Desktop, Windows 365, hybrid and multicloud, and AI for IT operations."
 permalink: "/about/"
 ---
 <header class="band"><div class="wrap band-in">
@@ -11,23 +11,75 @@ permalink: "/about/"
   <p class="lead">{{ deck }}</p>
 </div></header>
 <div class="wrap sec"><div class="prose narrow">
-  <h2>About me</h2>
-  <p>I am {{ site.author }}, a {{ site.role }} with 15 years in enterprise IT. I have delivered many projects for large enterprise organizations, on premises, in hybrid environments and in the cloud, from architecture and design through implementation and day-to-day operations.</p>
-  <p>I have designed and implemented Citrix Virtual Apps and Desktops (CVAD) and Citrix DaaS projects, including Citrix Workspace Environment Management (WEM). I have also architected, designed and implemented Azure Virtual Desktop and Windows 365. Alongside Microsoft and Citrix, I work with AWS, build with Terraform and automation, and develop AI tools for IT operations.</p>
-  <p>This site is where I write that work down, with step-by-step guides, diagrams and labs that start from the basics.</p>
-  <h2>Expertise</h2>
+  <p>I am {{ site.author }}, a {{ site.role }} with 15 years in enterprise IT. Most of that time has gone into the platforms that deliver desktops and applications to users: Citrix, Azure Virtual Desktop and Windows 365, on premises, in hybrid setups and in the cloud.</p>
+  <p>The projects were for large enterprise organizations. I have designed and implemented Citrix Virtual Apps and Desktops (CVAD) and Citrix DaaS, including Workspace Environment Management (WEM), and architected, designed and implemented Azure Virtual Desktop and Windows 365. The end-user computing platforms I have worked on serve more than 18,000 users, and I led a Citrix to Azure Virtual Desktop migration of more than 2,000 users.</p>
+
+  <h2>Citrix</h2>
   <ul>
-    {%- for a in site.workAreas %}
-    <li><strong>{{ a.name }}.</strong> {{ a.text }}</li>
-    {%- endfor %}
+    <li>Design and implementation of Citrix Virtual Apps and Desktops (CVAD) and Citrix DaaS for enterprise organizations.</li>
+    <li>Hybrid estates where Citrix DaaS runs together with on-premises Delivery Controllers.</li>
+    <li>StoreFront, NetScaler/ADC and NetScaler Gateway for internal and remote access, with multifactor authentication for external users.</li>
+    <li>Workspace Environment Management (WEM) for managing user sessions and resources.</li>
+    <li>Hosting on Azure, on Google Cloud VMware Engine (GCVE) and on on-premises VMware, including VMware infrastructure for Citrix and moving persistent VDIs between hosting platforms.</li>
+    <li>Monitoring and performance management with ControlUp and Dynatrace.</li>
+    <li>Migration from Citrix to Azure Virtual Desktop.</li>
+    <li>Capacity planning and platform moves in coordination with VMware, network and operations teams.</li>
   </ul>
+
+  <h2>Azure Virtual Desktop</h2>
+  <ul>
+    <li>Architecture and design for enterprise organizations: host pools, session hosts, images, scaling and networking.</li>
+    <li>Hub-and-spoke network design for Azure Virtual Desktop and the Azure environment around it.</li>
+    <li>Managing Azure Virtual Desktop and Azure environments across multiple Azure subscriptions.</li>
+    <li>Identity design with Active Directory and Entra ID, including several Active Directory domains connected to one Entra ID tenant.</li>
+    <li>FSLogix for user profiles and the profile storage behind it.</li>
+    <li>Implementation with Terraform, and management with Nerdio Manager for Enterprise.</li>
+    <li>Scaling plans and cost optimization for host pools.</li>
+    <li>Day-to-day operations and troubleshooting, from the user session down to the session host and storage.</li>
+  </ul>
+
+  <h2>Windows 365</h2>
+  <ul>
+    <li>Architecture, design and implementation of Cloud PCs for enterprise organizations.</li>
+    <li>Provisioning, images and networking for Cloud PCs.</li>
+    <li>Device and policy management with Microsoft Intune.</li>
+    <li>Management with Nerdio Manager for Enterprise.</li>
+  </ul>
+
+  <h2>Platform and automation</h2>
+  <ul>
+    <li>Hybrid Azure and AWS infrastructure, and architecture that spans more than one cloud.</li>
+    <li>Azure landing zones, built with Terraform.</li>
+    <li>Terraform, PowerShell, Python, Git and n8n workflows, including health-check tooling for the daily checks on Citrix and Azure Virtual Desktop environments.</li>
+    <li>Daily health checks, troubleshooting, root-cause analysis and runbooks.</li>
+    <li>Architecture documentation and diagrams in Visio and draw.io.</li>
+  </ul>
+
+  <h2>AI for IT operations</h2>
+  <ul>
+    <li>Read-only MCP servers and a diagnostic agent for Azure Virtual Desktop and FSLogix that traces a user problem to its root cause.</li>
+    <li>RAG (retrieval-augmented generation) over documentation, so a model looks things up before it answers.</li>
+    <li>An n8n voice assistant that answers Azure Virtual Desktop and Windows 365 questions.</li>
+    <li>A Citrix troubleshooting knowledge base and MCP tooling for hybrid Citrix operations, in development.</li>
+  </ul>
+
+  <h2>Training and writing</h2>
+  <ul>
+    <li>Microsoft Certified Trainer.</li>
+    <li>Step-by-step guides, diagrams and labs on this site, written for people who are starting from the basics.</li>
+  </ul>
+
+  <h2>How I work</h2>
+  <p>I take a platform from architecture and design through implementation and into daily operations. My AI tools are read-only: they look at an environment and report, they do not change it. Where I can, I check what I write against the vendor documentation before it goes on this site.</p>
+
   <h2>Certifications</h2>
   <ul>
-    {%- for c in site.certifications %}
-    <li><strong>{{ c.name }}</strong>, {{ c.issuer }}</li>
-    {%- endfor %}
+    <li><strong>Microsoft:</strong> Certified Trainer (MCT), Azure Solutions Architect Expert, Azure Virtual Desktop Specialty (AZ-140), Azure Administrator Associate</li>
+    <li><strong>Citrix:</strong> Certified Professional – Virtualization (CCP-V), Certified Associate – Virtualization (CCA-V), Citrix Virtual Apps and Desktops 7 on Citrix Cloud</li>
+    <li><strong>Nerdio:</strong> Nerdio Engineer</li>
   </ul>
-  <h2>Connect</h2>
-  <p><a href="{{ site.linkedin }}" rel="me noopener">LinkedIn</a>.</p>
+
+  <h2>Elsewhere</h2>
+  <p>You can find me on <a href="{{ site.linkedin }}" rel="me noopener">LinkedIn</a>.</p>
 </div></div>
 <script type="application/ld+json">{{ site | ldPerson | safe }}</script>
