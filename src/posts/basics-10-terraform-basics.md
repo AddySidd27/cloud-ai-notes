@@ -11,20 +11,20 @@ description: "Beginner Terraform lab for Azure: install Terraform on Windows, bu
 
 By the end you will have written a small Terraform project that builds a resource group called `rg-azb-tf`, a virtual network called `vnet-azb-tf` (10.20.0.0/16), one subnet and one network security group. You will read a plan, apply it, look at the state file, change a tag to see an in-place update, and destroy everything.
 
-I have not run these steps in a live tenant for this article. I have also not run `terraform validate` or `terraform plan` on this code. The install and sign-in steps follow Microsoft Learn (Microsoft's documentation site). The resource arguments follow the azurerm provider documentation. Copy each file exactly: a missing brace is the most common error. If `terraform validate` or `terraform plan` prints an error, copy the first error line into a search engine together with the word `azurerm`, and check the file and line number it names. Do not continue to `terraform apply` until both `validate` and `plan` end without errors.
+Copy each file exactly: a missing brace is the most common error. If `terraform validate` or `terraform plan` prints an error, read the first error line. It names the file and line to fix. If you need to search for it, add the word `azurerm`. Do not continue to `terraform apply` until both `validate` and `plan` end without errors.
 
 **This lab uses a different order from the others.** Terraform is the main part, and the portal only shows you what Terraform built. That check makes sense only after `terraform apply`, so it sits in the middle of the Terraform section, not at the start. Sign-in comes first because Terraform needs it.
 
 ## What you need
 
-- An Azure subscription from [Lab 1](/azure-basics-labs/start-azure-account-tenant-subscription/). The Azure free account gives $200 of credit for 30 days.
+- An Azure subscription from [the free account lab](/azure-basics-labs/start-azure-account-tenant-subscription/). The Azure free account gives $200 of credit for 30 days.
 - A Windows PC. (On macOS or Linux the Terraform install differs. This lab covers Windows.)
-- The Azure CLI on that PC, version 2.76 or newer, installed as in the part "Install Azure CLI on your own Windows PC" of [Lab 2: Azure Cloud Shell and Azure CLI](/azure-basics-labs/cloud-shell-and-azure-cli/) (macOS and Linux readers use the install page that Lab 2 links to). Cloud Shell is not used here. Lab 10 is the only lab where you run `az` in PowerShell on your own PC; every other `az` block in the series is Bash.
-- The notes sheet from [Lab 1](/azure-basics-labs/start-azure-account-tenant-subscription/), for your subscription ID and region.
+- The Azure CLI on that PC, version 2.76 or newer, installed as in the part "Install Azure CLI on your own Windows PC" of [Azure Cloud Shell and Azure CLI](/azure-basics-labs/cloud-shell-and-azure-cli/) (macOS and Linux readers use the install page linked there). Cloud Shell is not used here. This is the lab where you run `az` in PowerShell on your own PC; the other labs run `az` in Bash in Cloud Shell.
+- The notes sheet from [the free account lab](/azure-basics-labs/start-azure-account-tenant-subscription/), for your subscription ID and region.
 - A role that can create resources in the subscription, such as Contributor.
-- Do [Lab 8: Virtual network and subnet](/azure-basics-labs/virtual-network-subnet/) and [Lab 9: Network security group](/azure-basics-labs/network-security-group/) first. This lab builds the same kinds of resources from code. It uses new names, so it does not clash with them.
+- Do [Virtual network and subnet](/azure-basics-labs/virtual-network-subnet/) and [Network security group](/azure-basics-labs/network-security-group/) first. This lab builds the same kinds of resources from code. It uses new names, so it does not clash with them.
 - A text editor. Any editor works.
-- About 90 minutes. The lab is built in two passes, so you can stop between them. Learn says there is no charge for using Azure Virtual Network, and this lab creates no VM. I found no price for a network security group on Learn. Destroy everything at the end anyway.
+- About 90 minutes. The lab is built in two passes, so you can stop between them. Virtual networks and network security groups have no charge of their own, and this lab creates no VM. Destroy everything at the end anyway.
 
 **Do the lab in this order:**
 
@@ -43,13 +43,13 @@ I have not run these steps in a live tenant for this article. I have also not ru
 - Use `az login` and nothing else. Do not use the device code option. Do not create a password or a client secret for Terraform. This lab stores no secrets.
 - Read the plan before you apply it. `terraform apply` changes real resources. Before every apply, read the last line of the plan. If it says anything is destroyed that you did not expect, stop.
 - Do not commit `terraform.tfstate` or your `terraform.tfvars` file to Git. The Terraform section explains why.
-- Everything here lives in `rg-azb-tf` only. `rg-azb-core` and `rg-azb-lab` (with the resources from Labs 8 and 9) are not touched. Destroy deletes only what this project created.
+- Everything here lives in `rg-azb-tf` only. `rg-azb-core` and `rg-azb-lab` (with the resources from the virtual network and NSG labs) are not touched. Destroy deletes only what this project created.
 
 ## What the lab builds
 
-![Terraform code in a local folder is read by Terraform on your PC, which uses your az login sign-in. Terraform builds the resource group rg-azb-tf. Inside it are the virtual network vnet-azb-tf with address space 10.20.0.0/16, a subnet, and a network security group joined to the subnet. The join is the fifth item Terraform creates. Terraform also writes a local state file. The order of work, numbered as in the list above: 1 sign in, 2 write the files, 3 Pass 1, 4 check in the portal, 5 Pass 2, 6 change a tag, 7 destroy.](/img/basics/terraform-basics.svg)
+![Terraform on your PC reads the .tf files, uses your az login, and builds rg-azb-tf with a virtual network, subnet and NSG in your test subscription. It records what it built in a local terraform.tfstate file. Seven steps run from Sign in to Destroy.](/img/basics/terraform-basics.svg)
 
-*Source: Learn pages [Quickstart: Install and configure Terraform](https://learn.microsoft.com/en-us/azure/developer/terraform/quickstart-configure), [Install Terraform on Windows with Azure PowerShell](https://learn.microsoft.com/en-us/azure/developer/terraform/get-started/get-started-windows-powershell) and [Authenticate Terraform to Azure](https://learn.microsoft.com/en-us/azure/developer/terraform/authenticate-to-azure). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+*Source: Microsoft Learn pages listed under Sources.*
 
 ## Steps with the Azure CLI
 
@@ -67,7 +67,7 @@ Show which subscription you are in. Terraform will use this subscription, so rea
 az account show --query "{name:name, id:id, tenant:tenantId}" -o table
 ```
 
-Check: the name and tenant are your test ones. Copy the `id` value. It goes into `terraform.tfvars` later. If it is the wrong subscription, run `az account set --subscription "<id or name>"` and show it again. Learn describes `az account set` and `az account show` on the page [Authenticate to Azure with a Microsoft account](https://learn.microsoft.com/en-us/azure/developer/terraform/authenticate/authenticate-to-azure-with-microsoft-account).
+Check: the name and tenant are your test ones. Copy the `id` value. It goes into `terraform.tfvars` later. If it is the wrong subscription, run `az account set --subscription "<id or name>"` and show it again. `az account set` and `az account show` are described in [Authenticate to Azure with a Microsoft account](https://learn.microsoft.com/en-us/azure/developer/terraform/authenticate/authenticate-to-azure-with-microsoft-account).
 
 ## Terraform
 
@@ -75,7 +75,7 @@ Check: the name and tenant are your test ones. Copy the `id` value. It goes into
 
 Terraform is a program that reads text files that describe cloud resources, and then builds, changes or deletes the resources to match. The files are written in a language called HCL, and they end in `.tf`.
 
-Learn describes the Windows install in [Install Terraform on Windows with Azure PowerShell](https://learn.microsoft.com/en-us/azure/developer/terraform/get-started/get-started-windows-powershell). That page was tested with Terraform 1.1.4 and links to an older download address, so use the current download page instead.
+The Windows install is also described in [Install Terraform on Windows with Azure PowerShell](https://learn.microsoft.com/en-us/azure/developer/terraform/get-started/get-started-windows-powershell). That page is older, so use HashiCorp's current download page instead.
 
 1. Go to HashiCorp's install page, `https://developer.hashicorp.com/terraform/install`, and download the Windows package. Pick **Windows, AMD64**. It is right for almost all PCs.
 2. Extract `terraform.exe` from the download to a folder you choose, for example `C:\terraform`.
@@ -84,11 +84,11 @@ Learn describes the Windows install in [Install Terraform on Windows with Azure 
 
 If you prefer, `winget` can do steps 1 to 3. Run `winget search terraform` and look for the package from HashiCorp. Its ID is usually `Hashicorp.Terraform`. Check the ID in the search result before you install.
 
-Check: `terraform -version` prints a version number, and that version is 1.9.0 or newer. The code in this lab says `>= 1.9.0, < 2.0.0`. If PowerShell says that `terraform` is not recognized, the PATH entry is missing or the old PowerShell window is still open. Close all PowerShell windows, open a new one and try again. If it still fails, open the **Path** list again and check that the folder name is exactly right.
+Check: `terraform -version` prints a version number, and that version is 1.9.0 or newer. The code in this lab says `>= 1.9.0, < 2.0.0`. (The 4.x provider itself needs Terraform 1.0 or newer; this lab asks for more so that you start from a current release.) If PowerShell says that `terraform` is not recognized, the PATH entry is missing or the old PowerShell window is still open. Close all PowerShell windows, open a new one and try again. If it still fails, open the **Path** list again and check that the folder name is exactly right.
 
 ### How Terraform signs in to Azure
 
-The azurerm provider is the plugin that lets Terraform talk to Azure. Learn lists several ways to authenticate Terraform to Azure: a Microsoft account through the Azure CLI, a service principal, and a managed identity. This lab uses the first one. That is what you did with `az login`. The provider then uses that sign-in, so no password or secret is written in any file. The only thing you put in the code is the subscription ID, which says which subscription to work in. That ID is not a secret, but it is still yours, so it goes in `terraform.tfvars` and not in the committed code.
+The azurerm provider is the plugin that lets Terraform talk to Azure. There are several ways to authenticate Terraform to Azure: a Microsoft account through the Azure CLI, a service principal, and a managed identity. This lab uses the first one. That is what you did with `az login`. The provider then uses that sign-in, so no password or secret is written in any file. The only thing you put in the code is the subscription ID, which says which subscription to work in. That ID is not a secret, but it is still yours, so it goes in `terraform.tfvars` and not in the committed code.
 
 ### The project files
 
@@ -109,7 +109,7 @@ terraform {
 }
 ```
 
-`providers.tf` configures the provider. The empty `features {}` block is required by azurerm, even when you set nothing in it. The provider documentation says the subscription ID is needed for a plan or apply (it can come from this setting, an environment variable or the Azure CLI default), and not for `terraform validate`. This lab sets it in the code, so there is no guessing.
+`providers.tf` configures the provider. The empty `features {}` block is required by azurerm, even when you set nothing in it. The subscription ID is needed for a plan or apply (it can come from this setting, an environment variable or the Azure CLI default), and not for `terraform validate`. This lab sets it in the code, so there is no guessing.
 
 ```hcl
 provider "azurerm" {
@@ -135,8 +135,8 @@ variable "tags" {
   description = "Tags put on the resource group, the virtual network and the network security group."
   type        = map(string)
   default = {
-    env = "lab"
-    lab = "10"
+    env    = "lab"
+    series = "azure-basics"
   }
 }
 ```
@@ -175,7 +175,7 @@ In PowerShell, in the project folder, copy it:
 Copy-Item terraform.tfvars.example terraform.tfvars
 ```
 
-Open `terraform.tfvars` and replace the zero ID with your subscription ID (from `az account show`) and `eastus2` with your own region, in the CLI spelling you used in Lab 1. Use the same region as in your other labs.
+Open `terraform.tfvars` and replace the zero ID with your subscription ID (from `az account show`) and `eastus2` with your own region, in the CLI spelling from your notes sheet. Use the same region as in your other labs.
 
 Create `.gitignore`. If you will never put this folder in Git, you can skip this file. If you ever do, these lines keep your values and the state out of it.
 
@@ -190,7 +190,7 @@ Create `.gitignore`. If you will never put this folder in Git, you can skip this
 
 The `.terraform.lock.hcl` file that Terraform creates is not in this list on purpose. It records the exact provider version, and people usually commit it.
 
-### Pass 1: format, initialise and validate
+### Pass 1: format, initialize and validate
 
 Run these in PowerShell, in the project folder.
 
@@ -204,7 +204,7 @@ terraform validate
 - `terraform init` downloads the azurerm provider into a hidden `.terraform` folder and creates the lock file. Run it once per folder, and again when you change provider versions.
 - `terraform validate` checks that the code is well formed and that the arguments exist. It does not talk to Azure.
 
-Check: `init` ends with a success message, and `validate` ends with a line saying the configuration is valid. I have not run these commands on this code. If `validate` complains, it names the file and line.
+Check: `init` ends with a success message, and `validate` ends with a line saying the configuration is valid. If `validate` complains, it names the file and line.
 
 ### Pass 1: plan and apply
 
@@ -229,7 +229,7 @@ terraform apply main.tfplan
 
 Because you give it the saved plan, it does not ask you to type `yes`. If you run `terraform apply` with no plan file, it makes a new plan and asks for `yes`.
 
-If apply stops with an error that says you need to sign in with MFA, follow the part of Lab 2 called "Azure asks for MFA when you change things" (`az logout`, then the `az login` command from the error), then run the apply again.
+If apply stops with an error that says you need to sign in with MFA, follow the part of the Cloud Shell and Azure CLI lab called "Azure asks for MFA when you change things" (`az logout`, then the `az login` command from the error), then run the apply again.
 
 Check: it ends with a line like `Apply complete! Resources: 1 added, 0 changed, 0 destroyed.` and prints your output.
 
@@ -241,7 +241,7 @@ You create nothing in the portal in this lab. The portal is where you check what
 2. Search for and open **Resource groups**. Open `rg-azb-tf`.
 3. On the Overview page, look at the resource list and the tags.
 
-Check: after Pass 1, `rg-azb-tf` exists and is empty. Its tags are `env = lab` and `lab = 10`. These are the defaults in `variables.tf`. Resources you create with Terraform look the same as ones you create by hand.
+Check: after Pass 1, `rg-azb-tf` exists and is empty. Its tags are `env = lab` and `series = azure-basics`. These are the defaults in `variables.tf`. Resources you create with Terraform look the same as ones you create by hand.
 
 Now run `terraform plan` once more with no changes.
 
@@ -282,7 +282,7 @@ resource "azurerm_subnet_network_security_group_association" "app" {
 }
 ```
 
-The network security group has no rules of your own. Azure adds its default rules to every network security group, and Lab 9 shows what they are. The last block joins the group to the subnet. It is a separate resource in Terraform. So four blocks give four new resources, and with the resource group that makes five.
+The network security group has no rules of your own. Azure adds its default rules to every network security group, and the NSG lab shows what they are. The last block joins the group to the subnet. It is a separate resource in Terraform. So four blocks give four new resources, and with the resource group that makes five.
 
 Add a second output to `outputs.tf`, below the first one:
 
@@ -311,7 +311,7 @@ Check: it ends with a line like `Apply complete! Resources: 4 added, 0 changed, 
 
 Now go back to the portal. Open `rg-azb-tf` and look at the resource list. You should see the virtual network `vnet-azb-tf` and the network security group `nsg-azb-tf-app`. The subnet is inside the virtual network, so it is not listed on its own. The link between the network security group and the subnet does not show as its own item either. Open `vnet-azb-tf`, then under **Settings** select **Subnets**.
 
-Check: `rg-azb-tf` holds `vnet-azb-tf` and `nsg-azb-tf-app`. The subnet `snet-azb-tf-app` shows the address range 10.20.1.0/24 and `nsg-azb-tf-app` as its network security group. The tags are `env = lab` and `lab = 10`.
+Check: `rg-azb-tf` holds `vnet-azb-tf` and `nsg-azb-tf-app`. The subnet `snet-azb-tf-app` shows the address range 10.20.1.0/24 and `nsg-azb-tf-app` as its network security group. The tags are `env = lab` and `series = azure-basics`.
 
 ### Look at the state
 
@@ -328,13 +328,13 @@ Why you do not commit it: the state file is plain text, and it can hold values t
 
 ### Change a tag and see an in-place update
 
-Open `terraform.tfvars`. Add this block on a new line at the very end of the file, outside any quotes. It changes `env` from `lab` to `test` and adds one more tag. Save the file.
+Open `terraform.tfvars`. Add this block on a new line at the very end of the file, outside any quotes. It changes `env` from `lab` to `test` and adds one more tag, `owner`. Save the file.
 
 ```hcl
 tags = {
-  env   = "test"
-  lab   = "10"
-  owner = "me"
+  env    = "test"
+  series = "azure-basics"
+  owner  = "me"
 }
 ```
 
@@ -367,8 +367,8 @@ Check: the plan says `No changes. Your infrastructure matches the configuration.
 | `terraform` is not recognized | The PATH entry is missing or the old PowerShell window is still open. See "Install Terraform on Windows". |
 | An error about a missing value for `subscription_id` or `location` | `terraform.tfvars` is missing, has another name, or is in another folder. It must be called exactly `terraform.tfvars` and sit next to the `.tf` files. |
 | An error that says to run `az login`, or that it cannot build the account | Run `az login` again and `az account show`. Check that the subscription is the right one. |
-| An error that asks for MFA, or mentions a claims challenge | `az logout`, then the `az login` command from the error. See Lab 2, "Azure asks for MFA when you change things". |
-| An error that names a resource provider that is not registered | Read the message and the provider name it gives, then search for it together with "register resource provider" on Learn. |
+| An error that asks for MFA, or mentions a claims challenge | `az logout`, then the `az login` command from the error. See the Cloud Shell lab, "Azure asks for MFA when you change things". |
+| An error that names a resource provider that is not registered | Read the message and the provider name it gives, then register that provider as shown in the free account lab. |
 
 ## Check that it works
 
@@ -399,18 +399,18 @@ Check: it ends with a line like `Destroy complete! Resources: 5 destroyed.` In t
 **Keep these for later labs:**
 
 - `rg-azb-core` and what is in it.
-- `rg-azb-lab` and the resources from Labs 8 and 9. This lab did not touch them.
+- `rg-azb-lab` and the resources from the virtual network and NSG labs. This lab did not touch them.
 - The Terraform project folder, if you want to reuse the code. Delete `terraform.tfstate` and `main.tfplan` when you are done, or keep the folder out of Git.
 
-Nothing in this lab is needed by Lab 11.
+Nothing in this lab is needed by the next lab.
 
 ## Try it yourself (optional)
 
-Terraform is taught only in this lab, so the earlier labs point here. Each block below rebuilds something from Labs 7, 8 or 9 in code. I have not run `terraform validate` on any of them. They follow Learn's Terraform samples and the azurerm documentation.
+Terraform is taught only in this lab, so the earlier labs point here. Each block below rebuilds something from the RBAC, virtual network or NSG labs in code. If `terraform validate` or `plan` reports an error, fix the file and line it names.
 
 How to use them: make a new empty folder for each one. Copy `versions.tf`, `providers.tf`, `variables.tf` and `terraform.tfvars` from this lab into it, add the block as a new file, run `terraform init`, `terraform plan` and `terraform apply`, and read the plan first. The blocks read `rg-azb-lab` as an existing group (a `data` block reads something that already exists). Use Terraform instead of the portal or CLI steps, not on top of them. If the resource already exists from the earlier lab, delete it first, or Terraform reports that it already exists. Destroy each folder when you are done.
 
-**Lab 8: the virtual network and subnet.** Create the resource group `rg-azb-lab` first (portal or CLI).
+**The virtual network and subnet.** Create the resource group `rg-azb-lab` first (portal or CLI).
 
 ```hcl
 data "azurerm_resource_group" "lab" {
@@ -432,9 +432,9 @@ resource "azurerm_subnet" "vm" {
 }
 ```
 
-The portal makes a private subnet. This block does not set the outbound setting. Learn says tools that use an earlier API version keep the older default, which allows default outbound access. After apply, open the subnet in the portal and read **Default outbound access**. If you want the subnet private, look in the `azurerm_subnet` page of the provider documentation for an argument named `default_outbound_access_enabled`, and check its name and default there before you add it.
+The portal makes a private subnet. This block does not set the outbound setting. Tools that use an earlier API version keep the older default, which allows default outbound access. After apply, open the subnet in the portal and read **Default outbound access**. If you want the subnet private, look in the `azurerm_subnet` page of the provider documentation for an argument named `default_outbound_access_enabled`, and check its name and default there before you add it.
 
-**Lab 9: the network security group on the subnet.** Get the subnet ID and put it in `terraform.tfvars` as `subnet_id = "..."`.
+**The network security group on the subnet.** Get the subnet ID and put it in `terraform.tfvars` as `subnet_id = "..."`.
 
 ```powershell
 az network vnet subnet show --resource-group rg-azb-lab --vnet-name vnet-azb --name snet-vm --query id -o tsv
@@ -442,7 +442,7 @@ az network vnet subnet show --resource-group rg-azb-lab --vnet-name vnet-azb --n
 
 ```hcl
 variable "subnet_id" {
-  description = "Resource ID of snet-vm from Lab 8"
+  description = "Resource ID of snet-vm from the virtual network lab"
   type        = string
 }
 
@@ -464,7 +464,7 @@ resource "azurerm_subnet_network_security_group_association" "vm" {
 
 The plan must show two resources to add. This block has no RDP rule, because that rule was temporary. If you later run `terraform destroy` in this folder, it removes the NSG and detaches it from the subnet.
 
-**Lab 7: the two role assignments.** Get the group's object ID with `az ad group show --group "TestUsers" --query id -o tsv` and put it in `terraform.tfvars` as `group_object_id = "..."`.
+**The two role assignments.** Get the group's object ID with `az ad group show --group "TestUsers" --query id -o tsv` and put it in `terraform.tfvars` as `group_object_id = "..."`.
 
 ```hcl
 variable "group_object_id" {
@@ -493,7 +493,7 @@ resource "azurerm_role_assignment" "contributor_rg" {
 }
 ```
 
-The plan must show two assignments to add and nothing else. `terraform destroy` in this folder removes both assignments, which is the clean-up for Lab 7.
+The plan must show two assignments to add and nothing else. `terraform destroy` in this folder removes both assignments, which is the clean-up for the RBAC lab.
 
 ## Where this is used in AVD
 
@@ -501,14 +501,10 @@ An Azure Virtual Desktop deployment is many resources that must match: host pool
 
 ## Next lab
 
-[Lab 11: Your PC and Remote Desktop clients](/azure-basics-labs/your-pc-and-remote-desktop-clients/) gets your own computer ready to connect to a desktop in Azure.
+[Your PC and Remote Desktop clients](/azure-basics-labs/your-pc-and-remote-desktop-clients/) gets your own computer ready to connect to a desktop in Azure.
 
 ## Sources
 
-- [Quickstart: Install and configure Terraform](https://learn.microsoft.com/en-us/azure/developer/terraform/quickstart-configure)
 - [Install Terraform on Windows with Azure PowerShell](https://learn.microsoft.com/en-us/azure/developer/terraform/get-started/get-started-windows-powershell)
 - [Authenticate Terraform to Azure](https://learn.microsoft.com/en-us/azure/developer/terraform/authenticate-to-azure)
-- [Authenticate to Azure with a Microsoft account](https://learn.microsoft.com/en-us/azure/developer/terraform/authenticate/authenticate-to-azure-with-microsoft-account)
-- [az account](https://learn.microsoft.com/en-us/cli/azure/account)
-- [Default outbound access in Azure](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/default-outbound-access)
 - [azurerm provider documentation on the Terraform Registry](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs)

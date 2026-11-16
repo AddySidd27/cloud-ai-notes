@@ -27,6 +27,8 @@ export default function (eleventyConfig) {
       if (e.isDirectory() && e.name === "avd") continue;
       eleventyConfig.addPassthroughCopy({ [`src/img/${e.name}`]: `img/${e.name}` });
     }
+    // Every diagram's .drawio source is published next to its svg/png so the download links in posts resolve.
+    eleventyConfig.addPassthroughCopy("src/img/avd/**/*.drawio", { expand: false });
     for (const name of referenced) {
       if (fs.existsSync(path.join("src", "img", "avd", name))) eleventyConfig.addPassthroughCopy({ [`src/img/avd/${name}`]: `img/avd/${name}` });
     }
@@ -77,7 +79,8 @@ export default function (eleventyConfig) {
     });
   }
 
-  eleventyConfig.amendLibrary("md", (md) => md.use(markdownItAnchor, { level: [2], tabIndex: false }));
+  eleventyConfig.amendLibrary("md", (md) => md.use(markdownItAnchor, { level: [2], tabIndex: false,
+    slugify: (t) => String(t).normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "section" }));
 
   // All articles that belong to a series, in reading order. Start Here has no series tag, so it is not listed.
   const seriesTags = series.map((s) => s.tag);
@@ -101,7 +104,7 @@ export default function (eleventyConfig) {
   const articleFigures = (html) => String(html).replace(/<p>\s*(<img[^>]*src="([^"]+)"[^>]*>)\s*<\/p>(?:\s*<p>((?:<em>[\s\S]*?<\/em>)|(?:Figure \d+\.[\s\S]*?))<\/p>)?/g, (_, image, src, caption) => {
     const alt = (image.match(/alt="([^"]*)"/) || [])[1] || "Article illustration";
     const compact = src.includes("AVD-Post-01-Components") ? " compact" : "";
-    return `<figure class="article-figure${compact}">${image}<figcaption><span class="figure-caption">${caption || (src.startsWith("/diagrams/") ? "" : alt)}</span><span class="figure-zoom">Tap or click the image to enlarge.${fullSize(src, alt)}</span></figcaption></figure>`;
+    return `<figure class="article-figure${compact}">${compact ? "" : '<span class="fig-hint" aria-hidden="true">Swipe sideways to see the whole diagram</span>'}<div class="fig-box"><div class="fig-scroll">${image}</div></div><figcaption><span class="figure-caption">${caption || (src.startsWith("/diagrams/") ? "" : alt)}</span></figcaption><p class="figure-zoom">Tap or click the image to enlarge.${fullSize(src, alt)}</p></figure>`;
   });
   eleventyConfig.addFilter("articleFigures", articleFigures);
   eleventyConfig.addFilter("avdFigures", articleFigures);
@@ -160,6 +163,13 @@ export default function (eleventyConfig) {
     const m = String(html).match(/<img[^>]+src="(\/diagrams\/[^"]+\.svg)"/);
     return m ? m[1] : "";
   });
+  const RFC_D = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], RFC_M = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  eleventyConfig.addFilter("rfc822", (d) => {
+    const t = new Date(String(d).slice(0, 10) + "T12:00:00Z");
+    const p2 = (n) => String(n).padStart(2, "0");
+    return `${RFC_D[t.getUTCDay()]}, ${p2(t.getUTCDate())} ${RFC_M[t.getUTCMonth()]} ${t.getUTCFullYear()} 12:00:00 GMT`;
+  });
+  eleventyConfig.addFilter("newestDate", (list, meta) => list.map((p) => (meta[p.data.order] || {}).published || "").sort().pop());
   eleventyConfig.addFilter("pad", (n) => String(n).padStart(2, "0"));
   eleventyConfig.addFilter("longDate", (d) => new Date(d + "T12:00:00Z").toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" }));
   eleventyConfig.addFilter("toc", (html) =>

@@ -24,32 +24,32 @@ Check the current [Windows 365 Enterprise requirements](https://learn.microsoft.
 
 Record the license name and its assigned user. A license in the inventory does not prove the intended user has it.
 
-Choose a descriptive pilot group such as `W365-Pilot-Users` and record its members before assigning anything. Create a second group, of devices, only if you need to apply Intune policies to the Cloud PCs (judgement). Decide who can change the provisioning policy and who checks the provisioning status. Avoid using a broad production group for a learning exercise (judgement).
+Choose a descriptive pilot group such as `W365-Pilot-Users` and record its members before assigning anything. Create a second group, of devices, only if you need to apply Intune policies to the Cloud PCs. Decide who can change the provisioning policy and who checks the provisioning status. Avoid using a broad production group for a learning exercise.
 
 Write down these decisions before you start. The right column says what to record.
 
 | Decision | What to record |
 |---|---|
-| User and group | Sanitized user label and exact group name |
+| User and group | A label for the user and the exact group name |
 | License | License name, assignment state and date checked |
 | Identity | Microsoft Entra join (the Cloud PC joins Entra ID only) or hybrid join (it joins your on-premises Active Directory and Entra ID), with reason |
 | Network | Microsoft-hosted network (Microsoft runs the network) or ANC (your own Azure virtual network), with application requirement |
 | Image | Gallery image (a default image from Microsoft) or custom image (one you upload), with application requirement |
 | Success | Provisioned status, usable session and Intune check-in (the Cloud PC shows in Intune as enrolled and reporting) |
 
+![Confirm four things before building: licenses, a narrow Entra pilot group, an administrator role and a supported region. Then decide identity, network and image, and write the success result: Provisioned, a usable session, reconnect, and an Intune check-in.](/img/windows-365/windows-365-plan-the-pilot.svg)
+
+*Source: [Windows 365 Enterprise requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements).*
+
 ## Walk through the checks
 
 ### Step 1: inventory the Enterprise seat
 
-In the Microsoft 365 admin center, go to Billing > Licenses and select the Windows 365 Enterprise product. Record the total, assigned and available counts. Then open the intended pilot user's license details and verify the actual assignment. On September 24, 2026, my lab showed one Enterprise seat assigned and none available. The screenshot does not show which user has the seat.
-
-![Sanitized Windows 365 Enterprise license inventory. The Enterprise row shows Total 1, Assigned 1, Available 0](https://raw.githubusercontent.com/AddySidd27/Windows365-enterprise-engineering/main/evidence/UC-01-2026-09-24-license-inventory.jpg)
-
-*Sanitized crop from my lab, September 24, 2026. Only the Enterprise row matters here (Total 1, Assigned 1, Available 0). The other rows are other licenses in my lab tenant: a Windows 365 Business row (1, 1, 0), an Entra ID P2 row that shows Available -1, and an Intune row (25, 2, 23). I did not investigate the -1 and it is not part of this pilot. The top header row is partly cropped.*
+In the Microsoft 365 admin center, go to Billing > Licenses and select the Windows 365 Enterprise product. Record the total, assigned and available counts. Then open the intended pilot user's license details and verify the actual assignment. The inventory shows how many seats exist, not which user has them.
 
 ### Step 2: make a narrow pilot group
 
-In the Microsoft Entra admin center, create or select a dedicated user security group for the pilot and add the licensed test user. Do not use a nested group, because provisioning policies do not support them ([Create provisioning policies](https://learn.microsoft.com/en-us/windows-365/enterprise/create-provisioning-policy)). Note the group name and the date and time you added the user. Do not target all users. Save a sanitized screenshot of the group members in your own lab. I did not publish one from mine.
+In the Microsoft Entra admin center, create or select a dedicated user security group for the pilot and add the licensed test user. Do not use a nested group, because provisioning policies do not support them ([Create provisioning policies](https://learn.microsoft.com/en-us/windows-365/enterprise/create-provisioning-policy)). Note the group name and the date and time you added the user. Do not target all users. Save a screenshot of the group members for your own records.
 
 ### Step 3: check the administrator
 
@@ -57,9 +57,7 @@ Verify that the administrator holds the Intune Administrator or Windows 365 Admi
 
 ### Step 4: write the success result
 
-Write a pass condition (judgement). For example: the targeted user sees one Cloud PC, signs in from the Windows App or windows365.microsoft.com, disconnects and reconnects, and the device appears in Intune with the expected join type. I have not tested the disconnect and reconnect step yet. Record the identity, network and image decisions from [Choose Identity and Network](/windows-365/identity-network/) before creating a policy.
-
-My [tenant readiness lab record](https://github.com/AddySidd27/Windows365-enterprise-engineering/blob/main/use-cases/UC-01-tenant-readiness-and-pilot-design.md) on GitHub has a longer worksheet. The screenshot above shows the license inventory only. I did not record a new assignment from start to finish. When you repeat this, capture the group and assignee screens too.
+Write a pass condition before you build. For example: the targeted user sees one Cloud PC, signs in from the Windows App or windows.cloud.microsoft, disconnects and reconnects, and the device appears in Intune with the expected join type. Record the identity, network and image decisions from [Choose Identity and Network](/windows-365/identity-network/) before creating a policy.
 
 ## What to save
 
@@ -71,5 +69,4 @@ Next: [Windows 365 Enterprise: Choose Identity and Network](/windows-365/identit
 
 - [Windows 365 Enterprise requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements)
 - [Create provisioning policies](https://learn.microsoft.com/en-us/windows-365/enterprise/create-provisioning-policy)
-- [Assign licenses (Windows 365 Enterprise)](https://learn.microsoft.com/en-us/windows-365/enterprise/assign-licenses)
-- [Customer permissions](https://learn.microsoft.com/en-us/windows-365/enterprise/customer-permissions): Azure roles that the Windows 365 service needs when you create an ANC or add a custom image (not the administrator role)
+- [Assign licenses](https://learn.microsoft.com/en-us/windows-365/enterprise/assign-licenses)

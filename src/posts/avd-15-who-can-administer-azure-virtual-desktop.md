@@ -12,7 +12,7 @@ description: "Give the right people the right access to Azure Virtual Desktop: t
 
 Two bad habits are easy to fall into. The first is giving every administrator Contributor on the subscription because it is quick. The second is giving the help desk so little that every stuck session needs an engineer. AVD has its own built-in roles that avoid both, and they are less well known than the general Azure roles.
 
-This article lists the roles, explains what each can and cannot do, shows which extra roles a task needs, and ends with a tiered delegation model. The delegation model is my own (judgement). The role facts come from the documentation.
+This article lists the roles, explains what each can and cannot do, shows which extra roles a task needs, and ends with a tiered delegation model.
 
 ## Key terms
 
@@ -51,7 +51,7 @@ On top of that, Microsoft Entra joined session hosts have a third permission, to
 
 ## The built-in roles
 
-The documentation lists the AVD roles and what each does. This is documented fact. The table summarises them. For the full permission lists, use the documentation.
+The table summarizes the AVD roles and what each does. For the full permission lists, see [Built-in Azure RBAC roles for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rbac).
 
 | Role | What it allows | Watch for |
 |---|---|---|
@@ -77,7 +77,7 @@ Three more roles exist for the service itself. They let the AVD resource provide
 
 Do not confuse the last one with the general Azure Virtual Machine Contributor role in the table above.
 
-You give these roles to the Azure Virtual Desktop service principal, not to people. For Start VM on Connect and power management autoscale, a managed identity on the host pool also works. For dynamic autoscale, the Learn page names only the service principal.
+You give these roles to the Azure Virtual Desktop service principal, not to people. For Start VM on Connect and power management autoscale, a managed identity on the host pool also works. For dynamic autoscale, use the service principal.
 
 The page [Assign Azure RBAC roles or Microsoft Entra roles to the Azure Virtual Desktop service principals](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-principal-assign-roles) shows how. To assign them you need the `Microsoft.Authorization/roleAssignments/write` permission, which User Access Administrator and Owner include ([prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-principal-assign-roles#prerequisites)).
 
@@ -87,24 +87,22 @@ The page [Assign Azure RBAC roles or Microsoft Entra roles to the Azure Virtual 
 | Autoscale, dynamic | Power On Off Contributor and Desktop Virtualization Virtual Machine Contributor | Subscription. A lower scope stops autoscale from working properly. |
 | Start VM on Connect | Power On Contributor ([Configure Start VM on Connect](https://learn.microsoft.com/en-us/azure/virtual-desktop/start-virtual-machine-connect)) | Subscription is recommended for several host pools. A lower scope is allowed if it contains the target session hosts. |
 
-![A nine-row table with three columns: task, built-in role and scope or extra role. The tasks are sign users out, drain and remove session hosts, manage a host pool, publish apps, manage a workspace, manage all AVD resources, view only, use a desktop or app, and sign in to a Microsoft Entra joined virtual machine. The roles are User Session Operator, Session Host Operator, Host Pool Contributor, Application Group Contributor, Workspace Contributor, Desktop Virtualization Contributor, Desktop Virtualization Reader, Desktop Virtualization User and Virtual Machine User Login.](/img/avd/AVD-Post-15-Role-Task-Scope-v3.png)
+![A table of nine AVD tasks, each with its built-in role and scope, from signing users out and managing host pools to viewing only and signing in to Entra joined VMs with Virtual Machine User Login.](/img/avd/AVD-Post-15-Role-Task-Scope-v3.png)
 
-*Read each row from left to right: the task, the role that fits it, then the scope or extra role you also need. Based on [Built-in Azure RBAC roles for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rbac), [Microsoft Entra joined session hosts](https://learn.microsoft.com/en-us/azure/virtual-desktop/azure-ad-joined-session-hosts) and [Configure Start VM on Connect](https://learn.microsoft.com/en-us/azure/virtual-desktop/start-virtual-machine-connect). The documentation has role tables and no diagram, so this layout is simplified. It leaves out the reader roles for host pools, application groups and workspaces, the service roles, and the Start VM on Connect permission that can be given at a lower scope. Virtual Machine User Login is not needed for host pools that use a session host configuration.*
+*Source: [Built-in Azure RBAC roles for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rbac).*
 
 ## Scope matters more than the role
 
-The same role can be harmless or dangerous depending on where you assign it. The documentation says each role can be assigned at the scope you need, and that some features have specific scope requirements.
-
-Judgement from that guidance:
+The same role can be harmless or dangerous depending on where you assign it. You can assign each role at the scope you need, and some features have specific scope requirements. Follow these rules:
 
 - **Assign at the lowest scope that works.** A help desk role on one host pool is safer than on a resource group.
 - **Assign to groups, not people.** Membership then becomes a request process, not a role change.
 - **Keep user access and admin access separate.** The Desktop Virtualization User role goes on the application group. Admin roles go on the objects or their resource groups.
-- **Know the resource group side effect.** The User Session Operator documentation says that at resource group level it gives read permission on all host pools in it.
+- **Know the resource group side effect.** At resource group level, User Session Operator gives read permission on all host pools in it.
 
 ## A tiered delegation model
 
-This is a recommended model (judgement). It is an example to adapt. No part of it is a Microsoft prescription.
+This is an example model to adapt.
 
 | Tier | Who | Roles | Scope |
 |---|---|---|---|
@@ -113,7 +111,7 @@ This is a recommended model (judgement). It is an example to adapt. No part of i
 | 3 | AVD engineering | Host Pool Contributor, Application Group Contributor and Workspace Contributor, plus Virtual Machine Contributor where they create hosts | The AVD resource groups |
 | 4 | Platform owner | Desktop Virtualization Contributor, plus User Access Administrator for assignments | The AVD resource groups, with a separate approval for assignments |
 
-Why split assignment out: Desktop Virtualization Contributor and Application Group Contributor do not include user or group assignment. That separation is built in. I suggest you use it (judgement). User Access Administrator is a general Azure role, not an AVD one, so it can manage access to any resource in its scope (judgement: keep its scope as narrow as you can). The person who publishes an application does not need to be the person who decides who can open it.
+Why split assignment out: Desktop Virtualization Contributor and Application Group Contributor do not include user or group assignment. That separation is built in, so use it. User Access Administrator is a general Azure role, not an AVD one, so it can manage access to any resource in its scope. Keep its scope as narrow as you can. The person who publishes an application does not need to be the person who decides who can open it.
 
 ## Assigning roles
 
@@ -125,14 +123,14 @@ You can assign roles in the portal or with scripts. See [Assign Azure roles](htt
 
 ## The Microsoft Entra join exception
 
-Users of Microsoft Entra joined session hosts need one more permission. The documentation says:
+Users of Microsoft Entra joined session hosts need one more permission. Use these roles:
 
 - Assign **Virtual Machine User Login** so users can sign in to the virtual machines.
 - Assign **Virtual Machine Administrator Login** to administrators who need local administrator rights.
-- You can assign these on the virtual machines, the resource group that holds them, or the subscription. The documentation recommends assigning Virtual Machine User Login to the same group used for the application group, at resource group level, so it covers all hosts in the pool.
+- You can assign these on the virtual machines, the resource group that holds them, or the subscription. The recommended way is to assign Virtual Machine User Login to the same group used for the application group, at resource group level, so it covers all hosts in the pool.
 - For host pools that use a session host configuration, this extra role assignment is not required.
 
-Expect a user without this role to be unable to sign in to the host even though the desktop appears in their client and the application group is assigned correctly. That is my expectation from the role's purpose (judgement), so confirm it in a test. For sign-in and MFA on Microsoft Entra joined hosts, see [How sign-in works](/azure-virtual-desktop/how-sign-in-works-three-authentications-and-sso/).
+Expect a user without this role to be unable to sign in to the host even though the desktop appears in their client and the application group is assigned correctly. Confirm this in a test. For sign-in and MFA on Microsoft Entra joined hosts, see [How sign-in works](/azure-virtual-desktop/how-sign-in-works-three-authentications-and-sso/).
 
 ## Common mistakes
 
@@ -154,16 +152,10 @@ These are recommended checks to run with test accounts, in a test environment.
 4. For a Microsoft Entra joined host pool without a session host configuration, remove Virtual Machine User Login from a test user and confirm sign-in fails. Add it back and confirm it works.
 5. List the role assignments on each resource group and check that each one traces to a group and a reason.
 
-## Related book chapter, labs and project
-
-[Chapter 10](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch10-rbac-delegation-administrative-model.md) of the book covers RBAC and delegation. [Lab 7](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-07-avd-host-pool.md) and [Lab 9](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-09-application-groups.md) include role assignments in their steps. The labs walk through those steps. None has been run end to end in Azure.
-
 Next: [Required Connectivity for Azure Virtual Desktop: Endpoints, Proxies, DNS and Private Link](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/).
 
 ## Sources
 
 - [Built-in Azure RBAC roles for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rbac)
 - [Microsoft Entra joined session hosts](https://learn.microsoft.com/en-us/azure/virtual-desktop/azure-ad-joined-session-hosts)
-- [Create and assign an autoscale scaling plan](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-create-assign-scaling-plan)
-- [Configure Start VM on Connect](https://learn.microsoft.com/en-us/azure/virtual-desktop/start-virtual-machine-connect)
-- [Assign Azure RBAC roles or Microsoft Entra roles to the Azure Virtual Desktop service principals](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-principal-assign-roles)
+- [Assign roles to the Azure Virtual Desktop service principals](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-principal-assign-roles)

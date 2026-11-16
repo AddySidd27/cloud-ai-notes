@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 860" width="1000" height="860" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
   <title id="t">The connection sequence, step by step</title>
-  <desc id="d">Diagram using the numbered steps of the client connection sequence. Steps 1 and 2: the client signs in to Microsoft Entra ID and gets a token. Steps 3 to 6: the client passes the token to the feed service and receives a signed connection configuration. Step 7: the client opens a TLS connection to a gateway through Azure Front Door. Step 8: the gateway asks the broker to orchestrate. Step 9: the broker uses the persistent channel to tell the session host. Steps 10 and 11: the session host opens an outbound connection to the same gateway, which relays traffic. Step 12: the RDP handshake between client and session host starts. A dashed line shows the optional RDP Shortpath UDP path directly between client and session host. A panel lists where a connection stops for each step or group of steps (judgement, not from Learn).</desc>
-  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
+  <desc id="d">Diagram using the numbered steps of the client connection sequence. Steps 1 and 2: the client signs in to Microsoft Entra ID and gets a token. Steps 3 to 6: the client passes the token to the feed service and receives a signed connection configuration. Step 7: the client opens a TLS connection to a gateway through Azure Front Door. Step 8: the gateway asks the broker to orchestrate. Step 9: the broker uses the persistent channel to tell the session host. Steps 10 and 11: the session host opens an outbound connection to the same gateway, which relays traffic. Step 12: the RDP handshake between client and session host starts. A dashed line shows the optional RDP Shortpath UDP path directly between client and session host. A panel lists where a connection stops for each step or group of steps.</desc>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
   <rect x="6" y="6" width="988" height="848" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
-  <text x="500" y="36" font-size="19" font-weight="600" text-anchor="middle" fill="#1f2933">A connection, step by step (numbers match the documented sequence)</text>
+  <text x="500" y="36" font-size="19" font-weight="600" text-anchor="middle" fill="#1f2933">A connection, step by step</text>
   <rect x="30" y="230" width="180" height="120" rx="8" fill="#ffffff" stroke="#3c8d40" stroke-width="1.6"/>
   <image x="100" y="238" width="40" height="40" href="data:image/svg+xml;base64,PHN2ZyBpZD0iYTI2ZTdkMGQtYzE1OS00MzdjLTg0NWUtNTI5NzI2ZjNkZjllIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImFlYTU3NmU1LWZlZjgtNGJmNS1hNmRkLTU5MGMwNzVhMDhjNSIgeDE9IjguMzQiIHkxPSIxMS45NiIgeDI9IjguMzQiIHkyPSIxLjg2IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZDJlYmZmIiAvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2YwZmZmZCIgLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iYWUxNjExY2QtNGNmMS00ZWQxLWI1ZTEtZGIxOTIyMGVlNTg2IiB4MT0iMTQuMTUiIHkxPSIyMC40MSIgeDI9IjE0LjE1IiB5Mj0iMi4zNCIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzAwNzhkNCIgLz48c3RvcCBvZmZzZXQ9IjAuMTciIHN0b3AtY29sb3I9IiMxYzg0ZGMiIC8+PHN0b3Agb2Zmc2V0PSIwLjM4IiBzdG9wLWNvbG9yPSIjMzk5MGU0IiAvPjxzdG9wIG9mZnNldD0iMC41OSIgc3RvcC1jb2xvcj0iIzRkOTllYSIgLz48c3RvcCBvZmZzZXQ9IjAuOCIgc3RvcC1jb2xvcj0iIzVhOWVlZSIgLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM1ZWEwZWYiIC8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImJiMGE2NTFiLWJiOTctNDU2OS1hMjNlLTVmZWQ1NmMxZTM1OSIgeDE9IjE0LjE1IiB5MT0iMTUuNTMiIHgyPSIxNC4xNSIgeTI9IjUuMiIgaHJlZj0iI2FlYTU3NmU1LWZlZjgtNGJmNS1hNmRkLTU5MGMwNzVhMDhjNSIgLz48L2RlZnM+PHRpdGxlPkljb24taW50dW5lLTMzMjwvdGl0bGU+PHJlY3QgeT0iMS4wMyIgd2lkdGg9IjE2LjY4IiBoZWlnaHQ9IjExLjg3IiByeD0iMC42IiBmaWxsPSIjMDA3OGQ0IiAvPjxyZWN0IHg9IjAuOTciIHk9IjEuODYiIHdpZHRoPSIxNC43NCIgaGVpZ2h0PSIxMC4xIiByeD0iMC4zIiBvcGFjaXR5PSIwLjkiIGZpbGw9InVybCgjYWVhNTc2ZTUtZmVmOC00YmY1LWE2ZGQtNTkwYzA3NWEwOGM1KSIgLz48cmVjdCB4PSIxMC4zIiB5PSI0LjEyIiB3aWR0aD0iNy43IiBoZWlnaHQ9IjEyLjg1IiByeD0iMC4zIiBmaWxsPSJ1cmwoI2FlMTYxMWNkLTRjZjEtNGVkMS1iNWUxLWRiMTkyMjBlZTU4NikiIC8+PHJlY3QgeD0iMTMuMjciIHk9IjQuNTUiIHdpZHRoPSIxLjc3IiBoZWlnaHQ9IjAuMjQiIHJ4PSIwLjExIiBmaWxsPSIjZjJmMmYyIiAvPjxyZWN0IHg9IjExLjAzIiB5PSI1LjIiIHdpZHRoPSI2LjI1IiBoZWlnaHQ9IjEwLjMzIiByeD0iMC4xNCIgb3BhY2l0eT0iMC45IiBmaWxsPSJ1cmwoI2JiMGE2NTFiLWJiOTctNDU2OS1hMjNlLTVmZWQ1NmMxZTM1OSkiIC8+PHJlY3QgeD0iNy40OCIgeT0iMS40IiB3aWR0aD0iMS43NyIgaGVpZ2h0PSIwLjI0IiByeD0iMC4xMSIgZmlsbD0iI2YyZjJmMiIgLz48cmVjdCB4PSIxMy43MiIgeT0iMTUuOTYiIHdpZHRoPSIwLjg2IiBoZWlnaHQ9IjAuNzMiIHJ4PSIwLjIiIGZpbGw9IiNmMmYyZjIiIC8+PC9zdmc+"/>
   <text x="120" y="302" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">User device</text>
@@ -14,7 +14,7 @@
   <rect x="650" y="64" width="200" height="90" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.6"/>
   <text x="750" y="94" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Feed subscription</text>
   <text x="750" y="114" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">service</text>
-  <text x="750" y="138" font-size="13" text-anchor="middle" fill="#1f2933">(Microsoft-managed)</text>
+  <text x="750" y="138" font-size="14" text-anchor="middle" fill="#1f2933">(Microsoft-managed)</text>
   <rect x="330" y="230" width="190" height="120" rx="8" fill="#e8f1fb" stroke="#3b6fb6" stroke-width="1.6"/>
   <text x="425" y="266" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Gateway service</text>
   <text x="425" y="288" font-size="14" text-anchor="middle" fill="#1f2933">(entered through</text>
@@ -26,35 +26,35 @@
   <image x="730" y="436" width="40" height="40" href="data:image/svg+xml;base64,PHN2ZyBpZD0iZmQ0NTRmMWMtNTUwNi00NGI4LTg3NGUtODgxNGI4YjJmNzBiIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImYzNGQ5NTY5LTJiZDAtNDAwMi04ZjE2LTNkMDFkODEwNmNiNSIgeDE9IjguODgiIHkxPSIxMi4yMSIgeDI9IjguODgiIHkyPSIwLjIxIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMDA3OGQ0IiAvPjxzdG9wIG9mZnNldD0iMC44MiIgc3RvcC1jb2xvcj0iIzVlYTBlZiIgLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iYmRiNDVhMGItZWI1OC00OTcwLWE2MGEtZmIyY2UzMTRmODY2IiB4MT0iOC44OCIgeTE9IjE2Ljg0IiB4Mj0iOC44OCIgeTI9IjEyLjIxIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agb2Zmc2V0PSIwLjE1IiBzdG9wLWNvbG9yPSIjY2NjIiAvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzcwNzA3MCIgLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48dGl0bGU+SWNvbi1jb21wdXRlLTIxPC90aXRsZT48cmVjdCB4PSItMC4xMiIgeT0iMC4yMSIgd2lkdGg9IjE4IiBoZWlnaHQ9IjEyIiByeD0iMC42IiBmaWxsPSJ1cmwoI2YzNGQ5NTY5LTJiZDAtNDAwMi04ZjE2LTNkMDFkODEwNmNiNSkiIC8+PHBvbHlnb24gcG9pbnRzPSIxMS44OCA0LjQ2IDExLjg4IDcuOTUgOC44OCA5LjcxIDguODggNi4yMSAxMS44OCA0LjQ2IiBmaWxsPSIjNTBlNmZmIiAvPjxwb2x5Z29uIHBvaW50cz0iMTEuODggNC40NiA4Ljg4IDYuMjIgNS44OCA0LjQ2IDguODggMi43MSAxMS44OCA0LjQ2IiBmaWxsPSIjYzNmMWZmIiAvPjxwb2x5Z29uIHBvaW50cz0iOC44OCA2LjIyIDguODggOS43MSA1Ljg4IDcuOTUgNS44OCA0LjQ2IDguODggNi4yMiIgZmlsbD0iIzljZWJmZiIgLz48cG9seWdvbiBwb2ludHM9IjUuODggNy45NSA4Ljg4IDYuMjEgOC44OCA5LjcxIDUuODggNy45NSIgZmlsbD0iI2MzZjFmZiIgLz48cG9seWdvbiBwb2ludHM9IjExLjg4IDcuOTUgOC44OCA2LjIxIDguODggOS43MSAxMS44OCA3Ljk1IiBmaWxsPSIjOWNlYmZmIiAvPjxwYXRoIGQ9Ik0xMi40OSwxNS44NGMtMS43OC0uMjgtMS44NS0xLjU2LTEuODUtMy42M0g3LjExYzAsMi4wNy0uMDYsMy4zNS0xLjg0LDMuNjNhMSwxLDAsMCwwLS44OSwxaDlBMSwxLDAsMCwwLDEyLjQ5LDE1Ljg0WiIgZmlsbD0idXJsKCNiZGI0NWEwYi1lYjU4LTQ5NzAtYTYwYS1mYjJjZTMxNGY4NjYpIiAvPjwvc3ZnPg=="/>
   <text x="750" y="500" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Session host</text>
   <text x="750" y="520" font-size="14" text-anchor="middle" fill="#1f2933">(your VM)</text>
-  <polyline points="90,230 90,109 330,109" fill="none" stroke="#c2570c" stroke-width="3" stroke-linejoin="round" marker-end="url(#arr)"/>
+  <polyline points="90,230 90,109 330,109" fill="none" stroke="#c2570c" stroke-width="2.5" stroke-linejoin="round" marker-start="url(#arr)" marker-end="url(#arr)"/>
   <rect x="71.45" y="161" width="37.1" height="28" rx="14" fill="#c2570c" stroke="#c2570c" stroke-width="1"/>
   <text x="90" y="180" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">1-2</text>
-  <polyline points="150,230 150,192 750,192 750,154" fill="none" stroke="#c2570c" stroke-width="3" stroke-linejoin="round" marker-end="url(#arr)"/>
+  <polyline points="150,230 150,192 750,192 750,154" fill="none" stroke="#c2570c" stroke-width="2.5" stroke-linejoin="round" marker-start="url(#arr)" marker-end="url(#arr)"/>
   <rect x="431.45" y="178" width="37.1" height="28" rx="14" fill="#c2570c" stroke="#c2570c" stroke-width="1"/>
   <text x="450" y="197" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">3-6</text>
-  <polyline points="210,290 330,290" fill="none" stroke="#c2570c" stroke-width="3" stroke-linejoin="round" marker-end="url(#arr)"/>
+  <polyline points="210,290 330,290" fill="none" stroke="#c2570c" stroke-width="2.5" stroke-linejoin="round" marker-end="url(#arr)"/>
   <rect x="255" y="248" width="30" height="28" rx="14" fill="#c2570c" stroke="#c2570c" stroke-width="1"/>
   <text x="270" y="267" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">7</text>
-  <polyline points="520,290 650,290" fill="none" stroke="#3b6fb6" stroke-width="3" stroke-linejoin="round" marker-end="url(#arr)"/>
+  <polyline points="520,290 650,290" fill="none" stroke="#3b6fb6" stroke-width="2.5" stroke-linejoin="round" marker-end="url(#arr)"/>
   <rect x="570" y="248" width="30" height="28" rx="14" fill="#3b6fb6" stroke="#3b6fb6" stroke-width="1"/>
   <text x="585" y="267" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">8</text>
-  <polyline points="750,350 750,430" fill="none" stroke="#3b6fb6" stroke-width="3" stroke-linejoin="round" stroke-dasharray="8 5" marker-start="url(#arr)" marker-end="url(#arr)"/>
+  <polyline points="750,350 750,430" fill="none" stroke="#3b6fb6" stroke-width="2.5" stroke-linejoin="round" stroke-dasharray="8 5" marker-start="url(#arr)" marker-end="url(#arr)"/>
   <rect x="735" y="376" width="30" height="28" rx="14" fill="#3b6fb6" stroke="#3b6fb6" stroke-width="1"/>
   <text x="750" y="395" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">9</text>
   <text x="772" y="386" font-size="14" text-anchor="start" fill="#1f2933">persistent channel</text>
   <text x="772" y="404" font-size="14" text-anchor="start" fill="#1f2933">(opened by the agent)</text>
-  <polyline points="650,470 425,470 425,350" fill="none" stroke="#3c8d40" stroke-width="3" stroke-linejoin="round" marker-end="url(#arr)"/>
+  <polyline points="650,470 425,470 425,350" fill="none" stroke="#3c8d40" stroke-width="2.5" stroke-linejoin="round" marker-end="url(#arr)"/>
   <rect x="398.75" y="401" width="52.5" height="28" rx="14" fill="#3c8d40" stroke="#3c8d40" stroke-width="1"/>
   <text x="425" y="420" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">10-11</text>
   <rect x="247" y="396" width="30" height="28" rx="14" fill="#3c8d40" stroke="#3c8d40" stroke-width="1"/>
   <text x="262" y="415" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">12</text>
   <text x="284" y="406" font-size="14" text-anchor="start" fill="#1f2933">RDP handshake,</text>
   <text x="284" y="424" font-size="14" text-anchor="start" fill="#1f2933">client and host</text>
-  <polyline points="120,350 120,500 650,500" fill="none" stroke="#3c8d40" stroke-width="3" stroke-linejoin="round" stroke-dasharray="10 6" marker-end="url(#arr)"/>
+  <polyline points="120,350 120,500 650,500" fill="none" stroke="#3c8d40" stroke-width="2.5" stroke-linejoin="round" stroke-dasharray="10 6" marker-end="url(#arr)"/>
   <text x="140" y="528" font-size="14" text-anchor="start" fill="#1f2933">Optional: RDP Shortpath, direct UDP between</text>
   <text x="140" y="548" font-size="14" text-anchor="start" fill="#1f2933">client and session host (dashed)</text>
   <rect x="24" y="590" width="952" height="224" rx="6" fill="#ffffff" stroke="#5f6b7a" stroke-width="1.2"/>
-  <text x="40" y="620" font-size="15" font-weight="600" text-anchor="start" fill="#1f2933">Where a connection stops (judgement, not from Learn)</text>
+  <text x="40" y="620" font-size="15" font-weight="600" text-anchor="start" fill="#1f2933">Where a connection stops</text>
   <text x="40" y="650" font-size="14" font-weight="600" text-anchor="start" fill="#c2570c">1-2</text>
   <text x="120" y="650" font-size="14" text-anchor="start" fill="#1f2933">Sign-in is blocked or interrupted: wrong account, Conditional Access, or a blocked sign-in endpoint.</text>
   <text x="40" y="674" font-size="14" font-weight="600" text-anchor="start" fill="#c2570c">3-6</text>

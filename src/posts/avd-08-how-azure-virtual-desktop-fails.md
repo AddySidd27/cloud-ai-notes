@@ -12,7 +12,7 @@ description: "Learn which parts of Azure Virtual Desktop Microsoft runs and whic
 
 When users say "AVD is down", the cause can be one of many things. Microsoft's service might have a problem. Your own session hosts, identity, network or profile storage might have one (all defined in the table below). Or you might have changed a setting and broken something yourself. The symptoms often look alike.
 
-This article gives you a way to sort problems quickly. It splits Azure Virtual Desktop (AVD) into three jobs, explains what Microsoft runs and how it keeps running, and then shows what users see when each part fails. Where the documentation states a behavior, the text says so. Where I give my own reasoning and it is not documented, it is labelled as judgement.
+This article gives you a way to sort problems quickly. It splits Azure Virtual Desktop (AVD) into three jobs, explains what Microsoft runs and how it keeps running, and then shows what users see when each part fails.
 
 If you have not yet read how a desktop reaches a user, start with the [architecture article](/azure-virtual-desktop/azure-virtual-desktop-architecture/).
 
@@ -56,24 +56,24 @@ If you have not yet read how a desktop reaches a user, start with the [architect
 
 ## Three jobs, three places a problem can start
 
-The service architecture article calls the Microsoft-run parts of AVD the Microsoft-managed components. The [multiregion BCDR article](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/azure-virtual-desktop/azure-virtual-desktop-multi-region-bcdr) uses the term control plane for the web, broker, gateway, resource directory and diagnostics services. The split below into three planes is a framing used in this series. It is a troubleshooting aid, not a list of documented product features.
+Microsoft calls the Microsoft-run parts of AVD the Microsoft-managed components. The [multiregion BCDR article](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/azure-virtual-desktop/azure-virtual-desktop-multi-region-bcdr) uses the term control plane for the web, broker, gateway, resource directory and diagnostics services. The split below into three planes is a troubleshooting aid, not a list of product features.
 
-Other articles in this series use "control plane action" for an action on AVD objects. In this article that is the management plane. This keeps what you run apart from what Microsoft runs.
+This article calls an action on AVD objects a management plane action, so that what you run stays apart from what Microsoft runs.
 
 | Plane | Its job | Who runs it | Example of what you do there |
 |---|---|---|---|
 | Management plane | Create and change AVD objects such as host pools, application groups, workspaces and scaling plans. | Azure Resource Manager, with your permissions applied through Azure RBAC. | Create a host pool in the portal, or run a script that does it. |
-| Control plane | Show users their feed and arrange each connection. | Microsoft. | Nothing. You do not deploy or scale it (judgement: Learn says Microsoft provides these components as a service and does not list them as customer tasks, [service architecture](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience)). |
+| Control plane | Show users their feed and arrange each connection. | Microsoft. | Nothing. Microsoft provides these components as a service, so you do not deploy or scale them. |
 | Data plane | Carry the remote session. | Your session hosts, your network and, depending on how the session connects, the Microsoft gateway service. | Size the hosts, route the network, store the profiles. |
 
-Two details stop this table from being too tidy. For the full connection steps, see [follow a connection step by step](/azure-virtual-desktop/follow-a-connection-step-by-step/).
+Two details stop this table from being too tidy. For the full connection steps, see [Follow a Connection Step by Step](/azure-virtual-desktop/follow-a-connection-step-by-step/).
 
 - **The gateway belongs to Microsoft but carries session traffic.** With the default connection type, called reverse connect, the gateway service relays the RDP traffic between the client and the session host. With RDP Shortpath, a direct UDP path skips the gateway. So the gateway sits between the control plane and the data plane.
 - **AVD objects are Azure resources.** Because of that, normal Azure rules apply to them: you need the right Azure RBAC role at the right scope (the subscription, resource group or resource the role applies to). You must also register the Microsoft.DesktopVirtualization resource provider (the Azure service that handles AVD objects) in the subscription.
 
 ## What Microsoft runs
 
-The documentation lists these Microsoft-managed components.
+These are the Microsoft-managed components.
 
 | Component | What it does |
 |---|---|
@@ -88,11 +88,11 @@ AVD also uses two global Azure services to send users to the nearest entry point
 
 You are responsible for the session hosts, including images and applications, virtual network connectivity, resilience, backup and recovery of those hosts.
 
-You also provide the user identities and control access to the service. The documentation names Azure availability zones, Azure Backup and Azure Site Recovery as services that can help with that side.
+You also provide the user identities and control access to the service. Azure availability zones, Azure Backup and Azure Site Recovery can help with that side.
 
 ## How the service stays available
 
-A connection has two separate sequences: feed discovery and the RDP connection. Each uses different components. The documentation describes this resilience.
+A connection has two separate sequences: feed discovery and the RDP connection. Each uses different components. This is how the service stays available.
 
 - **Global routing.** If a web service or gateway service becomes unavailable from one Azure region, or a whole region fails, traffic is redirected to the next closest available instance. Users can still make new connections.
 - **Geographical database.** It uses Azure SQL Database failover and replication within its geography. If it fails, it fails over to a secondary replica (a standby copy). During the failover, new connections fail for a short time. Existing connections are not affected.
@@ -100,11 +100,11 @@ A connection has two separate sequences: feed discovery and the RDP connection. 
 - **Instances.** At the time of writing, the Microsoft-run components run in around 40 Azure regions. In each region there are at least six separate instances or clusters of each component, working independently ([Service architecture and resilience, Service resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience#service-resilience)).
 - **Gateway instance failure.** If one gateway instance fails, the TCP-based RDP connections it was relaying are dropped. When those users reconnect, the remaining instances reconnect each user to their existing session. Sessions on other instances are not affected.
 
-Two practical points follow. First, you do not deploy or scale these components. Each has multiple instances in each region, and Microsoft runs them. Second, a brief drop followed by a reconnect to the same session is the documented behavior for a gateway instance failure, so the first response to a few dropped sessions is to reconnect, not to rebuild (judgement).
+Two practical points follow. First, you do not deploy or scale these components. Each has multiple instances in each region, and Microsoft runs them. Second, a brief drop followed by a reconnect to the same session is the expected behavior for a gateway instance failure, so the first response to a few dropped sessions is to reconnect, not to rebuild.
 
 ## What the service stores, and where
 
-AVD stores information about your objects, such as host pool, application group and workspace names, virtual machine names and user principal names. The documentation groups it as customer input data, customer data, diagnostic data and service-generated data.
+AVD stores information about your objects, such as host pool, application group and workspace names, virtual machine names and user principal names. Microsoft groups it as customer input data, customer data, diagnostic data and service-generated data.
 
 | Kind of data | Where it is stored |
 |---|---|
@@ -115,39 +115,37 @@ AVD stores information about your objects, such as host pool, application group 
 
 The service does not directly store user data or application data such as documents or databases. Profiles, files and databases live in the storage you choose, in the Azure region you choose.
 
-The deployment scope is set when you create an object and cannot be changed afterward. Regional and Geographical objects cannot be mixed. A regional host pool can only be in a regional workspace and can only contain regional application groups. [Article 9](/azure-virtual-desktop/host-pool-application-group-workspace-rules/) covers these rules.
+The deployment scope is set when you create an object and cannot be changed afterward. Regional and Geographical objects cannot be mixed. A regional host pool can only be in a regional workspace and can only contain regional application groups. [Host Pools, Application Groups and Workspaces](/azure-virtual-desktop/host-pool-application-group-workspace-rules/) covers these rules.
 
-A caution about Regional scope. At the time of writing, the article on regional host pools still describes the feature as a preview and says errors and checkpoints (step-by-step records of each connection) are not reported into Log Analytics for regional session hosts. The data locations article lists the Regional scope in two regions, Central US and East US 2, without preview wording.
-
-These pages do not agree on the status, and this article does not settle it. The multiregion BCDR article also says regional host pools are in public preview, and it recommends creating all new host pools as regional host pools. If a region does not support regional scope, the option is not offered and the pool is created as geographical. Check the current pages before you choose Regional scope for a production host pool.
+A caution about Regional scope. At the time of writing, Regional scope is in preview and is available in two regions, Central US and East US 2. Errors and checkpoints (step-by-step records of each connection) are not reported into Log Analytics for regional session hosts. If a region does not support regional scope, the option is not offered and the pool is created as geographical. Microsoft recommends creating all new host pools as regional once the feature is generally available. Check the [regional host pools](https://learn.microsoft.com/en-us/azure/virtual-desktop/regional-host-pools) page for the current status before you choose Regional scope for a production host pool.
 
 ## Three planes and what a problem in each one affects
 
-![Three horizontal bands. Management plane: you or your automation use Azure Resource Manager to change host pools, application groups and workspaces. Control plane: web service, broker service and gateway service, plus the resource directory and the geographical or regional database. Data plane: the user device reaches the session host over RDP through the gateway over TCP, or over UDP, and the session host uses Azure Files profile storage and Microsoft Entra ID or AD DS. Each band has a note on what a problem in it affects. The notes are judgement, except the documented database and gateway behaviors.](/img/avd/AVD-Post-08-Three-Planes-v3.png)
+![Three horizontal bands for the management, control and data planes, with what runs in each and what a problem in it affects.](/img/avd/AVD-Post-08-Three-Planes-v3.png)
 
-*Figure 1. The three planes and what a problem in each one affects. Source: [Azure Virtual Desktop service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience). The documentation has no diagram of the three-plane split, so the layout and plane names are a simplified framing used in this series. The notes on the right are judgement, except the documented behaviors that the control plane note names. Azure Files is one example of profile storage. Icons: Microsoft Azure and Microsoft Entra architecture icons, used unmodified under the terms on Microsoft's icons page.*
+*Source: [Service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience).*
 
 ## What users see when each part fails
 
-The documentation describes two failure behaviors: a database failover briefly fails new connections only, and a failed gateway instance drops the connections it relays. It does not publish a table of symptoms for every component. The table below combines those two documented behaviors with my judgement from what each component does. The last column says which is which.
+A database failover briefly fails new connections only, and a failed gateway instance drops the connections it relays. The table below adds what users are likely to see for the other parts, and what to check first.
 
-| Part that fails | What users are likely to see | Evidence |
+| Part that fails | What users are likely to see | What to check first |
 |---|---|---|
-| Web service or resource directory | Cannot sign in to the client, or the feed is empty or wrong. | Judgement. |
-| Broker service | The feed loads but starting a desktop fails. | Judgement. |
-| Database during failover | New connections fail briefly. Existing connections are unaffected. | Documented. |
-| One gateway instance | The sessions it relays drop. Reconnecting reaches the existing session through another instance. | Documented. |
-| Management plane (Azure Resource Manager, or a missing role) | Administrators cannot create or change objects. Users who are already working are usually unaffected. | Judgement. |
-| Your session hosts | No available resources, or a connection that opens and then drops. The feed still loads. | Judgement, with documented host statuses below. |
-| Your identity service | Windows sign-in fails or hangs. The feed may still load. | Judgement. |
-| Your profile storage | Very slow sign-in, or a temporary profile. The connection itself works. | Judgement. |
-| Your network path | Slow, frozen or dropped sessions. | Judgement. |
+| Web service or resource directory | Cannot sign in to the client, or the feed is empty or wrong. | Azure Service Health, then the user's assignment and workspace. |
+| Broker service | The feed loads but starting a desktop fails. | Azure Service Health, then the session host status. |
+| Database during failover | New connections fail briefly. Existing connections are unaffected. | Wait a short time and connect again. |
+| One gateway instance | The sessions it relays drop. Reconnecting reaches the existing session through another instance. | Reconnect. |
+| Management plane (Azure Resource Manager, or a missing role) | Administrators cannot create or change objects. Users who are already working are usually unaffected. | The Azure role at the right scope, then Azure status. |
+| Your session hosts | No available resources, or a connection that opens and then drops. The feed still loads. | Host status and health checks (below). |
+| Your identity service | Windows sign-in fails or hangs. The feed may still load. | Domain join or Microsoft Entra join, DNS and domain controller reachability. |
+| Your profile storage | Very slow sign-in, or a temporary profile. The connection itself works. | Share reachability, permissions and throttling. |
+| Your network path | Slow, frozen or dropped sessions. | The network path and the host's load. |
 
-One rule of thumb follows from the two separate sequences, and it is a heuristic (judgement), not a documented fact. First check Azure Service Health, which is quick. Then, if the feed loads but the session does not start, the Microsoft-run feed path worked, so look at the connection path and at the parts you run.
+One rule of thumb follows from the two separate sequences. First check Azure Service Health, which is quick. Then, if the feed loads but the session does not start, the Microsoft-run feed path worked, so look at the connection path and at the parts you run.
 
 ## Failures in the parts you run
 
-The AVD agent runs health checks on every session host and gives each host a status. The documentation describes these statuses.
+The AVD agent runs health checks on every session host and gives each host a status. These are the statuses.
 
 | Status | What it means | Is the host used for new sessions? |
 |---|---|---|
@@ -158,15 +156,13 @@ The AVD agent runs health checks on every session host and gives each host a sta
 | Upgrading | The agent update is in progress. The status returns to Available when it finishes. | Yes. |
 | Shutdown | The host was shut down. A host that shut down before it could report its status can show Unavailable instead, which does not by itself mean a fault. | No. |
 
-These are tests the AVD agent runs on the host. They check that the host is joined to the domain, that the AVD listener is running, that the domain trusts the host, that the monitoring agent works and that the host can reach the Azure metadata service. The documentation lists these health checks and what happens when they fail: Domain joined (fatal, users cannot connect), Side-by-side stack listener (fatal), Domain trust check (fatal), Geneva monitoring agent (semi-fatal: connections work but without logging information), App Attach health check (not fatal, but some apps stop working) and Metadata service check (not fatal).
+These are tests the AVD agent runs on the host. They check that the host is joined to the domain, that the AVD listener is running, that the domain trusts the host, that the monitoring agent works and that the host can reach the Azure metadata service. These are the health checks and what happens when they fail: Domain joined (fatal, users cannot connect), Side-by-side stack listener (fatal), Domain trust check (fatal), Geneva monitoring agent (semi-fatal: connections work but without logging information), App Attach health check (not fatal, but some apps stop working) and Metadata service check (not fatal).
 
-Learn calls the Geneva check non-fatal in the status table and semi-fatal in the health check table, and lists the URL check only in the status table. [Article 21](/azure-virtual-desktop/create-update-replace-session-hosts/) explains this in more detail. The status table shows why "Available" does not mean "healthy for the user": a host at its session limit is still listed as Available.
+The Geneva check is called non-fatal in the status table and semi-fatal in the health check table, and the URL check appears only in the status table. [Create, Update and Replace Session Hosts](/azure-virtual-desktop/create-update-replace-session-hosts/) explains this in more detail. The status table shows why "Available" does not mean "healthy for the user": a host at its session limit is still listed as Available.
 
-When a host shows Needs Assistance, open the host in the portal (Session hosts tab) to see which check failed. When a host shows Unavailable, first check whether it is turned off. For a host that shows Shutdown or Unavailable, Learn suggests the VM instance view API to read the real power state. The [required connectivity article](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/) explains the endpoints a host must reach.
+When a host shows Needs Assistance, open the host in the portal (Session hosts tab) to see which check failed. When a host shows Unavailable, first check whether it is turned off. For a host that shows Shutdown or Unavailable, Microsoft suggests the VM instance view API to read the real power state. The [required connectivity article](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/) explains the endpoints a host must reach.
 
 ## A diagnostic order
-
-This is a recommendation (judgement), not a documented procedure.
 
 1. Check the Azure status page and Azure Service Health first. The troubleshooting overview tells you to do this before anything else.
 2. Decide which sequence failed. Did the feed fail (the user sees no desktops, or the wrong ones)? Or did the connection fail (the desktop is listed but does not open, or drops)?
@@ -178,36 +174,24 @@ This is a recommendation (judgement), not a documented procedure.
 
 ## Common mistakes
 
-- **Assuming an outage without checking.** Check Azure Service Health first, because it is quick. Then check your own hosts. Do not stop at "AVD is down". Host status and agent health are also quick to check, so check them early (judgement).
+- **Assuming an outage without checking.** Check Azure Service Health first, because it is quick. Then check your own hosts. Do not stop at "AVD is down". Host status and agent health are also quick to check, so check them early.
 - **Treating the management plane as AVD-specific.** A missing Azure role at the right scope looks like an AVD problem but is an Azure RBAC problem.
 - **Believing "Available" means healthy.** A host at its session limit or with a slow profile share is still Available.
 - **Using one symptom for two causes.** "Cannot connect" can mean a blocked endpoint, an unavailable host or an identity problem. Find out which sequence failed first.
-- **Promising Microsoft's uptime to your own customers.** Point to Microsoft's published terms instead of writing your own promise about parts you do not run (judgement).
+- **Promising Microsoft's uptime to your own customers.** Point to Microsoft's published terms instead of writing your own promise about parts you do not run.
 - **Forgetting that diagnostics are opt-in.** Service events reach your Log Analytics workspace only after you enable diagnostic settings on each AVD object you want to monitor. Connections that never reach the service do not appear in those diagnostics at all, so a network problem on the user's side can look like silence.
 
 ## How to validate this in your environment
 
-These checks are a recommendation (judgement). None of them proves anything until you run them.
-
 1. Open a host pool and look at each session host's status. Write down what each status in your pool means for users.
 2. Stop one session host in a test pool and see what a new connection does. Record whether the user is placed on another host or sees an error.
 3. Write down which of your own components each plane depends on: identity, DNS, profile storage, the network path. That list is your side of the failure table.
-4. Configure Service Health alerts for the subscriptions and regions your host pools use. The documentation recommends alerts for the service issue and health advisory event types.
-
-## Related book chapter, lab and project
-
-[Chapter 2](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch02-control-plane-management-plane-data-plane.md) of the book covers these planes. [Lab 1](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-01-azure-prerequisites-and-tooling.md) prepares the subscription: resource providers, quota and a budget alert. The lab walks through those steps; I have not run it end to end. [Project 15](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/scenarios/project-15-production-troubleshooting.md) is a fictional troubleshooting case study.
+4. Configure Service Health alerts for the subscriptions and regions your host pools use. Microsoft recommends alerts for the service issue and health advisory event types.
 
 Next: [Host Pools, Application Groups and Workspaces: The Rules That Connect Them](/azure-virtual-desktop/host-pool-application-group-workspace-rules/).
 
 ## Sources
 
 - [Service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience)
-- [data locations](https://learn.microsoft.com/en-us/azure/virtual-desktop/data-locations)
-- [session host statuses and health checks](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-status-health-checks)
-- [multiregion BCDR](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/azure-virtual-desktop/azure-virtual-desktop-multi-region-bcdr)
-- [regional host pools](https://learn.microsoft.com/en-us/azure/virtual-desktop/regional-host-pools)
-- [troubleshooting overview](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-set-up-overview)
-- [diagnostics with Log Analytics](https://learn.microsoft.com/en-us/azure/virtual-desktop/diagnostics-log-analytics)
-- [service alerts](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-service-alerts)
-- [prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites)
+- [Multiregion business continuity and disaster recovery](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/azure-virtual-desktop/azure-virtual-desktop-multi-region-bcdr)
+- [Session host statuses and health checks](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-status-health-checks)

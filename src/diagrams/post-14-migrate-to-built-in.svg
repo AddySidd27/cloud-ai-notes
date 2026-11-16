@@ -1,65 +1,70 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" width="1000" height="560" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1011 576" width="1011" height="576" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
   <title id="t">Decision tree for migrating Azure landing zone custom policies to built-in policies</title>
-  <desc id="d">Based on the Learn decision tree. If a policy or initiative is not assigned, delete the Azure landing zone policy or initiative definition. If a policy is assigned directly, assign the Azure built-in policy and delete the Azure landing zone policy assignments. If assigned through an initiative that is superseded by an Azure built-in initiative, assign the built-in initiative, delete the Azure landing zone initiative assignments, and delete the initiative definition. If the initiative is not superseded, update the Azure landing zone initiative definition.</desc>
+  <desc id="d">Decision tree. If a policy or initiative is not assigned, delete the Azure landing zone policy or initiative definition. If a policy is assigned directly, assign the Azure built-in policy, delete the Azure landing zone policy assignments, and delete the policy definition. If assigned through an initiative that is superseded by an Azure built-in initiative, assign the built-in initiative, delete the Azure landing zone initiative assignments, and delete the initiative definition. If the initiative is not superseded, update the Azure landing zone initiative definition.</desc>
   <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
-  <polygon points="215,156 229,170 215,184 201,170" fill="#2b7cd3" stroke="#1f5fa8" stroke-width="1"/>
-  <polygon points="215,256 229,270 215,284 201,270" fill="#2b7cd3" stroke="#1f5fa8" stroke-width="1"/>
-  <polygon points="215,396 229,410 215,424 201,410" fill="#2b7cd3" stroke="#1f5fa8" stroke-width="1"/>
-  <polygon points="360,396 374,410 360,424 346,410" fill="#2b7cd3" stroke="#1f5fa8" stroke-width="1"/>
-  <rect x="80" y="10" width="270" height="48" rx="14" fill="#8ec5f0" stroke="#7fb1dc" stroke-width="1.2"/>
-  <text x="215.0" y="29.55" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">Azure landing zone</text>
-  <text x="215.0" y="47.55" font-size="13" text-anchor="middle" fill="#1f2933">Policy updates required</text>
-  <rect x="80" y="80" width="270" height="48" rx="4" fill="#cfe6f7" stroke="#a9c9e2" stroke-width="1.2"/>
-  <text x="215.0" y="99.55" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">Azure landing zone</text>
-  <text x="215.0" y="117.55" font-size="13" text-anchor="middle" fill="#1f2933">Policies in scope for updating</text>
-  <line x1="215" y1="58" x2="215" y2="80" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <line x1="215" y1="128" x2="215" y2="156" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <text x="193" y="165.5" font-size="13" text-anchor="end" fill="#1f2933">Policy or policy</text>
-  <text x="193" y="182.5" font-size="13" text-anchor="end" fill="#1f2933">initiative assigned</text>
-  <text x="262" y="163" font-size="13" text-anchor="middle" fill="#1f2933">No</text>
-  <line x1="229" y1="170" x2="290" y2="170" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <rect x="290" y="146" width="300" height="48" rx="4" fill="#cdeee6" stroke="#9fb9d0" stroke-width="1.2"/>
-  <text x="440.0" y="165.55" font-size="13" text-anchor="middle" fill="#1f2933">Delete Azure landing zone policy</text>
-  <text x="440.0" y="183.55" font-size="13" text-anchor="middle" fill="#1f2933">or policy initiative definition</text>
-  <text x="207" y="218" font-size="13" text-anchor="end" fill="#1f2933">Yes</text>
-  <line x1="215" y1="184" x2="215" y2="256" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <text x="193" y="265.5" font-size="13" text-anchor="end" fill="#1f2933">Policy assigned</text>
-  <text x="193" y="282.5" font-size="13" text-anchor="end" fill="#1f2933">directly</text>
-  <text x="262" y="263" font-size="13" text-anchor="middle" fill="#1f2933">Yes</text>
-  <line x1="229" y1="270" x2="290" y2="270" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <rect x="290" y="246" width="150" height="48" rx="4" fill="#d5e8f5" stroke="#9fb9d0" stroke-width="1.2"/>
-  <text x="365.0" y="265.55" font-size="13" text-anchor="middle" fill="#1f2933">Assign Azure</text>
-  <text x="365.0" y="283.55" font-size="13" text-anchor="middle" fill="#1f2933">built-in policy</text>
-  <line x1="440" y1="270" x2="474" y2="270" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <rect x="474" y="246" width="220" height="48" rx="4" fill="#d5e8f5" stroke="#9fb9d0" stroke-width="1.2"/>
-  <text x="584.0" y="265.55" font-size="13" text-anchor="middle" fill="#1f2933">Delete Azure landing</text>
-  <text x="584.0" y="283.55" font-size="13" text-anchor="middle" fill="#1f2933">zone policy assignment(s)</text>
-  <text x="207" y="322" font-size="13" text-anchor="end" fill="#1f2933">No</text>
-  <line x1="215" y1="284" x2="215" y2="396" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <text x="193" y="405.5" font-size="13" text-anchor="end" fill="#1f2933">Policy assigned through</text>
-  <text x="193" y="422.5" font-size="13" text-anchor="end" fill="#1f2933">policy initiative</text>
-  <text x="262" y="403" font-size="13" text-anchor="middle" fill="#1f2933">Yes</text>
-  <line x1="229" y1="410" x2="346" y2="410" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <text x="360" y="352" font-size="13" text-anchor="middle" fill="#1f2933">Azure landing zone policy</text>
-  <text x="360" y="369" font-size="13" text-anchor="middle" fill="#1f2933">initiative superseded by Azure</text>
-  <text x="360" y="386" font-size="13" text-anchor="middle" fill="#1f2933">built-in initiative</text>
-  <text x="402" y="403" font-size="13" text-anchor="middle" fill="#1f2933">No</text>
-  <line x1="374" y1="410" x2="436" y2="410" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <rect x="436" y="386" width="250" height="48" rx="4" fill="#d5e8f5" stroke="#9fb9d0" stroke-width="1.2"/>
-  <text x="561.0" y="405.55" font-size="13" text-anchor="middle" fill="#1f2933">Update Azure landing zone</text>
-  <text x="561.0" y="423.55" font-size="13" text-anchor="middle" fill="#1f2933">policy initiative definition</text>
-  <text x="352" y="462" font-size="13" text-anchor="end" fill="#1f2933">Yes</text>
-  <line x1="360" y1="424" x2="360" y2="484" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <rect x="280" y="484" width="160" height="56" rx="4" fill="#d5e8f5" stroke="#9fb9d0" stroke-width="1.2"/>
-  <text x="360.0" y="507.55" font-size="13" text-anchor="middle" fill="#1f2933">Assign Azure</text>
-  <text x="360.0" y="525.55" font-size="13" text-anchor="middle" fill="#1f2933">built-in initiative</text>
-  <line x1="440" y1="512" x2="474" y2="512" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <rect x="474" y="484" width="220" height="56" rx="4" fill="#d5e8f5" stroke="#9fb9d0" stroke-width="1.2"/>
-  <text x="584.0" y="498.55" font-size="13" text-anchor="middle" fill="#1f2933">Delete Azure landing zone</text>
-  <text x="584.0" y="516.55" font-size="13" text-anchor="middle" fill="#1f2933">policy initiative</text>
-  <text x="584.0" y="534.55" font-size="13" text-anchor="middle" fill="#1f2933">assignment(s)</text>
-  <line x1="694" y1="512" x2="728" y2="512" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <rect x="728" y="484" width="260" height="56" rx="4" fill="#d5e8f5" stroke="#9fb9d0" stroke-width="1.2"/>
-  <text x="858.0" y="507.55" font-size="13" text-anchor="middle" fill="#1f2933">Delete Azure landing zone</text>
-  <text x="858.0" y="525.55" font-size="13" text-anchor="middle" fill="#1f2933">policy initiative definition</text>
+  <rect x="6" y="6" width="999" height="564" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
+  <polygon points="215,168.6 229,182.6 215,196.6 201,182.6" fill="#2b7cd3" stroke="#1f5fa8" stroke-width="1"/>
+  <polygon points="215,268.6 229,282.6 215,296.6 201,282.6" fill="#2b7cd3" stroke="#1f5fa8" stroke-width="1"/>
+  <polygon points="215,408.6 229,422.6 215,436.6 201,422.6" fill="#2b7cd3" stroke="#1f5fa8" stroke-width="1"/>
+  <polygon points="360,408.6 374,422.6 360,436.6 346,422.6" fill="#2b7cd3" stroke="#1f5fa8" stroke-width="1"/>
+  <rect x="80" y="22.6" width="270" height="48" rx="14" fill="#8ec5f0" stroke="#7fb1dc" stroke-width="1.2"/>
+  <text x="215" y="42.15" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Azure landing zone</text>
+  <text x="215" y="60.15" font-size="14" text-anchor="middle" fill="#1f2933">Policy updates required</text>
+  <rect x="80" y="92.6" width="270" height="48" rx="4" fill="#cfe6f7" stroke="#a9c9e2" stroke-width="1.2"/>
+  <text x="215" y="112.15" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Azure landing zone</text>
+  <text x="215" y="130.15" font-size="14" text-anchor="middle" fill="#1f2933">Policies in scope for updating</text>
+  <line x1="215" y1="70.6" x2="215" y2="92.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <line x1="215" y1="140.6" x2="215" y2="168.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="193" y="178.1" font-size="14" text-anchor="end" fill="#1f2933">Policy or policy</text>
+  <text x="193" y="195.1" font-size="14" text-anchor="end" fill="#1f2933">initiative assigned</text>
+  <text x="262" y="175.6" font-size="14" text-anchor="middle" fill="#1f2933">No</text>
+  <line x1="229" y1="182.6" x2="290" y2="182.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="290" y="158.6" width="300" height="48" rx="4" fill="#cdeee6" stroke="#9fb9d0" stroke-width="1.2"/>
+  <text x="440" y="178.15" font-size="14" text-anchor="middle" fill="#1f2933">Delete Azure landing zone policy</text>
+  <text x="440" y="196.15" font-size="14" text-anchor="middle" fill="#1f2933">or policy initiative definition</text>
+  <text x="207" y="230.6" font-size="14" text-anchor="end" fill="#1f2933">Yes</text>
+  <line x1="215" y1="196.6" x2="215" y2="268.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="193" y="278.1" font-size="14" text-anchor="end" fill="#1f2933">Policy assigned</text>
+  <text x="193" y="295.1" font-size="14" text-anchor="end" fill="#1f2933">directly</text>
+  <text x="262" y="275.6" font-size="14" text-anchor="middle" fill="#1f2933">Yes</text>
+  <line x1="229" y1="282.6" x2="290" y2="282.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="290" y="258.6" width="150" height="48" rx="4" fill="#d5e8f5" stroke="#9fb9d0" stroke-width="1.2"/>
+  <text x="365" y="278.15" font-size="14" text-anchor="middle" fill="#1f2933">Assign Azure</text>
+  <text x="365" y="296.15" font-size="14" text-anchor="middle" fill="#1f2933">built-in policy</text>
+  <line x1="440" y1="282.6" x2="474" y2="282.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="474" y="258.6" width="220" height="48" rx="4" fill="#d5e8f5" stroke="#9fb9d0" stroke-width="1.2"/>
+  <text x="584" y="278.15" font-size="14" text-anchor="middle" fill="#1f2933">Delete Azure landing</text>
+  <text x="584" y="296.15" font-size="14" text-anchor="middle" fill="#1f2933">zone policy assignment(s)</text>
+  <line x1="694" y1="282.6" x2="728" y2="282.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="728" y="258.6" width="260" height="48" rx="4" fill="#d5e8f5" stroke="#9fb9d0" stroke-width="1.2"/>
+  <text x="858" y="278.15" font-size="14" text-anchor="middle" fill="#1f2933">Delete Azure landing zone</text>
+  <text x="858" y="296.15" font-size="14" text-anchor="middle" fill="#1f2933">policy definition</text>
+  <text x="207" y="334.6" font-size="14" text-anchor="end" fill="#1f2933">No</text>
+  <line x1="215" y1="296.6" x2="215" y2="408.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="193" y="418.1" font-size="14" text-anchor="end" fill="#1f2933">Policy assigned through</text>
+  <text x="193" y="435.1" font-size="14" text-anchor="end" fill="#1f2933">policy initiative</text>
+  <text x="262" y="415.6" font-size="14" text-anchor="middle" fill="#1f2933">Yes</text>
+  <line x1="229" y1="422.6" x2="346" y2="422.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="360" y="364.6" font-size="14" text-anchor="middle" fill="#1f2933">Azure landing zone policy</text>
+  <text x="360" y="381.6" font-size="14" text-anchor="middle" fill="#1f2933">initiative superseded by Azure</text>
+  <text x="360" y="398.6" font-size="14" text-anchor="middle" fill="#1f2933">built-in initiative</text>
+  <text x="402" y="415.6" font-size="14" text-anchor="middle" fill="#1f2933">No</text>
+  <line x1="374" y1="422.6" x2="436" y2="422.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="436" y="398.6" width="250" height="48" rx="4" fill="#d5e8f5" stroke="#9fb9d0" stroke-width="1.2"/>
+  <text x="561" y="418.15" font-size="14" text-anchor="middle" fill="#1f2933">Update Azure landing zone</text>
+  <text x="561" y="436.15" font-size="14" text-anchor="middle" fill="#1f2933">policy initiative definition</text>
+  <text x="352" y="474.6" font-size="14" text-anchor="end" fill="#1f2933">Yes</text>
+  <line x1="360" y1="436.6" x2="360" y2="496.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="280" y="496.6" width="160" height="56" rx="4" fill="#d5e8f5" stroke="#9fb9d0" stroke-width="1.2"/>
+  <text x="360" y="520.15" font-size="14" text-anchor="middle" fill="#1f2933">Assign Azure</text>
+  <text x="360" y="538.15" font-size="14" text-anchor="middle" fill="#1f2933">built-in initiative</text>
+  <line x1="440" y1="524.6" x2="474" y2="524.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="474" y="496.6" width="220" height="56" rx="4" fill="#d5e8f5" stroke="#9fb9d0" stroke-width="1.2"/>
+  <text x="584" y="511.15" font-size="14" text-anchor="middle" fill="#1f2933">Delete Azure landing zone</text>
+  <text x="584" y="529.15" font-size="14" text-anchor="middle" fill="#1f2933">policy initiative</text>
+  <text x="584" y="547.15" font-size="14" text-anchor="middle" fill="#1f2933">assignment(s)</text>
+  <line x1="694" y1="524.6" x2="728" y2="524.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="728" y="496.6" width="260" height="56" rx="4" fill="#d5e8f5" stroke="#9fb9d0" stroke-width="1.2"/>
+  <text x="858" y="520.15" font-size="14" text-anchor="middle" fill="#1f2933">Delete Azure landing zone</text>
+  <text x="858" y="538.15" font-size="14" text-anchor="middle" fill="#1f2933">policy initiative definition</text>
 </svg>

@@ -51,7 +51,7 @@ How a new version then reaches the session hosts is covered in [Create, update a
 
 ## Two routes to a golden image
 
-This article covers two documented ways to get a golden image into a gallery. They end in the same place, an image version, and you can use either one for session hosts. A third documented path, preparing a VHD and uploading it as an image, is described on the master image page and is not covered here.
+This article covers two ways to get a golden image into a gallery. They end in the same place, an image version, and you can use either one for session hosts. A third path, preparing a VHD and uploading it as an image, is described on the master image page and is not covered here.
 
 | | Route 1: build by hand | Route 2: Azure Image Builder |
 |---|---|---|
@@ -59,15 +59,15 @@ This article covers two documented ways to get a golden image into a gallery. Th
 | Who customizes | You, signed in to the virtual machine. | The service, running your scripts and the built-in ones on a temporary build virtual machine. |
 | Generalize | You run Sysprep and shut the machine down. | The service does it for you. |
 | Result | You capture the machine into a gallery (or as a managed image). | The service distributes the image to a gallery, to a managed image or to a VHD, and to the regions you list. |
-| Repeat a build (judgement) | You repeat the steps. | You submit the same template again. |
+| Repeat a build | You repeat the steps. | You submit the same template again. |
 
-What Learn documents: the steps of each route, and that Azure Image Builder generalizes the image for you. The golden image page also says the best strategy depends on the size and complexity of your planned environment and your current app deployment process. It names Intune and Azure Image Builder with Azure DevOps as other approaches.
+Azure Image Builder generalizes the image for you. The best strategy depends on the size and complexity of your planned environment and your current app deployment process. Intune, and Azure Image Builder with Azure DevOps, are other approaches.
 
-My view (judgement): if you rebuild the image every month, a template is easier to repeat and review than a list of manual steps. The manual route is easier to learn from. Neither route is required.
+If you rebuild the image every month, a template is easier to repeat and review than a list of manual steps. The manual route is easier to learn from. Neither route is required.
 
-![A drawing with two routes into one Azure Compute Gallery. Route 1: a build virtual machine, then Sysprep, then capture. Route 2: a source image and customizations go into the Azure Image Builder service, which distributes to the gallery. The gallery holds an image definition with versions 1.1.0 and 1.0.0, newest first. Arrows lead from the gallery to three regions. Session hosts in a host pool are created from a version in their region. A panel lists what must stay out of the image.](/img/avd/AVD-Golden-Image-Two-Routes.svg)
+![Two routes into one Azure Compute Gallery: a build virtual machine with Sysprep and capture, or Azure Image Builder. Session hosts are created from a gallery image version.](/img/avd/AVD-Golden-Image-Two-Routes.png)
 
-*Based on [the Azure VM Image Builder overview](https://learn.microsoft.com/en-us/azure/virtual-machines/image-builder-overview) and [the golden image page](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-golden-image). The drawing leaves out sharing, managed images, VHD output, networking and how session hosts are created from a version.*
+*Source: [Azure VM Image Builder overview](https://learn.microsoft.com/en-us/azure/virtual-machines/image-builder-overview).*
 
 ## Route 1: build a virtual machine and capture it
 
@@ -78,7 +78,7 @@ The usual way to make a golden image by hand in the Azure portal is to start wit
 3. **Take a first snapshot** of the disk of the new virtual machine. Take more snapshots as you build, and give each one a name you can recognize.
 4. **Customize the virtual machine.** Install the latest Windows updates, install your apps, and clean up: temporary files, disk defragmentation and unnecessary user profiles.
 5. **Take a final snapshot** when the apps are installed. If Sysprep or the capture fails, you can create a new base virtual machine from this snapshot with the apps already installed.
-6. **Run Sysprep**, shut the machine down in the Azure portal, then use **Capture** to save it as an image. One open question about marking the machine as generalized is covered in the Sysprep section below.
+6. **Run Sysprep**, shut the machine down in the Azure portal, then use **Capture** to save it as an image. Marking the machine as generalized is covered in the Sysprep section below.
 
 More points from the AVD image preparation steps ([prepare and customize a master image](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-customize-master-image)). That page is written around Windows 10 and a VHD you upload, so treat its registry examples as examples for that case:
 
@@ -90,18 +90,18 @@ The golden image page also says Unified Write Filter is not supported on session
 
 ## What must stay out of the image
 
-Two things must not be in the image: a registered AVD agent, and a domain join. The golden image page states these for the manual route. For Azure Image Builder the pages used here do not state them. I would apply the same rule to what your scripts install (judgement).
+Two things must not be in the image: a registered AVD agent, and a domain join. These rules apply to the manual route, and they apply in the same way to anything your Azure Image Builder scripts install.
 
 **The AVD agent registered to a host pool.** Do not join the image virtual machine to a host pool by installing the AVD agent on it. If the agent is in the image, session hosts created from it later fail to join the host pool, because the registration token will have expired. The host pool deployment process joins new session hosts to the host pool for you while it creates them.
 
-If a virtual machine you want to use already has the agent installed, uninstall the agent and all its related components first (the master image page gives this advice, and the [agent troubleshooting steps](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-agent#step-1-uninstall-all-agent-boot-loader-and-stack-component-programs) list the components), or create a new image from a virtual machine without the agent.
+If a virtual machine you want to use already has the agent installed, uninstall the agent and all its related components first (see the [agent troubleshooting steps](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-agent#step-1-uninstall-all-agent-boot-loader-and-stack-component-programs) list the components), or create a new image from a virtual machine without the agent.
 
-**The domain join.** If the virtual machine has to be domain joined while you customize it, remove it from the domain before you run Sysprep. Session hosts get their own directory join when they are created. For session host update, Learn says the new session hosts are joined to your directory using Azure VM extensions ([Session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update)).
+**The domain join.** If the virtual machine has to be domain joined while you customize it, remove it from the domain before you run Sysprep. Session hosts get their own directory join when they are created. For session host update, the new session hosts are joined to your directory using Azure VM extensions ([Session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update)).
 
 Related rules from the same steps:
 
-- The [golden image page](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-golden-image) says not to capture a virtual machine that is already in a host pool: the image conflicts with the existing virtual machine's configuration, and the new virtual machine will not work. The [session host update page](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update) describes a rule for an image taken from an existing session host. The pages do not reconcile the two. See [Create, update and replace session hosts](/azure-virtual-desktop/create-update-replace-session-hosts/).
-- The golden image page says not to create a new base virtual machine from an existing custom image, and that it is better to start with a brand-new source virtual machine. The [Azure VM Image Builder overview](https://learn.microsoft.com/en-us/azure/virtual-machines/image-builder-overview), below, lists existing custom images as a source. See the notes on where the pages differ.
+- The [golden image page](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-golden-image) says not to capture a virtual machine that is already in a host pool: the image conflicts with the existing virtual machine's configuration, and the new virtual machine will not work. The [session host update page](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update) describes a rule for an image taken from an existing session host. See [Create, update and replace session hosts](/azure-virtual-desktop/create-update-replace-session-hosts/).
+- The golden image page says not to create a new base virtual machine from an existing custom image, and that it is better to start with a brand-new source virtual machine. Azure VM Image Builder, below, accepts an existing custom image as a source, so check that your source image has no agent and no domain join before you use it.
 
 ## Generalize the image with Sysprep
 
@@ -114,17 +114,17 @@ Before you run it:
 - Make sure the DVD drive is enabled in the operating system. Azure mounts an ISO file to the DVD drive when it creates a virtual machine from a generalized image. If the drive is disabled, the new virtual machine gets stuck at the first-start setup screen.
 - Make sure drives are not encrypted, and that the server roles and apps on the machine support Sysprep. Some apps, such as security software, Store apps and virtualization agents, do not support Sysprep or need a special preparation process.
 - Do not install or update Microsoft Store apps through the Store before generalizing. The Sysprep page says this makes `Sysprep /generalize` fail, because the app is tied to the signed-in user and not provisioned for all users. The error appears in the Sysprep logs under `%WINDIR%\System32\Sysprep\Panther`.
-- Do not use a custom answer file in this step (see the notes on where the pages differ).
-- The Azure generalize page also lists, as a check before Sysprep, that no policy restricting removable storage access is applied (for example, a policy that denies all access to removable storage classes). The page does not say what happens if one is applied.
+- Do not use a custom answer file in this step.
+- The Azure generalize page also lists, as a check before Sysprep, that no policy restricting removable storage access is applied (for example, a policy that denies all access to removable storage classes).
 
-To generalize, delete the folder `C:\Windows\Panther` if it exists, because logs from earlier Sysprep runs can make Sysprep fail. Then run `sysprep.exe /generalize /shutdown` from `%windir%\system32\sysprep`. The virtual machine shuts down when Sysprep finishes. Do not restart it. The Azure generalize page then has you mark the virtual machine as generalized in Azure. The golden image page does not mention this step before Capture, and neither page says whether Capture does it itself. Check the current pages for the route you use.
+To generalize, delete the folder `C:\Windows\Panther` if it exists, because logs from earlier Sysprep runs can make Sysprep fail. Then run `sysprep.exe /generalize /shutdown` from `%windir%\system32\sysprep`. The virtual machine shuts down when Sysprep finishes. Do not restart it. The Azure generalize page then has you mark the virtual machine as generalized in Azure before you capture it.
 
 Things to know:
 
 - **A generalized virtual machine cannot be restarted, and this cannot be undone.** That is why the snapshots matter. If you need the original virtual machine to keep working, take a snapshot of its OS disk, create a virtual machine from the snapshot, and generalize that copy.
 - **Capture only once.** After the capture, delete the base virtual machine and do not capture the same one again, even if the capture had a problem. Create a new virtual machine from your latest snapshot, run Sysprep again, and capture that one. You then update and patch the new base virtual machine on a regular basis.
-- **Sysprep has a run limit.** The [Windows Sysprep page](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/sysprep--generalize--a-windows-installation#limits-on-how-many-times-you-can-run-sysprep) says you can run it up to 1001 times on one Windows image (Windows 8.1 and Windows Server 2012 and later), and after that you must recreate the image. My view (judgement): building each new image from a fresh base, as above, should keep the count low.
-- **A gallery does not force you to generalize.** The Azure generalize page says generalizing is not necessary to create an image in a gallery unless you want an image with no machine-specific information, such as user accounts, and that the gallery supports specialized images. It is still required when creating a legacy image outside of a gallery. The AVD steps in this article generalize the image. The pages used here do not say whether a specialized image can be used for session hosts, so this article does not cover that case.
+- **Sysprep has a run limit.** The [Windows Sysprep page](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/sysprep--generalize--a-windows-installation#limits-on-how-many-times-you-can-run-sysprep) says you can run it up to 1001 times on one Windows image (Windows 8.1 and Windows Server 2012 and later), and after that you must recreate the image. Building each new image from a fresh base, as above, keeps the count low.
+- **A gallery does not force you to generalize.** The Azure generalize page says generalizing is not necessary to create an image in a gallery unless you want an image with no machine-specific information, such as user accounts, and that the gallery supports specialized images. It is still required when creating a legacy image outside of a gallery. The AVD steps in this article generalize the image, and this article does not cover specialized images for session hosts.
 
 ## Route 2: build with Azure Image Builder
 
@@ -137,7 +137,7 @@ The Image Builder overview says that building images by hand or with other tools
 2. You run the template. The service deploys additional resources for the build, such as a virtual machine, a network, a disk and a network adapter. Without an existing virtual network it also deploys a public IP and a network security group, and connects by SSH or WinRM. SSH and WinRM are remote management protocols, and a network security group is a set of network traffic rules. With an existing virtual network it uses Azure Private Link, a private connection inside Azure, and needs no public IP.
 3. The customizations run on the build virtual machine.
 4. The service generalizes the image and distributes it to the targets you listed: a gallery, a managed image or a VHD. For a gallery, the build creates the image version, and you can list the regions to replicate to.
-5. When the build ends, the build resources are deleted. The staging resource group and its storage account stay until you delete the image template (see the notes on where the pages differ).
+5. When the build ends, the build resources are deleted. The staging resource group and its storage account stay until you delete the image template (see "What is left after an Image Builder build" below).
 
 ### Using it for Azure Virtual Desktop
 
@@ -153,7 +153,7 @@ Azure Virtual Desktop wraps this in custom image templates ([custom image templa
 - The service is available in a list of regions, and you can still distribute images outside that list.
 - The distributed image has the same Hyper-V generation as the image you start from.
 - Trusted Launch is an Azure security feature for virtual machines. For Trusted Launch images: a `TrustedLaunchSupported` source is supported only when the distribution target is also `TrustedLaunchSupported`. A source that is already a `TrustedLaunch` or `ConfidentialVM` image is not supported.
-- By default the build virtual machine size is Standard_D1_v2 for generation 1 images and Standard_D2ds_v4 for generation 2 images ([Image Builder overview](https://learn.microsoft.com/en-us/azure/virtual-machines/image-builder-overview#costs)). Another Learn page for Azure Virtual Desktop images says Standard_D1_v2 is not suitable for Windows and to use Standard_D2_v2 or greater ([Create an Azure Virtual Desktop image by using VM Image Builder and PowerShell](https://learn.microsoft.com/en-us/azure/virtual-machines/windows/image-builder-virtual-desktop#tips-for-building-windows-images)), so set the size on purpose. You pay for compute, networking and storage during the build, and distributing the image to other regions might add network egress charges.
+- By default the build virtual machine size is Standard_D1_v2 for generation 1 images and Standard_D2ds_v4 for generation 2 images ([Image Builder overview](https://learn.microsoft.com/en-us/azure/virtual-machines/image-builder-overview#costs)). Another page, on Azure Virtual Desktop images, says Standard_D1_v2 is not suitable for Windows and to use Standard_D2_v2 or greater ([Create an Azure Virtual Desktop image by using VM Image Builder and PowerShell](https://learn.microsoft.com/en-us/azure/virtual-machines/windows/image-builder-virtual-desktop#tips-for-building-windows-images)), so set the size on purpose. You pay for compute, networking and storage during the build, and distributing the image to other regions might add network egress charges.
 - The overview says the service does not currently support Azure Hybrid Benefit for Windows Server. Check this against your licensing before you choose the route for a Windows Server image.
 - An image template resource is immutable and cannot be moved. Keep a copy of the template so you can recreate it.
 - Image Builder can rebuild a golden image from the latest patched version of a source image. The overview presents this as a security benefit.
@@ -178,14 +178,14 @@ Some pages, such as the golden image page, still call the service Shared Image G
 
 Azure Compute Gallery can copy each image version to other regions ([gallery overview](https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery)). You choose the regions for each version, and you can change them later. Copying can take a few hours in some cases. While it runs, you can see the status per region, and once the copy is complete in a region you can create virtual machines from that version in that region. When you create a version, the source region must be one of the target regions ([store and share images](https://learn.microsoft.com/en-us/azure/virtual-machines/shared-image-galleries), frequently asked questions).
 
-Each region holds one or more replicas of the version. Each replica is a copy, so more replicas let you create more virtual machines at the same time, and you can set a different replica count for each target region. The replica numbers below come from the gallery overview and from the page on configuring session host update ([page on configuring session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update-configure)). Read each with the scope the page gives it:
+Each region holds one or more replicas of the version. Each replica is a copy, so more replicas let you create more virtual machines at the same time, and you can set a different replica count for each target region. These replica numbers come from the gallery overview and from the [page on configuring session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update-configure). Read each with the scope given:
 
 - **Concurrency guideline, per region.** The [gallery overview](https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery#limits) gives general guidelines for replicas in a region: one replica for every 20 virtual machines you create at once.
-- **Production images.** The [gallery best practices](https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery#best-practices) say to keep a minimum of three replicas for production images. The page does not say whether that count is per region or per image version.
-- **Session host update.** The prerequisites of the [page on configuring session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update-configure) recommend at least two replicas of a gallery image you use. The page does not say whether that count is per region or per image version.
+- **Production images.** The [gallery best practices](https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery#best-practices) say to keep a minimum of three replicas for production images. Plan that count per region.
+- **Session host update.** The prerequisites of the [page on configuring session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update-configure) recommend at least two replicas of a gallery image you use. Plan that count per region too.
 - **Upper limits.** The [gallery overview limits list](https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery#limits) says a maximum of 100 replicas per image version, and that 50 should be sufficient for most use cases. Its best practices, in an example of 1,000 virtual machines created at once, say you can have a maximum of 50 replicas per region.
 
-The pages give these numbers in different places and do not say how they relate. Choose a count for your deployment size and check the current gallery page and your subscription limits before you plan a large deployment.
+Choose a count for your deployment size and check the current gallery page and your subscription limits before you plan a large deployment.
 
 When a virtual machine is created with the version set to `latest`, Azure picks the version with the highest major number, then the highest minor number, then the highest patch number. To keep a version out of that choice, mark it as excluded from latest. A regional setting can exclude a version in one region only, and the regional setting wins if both are set.
 
@@ -202,18 +202,13 @@ A section of the gallery overview covers Trusted Launch validation for gallery i
 
 ## From image version to session hosts
 
-Making a new image version does not change any session host that already exists, because a session host is created from a copy of the image. The new version reaches a host pool only when hosts are created or replaced from it. How that works, including replacing hosts, drain mode and session host update, is covered in [Create, update and replace session hosts](/azure-virtual-desktop/create-update-replace-session-hosts/). That article also covers the rule the session host update page gives for an image taken from a virtual machine that was a session host. The golden image page advises against capturing a virtual machine that is already in a host pool. The pages do not reconcile the two.
+Making a new image version does not change any session host that already exists, because a session host is created from a copy of the image. The new version reaches a host pool only when hosts are created or replaced from it. How that works, including replacing hosts, drain mode and session host update, is covered in [Create, update and replace session hosts](/azure-virtual-desktop/create-update-replace-session-hosts/). That article also covers the rule for an image taken from a virtual machine that was a session host. For a golden image, do not capture a virtual machine that is already in a host pool.
 
-## Where the pages differ or are unclear
+## Points that are easy to get wrong
 
-The pages word a few points differently, or leave them unclear, in ways that affect this article. This article does not settle them.
-
-- **Starting from an existing custom image.** The golden image page says not to create a new base virtual machine from an existing custom image. The Image Builder and custom image template pages list an existing custom image or gallery image as a valid source, and the master image page offers, as one of two options, creating a virtual machine from a managed image. The pages do not say whether the golden image advice applies to the Image Builder route or to a managed image. Check the current wording of each page for your case.
-- **Custom answer files.** The Azure generalize page says custom answer files are not supported in the Sysprep step. The Windows Sysprep page describes using Sysprep with an unattend answer file and shows `/generalize /shutdown /oobe`. The pages do not say how they relate for an image of an Azure virtual machine. Check the current text of both pages before you use an answer file.
-- **What is left after an Image Builder build.** The custom image template page says most of the resources in its resource group are temporary and are deleted after the build, except the storage account, and that you can delete the resource group afterwards if you do not need the logs. The Image Builder overview says all resources are deleted except the staging resource group and the storage account. The wording differs ("most" and "all"), and the two pages may describe the same result. The template page also lists a Key Vault among the resources created and does not say whether it stays. Check what is left in your subscription after a build before you clean up.
-- **Replica numbers.** See the replication section above.
-
-Where the pages differ about session host update itself (status, images in another subscription, how hosts join the directory) is covered in [Create, update and replace session hosts](/azure-virtual-desktop/create-update-replace-session-hosts/).
+- **Starting from an existing custom image.** For a manual build, do not create the base virtual machine from an existing custom image. Start with a brand-new source virtual machine. Image Builder and custom image templates do accept an existing custom image or a gallery image as a source, so make sure that source is clean.
+- **Custom answer files.** Do not use a custom answer file in the Azure generalize step. Windows Sysprep can use an unattend file with `/generalize /shutdown /oobe`, but test an answer file on a copy before you rely on it for an Azure virtual machine.
+- **What is left after an Image Builder build.** The build resources are deleted, but the storage account stays, and the staging resource group stays until you delete the image template. Custom image templates also create a Key Vault, so check what is left in your subscription after a build before you clean up.
 
 ## Common mistakes
 
@@ -232,14 +227,4 @@ Next: [Create, Update and Replace Session Hosts](/azure-virtual-desktop/create-u
 
 - [Golden image](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-golden-image)
 - [Azure VM Image Builder overview](https://learn.microsoft.com/en-us/azure/virtual-machines/image-builder-overview)
-- [Compute Gallery](https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery)
-- [Store and share images in an Azure Compute Gallery](https://learn.microsoft.com/en-us/azure/virtual-machines/shared-image-galleries)
-- [Remove machine specific information (generalize)](https://learn.microsoft.com/en-us/azure/virtual-machines/generalize)
-- [Sysprep (Generalize) a Windows installation](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/sysprep--generalize--a-windows-installation)
-- [Prepare and customize a VHD image](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-customize-master-image)
-- [Custom image templates](https://learn.microsoft.com/en-us/azure/virtual-desktop/custom-image-templates)
-- [Use custom image templates](https://learn.microsoft.com/en-us/azure/virtual-desktop/create-custom-image-templates)
-- [Session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update)
-- [Configure session host update](https://learn.microsoft.com/en-us/azure/virtual-desktop/session-host-update-configure)
-- [Image Builder DevOps task](https://learn.microsoft.com/en-us/azure/virtual-machines/linux/image-builder-devops-task)
-- [What's new in Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/whats-new)
+- [Azure Compute Gallery](https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery)

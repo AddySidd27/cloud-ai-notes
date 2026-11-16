@@ -5,7 +5,6 @@ slug: "privileged-access-mfa-conditional-access-and-pim"
 series: "Azure Landing Zone"
 part: ""
 post_number: 8
-status: draft
 preview_feature: false
 fictional_case: false
 learn_pages:
@@ -49,7 +48,6 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-admin-phish-resistant-mfa and https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/security-emergency-access"
     icons: "Azure Public Service Icons V24 (Log Analytics workspaces) and Microsoft Entra architecture icons Oct 2023 (Microsoft Entra ID, color), all unmodified"
     source: "../diagrams/post-08-privileged-access-flow.drawio"
-production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/privileged-access-mfa-conditional-access-and-pim/"
 order: 8
@@ -97,7 +95,7 @@ There is a catch: the safeguards can lock you out if they are set up the wrong w
 | Conditional Access | Set the rules for sign-in | "If" a user wants a resource, "then" they must do an action, such as perform MFA |
 | Privileged Identity Management (PIM) | Give privileged access only when it is needed | Time-based and approval-based role activation |
 
-Here is how they fit together (judgement). Conditional Access decides what a sign-in must prove. MFA is one of the things it can demand. PIM decides when a privileged role is switched on. Emergency access accounts are the way back in if the other three fail.
+Here is how they fit together. Conditional Access decides what a sign-in must prove. MFA is one of the things it can demand. PIM decides when a privileged role is switched on. Emergency access accounts are the way back in if the other three fail.
 
 ## MFA: more than a password
 
@@ -198,7 +196,7 @@ The roadmap for securing privileged access has four stages. The timelines are ap
 | 3. Take control of admin activity | 1 to 3 months | Run access reviews of administrators. Use PIM for more roles. Move people with no clear need out of admin roles. Use dedicated administration workstations. If you use Exchange Online, check exposure to password-based sign-in protocols; you can block legacy authentication with Conditional Access |
 | 4. Keep building | 6 months and later | Review administrator roles regularly. Validate the incident response plan. Keep audit activity logs for privileged accounts |
 
-Here is a safe order for turning on a Conditional Access policy for administrators (judgement). Learn gives the steps on two pages, the phishing-resistant MFA policy and emergency access. This order combines them:
+Here is a safe order for turning on a Conditional Access policy for administrators. The steps are spread over two pages, the phishing-resistant MFA policy and emergency access. This order combines them:
 
 1. Make sure administrators have registered the sign-in method first (for example a passkey, or use a Temporary Access Pass to help register).
 2. Create the policy for the administrator roles, with the emergency access group excluded.
@@ -208,9 +206,9 @@ Here is a safe order for turning on a Conditional Access policy for administrato
 
 ## How the access controls fit together
 
-![Five boxes joined by down arrows, which show four controls that work together and not a fixed sequence: an administrator with a separate cloud-only account, where normal admins are eligible for roles; Conditional Access, the rule, with signals, a decision and a report-only-first policy for admin roles that excludes emergency accounts; multifactor authentication, the proof, which needs two or more of something you know, have or are, with three built-in strengths where phishing-resistant is the most restrictive and recommended for admins; Privileged Identity Management (PIM) activation, the switch, with an MFA check, a business reason and approval if required; the role is active for a set time only, with notifications, audit history and access reviews. Below them, the safety net: emergency access accounts, two or more, cloud-only, with a passkey, permanent Global Administrator, excluded from Conditional Access policies that block or restrict sign-in; and monitoring with an alert on every sign-in using Log Analytics or Microsoft Sentinel, tests at least every 90 days, and a review after any use. A note at the bottom says that before a policy is turned On, administrators must have registered their sign-in methods, or you risk locking yourself out](/diagrams/post-08-privileged-access-flow.svg)
+![Four controls that work together, not a fixed sequence: Conditional Access (the rule), multifactor authentication (the proof), PIM activation (the switch) and emergency access accounts (the safety net).](/diagrams/post-08-privileged-access-flow.svg)
 
-*Simplified diagram based on Microsoft Learn: [Require phishing-resistant MFA for administrators](https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-admin-phish-resistant-mfa), [What is PIM](https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-configure) and [Emergency access accounts](https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/security-emergency-access). The top-to-bottom order is a simplification: the documentation does not describe one fixed sequence. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) and [Microsoft Entra](https://learn.microsoft.com/en-us/entra/architecture/architecture-icons) architecture icon sets.*
+*Simplified from [Require phishing-resistant MFA for administrators](https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-admin-phish-resistant-mfa), Microsoft Learn. Icons: [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
 ## Common mistakes
 
@@ -222,19 +220,9 @@ Here is a safe order for turning on a Conditional Access policy for administrato
 - **MFA missing on privileged accounts.** This is one of the first four actions in the roadmap for securing privileged access.
 - **Expecting Conditional Access to cover every role.** It is not enforced for custom roles or administrative unit-scoped roles.
 
-## From my own projects
-
-This is my own experience, not from Microsoft Learn (judgement). These situations came up in my work: permanent admin access with no PIM, MFA not enforced for administrators, a Conditional Access policy that caused a lockout, and emergency access accounts that were untested or blocked. Typical results are lockouts or delays in getting access, and a security risk.
-
-## The files in my repo
-
-- Privileged access, PIM and Conditional Access baseline: [privileged-access.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/privileged-access.md)
-
 Next: [Resource Organization](/azure-landing-zone/resource-organization/).
 
 ## Sources
-
-Microsoft Learn, checked October 2026:
 
 - [PIM](https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-configure)
 - [Conditional Access](https://learn.microsoft.com/en-us/entra/identity/conditional-access/overview)

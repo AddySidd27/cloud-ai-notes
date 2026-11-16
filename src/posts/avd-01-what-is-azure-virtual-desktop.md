@@ -63,13 +63,13 @@ A separate virtual machine for every employee is not always necessary. With a po
 
 ### Run capacity around working hours
 
-Demand changes during the day. Autoscale can start and stop session hosts using schedules and, for pooled host pools, capacity thresholds ([terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology)). For example, a weekday schedule can prepare capacity before people start work and reduce it as usage falls. This can reduce compute costs. Turning off hosts does not remove every charge (judgement: general Azure billing behaviour, not stated on the AVD pages): disks, profile storage and other resources still need to be included in the budget.
+Demand changes during the day. Autoscale can start and stop session hosts using schedules and, for pooled host pools, capacity thresholds ([terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology)). For example, a weekday schedule can prepare capacity before people start work and reduce it as usage falls. This can reduce compute costs. Turning off hosts does not remove every charge: disks, profile storage and other resources still need to be included in the budget.
 
 ### Let Microsoft run the broker and gateway
 
 With a traditional Remote Desktop Services deployment (the older Windows Server way of hosting remote desktops), the organization operates supporting infrastructure such as the connection broker (the service that decides which session host a user connects to) and the gateway (the service that carries the remote desktop traffic).
 
-With AVD, Microsoft operates those service components ([service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience); [overview](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview)). The description of a traditional RDS deployment is a plain-language gloss (judgement). Your team still manages the desktops themselves: their images, applications, updates, access and supporting resources. Microsoft operates the connection services; your team operates the Windows environment people work in.
+With AVD, Microsoft operates those service components ([service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience); [overview](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview)). Your team still manages the desktops themselves: their images, applications, updates, access and supporting resources. Microsoft operates the connection services; your team operates the Windows environment people work in.
 
 ### Understand the cost before choosing it
 
@@ -77,11 +77,11 @@ AVD has both Azure resource costs and licensing requirements. An estimate needs 
 
 ## Who manages each AVD component
 
-![Eight boxes in two groups. Microsoft-managed: web service, broker service, gateway service, resource directory, geographical database and regional database. Customer-managed: session hosts and user identities. A note says the customer manages the session host image and applications, network connectivity, resiliency and backup, and the user identities in Microsoft Entra ID.](/img/avd/AVD-Post-01-Components-v3.png)
+![Eight boxes in two groups. Microsoft manages the web, broker and gateway services, the resource directory, and the geographical and regional databases. You manage the session hosts and the user identities.](/img/avd/AVD-Post-01-Who-Manages-What-v3.png)
 
-*Source: [Azure Virtual Desktop service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience) and [Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites). The picture keeps the two groups and eight components of the diagram on the first page. That diagram draws no links between the components, so none are drawn here. Azure Traffic Manager and Azure Front Door appear in the page text but not in that diagram, so they are left out.*
+*Source: [Azure Virtual Desktop service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience) and [Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites).*
 
-The diagram groups components by who manages them. The upper group is Microsoft's service infrastructure. The lower group contains the session hosts and user identities you manage.
+The picture groups components by who manages them. The upper group is Microsoft's service infrastructure. The lower group contains the session hosts and user identities you manage.
 
 | Component | Role |
 |---|---|
@@ -111,22 +111,21 @@ You assign users to application groups and associate those groups with a workspa
 | Requirement | What to prepare |
 |---|---|
 | Azure subscription | An active subscription for the deployment. |
-| Identity | User accounts in Microsoft Entra ID, and session hosts that join Microsoft Entra ID or an Active Directory domain. The next articles explain the choices. |
+| Identity | User accounts in Microsoft Entra ID, and session hosts that join Microsoft Entra ID or an Active Directory domain (a group of Windows computers and users managed by your own domain controllers). The next articles explain the choices. |
 | Operating system | A supported Windows edition and version for the session hosts. |
 | Licensing | The appropriate user access rights for the operating system and commercial-use scenario. |
 | Networking | Connectivity for the AVD service, identity services, applications and data. |
 | Administrative access | The Azure permissions needed to create and configure the resources, including registering the Microsoft.DesktopVirtualization resource provider (the Azure switch that turns the service on for a subscription). The Contributor and Owner roles on the subscription include the permission to do this ([prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites#azure-account-with-an-active-subscription)). |
 | User access | A supported client or web experience and the required resource assignments. |
 
-An Azure subscription and user licensing are separate requirements. Windows client and Windows Server deployments have different licensing options. The [preparation article](/azure-virtual-desktop/prepare-your-azure-environment/) explains the supported choices before we create resources.
+An Azure subscription and user licensing are separate requirements. Windows client and Windows Server deployments have different licensing options. The [preparation article](/azure-virtual-desktop/prepare-your-azure-environment/) explains the supported choices before you create resources.
 
 ## Where the series goes next
 
-After the architecture, the series prepares your Azure tenant (your organisation's Microsoft Entra directory) and subscription, compares identity models, and plans networking and host pools. It then covers whether AVD fits and how it fails. Next come the rules that connect its objects and the connection sequence.
+After the architecture, the series prepares your Azure tenant (your organization's Microsoft Entra directory) and subscription, compares identity models, and plans networking and host pools. It then covers whether AVD fits and how it fails. Next come the rules that connect its objects and the connection sequence.
 
 Later articles cover operating system and licensing, clients, sign-in, Conditional Access (rules that decide who may sign in and how), administration roles, required connectivity and network topology. The last articles cover FSLogix profiles, golden images, session hosts, RemoteApp and App Attach, bandwidth, VM sizes and day-to-day profile operations.
 
-Where a statement is the author's opinion and not from Microsoft Learn, the article marks it with (judgement).
 
 Go deeper: [Decide Whether Azure Virtual Desktop Fits](/azure-virtual-desktop/decide-whether-azure-virtual-desktop-fits/).
 
@@ -134,8 +133,6 @@ Next: [Azure Virtual Desktop Architecture: From Sign-in to a Working Desktop](/a
 
 ## Sources
 
-- [What is Azure Virtual Desktop?](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview)
-- [Autoscale scaling plans](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scaling-plan)
-- [Terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology)
-- [service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience)
-- [prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites)
+- [What Is Azure Virtual Desktop?](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview)
+- [Service Architecture and Resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience)
+- [Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites)

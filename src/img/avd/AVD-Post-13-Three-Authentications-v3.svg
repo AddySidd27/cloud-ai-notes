@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" width="1000" height="650" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
   <title id="t">The three authentications and the single sign-on steps</title>
-  <desc id="d">Original drawing. Three boxes from left to right joined by arrows. First, cloud service authentication with Microsoft Entra ID, where the client subscribes to the feed, connects to the gateway and sends diagnostics, and where Conditional Access applies. Second, remote session authentication to the session host: with single sign-on the Microsoft Entra token is used, without it the user is prompted on every connection unless credentials are saved, and smart card and Windows Hello for Business use Kerberos and need a domain controller in view or a Key Distribution Center (KDC) proxy. Third, in-session authentication to apps and sites, with passwordless through WebAuthn redirection and smart cards through drivers and redirection. A panel below lists the five tasks to enable single sign-on.</desc>
-  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
+  <desc id="d">Three boxes from left to right joined by arrows. First, cloud service authentication with Microsoft Entra ID, where the client subscribes to the feed, connects to the gateway and sends diagnostics, and where Conditional Access applies. Second, remote session authentication to the session host: with single sign-on the Microsoft Entra token is used, without it the user is prompted on every connection unless credentials are saved, and smart card and Windows Hello for Business use Kerberos and need a domain controller in view or a Key Distribution Center (KDC) proxy. Third, in-session authentication to apps and sites, with passwordless through WebAuthn redirection and smart cards through drivers and redirection. A panel below lists the five tasks to enable single sign-on.</desc>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
   <rect x="6" y="6" width="988" height="638" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
   <text x="500" y="38" font-size="20" font-weight="600" text-anchor="middle" fill="#1f2933">Three separate authentications in one AVD connection</text>
   <rect x="30" y="70" width="290" height="328" rx="8" fill="#ffffff" stroke="#3b6fb6" stroke-width="1.8"/>
@@ -41,10 +41,10 @@
   <text x="696" y="218" font-size="14" text-anchor="start" fill="#1f2933">Smart card: drivers on the</text>
   <text x="696" y="242" font-size="14" text-anchor="start" fill="#1f2933">session host, plus smart</text>
   <text x="696" y="266" font-size="14" text-anchor="start" fill="#1f2933">card redirection.</text>
-  <line x1="320" y1="234" x2="355" y2="234" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
-  <line x1="645" y1="234" x2="680" y2="234" stroke="#5f6b7a" stroke-width="3" marker-end="url(#arr)"/>
+  <line x1="320" y1="234" x2="355" y2="234" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#arr)"/>
+  <line x1="645" y1="234" x2="680" y2="234" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#arr)"/>
   <rect x="30" y="412" width="940" height="214" rx="8" fill="#eef6ee" stroke="#3c8d40" stroke-width="1.5"/>
-  <text x="50" y="442" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">To turn on single sign-on (the five documented tasks)</text>
+  <text x="50" y="442" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">To turn on single sign-on (five tasks)</text>
   <text x="50" y="474" font-size="14" text-anchor="start" fill="#1f2933">1.  Allow Microsoft Entra authentication for RDP (the Windows Cloud Login application).</text>
   <text x="50" y="501" font-size="14" text-anchor="start" fill="#1f2933">2.  Hide the consent prompt by listing session host device groups.</text>
   <text x="50" y="528" font-size="14" text-anchor="start" fill="#1f2933">3.  Create a Kerberos server object if Active Directory is part of the environment.</text>

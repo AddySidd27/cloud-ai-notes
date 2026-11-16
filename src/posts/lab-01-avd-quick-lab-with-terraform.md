@@ -13,7 +13,7 @@ This article walks through a small Terraform project that builds an Azure Virtua
 
 The code is in a public repository: [terraform-azure-avd](https://github.com/AddySidd27/terraform-azure-avd). This article explains what it builds and why, in the order you would meet it. It is a lab, not a production design, and the last section lists what you would change before real use.
 
-I have not deployed this lab for this article, so there is no deployment output or screenshot here. Everything below describes what the code does.
+Everything below describes what the code does. It is a lab, not a production design.
 
 ## Key terms
 
@@ -49,9 +49,9 @@ I have not deployed this lab for this article, so there is no deployment output 
 
 ## What the lab builds
 
-![Terraform builds one resource group in one subscription. It holds a workspace linked to a desktop application group, which is linked to a pooled host pool. A virtual network 10.20.0.0/16 holds a subnet 10.20.1.0/24 with a network security group and two Windows 11 multi-session session hosts. The session hosts register to the host pool and reach a profiles file share in a storage account over SMB port 445. A Microsoft Entra group that you create first receives three roles: Desktop Virtualization User on the application group, Virtual Machine User Login on the session hosts, and Storage File Data SMB Share Contributor on the file share.](/img/avd/AVD-Terraform-Quick-Lab.svg)
+![Terraform deploys one resource group with a workspace, desktop application group and host pool, a network with two session hosts, and a storage account with a profiles share. An Entra group you supply gets three roles: user, VM sign-in and SMB share contributor.](/img/avd/AVD-Terraform-Quick-Lab.svg)
 
-*Source: the lab's Terraform code, in the [terraform-azure-avd](https://github.com/AddySidd27/terraform-azure-avd) repository. Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/). Terraform has no icon in that set, so it is a plain box.*
+*Source: the lab's Terraform code, in the [terraform-azure-avd](https://github.com/AddySidd27/terraform-azure-avd).*
 
 With the default settings, one `terraform apply` creates these things in one Azure region (default `eastus`):
 
@@ -100,7 +100,7 @@ The numbered parts below are in reading order. Terraform works out the build ord
 
 The `avd` module creates the host pool, the Desktop application group and the workspace, then links the workspace to the application group.
 
-The host pool sets one RDP property, `enablerdsaadauth:i:1`. It makes the connection use Microsoft Entra authentication, which gives single sign-on, if the session host supports it. Single sign-on also needs steps in your tenant that the lab does not do, described on the Learn page [Configure single sign-on for Azure Virtual Desktop using Microsoft Entra ID](https://learn.microsoft.com/en-us/azure/virtual-desktop/configure-single-sign-on). Until you do them, users may see an extra prompt when they connect.
+The host pool sets one RDP property, `enablerdsaadauth:i:1`. It makes the connection use Microsoft Entra authentication, which gives single sign-on, if the session host supports it. Single sign-on also needs steps in your tenant that the lab does not do, described on the page [Configure single sign-on for Azure Virtual Desktop using Microsoft Entra ID](https://learn.microsoft.com/en-us/azure/virtual-desktop/configure-single-sign-on). Until you do them, users may see an extra prompt when they connect.
 
 A new session host needs a registration key to join the host pool. Terraform creates the key and passes it to each VM. The key expires 23 hours after Terraform last created or rotated it. A `time_rotating` resource in `registration.tf` rotates it every 24 hours. So the next `terraform apply` after the 24 hours makes a new key and gives it to the VMs again. Hosts that have already joined keep working when the key expires. You need a valid key only to add or repair hosts.
 
@@ -110,7 +110,7 @@ The networking module creates the virtual network and one subnet. The NSG has on
 
 ### 3. The storage account
 
-The storage account is Standard tier with ZRS. It requires TLS 1.2 or newer, and its blobs cannot be public. Its directory type is `AADKERB`, the Terraform name for Microsoft Entra Kerberos. The default share-level permission is `None`, so nobody gets in until a role assignment (part 5) gives their group access.
+The storage account is Standard tier with ZRS. It requires TLS 1.2 or newer, and its blobs cannot be public. Its directory type is `AADKERB`, the Terraform name for Microsoft Entra Kerberos. The default share-level permission is `None`, so nobody gets in until a role assignment (see "The access roles" below) gives their group access.
 
 ### 4. The session hosts
 
@@ -118,7 +118,7 @@ For each session host, the `session-hosts` module creates a network card and a W
 
 1. **The `AADLoginForWindows` extension** joins the VM to Microsoft Entra ID. Microsoft Entra joined VMs do not need line of sight to a domain controller. A host pool should hold VMs of one join type only.
 2. **A run command installs the AVD agent.** The script `install-avd-agent.ps1` downloads the AVD agent and the boot loader (the second installer, which starts the agent). It installs the agent with the registration key. If the boot loader service already exists, the script instead sets `IsRegistered` to 0, writes the new key into the agent's registry settings and restarts the service.
-3. **A run command configures FSLogix.** The script `configure-fslogix.ps1` stops with an error if the FSLogix service (`frxsvc`) is missing, because it expects an image that already has FSLogix installed. Learn says [FSLogix comes pre-installed on all available Windows Enterprise multi-session images](https://learn.microsoft.com/en-us/azure/virtual-desktop/windows-multisession-faq). The script then sets the registry values below.
+3. **A run command configures FSLogix.** The script `configure-fslogix.ps1` stops with an error if the FSLogix service (`frxsvc`) is missing, because it expects an image that already has FSLogix installed. [FSLogix comes pre-installed on all available Windows Enterprise multi-session images](https://learn.microsoft.com/en-us/azure/virtual-desktop/windows-multisession-faq). The script then sets the registry values below.
 
 The FSLogix values are under `HKLM:\SOFTWARE\FSLogix\Profiles`:
 
@@ -128,7 +128,7 @@ The FSLogix values are under `HKLM:\SOFTWARE\FSLogix\Profiles`:
 | `VHDLocations` | `\\<storage-account>.file.core.windows.net\profiles` | Where the containers are stored. |
 | `VolumeType` | `VHDX` | The container file format. |
 | `FlipFlopProfileDirectoryName` | 1 | Names the profile folder `username_SID` instead of the default `SID_username`. |
-| `DeleteLocalProfileWhenVHDShouldApply` | 1 | Deletes any local profile the user already has on the VM, so the container is used instead. This can lose data. It is fine for a lab, and Learn suggests it for tests. |
+| `DeleteLocalProfileWhenVHDShouldApply` | 1 | Deletes any local profile the user already has on the VM, so the container is used instead. This can lose data. It is fine for a lab, and the documentation suggests it for tests. |
 
 Two more values make Microsoft Entra Kerberos work:
 
@@ -137,7 +137,7 @@ Two more values make Microsoft Entra Kerberos work:
 | `CloudKerberosTicketRetrievalEnabled` | `HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\Kerberos\Parameters` | 1 | Lets the host get a Microsoft Entra Kerberos ticket at sign-in. |
 | `LoadCredKeyFromProfile` | `HKLM:\SOFTWARE\Policies\Microsoft\AzureADAccount` | 1 | Lets a user's profile load on a different VM from the one that created it. |
 
-Both match the client settings on the Learn pages [Enable Microsoft Entra Kerberos authentication for hybrid and cloud-only identities on Azure Files](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-auth-hybrid-identities-enable) and [Store FSLogix profile containers on Azure Files using Microsoft Entra ID](https://learn.microsoft.com/en-us/fslogix/how-to-configure-profile-container-entra-id-hybrid). They need a policy refresh or a restart to take effect, and the script prints the same warning.
+Both match the client settings on the pages [Enable Microsoft Entra Kerberos authentication for hybrid and cloud-only identities on Azure Files](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-auth-hybrid-identities-enable) and [Store FSLogix profile containers on Azure Files using Microsoft Entra ID](https://learn.microsoft.com/en-us/fslogix/how-to-configure-profile-container-entra-id-hybrid). They need a policy refresh or a restart to take effect, and the script prints the same warning.
 
 ### 5. The access roles
 
@@ -184,9 +184,9 @@ After `terraform apply`, the repository's post-deployment guide lists steps for 
 3. **Check that Microsoft Entra Kerberos is on.** In the storage account, open File shares, then Identity-based access.
 4. **Grant admin consent** to the storage account's Entra application. In Microsoft Entra ID, open App registrations, then All applications, and search for `[Storage Account] <name>.file.core.windows.net`. Open it, select API permissions, and select **Grant admin consent**.
 5. **Check Conditional Access.** Microsoft Entra Kerberos does not support MFA when it gets the ticket for the file share. If a Conditional Access policy requires MFA for all apps, exclude the storage account's application from it. If you do not, mapping the share fails.
-6. **Add the `kdc_enable_cloud_group_sids` tag** if your users are cloud-only. On the same application, open Manifest and add the value to the existing `tags` array. Learn says this is mandatory for cloud-only identities and that authentication fails without it.
+6. **Add the `kdc_enable_cloud_group_sids` tag** if your users are cloud-only. On the same application, open Manifest and add the value to the existing `tags` array. This is mandatory for cloud-only identities, and authentication fails without it.
 7. **Give yourself admin access to the share.** On the share's Access Control (IAM) page, give the administrator doing the setup the roles Storage File Data SMB Share Elevated Contributor and Storage File Data Privileged Contributor. Without them you cannot do the next step. Remove them after testing.
-8. **Set the folder permissions on the share.** On the share, open Browse, then **Manage access**. For cloud-only users, this is the page Learn points to. Give the Entra group Modify on "This folder only". Then add the security ID `S-1-3-0`, which shows as `CREATOR OWNER`, with Modify on "Subfolders and files only". `CREATOR OWNER` is a built-in Windows identity that owns whatever it creates. These two permissions let each user create a profile folder and use it, without opening other people's profiles.
+8. **Set the folder permissions on the share.** On the share, open Browse, then **Manage access**. For cloud-only users, this is the page the documentation points to. Give the Entra group Modify on "This folder only". Then add the security ID `S-1-3-0`, which shows as `CREATOR OWNER`, with Modify on "Subfolders and files only". `CREATOR OWNER` is a built-in Windows identity that owns whatever it creates. These two permissions let each user create a profile folder and use it, without opening other people's profiles.
 
 ## Check that it works
 
@@ -203,7 +203,7 @@ Get-ItemProperty 'HKLM:\SOFTWARE\Policies\Microsoft\AzureADAccount'
 
 - `dsregcmd /status` should show `AzureAdJoined : YES`.
 - `RDAgentBootLoader`, `RdAgent` and `frxsvc` should exist and run.
-- `WinHttpAutoProxySvc` and `iphlpsvc` must be running. Learn lists both as required for Microsoft Entra Kerberos.
+- `WinHttpAutoProxySvc` and `iphlpsvc` must be running. Both are required for Microsoft Entra Kerberos.
 - FSLogix should show `Enabled = 1` and the right `VHDLocations`. `CloudKerberosTicketRetrievalEnabled` and `LoadCredKeyFromProfile` should both be 1.
 
 Then test as a user:
@@ -218,7 +218,7 @@ The lab works if both hosts are Available, the user gets a desktop, a profile fi
 
 ## If something fails
 
-- **`INVALID_REGISTRATION_TOKEN` or `EXPIRED_MACHINE_TOKEN`:** the host does not accept its registration key. Learn's fix is to create a new key, set `IsRegistered` to 0 and write the new key into the agent's registry settings, then restart the `RDAgentBootLoader` service. See the [agent troubleshooting page](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-agent). After the 24 hours, `terraform apply` makes a new key and passes it to the install script, which is written to do these steps on a host that already has the boot loader.
+- **`INVALID_REGISTRATION_TOKEN` or `EXPIRED_MACHINE_TOKEN`:** the host does not accept its registration key. The documentation's fix is to create a new key, set `IsRegistered` to 0 and write the new key into the agent's registry settings, then restart the `RDAgentBootLoader` service. See the [agent troubleshooting page](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-agent). After the 24 hours, `terraform apply` makes a new key and passes it to the install script, which is written to do these steps on a host that already has the boot loader.
 - **Entra join fails:** read the logs in `C:\WindowsAzure\Logs\Plugins\Microsoft.Azure.ActiveDirectory.AADLoginForWindows`.
 - **The profile does not mount:** run the `Get-ItemProperty` commands from the check section again, and run `Get-SmbConnection`. Port 445 must be reachable from the session host to the storage account.
 
@@ -230,7 +230,7 @@ Shut down the session hosts from the Azure portal when you are not using them, s
 
 The lab leaves out things that production needs. Each of these is a choice in the code that you would change:
 
-- **Public network access to the storage account is on** (`public_network_access_enabled = true`), and the session hosts reach it over the Azure network with no private endpoint. Production usually adds a private endpoint and private DNS. With a private endpoint and Microsoft Entra Kerberos, Learn says to add the private link FQDN to the storage account's Entra application.
+- **Public network access to the storage account is on** (`public_network_access_enabled = true`), and the session hosts reach it over the Azure network with no private endpoint. Production usually adds a private endpoint and private DNS. With a private endpoint and Microsoft Entra Kerberos, add the private link FQDN to the storage account's Entra application.
 - **The host pool allows public network access** (`public_network_access = "Enabled"`).
 - **Outbound traffic is open.** Production usually adds a controlled path out, such as a firewall.
 - **The VM password is a variable.** Keep it out of the repository, and use a secret store.
@@ -238,22 +238,15 @@ The lab leaves out things that production needs. Each of these is a choice in th
 - **The Terraform state file holds secrets**, including the VM password and the registration key. Keep it in a protected location.
 - **There is no monitoring, backup or image process.** The image is a Marketplace image with a fixed version, and the lab has no plan for updating it.
 
-One more thing to read before you rely on it: the FSLogix page on Learn carries a warning about an April 2026 Windows Server update that changes the default Kerberos encryption type from RC4 to AES-SHA1. The Azure Files page says that with Microsoft Entra Kerberos the ticket encryption is always AES-256, so this lab is probably not affected. Read both pages before you deploy.
+One more thing to read before you rely on it: the FSLogix page in the documentation carries a warning about an April 2026 Windows Server update that changes the default Kerberos encryption type from RC4 to AES-SHA1. The Azure Files page says that with Microsoft Entra Kerberos the ticket encryption is always AES-256, so this lab should not be affected. Read both pages before you deploy.
 
 For the design behind these choices, read [How FSLogix profile containers work](/azure-virtual-desktop/how-fslogix-profile-containers-work/).
 
-To cut the compute cost of this lab, see the next lab, [Cut AVD Compute Cost with Autoscale](/terraform-labs/avd-autoscale-cost-lab/). It adds a scaling plan to this same environment.
+To cut the compute cost of this lab, see [Cut AVD Compute Cost with Autoscale](/terraform-labs/avd-autoscale-cost-lab/). It adds a scaling plan to this same environment.
 
 ## Sources
 
 - [Configure Azure Virtual Desktop with Terraform](https://learn.microsoft.com/en-us/azure/developer/terraform/configure-azure-virtual-desktop)
 - [Microsoft Entra joined session hosts in Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/azure-ad-joined-session-hosts)
 - [Enable Microsoft Entra Kerberos authentication for hybrid and cloud-only identities on Azure Files](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-auth-hybrid-identities-enable)
-- [Store FSLogix profile containers on Azure Files using Microsoft Entra ID](https://learn.microsoft.com/en-us/fslogix/how-to-configure-profile-container-entra-id-hybrid)
-- [Supported RDP properties](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-properties)
-- [Configure single sign-on](https://learn.microsoft.com/en-us/azure/virtual-desktop/configure-single-sign-on)
-- [Windows Enterprise multi-session FAQ](https://learn.microsoft.com/en-us/azure/virtual-desktop/windows-multisession-faq)
-- [Add session hosts to a host pool](https://learn.microsoft.com/en-us/azure/virtual-desktop/add-session-hosts-host-pool)
-- [Troubleshoot common Azure Virtual Desktop Agent issues](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-agent)
 
-The code is in the [terraform-azure-avd](https://github.com/AddySidd27/terraform-azure-avd) repository.

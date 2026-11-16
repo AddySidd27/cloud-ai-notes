@@ -11,7 +11,7 @@ description: "Decide if Azure Virtual Desktop is the right fit: how it differs f
 
 A business asks for remote Windows desktops. Before anyone designs the Azure setup, someone has to answer a smaller question: is Azure Virtual Desktop (AVD) the right tool, or would something simpler or different do the job?
 
-This article gives you a way to answer that. It compares AVD with Windows 365 and the other options Microsoft documents, lists the licensing questions to settle first, and describes the situations where AVD is a poor fit. If you do not yet know what AVD delivers, read [what Azure Virtual Desktop is](/azure-virtual-desktop/what-is-azure-virtual-desktop/) first.
+This article gives you a way to answer that. It compares AVD with Windows 365 and the other options Microsoft offers, lists the licensing questions to settle first, and describes the situations where AVD is a poor fit. If you do not yet know what AVD delivers, read [what Azure Virtual Desktop is](/azure-virtual-desktop/what-is-azure-virtual-desktop/) first.
 
 ## Key terms
 
@@ -56,13 +56,13 @@ Start from the user's need, not from the product. Four questions about the need 
 3. Who will build, patch and monitor the Windows machines: Microsoft or your team?
 4. Must the machines stay in your own datacenter, or can they run in Azure?
 
-As a rule of thumb (my judgement, not a Microsoft rule): AVD fits when users share machines or you want control over images and capacity, and your team can run Azure resources. Windows 365 fits when each user is fine with one dedicated machine and you want Microsoft to create it. The sections below give the documented facts behind those two sentences.
+As a rule of thumb, AVD fits when users share machines or you want control over images and capacity, and your team can run Azure resources. Windows 365 fits when each user is fine with one dedicated machine and you want Microsoft to create it. The sections below give the facts behind those two sentences.
 
 These four questions are about the need. The flow diagram later in the article is a second, shorter pass that points to a product.
 
 ## What each option is
 
-| Option | What the documentation says it is |
+| Option | What it is |
 |---|---|
 | Azure Virtual Desktop | A desktop and app virtualization service that runs on Azure. It provides multi-session Windows desktops and published apps, with simplified management and scaling. |
 | Windows 365 | A cloud-based SaaS that automatically creates Cloud PCs. Each Cloud PC is assigned to one user as their dedicated Windows device. |
@@ -81,7 +81,7 @@ Both services give a user a Windows desktop that runs in the cloud. They differ 
 |---|---|---|
 | Who creates the machines? | You or your tools create session hosts in your Azure subscription and register them in host pools. | The service creates a Cloud PC automatically when you assign a Windows 365 license to a user in the right Microsoft Entra group. Admins do not create Cloud PCs manually. |
 | How do machines map to users? | Pooled host pools can share a multi-session host between users. Personal host pools assign a host to one user. | In the Enterprise, Business and Government editions, each user has one Cloud PC. The Flex edition is different and has two modes. In shared mode, several users use one Cloud PC, one at a time, and user data is deleted after each session. In dedicated mode, one license can provision up to three Cloud PCs, each for one user, but only one of them can be active at a time. |
-| Which Windows editions? | Windows 11 or Windows 10 Enterprise, with single-session or multi-session, or Windows Server. Enterprise multi-session is documented as exclusive to AVD. | Windows 10 or Windows 11. |
+| Which Windows editions? | Windows 11 or Windows 10 Enterprise, with single-session or multi-session, or Windows Server. Enterprise multi-session is available only on AVD. | Windows 10 or Windows 11. |
 | How do you pay? | You pay for the Azure resources you use (virtual machines, disks, storage and network). Users also need an eligible license. Autoscale can start and stop hosts as demand changes. | A license per user for a fixed monthly fee (Flex is licensed by concurrent session instead). Additional costs may apply based on network usage. |
 | What do you manage? | The image, the virtual machines and the resources around them. You do not manage the gateway and broker (the AVD services that carry and arrange connections). | Microsoft runs Windows 365 as a SaaS service and creates the Cloud PC. The Enterprise edition lets you create Cloud PCs from device images you create, and integrates fully with Microsoft Intune. |
 
@@ -90,17 +90,17 @@ Windows 365 Business is described as made for companies of up to 300 seats. Wind
 Two points to take from the table.
 
 - **Sharing a machine at the same time is an AVD feature, and so is autoscale.** Multi-session Windows lets several users be signed in to one virtual machine together. If many users work in shifts, AVD can reduce the number of virtual machines you run. Windows 365 Enterprise, Business and Government give each user their own Cloud PC for a fixed fee. Windows 365 Flex lets users share Cloud PCs, but only one user at a time per license.
-- **Windows 365 removes work.** If you do not want to design host pools, images and scaling, a service that creates the Cloud PC for each licensed user can be simpler (judgement). The trade-off is that you choose from what the service offers (judgement).
+- **Windows 365 removes work.** If you do not want to design host pools, images and scaling, a service that creates the Cloud PC for each licensed user can be simpler. The trade-off is that you choose from what the service offers.
 
-Which of these is cheaper depends on how many people use how much capacity, and on the prices for your agreement. The documentation does not give a single answer, and neither does this article.
+Which of these is cheaper depends on how many people use how much capacity, and on the prices for your agreement. There is no single answer, and this article does not give one.
 
 ## Questions to ask, in order
 
-![Flow diagram with four numbered questions on the left and the option each answer points to on the right. 1: do users need Windows desktops or apps that run centrally; if not, another approach may be simpler. 2: must session hosts stay in your datacenter; if yes, Azure Virtual Desktop Hybrid or Azure Virtual Desktop for Azure Local. 3: do you need a platform from Citrix or Omnissa; if yes, Citrix DaaS or Omnissa Horizon Cloud. 4: is one dedicated Cloud PC per user enough (Windows 365 Enterprise, Business or Government); if yes, Windows 365. If none apply, Azure Virtual Desktop in Azure, with pooled or personal hosts.](/img/avd/AVD-Post-07-Decision-Questions-v3.png)
+![Four questions from top to bottom: do users need central Windows desktops, must hosts stay in your datacenter, do you need Citrix or Omnissa, is one Cloud PC per user enough. Answers point to AVD Hybrid or Azure Local, Citrix or Omnissa, Windows 365, or AVD multi-session.](/img/avd/AVD-Post-07-Decision-Questions-v3.png)
 
-*Source: [What is Azure Virtual Desktop?](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview), [What is Windows 365?](https://learn.microsoft.com/en-us/windows-365/overview), [Get started with virtual desktop architecture design](https://learn.microsoft.com/en-us/azure/architecture/virtual-desktop/virtual-desktop-get-started), [Azure Virtual Desktop Hybrid overview](https://learn.microsoft.com/en-us/azure/virtual-desktop/hybrid-overview) and [Azure Virtual Desktop on Azure Local](https://learn.microsoft.com/en-us/azure/virtual-desktop/azure-stack-hci-overview). The documentation has no decision diagram, so the order of the questions is a recommendation (judgement). Windows 365 is a fixed monthly fee per user; network costs may apply. Checked against the cited pages in October 2026.*
+*Source: [What is Azure Virtual Desktop?](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview).*
 
-Read the questions from top to bottom and stop at the first match. The order is a recommendation, not a rule from the documentation. Real projects also have constraints the diagram does not show, such as existing contracts and skills.
+Read the questions from top to bottom and stop at the first match. The order is a recommendation, not a rule. Real projects also have constraints the diagram does not show, such as existing contracts and skills.
 
 ## Settle the licensing questions first
 
@@ -117,17 +117,17 @@ Licensing decides whether a design is allowed, so ask these three questions befo
 
 Per-user access pricing is not available for Windows Server session hosts, so a design for external customers cannot use Windows Server.
 
-**3. Do contractors and guests bring their own license?** A license assigned to a person in their own home tenant generally does not give them rights in your tenant. The documentation recommends buying the same kind of license that you buy for employees and assigning it to the contractor's identity in your Microsoft Entra tenant.
+**3. Do contractors and guests bring their own license?** A license assigned to a person in their own home tenant generally does not give them rights in your tenant. Microsoft recommends buying the same kind of license that you buy for employees and assigning it to the contractor's identity in your Microsoft Entra tenant.
 
 Eligible licenses are bought through your licensing channel at a fixed cost per user. Per-user access pricing is billed through an Azure subscription. The virtual machines, disks, profile storage, network and monitoring are separate Azure charges. If session hosts run on premises, there are extra charges: AVD Hybrid has a service user license, and AVD for Azure Local has a per-vCPU service fee plus the Azure Local fee. The [operating system and licensing article](/azure-virtual-desktop/session-host-operating-system-and-licensing/) goes into the operating system choice in detail.
 
 ## Situations where AVD is a poor fit
 
-These are scenario-dependent judgements for you to test against your own case. They are not rules from the documentation, except where a source is named.
+Test each of these against your own case.
 
 | Situation | Why AVD may not fit |
 |---|---|
-| Users need a desktop that is not Windows | The desktop AVD delivers is Windows 11, Windows 10 or Windows Server. The documented list of supported operating systems does not include other desktop systems. Users can still connect from Windows, macOS, iOS/iPadOS, Android/Chrome OS or a web browser. |
+| Users need a desktop that is not Windows | The desktop AVD delivers is Windows 11, Windows 10 or Windows Server. The list of supported operating systems does not include other desktop systems. Users can still connect from Windows, macOS, iOS/iPadOS, Android/Chrome OS or a web browser. |
 | The app is sensitive to distance from the user's device | The remote desktop adds a network path between the user and the machine. The [prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites) recommend a round-trip time of under 150 ms from the client network to the Azure region that holds the host pool. If the app needs response times that a remote session cannot deliver, test early. |
 | The population is small and uniform | When each user needs one always-on desktop and there is nothing to share, Windows 365 may need less design and operating work. Compare both options with real prices. |
 | Nobody owns identity | Microsoft Entra ID always authenticates AVD users, and session hosts must join either the same Microsoft Entra tenant as the users or an Active Directory domain. If the copy of on-premises accounts to Entra ID (directory sync) or the domain is broken or unowned, fix that first. |
@@ -138,9 +138,9 @@ These are scenario-dependent judgements for you to test against your own case. T
 
 ## What AVD takes off your plate, and what it does not
 
-With AVD, Microsoft runs the web, broker and gateway services. You do not deploy gateway or broker servers the way you do with Remote Desktop Services. You still own the session hosts, the images, the applications, the network, profile storage and recovery. A business case that counts only the removed servers and ignores those items is incomplete (judgement). The [architecture article](/azure-virtual-desktop/azure-virtual-desktop-architecture/) shows where the line falls.
+With AVD, Microsoft runs the web, broker and gateway services. You do not deploy gateway or broker servers the way you do with Remote Desktop Services. You still own the session hosts, the images, the applications, the network, profile storage and recovery. A business case that counts only the removed servers and ignores those items is incomplete. The [architecture article](/azure-virtual-desktop/azure-virtual-desktop-architecture/) shows where the line falls.
 
-AVD also does not need inbound ports. Users and session hosts connect outward to the service (reverse connect). The documentation recommends that you do not open inbound port 3389 (the standard Remote Desktop port) on session hosts and do not give them public IP addresses.
+AVD also does not need inbound ports. Users and session hosts connect outward to the service (reverse connect). Microsoft recommends that you do not open inbound port 3389 (the standard Remote Desktop port) on session hosts and do not give them public IP addresses.
 
 ## Check these requirements before you commit
 
@@ -159,8 +159,6 @@ A notice on the overview page says Azure Virtual Desktop classic (the older vers
 
 ## Common mistakes
 
-These are my judgement, not Microsoft rules.
-
 - **Choosing by headline price.** A fixed per-user fee and a pay-for-what-you-use bill are not comparable until you know the number of users, hours of use and size of machines.
 - **Treating AVD as just virtual machines.** The images, profiles, scaling and monitoring are part of the service you operate.
 - **Leaving licensing until deployment.** Windows Server session hosts and external customers each need a different licensing route.
@@ -169,27 +167,16 @@ These are my judgement, not Microsoft rules.
 
 ## How to validate your decision
 
-These steps are a recommendation.
-
 1. Write down the user groups, and for each: the apps, the working hours and whether users can share a machine.
 2. Check licensing for each group using the three questions above.
 3. Price both a shared AVD design and a one-machine-per-user design with your own numbers.
 4. Run a small pilot with real apps and real network paths. Judge the experience of the people who will use it.
 5. Record the decision and its assumptions, so you can see later which assumption was wrong.
 
-## Related book chapter and projects
-
-[Chapter 1](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch01-what-avd-actually-is.md) of the book covers this decision. It has no lab. [Project 01](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/scenarios/project-01-smb-cost-sensitive.md) and [Project 12](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/scenarios/project-12-citrix-migration.md) are fictional case studies that apply the decision to a small business and a migration from another platform. Neither is a record of real customer work.
-
 Next: [How Azure Virtual Desktop Fails: The Control, Management and Data Planes](/azure-virtual-desktop/how-azure-virtual-desktop-fails/).
 
 ## Sources
 
 - [What is Azure Virtual Desktop?](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview)
-- [prerequisites](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites)
-- [licensing Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/licensing)
+- [Licensing Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/licensing)
 - [What is Windows 365?](https://learn.microsoft.com/en-us/windows-365/overview)
-- [What is Windows 365 Flex?](https://learn.microsoft.com/en-us/windows-365/enterprise/introduction-windows-365-flex)
-- [Azure Virtual Desktop Hybrid overview](https://learn.microsoft.com/en-us/azure/virtual-desktop/hybrid-overview)
-- [Azure Virtual Desktop on Azure Local](https://learn.microsoft.com/en-us/azure/virtual-desktop/azure-stack-hci-overview)
-- [Get started with virtual desktop architecture design](https://learn.microsoft.com/en-us/azure/architecture/virtual-desktop/virtual-desktop-get-started)

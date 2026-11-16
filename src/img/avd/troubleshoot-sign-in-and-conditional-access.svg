@@ -1,79 +1,72 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1100 1125" width="1100" height="1125" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1100 1085" width="1100" height="1085" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
 <title id="t">Decision tree for AVD sign-in failures and Conditional Access</title><desc id="d">The first question is whether the feed is empty after sign-in; if yes, check application group assignment. Then it asks whether the sign-in log shows a failed entry, whether the user is prompted again and again, and which error code appears (AADSTS50058 or 50076, AADSTS530002 or 530032, AADSTS65001 or registration required), and each yes leads to one fix.</desc>
 <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
-<rect x="6" y="6" width="1088" height="1113" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
-<rect x="24" y="24" width="1052" height="1077" rx="8" fill="#ffffff" stroke="#6c7a89" stroke-width="1.8"/>
-<rect x="100.0" y="44" width="340" height="46" rx="8" fill="#e8f0fa" stroke="#9bbbe0" stroke-width="1.5"/>
-<text x="270.0" y="72.0" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">User cannot sign in or keeps being prompted</text>
+<rect x="6" y="6" width="1088" height="1073" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
+<rect x="81.5" y="44" width="377" height="46" rx="8" fill="#e8f0fa" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="270" y="72" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">User cannot sign in or keeps being prompted</text>
 <line x1="270" y1="90" x2="270" y2="117.0" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
 <polygon points="270,119.0 450.0,168 270,217.0 90.0,168" fill="#eef4fb" stroke="#9bbbe0" stroke-width="1.8"/>
-<text x="270" y="163.5" font-size="13.5" font-weight="600" text-anchor="middle" fill="#1f2933">Is the feed empty after</text>
-<text x="270" y="182.5" font-size="13.5" font-weight="600" text-anchor="middle" fill="#1f2933">the user signs in?</text>
-<line x1="452.0" y1="168" x2="518" y2="168" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="485.0" y="160" font-size="12" font-weight="600" text-anchor="middle" fill="#1f2933">Yes</text>
-<rect x="520" y="129.0" width="520" height="78" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
-<text x="780.0" y="155.0" font-size="13.5" font-weight="600" text-anchor="middle" fill="#1f2933">Check the application group assignment</text>
-<text x="780.0" y="177.0" font-size="12.5" text-anchor="middle" fill="#1f2933">Use a security group, not a distribution group</text>
-<text x="780.0" y="227.0" font-size="11" text-anchor="middle" fill="#5f6b7a">Source: Troubleshoot service connections</text>
+<text x="270" y="163" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Is the feed empty after</text>
+<text x="270" y="183" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">the user signs in?</text>
+<line x1="452.0" y1="168" x2="511.148" y2="168" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<text x="485.0" y="160" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Yes</text>
+<rect x="513.148" y="129.0" width="552.852" height="78" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="789.6" y="155" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Check the application group assignment</text>
+<text x="789.6" y="177" font-size="16" text-anchor="middle" fill="#1f2933">Use a security group, not a distribution group</text>
 <line x1="270" y1="219.0" x2="270" y2="257.0" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="323.0" y="237.0" font-size="12" font-weight="600" text-anchor="middle" fill="#1f2933">No</text>
+<text x="323.0" y="237.0" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">No</text>
 <polygon points="270,259.0 450.0,308 270,357.0 90.0,308" fill="#eef4fb" stroke="#9bbbe0" stroke-width="1.8"/>
-<text x="270" y="303.5" font-size="13.5" font-weight="600" text-anchor="middle" fill="#1f2933">Does the Entra sign-in log</text>
-<text x="270" y="322.5" font-size="13.5" font-weight="600" text-anchor="middle" fill="#1f2933">show a failed entry?</text>
-<line x1="452.0" y1="308" x2="518" y2="308" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="485.0" y="300" font-size="12" font-weight="600" text-anchor="middle" fill="#1f2933">No</text>
-<rect x="520" y="269.0" width="520" height="78" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
-<text x="780.0" y="295.0" font-size="13.5" font-weight="600" text-anchor="middle" fill="#1f2933">The user may not have reached AVD</text>
-<text x="780.0" y="317.0" font-size="12.5" text-anchor="middle" fill="#1f2933">No rows in WVDConnections: client, network or Entra sign-in</text>
-<text x="780.0" y="367.0" font-size="11" text-anchor="middle" fill="#5f6b7a">Source: Log Analytics diagnostics</text>
+<text x="270" y="303" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Does the Entra sign-in log</text>
+<text x="270" y="323" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">show a failed entry?</text>
+<line x1="452.0" y1="308" x2="511.148" y2="308" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<text x="485.0" y="300" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">No</text>
+<rect x="513.148" y="269.0" width="552.852" height="78" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="789.6" y="295" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">The user may not have reached AVD</text>
+<text x="789.6" y="317" font-size="16" text-anchor="middle" fill="#1f2933">No rows in WVDConnections: client, network or Entra sign-in</text>
 <line x1="270" y1="359.0" x2="270" y2="397.0" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="323.0" y="377.0" font-size="12" font-weight="600" text-anchor="middle" fill="#1f2933">Yes</text>
+<text x="323.0" y="377.0" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Yes</text>
 <polygon points="270,399.0 450.0,448 270,497.0 90.0,448" fill="#eef4fb" stroke="#9bbbe0" stroke-width="1.8"/>
-<text x="270" y="443.5" font-size="13.5" font-weight="600" text-anchor="middle" fill="#1f2933">Is the user prompted</text>
-<text x="270" y="462.5" font-size="13.5" font-weight="600" text-anchor="middle" fill="#1f2933">again and again?</text>
-<line x1="452.0" y1="448" x2="518" y2="448" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="485.0" y="440" font-size="12" font-weight="600" text-anchor="middle" fill="#1f2933">Yes</text>
-<rect x="520" y="409.0" width="520" height="78" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
-<text x="780.0" y="435.0" font-size="13.5" font-weight="600" text-anchor="middle" fill="#1f2933">Compare the policies on both apps</text>
-<text x="780.0" y="457.0" font-size="12.5" text-anchor="middle" fill="#1f2933">Sign-in frequency, Every time, per-user MFA, consent prompt</text>
-<text x="780.0" y="507.0" font-size="11" text-anchor="middle" fill="#5f6b7a">Source: Troubleshoot SSO and Conditional Access</text>
+<text x="270" y="443" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Is the user prompted</text>
+<text x="270" y="463" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">again and again?</text>
+<line x1="452.0" y1="448" x2="511.148" y2="448" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<text x="485.0" y="440" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Yes</text>
+<rect x="513.148" y="409.0" width="552.852" height="78" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="789.6" y="435" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Compare the policies on both apps</text>
+<text x="789.6" y="457" font-size="16" text-anchor="middle" fill="#1f2933">Sign-in frequency, Every time, per-user MFA, consent prompt</text>
 <line x1="270" y1="499.0" x2="270" y2="537.0" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="323.0" y="517.0" font-size="12" font-weight="600" text-anchor="middle" fill="#1f2933">No</text>
+<text x="323.0" y="517.0" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">No</text>
 <polygon points="270,539.0 450.0,588 270,637.0 90.0,588" fill="#eef4fb" stroke="#9bbbe0" stroke-width="1.8"/>
-<text x="270" y="583.5" font-size="13.5" font-weight="600" text-anchor="middle" fill="#1f2933">Is the code AADSTS50058</text>
-<text x="270" y="602.5" font-size="13.5" font-weight="600" text-anchor="middle" fill="#1f2933">or AADSTS50076?</text>
-<line x1="452.0" y1="588" x2="518" y2="588" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="485.0" y="580" font-size="12" font-weight="600" text-anchor="middle" fill="#1f2933">Yes</text>
-<rect x="520" y="549.0" width="520" height="78" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
-<text x="780.0" y="575.0" font-size="13.5" font-weight="600" text-anchor="middle" fill="#1f2933">50058: sign out and in, clear the WAM cache</text>
-<text x="780.0" y="597.0" font-size="12.5" text-anchor="middle" fill="#1f2933">50076: check MFA method, location or device, per-user MFA</text>
-<text x="780.0" y="647.0" font-size="11" text-anchor="middle" fill="#5f6b7a">Source: Troubleshoot SSO and Conditional Access</text>
+<text x="270" y="583" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Is the code AADSTS50058</text>
+<text x="270" y="603" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">or AADSTS50076?</text>
+<line x1="452.0" y1="588" x2="511.148" y2="588" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<text x="485.0" y="580" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Yes</text>
+<rect x="513.148" y="549.0" width="552.852" height="78" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="789.6" y="575" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">50058: sign out and in, clear the WAM cache</text>
+<text x="789.6" y="597" font-size="16" text-anchor="middle" fill="#1f2933">50076: check MFA method, location or device, per-user MFA</text>
 <line x1="270" y1="639.0" x2="270" y2="677.0" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="323.0" y="657.0" font-size="12" font-weight="600" text-anchor="middle" fill="#1f2933">No</text>
+<text x="323.0" y="657.0" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">No</text>
 <polygon points="270,679.0 450.0,728 270,777.0 90.0,728" fill="#eef4fb" stroke="#9bbbe0" stroke-width="1.8"/>
-<text x="270" y="723.5" font-size="13.5" font-weight="600" text-anchor="middle" fill="#1f2933">Is the code AADSTS530002</text>
-<text x="270" y="742.5" font-size="13.5" font-weight="600" text-anchor="middle" fill="#1f2933">or AADSTS530032?</text>
-<line x1="452.0" y1="728" x2="518" y2="728" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="485.0" y="720" font-size="12" font-weight="600" text-anchor="middle" fill="#1f2933">Yes</text>
-<rect x="520" y="689.0" width="520" height="78" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
-<text x="780.0" y="715.0" font-size="13.5" font-weight="600" text-anchor="middle" fill="#1f2933">Find the policy on the Conditional Access tab</text>
-<text x="780.0" y="737.0" font-size="12.5" text-anchor="middle" fill="#1f2933">530002: which device is checked. 530032: Block or Security Defaults</text>
-<text x="780.0" y="787.0" font-size="11" text-anchor="middle" fill="#5f6b7a">Source: Troubleshoot SSO and Conditional Access</text>
+<text x="270" y="723" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Is the code AADSTS530002</text>
+<text x="270" y="743" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">or AADSTS530032?</text>
+<line x1="452.0" y1="728" x2="511.148" y2="728" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<text x="485.0" y="720" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Yes</text>
+<rect x="513.148" y="689.0" width="552.852" height="78" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="789.6" y="715" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Find the policy on the Conditional Access tab</text>
+<text x="789.6" y="737" font-size="16" text-anchor="middle" fill="#1f2933">530002: which device is checked. 530032: Block or Security Defaults</text>
 <line x1="270" y1="779.0" x2="270" y2="817.0" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="323.0" y="797.0" font-size="12" font-weight="600" text-anchor="middle" fill="#1f2933">No</text>
+<text x="323.0" y="797.0" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">No</text>
 <polygon points="270,819.0 450.0,868 270,917.0 90.0,868" fill="#eef4fb" stroke="#9bbbe0" stroke-width="1.8"/>
-<text x="270" y="863.5" font-size="13.5" font-weight="600" text-anchor="middle" fill="#1f2933">Is the code AADSTS65001, or is</text>
-<text x="270" y="882.5" font-size="13.5" font-weight="600" text-anchor="middle" fill="#1f2933">registration required?</text>
-<line x1="452.0" y1="868" x2="518" y2="868" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="485.0" y="860" font-size="12" font-weight="600" text-anchor="middle" fill="#1f2933">Yes</text>
-<rect x="520" y="829.0" width="520" height="78" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
-<text x="780.0" y="855.0" font-size="13.5" font-weight="600" text-anchor="middle" fill="#1f2933">65001: hide the consent prompt or grant consent</text>
-<text x="780.0" y="877.0" font-size="12.5" text-anchor="middle" fill="#1f2933">Registration: aka.ms/mfasetup or a registration campaign</text>
-<text x="780.0" y="927.0" font-size="11" text-anchor="middle" fill="#5f6b7a">Source: Troubleshoot SSO and Conditional Access</text>
+<text x="270" y="863" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Is the code AADSTS65001, or is</text>
+<text x="270" y="883" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">registration required?</text>
+<line x1="452.0" y1="868" x2="511.148" y2="868" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<text x="485.0" y="860" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Yes</text>
+<rect x="513.148" y="829.0" width="552.852" height="78" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="789.6" y="855" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">65001: hide the consent prompt or grant consent</text>
+<text x="789.6" y="877" font-size="16" text-anchor="middle" fill="#1f2933">Registration: aka.ms/mfasetup or a registration campaign</text>
 <line x1="270" y1="919.0" x2="270" y2="964" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="323.0" y="937.0" font-size="12" font-weight="600" text-anchor="middle" fill="#1f2933">No</text>
-<rect x="40" y="967.0" width="460" height="78" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
-<text x="270.0" y="993.0" font-size="13.5" font-weight="600" text-anchor="middle" fill="#1f2933">Another code, or the session will not start</text>
-<text x="270.0" y="1015.0" font-size="12.5" text-anchor="middle" fill="#1f2933">Check the host roles for Entra joined hosts, then open a support request</text>
-<text x="270.0" y="1065.0" font-size="11" text-anchor="middle" fill="#5f6b7a">Source: Troubleshoot SSO and Conditional Access</text>
+<text x="323.0" y="937.0" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">No</text>
+<rect x="40" y="967.0" width="507" height="78" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="293.5" y="993" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Another code, or the session will not start</text>
+<text x="293.5" y="1015" font-size="16" text-anchor="middle" fill="#1f2933">Check roles on Entra joined hosts, then open a support request</text>
+<!--fx:t16-->
 </svg>

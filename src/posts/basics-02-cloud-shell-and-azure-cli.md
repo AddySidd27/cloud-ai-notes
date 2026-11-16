@@ -11,11 +11,9 @@ description: "Open Azure Cloud Shell, run az account show, az group list, --outp
 
 By the end you will have run your first Azure commands in the browser, and you will know how to install the Azure CLI on a Windows PC and sign in. Every command in this lab only reads information, so nothing is created or changed.
 
-I have not run these steps in a live tenant for this article. The steps follow Microsoft Learn (Microsoft's documentation site).
-
 ## What you need
 
-- Lab 1: [Start safely: Azure free account, tenant and subscription](/azure-basics-labs/start-azure-account-tenant-subscription/). You need a test tenant and a subscription you can sign in to, and the notes sheet you made at the end of step 5 in Lab 1. That step also registered the Microsoft.CloudShell provider, which Cloud Shell needs.
+- [Start safely: Azure free account, tenant and subscription](/azure-basics-labs/start-azure-account-tenant-subscription/). You need a test tenant and a subscription you can sign in to, and the notes sheet you made at the end of step 5 there. That step also registered the Microsoft.CloudShell provider, which Cloud Shell needs.
 - A modern browser. For the local install part, a Windows PC.
 - Time: about 30 minutes.
 - Cost: nothing. You use the option without a storage account.
@@ -31,9 +29,9 @@ I have not run these steps in a live tenant for this article. The steps follow M
 
 ## What the lab builds
 
-![Left to right: you sign in to the Azure portal and open Cloud Shell (Bash), which sends az commands to your test subscription. A grey, optional path below shows the Azure CLI on your own PC, signed in with az login, used from Lab 10.](/img/basics/cloud-shell-and-azure-cli.svg)
+![You sign in to the Azure portal with a test account that uses MFA, open Cloud Shell (Bash, no storage account) and run az commands against your test subscription. An optional dashed path runs Azure CLI on your PC after az login, for the Terraform lab.](/img/basics/cloud-shell-and-azure-cli.svg)
 
-*Source: [Azure Cloud Shell overview](https://learn.microsoft.com/en-us/azure/cloud-shell/overview), [Get started with Azure CLI](https://learn.microsoft.com/en-us/cli/azure/get-started-with-azure-cli). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+*Source: Microsoft Learn pages listed under Sources.*
 
 No resources are deployed. You only connect and read.
 
@@ -45,7 +43,7 @@ Cloud Shell is a terminal that runs in your browser. Microsoft manages it, and i
 2. In the top bar, select the **Cloud Shell** icon (a small box with `>_`).
 3. The first time, you are asked which shell to use. Select **Bash**.
 4. In the **Getting started** pane, choose **No storage account required**. Select your subscription in the dropdown, then select **Apply**. Use this option for the whole series. The other option, **Mount storage account**, keeps your files but creates a billed storage account, and you do not need it here.
-5. If Cloud Shell stops with an error about a resource provider, the **Microsoft.CloudShell** provider is not registered. A resource provider is the part of Azure behind one service. To fix it, search for **Subscriptions**, select your subscription, then under **Settings** select **Resource providers**. Search `cloudshell`, select **Microsoft.CloudShell**, and select **Register**. You do this once per subscription. If you did Lab 1, it is already done.
+5. If Cloud Shell stops with an error about a resource provider, the **Microsoft.CloudShell** provider is not registered. A resource provider is the part of Azure behind one service. To fix it, search for **Subscriptions**, select your subscription, then under **Settings** select **Resource providers**. Search `cloudshell`, select **Microsoft.CloudShell**, and select **Register**. You do this once per subscription. If you registered the providers in the first lab, it is already done.
 
 Check: a Cloud Shell pane opens in the portal with a Bash prompt, and it accepts typing.
 
@@ -53,9 +51,9 @@ Check: a Cloud Shell pane opens in the portal with a Bash prompt, and it accepts
 
 Azure CLI is a command-line tool for managing Azure. You type `az` to run it. Run these in the Cloud Shell Bash window you just opened.
 
-Command blocks are Bash unless they say otherwise. Run them in Cloud Shell (Bash). They do not work in PowerShell on your PC. The only PowerShell blocks are the PC install part of this lab and Lab 10, and they are marked.
+Command blocks are Bash unless they say otherwise. Run them in Cloud Shell (Bash). They do not work in PowerShell on your PC. The only PowerShell blocks are the PC install part of this lab and the Terraform lab, and they are marked.
 
-**The shape of a command.** Commands are organised as command groups, and each group is an area of an Azure service. A command is `az`, then the group, then often a subgroup, then the action, then parameters that start with `--`. Example: `az account show`. The group is `account`, the action is `show`.
+**The shape of a command.** Commands are organized as command groups, and each group is an area of an Azure service. A command is `az`, then the group, then often a subgroup, then the action, then parameters that start with `--`. Example: `az account show`. The group is `account`, the action is `show`.
 
 **Command 1. Check the version.**
 
@@ -84,7 +82,7 @@ The output looks like this, with your own values:
 }
 ```
 
-Compare `name`, `id` and `tenantId` with your notes sheet from Lab 1. They must match your test subscription and test tenant. If they do not, stop. `isDefault: true` means this is the active subscription.
+Compare `name`, `id` and `tenantId` with your notes sheet from the first lab. They must match your test subscription and test tenant. If they do not, stop. `isDefault: true` means this is the active subscription.
 
 **Command 3. List the subscriptions you can use, as a table.**
 
@@ -100,7 +98,7 @@ az account list --output table
 az account set --subscription "YOUR-SUBSCRIPTION-NAME-OR-ID"
 ```
 
-Replace the text in capitals and keep the quotes. Run `az account show` again to confirm. Cloud Shell remembers your subscription for later sessions in `/home/<user>/.azure/azureProfile.json`.
+Replace the text in capitals and keep the quotes. Run `az account show` again to confirm. Cloud Shell remembers your subscription choice for later sessions in `/home/<user>/.azure/azureProfile.json`. Your files are not remembered.
 
 **Command 5. List resource groups.** A resource group is a container for Azure resources. A new subscription may have none. Then the command prints nothing, or `[]`, and that is a correct result.
 
@@ -124,13 +122,13 @@ az vm create --help
 
 `--help` lists subgroups, parameters and examples. Reading help is safe: `az vm create --help` shows how the command works and does not create anything.
 
-**Variables.** From Lab 3 on, command blocks start with lines such as `LOCATION=eastus2`. Cloud Shell forgets your variables after about 20 minutes without activity. If a command complains about an empty value, paste the variable block again.
+**Variables.** From the resource group lab on, command blocks start with lines such as `LOCATION=eastus2`. Cloud Shell forgets your variables after about 20 minutes without activity. If a command complains about an empty value, paste the variable block again.
 
 Check: `az account show` shows your test subscription, `az account list --output table` prints a table, and `az group list --output table` prints a table or an empty result without an error.
 
-### Install Azure CLI on your own Windows PC (do this when you reach Lab 10)
+### Install Azure CLI on your own Windows PC (optional until the Terraform lab)
 
-Only Lab 10 needs the CLI on your own PC. You can skip this part for now. These steps are for Windows. On macOS or Linux use the install page for your system: [Install the Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli).
+Only the Terraform lab needs the CLI on your own PC. You can skip this part for now. These steps are for Windows. On macOS or Linux use the install page for your system: [Install the Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli).
 
 1. Open PowerShell and run:
 
@@ -140,7 +138,7 @@ Only Lab 10 needs the CLI on your own PC. You can skip this part for now. These 
 
    WinGet is available by default on Windows 11 and modern versions of Windows 10. If it is missing, Microsoft offers the MSI installer instead. For 64-bit Windows, download it from `https://aka.ms/installazurecliwindowsx64` and run it.
 2. Close and reopen the terminal window. Microsoft says this is required.
-3. Check the version. Use Azure CLI 2.76 or later.
+3. Check the version. Use Azure CLI 2.76 or later, so that a missing-MFA error shows you the command to run.
 
    ```powershell
    az version
@@ -153,7 +151,7 @@ Only Lab 10 needs the CLI on your own PC. You can skip this part for now. These 
    az login
    ```
 
-   If the CLI can open your default browser, it opens an Azure sign-in page. Sign in and complete MFA. Do not add `--use-device-code`. Microsoft lists it only as the option when no web browser is available.
+   If the CLI can open your default browser, it opens an Azure sign-in page. Sign in and complete MFA. Do not add `--use-device-code`. It is only meant for machines with no web browser.
 5. Check where you landed:
 
    ```powershell
@@ -164,11 +162,11 @@ Check: `az version` shows 2.76 or later, and `az account show` shows your test s
 
 ### Azure asks for MFA when you change things
 
-Azure asks for MFA when you create, change or delete things with the CLI. Reading is fine. If a create command later fails with an error that asks for MFA, run `az logout`, then run the `az login` command that the error prints, and approve MFA in the browser. Use CLI 2.76 or later so the error shows that command.
+Azure asks for MFA when you create, change or delete things with the CLI. Reading is fine. If a create command later fails with an error that asks for MFA, run `az logout`, then run the `az login` command that the error prints (it ends with `--claims-challenge`), and approve MFA in the browser. Use CLI 2.76 or later so the error shows that command.
 
 ## Terraform
 
-No Terraform in this lab, because nothing is deployed. Terraform comes in [Lab 10: Terraform basics](/azure-basics-labs/terraform-basics/).
+No Terraform in this lab, because nothing is deployed. Terraform comes in [Terraform basics](/azure-basics-labs/terraform-basics/).
 
 ## Check that it works
 
@@ -191,7 +189,7 @@ Nothing to delete, because no command in this lab created anything. Close the Cl
 
 Keep for later labs: your test tenant and subscription, and Cloud Shell access.
 
-**Only if you chose Mount storage account.** Azure created a resource group with a storage account and an Azure Files share (a 5-GB file share), and regular storage costs apply. Do not delete that resource group, storage account or file share by accident. Microsoft warns that deleting one that is mapped to Cloud Shell erases your `$HOME` directory disk image and the files in the share, and this cannot be undone. To stop using the share, run `clouddrive unmount` in Cloud Shell and confirm the prompts. That does not delete anything.
+**Only if you chose Mount storage account.** Azure created a resource group with a storage account and an Azure Files share (a 5-GB file share), and regular storage costs apply. Do not delete that resource group, storage account or file share by accident. Deleting one that is mapped to Cloud Shell erases your `$HOME` directory disk image and the files in the share, and this cannot be undone. To stop using the share, run `clouddrive unmount` in Cloud Shell and confirm the prompts. That does not delete anything.
 
 ## Where this is used in AVD
 
@@ -199,7 +197,7 @@ In AVD work you will use `az` to check what is deployed in a subscription, and y
 
 ## Next lab
 
-[Lab 3: Resource group, tags, budget and action group](/azure-basics-labs/resource-group-tags-budget/) uses what you learned here to create your first resource group and a cost alert.
+[Resource group, tags, budget and action group](/azure-basics-labs/resource-group-tags-budget/) uses what you learned here to create your first resource group and a cost alert.
 
 ## Sources
 

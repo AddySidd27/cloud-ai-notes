@@ -11,16 +11,16 @@ description: "A walk through a Terraform lab for Azure Virtual Desktop Autoscale
 
 A session host that runs all day and all night costs money even when nobody is using it. Azure Virtual Desktop (AVD) has a built-in feature, Autoscale, that powers session hosts (the VMs that run users' desktops) on and off by schedule and by how many users are connected. This article walks through a Terraform lab that sets it up, and shows how to test it and how to measure what you save.
 
-The code is in a public repository: [terraform-azure-avd-autoscaling-cost-optimization](https://github.com/AddySidd27/terraform-azure-avd-autoscaling-cost-optimization). It is the [first lab](/terraform-labs/avd-quick-lab/) plus a scaling plan. The network, the storage, the FSLogix profiles and the Microsoft Entra join are the same as in that lab, so this article does not repeat them. Read the first lab if you want those parts explained.
+The code is in a public repository: [terraform-azure-avd-autoscaling-cost-optimization](https://github.com/AddySidd27/terraform-azure-avd-autoscaling-cost-optimization). It builds on the [AVD quick lab](/terraform-labs/avd-quick-lab/) and adds a scaling plan. The network, the storage, the FSLogix profiles and the Microsoft Entra join are the same as in that lab, so this article does not repeat them. Read the quick lab if you want those parts explained.
 
-I have not deployed this lab for this article, so there is no deployment output or screenshot here. Below is what the code does, what [Microsoft Learn](https://learn.microsoft.com/) (Microsoft's documentation site, called "Learn" from here on) documents, and a test plan that I have not run.
+Below is what the code does, how Microsoft describes the features it uses, and a test plan.
 
-One risk comes first. Learn recommends Autoscale with VMs created by the AVD portal or Microsoft's templates. This lab builds its VMs directly with Terraform, so test that Autoscale really manages them.
+One risk comes first. The documentation recommends Autoscale with VMs created by the AVD portal or Microsoft's templates. This lab builds its VMs directly with Terraform, so test that Autoscale really manages them.
 
 ## Before you start
 
 - Quota for 8 vCPUs of the `Standard_Dv5` family in your region.
-- A Microsoft Entra group and a test user, as in the first lab.
+- A Microsoft Entra group and a test user, as in the quick lab.
 - Permission to grant admin consent in your tenant.
 - The Azure CLI, Git and Terraform 1.9 or newer.
 - The lab costs money while it exists. Run `terraform destroy` when you finish (see "Run it").
@@ -55,29 +55,29 @@ One risk comes first. Learn recommends Autoscale with VMs created by the AVD por
 | Force sign-out | A ramp-down setting that signs users out after a wait time, so Autoscale can shut a host down. |
 | Exclusion tag | A tag you add to a VM so Autoscale leaves it alone. Autoscale does not start, stop or change drain mode on it. |
 | Start VM on Connect | A host pool setting that starts a deallocated session host when a user connects. |
-| Service principal | An identity that represents an Azure service inside your tenant. In this lab, Autoscale acts through the Azure Virtual Desktop service principal. Learn also allows a managed identity. |
+| Service principal | An identity that represents an Azure service inside your tenant. In this lab, Autoscale acts through the Azure Virtual Desktop service principal. The documentation also allows a managed identity. |
 | Subscription scope | Scope is where a role applies. Subscription scope means everything in the subscription. |
 | VM-hour | One VM running for one hour. It is the unit used in the cost calculation below. |
 | Breadth First, Depth First | Load-balancing methods. Breadth First spreads new sessions across the hosts. Depth First fills one host up before it uses the next. |
 
-## What is new compared with the first lab
+## What is new compared with the quick lab
 
-![The scaling plan is assigned to the host pool. The Azure Virtual Desktop service principal holds two roles on the subscription, Desktop Virtualization Power On Off Contributor and Desktop Virtualization Power On Contributor, so it can start and deallocate the two session hosts. A user who connects when all hosts are off starts one through Start VM on Connect. Below, the default schedule: on weekdays, ramp-up from 07:00, peak from 09:00, ramp-down from 18:00 and off-peak from 22:00. At weekends, ramp-up from 09:00, peak from 10:00, ramp-down from 14:00 and off-peak from 18:00.](/img/avd/AVD-Terraform-Autoscale-Lab.svg)
+![A scaling plan assigned to the host pool starts and deallocates two session hosts, using two roles held by the AVD service principal. Weekdays run Off-peak, Ramp-up 07:00, Peak 09:00, Ramp-down 18:00, Off-peak 22:00; weekends ramp up at 09:00.](/img/avd/AVD-Terraform-Autoscale-Lab.svg)
 
-*Source: the lab's Terraform code, in the [terraform-azure-avd-autoscaling-cost-optimization](https://github.com/AddySidd27/terraform-azure-avd-autoscaling-cost-optimization) repository, and the Learn page [Autoscale scaling plans and example scenarios](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scenarios). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/). The scaling plan has no icon in that set, so it is a plain box.*
+*Source: the lab's Terraform code, in the [terraform-azure-avd-autoscaling-cost-optimization](https://github.com/AddySidd27/terraform-azure-avd-autoscaling-cost-optimization) repository, and the page [Autoscale scaling plans and example scenarios](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scenarios).*
 
-The lab keeps the same resources as the first lab: one resource group, a pooled host pool with two Windows 11 multi-session session hosts, a virtual network, an NSG and an Azure Files share for FSLogix profiles. It adds three things and changes one default:
+The lab keeps the same resources as the quick lab: one resource group, a pooled host pool with two Windows 11 multi-session session hosts, a virtual network, an NSG and an Azure Files share for FSLogix profiles. It adds three things and changes one default:
 
 - **An `autoscale` module** (a folder of Terraform files) that creates the scaling plan and assigns it to the host pool.
 - **Two role assignments at subscription scope** for the Azure Virtual Desktop service principal.
 - **A new setting, `avd_service_principal_object_id`,** which you fill in before you deploy (see "The roles").
-- **`start_vm_on_connect` is now `true` by default.** In the first lab it is `false`.
+- **`start_vm_on_connect` is now `true` by default.** In the quick lab it is `false`.
 
 The repository also has two new outputs (the scaling plan name and the configured schedule) and new guides for validation, cost and a seven-day test.
 
 ## How Autoscale decides
 
-Before you read the schedule, you need the rules that Autoscale follows. These come from the Learn page [Autoscale scaling plans and example scenarios](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scenarios).
+Before you read the schedule, you need the rules that Autoscale follows. These come from the page [Autoscale scaling plans and example scenarios](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scenarios).
 
 **It starts a host when used capacity goes above the threshold.** Used capacity is sessions divided by capacity. For example, two hosts on with a limit of 5 sessions each give a capacity of 10. With a 30% threshold, 3 sessions are fine (30%), and the fourth session (40%) makes Autoscale start a third host.
 
@@ -91,7 +91,7 @@ Before you read the schedule, you need the rules that Autoscale follows. These c
 
 ## The default schedule
 
-The lab defines two schedules in `variables.tf`, one for weekdays and one for weekends. Every day of the week must appear in exactly one schedule, and the code checks this. Times are in the Windows time zone name you set in `autoscale_time_zone`, such as `Central Standard Time` (the default). Despite the name, that zone follows daylight saving time. Learn says a scaling plan runs only in its configured time zone.
+The lab defines two schedules in `variables.tf`, one for weekdays and one for weekends. Every day of the week must appear in exactly one schedule, and the code checks this. Times are in the Windows time zone name you set in `autoscale_time_zone`, such as `Central Standard Time` (the default). Despite the name, that zone follows daylight saving time. A scaling plan runs only in its configured time zone.
 
 | | Weekdays (Mon to Fri) | Weekends (Sat, Sun) |
 |---|---|---|
@@ -104,7 +104,7 @@ The lab defines two schedules in `variables.tf`, one for weekdays and one for we
 | Ramp-down capacity threshold | 50% | 75% |
 | Off-peak starts | 22:00 | 18:00 |
 
-Peak and off-peak have no threshold of their own. Learn says peak takes the ramp-up threshold, and off-peak takes the ramp-down threshold.
+Peak and off-peak have no threshold of their own. Peak takes the ramp-up threshold, and off-peak takes the ramp-down threshold.
 
 The code sets the load-balancing method per phase: Breadth First in ramp-up and peak, and Depth First in ramp-down and off-peak. In ramp-down, Depth First packs sessions onto fewer hosts, so the empty hosts can be turned off.
 
@@ -118,22 +118,22 @@ Because nobody is signed out by force, one forgotten disconnected session keeps 
 
 With two hosts, the weekday ramp-up minimum of 50% means one host is on from 07:00. The weekend minimum of 0% means both hosts can stay deallocated until someone connects.
 
-This is a lab example, not a schedule to copy. Learn says to understand your usage patterns before you define a schedule, so look at your real usage before you pick times.
+This is a lab example, not a schedule to copy. Understand your usage patterns before you define a schedule, so look at your real usage before you pick times.
 
 ## What the code does
 
 ### The roles
 
-In this lab, Autoscale and Start VM on Connect act through the Azure Virtual Desktop service principal (Learn also allows a managed identity on the host pool), so the service principal needs two roles. The `autoscale` module assigns both at subscription scope:
+In this lab, Autoscale and Start VM on Connect act through the Azure Virtual Desktop service principal (the documentation also allows a managed identity on the host pool), so the service principal needs two roles. The `autoscale` module assigns both at subscription scope:
 
 | Role | Used for |
 |---|---|
 | Desktop Virtualization Power On Off Contributor | The scaling plan, to power hosts on and off |
 | Desktop Virtualization Power On Contributor | Start VM on Connect |
 
-Learn names both roles for these two features. For the scaling plan role, Learn requires the subscription as the scope, and says a lower scope stops Autoscale from working properly. For Start VM on Connect, Learn says you can assign the role at a lower scope, as long as that scope contains the session host VMs.
+Each of the two features needs its own role. For the scaling plan role, the scope must be the subscription, because a lower scope stops Autoscale from working properly. For Start VM on Connect, you can assign the role at a lower scope, as long as that scope contains the session host VMs.
 
-The service principal is different in every tenant, so you look up its object ID and put it in `avd_service_principal_object_id`. The object ID identifies the service principal in your tenant. The application ID identifies the Azure Virtual Desktop app everywhere (`9cdead84-a844-4324-93f2-b2e6bb768d07`, from Learn). Run `az login` first, then:
+The service principal is different in every tenant, so you look up its object ID and put it in `avd_service_principal_object_id`. The object ID identifies the service principal in your tenant. The application ID identifies the Azure Virtual Desktop app everywhere (`9cdead84-a844-4324-93f2-b2e6bb768d07`, from the documentation). Run `az login` first, then:
 
 ```powershell
 az ad sp show --id 9cdead84-a844-4324-93f2-b2e6bb768d07 --query id --output tsv
@@ -145,23 +145,23 @@ Do not paste the application ID itself into the setting. If the command returns 
 
 The scaling plan is one Terraform resource, `azurerm_virtual_desktop_scaling_plan`. It sets the time zone, the exclusion tag (`excludeFromScaling`), one `schedule` block per schedule, and the host pool it is assigned to, and it turns on the assignment. Terraform creates the two role assignments before the plan, because the plan needs those permissions.
 
-Learn lists two prerequisites that the lab meets. The scaling plan must be in the same region as the host pool, and a pooled host pool needs a maximum session limit. The default limit is too high for Autoscale to use, so the lab sets 10.
+The lab meets two prerequisites. The scaling plan must be in the same region as the host pool, and a pooled host pool needs a maximum session limit. The default limit is too high for Autoscale to use, so the lab sets 10.
 
 ### Start VM on Connect
 
-With `start_vm_on_connect = true`, a connection starts one host when none is on. If that host fills up, the next connection starts another. Learn says it starts at most one VM every five minutes. Users who connect while a host is still starting may see "No resources available". They should wait a few minutes and try again. The schedule still decides when hosts are powered off.
+With `start_vm_on_connect = true`, a connection starts one host when none is on. If that host fills up, the next connection starts another. It starts at most one VM every five minutes. Users who connect while a host is still starting may see "No resources available". They should wait a few minutes and try again. The schedule still decides when hosts are powered off.
 
-Learn says Start VM on Connect can be configured only on an existing host pool, while this lab sets it when Terraform creates the pool. So after the apply, open the host pool, select Properties and check that Start VM on Connect says Yes. If it does not, set it there.
+Start VM on Connect can be configured only on an existing host pool, while this lab sets it when Terraform creates the pool. So after the apply, open the host pool, select Properties and check that Start VM on Connect says Yes. If it does not, set it there.
 
 ## Run it
 
-The steps are the same as in the [first lab](/terraform-labs/avd-quick-lab/). The differences are these:
+The steps are the same as in the [quick lab](/terraform-labs/avd-quick-lab/). The differences are these:
 
 1. **Permissions.** You need permission to create the lab resources, and a role that includes `Microsoft.Authorization/roleAssignments/write` on the subscription, such as Owner or User Access Administrator, for the two role assignments.
 2. **Clone this repository** instead: `git clone https://github.com/AddySidd27/terraform-azure-avd-autoscaling-cost-optimization`.
-3. **Values in `terraform.tfvars`.** Fill in the five values from the first lab (`subscription_id`, `windows_image_version`, `admin_password`, `avd_user_group_object_id` and `storage_account_name`) and these extra ones: `avd_service_principal_object_id` (see above) and `autoscale_time_zone`. The list of valid Windows time-zone names comes from `Get-TimeZone -ListAvailable`. Change `autoscale_schedules` only if you want a different schedule. Keep the phase times in order: ramp-up, then peak, then ramp-down, then off-peak.
+3. **Values in `terraform.tfvars`.** Fill in the five values from the quick lab (`subscription_id`, `windows_image_version`, `admin_password`, `avd_user_group_object_id` and `storage_account_name`) and these extra ones: `avd_service_principal_object_id` (see above) and `autoscale_time_zone`. The list of valid Windows time-zone names comes from `Get-TimeZone -ListAvailable`. Change `autoscale_schedules` only if you want a different schedule. Keep the phase times in order: ramp-up, then peak, then ramp-down, then off-peak.
 4. **Deploy.** Run `az login`, `terraform init`, `terraform plan -out main.tfplan` and `terraform apply main.tfplan`.
-5. **Do all eight steps** in "Steps Terraform does not do" in the first lab. This repository's `docs/post-deployment.md` has the same list.
+5. **Do all eight steps** in "Steps Terraform does not do" in the quick lab. This repository's `docs/post-deployment.md` has the same list.
 6. **Check Start VM on Connect** (see above).
 
 If a host is off during the manual steps, start it in the portal first, or deploy in a ramp-up or peak window. Run commands and `dsregcmd` do not work on a deallocated VM.
@@ -177,11 +177,11 @@ The repository has a validation guide and a seven-day test plan. This is the sho
 3. **Check the hosts.** Both session hosts should show Available in the host pool. Check their power state with `az vm get-instance-view --resource-group rg-avd-dev --name avdsh-01 --query "instanceView.statuses[?starts_with(code,'PowerState')].displayStatus" --output tsv` (and the same for `avdsh-02`).
 4. **Test ramp-down.** Copy `autoscale_schedules` from `variables.tf` into `terraform.tfvars`. Move the ramp-down start of today's schedule (weekday or weekend) to 15 to 30 minutes from now, with off-peak later, and keep peak starting before ramp-down. Apply, sign out of every desktop (do not only disconnect), and watch the hosts. An unused host should go into drain mode and then be deallocated. Autoscale does not act at once, so allow time and check again after a while.
 5. **Test that an active session is safe.** Before ramp-down starts, sign in one test user on one host. When ramp-down runs, the other host should be deallocated and the host with the session must stay on.
-6. **Test Start VM on Connect.** When both hosts are deallocated, connect as a test user with a client, for example the web client from the first lab. A host should start. The connection takes longer while the VM boots.
+6. **Test Start VM on Connect.** When both hosts are deallocated, connect as a test user with a client, for example the web client from the quick lab. A host should start. The connection takes longer while the VM boots.
 7. **Test the exclusion tag.** Add a tag named `excludeFromScaling` to one VM (the value can be empty). Run the ramp-down test again. The tagged host should stay on, and Autoscale should not start, stop or change drain mode on it. Remove the tag afterwards. If every host has the tag, Autoscale cannot manage any of them and users get "No resources available".
 8. **Restore the schedule** and apply again.
 
-The lab does not set up monitoring. Learn has a page on [monitoring Autoscale operations with Insights](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-monitor-operations-insights) if you want the logs.
+The lab does not set up monitoring. The documentation has a page on [monitoring Autoscale operations with Insights](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-monitor-operations-insights) if you want the logs.
 
 ## Measure the saving
 
@@ -204,15 +204,15 @@ Reduction: (1,440 − 592) ÷ 1,440 = 58.9%
 
 This is a best case. When demand rises, Autoscale starts more hosts, so real VM-hours are higher and the saving is smaller. The 12 and 4 hours here are made up to show the arithmetic, not measured.
 
-The saving covers compute only. Learn's page on [VM states and billing](https://learn.microsoft.com/en-us/azure/virtual-machines/states-billing) says a deallocated VM does not incur compute charges, but its disks and networking still do. A VM that was only stopped from inside Windows still incurs compute charges, which is why the lab uses deallocation. The disks and the Azure Files share still cost money.
+The saving covers compute only. The documentation's page on [VM states and billing](https://learn.microsoft.com/en-us/azure/virtual-machines/states-billing) says a deallocated VM does not incur compute charges, but its disks and networking still do. A VM that was only stopped from inside Windows still incurs compute charges, which is why the lab uses deallocation. The disks and the Azure Files share still cost money.
 
 To check the real cost, run the lab once with the scaling plan removed or disabled for a few days, then once with it on. In Azure Cost Management, open Cost analysis, filter to the resource group `rg-avd-dev`, group by resource or meter, and compare the VM compute lines. Cost data can lag by up to a day. Report VM compute on its own line.
 
 ## Before you use this design for real work
 
-The lab leaves out the same things as the first lab (private access, controlled outbound traffic, monitoring, backup and image management). For Autoscale in particular:
+The lab leaves out the same things as the quick lab (private access, controlled outbound traffic, monitoring, backup and image management). For Autoscale in particular:
 
-- **Narrow the roles.** The lab assigns both roles at subscription scope, which Learn requires for the scaling plan role. If your security rules need a narrower scope, only the Start VM on Connect role can move to the resource group. A subscription dedicated to AVD makes this simpler.
+- **Narrow the roles.** The lab assigns both roles at subscription scope, which the documentation requires for the scaling plan role. If your security rules need a narrower scope, only the Start VM on Connect role can move to the resource group. A subscription dedicated to AVD makes this simpler.
 - **Keep the Terraform state in a protected location.** It holds secrets.
 
 ## Sources
@@ -220,8 +220,4 @@ The lab leaves out the same things as the first lab (private access, controlled 
 - [Autoscale scaling plans and example scenarios](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scenarios)
 - [Create and assign an autoscale scaling plan](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-create-assign-scaling-plan)
 - [Assign Azure RBAC roles or Microsoft Entra roles to a service principal](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-principal-assign-roles)
-- [Configure Start VM on Connect](https://learn.microsoft.com/en-us/azure/virtual-desktop/start-virtual-machine-connect)
-- [States and billing status of Azure Virtual Machines](https://learn.microsoft.com/en-us/azure/virtual-machines/states-billing)
-- [Monitor Autoscale operations with Insights](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-monitor-operations-insights)
 
-The code is in the [terraform-azure-avd-autoscaling-cost-optimization](https://github.com/AddySidd27/terraform-azure-avd-autoscaling-cost-optimization) repository.

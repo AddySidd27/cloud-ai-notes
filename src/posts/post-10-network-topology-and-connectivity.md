@@ -5,7 +5,6 @@ slug: "network-topology-and-connectivity"
 series: "Azure Landing Zone"
 part: ""
 post_number: 10
-status: draft
 preview_feature: false
 fictional_case: false
 learn_pages:
@@ -38,7 +37,6 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology and https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/virtual-wan-network-topology"
     icons: "Azure Public Service Icons V24 (DDoS Protection Plans, DNS Zones, ExpressRoute Circuits, Virtual Network Gateways, Firewalls, Virtual Networks, Virtual WANs, Route Tables, Network Security Groups, Subscriptions), unmodified"
     source: "../diagrams/post-10-hub-spoke-and-virtual-wan.drawio"
-production_section_written_by_addy: true  # scenarios confirmed by Addy 2026-10-07; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/network-topology-and-connectivity/"
 order: 10
@@ -109,7 +107,7 @@ Two terms for the table. A site-to-site VPN connects an on-premises network, suc
 
 Two more points:
 
-- Hub-and-spoke also fits when the main hybrid connection is ExpressRoute and you have fewer than 100 VPN connections per VPN gateway, when you do not need transit between VPN and ExpressRoute (or accept adding Azure Route Server for it, explained below), and when you depend on central NVAs and detailed routing. I read these numbers as measuring different things from the 30 above (tunnels and branch sites against connections per gateway), so check your own counts against each (judgement). The tunnel limit also depends on the gateway SKU (the size of the VPN gateway): up to 30 tunnels on VpnGw1AZ to VpnGw3AZ and up to 100 on VpnGw4AZ and VpnGw5AZ, so a hub with 30 to 100 tunnels needs one of the larger SKUs. [The business requirements post](/azure-landing-zone/business-requirements-compliance-region-recovery-connectivity-and-cost/) gave the 30-branch and 30-tunnel figures too.
+- Hub-and-spoke also fits when the main hybrid connection is ExpressRoute and you have fewer than 100 VPN connections per VPN gateway, when you do not need transit between VPN and ExpressRoute (or accept adding Azure Route Server for it, explained below), and when you depend on central NVAs and detailed routing. These numbers measure different things from the 30 above (tunnels and branch sites against connections per gateway), so check your own counts against each. The tunnel limit also depends on the gateway SKU (the size of the VPN gateway): up to 30 tunnels on VpnGw1AZ to VpnGw3AZ and up to 100 on VpnGw4AZ and VpnGw5AZ, so a hub with 30 to 100 tunnels needs one of the larger SKUs. [The business requirements post](/azure-landing-zone/business-requirements-compliance-region-recovery-connectivity-and-cost/) gave the 30-branch and 30-tunnel figures too.
 - Use Virtual WAN if you need hub-and-spoke across more than two Azure regions, global transit between landing zone virtual networks, and you want to minimize network management overhead.
 
 ## Traditional hub-and-spoke: how it is built and when it fits
@@ -132,10 +130,10 @@ How the pieces connect:
 What goes in the hub:
 
 - A minimal set of shared services, including ExpressRoute gateways, VPN gateways (as required), and Azure Firewall or partner NVAs (as required) to protect and filter traffic. If necessary, also Active Directory domain controllers (servers that run Active Directory) and DNS servers. Azure private DNS zones sit in the Connectivity subscription.
-- Use a single DDoS Protection plan in the connectivity subscription for all landing zone and platform virtual networks. A DDoS (distributed denial of service) attack tries to use up an application's resources so real users cannot reach it. Azure DDoS Protection helps protect resources in a virtual network at the network and transport layers (layers 3 and 4); attacks on web applications at layer 7 need a web application firewall. It has two tiers: DDoS Network Protection, a plan shared across virtual networks (the plan price includes 100 public IP addresses, and more addresses cost extra), and DDoS IP Protection, priced per protected public IP address with no plan. Both cover only resources that have public IP addresses (addresses reachable from the internet). In my reading, a small estate with few public IP addresses should compare the two tiers on cost (judgement). One plan can be shared across the virtual networks in a tenant.
+- Use a single DDoS Protection plan in the connectivity subscription for all landing zone and platform virtual networks. A DDoS (distributed denial of service) attack tries to use up an application's resources so real users cannot reach it. Azure DDoS Protection helps protect resources in a virtual network at the network and transport layers (layers 3 and 4); attacks on web applications at layer 7 need a web application firewall. It has two tiers: DDoS Network Protection, a plan shared across virtual networks (the plan price includes 100 public IP addresses, and more addresses cost extra), and DDoS IP Protection, priced per protected public IP address with no plan. Both cover only resources that have public IP addresses (addresses reachable from the internet). a small estate with few public IP addresses should compare the two tiers on cost. One plan can be shared across the virtual networks in a tenant.
 - For regional deployments, a hub in each region with the spokes of that region peered to it. Put each region's hub resources in their own resource groups.
 
-**Name resolution for private endpoints.** A private endpoint (a private IP address in your virtual network for an Azure service) works by name only if DNS returns that private address. The documented pattern in [Private Link and DNS integration at scale](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/azure-best-practices/private-link-and-dns-integration-at-scale) (checked October 2026) is:
+**Name resolution for private endpoints.** A private endpoint (a private IP address in your virtual network for an Azure service) works by name only if DNS returns that private address. The pattern in [Private Link and DNS integration at scale](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/azure-best-practices/private-link-and-dns-integration-at-scale) is:
 
 - Host the private DNS zones, for example `privatelink.blob.core.windows.net`, centrally in the connectivity subscription, and link the hub virtual network to them. All other virtual networks use the resolver in the hub as their DNS server (explained in the next bullet).
 - Put an Azure DNS Private Resolver (a managed service that forwards DNS queries between Azure and your own network) in the hub. Your on-premises DNS servers send queries for the private zones to its inbound endpoint, using conditional forwarders (rules that send queries for one zone to a named server). Add outbound forwarding rules to the resolver for your own domains, for example Active Directory, pointing at the on-premises or Azure DNS servers that are authoritative for them. The resolver only forwards; it does not hold your corporate zones.
@@ -143,16 +141,16 @@ What goes in the hub:
 - Regions: for PaaS services that have their own disaster recovery (the guidance names geo-redundant storage and SQL database failover groups), the guidance says to have private endpoints in more than one region, each with its private DNS zone setup. It also says the DNS records for these must be kept up to date by hand, because there is no automated lifecycle for them. For other services, one endpoint in one region can serve clients in all regions through routing.
 - If you use FQDNs (see key terms) in Azure Firewall network rules, enable the firewall DNS proxy and point the spoke virtual networks at it. Machines in a network need a reboot after its DNS setting changes.
 
-This is the documented pattern, not the only one. If another team runs DNS, agree who owns the zones and the forwarding rules before you build.
+This is the pattern, not the only one. If another team runs DNS, agree who owns the zones and the forwarding rules before you build.
 
-**Azure Firewall and VPN Gateway: points to check before you deploy** (checked October 2026, and the dates can move):
+**Azure Firewall and VPN Gateway: points to check before you deploy**:
 
 - Azure Firewall has three SKUs: Basic (up to 250 Mbps), Standard (up to 30 Gbps, with threat intelligence, DNS proxy and FQDN filtering in network rules) and Premium (up to 100 Gbps, adding TLS inspection and a managed intrusion detection and prevention system). Threat intelligence blocks traffic to and from known bad addresses. A DNS proxy lets the firewall answer DNS queries for the networks behind it. TLS inspection lets the firewall decrypt and check encrypted traffic. See [Choose the right Azure Firewall SKU](https://learn.microsoft.com/azure/firewall/choose-firewall-sku). The [Azure Firewall FAQ](https://learn.microsoft.com/azure/firewall/firewall-faq) recommends one firewall per region and says global peering is supported but not recommended for firewall traffic.
 - The firewall subnet needs a /26. The [Azure Firewall FAQ](https://learn.microsoft.com/azure/firewall/firewall-faq) says subnet-level network security groups aren't required on the firewall subnet and are disabled to prevent service interruptions. Spokes must send their traffic to the firewall with a user-defined route; the firewall does not do BGP peering itself.
-- Without forced tunneling (see key terms), the firewall needs direct internet connectivity. If its subnet learns a default route from on-premises over BGP, override it with a `0.0.0.0/0` route with next hop type Internet. Forced tunneling needs a Management network interface, which has its own public IP address that only the platform uses. The [forced tunneling page](https://learn.microsoft.com/azure/firewall/forced-tunneling) says to enable it when you create a new firewall, and the FAQ says you can also add a management network interface to an existing firewall. DNAT (see key terms) is not supported with forced tunneling because of asymmetric routing (the reply takes a different path from the request), although a firewall with a Management network interface still supports DNAT. The Azure [subscription and service limits page](https://learn.microsoft.com/azure/azure-resource-manager/management/azure-subscription-service-limits#azure-firewall-limits) words this differently: it says that by default Azure Firewall does not support forced tunneling to an on-premises network, and that Microsoft supports it case by case through Support. I could not tell from the pages which wording is current, so if your design depends on forced tunneling, read all three pages and confirm with Microsoft support.
+- Without forced tunneling (see key terms), the firewall needs direct internet connectivity. If its subnet learns a default route from on-premises over BGP, override it with a `0.0.0.0/0` route with next hop type Internet. Forced tunneling needs a Management network interface, which has its own public IP address that only the platform uses. The [forced tunneling page](https://learn.microsoft.com/azure/firewall/forced-tunneling) says to enable it when you create a new firewall, and the FAQ says you can also add a management network interface to an existing firewall. DNAT (see key terms) is not supported with forced tunneling because of asymmetric routing (the reply takes a different path from the request), although a firewall with a Management network interface still supports DNAT. The Azure [subscription and service limits page](https://learn.microsoft.com/azure/azure-resource-manager/management/azure-subscription-service-limits#azure-firewall-limits) words this differently: it says that by default Azure Firewall does not support forced tunneling to an on-premises network, and that Microsoft supports it case by case through Support. If your design depends on forced tunneling, plan for the stricter wording and confirm with Microsoft support.
 - VPN Gateway: you can no longer create new non-zone VpnGw1 to VpnGw5 gateways (since 1 November 2025). Non-zone SKUs are the ones without AZ at the end of the name. An availability zone is a separate datacenter location inside a region.
-  - The pages word the retirement date differently. The [consolidation page](https://learn.microsoft.com/azure/vpn-gateway/gateway-sku-consolidation) says the old SKUs are "currently scheduled for deprecation after September, 2026" and are supported until they are migrated. The [What's new page](https://learn.microsoft.com/azure/vpn-gateway/whats-new) lists "Sep 2026" for non-AZ SKU retirement and links an announcement that gives 30 September 2026.
-  - I could not tell from the pages whether a given existing gateway has already been changed. Do not assume either way: check the SKU and state of each gateway you own.
+  - Microsoft gives two retirement dates, so plan for the earlier one. The [consolidation page](https://learn.microsoft.com/azure/vpn-gateway/gateway-sku-consolidation) says the old SKUs are "currently scheduled for deprecation after September, 2026" and are supported until they are migrated. The [What's new page](https://learn.microsoft.com/azure/vpn-gateway/whats-new) lists "Sep 2026" for non-AZ SKU retirement and links an announcement that gives 30 September 2026.
+  - Do not assume a given existing gateway has already been changed: check the SKU and state of each gateway you own.
   - The consolidation page says that, after the rollout, existing non-zone gateways no longer allow configuration changes. To change them you must migrate to the matching zone SKU (names ending in AZ).
   - The Basic SKU is not being retired. A zone SKU is zone redundant (it survives the loss of one zone) only in regions that have availability zones.
   - See also [VPN Gateway SKU consolidation](https://learn.microsoft.com/azure/vpn-gateway/gateway-sku-consolidation) and [What's new in VPN Gateway](https://learn.microsoft.com/azure/vpn-gateway/whats-new), which says timelines can change.
@@ -177,7 +175,7 @@ Virtual WAN is a hub-and-spoke network in which Microsoft runs the hubs. It redu
 - Hubs hold only Microsoft-managed resources: gateways (point-to-site VPN, site-to-site VPN and ExpressRoute), Azure Firewall through Azure Firewall Manager (the tool that sets security and routing policies in a hub), route tables and some NVAs for partner SD-WAN features. Your own shared services, such as DNS servers, go in a dedicated spoke virtual network, not inside the hub.
 - Connect ExpressRoute to the hub, branches to the nearest hub with site-to-site VPN or an SD-WAN partner, and individual users with point-to-site VPN.
 - Use virtual hub routing (route tables in the hub that you can customize) to control and segment traffic between virtual networks and branches. Keep Azure traffic on the Microsoft backbone, and filter internet-bound traffic with Azure Firewall.
-- A secured virtual hub is a hub with security and routing policies added. Secured virtual hubs do not support Azure DDoS standard protection plans. The plan is for your landing zone and platform virtual networks, so I read this as: it protects those, not the hub (judgement).
+- A secured virtual hub is a hub with security and routing policies added. Secured virtual hubs do not support Azure DDoS standard protection plans. The plan is for your landing zone and platform virtual networks, so it protects those networks, not the hub.
 
 ## IP addressing: plan it before you build
 
@@ -194,9 +192,9 @@ Plan IP addressing in advance so that address space does not overlap across on-p
 
 ## The two network topologies at a glance
 
-![Two network topologies. Top: traditional hub-and-spoke, with two regional hub virtual networks in the Connectivity subscription peered to spoke virtual networks in a workload landing zone subscription. Bottom: Azure Virtual WAN, with two Virtual WAN hubs in the Connectivity subscription connected to the same spoke virtual networks. Shared items such as a DDoS Protection plan, Azure DNS and ExpressRoute circuits sit in the Connectivity subscription](/diagrams/post-10-hub-spoke-and-virtual-wan.svg)
+![Two network topologies. Top: traditional hub-and-spoke with two regional hub virtual networks peered to spokes. Bottom: Azure Virtual WAN with two Virtual WAN hubs connected to the same spokes.](/diagrams/post-10-hub-spoke-and-virtual-wan.svg)
 
-*Simplified diagram based on [Traditional Azure networking topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology) and [Virtual WAN network topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/virtual-wan-network-topology), with a Connectivity subscription on the left and a workload landing zone subscription on the right. Region 1 is the first region. Region N means any further region. Lines have arrowheads at both ends because traffic flows both ways. A Virtual WAN hub with security and routing policies from Azure Firewall Manager is a secured virtual hub; here that is Azure Firewall. Both topologies show UDRs and NSGs in the spoke virtual networks. The words "private zones" come from the design area page. Left out: Azure Firewall policies, the DNS Private Resolver, monitoring and management icons, resource groups, application components and compliant virtual machine templates. Icons are from the official [Azure architecture icon set](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+*Simplified from [Traditional Azure networking topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology), Microsoft Learn. See also [Virtual WAN network topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/virtual-wan-network-topology). Icons: [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
 ## Common mistakes
 
@@ -209,22 +207,9 @@ Plan IP addressing in advance so that address space does not overlap across on-p
 - **Forgetting limits.** Check the peering and route limits before you add spokes, and Virtual WAN limits before you plan hubs.
 - **Choosing the topology without checking the numbers.** Choose from your requirements. Some numbers (30 branch sites, 30 tunnels, more than two regions) tip the choice.
 
-## From my own projects
-
-These situations came up in my own work: a firewall deployed while traffic still did not go through it, peering treated as if it were transitive, overlapping IP ranges, private DNS and name resolution problems, address space created by guess, and workload servers placed in the hub. Typical results of problems like these are long troubleshooting, security gaps and redesign work.
-
-Agreeing the topology, the address plan, the internet exit path (the route outbound internet traffic takes) and the DNS path before the first workload arrives helps avoid them.
-
-## The files in my repo
-
-- Network topology and connectivity, with hub and spoke responsibilities and the decisions to make before deployment: [networking.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/networking.md)
-- Hub-spoke, Virtual WAN, VPN and ExpressRoute, with the questions to ask before choosing: [connectivity-options.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/connectivity-options.md)
-
 Next: [Security](/azure-landing-zone/security/).
 
 ## Sources
-
-Microsoft Learn, checked October 2026:
 
 - [Network topology and connectivity](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/network-topology-and-connectivity)
 - [Traditional Azure networking topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology)

@@ -13,18 +13,21 @@
     document.querySelectorAll('.prose h2[id]').forEach(function(h){io.observe(h)});
   }
 
-  // diagram zoom
+  // diagram zoom: opens at natural size, scrolls and pinch-zooms natively; Escape or Close to leave, focus stays inside
   var imgs=document.querySelectorAll('.prose img');
   if(imgs.length&&typeof HTMLDialogElement==='function'){
     var d=document.createElement('dialog');d.className='zoom';d.setAttribute('aria-label','Enlarged diagram');
-    d.innerHTML='<div class="zoom-tools"><button type="button" class="zoom-toggle" aria-pressed="false">Zoom in</button><button type="button" class="zoom-close">Close</button></div><div class="zoom-image"><img alt=""></div>'; document.body.appendChild(d);
-    var big=d.querySelector('img');
-    d.querySelector('.zoom-close').addEventListener('click',function(){d.close()});
-    var z=d.querySelector('.zoom-toggle');
-    z.addEventListener('click',function(){var expanded=d.classList.toggle('expanded');z.textContent=expanded?'Zoom out':'Zoom in';z.setAttribute('aria-pressed',expanded?'true':'false')});
+    d.innerHTML='<div class="zoom-tools"><button type="button" class="zoom-toggle" aria-pressed="false">Fit to screen</button><button type="button" class="zoom-close">Close</button></div><div class="zoom-image" tabindex="0" role="group"><img alt=""></div>'; document.body.appendChild(d);
+    var big=d.querySelector('img'),box=d.querySelector('.zoom-image'),z=d.querySelector('.zoom-toggle'),cl=d.querySelector('.zoom-close'),opener=null;
+    function setFit(f){d.classList.toggle('fit',f);z.textContent=f?'Actual size':'Fit to screen';z.setAttribute('aria-pressed',f?'true':'false')}
+    cl.addEventListener('click',function(){d.close()});
+    z.addEventListener('click',function(){setFit(!d.classList.contains('fit'))});
     d.addEventListener('click',function(e){if(e.target===d)d.close()});
+    d.addEventListener('close',function(){document.documentElement.style.overflow='';if(opener&&opener.focus)opener.focus()});
+    d.addEventListener('keydown',function(e){if(e.key!=='Tab')return;var f=[z,cl,box],i=f.indexOf(document.activeElement);
+      if(e.shiftKey&&i<=0){e.preventDefault();f[f.length-1].focus()}else if(!e.shiftKey&&(i===f.length-1||i<0)){e.preventDefault();f[0].focus()}});
     imgs.forEach(function(i){i.tabIndex=0;i.setAttribute('role','button');i.title='Click to enlarge';
-      function open(){d.classList.remove('expanded');z.textContent='Zoom in';z.setAttribute('aria-pressed','false');d.style.setProperty('--zoom-width',Math.max(i.naturalWidth,1200)+'px');big.src=i.currentSrc||i.src;big.alt=i.alt;d.querySelector('.zoom-image').scrollTop=0;d.querySelector('.zoom-image').scrollLeft=0;d.showModal()}
+      function open(){opener=i;setFit(false);var w=Math.min(i.naturalWidth||1200,1600);d.style.setProperty('--zoom-width',Math.max(w,1200)+'px');big.src=i.currentSrc||i.src;big.alt=i.alt;box.setAttribute('aria-label',i.alt||'Enlarged diagram');box.scrollTop=0;box.scrollLeft=0;document.documentElement.style.overflow='hidden';d.showModal();cl.focus()}
       i.addEventListener('click',open);i.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open()}})});
   }
 
@@ -89,5 +92,33 @@
     })});
     q.addEventListener('input',apply);
     apply();
+  })();
+
+  // diagram figures: pick a readable minimum width on narrow screens, show the swipe hint only where scrolling exists
+  (function(){
+    var figs=[].slice.call(document.querySelectorAll('.article-figure:not(.compact)'));
+    if(!figs.length)return;
+    function fit(){
+      var rem=parseFloat(getComputedStyle(document.documentElement).fontSize)||16,wide=innerWidth>=1024;
+      figs.forEach(function(f){
+        var img=f.querySelector('.fig-scroll img'),sc=f.querySelector('.fig-scroll'),box=f.querySelector('.fig-box'),hint=f.querySelector('.fig-hint');
+        if(!img||!sc)return;
+        var nat=img.naturalWidth||+img.getAttribute('width')||1100;
+        // source text is about 13px at natural width (PNG exports are 2x, so treated as a 1100px layout); keep it at or above 9.5px, within 44rem..60rem
+        var svg=/\.svg(\?|$)/i.test(img.currentSrc||img.src),min=Math.min(60*rem,Math.max(44*rem,0.73*(svg?nat:1100)));
+        img.style.setProperty('--fig-min',Math.round(min)+'px');
+        sc.style.setProperty('--fig-min',Math.round(min)+'px');
+        var more=!wide&&sc.scrollWidth>sc.clientWidth+2;
+        if(hint)hint.classList.toggle('is-off',!more);
+        if(box)box.classList.toggle('more-right',more&&sc.scrollLeft+sc.clientWidth<sc.scrollWidth-2);
+        f.classList.toggle('is-small',wide&&img.clientWidth/nat<0.85);
+      });
+    }
+    figs.forEach(function(f){
+      var sc=f.querySelector('.fig-scroll'),img=f.querySelector('img');
+      if(sc)sc.addEventListener('scroll',fit,{passive:true});
+      if(img&&!img.complete)img.addEventListener('load',fit);
+    });
+    addEventListener('resize',fit);fit();
   })();
 })();

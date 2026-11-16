@@ -19,7 +19,7 @@ This article names the three, shows how single sign-on joins the first two, cove
 | Term | Meaning |
 |---|---|
 | Authentication | Proving who you are. |
-| Tenant | Your organisation's own space in Microsoft Entra ID. |
+| Tenant | Your organization's own space in Microsoft Entra ID. |
 | Session host | The virtual machine that runs the user's desktop or apps. |
 | Host pool | A group of session hosts that are managed together. |
 | Gateway | The AVD service entry point that the client connects to. |
@@ -48,7 +48,7 @@ This article names the three, shows how single sign-on joins the first two, cove
 
 ## The three authentications
 
-The documentation describes three separate authentication phases.
+An AVD connection has three separate authentication phases.
 
 | Phase | What it is | Where you control it |
 |---|---|---|
@@ -56,17 +56,17 @@ The documentation describes three separate authentication phases.
 | Remote session authentication | Signing in to the session host. | SSO, or a prompt, or saved credentials. |
 | In-session authentication | Signing in to applications and web sites inside the desktop. | Inside the session: passwordless sign-in through WebAuthn redirection, smart cards or passwords. |
 
-![Three boxes joined by arrows. Cloud service authentication with Microsoft Entra ID, where Conditional Access applies. Remote session authentication to the session host, where Conditional Access also applies when single sign-on is on, with single sign-on, without it, and with smart cards using Kerberos. In-session authentication to apps and sites. A panel below lists the five tasks to enable single sign-on.](/img/avd/AVD-Post-13-Three-Authentications-v3.png)
+![Three boxes left to right: cloud service authentication with Entra ID, remote session authentication to the session host (single sign-on or a prompt), and in-session authentication to apps. A panel lists the five tasks to enable single sign-on.](/img/avd/AVD-Post-13-Three-Authentications-v3.png)
 
-*Based on [Supported identities and authentication methods](https://learn.microsoft.com/en-us/azure/virtual-desktop/authentication) and [Configure single sign-on](https://learn.microsoft.com/en-us/azure/virtual-desktop/configure-single-sign-on). The documentation has no diagram of these three phases, so this layout is simplified. It leaves out single sign-on with AD FS, external identities and the Kerberos details. Phase 3 happens only if an app inside the desktop asks for credentials. With single sign-on, Conditional Access also applies at session host sign-in, through the Windows Cloud Login application. Checked against these pages in October 2026.*
+*Source: [Supported identities and authentication methods](https://learn.microsoft.com/en-us/azure/virtual-desktop/authentication).*
 
-One rule governs all three. AVD does not support signing in to Microsoft Entra ID with one account and then to Windows with a different account. That includes local Windows accounts. The documentation says doing so can reconnect users to the wrong session host, show wrong information in the portal and bypass Microsoft Entra authentication and Conditional Access. Use the same identity throughout.
+One rule governs all three. AVD does not support signing in to Microsoft Entra ID with one account and then to Windows with a different account. That includes local Windows accounts. Doing so can reconnect users to the wrong session host, show wrong information in the portal and bypass Microsoft Entra authentication and Conditional Access. Use the same identity throughout.
 
 ## Phase 1: cloud service authentication
 
 The sign-in uses a Microsoft Entra ID account. The Microsoft Entra resource is Azure Virtual Desktop. This is where you enforce Conditional Access and multifactor authentication, and where you can use a third-party identity provider, as long as it is federated with Microsoft Entra ID (see Federation in the key terms).
 
-Documented points that matter in design:
+Points that matter in design:
 
 - Users must be discoverable in Microsoft Entra ID. Accounts that exist only in Active Directory are not supported, which includes standalone AD with AD FS and no Microsoft Entra ID.
 - Hybrid identities are supported. If the UPN or the SID differs between Active Directory and Microsoft Entra ID, AVD supports it only when at least one of the two matches.
@@ -79,13 +79,13 @@ The [Conditional Access article](/azure-virtual-desktop/conditional-access-and-m
 
 ## Phase 2: remote session authentication and single sign-on
 
-Without SSO, the client asks for the session host credentials on every connection. The only way to avoid the prompt is to save the credentials in the client, and the documentation says to do that only on secure devices. The documentation also describes SSO with AD FS for the Windows Desktop and web clients. This article does not cover it.
+Without SSO, the client asks for the session host credentials on every connection. The only way to avoid the prompt is to save the credentials in the client, and you should do that only on secure devices. SSO with AD FS is also available for the Windows Desktop and web clients. This article does not cover it.
 
-With SSO using Microsoft Entra authentication, the user is signed in to Windows with a Microsoft Entra token. The documentation recommends it for Microsoft Entra joined and hybrid joined hosts. It adds passwordless sign-in and support for third-party identity providers that are federated with Microsoft Entra ID.
+With SSO using Microsoft Entra authentication, the user is signed in to Windows with a Microsoft Entra token. Microsoft recommends it for Microsoft Entra joined and hybrid joined hosts. It adds passwordless sign-in and support for third-party identity providers that are federated with Microsoft Entra ID.
 
 ### What SSO requires
 
-All documented:
+Requirements:
 
 - **Session host join type.** Microsoft Entra joined or Microsoft Entra hybrid joined. Hosts joined only to Active Directory or to Microsoft Entra Domain Services (a managed Active Directory service) are not supported.
 - **Session host operating system.** Windows 11 Enterprise or Windows 10 Enterprise (single-session or multi-session), or Windows Server 2022, with the October 2022 cumulative update or later.
@@ -96,25 +96,25 @@ All documented:
 
 ### The five tasks
 
-The documentation lists five tasks you must complete to enable SSO. Do the first one first. The page lists the others in the order below.
+Five tasks enable SSO. Do the first one first, then the others in the order below.
 
 1. **Enable Microsoft Entra authentication for RDP** on the Windows Cloud Login service principal. In the portal this is under Devices, Remote connection configuration, then Windows Cloud Login, with the option to enable the Microsoft Entra ID authentication protocol to authenticate users to remote devices. PowerShell with the Microsoft Graph PowerShell SDK does the same by setting `isRemoteDesktopProtocolEnabled` to true.
-2. **Hide the consent prompt.** By default users see a dialog when they connect to a new host. Microsoft Entra remembers up to 15 hosts for 30 days ([Hide the consent prompt dialog](https://learn.microsoft.com/en-us/azure/virtual-desktop/configure-single-sign-on#hide-the-consent-prompt-dialog)). To hide it, put the session hosts in up to 10 device groups and list them on the service principal. The documentation suggests dynamic groups (groups whose members are added by a rule), and notes that they need a Microsoft Entra ID P1 license or an Intune for Education license. Groups usually update in 5 to 10 minutes. In large tenants it can take up to 24 hours.
+2. **Hide the consent prompt.** By default users see a dialog when they connect to a new host. Microsoft Entra remembers up to 15 hosts for 30 days ([Hide the consent prompt dialog](https://learn.microsoft.com/en-us/azure/virtual-desktop/configure-single-sign-on#hide-the-consent-prompt-dialog)). To hide it, put the session hosts in up to 10 device groups and list them on the service principal. Dynamic groups (groups whose members are added by a rule) work well here. They need a Microsoft Entra ID P1 license or an Intune for Education license. Groups usually update in 5 to 10 minutes. In large tenants it can take up to 24 hours.
 3. **Create a Kerberos server object** if Active Directory is part of the environment. The criteria are in the next section.
 4. **Review Conditional Access.** SSO adds the Windows Cloud Login application to the sign-in. Policies that cover AVD may need to cover it too.
 5. **Set the host pool.** In the portal, set Microsoft Entra single sign-on. With PowerShell, set the `enablerdsaadauth` RDP property to 1.
 
 ### Session lock behavior
 
-With SSO on, the default is to disconnect the session when it locks. The documentation gives the reasons: Conditional Access and sign-in frequency are re-checked when the user reconnects, multifactor authentication can be required to come back, and passwordless methods work, which the remote lock screen does not support. You can choose to show the remote lock screen instead.
+With SSO on, the default is to disconnect the session when it locks. The reasons: Conditional Access and sign-in frequency are re-checked when the user reconnects, multifactor authentication can be required to come back, and passwordless methods work, which the remote lock screen does not support. You can choose to show the remote lock screen instead.
 
 ### Administrator accounts
 
-On read-only domain controllers, the default password replication policy denies replication for members of Domain Admins and Administrators. That stops those accounts from signing in to hybrid joined hosts with SSO and may keep prompting them. The documentation does not recommend connecting with a domain administrator account. It suggests signing in with a normal account and using Run as administrator.
+On read-only domain controllers, the default password replication policy denies replication for members of Domain Admins and Administrators. That stops those accounts from signing in to hybrid joined hosts with SSO and may keep prompting them. Do not connect with a domain administrator account. Sign in with a normal account and using Run as administrator.
 
 ## The Kerberos server object
 
-You must create it when either of these is true, per the documentation:
+You must create it when either of these is true:
 
 - The session host is Microsoft Entra hybrid joined. It is needed to complete authentication to a domain controller.
 - The session host is Microsoft Entra joined and your environment has Active Directory domain controllers. It is needed for users to reach on-premises resources such as SMB shares (file shares) and sites that use Windows-integrated authentication (sign-in without a prompt).
@@ -125,36 +125,36 @@ If you enable SSO on hybrid joined hosts without it, users may get an error that
 
 AVD supports NTLM and Kerberos for session host sign-in. Smart cards and Windows Hello for Business can only use Kerberos. The client needs Kerberos tickets from a KDC on a domain controller, so it needs line of sight to the domain controller. You get that on the corporate network, through a VPN, or through a KDC proxy.
 
-For the KDC proxy, the documented prerequisites ([Configure a KDC proxy](https://learn.microsoft.com/en-us/azure/virtual-desktop/key-distribution-center-proxy#prerequisites)) are:
+For the KDC proxy, the prerequisites ([Configure a KDC proxy](https://learn.microsoft.com/en-us/azure/virtual-desktop/key-distribution-center-proxy#prerequisites)) are:
 
 - A client running Windows 10 or later with the Windows Desktop client. The web client is not supported.
 - A KDC proxy that is already installed.
 - Windows Server 2016 or later on the proxy machine.
 
-Then set the RDP property `kdcproxyname:s:<fqdn>` on the host pool, with no spaces. The host pool then issues connection files that include it. The documentation says the proxy typically uses the Remote Desktop Gateway role, which is set up separately.
+Then set the RDP property `kdcproxyname:s:<fqdn>` on the host pool, with no spaces. The host pool then issues connection files that include it. The proxy typically uses the Remote Desktop Gateway role, which is set up separately.
 
-The KDC proxy page names only the Windows Desktop client, not Windows App. The older Remote Desktop client for Windows (MSI) is no longer supported in the public cloud from March 27, 2026 ([Remote Desktop client overview](https://learn.microsoft.com/en-us/previous-versions/remote-desktop-client/overview); see also [Choose the AVD Client](/azure-virtual-desktop/choose-the-avd-client/)). The KDC proxy page does not say that the "Windows Desktop client" it names is the MSI client, so treat that link as my inference (judgement). Test that your client uses this property before you rely on it (judgement).
+The KDC proxy guidance names the Windows Desktop client, not Windows App. Windows App is the current client (see [Choose the AVD Client](/azure-virtual-desktop/choose-the-avd-client/)), so test that your client uses this property before you rely on it.
 
 ## Phase 3: in-session authentication
 
-Inside the session, applications may ask for credentials. The documentation covers two cases.
+Inside the session, applications may ask for credentials. There are two cases.
 
 - **Passwordless.** Windows Hello for Business and security keys work in the session through WebAuthn redirection. Client support differs, so see [Choose the AVD Client](/azure-virtual-desktop/choose-the-avd-client/). It is on automatically when the host and the local PC run recent enough operating systems. To turn it off for a host pool, set the `redirectwebauthn` RDP property to 0. To use security keys with Microsoft Entra resources, the FIDO2 security key method must be enabled for the users.
 - **Smart cards.** Drivers must be installed on the session host and smart card redirection enabled.
 
 ## Where an extra prompt comes from
 
-Most rows come from the documentation, and the rows say so. The "First check" column is my suggestion (judgement). Use it as a first-check list.
+Use the "First check" column as a first-check list.
 
 | Prompt | Likely cause | First check |
 |---|---|---|
-| Windows credentials asked on every connection | SSO is not on, or the host pool property is not set (documented) | `enablerdsaadauth` is 1 on the host pool. The host is joined to Microsoft Entra ID or is hybrid joined. |
-| A dialog asking to allow the connection | The consent prompt for a new host (documented) | The host is in a device group listed on the Windows Cloud Login service principal, or the user has already accepted it. |
-| SSO skipped on a hybrid joined host, or "session does not exist" | No Kerberos server object (documented) | Create it. |
-| Admin account keeps being prompted | Read-only domain controller password policy (documented) | Do not use a domain administrator account to connect. |
-| Prompt on reconnect after lock | With the default setting, a lock disconnects the session and Conditional Access and sign-in frequency are checked again on reconnect (documented). If the host is set to show the remote lock screen instead, the user must give full credentials (documented in [Troubleshoot single sign-on and Conditional Access](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-sso-conditional-access)). | Check the lock setting before changing Conditional Access. |
-| Prompts again and again after SSO was enabled | Conditional Access applies to the new application (documented) | The [Conditional Access article](/azure-virtual-desktop/conditional-access-and-mfa-for-avd/). |
-| Smart card sign-in fails off the corporate network | No line of sight to a domain controller (documented) | A VPN or a KDC proxy. |
+| Windows credentials asked on every connection | SSO is not on, or the host pool property is not set | `enablerdsaadauth` is 1 on the host pool. The host is joined to Microsoft Entra ID or is hybrid joined. |
+| A dialog asking to allow the connection | The consent prompt for a new host | The host is in a device group listed on the Windows Cloud Login service principal, or the user has already accepted it. |
+| SSO skipped on a hybrid joined host, or "session does not exist" | No Kerberos server object | Create it. |
+| Admin account keeps being prompted | Read-only domain controller password policy | Do not use a domain administrator account to connect. |
+| Prompt on reconnect after lock | With the default setting, a lock disconnects the session and Conditional Access and sign-in frequency are checked again on reconnect. If the host is set to show the remote lock screen instead, the user must give full credentials (see [Troubleshoot single sign-on and Conditional Access](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-sso-conditional-access)). | Check the lock setting before changing Conditional Access. |
+| Prompts again and again after SSO was enabled | Conditional Access applies to the new application | The [Conditional Access article](/azure-virtual-desktop/conditional-access-and-mfa-for-avd/). |
+| Smart card sign-in fails off the corporate network | No line of sight to a domain controller | A VPN or a KDC proxy. |
 
 ## Common mistakes
 
@@ -167,7 +167,7 @@ Most rows come from the documentation, and the rows say so. The "First check" co
 
 ## How to validate your sign-in design
 
-These are recommended checks to run in a test environment.
+Run these checks in a test environment.
 
 1. Sign in as an ordinary Microsoft Entra user with SSO off. Note the prompts. Turn SSO on and compare.
 2. Connect to a host that is not in a consent device group. Accept the dialog, then add the group and check that it disappears.
@@ -175,19 +175,10 @@ These are recommended checks to run in a test environment.
 4. Lock the session and check what happens, then reconnect and confirm which policies are evaluated.
 5. If you use smart cards, test from outside the corporate network.
 
-## Related book chapters, lab and projects
-
-[Chapter 7](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch07-identity-architecture-foundations.md) of the book covers identity foundations and [Chapter 8](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch08-authentication-flows-in-detail.md) covers authentication flows.
-
-[Lab 4](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-04-identity-integration.md) walks through identity integration. This has not been run end to end in Azure. [Project 04](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/scenarios/project-04-hybrid-active-directory.md) and [Project 05](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/scenarios/project-05-entra-only-cloud-native.md) are fictional case studies.
-
 Next: [Secure Access with Conditional Access and Multifactor Authentication](/azure-virtual-desktop/conditional-access-and-mfa-for-avd/).
 
 ## Sources
 
 - [Supported identities and authentication methods](https://learn.microsoft.com/en-us/azure/virtual-desktop/authentication)
 - [Configure single sign-on](https://learn.microsoft.com/en-us/azure/virtual-desktop/configure-single-sign-on)
-- [Configure a KDC proxy](https://learn.microsoft.com/en-us/azure/virtual-desktop/key-distribution-center-proxy)
-- [Troubleshoot single sign-on and Conditional Access for Azure Virtual Desktop](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-sso-conditional-access)
-- [Configure the session lock behavior](https://learn.microsoft.com/en-us/azure/virtual-desktop/configure-session-lock-behavior)
-- [Enable passwordless security key sign-in to on-premises resources](https://learn.microsoft.com/en-us/entra/identity/authentication/howto-authentication-passwordless-security-key-on-premises)
+- [Conditional Access for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/set-up-mfa)

@@ -10,9 +10,9 @@ deck: "Place AVD in a landing zone, choose hub and spoke or Virtual WAN, and pla
 description: "Choose a network topology for Azure Virtual Desktop, hub and spoke or Virtual WAN, place it in a landing zone and plan IP address space to avoid overlap and exhaustion."
 ---
 
-Topology means how your Azure networks are joined to each other and to your own network. Address planning means choosing the IP address ranges for them. These are the two network choices that are hardest to change after users arrive. A subnet (a smaller address range inside a virtual network) that is too small blocks the next image update. A range that overlaps an acquired company's network blocks the VPN (an encrypted link to your network over the internet). The address range of a Virtual WAN hub (the Microsoft-managed network at the centre of Virtual WAN) cannot be changed once it is created. None of these is likely to show up in a pilot of ten users (judgement).
+Topology means how your Azure networks are joined to each other and to your own network. Address planning means choosing the IP address ranges for them. These are the two network choices that are hardest to change after users arrive. A subnet (a smaller address range inside a virtual network) that is too small blocks the next image update. A range that overlaps an acquired company's network blocks the VPN (an encrypted link to your network over the internet). The address range of a Virtual WAN hub (the Microsoft-managed network at the center of Virtual WAN) cannot be changed once it is created. None of these is likely to show up in a pilot of ten users.
 
-This article places Azure Virtual Desktop (AVD) in the Azure landing zone model. A landing zone is a ready-made Azure environment for workloads. The article compares hub and spoke with Virtual WAN using the criteria the documentation gives, and lists the address-planning rules that matter. The [networking article](/azure-virtual-desktop/plan-avd-networking/) covers subnet sizing for one worked example, so this one concentrates on the choices around it.
+This article places Azure Virtual Desktop (AVD) in the Azure landing zone model. A landing zone is a ready-made Azure environment for workloads. The article compares hub and spoke with Virtual WAN using the criteria Microsoft gives, and lists the address-planning rules that matter. The [networking article](/azure-virtual-desktop/plan-avd-networking/) covers subnet sizing for one worked example, so this one concentrates on the choices around it.
 
 ## Key terms
 
@@ -26,7 +26,7 @@ This article places Azure Virtual Desktop (AVD) in the Azure landing zone model.
 | Transitive | Traffic can pass through one network to reach another. Peering by itself is not transitive. |
 | Virtual WAN | A Microsoft-managed networking service that gives global, transitive connectivity across regions and on-premises sites. |
 | SD-WAN | Software-defined WAN: software that joins branch offices to a central network over several kinds of link. |
-| Virtual hub | The Microsoft-managed network at the centre of a Virtual WAN in a region. |
+| Virtual hub | The Microsoft-managed network at the center of a Virtual WAN in a region. |
 | CIDR | A way to write an address block, such as `10.20.0.0/22`. A smaller number after the slash means a larger block. |
 | Overlap | Two networks using the same addresses, so traffic cannot be routed between them. |
 | NVA | Network virtual appliance: a firewall or router that runs as a virtual machine. |
@@ -50,83 +50,83 @@ This article places Azure Virtual Desktop (AVD) in the Azure landing zone model.
 
 ## Where AVD sits
 
-The Azure Architecture Center's [AVD landing zone design guide](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/azure-virtual-desktop/azure-virtual-desktop) says to deploy a Cloud Adoption Framework platform landing zone first, and then deploy AVD into a workload landing zone. This is documented. In the reference design, AVD uses its own subscription or subscriptions for workload resources (virtual machines, storage accounts, key vaults, private endpoints) and a shared services subscription for things used across AVD workloads (Log Analytics workspaces, Azure Compute Gallery).
+The Azure Architecture Center's [AVD landing zone design guide](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/azure-virtual-desktop/azure-virtual-desktop) says to deploy a Cloud Adoption Framework platform landing zone first, and then deploy AVD into a workload landing zone. In the reference design, AVD uses its own subscription or subscriptions for workload resources (virtual machines, storage accounts, key vaults, private endpoints) and a shared services subscription for things used across AVD workloads (Log Analytics workspaces, Azure Compute Gallery).
 
 The platform provides connectivity, identity and management subscriptions. The connectivity subscription holds the hub networking, Azure Firewall and the ExpressRoute or VPN gateways. The identity subscription holds the domain services for domain-joined session hosts. In this design the AVD workload does not depend on the management subscription, so the workload team builds its own monitoring and automation.
 
-**Judgement:** the practical meaning is that the network team owns the hub and the address plan, and the AVD team owns the spoke. Settle that line early.
+In practice, the network team owns the hub and the address plan, and the AVD team owns the spoke. Settle that line early.
 
-The topology rules below come from the general Cloud Adoption Framework network topology pages, which apply to any workload, not only AVD. The hub range rule comes from the Virtual WAN documentation.
+The topology rules below come from the general Cloud Adoption Framework network topology pages, which apply to any workload, not only AVD. The hub range rule comes from the Virtual WAN hub settings.
 
 ## Hub and spoke or Virtual WAN
 
-The documentation gives conditions for each. These are documented. Which one fits you is a decision.
+Each topology fits different conditions. Which one fits you is a decision.
 
 | Choose traditional hub and spoke when | Choose Virtual WAN when |
 |---|---|
 | A single Azure region, or several regions where you do not need transit between networks in different regions, or where global virtual network peering can connect them | You need hub-and-spoke across more than two regions ([Traditional topology page](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology#design-recommendations)) |
 | You do not need transit between VPN and ExpressRoute connections (with Route Server you can add it) | You need transit between VPN and ExpressRoute, or global transit between landing zone networks across regions |
 | ExpressRoute is the main hybrid link and there are fewer than 100 VPN connections per VPN gateway ([Traditional Azure networking topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology#design-recommendations)). The [Define an Azure network topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/define-an-azure-network-topology) page says fewer than 30 IPsec site-to-site tunnels | You want to minimize network management work |
-| You depend on central network virtual appliances and granular routing | You use SD-WAN to bring branch offices into Azure, or need native IPsec for more than 30 branch sites (Define an Azure network topology page) |
+| You depend on central network virtual appliances and granular routing | You use SD-WAN to bring branch offices into Azure, or need native IPsec for more than 30 branch sites ([Define an Azure network topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/define-an-azure-network-topology)) |
 
-![A left panel shows the traditional hub and spoke picture: three spoke networks each joined by virtual network peering to one hub with a gateway and a firewall in Region 1. A right panel shows the Virtual WAN picture: two virtual hubs with Azure Firewall and gateways joined by a Virtual WAN band, a DNS spoke with DNS Private Resolver beside each hub, Virtual WAN hub connections to a workload network per region, and ExpressRoute circuits. Three boxes below list when each topology fits, as the Cloud Adoption Framework describes it, and address plan checks.](/img/avd/AVD-Post-17-Topology-Choice-v3.png)
+![Left: traditional hub and spoke, a hub with gateway and firewall peered to three spokes. Right: Virtual WAN with a managed hub per region, each linked to a workload network and a DNS spoke. Boxes below say when each fits and list address plan checks.](/img/avd/AVD-Post-17-Topology-Choice-v3.png)
 
-*Based on the hub and spoke picture in [Traditional Azure networking topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology) and the Virtual WAN picture in [Virtual WAN network topology in an Azure landing zone](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/virtual-wan-network-topology), with the criteria boxes from [Define an Azure network topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/define-an-azure-network-topology). Learn's Virtual WAN picture is a full landing zone, so the Azure Virtual Desktop workload is shown only as a workload network. The address plan checks box comes from [Plan for IP addressing](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/plan-for-ip-addressing) and [About virtual hub settings](https://learn.microsoft.com/en-us/azure/virtual-wan/hub-settings), and the five reserved addresses per subnet from the [Azure virtual network FAQ](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-faq). Article 5 shows five layouts; this picture only compares the two choices. Icons: Microsoft Azure and Microsoft Entra architecture icons, used unmodified under the terms on Microsoft's icons page.*
+*Source: [Traditional Azure networking topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology).*
 
 Points that change the AVD design:
 
 - **Peering is not transitive.** To get transit through a hub you need user-defined routes and network virtual appliances. That is how a hub firewall sees spoke-to-spoke traffic.
-- **Shared services live differently.** In traditional hub and spoke, the hub may hold domain controllers and DNS servers. In Virtual WAN, customer-deployed resources cannot be deployed inside the virtual hub. The documentation says to put shared services such as DNS servers in a dedicated spoke. It does not name domain controllers, but they are customer-deployed servers too, so by extension (judgement) they also go in a spoke.
+- **Shared services live differently.** In traditional hub and spoke, the hub may hold domain controllers and DNS servers. In Virtual WAN, customer-deployed resources cannot be deployed inside the virtual hub. Put shared services such as DNS servers in a dedicated spoke. Domain controllers are customer-deployed servers too, so they also go in a spoke.
 - **Virtual WAN hubs hold Microsoft-managed resources.** That means gateways, Azure Firewall through Azure Firewall Manager, route tables and certain NVAs for SD-WAN.
 - **Hub-to-hub across regions.**
-  - With two regions in hub and spoke, the documentation says to connect the hubs with global virtual network peering.
-  - Beyond two regions it recommends Virtual WAN, or hubs that connect to the same ExpressRoute circuits.
+  - With two regions in hub and spoke, connect the hubs with global virtual network peering.
+  - Beyond two regions, use Virtual WAN, or hubs that connect to the same ExpressRoute circuits.
   - When the hubs are joined through ExpressRoute, spokes in different regions reach each other directly. Their traffic skips the hub firewalls.
   - To make the firewalls inspect that traffic, add more specific routes in the spoke route tables. Or switch off BGP route propagation on them, so the spokes stop learning the remote spoke ranges and send traffic to the firewall instead.
 - **Transit between VPN and ExpressRoute.** In hub and spoke you can add Route Server to get it. Virtual WAN does it natively.
 - **Limits apply to both.** Check the maximum number of peerings per virtual network and the route limits on ExpressRoute private peering against your spoke count.
 
-**Recommendation (judgement):** do not choose Virtual WAN for AVD alone. The topology is decided by the whole estate. If the platform team already runs one, place AVD in it. If the choice is yours, use the conditions above. Then test the routing for the AVD paths: session host to the AVD service (outbound, see the [connectivity article](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/)), session host to DNS, session host to identity, and session host to profile storage. The user's client path runs through the client's own network, not yours.
+Do not choose Virtual WAN for AVD alone. The topology is decided by the whole estate. If the platform team already runs one, place AVD in it. If the choice is yours, use the conditions above. Then test the routing for the AVD paths: session host to the AVD service (outbound, see the [connectivity article](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/)), session host to DNS, session host to identity, and session host to profile storage. The user's client path runs through the client's own network, not yours.
 
 ## Address planning rules
 
-The planning page gives these rules. They are documented.
+Follow these rules.
 
 - Plan non-overlapping address space across Azure regions and on-premises locations before you build.
 - Use private (RFC 1918) addresses.
 - Do not use public IP addresses for your virtual networks, especially addresses that do not belong to your organization.
-- Do not use these ranges: `224.0.0.0/4` (multicast), `255.255.255.255/32` (broadcast), `127.0.0.0/8` (loopback), `169.254.0.0/16` (link-local) and `168.63.129.16/32` (Learn labels it "internal DNS"; the [Azure fabric communication IPs](https://learn.microsoft.com/en-us/azure/virtual-desktop/azurecommunicationips) page calls it the Azure platform address). These are listed under design recommendations in [Plan for IP addressing](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/plan-for-ip-addressing). Session hosts must still reach `169.254.169.254` (inside the link-local range) and `168.63.129.16`, so never assign them to your own networks. See the [connectivity article](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/).
-- Do not create large virtual networks such as `/16`, so that address space is not wasted. Judgement: treat any `/16` in a worked example as a placeholder.
+- Do not use these ranges: `224.0.0.0/4` (multicast), `255.255.255.255/32` (broadcast), `127.0.0.0/8` (loopback), `169.254.0.0/16` (link-local) and `168.63.129.16/32` (the planning page labels it "internal DNS"; the [Azure fabric communication IPs](https://learn.microsoft.com/en-us/azure/virtual-desktop/azurecommunicationips) page calls it the Azure platform address). These are listed under design recommendations in [Plan for IP addressing](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/plan-for-ip-addressing). Session hosts must still reach `169.254.169.254` (inside the link-local range) and `168.63.129.16`, so never assign them to your own networks. See the [connectivity article](/azure-virtual-desktop/required-connectivity-for-azure-virtual-desktop/).
+- Do not create large virtual networks such as `/16`, so that address space is not wasted. Treat any `/16` in a worked example as a placeholder.
 - The smallest IPv4 subnet Azure supports is `/29` ([Plan for IP addressing](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/plan-for-ip-addressing)).
 - Do not create virtual networks without planning the address space.
 - Azure reserves five addresses in each subnet ([Plan for IP addressing](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/plan-for-ip-addressing), [virtual network FAQ](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-faq#are-there-any-restrictions-on-using-ip-addresses-within-these-subnets)), so a `/24` has 251 usable addresses. The [networking article](/azure-virtual-desktop/plan-avd-networking/) shows the sizing.
 - Some services need their own subnets, such as Azure Firewall and VPN Gateway.
 - You can add address space to a virtual network later. If it is peered, each remote peering needs a resync (a refresh so the peer learns the new range).
-- An overlapping on-premises site can be reached through NAT on VPN Gateway or Virtual WAN. Treat that as a workaround, not a plan (judgement).
-- An IPAM tool, even a spreadsheet, helps prevent overlap. The documentation suggests T-shirt sizes (fixed small, medium and large request sizes) of `/24`, `/22` and `/20` for workload requests, and an API so address requests fit into subscription creation.
+- An overlapping on-premises site can be reached through NAT on VPN Gateway or Virtual WAN. Treat that as a workaround, not a plan.
+- An IPAM tool, even a spreadsheet, helps prevent overlap. Use T-shirt sizes (fixed small, medium and large request sizes) of `/24`, `/22` and `/20` for workload requests, with an API so address requests fit into subscription creation.
 - When a workload is retired, return its address range to the pool.
-- If private addresses run short, the documentation suggests nonroutable spoke virtual networks and Azure Private Link service, and says IPv6 dual stack is an option. I did not check which AVD features support IPv6, so check before you plan on it. See [Plan for IP addressing](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/plan-for-ip-addressing).
+- If private addresses run short, consider nonroutable spoke virtual networks and Azure Private Link service. IPv6 dual stack is an option, but check which AVD features support IPv6 before you plan on it. See [Plan for IP addressing](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/plan-for-ip-addressing).
 
 For the Virtual WAN hub:
 
-- The minimum hub address space is `/24`, and the documentation recommends `/23` or larger ([About virtual hub settings](https://learn.microsoft.com/en-us/azure/virtual-wan/hub-settings#virtual-hub-address-space)).
+- The minimum hub address space is `/24`, and `/23` or larger is recommended ([About virtual hub settings](https://learn.microsoft.com/en-us/azure/virtual-wan/hub-settings#virtual-hub-address-space)).
 - If you use Azure Firewall in the hub, the minimum is `/22`.
 - The hub address space cannot be changed after the hub is created.
 - It must not overlap with other hubs in the same Virtual WAN, on-premises networks, or any virtual network connected to the hub.
 
 ## Three ways address plans fail
 
-This is my reasoning from the documented rules (judgement). They are illustrations, not case histories.
+These are illustrations, not case histories.
 
 1. **An overlap discovered after a merger.** Two companies each used `10.0.0.0/16`. AVD hosts need to reach the other company's file servers. The fix is renumbering or NAT, both expensive. Check for overlap before you assign ranges, including partner and acquired networks that are not yet connected.
 2. **A subnet that cannot hold a rolling update.** In a rolling update you add new hosts from a new image before you remove the old ones. The subnet then holds both sets of network interfaces. The [networking article](/azure-virtual-desktop/plan-avd-networking/) shows the arithmetic. Size for the overlap, with Azure's five reserved addresses taken off.
 3. **A hub range that is too small.** A virtual hub's range cannot change. If you later want Azure Firewall in a `/24` hub, the range is already below the `/22` minimum and cannot be changed, so you would be looking at a new hub. Choose the size for what the hub will hold, not what it holds on day one.
 
-Another trap: Private Link needs addresses too. The [Set up Private Link with Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/private-link-setup) page says IP address allocations are subject to change as demand for addresses increases, so leave headroom for private endpoints. It links to the [Private Link hub and spoke decision tree](https://learn.microsoft.com/en-us/azure/architecture/networking/guide/private-link-hub-spoke-network#decision-tree-for-private-link-deployment) for placing private endpoints in a hub or a spoke.
+Another trap: Private Link needs addresses too. The [Set up Private Link with Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/private-link-setup) page notes that IP address allocations can change as demand for addresses increases, so leave headroom for private endpoints. It links to the [Private Link hub and spoke decision tree](https://learn.microsoft.com/en-us/azure/architecture/networking/guide/private-link-hub-spoke-network#decision-tree-for-private-link-deployment) for placing private endpoints in a hub or a spoke.
 
 ## Cost drivers
 
-This article gives no prices. Prices change and are on the pricing pages. The documentation names these cost drivers, so ask about them in the design:
+This article gives no prices. Prices change and are on the pricing pages. Ask about these cost drivers in the design:
 
 - **Global virtual network peering** generates traffic fees.
 - **A Virtual WAN virtual hub** has pricing from the moment it is created, even without gateways.
@@ -154,22 +154,10 @@ These are recommended checks on paper before you build anything.
 4. Draw the path from a session host to the AVD service, to DNS, to the domain controllers and to profile storage. Mark the route and the control at each hop.
 5. Write down who owns the address plan and how a request for a new range is made.
 
-## Related book chapter, labs and project
-
-[Chapter 12](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch12-enterprise-topologies-ip-planning.md) of the book covers topologies and IP planning. [Lab 3](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-03-vnet-subnets-nsg-dns.md) builds a single-region network and [Lab 11](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/labs/lab-11-multiregion-network-foundation.md) builds a multi-region foundation.
-
-The labs walk through those steps. Neither has been run end to end in Azure. [Project 13](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/scenarios/project-13-multi-region-architecture.md) is a fictional case study.
-
 Next: [How FSLogix Profile Containers Work](/azure-virtual-desktop/how-fslogix-profile-containers-work/).
 
 ## Sources
 
-- [Define an Azure network topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/define-an-azure-network-topology)
-- [Traditional Azure networking topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology)
-- [Virtual WAN network topology in an Azure landing zone](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/virtual-wan-network-topology)
-- [Plan for IP addressing](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/plan-for-ip-addressing)
-- [About virtual hub settings](https://learn.microsoft.com/en-us/azure/virtual-wan/hub-settings)
 - [AVD landing zone design guide](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/azure-virtual-desktop/azure-virtual-desktop)
-- [Set up Private Link with Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/private-link-setup)
-- [Required FQDNs and endpoints for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/required-fqdn-endpoint)
-- [Azure virtual network FAQ](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-faq)
+- [Plan for IP addressing](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/plan-for-ip-addressing)
+- [Traditional Azure networking topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology)

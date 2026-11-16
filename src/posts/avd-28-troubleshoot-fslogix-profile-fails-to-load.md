@@ -14,7 +14,7 @@ A user signs in to Azure Virtual Desktop and something is wrong with their profi
 
 FSLogix is the software that stores each user's profile in a container and attaches it at sign-in. The sign-in steps and the main settings are in [How FSLogix profile containers work](/azure-virtual-desktop/how-fslogix-profile-containers-work/). Permissions and storage choices are in [the storage and access article](/azure-virtual-desktop/choose-storage-and-set-access-for-fslogix-profile-containers/). Daily care of containers (size, locks, corruption) is in [Operate FSLogix profiles day to day](/azure-virtual-desktop/operate-fslogix-profiles-day-to-day/). This article starts from the symptom and works backwards to the cause.
 
-The FSLogix documentation carries a notice about the April 2026 Windows Server update. Kerberos is the way Windows proves to a file share who a user is, and the update changes the default encryption type it uses from RC4 to AES-SHA1. File shares that hold containers and are not upgraded to AES-SHA1 might have access problems after the change. If access started failing after Windows Server updates, check the storage side first. The notice is explained in the daily operations article linked above.
+One notice matters here: the April 2026 Windows Server update. Kerberos is the way Windows proves to a file share who a user is, and the update changes the default encryption type it uses from RC4 to AES-SHA1. File shares that hold containers and are not upgraded to AES-SHA1 might have access problems after the change. If access started failing after Windows Server updates, check the storage side first. The notice is explained in the daily operations article linked above.
 
 ## Key terms
 
@@ -48,9 +48,9 @@ The AVD logs tell you whether the user connected and how long sign-in took. The 
 | Sign-in blocked with an FSLogix message | Checks 2 and 3, then "Blocked sign-in" below |
 | Very long sign-in or hang at sign-out | Checks 4, 5 and 7 |
 
-The picture shows the same order as a decision tree. Each leaf names the page it comes from.
+The picture shows the same order as a decision tree. Each leaf names its source.
 
-![Decision tree for a temporary or slow FSLogix profile. The first question is whether FSLogix profile containers are enabled and VHDLocations is set; if not, turn them on. If yes, the tree asks in turn whether the profile log shows Access is denied (fix storage permissions), whether it shows a locked container (sign out the other session or choose the lock behavior), whether the host can reach the share on SMB (fix name resolution or network), whether the container or storage is full (raise the size or capacity), and whether an old local profile or a changed folder-name setting exists. If none applies, collect the logs and open a support case.](/img/avd/troubleshoot-fslogix-profile-fails-to-load.svg)
+![Six yes/no checks, from FSLogix enabled with VHDLocations set, through access denied, a locked container, SMB reachability, full storage and an empty profile. Each answer leads to a fix, or to collecting logs for a support case.](/img/avd/troubleshoot-fslogix-profile-fails-to-load.svg)
 
 *Source: [Old, temporary or local profiles](https://learn.microsoft.com/en-us/fslogix/troubleshooting-old-temp-local-profiles), [Container attach or detach](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-attach-detach) and [FSLogix codes](https://learn.microsoft.com/en-us/fslogix/troubleshooting-error-codes).*
 
@@ -87,7 +87,7 @@ The lines to look for are the `[ERROR:...]` line just before the final `LoadProf
 
 ### 3. Match the error to a cause
 
-These example lines come from the FSLogix documentation. Your lines will have your own names, paths and version numbers.
+These are example lines. Your lines will have your own names, paths and version numbers.
 
 | What the log shows | What it means | Go to |
 |---|---|---|
@@ -97,7 +97,7 @@ These example lines come from the FSLogix documentation. Your lines will have yo
 | `[ERROR:0000052e] FindFile failed for path ... (The user name or password is incorrect.)` followed by `Status set to 27: Cannot find virtual disk at the provided location` | FSLogix could not sign in to the storage path to look for the container. Check how the host authenticates to the share. | Check 3a, then check 4 |
 | `[ERROR:000000b7] No Create access ... (Cannot create a file when that file already exists.)` | An example of a create failure on the share. | Check permissions and the folder names on the share |
 
-For any other code, look it up. The FSLogix documentation points to three ways: the Windows System Error Codes list, the Windows Error Code Lookup tool, and the `NET HELPMSG` command.
+For any other code, look it up. There are three ways: the Windows System Error Codes list, the Windows Error Code Lookup tool, and the `NET HELPMSG` command.
 
 #### 3a. Access is denied
 
@@ -119,7 +119,7 @@ A quick test: sign in as the user, or use a test user, browse to the `VHDLocatio
 
 By default FSLogix allows a user only one connection to a container. If the user signs in to a second session host while the first session is still open, the second one gets a temporary profile.
 
-You have three choices, and the documentation says each organization has to decide:
+You have three choices, and each organization has to decide:
 
 - Let the user work with a temporary profile.
 - Block the sign-in with `PreventLoginWithTempProfile`, and teach users to sign out before they start a new connection.
@@ -135,7 +135,7 @@ If the log shows the path cannot be found or reached, check name resolution and 
 Test-NetConnection -ComputerName <server-fully-qualified-domain-name> -CommonTCPPort SMB
 ```
 
-Replace the placeholder with the fully qualified name of the file server or the Azure Files endpoint. Also test from a different virtual machine. If the path works from there but not from this host, look at that host's network settings, DNS, firewall, and any third-party firewall or intrusion prevention product. The documentation says to disable such a product on a test host and try again to find out if it is the cause. Also review the FSLogix list of recommended antivirus exclusions.
+Replace the placeholder with the fully qualified name of the file server or the Azure Files endpoint. Also test from a different virtual machine. If the path works from there but not from this host, look at that host's network settings, DNS, firewall, and any third-party firewall or intrusion prevention product. To find out if such a product is the cause, disable it on a test host and try again. Also review the FSLogix list of recommended antivirus exclusions.
 
 ### 5. Is the container or the storage full?
 
@@ -145,15 +145,15 @@ A container must have more than 200 MB free to attach. To check:
 2. Find the user's container file on the share, right-click it, and open Properties.
 3. Compare "Size on disk" with the `SizeInMBs` value.
 
-If the container is full, raise `SizeInMBs`. This affects every user whose containers are dynamic disks. You can raise the value at any time but you cannot lower it, and lowering it does not shrink existing containers. FSLogix extends existing containers to the new size at sign-in. Deleting content inside the container lets it shrink at sign-out on FSLogix 2210 or later. Two pages give slightly different build numbers for 2210 (2.9.8361.52326 and 2.9.8361.52623), so check your FSLogix version against the release notes. Be careful what you delete: the wrong deletion can cause data loss or profile corruption.
+If the container is full, raise `SizeInMBs`. This affects every user whose containers are dynamic disks. You can raise the value at any time but you cannot lower it, and lowering it does not shrink existing containers. FSLogix extends existing containers to the new size at sign-in. Deleting content inside the container lets it shrink at sign-out on FSLogix 2210 or later. Be careful what you delete: the wrong deletion can cause data loss or profile corruption.
 
 Also check the storage itself. If the storage has reached its maximum size, users cannot create new containers and end up with a temporary or local profile, sessions can hang, and containers can fail to attach or detach. The fix is more capacity.
 
 ### 6. Empty or new profile, but not a temporary one
 
-There are two causes in the documentation.
+There are two causes.
 
-**An old local profile exists.** When FSLogix is installed on a host that already has local profiles, it uses the local profile by default and does not look for a container. A user who has no local profile on this host gets an FSLogix profile that looks new. `DeleteLocalProfileWhenVHDShouldApply` set to `1` deletes the local profile at sign-in and attaches the container. The documentation warns that FSLogix then permanently deletes the local profile. Look at which local profiles exist before you turn this on. The log reason code for this case is 3, "A local profile for this user exists on this system".
+**An old local profile exists.** When FSLogix is installed on a host that already has local profiles, it uses the local profile by default and does not look for a container. A user who has no local profile on this host gets an FSLogix profile that looks new. `DeleteLocalProfileWhenVHDShouldApply` set to `1` deletes the local profile at sign-in and attaches the container. FSLogix then permanently deletes the local profile. Look at which local profiles exist before you turn this on. The log reason code for this case is 3, "A local profile for this user exists on this system".
 
 **A folder-name setting changed after containers were created.** If `FlipFlopProfileDirectoryName`, `SIDDirNameMatch`, `SIDDirNamePattern`, `VHDNameMatch` or `VHDNamePattern` was changed after containers existed, FSLogix looks for a folder name that is not on the share. It cannot find the old container, so it creates a new empty one. The user's data is not lost. It is still at the old path.
 
@@ -165,7 +165,7 @@ To avoid this, choose these settings at the start, before profiles exist.
 
 ### 7. Slow sign-in
 
-Long sign-ins can come from the host rather than the profile. The documentation lists a host with too many users or too small for the workload as a cause. Reduce the number of simultaneous sessions per host, or move to a larger VM size. See [Choose session host VM sizes](/azure-virtual-desktop/choose-session-host-vm-sizes/). Cloud Cache puts more load on the VM, so size for it. The documentation gives a 2:1 starting ratio for Cloud Cache, but two FSLogix pages word it in opposite directions (2 vCPU per user on one, 2 users per vCPU on the other). Treat it as a rough starting point and measure CPU during sign-in instead of relying on it.
+Long sign-ins can come from the host rather than the profile. A host with too many users, or too small for the workload, is a known cause. Reduce the number of simultaneous sessions per host, or move to a larger VM size. See [Choose session host VM sizes](/azure-virtual-desktop/choose-session-host-vm-sizes/). Cloud Cache puts more load on the VM, so size for it. Measure CPU during sign-in to check the size.
 
 To see how long sign-in takes across a host pool, run this query. It is the "Average session logon time" sample from the Azure Monitor query reference.
 
@@ -197,7 +197,7 @@ WVDConnections
 
 How the query works, in short. The first block takes each connection's `Started` row and its `Connected` row (matched on `CorrelationId` with `join`) and keeps the time difference as `Duration`. The `WVDCheckpoints` part tells it whether the user reached a new session or an existing one. The last lines average the duration for each host pool and session type and put the slowest first. The result has one row per host pool and session type, with `AvgDuration` in `hh:mm:ss` form.
 
-A healthy result is a short, steady duration, and an `ExistingSession` row (reconnecting) is normally shorter than a new session. A bad result is a host pool whose `AvgDuration` is much longer than the others, or longer than it used to be. The documentation sets no number for "too long", so compare host pools and days with each other. If the query returns nothing, check that diagnostics are on for the host pool and that the Checkpoints category is ticked.
+A healthy result is a short, steady duration, and an `ExistingSession` row (reconnecting) is normally shorter than a new session. A bad result is a host pool whose `AvgDuration` is much longer than the others, or longer than it used to be. There is no fixed number for "too long", so compare host pools and days with each other. If the query returns nothing, check that diagnostics are on for the host pool and that the Checkpoints category is ticked.
 
 Read the result with care. The time to connect includes the time a user spends typing credentials, so a peak can be a false one. And in rare cases the "completed" event of a connection goes missing, which affects some results. For one user's slow sign-in, the better evidence is the `loadProfile time:` line in that user's profile log.
 
@@ -222,7 +222,7 @@ If the user has no rows in either table, the connection never reached the Azure 
 
 FSLogix also writes to the Windows event log. In Event Viewer open Applications and Services Logs, then FSLogix. The Admin and Operational logs under Apps hold most entries. Cloud Cache has its own Admin and Operational logs under CloudCache.
 
-One entry you can skip: a session host that is only Microsoft Entra joined (not domain joined or hybrid joined) logs two Event ID 26 errors from the Operational log. The FSLogix known issues page says these are expected and can be ignored.
+One entry you can skip: a session host that is only Microsoft Entra joined (not domain joined or hybrid joined) logs two Event ID 26 errors from the Operational log. These are expected and can be ignored.
 
 ## Registry state for one user
 
@@ -249,7 +249,7 @@ Reason codes only explain the normal statuses, not the error statuses. The `Erro
 
 Two settings stop a user from signing in when the profile fails. With `PreventLoginWithFailure` set to `1`, FSLogix blocks the sign-in if it cannot attach or use an existing container. With `PreventLoginWithTempProfile` set to `1`, it blocks the sign-in if a temporary profile was created. Both default to `0`. The user gets a prompt to call support, and the only option is to sign out. FSLogix does this by replacing the Windows shell with `frxshell.exe`.
 
-This does not apply to RemoteApp users. Remote apps do not start the standard Windows shell, so FSLogix cannot hook in, and those users are not blocked. The documentation lists no workaround for this and says the cause is most often storage permissions. Go to check 3a.
+This does not apply to RemoteApp users. Remote apps do not start the standard Windows shell, so FSLogix cannot hook in, and those users are not blocked. There is no workaround, and the cause is most often storage permissions. Go to check 3a.
 
 ## Fixes by cause
 
@@ -264,7 +264,7 @@ This does not apply to RemoteApp users. Remote apps do not start the standard Wi
 | Old local profile exists | Reason code 3, or a new-looking profile on a host with older profiles | Review the local profiles, then consider `DeleteLocalProfileWhenVHDShouldApply`. |
 | Folder-name setting changed | Empty profile, no temporary profile, new container created next to the old one | Revert the setting or rename the folders. |
 | Host too small or too many users | Long sign-in, slow `loadProfile time:` | Reduce sessions per host or use a larger VM size. |
-| `frxsvc.exe` crash with `InstallAppxPackages` (FSLogix 2210, 2.9.8361.52326) | Default or temporary profile on that version | Install the latest FSLogix. The documentation lists this as fixed and says it does not cover every case of a profile failing to load. |
+| `frxsvc.exe` crash with `InstallAppxPackages` (FSLogix 2210, 2.9.8361.52326) | Default or temporary profile on that version | Install the latest FSLogix. This does not cover every case of a profile failing to load. |
 
 ## If the profile still does not load
 

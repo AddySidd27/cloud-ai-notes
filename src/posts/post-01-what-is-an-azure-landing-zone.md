@@ -4,7 +4,6 @@ slug: "what-is-an-azure-landing-zone"
 series: "Azure Landing Zone"
 part: ""
 post_number: 1
-status: draft
 preview_feature: false
 fictional_case: false
 learn_pages:
@@ -55,7 +54,6 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/"
     icons: "Azure Public Service Icons V24 (Management groups, Subscriptions, Azure Policy), unmodified"
     source: "../diagrams/post-01-platform-vs-workload.drawio"
-production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/what-is-an-azure-landing-zone/"
 order: 1
@@ -69,7 +67,7 @@ As an illustration, not a real case, imagine an Azure environment where every pr
 
 A year later, simple questions are hard to answer. Who can see what? Which networks connect to which? Where do the logs go? Who pays for this?
 
-An Azure landing zone helps avoid this by preparing the environment first. Its shared foundation (the platform part) sets up governance, security and shared resources for everything your teams run in Azure. Teams then start from a known place with shared rules, instead of from nothing (judgement).
+An Azure landing zone helps avoid this by preparing the environment first. Its shared foundation (the platform part) sets up governance, security and shared resources for everything your teams run in Azure. Teams then start from a known place with shared rules, instead of from nothing.
 
 ## The five-minute version
 
@@ -84,7 +82,7 @@ An Azure landing zone helps avoid this by preparing the environment first. Its s
 
 Each action only looks at your environment, so you can do all three without changing any of your resources. Terms are explained in Key terms right after this list.
 
-1. **See how your subscriptions are organized.** Sign in to the Azure portal, select All services, type "Management groups" in the filter box and open it. You see the management groups and subscriptions you have access to, and selecting a group name takes you one level down, like a file explorer. If you see only the "Tenant root group", that is the built-in top group of your tenant (your organization's own Microsoft Entra instance, which holds its users and groups). Compare what you see with the diagram at the end of this post. A deployed landing zone usually has one extra group, the intermediate root, under the tenant root group. The diagram leaves it out. If the page asks you to start using management groups, stop. That step changes your tenant.
+1. **See how your subscriptions are organized.** Sign in to the Azure portal, select All services, type "Management groups" in the filter box and open it. You see the management groups and subscriptions you have access to, and selecting a group name takes you one level down, like a file explorer. If you see only the "Tenant root group", that is the built-in top group of your tenant (your organization's own Microsoft Entra instance, which holds its users and groups). Compare what you see with the diagram at the end of this post. A deployed landing zone usually has one extra group under the tenant root group (the intermediate root, which holds the landing zone groups). The diagram leaves it out. If the page asks you to start using management groups, stop. That step changes your tenant.
 2. **Find your area on the [design areas page](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-areas).** It names all eight areas, which this series follows. Read the one-line objective of the area you work in, such as network or identity.
 3. **Learn the platform and workload split, the main idea of everything that follows.** Open the [landing zone overview](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/), look at the tab "Platform vs. workload landing zones", then read the sections "Platform landing zone" and "Workload landing zone". Then pick one subscription you know and ask whether it is platform or workload.
 
@@ -121,7 +119,7 @@ An Azure landing zone has two parts:
 1. **The platform landing zone.** The shared foundation.
 2. **Workload landing zones.** The places where teams run their workloads.
 
-An analogy (judgement): an apartment building has shared things, such as water, power and fire rules. Each apartment is a workload. Residents live their own lives, but inside the building's rules.
+An analogy: an apartment building has shared things, such as water, power and fire rules. Each apartment is a workload. Residents live their own lives, but inside the building's rules.
 
 ## The platform landing zone
 
@@ -145,11 +143,9 @@ Based on what the workload needs, the platform team places each workload subscri
 
 [The platform scope post](/azure-landing-zone/platform-scope-and-workload-boundaries/) explains what each one is for. The subscriptions inherit the Azure Policy rules applied higher in the hierarchy. That is how workloads get consistent guardrails, while still having room for their own needs.
 
-(In my repo's example, Corp and Online are the main groups, and Local is optional. This is my repo's choice (judgement).)
-
 ## Who owns what
 
-Here is a simple way to split the work. This table is my own summary, not a table from the documentation (judgement).
+Here is a simple way to split the work.
 
 | Platform team | Workload team |
 |---|---|
@@ -168,13 +164,13 @@ There are two ways to implement each part:
 - **Accelerators.** Microsoft-provided accelerators use infrastructure as code to deploy an environment based on recommended practices.
 - **Custom build.** You design and build it yourself, or with help from Microsoft or a partner.
 
-For most organizations, accelerators are the fastest path to a deployment that follows Microsoft's recommended practices. We cover the options in more detail later in this series.
+For most organizations, accelerators are the fastest path to a deployment that follows Microsoft's recommended practices. Later posts cover the options in more detail.
 
 ## Eight design areas
 
 Define your requirements across the design areas before you build a platform landing zone. There are eight:
 
-1. Azure billing and Active Directory tenant (this is the name on the design areas page; the tenant is a Microsoft Entra tenant)
+1. Azure billing and Microsoft Entra tenant
 2. Identity and access management
 3. Resource organization
 4. Network topology and connectivity
@@ -189,13 +185,13 @@ Five design principles guide these decisions. [The requirements post](/azure-lan
 
 ## What a landing zone is not
 
-In my words (judgement): it is not one resource, one subscription or one script. It is the combination of the design areas above, working together.
+It is not one resource, one subscription or one script. It is the combination of the design areas above, working together.
 
 ## The landing zone at a glance
 
-![Inside one Azure landing zone, the platform landing zone panel on top shows the Platform and Landing zones management groups (Corp, Online and Local), Azure Policy and the platform subscriptions. An arrow leads down to the workload landing zones panel, which shows example Internal (Corp), Online and Local workloads, each with production, test and development environments in subscriptions](/diagrams/post-01-platform-vs-workload.svg)
+![Azure landing zone: a platform landing zone on top (management groups Platform and Landing zones, Azure Policy, platform subscriptions) hands subscriptions down to workload landing zones for Corp, Online and Local workloads.](/diagrams/post-01-platform-vs-workload.svg)
 
-*Simplified from the detailed architecture diagram on [What is an Azure landing zone?](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/) (platform landing zone on top, workload landing zones below). Parts that this series explains later are left out, such as the intermediate root, Sandboxes and Decommissioned management groups. The management group, subscription and Azure Policy icons are from the [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/) set. The full diagrams are on the Learn page.*
+*Simplified from [What is an Azure landing zone?](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/), Microsoft Learn. Icons: [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
 ## Common mistakes
 
@@ -204,22 +200,9 @@ In my words (judgement): it is not one resource, one subscription or one script.
 - **Everything is centralized.** Centralize a capability only when it gives a clear benefit across several workloads.
 - **No policy guardrails.** Without Azure Policy guardrails, the work of keeping to your rules grows (more operational and management overhead).
 
-## From my own projects
-
-These situations came up in my own work: teams creating their own subscriptions, with each project having its own network, logging and access rules, and nobody able to say clearly what things cost. I also saw the other side: where a landing zone was in place, new projects started in an environment that was already prepared, instead of building the basics themselves. In my experience (judgement), typical results of the first situation are slower delivery, security and audit issues, and confusion about who pays.
-
-## The files in my repo
-
-My repo is a learning and reference lab. It is not production-ready and it is not the official accelerator.
-
-- This post: [what-is-an-azure-landing-zone.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/01-foundations/what-is-an-azure-landing-zone.md)
-- Suggested reading order for the whole repo: [learning-path.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/00-start-here/learning-path.md)
-
 Next: [Platform Scope and Workload Boundaries](/azure-landing-zone/platform-scope-and-workload-boundaries/).
 
 ## Sources
-
-Microsoft Learn, checked October 2026:
 
 - [Landing zone overview](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/)
 - [Design areas](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-areas)

@@ -5,7 +5,6 @@ slug: "minimum-viable-platform-landing-zone"
 series: "Azure Landing Zone"
 part: ""
 post_number: 16
-status: draft
 preview_feature: false
 fictional_case: false
 learn_pages:
@@ -28,7 +27,6 @@ diagrams:
     type: learn-based
     based_on: "The official documentation has no picture for this topic. The boxes follow the article's list of seven capabilities and its readiness table (migrate-from-on-premises-platform-landing-zone)."
     source: "../diagrams/post-16-minimum-viable-platform-landing-zone.drawio"
-production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/minimum-viable-platform-landing-zone/"
 order: 16
@@ -99,7 +97,7 @@ Two more points about how to build it:
 
 ## What is left for later
 
-- **Workload pieces.** Specific workload migration procedures cover spoke virtual networks (the virtual network of a workload, connected to the hub), workload-specific network security groups and per-workload role assignments. (judgement) I read this as meaning they sit outside the seven-item list.
+- **Workload pieces.** Specific workload migration procedures cover spoke virtual networks (the virtual network of a workload, connected to the hub), workload-specific network security groups and per-workload role assignments. They sit outside the seven-item list.
 - **After the first workload.** These can follow after the first workload arrives, if ownership is clear: deeper backup tool standardization, advanced dashboards, and the longer-term plan to retire legacy tools.
 - **A perfect tagging or chargeback system.** Chargeback is billing each team for the Azure cost it uses. Do not let designing one delay building the management group.
 
@@ -203,24 +201,22 @@ Validation is outcome-based: confirm that platform logs are flowing and visible 
 
 ## Check that it works: the readiness checks
 
-Before the workload migration teams begin planning, the platform team must check that the foundation works. It does not need to be complete or polished, but it must meet minimum requirements. There are ten areas. Use them as a minimum, not as proof that every later risk is gone. The documentation says the foundation must meet minimum requirements; it does not give a scoring rule.
+Before the workload migration teams begin planning, the platform team must check that the foundation works. It does not need to be complete or polished, but it must meet minimum requirements. There are ten areas. Use them as a minimum, not as proof that every later risk is gone. Microsoft sets minimum requirements for the foundation but gives no scoring rule.
 
 | Area | What to check |
 |---|---|
-| Connectivity | VPN Gateway or ExpressRoute is live, the routing matches the documented target design, and a representative on-premises virtual machine can reach an Azure private IP (an address that works only inside a private network, not on the public internet) over the approved path. |
+| Connectivity | VPN Gateway or ExpressRoute is live, the routing matches the target design, and a representative on-premises virtual machine can reach an Azure private IP (an address that works only inside a private network, not on the public internet) over the approved path. |
 | DNS and routing | On-premises names, Azure private DNS zones and any needed private endpoints resolve correctly from a representative spoke virtual network. The inspection path, the forced-tunneling choice and the internet breakout path (where internet-bound traffic leaves to the internet: locally through Azure, or back through your on-premises network) are confirmed. |
 | Ingress and segmentation | At least one approved ingress pattern is tested end to end, the required segmentation controls are in place, and any public-exposure exception has an owner and a review path. |
-| Policy and governance | The required Azure Policy assignments are attached, compliance state (the Azure Policy report of which resources follow a policy and which do not) is reviewed, region restrictions and exceptions are documented, and budgets or cost alerts are active at the intended scope. |
-| Administrative access | RBAC through Microsoft Entra ID groups is checked on the relevant scopes, and the privileged access process for platform administrators is documented and tested. |
+| Policy and governance | The required Azure Policy assignments are attached, compliance state (the Azure Policy report of which resources follow a policy and which do not) is reviewed, region restrictions and exceptions are written down, and budgets or cost alerts are active at the intended scope. |
+| Administrative access | RBAC through Microsoft Entra ID groups is checked on the relevant scopes, and the privileged access process for platform administrators is written down and tested. |
 | Monitoring and operations | The policy that sends diagnostic settings to the central workspace works, at least one expected alert reaches the right destination, and someone owns patching and vulnerability scanning. |
 | Capacity and scale | Capacity is how much a platform can handle, and scale is adding or removing that capacity. The platform is sized for measured demand and Azure scaling, not for on-premises peak hardware. Gateway SKU, region placement (which Azure region each part goes in), subscription limits (the maximum amount of something that Azure allows in one subscription) and budget alerts reflect that demand. |
 | Resiliency and SLA | SLA means service level agreement, the availability a service promises. Regions, availability zone support, gateway redundancy, backup standards (agreed rules for what is backed up and how often) and alerts are chosen from the SLA and recovery needs of the workloads that will land, not from duplicated physical hardware. |
 | Subscription handoff | The subscription vending path can create or set up the first workload subscription, and the expected logging, policy and access baseline is there when the workload team receives it. |
 | Workload-like dependency test | A representative test proves the first workload's real dependency path: sign-in method, DNS, network reachability, getting a needed secret, and monitoring visibility. |
 
-These checks are the minimum. They are not a full landing zone design review, and not a promise that later problems will be small. DNS edge cases, policy exceptions, segmentation gaps and identity dependencies can still show up after the checks pass, especially during the early real migrations. For a deeper check of management groups, hub networking and security baselines, use the [Azure Landing Zone Review](https://learn.microsoft.com/en-us/assessments/21765fea-dfe6-4bc4-8bb7-db9df5a6f6c0/) assessment (a Microsoft self-check tool).
-
-(judgement) I read it this way: checks 1 and 2 test capabilities 3 and 4, check 3 tests capability 7, check 4 tests capability 2, check 5 tests capability 5, and check 6 tests capability 6. Check 9 tests the subscription vending decision. Checks 7 and 8 look at the platform as a whole. Check 10 tests the first workload's real dependency path.
+These checks are the minimum. They are not a full landing zone design review, and not a promise that later problems will be small. DNS edge cases, policy exceptions, segmentation gaps and identity dependencies can still show up after the checks pass, especially during the early real migrations. For a deeper check of management groups, hub networking and security baselines, use the [Azure Landing Zone Review](https://learn.microsoft.com/en-us/assessments/21765fea-dfe6-4bc4-8bb7-db9df5a6f6c0/) assessment (a Microsoft self-check tool). I read it this way: checks 1 and 2 test capabilities 3 and 4, check 3 tests capability 7, check 4 tests capability 2, check 5 tests capability 5, and check 6 tests capability 6. Check 9 tests the subscription vending decision. Checks 7 and 8 look at the platform as a whole. Check 10 tests the first workload's real dependency path.
 
 ## Ways to deploy it
 
@@ -242,13 +238,13 @@ Seven capabilities make the first version of the platform landing zone. Ten chec
 
 ## The minimum platform at a glance
 
-The seven capabilities are a list in the documentation, with no picture. The documentation lists the seven capabilities and the readiness checks but has no picture of them. Every box in this diagram comes from that list and the readiness table.
+Microsoft gives the seven capabilities and the readiness checks as text and a table, with no picture. Every box in this diagram comes from that list and the readiness table.
 
 **Figure 1. The minimum viable platform landing zone and the readiness check.**
 
-![The minimum viable platform landing zone. A large box called Platform landing zone, built once before any workload moves, holds seven boxes: management group hierarchy, baseline policy, hub network with hybrid connectivity, DNS that reaches on-premises name servers, identities that match the workload mix, central logging, and a firewall or equivalent. An arrow leads to a box called Readiness check, which lists ten areas, and then to a box called First workload landing zone.](/diagrams/post-16-minimum-viable-platform-landing-zone.svg)
+![Seven capabilities of the minimum viable platform landing zone, an arrow to a ten-point readiness check, then an arrow to the first workload landing zone.](/diagrams/post-16-minimum-viable-platform-landing-zone.svg)
 
-*Simplified diagram based on [Azure landing zones for on-premises experts](https://learn.microsoft.com/en-us/azure/migration/migrate-from-on-premises-platform-landing-zone). The documentation has no picture of this, so the layout is simplified. The arrows show the order: build the platform, check it, then land the first workload. The checks are explained in the readiness table above. Icons are from the official [Azure](https://learn.microsoft.com/en-us/azure/architecture/icons/) architecture icon set.*
+*Simplified from [Azure landing zones for on-premises experts](https://learn.microsoft.com/en-us/azure/migration/migrate-from-on-premises-platform-landing-zone), Microsoft Learn. Icons: [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
 ## Common mistakes
 
@@ -274,26 +270,10 @@ The seven capabilities are a list in the documentation, with no picture. The doc
 - **No owner for DNS.** Give someone ownership of the private DNS zones and forwarding rules.
 - **Public endpoints with no owner.** Every public endpoint needs an owner, an inspection path and a review point.
 
-## From my own projects
-
-From the list above, these came up in my own work: building the foundation by hand in the portal, no readiness check before the first workload, budgets and alerts added late, one virtual network with one subnet and everything inside, region rules added late, and public endpoints with no owner. I did not mark the other items from the list. I leave out project details.
-
-## The files in my repo
-
-- Minimum viable platform landing zone: the seven capabilities, the readiness checks, what my repo's Terraform deploys for each capability today, and the gaps (my notes): [minimum-viable-platform-landing-zone.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/03-implementation/minimum-viable-platform-landing-zone.md)
-
 Next: [Greenfield Rollout](/azure-landing-zone/greenfield-rollout/).
 
 ## Sources
 
-Microsoft Learn, checked October 2026:
-
 - [Azure landing zones for on-premises experts](https://learn.microsoft.com/en-us/azure/migration/migrate-from-on-premises-platform-landing-zone)
 - [Deploy Azure landing zones](https://learn.microsoft.com/en-us/azure/architecture/landing-zones/landing-zone-deploy)
 - [Azure landing zone design areas and conceptual architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-areas)
-- [VPN Gateway SKU consolidation](https://learn.microsoft.com/en-us/azure/vpn-gateway/gateway-sku-consolidation)
-- [Azure DNS Private Resolver overview](https://learn.microsoft.com/en-us/azure/dns/dns-private-resolver-overview)
-- [Azure DNS overview](https://learn.microsoft.com/en-us/azure/dns/dns-overview)
-- [Subscription vending](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/subscription-vending)
-- [Azure landing zones for on-premises experts: fundamentals](https://learn.microsoft.com/en-us/azure/migration/migrate-from-on-premises-fundamentals)
-- [Azure Landing Zone Review](https://learn.microsoft.com/en-us/assessments/21765fea-dfe6-4bc4-8bb7-db9df5a6f6c0/)

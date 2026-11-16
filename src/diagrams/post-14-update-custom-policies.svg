@@ -1,95 +1,96 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 770" width="1000" height="770" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1005 783" width="1005" height="783" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
   <title id="t">Decision tree for Azure landing zone custom policy updates</title>
-  <desc id="d">Based on the Learn decision tree. Start: policy updates required, policies in scope for updating. If a policy or initiative is not assigned, replace the outdated definition. If a policy is assigned directly: if parameters did not change, replace the outdated policy contents; if they changed, delete or update the assignments, update the outdated policy, and reassign. If assigned through an initiative that is not outdated: replace policy contents if parameters did not change, otherwise delete the initiative assignments, update the policy or initiative definition, and reassign. If the initiative itself is outdated: delete the initiative assignments, update the policy or initiative definition, and assign the initiative. </desc>
+  <desc id="d">Based on the decision tree. Start: policy updates required, policies in scope for updating. If a policy or initiative is not assigned, replace the outdated definition. If a policy is assigned directly: if parameters did not change, replace the outdated policy contents; if they changed, delete or update the assignments, update the outdated policy, and reassign. If assigned through an initiative that is not outdated: replace policy contents if parameters did not change, otherwise delete the initiative assignments, update the policy or initiative definition, and reassign. If the initiative itself is outdated: delete the initiative assignments, update the policy or initiative definition, and assign the initiative. </desc>
   <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker></defs>
-  <polygon points="215,156 229,170 215,184 201,170" fill="#2b7cd3" stroke="#1f5fa8" stroke-width="1"/>
-  <polygon points="215,256 229,270 215,284 201,270" fill="#2b7cd3" stroke="#1f5fa8" stroke-width="1"/>
-  <polygon points="380,256 394,270 380,284 366,270" fill="#2b7cd3" stroke="#1f5fa8" stroke-width="1"/>
-  <polygon points="215,426 229,440 215,454 201,440" fill="#2b7cd3" stroke="#1f5fa8" stroke-width="1"/>
-  <polygon points="215,516 229,530 215,544 201,530" fill="#2b7cd3" stroke="#1f5fa8" stroke-width="1"/>
-  <polygon points="380,516 394,530 380,544 366,530" fill="#2b7cd3" stroke="#1f5fa8" stroke-width="1"/>
-  <rect x="80" y="10" width="270" height="48" rx="14" fill="#8ec5f0" stroke="#7fb1dc" stroke-width="1.2"/>
-  <text x="215.0" y="29.55" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">Azure landing zone</text>
-  <text x="215.0" y="47.55" font-size="13" text-anchor="middle" fill="#1f2933">Policy updates required</text>
-  <rect x="80" y="80" width="270" height="48" rx="4" fill="#cfe6f7" stroke="#a9c9e2" stroke-width="1.2"/>
-  <text x="215.0" y="99.55" font-size="13" font-weight="600" text-anchor="middle" fill="#1f2933">Azure landing zone</text>
-  <text x="215.0" y="117.55" font-size="13" text-anchor="middle" fill="#1f2933">Policies in scope for updating</text>
-  <line x1="215" y1="58" x2="215" y2="80" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <line x1="215" y1="128" x2="215" y2="156" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <text x="193" y="165.5" font-size="13" text-anchor="end" fill="#1f2933">Policy or policy</text>
-  <text x="193" y="182.5" font-size="13" text-anchor="end" fill="#1f2933">initiative assigned</text>
-  <text x="262" y="163" font-size="13" text-anchor="middle" fill="#1f2933">No</text>
-  <line x1="229" y1="170" x2="290" y2="170" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <rect x="290" y="146" width="330" height="48" rx="4" fill="#cdeee6" stroke="#9fb9d0" stroke-width="1.2"/>
-  <text x="455.0" y="165.55" font-size="13" text-anchor="middle" fill="#1f2933">Replace outdated Azure landing zone</text>
-  <text x="455.0" y="183.55" font-size="13" text-anchor="middle" fill="#1f2933">policy or policy initiative definition</text>
-  <text x="207" y="218" font-size="13" text-anchor="end" fill="#1f2933">Yes</text>
-  <line x1="215" y1="184" x2="215" y2="256" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <text x="193" y="265.5" font-size="13" text-anchor="end" fill="#1f2933">Policy assigned</text>
-  <text x="193" y="282.5" font-size="13" text-anchor="end" fill="#1f2933">directly</text>
-  <text x="290" y="263" font-size="13" text-anchor="middle" fill="#1f2933">Yes</text>
-  <line x1="229" y1="270" x2="366" y2="270" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <text x="380" y="232" font-size="13" text-anchor="middle" fill="#1f2933">Policy parameter(s)</text>
-  <text x="380" y="249" font-size="13" text-anchor="middle" fill="#1f2933">changed</text>
-  <text x="422" y="263" font-size="13" text-anchor="middle" fill="#1f2933">No</text>
-  <line x1="394" y1="270" x2="450" y2="270" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <rect x="450" y="246" width="240" height="48" rx="4" fill="#cfe6f7" stroke="#9fb9d0" stroke-width="1.2"/>
-  <text x="570.0" y="265.55" font-size="13" text-anchor="middle" fill="#1f2933">Replace outdated policy</text>
-  <text x="570.0" y="283.55" font-size="13" text-anchor="middle" fill="#1f2933">contents with newer version</text>
-  <text x="372" y="314" font-size="13" text-anchor="end" fill="#1f2933">Yes</text>
-  <line x1="380" y1="284" x2="380" y2="332" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <rect x="290" y="332" width="180" height="48" rx="4" fill="#cfe6f7" stroke="#9fb9d0" stroke-width="1.2"/>
-  <text x="380.0" y="351.55" font-size="13" text-anchor="middle" fill="#1f2933">Delete or update</text>
-  <text x="380.0" y="369.55" font-size="13" text-anchor="middle" fill="#1f2933">policy assignment(s)</text>
-  <line x1="470" y1="356" x2="504" y2="356" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <rect x="504" y="332" width="150" height="48" rx="4" fill="#cfe6f7" stroke="#9fb9d0" stroke-width="1.2"/>
-  <text x="579.0" y="351.55" font-size="13" text-anchor="middle" fill="#1f2933">Update</text>
-  <text x="579.0" y="369.55" font-size="13" text-anchor="middle" fill="#1f2933">outdated policy</text>
-  <line x1="654" y1="356" x2="688" y2="356" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <rect x="688" y="332" width="180" height="48" rx="4" fill="#cfe6f7" stroke="#9fb9d0" stroke-width="1.2"/>
-  <text x="778.0" y="351.55" font-size="13" text-anchor="middle" fill="#1f2933">Reassign policy</text>
-  <text x="778.0" y="369.55" font-size="13" text-anchor="middle" fill="#1f2933">assignment(s)</text>
-  <text x="207" y="322" font-size="13" text-anchor="end" fill="#1f2933">No</text>
-  <line x1="215" y1="284" x2="215" y2="426" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <text x="193" y="435.5" font-size="13" text-anchor="end" fill="#1f2933">Policy assigned through</text>
-  <text x="193" y="452.5" font-size="13" text-anchor="end" fill="#1f2933">policy initiative</text>
-  <text x="207" y="482" font-size="13" text-anchor="end" fill="#1f2933">Yes</text>
-  <line x1="215" y1="454" x2="215" y2="516" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <text x="193" y="525.5" font-size="13" text-anchor="end" fill="#1f2933">Policy initiative</text>
-  <text x="193" y="542.5" font-size="13" text-anchor="end" fill="#1f2933">outdated</text>
-  <text x="290" y="523" font-size="13" text-anchor="middle" fill="#1f2933">No</text>
-  <line x1="229" y1="530" x2="366" y2="530" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <text x="380" y="492" font-size="13" text-anchor="middle" fill="#1f2933">Policy parameter(s)</text>
-  <text x="380" y="509" font-size="13" text-anchor="middle" fill="#1f2933">changed</text>
-  <text x="422" y="523" font-size="13" text-anchor="middle" fill="#1f2933">No</text>
-  <line x1="394" y1="530" x2="450" y2="530" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <rect x="450" y="506" width="240" height="48" rx="4" fill="#e1efd0" stroke="#9fb9d0" stroke-width="1.2"/>
-  <text x="570.0" y="525.55" font-size="13" text-anchor="middle" fill="#1f2933">Replace outdated policy</text>
-  <text x="570.0" y="543.55" font-size="13" text-anchor="middle" fill="#1f2933">contents with newer version</text>
-  <text x="372" y="574" font-size="13" text-anchor="end" fill="#1f2933">Yes</text>
-  <line x1="380" y1="544" x2="380" y2="598" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <rect x="272" y="598" width="216" height="48" rx="4" fill="#e1efd0" stroke="#9fb9d0" stroke-width="1.2"/>
-  <text x="380.0" y="617.55" font-size="13" text-anchor="middle" fill="#1f2933">Delete policy initiative</text>
-  <text x="380.0" y="635.55" font-size="13" text-anchor="middle" fill="#1f2933">assignment(s)</text>
-  <line x1="488" y1="622" x2="520" y2="622" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <rect x="520" y="598" width="220" height="48" rx="4" fill="#e1efd0" stroke="#9fb9d0" stroke-width="1.2"/>
-  <text x="630.0" y="617.55" font-size="13" text-anchor="middle" fill="#1f2933">Update outdated policy or</text>
-  <text x="630.0" y="635.55" font-size="13" text-anchor="middle" fill="#1f2933">policy initiative definition</text>
-  <line x1="740" y1="622" x2="772" y2="622" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <rect x="772" y="598" width="210" height="48" rx="4" fill="#e1efd0" stroke="#9fb9d0" stroke-width="1.2"/>
-  <text x="877.0" y="617.55" font-size="13" text-anchor="middle" fill="#1f2933">Reassign policy initiative</text>
-  <text x="877.0" y="635.55" font-size="13" text-anchor="middle" fill="#1f2933">assignment(s)</text>
-  <text x="207" y="590" font-size="13" text-anchor="end" fill="#1f2933">Yes</text>
-  <line x1="215" y1="544" x2="215" y2="696" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <rect x="110" y="696" width="216" height="48" rx="4" fill="#e1efd0" stroke="#9fb9d0" stroke-width="1.2"/>
-  <text x="218.0" y="715.55" font-size="13" text-anchor="middle" fill="#1f2933">Delete policy initiative</text>
-  <text x="218.0" y="733.55" font-size="13" text-anchor="middle" fill="#1f2933">assignment(s)</text>
-  <line x1="326" y1="720" x2="358" y2="720" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <rect x="358" y="696" width="220" height="48" rx="4" fill="#e1efd0" stroke="#9fb9d0" stroke-width="1.2"/>
-  <text x="468.0" y="715.55" font-size="13" text-anchor="middle" fill="#1f2933">Update outdated policy or</text>
-  <text x="468.0" y="733.55" font-size="13" text-anchor="middle" fill="#1f2933">policy initiative definition</text>
-  <line x1="578" y1="720" x2="610" y2="720" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
-  <rect x="610" y="696" width="170" height="48" rx="4" fill="#e1efd0" stroke="#9fb9d0" stroke-width="1.2"/>
-  <text x="695.0" y="715.55" font-size="13" text-anchor="middle" fill="#1f2933">Assign policy</text>
-  <text x="695.0" y="733.55" font-size="13" text-anchor="middle" fill="#1f2933">initiative</text>
+  <rect x="6" y="6" width="993" height="771" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
+  <polygon points="215,168.6 229,182.6 215,196.6 201,182.6" fill="#2b7cd3" stroke="#1f5fa8" stroke-width="1"/>
+  <polygon points="215,268.6 229,282.6 215,296.6 201,282.6" fill="#2b7cd3" stroke="#1f5fa8" stroke-width="1"/>
+  <polygon points="380,268.6 394,282.6 380,296.6 366,282.6" fill="#2b7cd3" stroke="#1f5fa8" stroke-width="1"/>
+  <polygon points="215,438.6 229,452.6 215,466.6 201,452.6" fill="#2b7cd3" stroke="#1f5fa8" stroke-width="1"/>
+  <polygon points="215,528.6 229,542.6 215,556.6 201,542.6" fill="#2b7cd3" stroke="#1f5fa8" stroke-width="1"/>
+  <polygon points="380,528.6 394,542.6 380,556.6 366,542.6" fill="#2b7cd3" stroke="#1f5fa8" stroke-width="1"/>
+  <rect x="80" y="22.6" width="270" height="48" rx="14" fill="#8ec5f0" stroke="#7fb1dc" stroke-width="1.2"/>
+  <text x="215" y="42.15" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Azure landing zone</text>
+  <text x="215" y="60.15" font-size="14" text-anchor="middle" fill="#1f2933">Policy updates required</text>
+  <rect x="80" y="92.6" width="270" height="48" rx="4" fill="#cfe6f7" stroke="#a9c9e2" stroke-width="1.2"/>
+  <text x="215" y="112.15" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Azure landing zone</text>
+  <text x="215" y="130.15" font-size="14" text-anchor="middle" fill="#1f2933">Policies in scope for updating</text>
+  <line x1="215" y1="70.6" x2="215" y2="92.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <line x1="215" y1="140.6" x2="215" y2="168.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="193" y="178.1" font-size="14" text-anchor="end" fill="#1f2933">Policy or policy</text>
+  <text x="193" y="195.1" font-size="14" text-anchor="end" fill="#1f2933">initiative assigned</text>
+  <text x="262" y="175.6" font-size="14" text-anchor="middle" fill="#1f2933">No</text>
+  <line x1="229" y1="182.6" x2="290" y2="182.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="290" y="158.6" width="330" height="48" rx="4" fill="#cdeee6" stroke="#9fb9d0" stroke-width="1.2"/>
+  <text x="455" y="178.15" font-size="14" text-anchor="middle" fill="#1f2933">Replace outdated Azure landing zone</text>
+  <text x="455" y="196.15" font-size="14" text-anchor="middle" fill="#1f2933">policy or policy initiative definition</text>
+  <text x="207" y="230.6" font-size="14" text-anchor="end" fill="#1f2933">Yes</text>
+  <line x1="215" y1="196.6" x2="215" y2="268.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="193" y="278.1" font-size="14" text-anchor="end" fill="#1f2933">Policy assigned</text>
+  <text x="193" y="295.1" font-size="14" text-anchor="end" fill="#1f2933">directly</text>
+  <text x="290" y="275.6" font-size="14" text-anchor="middle" fill="#1f2933">Yes</text>
+  <line x1="229" y1="282.6" x2="366" y2="282.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="380" y="244.6" font-size="14" text-anchor="middle" fill="#1f2933">Policy parameter(s)</text>
+  <text x="380" y="261.6" font-size="14" text-anchor="middle" fill="#1f2933">changed</text>
+  <text x="422" y="275.6" font-size="14" text-anchor="middle" fill="#1f2933">No</text>
+  <line x1="394" y1="282.6" x2="450" y2="282.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="450" y="258.6" width="240" height="48" rx="4" fill="#cfe6f7" stroke="#9fb9d0" stroke-width="1.2"/>
+  <text x="570" y="278.15" font-size="14" text-anchor="middle" fill="#1f2933">Replace outdated policy</text>
+  <text x="570" y="296.15" font-size="14" text-anchor="middle" fill="#1f2933">contents with newer version</text>
+  <text x="372" y="326.6" font-size="14" text-anchor="end" fill="#1f2933">Yes</text>
+  <line x1="380" y1="296.6" x2="380" y2="344.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="290" y="344.6" width="180" height="48" rx="4" fill="#cfe6f7" stroke="#9fb9d0" stroke-width="1.2"/>
+  <text x="380" y="364.15" font-size="14" text-anchor="middle" fill="#1f2933">Delete or update</text>
+  <text x="380" y="382.15" font-size="14" text-anchor="middle" fill="#1f2933">policy assignment(s)</text>
+  <line x1="470" y1="368.6" x2="504" y2="368.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="504" y="344.6" width="150" height="48" rx="4" fill="#cfe6f7" stroke="#9fb9d0" stroke-width="1.2"/>
+  <text x="579" y="364.15" font-size="14" text-anchor="middle" fill="#1f2933">Update</text>
+  <text x="579" y="382.15" font-size="14" text-anchor="middle" fill="#1f2933">outdated policy</text>
+  <line x1="654" y1="368.6" x2="688" y2="368.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="688" y="344.6" width="180" height="48" rx="4" fill="#cfe6f7" stroke="#9fb9d0" stroke-width="1.2"/>
+  <text x="778" y="364.15" font-size="14" text-anchor="middle" fill="#1f2933">Reassign policy</text>
+  <text x="778" y="382.15" font-size="14" text-anchor="middle" fill="#1f2933">assignment(s)</text>
+  <text x="207" y="334.6" font-size="14" text-anchor="end" fill="#1f2933">No</text>
+  <line x1="215" y1="296.6" x2="215" y2="438.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="193" y="448.1" font-size="14" text-anchor="end" fill="#1f2933">Policy assigned through</text>
+  <text x="193" y="465.1" font-size="14" text-anchor="end" fill="#1f2933">policy initiative</text>
+  <text x="207" y="494.6" font-size="14" text-anchor="end" fill="#1f2933">Yes</text>
+  <line x1="215" y1="466.6" x2="215" y2="528.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="193" y="538.1" font-size="14" text-anchor="end" fill="#1f2933">Policy initiative</text>
+  <text x="193" y="555.1" font-size="14" text-anchor="end" fill="#1f2933">outdated</text>
+  <text x="290" y="535.6" font-size="14" text-anchor="middle" fill="#1f2933">No</text>
+  <line x1="229" y1="542.6" x2="366" y2="542.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="380" y="504.6" font-size="14" text-anchor="middle" fill="#1f2933">Policy parameter(s)</text>
+  <text x="380" y="521.6" font-size="14" text-anchor="middle" fill="#1f2933">changed</text>
+  <text x="422" y="535.6" font-size="14" text-anchor="middle" fill="#1f2933">No</text>
+  <line x1="394" y1="542.6" x2="450" y2="542.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="450" y="518.6" width="240" height="48" rx="4" fill="#e1efd0" stroke="#9fb9d0" stroke-width="1.2"/>
+  <text x="570" y="538.15" font-size="14" text-anchor="middle" fill="#1f2933">Replace outdated policy</text>
+  <text x="570" y="556.15" font-size="14" text-anchor="middle" fill="#1f2933">contents with newer version</text>
+  <text x="372" y="586.6" font-size="14" text-anchor="end" fill="#1f2933">Yes</text>
+  <line x1="380" y1="556.6" x2="380" y2="610.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="272" y="610.6" width="216" height="48" rx="4" fill="#e1efd0" stroke="#9fb9d0" stroke-width="1.2"/>
+  <text x="380" y="630.15" font-size="14" text-anchor="middle" fill="#1f2933">Delete policy initiative</text>
+  <text x="380" y="648.15" font-size="14" text-anchor="middle" fill="#1f2933">assignment(s)</text>
+  <line x1="488" y1="634.6" x2="520" y2="634.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="520" y="610.6" width="220" height="48" rx="4" fill="#e1efd0" stroke="#9fb9d0" stroke-width="1.2"/>
+  <text x="630" y="630.15" font-size="14" text-anchor="middle" fill="#1f2933">Update outdated policy or</text>
+  <text x="630" y="648.15" font-size="14" text-anchor="middle" fill="#1f2933">policy initiative definition</text>
+  <line x1="740" y1="634.6" x2="772" y2="634.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="772" y="610.6" width="210" height="48" rx="4" fill="#e1efd0" stroke="#9fb9d0" stroke-width="1.2"/>
+  <text x="877" y="630.15" font-size="14" text-anchor="middle" fill="#1f2933">Reassign policy initiative</text>
+  <text x="877" y="648.15" font-size="14" text-anchor="middle" fill="#1f2933">assignment(s)</text>
+  <text x="207" y="602.6" font-size="14" text-anchor="end" fill="#1f2933">Yes</text>
+  <line x1="215" y1="556.6" x2="215" y2="708.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="110" y="708.6" width="216" height="48" rx="4" fill="#e1efd0" stroke="#9fb9d0" stroke-width="1.2"/>
+  <text x="218" y="728.15" font-size="14" text-anchor="middle" fill="#1f2933">Delete policy initiative</text>
+  <text x="218" y="746.15" font-size="14" text-anchor="middle" fill="#1f2933">assignment(s)</text>
+  <line x1="326" y1="732.6" x2="358" y2="732.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="358" y="708.6" width="220" height="48" rx="4" fill="#e1efd0" stroke="#9fb9d0" stroke-width="1.2"/>
+  <text x="468" y="728.15" font-size="14" text-anchor="middle" fill="#1f2933">Update outdated policy or</text>
+  <text x="468" y="746.15" font-size="14" text-anchor="middle" fill="#1f2933">policy initiative definition</text>
+  <line x1="578" y1="732.6" x2="610" y2="732.6" stroke="#3a3a3a" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="610" y="708.6" width="170" height="48" rx="4" fill="#e1efd0" stroke="#9fb9d0" stroke-width="1.2"/>
+  <text x="695" y="728.15" font-size="14" text-anchor="middle" fill="#1f2933">Assign policy</text>
+  <text x="695" y="746.15" font-size="14" text-anchor="middle" fill="#1f2933">initiative</text>
 </svg>

@@ -11,19 +11,17 @@ description: "Beginner Azure lab: assign Allowed locations and a required tag in
 
 By the end of this lab you will have a resource group called `rg-azb-sandbox` with two Azure Policy rules on it. One allows only your region. The other requires a tag called `env`. You will have seen a storage account blocked by each rule and read the error. You will have put a CanNotDelete lock on a storage account, tried to delete it, and removed the lock before you delete the sandbox. Everything you create here is deleted at the end.
 
-I have not run these steps in a live tenant for this article. The steps follow Microsoft Learn.
-
 Everything in this lab happens inside one resource group that you create for it. Nothing here touches `rg-azb-core` or any other group.
 
 ## What you need
 
-- [Lab 1: Start safely: Azure free account, tenant and subscription](/azure-basics-labs/start-azure-account-tenant-subscription/): a throwaway subscription.
-- [Lab 2: Azure Cloud Shell and Azure CLI](/azure-basics-labs/cloud-shell-and-azure-cli/): only for the CLI part. Azure CLI 2.76 or newer.
-- [Lab 3: Resource group, tags, budget and action group](/azure-basics-labs/resource-group-tags-budget/): you already know what a resource group and a tag are.
-- [Lab 7: Azure RBAC roles](/azure-basics-labs/rbac-roles/): permissions are a different thing from policy and locks. This lab shows the difference.
+- [Start safely: Azure free account, tenant and subscription](/azure-basics-labs/start-azure-account-tenant-subscription/): a throwaway subscription.
+- [Azure Cloud Shell and Azure CLI](/azure-basics-labs/cloud-shell-and-azure-cli/): only for the CLI part. Azure CLI 2.76 or newer.
+- [Resource group, tags, budget and action group](/azure-basics-labs/resource-group-tags-budget/): you already know what a resource group and a tag are.
+- [Azure RBAC roles](/azure-basics-labs/rbac-roles/): permissions are a different thing from policy and locks. This lab shows the difference.
 - A role that can create policy assignments and locks. To create or delete locks you need access to `Microsoft.Authorization/*` or `Microsoft.Authorization/locks/*` actions. Owner and User Access Administrator have it. Use Owner on your own throwaway subscription.
-- The one region you use for the whole series (the region on your notes sheet from [Lab 1](/azure-basics-labs/start-azure-account-tenant-subscription/)), and a second region that is different from it. You will try to deploy into the second region and be refused. For example, if your region is East US 2, use West US 3. If the portal says a region is not available for storage accounts, pick another one.
-- Time: about 60 minutes of work, plus waiting of 5 to 15 minutes at a few points. Use the waits: while you wait, read Part 6 (locks).
+- The one region you use for the whole series (the region on your notes sheet from [the account lab](/azure-basics-labs/start-azure-account-tenant-subscription/)), and a second region that is different from it. You will try to deploy into the second region and be refused. For example, if your region is East US 2, use West US 3. If the portal says a region is not available for storage accounts, pick another one.
+- Time: about 60 minutes of work, plus waiting of 5 to 15 minutes at a few points. Use the waits: while you wait, read the section on locks.
 - Cost: empty storage accounts cost almost nothing, but delete them the same day. You never have more than two at a time. Nothing here uses the VM.
 
 **State of your resources**
@@ -38,7 +36,7 @@ Everything in this lab happens inside one resource group that you create for it.
 ## Safety first
 
 - Use the throwaway tenant only. Read the tenant and subscription name at the top of the portal before you assign anything.
-- Assign every policy in this lab to the resource group `rg-azb-sandbox`. Never assign a Deny policy at subscription scope in this series. A policy assignment applies to all resources contained within its scope, so a Deny rule on the subscription would also block what you build in Labs 8 to 19.
+- Assign every policy in this lab to the resource group `rg-azb-sandbox`. Never assign a Deny policy at subscription scope in this series. A policy assignment applies to all resources contained within its scope, so a Deny rule on the subscription would also block what you build in the other labs.
 - Check the scope field on every assignment page before you select **Create**. It must end in `rg-azb-sandbox`.
 - A lock can stop you from cleaning up. Remove the locks first, then the assignments, then delete the resource group. The order is in "Clean up".
 - Do not use a ReadOnly lock on a resource group. It blocks actions that do not look like changes, such as starting a VM. This lab only tries it, once, on one storage account.
@@ -46,13 +44,13 @@ Everything in this lab happens inside one resource group that you create for it.
 
 ## What the lab builds
 
-![A left-to-right diagram. Inside one subscription is the resource group rg-azb-sandbox. Two policy assignments are attached to it: Allowed locations, which goes from Audit to Deny, and Require a tag on resources, which goes from enforcement Disabled to Enabled. A storage account in the wrong region is refused by Allowed locations with a RequestDisallowedByPolicy error (a Forbidden, 403, response). A storage account without the env tag is refused by Require a tag. A storage account in the right region with the tag is created. A CanNotDelete lock on that account blocks its delete. The clean up order is: 1 remove the lock, 2 delete the policy assignments, 3 delete the resource group.](/img/basics/azure-policy-locks.svg)
+![In rg-azb-sandbox, Allowed locations refuses a storage account in the wrong region (403) and Require tag env refuses one without the tag. A valid account is created and protected by a CanNotDelete lock. Clean up: remove the lock, then the assignments, then the group.](/img/basics/azure-policy-locks.svg)
 
-*Source: [Quickstart: Create a policy assignment to identify non-compliant resources](https://learn.microsoft.com/en-us/azure/governance/policy/assign-policy-portal), [Azure Policy assignment structure](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/assignment-structure), [Azure Policy definitions deny effect](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/effect-deny), [Get compliance data of Azure resources](https://learn.microsoft.com/en-us/azure/governance/policy/how-to/get-compliance-data) and [Lock your Azure resources to protect your infrastructure](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
+*Source: Microsoft Learn pages listed under Sources.*
 
 ## Steps in the Azure portal
 
-### Part 1: Create the sandbox
+### Create the sandbox
 
 1. Sign in to the [Azure portal](https://portal.azure.com). Read the tenant and subscription name.
 2. Search for and open **Resource groups**, then select **Create**.
@@ -60,9 +58,9 @@ Everything in this lab happens inside one resource group that you create for it.
 
 Check: `rg-azb-sandbox` is in the Resource groups list and is empty.
 
-### Part 2: Allowed locations, first with Audit
+### Allowed locations, first with Audit
 
-**Idea 1: a policy assignment is a rule, a place and an effect.** Azure Policy checks resources against rules. A *policy definition* is the rule. A *policy assignment* applies a rule to a *scope*, which is a subscription, a resource group or a resource. An assignment applies to all resources contained in its scope. The *effect* says what happens when a resource breaks the rule. Two effects matter here. **Audit** lets the resource be created and marks it non-compliant in a report. **Deny** stops the request. Learn says Deny returns the request as `403 (Forbidden)` before it reaches the resource provider.
+**Idea 1: a policy assignment is a rule, a place and an effect.** Azure Policy checks resources against rules. A *policy definition* is the rule. A *policy assignment* applies a rule to a *scope*, which is a subscription, a resource group or a resource. An assignment applies to all resources contained in its scope. The *effect* says what happens when a resource breaks the rule. Two effects matter here. **Audit** lets the resource be created and marks it non-compliant in a report. **Deny** stops the request. A Deny returns the request as `403 (Forbidden)` before it reaches the resource provider.
 
 **Idea 2: policy is not instant.** A new assignment takes about five minutes to be applied to its scope. The compliance report takes about 15 minutes to show a result. So wait five minutes after each assignment or change before you test. A test that runs too early can pass when it should not.
 
@@ -80,18 +78,18 @@ The rule is the built-in policy **Allowed locations**. It restricts the location
 
 Check: under **Policy** > **Assignments**, `Allowed locations (sandbox)` is listed with the scope `rg-azb-sandbox`.
 
-### Part 3: Break the rule while it only audits
+### Break the rule while it only audits
 
-I call the storage accounts by what they test, so you do not mix them up: the audit-test account, the no-tag account and the tagged account. A Deny test account never gets created. Storage account names must be 3 to 24 characters, lowercase letters and digits only, and unique across Azure. Pick five digits and use them in every name, for example `azbsbaudit48213`. Write the names in your notes as you create them.
+The storage accounts are named by what they test, so you do not mix them up: the audit-test account, the no-tag account and the tagged account. A Deny test account never gets created. Storage account names must be 3 to 24 characters, lowercase letters and digits only, and unique across Azure. Pick five digits and use them in every name, for example `azbsbaudit48213`. Write the names in your notes as you create them.
 
 13. Search for **Storage accounts**, then select **Create**.
 14. Set **Resource group** to `rg-azb-sandbox`. Set **Storage account name** to `azbsbaudit` plus your five digits. Set **Region** to your **second** region, the one that is not allowed.
 15. Select **Review + create**, then **Create**. With Audit, the deployment should succeed. This is the audit-test account.
-16. Optional compliance report: wait about 15 minutes, then open **Policy** > **Compliance** and open `Allowed locations (sandbox)`. The audit-test account should show as **Non-compliant**. If you do not want to wait, go on to Part 4 and look at the report at the end of the lab.
+16. Optional compliance report: wait about 15 minutes, then open **Policy** > **Compliance** and open `Allowed locations (sandbox)`. The audit-test account should show as **Non-compliant**. If you do not want to wait, go on to the next section and look at the report at the end of the lab.
 
 Check: the storage account exists in the wrong region. It was not stopped. That is what Audit does.
 
-### Part 4: Switch the same rule to Deny
+### Switch the same rule to Deny
 
 17. Open **Policy** > **Assignments**, select `Allowed locations (sandbox)`, then select **Edit assignment**.
 18. On the **Parameters** tab, change **Effect** to **Deny**. Select **Review + save**, then **Save**. Wait five minutes.
@@ -100,9 +98,9 @@ Check: the storage account exists in the wrong region. It was not stopped. That 
 21. Read the error. It looks like "Resource ... was disallowed by policy", with the code **RequestDisallowedByPolicy**, the name of the policy assignment and your non-compliance message.
 22. The audit-test account is still there. Deny does not delete what already exists. Delete it now: open it, select **Delete**, and type its name to confirm.
 
-Check: the create in the second region is refused with `RequestDisallowedByPolicy`, and the same create in your chosen region would work (you try that in Part 5).
+Check: the create in the second region is refused with `RequestDisallowedByPolicy`, and the same create in your chosen region would work (you try that in the next section).
 
-### Part 5: Require a tag, with enforcement switched off first
+### Require a tag, with enforcement switched off first
 
 Azure has built-in rules for tags. You use **Require a tag on resources**. It has no Audit setting, so you use a different switch for the same purpose: the **enforcement mode** of the assignment. In the portal the field is called **Policy enforcement**, with the values **Enabled** and **Disabled**. Disabled means the rule is checked but not enforced. It does not mean the assignment is deleted.
 
@@ -119,7 +117,7 @@ Azure has built-in rules for tags. You use **Require a tag on resources**. It ha
 
 Check: an untagged create is refused, a tagged create in the right region works. Both rules are now being enforced at the same time. If one create fails, read which assignment name the error gives.
 
-### Part 6: Lock one resource
+### Lock one resource
 
 **Idea 3: a lock is not a permission and not a policy.** A lock is a flag on a subscription, resource group or resource. It protects from accidental deletions and modifications, and **the lock overrides any user permissions**. It applies across all users and roles, which is not how Azure RBAC works. Two levels exist. In the portal they are called **Delete** and **Read-only**. In the CLI they are **CanNotDelete** and **ReadOnly**.
 
@@ -129,7 +127,7 @@ Check: an untagged create is refused, a tagged create in the right region works.
 A lock on a parent scope is inherited by everything inside it, and the most restrictive lock wins. Locks apply to control plane operations only. A lock on a storage account does not protect the data inside it.
 
 33. Open the tagged account. In the left menu, under **Settings**, select **Locks**. (For a subscription the menu item is called **Resource locks**.)
-34. Select **Add**. Set **Lock name** to `lock-azb-nodelete`, **Lock type** to **Delete**, and add a note: `Lab 17 test. Remove before cleanup.` Select **OK**.
+34. Select **Add**. Set **Lock name** to `lock-azb-nodelete`, **Lock type** to **Delete**, and add a note: `Test lock. Remove before cleanup.` Select **OK**.
 35. On the tagged account, select **Delete** and confirm. Expect an error that says the scope is locked and cannot perform the delete operation, and to remove the lock and try again.
 36. Prove that CanNotDelete still lets you change things. Open the **Tags** page of the tagged account, change the value of `env` to `sandbox2`, and save. It should work.
 
@@ -254,7 +252,7 @@ Add the lock to the tagged account and try to delete it. `--lock-type` is `CanNo
 az lock create --name lock-azb-nodelete --lock-type CanNotDelete \
   --resource-group $RG --resource-name $STG_TAGGED \
   --resource-type Microsoft.Storage/storageAccounts \
-  --notes "Lab 17 test. Remove before cleanup."
+  --notes "Test lock. Remove before cleanup."
 az lock list --resource-group $RG -o table
 az storage account delete --name $STG_TAGGED --resource-group $RG
 ```
@@ -263,7 +261,7 @@ Check: the delete fails with an error that says the scope is locked.
 
 ## Terraform
 
-No Terraform in this lab, because I could not check the Terraform resources for policy assignments and locks against Learn, and I do not want to give you code I have not checked. The portal and CLI steps are enough to learn the idea.
+No Terraform in this lab. The portal and CLI steps are enough to learn the idea.
 
 ## Check that it works
 
@@ -320,27 +318,18 @@ echo "$RG_ID $STG_TAGGED"
 
    The last command should print `false`.
 
-End state: `rg-azb-sandbox` is gone with its assignments, lock and storage accounts. The VM is still Stopped (deallocated), no `allow-rdp-my-ip` rule, and the public IP `pip-azb-win01` still exists. Keep for later labs: `rg-azb-core`, `rg-azb-lab` and everything in them. `rg-azb-lab` never had a policy assignment or lock from this lab, so it is not affected. Safe stopping points: after Part 4 (delete the audit-test account and leave the assignment for now) and after Part 6 (run "Clean up" now).
+End state: `rg-azb-sandbox` is gone with its assignments, lock and storage accounts. The VM is still Stopped (deallocated), no `allow-rdp-my-ip` rule, and the public IP `pip-azb-win01` still exists. Keep for later labs: `rg-azb-core`, `rg-azb-lab` and everything in them. `rg-azb-lab` never had a policy assignment or lock from this lab, so it is not affected. Safe stopping points: after "Switch the same rule to Deny" (delete the audit-test account and leave the assignment for now) and after "Lock one resource" (run "Clean up" now).
 
 ## Where this is used in AVD
 
-Before you build an AVD environment you read the policy assignments that already exist, because a Deny rule on region, tag or resource type can stop a host pool or session host deployment. The first symptom is the error you saw in Part 4: `RequestDisallowedByPolicy`. The section on policy checks in [Prepare Your Azure Environment](/azure-virtual-desktop/prepare-your-azure-environment/) lists what to read and record: scope, excluded scopes, enforcement mode, parameters and exemptions.
+Before you build an AVD environment you read the policy assignments that already exist, because a Deny rule on region, tag or resource type can stop a host pool or session host deployment. The first symptom is the error you saw when you switched the rule to Deny: `RequestDisallowedByPolicy`. The section on policy checks in [Prepare Your Azure Environment](/azure-virtual-desktop/prepare-your-azure-environment/) lists what to read and record: scope, excluded scopes, enforcement mode, parameters and exemptions.
 
 ## Next lab
 
-[Lab 18: Private endpoint and private DNS](/azure-basics-labs/private-endpoint-dns/) adds a private endpoint and the private DNS that goes with it.
+[Private endpoint and private DNS](/azure-basics-labs/private-endpoint-dns/) adds a private endpoint and the private DNS that goes with it.
 
 ## Sources
 
 - [Quickstart: Create a policy assignment to identify non-compliant resources using Azure portal](https://learn.microsoft.com/en-us/azure/governance/policy/assign-policy-portal)
-- [Azure Policy assignment structure](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/assignment-structure)
 - [Azure Policy definitions deny effect](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/effect-deny)
-- [Get compliance data of Azure resources](https://learn.microsoft.com/en-us/azure/governance/policy/how-to/get-compliance-data)
-- [Azure Policy built-in policy definitions](https://learn.microsoft.com/en-us/azure/governance/policy/samples/built-in-policies)
-- [Understand scope in Azure Policy](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/scope)
-- [Resolve errors for request disallowed by policy](https://learn.microsoft.com/en-us/azure/azure-resource-manager/troubleshooting/error-policy-requestdisallowedbypolicy)
-- [Tutorial: Create and manage policies to enforce compliance](https://learn.microsoft.com/en-us/azure/governance/policy/tutorials/create-and-manage)
 - [Lock your Azure resources to protect your infrastructure](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources)
-- [Create an Azure storage account](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-create)
-- [az policy assignment](https://learn.microsoft.com/en-us/cli/azure/policy/assignment)
-- [az lock](https://learn.microsoft.com/en-us/cli/azure/lock)

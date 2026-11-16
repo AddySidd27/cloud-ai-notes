@@ -5,7 +5,6 @@ slug: "platform-automation-and-devops"
 series: "Azure Landing Zone"
 part: ""
 post_number: 15
-status: draft
 preview_feature: false
 fictional_case: false
 learn_pages:
@@ -42,7 +41,6 @@ diagrams:
     type: learn-layout-redraw
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/considerations/development-strategy-test-driven-development (picture test-driven-development-process.png, read from the MicrosoftDocs GitHub source)"
     source: "../diagrams/post-15-test-driven-development-cycle.drawio"
-production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/platform-automation-and-devops/"
 order: 15
@@ -56,11 +54,11 @@ In the earlier posts you made many decisions: management groups, identity, netwo
 
 If a person does all of this by hand in the portal, no one can see what was changed, who approved it, or why two environments look different.
 
-The Platform automation and DevOps design area asks how to deploy and manage the landing zone with code, review and automation. In the list of design areas, it comes last (the Learn list marks it with the letter I). Its goal is to line up your DevOps ways of working with the landing zone's whole life: creating it (provisioning), managing it, changing it over time (evolution) and running it (operations).
+The Platform automation and DevOps design area asks how to deploy and manage the landing zone with code, review and automation. In the list of design areas, it comes last (the list marks it with the letter I). Its goal is to line up your DevOps ways of working with the landing zone's whole life: creating it (provisioning), managing it, changing it over time (evolution) and running it (operations).
 
 It uses "extreme automation" (automating everything you can) and Infrastructure as Code, or IaC (describing Azure resources in code files, so they can be deployed the same way every time). DevOps is the way the people who build and the people who run a system work together with shared tools. A pipeline is an automatic process that runs checks and deploys code. The Key terms table below explains these words again.
 
-This post covers the overview, automation, using infrastructure as code to update, the implementation options, DevOps principles, team topologies, the development lifecycle, environments, the testing approach, test-driven development, and the two security pages. On Learn they fall into four parts: Platform automation, DevOps, Development strategy and Security. The table below splits them into six rows, so that the implementation options and the infrastructure as code page have their own rows. I cover those two early, because they explain the tools.
+This post covers the overview, automation, using infrastructure as code to update, the implementation options, DevOps principles, team topologies, the development lifecycle, environments, the testing approach, test-driven development, and the two security pages. Microsoft groups them into four parts: Platform automation, DevOps, Development strategy and Security. The table below splits them into six rows, so that the implementation options and the infrastructure as code page have their own rows. Those two come early, because they explain the tools.
 
 ## Key terms
 
@@ -99,14 +97,14 @@ The table shows the parts of this design area and the question each one answers.
 The ability to make changes at scale through a set, automated process helps the organization go beyond the baseline that security, governance and management create. Its automation considerations are:
 
 - **Everything as Code.** Teams can then see which resources are deployed, track changes and control which ones reach production. The code is the single source of truth: the one place that shows what should be running in each environment.
-- **The 4-eyes principle.** Code changes are never made alone: a second person sees each change, which is peer review (Learn also calls it peer programming). Use Git repositories and branch policies to enforce peer review, for example a minimum number of approvals before a merge into a protected branch.
+- **The 4-eyes principle.** Code changes are never made alone: a second person sees each change, which is peer review (the documentation also calls it peer programming). Use Git repositories and branch policies to enforce peer review, for example a minimum number of approvals before a merge into a protected branch.
 - **CI/CD.** Every code change should start checks such as static code analysis (reading your code to flag mistakes without running it), validation and test deployments. Testing early is called "fail fast" or "shift-left testing".
 - **Deploy after review.** After changes are approved and merged into `main`, the CD process deploys them to production.
 - **Extreme automation.** The aim is a platform that is self-healing and gives self-service to workload teams. This frees the platform team from deploying and managing the platform by hand, so it has more time to build more automation.
 - **Emergency fixes.** Teams can use PIM eligible permissions (permissions you must ask for first) to get access for a fix, and later bring the fix back to code to limit drift. Or they can use code for a quick fix. Always put quick fixes in the backlog (the list of work the team plans to do) and rework them later.
 - **Azure Policy as code.** Policies can automate things such as log collection. Many Policy as Code frameworks have an exemption process (a way for a workload team to ask to skip one policy rule, after approval), so plan for workload teams to ask for exemptions.
 
-*A note on [the governance post](/azure-landing-zone/governance-and-azure-policy/).* Deny and Modify affect a workload team's code differently. Deny blocks a deployment that breaks a security control. The team sees the error and fixes its code, so the code and the deployed resource stay the same. Modify changes a setting while the resource is deployed, so the deployed resource no longer matches the team's code. Learn gives an example: the code sets `supportOnlyHttpsTraffic = false` on a storage account, and a Modify policy changes it to `true`. Learn says to avoid Modify for this reason, and to use Deny so that workload teams see and fix the broken control themselves. (judgement) The reference implementation uses DINE and Modify for platform settings, for example diagnostic settings and tags. DINE deploys supporting resources, not the workload itself. A Modify policy, for example for tags, can still change a workload resource after deployment, so the resource can differ from the team's code. Tell workload teams which Modify policies apply to them. [The governance post](/azure-landing-zone/governance-and-azure-policy/) covers DINE and Modify. **Platform automation recommendations:**
+*A note on [the governance post](/azure-landing-zone/governance-and-azure-policy/).* Deny and Modify affect a workload team's code differently. Deny blocks a deployment that breaks a security control. The team sees the error and fixes its code, so the code and the deployed resource stay the same. Modify changes a setting while the resource is deployed, so the deployed resource no longer matches the team's code. For example, the code sets `supportOnlyHttpsTraffic = false` on a storage account, and a Modify policy changes it to `true`. Avoid Modify for this reason, and use Deny so that workload teams see and fix the broken control themselves. The reference implementation uses DINE and Modify for platform settings, for example diagnostic settings and tags. DINE deploys supporting resources, not the workload itself. A Modify policy, for example for tags, can still change a workload resource after deployment, so the resource can differ from the team's code. Tell workload teams which Modify policies apply to them. [The governance post](/azure-landing-zone/governance-and-azure-policy/) covers DINE and Modify. **Platform automation recommendations:**
 
 - Follow Everything as Code, and keep all the code types in version control.
 - Use the 4-eyes principle with peer review.
@@ -225,20 +223,18 @@ The development lifecycle has five topics: repository, branches, automated build
 
 ### Terraform state
 
-If you use Terraform, decide early where its state lives. State is how Terraform matches your configuration to the resources that exist. By default it is stored locally, which suits teams badly: shared work is hard, the state can hold sensitive information, and local files are easy to delete by accident ([Store Terraform state in Azure Storage](https://learn.microsoft.com/azure/developer/terraform/get-started/store-state-in-azure-storage), checked October 2026).
+If you use Terraform, decide early where its state lives. State is how Terraform matches your configuration to the resources that exist. By default it is stored locally, which suits teams badly: shared work is hard, the state can hold sensitive information, and local files are easy to delete by accident ([Store Terraform state in Azure Storage](https://learn.microsoft.com/azure/developer/terraform/get-started/store-state-in-azure-storage)).
 
 - **Where.** Use a blob container in an Azure Storage account as the backend. State is stored in plain text and may contain secrets, so treat the storage account as sensitive.
 - **Locking.** Azure Storage blobs are locked automatically before any operation that writes state, which stops two runs writing at once. The lock is a lease on the state blob.
-- **Authentication.** The Microsoft example uses a storage access key, and says that in production you should evaluate the other authentication options of the `azurerm` backend and use the most secure one for your case. (judgement) Prefer Microsoft Entra ID authentication with the pipeline's identity over account keys, after checking the backend documentation for your Terraform version. If you must use a key, keep it in Key Vault and not in code.
-- **Network.** In production, restrict the storage account with the storage firewall, a service endpoint or a private endpoint. (judgement) Your pipeline agents then need a network path to it.
+- **Authentication.** The Microsoft example uses a storage access key, and says that in production you should evaluate the other authentication options of the `azurerm` backend and use the most secure one for your case. Prefer Microsoft Entra ID authentication with the pipeline's identity over account keys, after checking the backend documentation for your Terraform version. If you must use a key, keep it in Key Vault and not in code.
+- **Network.** In production, restrict the storage account with the storage firewall, a service endpoint or a private endpoint. Your pipeline agents then need a network path to it.
 - **Encryption.** Blob data is encrypted at rest, and Terraform reads state into memory instead of writing it to local disk.
-- **(judgement)** Keep a separate state file per environment, so a problem in one cannot block or damage another.
+- **State per environment.** Keep a separate state file per environment, so a problem in one cannot block or damage another.
 
 **If a run says the state blob is already locked.** There are two usual causes: a Terraform command is still running against that state, or a connection was interrupted and left the lock behind ([Troubleshoot Terraform on Azure](https://learn.microsoft.com/azure/developer/terraform/troubleshoot#error-acquiring-the-state-lock)). First check that nothing is running against the state, in terminals and in pipelines.
 
-Only if nothing is, the troubleshooting page says you can find the state file in the storage container and use **Break lease**. Breaking a lease while a run is still writing can let two runs write state at the same time and damage it, so be sure the earlier run has really ended.
-
-(judgement) Make sure you can restore the state first, for example with blob versioning or soft delete turned on, and prefer fixing the cause over repeating the break. A broken lease also cannot be taken again straight away ([blob leases](https://learn.microsoft.com/azure/storage/blobs/storage-blob-lease#break-a-lease)), so a retry may need a short wait. The error message itself says that turning locking off with `-lock=false` is not recommended.
+Only if nothing is, the troubleshooting page says you can find the state file in the storage container and use **Break lease**. Breaking a lease while a run is still writing can let two runs write state at the same time and damage it, so be sure the earlier run has really ended. Make sure you can restore the state first, for example with blob versioning or soft delete turned on, and prefer fixing the cause over repeating the break. A broken lease also cannot be taken again straight away ([blob leases](https://learn.microsoft.com/azure/storage/blobs/storage-blob-lease#break-a-lease)), so a retry may need a short wait. The error message itself says that turning locking off with `-lock=false` is not recommended.
 
 ### Rollback
 
@@ -268,11 +264,11 @@ You repeat the cycle until the full definition of done is met. Azure Policy is t
 
 **Figure 1. The test-driven development cycle, steps 1 to 5.**
 
-![Test-driven development cycle for an Azure landing zone. A box, Definition of done, with an arrow labelled Acceptance criteria points into a cycle of five numbered circles that go clockwise: 1 create a test, 2 test the landing zone, 3 expand and refactor the landing zone, 4 deploy the landing zone, 5 test the landing zone, and back to 1.](/diagrams/post-15-test-driven-development-cycle.svg)
+![A Definition of done box with an Acceptance criteria arrow leads into a five-step cycle: create a test, test the landing zone, expand and refactor, deploy, test again.](/diagrams/post-15-test-driven-development-cycle.svg)
 
-*Based on [Test-driven development for an Azure landing zone](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/considerations/development-strategy-test-driven-development), with the same layout. Simplified: the Learn picture has no icons and does not show the red and green tests. The step numbers are added here.*
+*Source: [Test-driven development for an Azure landing zone](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/considerations/development-strategy-test-driven-development), Microsoft Learn.*
 
-The Learn pages also have a map of Azure tools for test-driven development and two example DevOps toolchain pictures. They are not repeated here. The tool names are in the DevOps section above.
+The documentation pages also have a map of Azure tools for test-driven development and two example DevOps toolchain pictures. They are not repeated here. The tool names are in the DevOps section above.
 
 ## Security for DevOps platforms
 
@@ -292,7 +288,7 @@ Microsoft keeps the underlying cloud infrastructure secure, but you must configu
 - **In GitHub Actions:** use OpenID Connect and create approvals on a GitHub Actions environment. Also add the `environment` claim (a claim is a piece of information about who or what is signing in; GitHub's claims include the environment and the workflow) and the `job_workflow_ref` claim to the identity's federated credential. Also use `repository_owner_id` and `repository_id` instead of `repository`. This limits the identity to one environment, one workflow and one repository, even if the repository is renamed.
 - **Use a secret store.** Avoid secrets where you can. If you cannot, never hard-code them in code or documents. Keep them in a store such as Azure Key Vault.
 
-*A note on secrets:* (judgement) sign in with OpenID Connect and a federated credential. Keep a secret in Key Vault only when you cannot avoid one.
+*A note on secrets:* Sign in with OpenID Connect and a federated credential. Keep a secret in Key Vault only when you cannot avoid one.
 
 ### Checks and watching
 
@@ -323,19 +319,9 @@ These are checks, one line each.
 - **Quick fixes that never reach the backlog.** Register them, to limit technical debt (work you owe later, such as a quick fix that was not reviewed; too much of it slows the team down).
 - **No policy exemption process.** Plan for workload teams to ask for exemptions.
 
-## From my own projects
-
-From the list above, these came up in my own work: staying on portal clicks, deploying from a laptop, no test environment, one identity for plan and apply or for all environments, approvals only on the environment in Azure DevOps, changes made outside the code, and no policy exemption process. The other three items did not come up in my work. I leave out project details.
-
-## The files in my repo
-
-- Platform automation and DevOps: the decisions to make, the repository's delivery flow, the key controls, and its recommended practice: [platform-automation-devops.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/platform-automation-devops.md)
-
 Next: [Minimum Viable Platform Landing Zone: What to Build First](/azure-landing-zone/minimum-viable-platform-landing-zone/).
 
 ## Sources
-
-Microsoft Learn, checked October 2026:
 
 - [Design area: Platform automation and DevOps](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/platform-automation-devops)
 - [Platform automation](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/considerations/automation)

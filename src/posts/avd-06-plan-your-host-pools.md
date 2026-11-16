@@ -10,9 +10,9 @@ deck: "Choose host pools, applications, images and capacity before deploying ses
 description: "Plan Azure Virtual Desktop host pools: pooled or personal, RemoteApp or desktop, VM sizing, images and capacity maths, with a load-test plan before deployment."
 ---
 
-In the [networking post](/azure-virtual-desktop/plan-avd-networking/), we planned the network for AVD. Now we need to decide what the desktops will provide. A call-center agent taking a customer call, a developer compiling code and a mobile employee working in finance applications place different demands on the service. We will follow those differences through the design.
+The previous article planned the network. This article decides what the desktops provide. A call-center agent taking a customer call, a developer compiling code and a mobile employee working in finance applications place different demands on the service. The design has to follow those differences.
 
-Our example company has 5,000 users: call-center agents, standard business and mobile staff, developers, and specialist users. We will move from the business-owner discussion to application tests, image choices and host counts. The output is a plan that another engineer can understand and build from. The company, its teams and every number in the worked example are made up for illustration. Nothing here is a real customer or a measured result.
+The example company has 5,000 users: call-center agents, standard business and mobile staff, developers, and specialist users. The article moves from the business-owner discussion to application tests, image choices and host counts. The output is a plan that another engineer can understand and build from. The company, its teams and every number in the worked example are made up for illustration. Nothing here is a real customer or a measured result.
 
 ## Key terms
 
@@ -35,17 +35,17 @@ Our example company has 5,000 users: call-center agents, standard business and m
 | Azure Compute Gallery | An Azure service that stores image definitions and their versions and copies them to other regions. |
 | FSLogix | Software that keeps a user's profile in a container file on shared storage and attaches it at sign-in, so the profile follows the user between hosts. |
 | Validation environment | A host pool setting that receives AVD service updates before other pools. It is for testing only. |
-| Deployment scope | A choice made when a host pool is created: whether its metadata is stored regionally or geographically. It cannot be changed later. See [the architecture post](/azure-virtual-desktop/azure-virtual-desktop-architecture/). |
+| Deployment scope | A choice made when a host pool is created: whether its metadata is stored regionally or geographically. It cannot be changed later. See [Azure Virtual Desktop architecture](/azure-virtual-desktop/azure-virtual-desktop-architecture/). |
 | User input delay | How long a user's input waits in a queue before the application handles it. |
-| Persona | A planning term used in this series (judgement) for a group of users with similar application, performance and operating needs. It is not an AVD setting. |
+| Persona | A planning term for a group of users with similar application, performance and operating needs. It is not an AVD setting. |
 | Session density | The number of simultaneous sessions per host that still meets the agreed user experience. |
 | Disconnected session | A session that is still running after the user closed the window without signing out. |
 | Workspace | A logical grouping of application groups. Users see the desktops and apps of its application groups in their feed, which is the list of resources their AVD client shows. |
-| Drain mode | A host setting that stops the host taking new sessions. Existing sessions stay until the user signs out or an administrator ends them. See [the architecture post](/azure-virtual-desktop/azure-virtual-desktop-architecture/). |
+| Drain mode | A host setting that stops the host taking new sessions. Existing sessions stay until the user signs out or an administrator ends them. See [Azure Virtual Desktop architecture](/azure-virtual-desktop/azure-virtual-desktop-architecture/). |
 | Azure Image Builder | An Azure service that builds a VM image from a template. |
-| App attach | A way to deliver applications from a separate disk image at sign-in, instead of building them into the host image. See [the RemoteApp and app attach post](/azure-virtual-desktop/deliver-applications-remoteapp-app-attach/). |
+| App attach | A way to deliver applications from a separate disk image at sign-in, instead of building them into the host image. See [Deliver Applications with RemoteApp and App Attach](/azure-virtual-desktop/deliver-applications-remoteapp-app-attach/). |
 
-## 1. Begin with a business-owner questionnaire
+## Begin with a business-owner questionnaire
 
 Invite the business owner, application owner, representative users and the teams responsible for identity, network, storage and support. Business owners explain the work and its busiest periods. Application owners confirm supported configurations. Users show the tasks that must remain usable when the environment is busy.
 
@@ -65,17 +65,17 @@ Complete one questionnaire per proposed user group. Where an answer is uncertain
 | What performance will the business accept? | Targets for sign-in, application launch and important business transactions | Test acceptance criteria |
 | What interruption can the business tolerate? | Maintenance windows, recovery objectives and agreed startup delays | Spare capacity and rollout plan |
 | What isolation and access rules apply? | Data restrictions, application permissions and environment boundaries | Pool, subscription and network separation |
-| What growth and budget should we plan for? | New users, applications, regions and expected operating schedule | Capacity forecast and cost review |
+| What growth and budget should the plan cover? | New users, applications, regions and expected operating schedule | Capacity forecast and cost review |
 
 ### Make the answers specific enough to test
 
-For the call-center persona in our illustrative company, the application inventory should describe a complete working sequence: sign in, open the customer relationship management (CRM) application and the approved softphone, find a customer, consult the knowledge application, update the case and save the result. Record the versions, supporting servers and the endpoint/headset used for that sequence.
+For the call-center persona in the example company, the application inventory should describe a complete working sequence: sign in, open the customer relationship management (CRM) application and the approved softphone, find a customer, consult the knowledge application, update the case and save the result. Record the versions, supporting servers and the endpoint/headset used for that sequence.
 
 The shift schedule must describe arrivals and overlap, not just the total number of agents. Ask whether the next shift arrives before the previous shift signs out and whether disconnected sessions remain. These answers affect profile attachment and simultaneous session demand.
 
 The workshop produces a requirements record, an application inventory and a list of unresolved questions. Review existing usage data where available, then validate new assumptions through testing.
 
-## 2. Group users by their work: create personas
+## Group users by their work: create personas
 
 A **persona** is a group of users with similar application, performance and operating needs. A department can contain several personas, and a persona can span several departments.
 
@@ -91,7 +91,7 @@ These are starting points for discovery. A developer can use a pooled desktop wh
 
 For each persona, record assigned users, expected peak sessions, applications, OS, desktop experience, image needs and acceptance criteria. Confirm the grouping with the business owner before creating pools.
 
-## 3. Decide the desktop experience and persistence
+## Decide the desktop experience and persistence
 
 A **session host** is the VM running Windows and applications. A **host pool** groups these hosts.
 
@@ -101,17 +101,17 @@ A **session host** is the VM running Windows and applications. A **host pool** g
 
 ### Does a pooled desktop reset when the user signs out?
 
-Three things are decided separately: which host the user returns to, whether their profile survives, and how the host's Windows setup is kept up to date. Learn says pooled hosts are updated by redeploying them from an updated image, not by traditional updates. Nothing resets a VM when someone signs out (judgement), so plan the image process separately. FSLogix can keep a pooled user's profile when a later session lands on another host.
+Three things are decided separately: which host the user returns to, whether their profile survives, and how the host's Windows setup is kept up to date. Pooled hosts are updated by redeploying them from an updated image, not by traditional updates. Nothing resets a VM when someone signs out, so plan the image process separately. FSLogix can keep a pooled user's profile when a later session lands on another host.
 
 A **full desktop** gives users Windows and their applications. **RemoteApp**, available with pooled pools, publishes selected applications. Choose the experience that fits the tasks: a call-center group working across several tools may need a desktop; a narrowly defined application workflow may fit RemoteApp.
 
 ![Flow from a user group, through an application group offering a desktop or RemoteApps, to a workspace feed and a host pool of session-host VMs](/img/avd/AVD-Post-06-published-resource-relationships.png)
 
-*How access reaches a desktop. Learn has no diagram of this, so the layout is simplified. Concepts from [Azure Virtual Desktop terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology).*
+*Source: [Azure Virtual Desktop terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology).*
 
 The **application group** publishes the desktop or apps and controls user access. Its association with a **workspace** makes the resources available in the user's feed. Record the user group, publication type and preferred application group type. For users assigned desktop and RemoteApp groups from the same pooled pool, the preference determines which type they see. See [the application group and workspace rules post](/azure-virtual-desktop/host-pool-application-group-workspace-rules/) for the full rules.
 
-## 4. Decide whether to use a common image or workload images
+## Decide whether to use a common image or workload images
 
 An **image** is the Windows configuration from which hosts are created. A common image can contain several approved applications. Workload-specific images maintain distinct application sets or configurations. There is no fixed rule that 5,000 users require one image, or that every department requires its own.
 
@@ -128,20 +128,20 @@ Sit with the application owners and test the proposed combinations. Record:
 
 A **multi-purpose image** means a tested combination of applications. It does not mean installing everything used anywhere in the company. Hosts within a pool should provide a consistent image and configuration.
 
-For our example, call-center, shared business, developer and specialist configurations will be assessed separately. If two configurations later prove compatible and meet the same operating requirements, review whether they can share an image or pool.
+For the example, call-center, shared business, developer and specialist configurations will be assessed separately. If two configurations later prove compatible and meet the same operating requirements, review whether they can share an image or pool.
 
 ### How the answers change the image design
 
 Use the application tests to choose the boundary. The following are conditional design examples, not test results.
 
-| Finding in the assessment | Proposed design response | Evidence before accepting it |
+| Finding in the assessment | Proposed design response | What to check before accepting it |
 |---|---|---|
 | Several departments use compatible apps and the same release cycle | Evaluate one common business image and pool | Test the applications together at the intended density; retain department-specific application permissions |
 | A required plugin conflicts with another workload's version | Evaluate a separate image and pool for that workload | Confirm the conflict, vendor support and the complete business task on the separate configuration |
 | Developers need an approved per-user toolchain and dedicated resources | Evaluate personal desktops with a managed developer baseline | Record the dedicated requirement, build performance, permitted customization and working-data recovery |
 | A call-center needs a different voice configuration and release window | Evaluate a call-center image/pool | Test the supported softphone/client combination, real calls and the shift-arrival pattern |
 
-(judgement) A new image adds build, testing and support work. Name its owner and release process when you decide to create it. A common image also needs an owner who can approve the shared application combination.
+A new image adds build, testing and support work. Name its owner and release process when you decide to create it. A common image also needs an owner who can approve the shared application combination.
 
 ### Select and release the Windows baseline
 
@@ -153,47 +153,47 @@ A suitable Marketplace image can start the compatibility assessment. A custom im
 
 ![Five-step image release: source and inputs, build candidate, validate, approve release, roll out in waves, with failed tests looping back to the build](/img/avd/AVD-Post-06-image-release-plan.png)
 
-*An illustrative image release process, not a result. Learn has no diagram of this process. Image storage is described in [Azure Compute Gallery](https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery).*
+*Source: [Azure Compute Gallery](https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery).*
 
 Azure Compute Gallery organizes **image definitions** and **versions**. A definition names one image; each version under it is one release of that image. Record the exact approved version (the golden image), build inputs, target-region replication and permissions. Keep production and test images in separate galleries, and plan replicas for the number of VMs created concurrently.
 
 Test new versions before rollout. To replace pooled hosts, run some old and new hosts side by side for a while. Put the old hosts in drain mode, which stops new sessions from starting on them. Drain mode does not end sessions that already exist. A user with an active or disconnected session on a draining host is sent back to that host. So sign those sessions out, with notice, before you replace the host. Keep the previous approved image so you can redeploy it. Rolling back the image and restoring user data are separate plans. See [the session hosts post](/azure-virtual-desktop/create-update-replace-session-hosts/) for the replacement steps.
 
-## 5. Choose candidate compute and storage for each persona
+## Choose candidate compute and storage for each persona
 
 A **vCPU** is a virtual processor. Memory specifications use **GiB**. Choose candidate VMs from the application's resource needs and the published sizing guidance, then test the intended workload. Also check region availability, VM-generation/security compatibility, graphics requirements and disk performance.
 
-For example, Standard_D8s_v5 has 8 vCPUs and 32 GiB of memory (judgement: the size's specification is from the Azure VM size tables and was not re-fetched in this check; D8s_v5 is a listed example instance on the [sizing guidelines](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/session-host-virtual-machine-sizing-guidelines#workloads)). It is a candidate to evaluate for the example's pooled workloads, not a guarantee of a particular session count. Compare other supported candidates when measurements show a CPU, memory or storage bottleneck. Size developers and specialists from their own build, data or graphics requirements.
+For example, Standard_D8s_v5 has 8 vCPUs and 32 GiB of memory ([sizing guidelines](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/session-host-virtual-machine-sizing-guidelines#workloads)). It is a candidate to evaluate for the example's pooled workloads, not a guarantee of a particular session count. Compare other supported candidates when measurements show a CPU, memory or storage bottleneck. Size developers and specialists from their own build, data or graphics requirements.
 
 ### Separate host disks, profiles and business data
 
 ![A session-host VM with a managed OS disk, and an arrow to shared profile storage on Azure Files or Azure NetApp Files holding the user's FSLogix container](/img/avd/AVD-Post-06-storage-relationship.png)
 
-*The OS disk stays with the VM; the FSLogix profile lives in shared storage. Learn has no diagram of this, so the layout is simplified.*
+*Source: Microsoft Learn pages listed under Sources.*
 
 The VM's **OS disk** holds Windows and applications installed on that host. Record disk type, capacity for applications and updates, and performance requirements. **FSLogix profile storage** is separate: it holds the user's profile container so their settings can follow them across pooled hosts. Azure Files and Azure NetApp Files (Azure's managed file shares) are supported options. See [the FSLogix post](/azure-virtual-desktop/how-fslogix-profile-containers-work/).
 
 Application databases, source repositories, project files and departmental services need their own approved data locations and recovery arrangements. Decide which working data is in the profile and which is elsewhere. Dedicated assignment alone does not protect a personal desktop's data.
 
-## 6. Test application workloads before deciding host counts
+## Test application workloads before deciding host counts
 
 Test two things in sequence: **can the application work in the proposed configuration**, and **how does that configuration behave when many users do real work together**? An app that opens for one administrator has not passed a capacity assessment.
 
-Two approaches are documented: pilot and simulation. A pilot increases representative user load while collecting measurements and feedback. Simulation repeats scripted user work and can help assess larger deployments. The sizing tables are initial estimates (the capacity example later shows the multi-session one); application behavior and the busy sign-in period must be measured. **Session density** here means the number of simultaneous Windows sessions per host that meets the agreed experience.
+Two approaches are common: pilot and simulation. A pilot increases representative user load while collecting measurements and feedback. Simulation repeats scripted user work and can help assess larger deployments. The sizing tables are initial estimates (the capacity example later shows the multi-session one); application behavior and the busy sign-in period must be measured. **Session density** here means the number of simultaneous Windows sessions per host that meets the agreed experience.
 
-### Which tools can we use?
+### Tools you can use
 
 | Tool or method | Use it for | What the result tells us |
 |---|---|---|
-| Login Enterprise by Login VSI (third party; not on Learn) | Automated application workflows and simulated session load | How logins and business tasks behave as session load increases |
+| Login Enterprise by Login VSI (third party) | Automated application workflows and simulated session load | How logins and business tasks behave as session load increases |
 | AVD Insights | Observe session-host resources, connections and user experience during tests | Where demand, host constraints or connection problems appear |
 | Windows Performance Monitor | Inspect CPU, memory, disk and supported User Input Delay counters | Which resource or process needs investigation |
 | Representative user pilot | Confirm actual working tasks, peripherals, voice/video and usability | Whether the experience meets the business requirement |
 | Azure Load Testing with JMeter or Locust (open-source web load-test tools) | Load-test application/backend endpoints where appropriate | Backend performance under load; a separate test from desktop session density |
 
-Login VSI is one tool people use to simulate users, and Windows Server network guidance names it as an example. Login Enterprise is a third-party product. Learn does not document it. Treat its components, AVD support and limits as vendor claims and confirm them with the vendor. Confirm the licensed version, AVD support and test infrastructure before planning a run.
+Login VSI is one tool people use to simulate users, and Windows Server network guidance names it as an example. Login Enterprise is a third-party product, so confirm its components, AVD support and limits with the vendor. Confirm the licensed version, AVD support and test infrastructure before planning a run.
 
-AVD Insights requires a configured deployment and sessions to analyze. Use it alongside application timings and user feedback. User Input Delay measures queued input before the application handles it; it is not an end-to-end network-latency measurement. This post uses the counter's definition: the time input waits in a queue before the application handles it. The counter reports the worst delay in each interval, not the average.
+AVD Insights requires a configured deployment and sessions to analyze. Use it alongside application timings and user feedback. User Input Delay measures queued input before the application handles it; it is not an end-to-end network-latency measurement. The counter reports the worst delay in each interval, not the average.
 
 Azure Load Testing can test endpoints using JMeter or Locust. A web/API test does not establish how many Windows desktop sessions a host can sustain. If the application's backend is slow, test and investigate it separately rather than assuming a larger session host will fix it.
 
@@ -201,7 +201,7 @@ Azure Load Testing can test endpoints using JMeter or Locust. A web/API test doe
 
 ![Load-test loop: agreed test plan, test system, representative host pool, shared dependencies, measurements, business-owner review, then retest](/img/avd/AVD-Post-06-load-test-plan.png)
 
-*An illustrative load-test plan, not a result.*
+*Source: Microsoft Learn pages listed under Sources.*
 
 Start with the proposed image and representative identity, profile-storage, network and backend paths. Include production-representative security and management components; the measured configuration must match the intended deployment.
 
@@ -216,7 +216,7 @@ Start with the proposed image and representative identity, profile-storage, netw
 
 These are planning steps, not results from a real test. The exact installation and authentication procedure follows the vendor's guide for the selected version.
 
-For an illustrative single-host call-center test, we could evaluate 6, 12, 18 and 24 sessions using the same workload. If 18 meets the owner's targets and 24 does not, investigate the cause and evaluate a design at the acceptable density. Those counts are example test stages. They are not published sizing figures and not measured results.
+For a single-host call-center test, you could evaluate 6, 12, 18 and 24 sessions using the same workload. If 18 meets the owner's targets and 24 does not, investigate the cause and evaluate a design at the acceptable density. Those counts are example test stages. They are not published sizing figures and not measured results.
 
 | Measurement | Question it answers |
 |---|---|
@@ -230,7 +230,7 @@ For call-center and meeting workloads, test real calls, headsets and supported c
 
 ### Read the results before changing the VM
 
-(judgement: the two tables in this section are the author's diagnostic guidance, not Learn content.) Review the same test interval across application timings, host metrics and shared services. Averages across the whole day can hide the arrival burst that causes the complaints.
+Review the same test interval across application timings, host metrics and shared services. Averages across the whole day can hide the arrival burst that causes the complaints.
 
 | Observation during the test | Investigate next | Decision it may change |
 |---|---|---|
@@ -239,15 +239,15 @@ For call-center and meeting workloads, test real calls, headsets and supported c
 | A business transaction is slow while other desktop tasks remain usable | Its backend, network path and application behavior | Backend/network remediation before deciding whether hosts need resizing |
 | Calls fail or sound poor despite acceptable desktop task timings | Real endpoint/client, media optimization and network conditions | Supported client configuration and voice acceptance |
 
-These observations are my own diagnostic guidance (judgement). They guide investigation; they do not prove a root cause by themselves. Compare changes using the same image, workload and arrival pattern. Keep the selected configuration and acceptance evidence beside the density figure.
+These observations guide investigation; they do not prove a root cause by themselves. Compare changes using the same image, workload and arrival pattern. Keep the selected configuration and acceptance evidence beside the density figure.
 
 ### Size the test system as well
 
-Ensure the load generator does not become the bottleneck. Check the selected tool's documented limits for concurrent test users (judgement: generic advice, no Learn page) and confirm the planned topology with the vendor before a large test. (judgement) A 5,000-user service does not automatically require one 5,000-session test: assess per-persona demand, then the combined peaks and shared dependencies.
+Ensure the load generator does not become the bottleneck. Check the selected tool's published limits for concurrent test users and confirm the planned topology with the vendor before a large test. A 5,000-user service does not automatically require one 5,000-session test: assess per-persona demand, then the combined peaks and shared dependencies.
 
-## 7. Worked example: turn 5,000 users into a proposed design
+## Worked example: turn 5,000 users into a proposed design
 
-Our illustrative company has four personas in this calculation. Mobile staff share the business pool here, even though the persona table earlier lists them separately. Each person is counted once. The following requirements are assumptions made up for this example. The numbers and acceptance outcomes used for the calculation are assumptions, not results from a real company.
+The example company has four personas in this calculation. Mobile staff share the business pool here, even though the persona table earlier lists them separately. Each person is counted once. The following requirements are assumptions made up for this example. The numbers and acceptance outcomes used for the calculation are assumptions, not results from a real company.
 
 | Persona | Assigned users | Assumed peak sessions |
 |---|---|---|
@@ -293,7 +293,7 @@ For context, the [sizing guidance](https://learn.microsoft.com/en-us/windows-ser
 | Heavy | 2 | 16 |
 | Power | 1 | 8 |
 
-The 18 and 24 sessions per host are my own planning assumptions, not figures from that table. On an 8-vCPU host, 18 sessions is 2.25 per vCPU and 24 is 3 per vCPU. So 18 and 24 fall between the Heavy row (16 per host) and the Medium row (32 per host). Which type a persona belongs to is a judgment that testing must confirm, and the table is only an initial estimate.
+The 18 and 24 sessions per host are planning assumptions, not figures from that table. On an 8-vCPU host, 18 sessions is 2.25 per vCPU and 24 is 3 per vCPU. So 18 and 24 fall between the Heavy row (16 per host) and the Medium row (32 per host). Which type a persona belongs to is a judgment that testing must confirm, and the table is only an initial estimate.
 
 Divide each pool's peak session demand by its acceptable density and round up. Then apply the agreed maintenance and failure allowance. Do not average the two densities across unrelated workloads.
 
@@ -319,15 +319,15 @@ The example therefore proposes **119 pooled hosts plus 1,000 personal hosts: 1,1
 
 ![Four personas for 5,000 users: call-center 1,800 users and 70 pooled hosts, business and mobile 2,200 users and 49 pooled hosts, developers 700 personal VMs, specialists 300 personal GPU-capable VMs, 1,119 production VMs in total](/img/avd/AVD-Post-06-company-pool-plan.png)
 
-*The worked example from this post. The company and all numbers are assumptions.*
+*Source: Microsoft Learn pages listed under Sources.*
 
 ### Step 4: check the shared foundation and full cost
 
 If all 119 pooled hosts used the 8-vCPU candidate, they would require **952 vCPUs**, before the personal fleet and temporary capacity. Submit quota requirements (the per-region limit on how many cores you may create) by region and VM family using the candidate configuration; quota approval does not guarantee a successful VM allocation.
 
-Check subnet capacity, approved hub and spoke network routes, DNS, outbound service access and application connectivity from the [networking post](/azure-virtual-desktop/plan-avd-networking/). Subnet size matters here. With one network interface per VM, the 1,119 production VMs plus up to 119 temporary replacement pooled hosts need about 1,238 addresses (1,119 + 119). A single /24 holds 251 usable addresses, as the networking post explains, so plan several host subnets or a larger prefix.
+Check subnet capacity, approved hub and spoke network routes, DNS, outbound service access and application connectivity from the [networking article](/azure-virtual-desktop/plan-avd-networking/). Subnet size matters here. With one network interface per VM, the 1,119 production VMs plus up to 119 temporary replacement pooled hosts need about 1,238 addresses (1,119 + 119). A single /24 holds 251 usable addresses, as the networking article explains, so plan several host subnets or a larger prefix.
 
-(judgement) Keep development and acceptance resources out of the production subscription and network. A host pool is only a grouping of VMs and does not isolate them.
+Keep development and acceptance resources out of the production subscription and network. A host pool is only a grouping of VMs and does not isolate them.
 
 The two pooled peaks total **2,300 sessions**, and all four persona peaks total **3,040**. Check the intended combined test against the test-platform limits described earlier. Per-persona tests establish workload behavior; also validate simultaneous demand on shared profiles, databases and network paths with an appropriately sized test topology.
 
@@ -335,15 +335,15 @@ Send profile/storage owners the persona counts, growth, attachment peaks and per
 
 Check current AVD, compute, storage and network limits independently. Repeat the assessment by location if users or application data need additional regions. Serving users locally and recovering from a regional outage are separate requirements.
 
-## 8. Agree management, validation and rollout
+## Agree management, validation and rollout
 
 Choose the host management approach before creation. **Standard management** uses your processes to create, update and scale hosts. **Session host configuration**, available for pooled pools, uses native AVD lifecycle features. The approach cannot be changed later ([Host pool management approaches](https://learn.microsoft.com/en-us/azure/virtual-desktop/host-pool-management-approaches)); tools designed for standard host management must not manage hosts belonging to a pool with session host configuration.
 
-Deployment scope is also fixed at creation: you choose regional or geographical (the default) when you create the host pool and cannot change it afterwards. Regional scope is covered in [the architecture post](/azure-virtual-desktop/azure-virtual-desktop-architecture/). Check its current status before you choose, and check that your region supports session host configuration. The portal also limits how many hosts one deployment can create.
+Deployment scope is also fixed at creation: you choose regional or geographical (the default) when you create the host pool and cannot change it afterwards. Regional scope is covered in [Azure Virtual Desktop architecture](/azure-virtual-desktop/azure-virtual-desktop-architecture/); it is in preview and offered only in a few regions. Check that your region supports session host configuration. The portal also limits how many hosts one deployment can create.
 
-This series uses standard management for its portal walkthrough and later infrastructure code. Compare approaches against your production operating model before selecting one.
+The examples that follow use standard management. Compare approaches against your production operating model before selecting one.
 
-For pooled hosts, breadth-first distributes new sessions; depth-first concentrates sessions toward the configured maximum session limit and requires that limit. A pool created with breadth-first starts with a limit of 999999, so switching to depth-first without changing it leaves no real cap. Autoscale on a pooled pool also needs a real limit rather than the default. (judgement) Use a limit justified by testing. Load balancing places sessions. Autoscale controls available compute. The algorithm you choose in the scaling plan schedule overrides the host pool's setting while autoscale runs. Record minimum running capacity, shift schedules and peak preparation.
+For pooled hosts, breadth-first distributes new sessions; depth-first concentrates sessions toward the configured maximum session limit and requires that limit. A pool created with breadth-first starts with a limit of 999999, so switching to depth-first without changing it leaves no real cap. Autoscale on a pooled pool also needs a real limit rather than the default. Use a limit justified by testing. Load balancing places sessions. Autoscale controls available compute. The algorithm you choose in the scaling plan schedule overrides the host pool's setting while autoscale runs. Record minimum running capacity, shift schedules and peak preparation.
 
 ### Plan a working day, not just a fleet total
 
@@ -351,13 +351,13 @@ For the call-center pool, the shift-arrival requirement drives the running-capac
 
 Record three counts separately: VMs provisioned, VMs powered on, and hosts healthy and accepting the intended sessions. The 1,119-VM example is a fleet count. The running count at a particular time depends on the accepted schedule and availability requirement.
 
-Native scaling plans can express schedules and capacity thresholds. On a pooled pool with standard management, autoscale starts and stops existing hosts. Creating and deleting hosts automatically (dynamic autoscale) needs a session host configuration. Learn's pages disagree on its status: [autoscale scenarios](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scenarios) says preview, [What's new, June 2026](https://learn.microsoft.com/en-us/azure/virtual-desktop/whats-new#june-2026) says available. Choose the values after the arrival and startup tests. The later autoscale post will configure them; this planning record supplies their requirements.
+Native scaling plans can express schedules and capacity thresholds. On a pooled pool with standard management, autoscale starts and stops existing hosts. Creating and deleting hosts automatically (dynamic autoscale) needs a session host configuration. See [autoscale scenarios](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scenarios) for its current availability. Choose the values after the arrival and startup tests. A later article configures them; this planning record supplies their requirements.
 
 An application/image acceptance deployment is different from AVD's **Validation environment** setting, which receives service updates ahead of non-validation pools. A validation pool is for testing service updates, not for production users, so keep it separate from the four production pools in this example. Plan it deliberately; it does not certify application compatibility or sizing.
 
 Release each accepted persona to an agreed first group. Check actual use, support feedback and measurements, then expand in controlled waves. Define who approves the next wave and the conditions that stop it. Rerun the relevant tests when application versions, images, security components or working patterns change.
 
-## 9. Finish with a decision record, then prepare storage
+## Finish with a decision record, then prepare storage
 
 For each persona, the planning record should contain the business-owner answers, desktop model and reason, application compatibility, image/version plan, tested VM/disk configuration, accepted density or dedicated requirement, initial fleet, running schedule, maintenance allowance and unresolved dependencies.
 
@@ -374,14 +374,13 @@ For the call-center example, it would record:
 
 Before host deployment, validate that the subnet can reach the required URLs and run the Agent URL Tool on the first host. The Agent URL Tool is in the AVD agent folder and lists required web addresses the host cannot reach; see [check access to required URLs](https://learn.microsoft.com/en-us/azure/virtual-desktop/check-access-validate-required-fqdn-endpoint). Keep the assumptions visible until the relevant acceptance tests and connectivity checks are complete.
 
-The book covers these decisions in [host pool design decisions](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch15-host-pool-design-decisions.md) and [session host sizing](https://github.com/AddySidd27/azure-virtual-desktop-architect/blob/main/chapters/ch17-session-host-sizing-compute-selection.md). Those chapters are still under review.
 
-Go deeper: [Choose the Session Host Operating System and Licensing](/azure-virtual-desktop/session-host-operating-system-and-licensing/). FSLogix and profile storage are covered in [How FSLogix profile containers work](/azure-virtual-desktop/how-fslogix-profile-containers-work/).
+Go deeper: [Choose the Session Host Operating System and Licensing](/azure-virtual-desktop/session-host-operating-system-and-licensing/), [How FSLogix Profile Containers Work](/azure-virtual-desktop/how-fslogix-profile-containers-work/).
 
-Next: [Decide Whether Azure Virtual Desktop Fits](/azure-virtual-desktop/decide-whether-azure-virtual-desktop-fits/). It steps back to the fundamentals this series builds on and checks whether AVD fits the workload.
+Next: [Decide Whether Azure Virtual Desktop Fits](/azure-virtual-desktop/decide-whether-azure-virtual-desktop-fits/).
 
 ## Sources
 
 - [Terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology)
-- [session host sizing guidelines](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/session-host-virtual-machine-sizing-guidelines)
-- [host pool management approaches](https://learn.microsoft.com/en-us/azure/virtual-desktop/host-pool-management-approaches)
+- [Session Host Virtual Machine Sizing Guidelines](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/session-host-virtual-machine-sizing-guidelines)
+- [Host Pool Management Approaches](https://learn.microsoft.com/en-us/azure/virtual-desktop/host-pool-management-approaches)

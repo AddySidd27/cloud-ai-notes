@@ -14,9 +14,9 @@ The profile design is done. Users sign in and their profile loads. Now you have 
 
 This article covers that daily work. It starts with Cloud Cache, an optional FSLogix feature that you may or may not need. Then it covers container size and compaction (making a container file smaller), locked containers, and corruption.
 
-The basics are in two earlier articles. [How FSLogix profile containers work](/azure-virtual-desktop/how-fslogix-profile-containers-work/) explains the sign-in steps, the main settings and the default one-session-per-container lock. [The storage and access article](/azure-virtual-desktop/choose-storage-and-set-access-for-fslogix-profile-containers/) covers where to store containers, permissions, and what the storage survives. This article does not repeat them. A note marked (judgement) is my own opinion, not something Microsoft Learn (Microsoft's documentation site, called Learn below) says.
+The basics are in two earlier articles. [How FSLogix profile containers work](/azure-virtual-desktop/how-fslogix-profile-containers-work/) explains the sign-in steps, the main settings and the default one-session-per-container lock. [The storage and access article](/azure-virtual-desktop/choose-storage-and-set-access-for-fslogix-profile-containers/) covers where to store containers, permissions, and what the storage survives. This article does not repeat them.
 
-One notice appears on the FSLogix pages on Learn: Learn warns about the April 2026 Windows Server update. It changes the default Kerberos encryption type from RC4 to AES-SHA1. Learn still words this as upcoming. Kerberos is the sign-in protocol Windows uses for file shares. RC4 and AES-SHA1 are two ways it encrypts tickets. File shares that host containers and are not upgraded might have access problems. Learn says to complete the upgrade to AES-SHA1 before you install the update. Check the current state on the storage that hosts your containers, such as Windows file servers.
+One notice matters here: the April 2026 Windows Server update. It changes the default Kerberos encryption type from RC4 to AES-SHA1. Kerberos is the sign-in protocol Windows uses for file shares. RC4 and AES-SHA1 are two ways it encrypts tickets. File shares that host containers and are not upgraded might have access problems. Complete the upgrade to AES-SHA1 before you install the update. Check the current state on the storage that hosts your containers, such as Windows file servers.
 
 ## Key terms
 
@@ -53,7 +53,7 @@ One notice appears on the FSLogix pages on Learn: Learn warns about the April 20
 
 ## Do you need Cloud Cache?
 
-Start with this question, because Cloud Cache adds disk work and local storage on the virtual machine (Learn). It also means paying for more than one storage provider (judgement).
+Start with this question, because Cloud Cache adds disk work and local storage on the virtual machine. It also means paying for more than one storage provider.
 
 The [Cloud Cache overview](https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache) says its job is to protect users from short-term or intermittent storage problems close to the session host. It can also be part of a disaster recovery plan when the providers are in different regions. It puts a performance and storage need on the virtual machine, because of the extra disk work and the local cache.
 
@@ -67,15 +67,15 @@ The FSLogix FAQ asks the same question, "Do I need to use Cloud Cache for high a
 | Extra load on the session host | None | More disk work and disk space for the local cache |
 | Sign-out | Normal (compaction can add a short wait) | Can be slower, because the host waits for the providers |
 
-Pick standard containers first (judgement). Choose Cloud Cache only if you have a clear reason, such as a plan to keep copies in two regions. For the failover and recovery side, read the storage article. The documentation pages there do not agree on whether Cloud Cache failover is automatic or manual (see the table near the end of this article).
+Pick standard containers first. Choose Cloud Cache only if you have a clear reason, such as a plan to keep copies in two regions. For the failover and recovery side, read the storage article. Plan for a manual failover until you have tested it.
 
 ## How Cloud Cache works
 
 If you use standard containers, you can skip to "Keep containers from filling up". The picture below shows the parts. Then the steps in words:
 
-![Cloud Cache keeps a local copy of the container on the session host. The user works on the local copy. FSLogix reads from the first healthy storage provider when data is missing, and writes every change to all providers. At sign-out, if a provider is behind, sign-out waits until the providers match, for as long as the timeout setting allows. If all providers are down, the user keeps working on the local cache, but data that is not in it cannot be read, which can hang the session.](/img/avd/AVD-FSLogix-Cloud-Cache.svg)
+![Six steps: the user signs in, a proxy file points to the local cache, the user works there, missing data is read from the first provider (hydrate), changes flush to all providers, and sign-out waits for providers to match. Up to four providers in CCDLocations.](/img/avd/AVD-FSLogix-Cloud-Cache.svg)
 
-*Source: [Cloud Cache overview](https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache). The picture is simplified. Its steps 4, 5 and 6 match steps 4, 5 and 6 in the list below. Its steps 1 to 3 combine list steps 1 to 3, and list step 7 is not drawn. `CcdUnregisterTimeout` is explained in "Set up Cloud Cache".*
+*Source: [Cloud Cache overview](https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache).*
 
 1. **First sign-in.** FSLogix creates a local container in `C:\ProgramData\FSLogix\Cache`. It copies data from a provider into it as Windows asks for it.
 2. **Later sign-ins.** By default FSLogix looks for the old local cache and mounts it. The Cloud Cache overview says this default can lead to low disk space events on the host.
@@ -94,11 +94,11 @@ Things to know from the Cloud Cache overview:
 - List providers by closeness first, then by preference.
 - `Ping` and `Test-NetConnection` are bad ways to judge a provider. They do not measure real disk work.
 - A provider that is often behind may be a slow provider.
-- Cloud Cache puts more load on the session host. Two Learn pages give a starting ratio in opposite directions: 2 users for each vCPU (virtual CPU) on the [system resources page](https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-system-resources), and 2 vCPUs for each user on the [long sign-ins page](https://learn.microsoft.com/en-us/fslogix/troubleshooting-long-failed-signin). Test with real users. [The VM sizing article](/azure-virtual-desktop/choose-session-host-vm-sizes/) covers sizing.
+- Cloud Cache puts more load on the session host. Published starting ratios differ a lot, so test with real users to find the right number of users for each vCPU (virtual CPU). [The VM sizing article](/azure-virtual-desktop/choose-session-host-vm-sizes/) covers sizing.
 
 ## Set up Cloud Cache
 
-Learn has a tutorial. These are the points that matter.
+The Cloud Cache tutorial covers setup. These are the points that matter.
 
 **Use `CCDLocations` instead of `VHDLocations`.** Do not set both. `CCDLocations` accepts SMB and Azure page blob providers, up to four. The first one is the primary. Separate several providers with a semicolon (`;`), as in the tutorial.
 
@@ -108,14 +108,14 @@ Learn has a tutorial. These are the points that matter.
 type=smb,name="SMB PROVIDER 1",connectionString=\\<server-name>\<share-name>
 ```
 
-For an Azure page blob provider, use the name of a protected key in the connection string. Never put the plain-text connection string in the setting. The Learn page for protecting the connection string explains how.
+For an Azure page blob provider, use the name of a protected key in the connection string. Never put the plain-text connection string in the setting. Protect the connection string with a key instead; the FSLogix guide on protecting connection strings shows how.
 
 **Use the recommended values.** The tutorial table lists these values for a Cloud Cache profile container (all but `ProfileType` are marked as recommended):
 
 | Value | Setting | Why the tutorial uses it |
 |---|---|---|
 | 1 | `ClearCacheOnLogoff` | Saves local disk space and reduces the risk of data loss with pooled host pools. |
-| 1 | `HealthyProvidersRequiredForRegister` | Tutorial: stops users from creating a local cache when a provider is not healthy. The settings reference adds that sign-in then fails when no provider is healthy, and says to set `PreventLoginWithFailure` or `PreventLoginWithTempProfile` for the behaviour you want (see below). |
+| 1 | `HealthyProvidersRequiredForRegister` | Tutorial: stops users from creating a local cache when a provider is not healthy. The settings reference adds that sign-in then fails when no provider is healthy, and says to set `PreventLoginWithFailure` or `PreventLoginWithTempProfile` for the behavior you want (see below). |
 | 1 | `DeleteLocalProfileWhenVHDShouldApply` | Users do not lose data in a local profile by accident. |
 | 0 | `ProfileType` | One connection at a time. This is the default. The tutorial says it is simpler and faster. |
 
@@ -127,9 +127,9 @@ Three settings in the table differ from the defaults in the settings reference:
 - `ClearCacheOnLogoff` defaults to 0, so the local cache stays after sign-out.
 - `DeleteLocalProfileWhenVHDShouldApply` defaults to 0.
 
-The tutorial sets all three to 1. Following the tutorial is my suggestion for pooled hosts (judgement). Read the data loss warning below before you change the sign-out settings.
+The tutorial sets all three to 1. I suggest the same values for pooled hosts. Read the data loss warning below before you change the sign-out settings.
 
-If you set `HealthyProvidersRequiredForRegister` above 0, also set `PreventLoginWithFailure` or `PreventLoginWithTempProfile`. These two settings stop the sign-in when the container does not attach. The [settings reference](https://learn.microsoft.com/en-us/fslogix/reference-configuration-settings) says to use them to get the sign-in behaviour you want. By default, a profile that cannot attach can end in a temporary profile ([old, temporary or local profiles page](https://learn.microsoft.com/en-us/fslogix/troubleshooting-old-temp-local-profiles)).
+If you set `HealthyProvidersRequiredForRegister` above 0, also set `PreventLoginWithFailure` or `PreventLoginWithTempProfile`. These two settings stop the sign-in when the container does not attach. The [settings reference](https://learn.microsoft.com/en-us/fslogix/reference-configuration-settings) says to use them to get the sign-in behavior you want. By default, a profile that cannot attach can end in a temporary profile ([old, temporary or local profiles page](https://learn.microsoft.com/en-us/fslogix/troubleshooting-old-temp-local-profiles)).
 
 The tutorial's retry values also differ from the defaults. They set how often and how long FSLogix retries a locked or detached container:
 
@@ -178,20 +178,20 @@ Get-CloudCacheProvider
 - **AccessMode.** `NoAccess` can mean a problem with the provider, or that another machine holds the lock file.
 - **LastLockOperation.** The result of the last test of the lock file. It is tested every 60 seconds by default ([Get-CloudCacheProvider](https://learn.microsoft.com/en-us/fslogix/utilities/powershell/get-cloudcacheprovider)).
 
-A provider with a long write queue, or one that keeps going `Invalid`, is the first suspect for slow sign-outs (judgement).
+A provider with a long write queue, or one that keeps going `Invalid`, is the first suspect for slow sign-outs.
 
 ## Keep containers from filling up
 
-A full container causes odd problems. The FAQ says users may see strange behavior in apps or when they open files. The attach and detach troubleshooting page says a container must have more than 200 MB to attach.
+A full container causes odd problems. Users may see strange behavior in apps or when they open files. A container must have more than 200 MB free to attach.
 
 What to know:
 
 - **Watch the free space inside the container.** The default `SizeInMBs` is 30000 (30 GB), as [the first FSLogix article](/azure-virtual-desktop/how-fslogix-profile-containers-work/) shows. The FAQ says container size does not change sign-in time, and to plan for at least 30% free space. It also says to watch the logs for warnings at less than 2 GB free and less than 500 MB free.
 - **Raise the limit if you must.** A larger `SizeInMBs` lets a dynamic container grow bigger, from the next sign-in. The change affects all users with dynamic disks. You can raise `SizeInMBs` but not lower it, and lowering it would not shrink existing containers anyway.
 - **Check the real size.** On the share, right-click the container file, choose Properties, and compare Size on disk with `SizeInMBs`.
-- **Watch the share too.** If the share itself is full, users may get a temporary profile, a hung session, or a container that fails to attach or detach, even when each container is fine. Learn says to alert when less than 20% of the share is free. The fix is more capacity.
-- **Find the big data.** After the container grows, Learn says you can mount it off-hours and look for what uses the space. Deleting the wrong data can cause data loss or corruption, so be careful.
-- **A `redirections.xml` file does not shrink an old container.** (This file lists folders to leave out of the container.) Excluding folders later does not remove data that is already in the container. The page says FSLogix has no tool to remove it. You can delete the container and let FSLogix create a new one, or use a sign-in script that deletes the data (test it first).
+- **Watch the share too.** If the share itself is full, users may get a temporary profile, a hung session, or a container that fails to attach or detach, even when each container is fine. Alert when less than 20% of the share is free. The fix is more capacity.
+- **Find the big data.** After the container grows, you can mount it off-hours and look for what uses the space. Deleting the wrong data can cause data loss or corruption, so be careful.
+- **A `redirections.xml` file does not shrink an old container.** (This file lists folders to leave out of the container.) Excluding folders later does not remove data that is already in the container. FSLogix has no tool to remove it. You can delete the container and let FSLogix create a new one, or use a sign-in script that deletes the data (test it first).
 - **Local profiles.** FSLogix does not remove existing local profiles when you start using it. `DeleteLocalProfileWhenVHDShouldApply` does, but users must save their data elsewhere first.
 
 ## Compaction gives space back
@@ -205,7 +205,7 @@ It runs only when both of these are true:
 - The container is bigger than 1 GB on disk.
 - The space it can give back is at least 20% of the size on disk (explained below).
 
-Learn calls the size on disk A, and the smallest size the disk can shrink to B. C is A minus B, the space compaction can give back. Compaction runs when C is at least 20% of A. These are the two examples from the page:
+Call the size on disk A, and the smallest size the disk can shrink to B. C is A minus B, the space compaction can give back. Compaction runs when C is at least 20% of A. Here are two examples:
 
 - A of 6 GB and B of 2.5 GB: C is 3.5 GB. That is more than 20% of 6 GB (1.2 GB), so it compacts.
 - A of 12 GB and B of 10 GB: C is 2 GB. That is less than 20% of 12 GB (2.4 GB), so it does not.
@@ -246,31 +246,31 @@ Set-Service smphost -StartupType Manual
 
 A lock is normal. FSLogix keeps an exclusive lock on a container while the user is signed in. The first FSLogix article covers that.
 
-The problem is a lock that should be gone. The Learn [locked-container page](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-locked) names two causes.
+The problem is a lock that should be gone. There are two causes.
 
 - **An abrupt end.** A session ended abruptly, or a process blocked a proper sign-out. This can leave leftover data in the file system or registry. The container is not properly detached, and new sign-ins may be blocked.
 - **More than one connection.** With the default exclusive lock, the second connection cannot get the container. By default it gets a temporary profile (see the old, temporary or local profiles page, linked above). With `PreventLoginWithFailure` set, the user cannot sign in. The locked-container page spells that setting `PreventLogonWithFailure`; see the differences table.
 
 | What to try | Why |
 |---|---|
-| Find the root cause first | The page says to fix environment or system problems before you treat the symptom. |
+| Find the root cause first | Fix environment or system problems before you treat the symptom. |
 | Turn on `CleanupInvalidSessions` | The locked-container page recommends it. The settings reference says it lives under `HKLM\SOFTWARE\FSLogix\Apps`, its default is 0 (off), and it affects both profile containers and Office containers (ODFC). When on, FSLogix tries to clean up sessions that ended abruptly, so the next sign-in can work. |
-| Use short retry values (from the tutorial, not the locked page) | The Cloud Cache tutorial sets `LockedRetryCount` 3, `LockedRetryInterval` 15, `ReAttachRetryCount` 3 and `ReAttachIntervalSeconds` 15 for a faster failure. Learn says these values make a failure show sooner. |
+| Use short retry values (from the tutorial, not the locked page) | The Cloud Cache tutorial sets `LockedRetryCount` 3, `LockedRetryInterval` 15, `ReAttachRetryCount` 3 and `ReAttachIntervalSeconds` 15 for a faster failure. These values make a failure show sooner. |
 | Check Cloud Cache state (from the PowerShell page) | In a Cloud Cache setup, `Get-CloudCacheProvider` can show `AccessMode` as `NoAccess`. That means a problem with the provider, or that another machine holds the lock file. |
 
-Run `frx.exe version` (in `C:\Program Files\FSLogix\Apps`) to see your FSLogix version. If you need help from Microsoft support, the FSLogix Support Tool collects the logs and settings for you. Check the Learn known issues page and the release notes before you roll out a new FSLogix version.
+Run `frx.exe version` (in `C:\Program Files\FSLogix\Apps`) to see your FSLogix version. If you need help from Microsoft support, the FSLogix Support Tool collects the logs and settings for you. Check the known issues page and the release notes before you roll out a new FSLogix version.
 
-One example: with profile containers and Office containers both turned on, `CleanupInvalidSessions` broke Office container create and mount in version 26.01. Learn says 26.01 CU1 (cumulative update 1) fixed it. The release notes also list fixes in FSLogix 26.08 for a sign-out deadlock with `CleanupInvalidSessions` and Office containers, and for a stuck container or storage provider that could block sign-ins and sign-outs.
+One example: with profile containers and Office containers both turned on, `CleanupInvalidSessions` broke Office container create and mount in version 26.01. Version 26.01 CU1 (cumulative update 1) fixed it. The release notes also list fixes in FSLogix 26.08 for a sign-out deadlock with `CleanupInvalidSessions` and Office containers, and for a stuck container or storage provider that could block sign-ins and sign-outs.
 
-One more case from the Azure architecture page about two-region designs. Only one process can open a profile file in read and write mode. If a user starts sessions in both regions at the same time, the second session cannot mount the profile disk, so the user cannot sign in, and FSLogix logs `ERROR_LOCK_VIOLATION` 33 (0x21). Keep users from connecting to both host pools at once (judgement).
+One more case from the Azure architecture page about two-region designs. Only one process can open a profile file in read and write mode. If a user starts sessions in both regions at the same time, the second session cannot mount the profile disk, so the user cannot sign in, and FSLogix logs `ERROR_LOCK_VIOLATION` 33 (0x21). Keep users from connecting to both host pools at once.
 
 The FSLogix disaster recovery page also says to make sure all users have signed out of the failover location before you fail back, because replication after a recovery can take a long time.
 
-I did not find a Learn procedure for deleting a stuck lock by hand. I would not delete lock or meta files myself (judgement). Use the supported setting and the troubleshooting pages, and open a support request if that is not enough.
+There is no published procedure for deleting a stuck lock by hand, so do not delete lock or meta files yourself. Use the supported setting and the troubleshooting pages, and open a support request if that is not enough.
 
 ## Corruption and missing data
 
-Learn's corruption page is short. It names two causes.
+Corruption has two main causes.
 
 **Antivirus.** The page calls antivirus software one of the most common causes of container corruption. If a scanner works on data going into or out of a container, it can damage it. The FSLogix prerequisites page has an exclusion list. [The first FSLogix article](/azure-virtual-desktop/how-fslogix-profile-containers-work/) lists antivirus as a common mistake. These are the main groups:
 
@@ -280,33 +280,26 @@ Learn's corruption page is short. It names two causes.
 - The container files on the share (`*.VHD`, `*.VHDX`) and their `.lock`, `.meta` and `.metadata` files, and the temporary differencing disks in `%TEMP%` and `%WINDIR%\TEMP`.
 - The FSLogix registry keys, and the container mount points.
 
-The prerequisites page says to apply the exclusions in all layers of security, and to check them after you roll out the policy. If you changed the cache or proxy folder, change the exclusions too.
+Apply the exclusions in all layers of security, and check them after you roll out the policy. If you changed the cache or proxy folder, change the exclusions too.
 
-**A bad `redirections.xml`.** It is tempting to exclude folders to save space. The page says to be careful, and to keep the file simple. [The first FSLogix article](/azure-virtual-desktop/how-fslogix-profile-containers-work/) covers what is safe to exclude.
+**A bad `redirections.xml`.** It is tempting to exclude folders to save space. Be careful, and keep the file simple. [The first FSLogix article](/azure-virtual-desktop/how-fslogix-profile-containers-work/) covers what is safe to exclude.
 
-Other points from the pages:
+Other points:
 
 - A regional failure is never graceful, and users may lose data or meet corruption. [The storage article](/azure-virtual-desktop/choose-storage-and-set-access-for-fslogix-profile-containers/) covers recovery.
-- Learn says Microsoft supports only the latest FSLogix version, and gives hotfixes for known bugs. Keep the version current. [The golden image article](/azure-virtual-desktop/build-and-maintain-a-golden-image/) covers updating the agent software in the image.
+- Microsoft supports only the latest FSLogix version, and gives hotfixes for known bugs. Keep the version current. [The golden image article](/azure-virtual-desktop/build-and-maintain-a-golden-image/) covers updating the agent software in the image.
 
-I did not find a Learn procedure to repair a corrupted container. What the pages offer is prevention, plus recovery from storage snapshots, which the storage article covers (judgement: treat restore as the plan, not repair).
+There is no published procedure to repair a corrupted container. What you can do is prevent it and recover from storage snapshots, which the storage article covers. Treat restore as the plan, not repair.
 
-## Where the documentation differs
+## Details to check before you roll out
 
-Learn pages do not always agree. These are the real differences I found.
-
-| # | Topic | What the pages say | What to do |
-|---|---|---|---|
-| 1 | Version needed for compaction | The container size page says 2210 (2.9.8361.52623) or later. The attach and detach page, the known issues page and the compaction troubleshooting page give 2210 (2.9.8361.52326). | Use the latest FSLogix version, as Learn advises (judgement: the small difference then no longer matters). |
-| 2 | Name of a sign-in blocking setting | The locked-container page writes `PreventLogonWithFailure`. The old, temporary or local profiles page writes `PreventLoginWithFailure`. The settings reference defines `PreventLoginWithFailure`. | Use the name in the settings reference, and check it before you set it (judgement). |
-| 3 | Compaction with `ProfileType` 3 or `VHDAccessMode` 1, 2 or 3 | The compaction troubleshooting page lists a problem as ongoing. The known issues page says it is fixed and says to install the latest version. | Use the latest version, and test compaction if you use these modes. |
-| 4 | Cloud Cache failover | The FSLogix disaster recovery page says you start the failover by hand. The Azure Architecture multiregion page says Cloud Cache fails over to the second region by itself. | Plan for a manual failover until you have tested it (judgement). The storage article covers recovery. |
-| 5 | Cloud Cache starting ratio | The system resources page says 2 users for each vCPU. The long sign-ins page says 2 vCPUs for each user. | Test with real users (judgement). |
-| 6 | Name of the profile log file | The compaction troubleshooting page says `Profile-yyyyMMdd.log`. The logging page says `Profile_%date%.log`. | Look in `C:\ProgramData\FSLogix\Logs\Profile` and open the newest file. |
+- **Version for compaction.** Use FSLogix 2210 or later, and preferably the latest version.
+- **Setting name.** The sign-in blocking setting is `PreventLoginWithFailure`. Check the spelling before you set it.
+- **Compaction with `ProfileType` 3 or `VHDAccessMode` 1, 2 or 3.** Install the latest version and test compaction if you use these modes.
+- **Cloud Cache failover.** Plan for a manual failover until you have tested it. The storage article covers recovery.
+- **Log file name.** Look in `C:\ProgramData\FSLogix\Logs\Profile` and open the newest file.
 
 ## Common mistakes
-
-This list is my own summary of the pages above (judgement).
 
 - **Using Cloud Cache for high availability when a ZRS Azure Files share is enough.** The FAQ says it is acceptable.
 - **Putting both `VHDLocations` and `CCDLocations` in the registry.** Do not use both.
@@ -322,15 +315,13 @@ This list is my own summary of the pages above (judgement).
 
 ## How to check a setup
 
-This checklist is my own, built from the pages above (judgement).
-
 1. On a test session host, open the FSLogix registry key and confirm there is either `VHDLocations` or `CCDLocations`, and not both.
 2. Sign in as a test user. In Cloud Cache setups, open the CloudCache Operational log and look for Event ID 56 and Event ID 5. Run `Get-CloudCacheProvider` and confirm `WriteQueueLength` returns to 0.
 3. Sign out, then check that the sign-out did not hang. Look at `Get-CloudCacheDisk` while it runs.
 4. Check the size of the user's container on the share against `SizeInMBs`, and the free space on the share (alert at 20%).
 5. Check that compaction ran, using the log lines in "If it does not run" above.
 6. Confirm the antivirus exclusions in the policy and on one test host.
-7. This test is my own idea, not a documented procedure (judgement): end one test session abruptly on a test host, then sign in again. If the container stays locked, test `CleanupInvalidSessions`.
+7. End one test session abruptly on a test host, then sign in again. If the container stays locked, test `CleanupInvalidSessions`.
 8. Write down the settings you changed, and why.
 
 Next: [Troubleshoot AVD: Turn On the Logs and Learn to Read Them](/azure-virtual-desktop/troubleshoot-avd-start-here/).

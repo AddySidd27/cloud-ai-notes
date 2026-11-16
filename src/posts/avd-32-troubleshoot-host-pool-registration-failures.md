@@ -24,7 +24,7 @@ Set up the logs first. The queries below return nothing until diagnostics are sw
 | Agent | The Remote Desktop Services Infrastructure Agent. A program on the session host that registers it with the service and reports its health. |
 | Boot loader | The Remote Desktop Agent Boot Loader. It starts the agent. Its Windows service is called `RDAgentBootLoader`. |
 | Broker | The part of the Azure Virtual Desktop service that the agent talks to. It keeps track of which hosts are in which pool. |
-| Side-by-side (SxS) stack | A component on the session host that listens for connections. `qwinsta` lists it as `rdp-sxs`. |
+| Side-by-side (SxS) stack | A component on the session host that listens for connections. `qwinsta` (a command that lists the sessions and listeners on a host) shows it as `rdp-sxs`. |
 | DSC | PowerShell Desired State Configuration. A deployment template uses it to install the agent on the new VM. |
 | Domain join | Making the VM a member of an Active Directory domain. |
 | Drain mode | A host setting that stops new sessions from starting on it. |
@@ -52,9 +52,9 @@ Work from the top. Stop at the first check that fails.
 7. Is the side-by-side stack listening?
 8. If all that passes and the host is still not **Available**, uninstall, remove the host, and register it again.
 
-![The first question is whether the VM deployment succeeded; if it did not, read the deployment error. The tree then asks, in order, whether the host joined the domain, whether the agent and boot loader are installed, whether the registration token is valid, whether the VM name is unique, whether the host can reach the broker on port 443 and whether the stack is listening, and ends with uninstalling and registering the host again.](/img/avd/troubleshoot-host-pool-registration-failures.svg)
+![Seven yes/no checks, from whether the VM deployment succeeded to whether the side-by-side stack is listening, covering domain join, agent install, registration key, unique VM name and broker access on 443. Each no names a fix; the end is a full re-register.](/img/avd/troubleshoot-host-pool-registration-failures.svg)
 
-*Check order for a session host that does not register. Source: [Troubleshoot host pool creation](https://learn.microsoft.com/en-us/azure/virtual-desktop/troubleshoot-set-up-issues), [Troubleshoot session host VM configuration](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-vm-configuration) and [Troubleshoot common Agent issues](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-agent).*
+*Source: [Troubleshoot host pool creation](https://learn.microsoft.com/en-us/azure/virtual-desktop/troubleshoot-set-up-issues), [Troubleshoot session host VM configuration](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-vm-configuration) and [Troubleshoot common Agent issues](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-agent).*
 
 ## Where to look
 
@@ -68,7 +68,7 @@ Work from the top. Stop at the first check that fails.
 
 ### Queries
 
-The first query is a sample from the documentation. It lists each health check per host, for hosts that run health checks. Hosts in some states, such as Unavailable or Upgrading, do not run them, so a host that never registered may not appear here.
+The first query is a sample from the Azure Monitor query reference. It lists each health check per host, for hosts that run health checks. Hosts in some states, such as Unavailable or Upgrading, do not run them, so a host that never registered may not appear here.
 
 ```kusto
 let HealthCheckIdToDescription = (idx:long) {
@@ -110,7 +110,7 @@ WVDAgentHealthStatus
 
 How to read it: the two `let` blocks are lookup lists that turn the numbers the agent stores into check names (such as `DomainJoin` and `URLCheck`) and results (such as `Succeeded` and `Failed`). The query then gives one row per host, check and result, with a count and the first and last time it was seen. Healthy: every check says `Succeeded`. Bad: a row with `Failed`. Its `HealthCheckDesc` tells you which check, such as `DomainJoin` (go to check 2) or `URLCheck` (go to check 6). A host that is missing from the result may not have registered at all, so use the next query.
 
-The next three queries are written for this article. They are not documentation samples, because the documentation has no sample queries for `WVDHostRegistrations`. They use only column names listed on the table pages.
+The next three queries are not published samples, because there are no sample queries for `WVDHostRegistrations`. They use only column names from the table reference.
 
 Which hosts registered, and when:
 
@@ -133,7 +133,7 @@ WVDAgentHealthStatus
 
 For each host, this keeps only the newest agent report from the last day and shows its `Status`, `LastHeartBeat` (the last time the agent reported in) and `AgentVersion`. Healthy: the host is listed and `LastHeartBeat` is recent. Bad: the host is missing (the agent has sent no report in the last day) or `LastHeartBeat` is old (the agent stopped). In both cases check that the `RDAgentBootLoader` service is running (check 6).
 
-Errors that you can fix yourself. The documentation says `ServiceError` is `false` for problems an administrator can resolve, and that `WVDErrors` includes host registration issues. The query does not filter on `ActivityType` because the documentation does not list the value for registration.
+Errors that you can fix yourself. `ServiceError` is `false` for problems an administrator can resolve, and `WVDErrors` includes host registration issues. The query does not filter on `ActivityType`, because the value for registration is not published.
 
 ```kusto
 WVDErrors
@@ -154,14 +154,14 @@ In the Azure portal, open the resource group that holds the VMs, then select **D
 | What you see | Cause | Fix |
 |---|---|---|
 | `VMExtensionProvisioningError` on `joindomain` | Wrong domain join credentials, the domain name does not resolve, or the virtual network DNS setting is **Default**. | Check the credentials. Set the virtual network DNS servers to **Custom** and make sure they match your domain controller. See check 2. |
-| `Unauthorized`: "The scale operation is not allowed for this subscription in this region" | The subscription type cannot use a required feature in that region. The documentation names MSDN, Free and Education subscriptions as examples. | Change the subscription type or the region. |
+| `Unauthorized`: "The scale operation is not allowed for this subscription in this region" | The subscription type cannot use a required feature in that region. MSDN, Free and Education subscriptions are examples. | Change the subscription type or the region. |
 | `InvalidParameter`: "The Admin Username specified is not allowed" | The name or password contains a forbidden word: admin, administrator or root. | Use a different username. |
 | `VMExtensionProvisioningError` on `dscextension`, "The SendConfigurationApply function did not succeed" | DSC could not get administrator access on the VM. | Confirm that the username and password have administrator rights on the VM, then run the template again. |
 | `InvalidResourceReference` (a subnet or network card not found) | The template picked up an existing resource with a similar name, from part of the resource group name. Or a network card has the same name as another in the virtual network. | Make the first two characters of the resource group name unique in the subscription, or use a different host name prefix. |
 | DSC "Error downloading ... catalogartifact.azureedge.net" | A static route, firewall rule or network security group (NSG) blocks the download of the template's zip file. | Remove the block. You can also download the zip file from the link in the template to an allowed location. |
 | "Exceeding quota limit" | The deployment is over the subscription's quota for that VM size. | Deploy fewer VMs or cores, or open the link in the `statusMessage` field to request more quota. |
 | The Azure region you want is not listed | The resource provider has not refreshed. | In **Subscriptions**, **Resource providers**, select `Microsoft.DesktopVirtualization` and **Re-register**. This does not affect existing environments. |
-| `VMExtensionProvisioningError`, with no clear cause | The documentation lists a temporary problem with the service or the connection as the cause. | Confirm the service is healthy by signing in with PowerShell, then finish the registration by hand with the [manual registration steps](https://learn.microsoft.com/en-us/azure/virtual-desktop/add-session-hosts-host-pool#register-session-hosts-to-a-host-pool) (also described under check 3). |
+| `VMExtensionProvisioningError`, with no clear cause | A temporary problem with the service or the connection is the likely cause. | Confirm the service is healthy by signing in with PowerShell, then finish the registration by hand with the [manual registration steps](https://learn.microsoft.com/en-us/azure/virtual-desktop/add-session-hosts-host-pool#register-session-hosts-to-a-host-pool) (also described under check 3). |
 
 If the host pool uses a *session host configuration* (a saved template that the service uses to create hosts for you), the domain join is done by the agent, not by a deployment extension. The Azure deployment can then succeed even when the domain join failed, which leaves unhealthy hosts. In that case the domain join errors are in the portal: open the session host and view the JSON for its session host health.
 
@@ -177,7 +177,7 @@ This applies to hosts that join an Active Directory domain. Try pinging the doma
 | Domain name does not resolve | The VM's virtual network is not connected to the one that holds the domain. Or, with Microsoft Entra Domain Services, the virtual network DNS does not point to the managed domain controllers. Or the network card DNS settings do not point to the right servers. | Peer the virtual networks. Update the virtual network DNS settings. Set the network card DNS to **Custom** with the DNS servers' private IP addresses, or to **Inherit from virtual network**. |
 | Computer account reuse is blocked | You reuse a computer name, the Windows updates released on or after October 11, 2022 are installed, and the account lacks rights to reuse computer accounts. | Use the account that created the computer object, a Domain Administrators member, or an account covered by the policy **Domain controller: Allow computer account re-use during domain join**. That policy needs updates released on or after March 14, 2023 on all member computers and domain controllers. |
 
-For Microsoft Entra joined hosts, the documentation says the supported way is the `AADLoginForWindows` VM extension, which the portal and the Azure Virtual Desktop templates add for you. All hosts in one pool should use the same identity provider. This article does not cover Entra join errors beyond that.
+For Microsoft Entra joined hosts, the supported way is the `AADLoginForWindows` VM extension, which the portal and the Azure Virtual Desktop templates add for you. All hosts in one pool should use the same identity provider. This article does not cover Entra join errors beyond that.
 
 ### 3. Are the agent and boot loader installed?
 
@@ -188,7 +188,7 @@ On the VM, open **Control Panel**, **Programs and Features**. After a normal ins
 - Remote Desktop Services Infrastructure Geneva Agent
 - Remote Desktop Services SxS Network Stack
 
-An older documentation page names the first two "Azure Virtual Desktop Agent" and "Azure Virtual Desktop Agent Boot Loader". Look for either.
+Older guidance names the first two "Azure Virtual Desktop Agent" and "Azure Virtual Desktop Agent Boot Loader". Look for either.
 
 Then open `C:\Windows\Temp\ScriptLog.log`. If it is missing, the DSC step that installs the agent could not run with the credentials it was given. If it exists, read it for errors.
 
@@ -204,7 +204,7 @@ If you install by hand, download the agent and the boot loader from the links on
 
 ### 4. Is the registration key valid?
 
-On the VM, open Event Viewer, **Windows Logs**, **Application**. Event ID 3277 with `INVALID_REGISTRATION_TOKEN` or `EXPIRED_MACHINE_TOKEN` in the description means the key is not accepted. A registry value `IsRegistered` of 0 under `HKLM:\SOFTWARE\Microsoft\RDInfraAgent` points the same way, and an expired key is the documented cause.
+On the VM, open Event Viewer, **Windows Logs**, **Application**. Event ID 3277 with `INVALID_REGISTRATION_TOKEN` or `EXPIRED_MACHINE_TOKEN` in the description means the key is not accepted. A registry value `IsRegistered` of 0 under `HKLM:\SOFTWARE\Microsoft\RDInfraAgent` points the same way, and an expired key is the usual cause.
 
 To fix it:
 
@@ -233,9 +233,9 @@ Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\RDInfraAgent" -Name Registratio
 
 5. Check the host pool. If the host is not listed, read the Event Viewer entries for errors that stop the agent from starting.
 
-How long should the key last? The documentation gives different answers, so here are both. One page says the expiry can be no less than an hour and no longer than 27 days, and says to generate a key only for as long as you need it. It suggests 1 to 4 hours for an interactive rollout, and a longer lifetime, up to 27 days, if you add hosts over several days. An older page says to confirm that the `-ExpirationTime` parameter of `New-AzWvdRegistrationInfo` is set to three days. Pick a lifetime that covers your deployment window, and generate a new key if a host fails with an expired-key error.
+How long should the key last? It can be no less than an hour and no longer than 27 days. Generate a key only for as long as you need it. One to 4 hours is typical for an interactive rollout. Use a longer lifetime, up to 27 days, if you add hosts over several days. Generate a new key if a host fails with an expired-key error.
 
-A related limit: VMs that are pre-provisioned and stay powered off for more than 90 days also have their machine token expire. The documentation says to power them on for at least 20 minutes every 90 days so the token refreshes.
+A related limit: pre-provisioned VMs that stay powered off for more than 90 days also have their machine token expire. Power them on for at least 20 minutes every 90 days so the token refreshes.
 
 ### 5. Is the VM name unique in the host pool?
 
@@ -265,7 +265,7 @@ Other ways to check the network:
 
 ### 7. Is the side-by-side stack listening?
 
-On the VM, run `qwinsta` from a command prompt. If the stack is installed and enabled, `rdp-sxs` is listed. The `STATE` column for `rdp-tcp` and `rdp-sxs` should be `Listen`. If those entries are missing or not listening, there is a stack problem.
+On the VM, run `qwinsta` (it lists the sessions and listeners on the host) from a command prompt. If the stack is installed and enabled, `rdp-sxs` is listed. The `STATE` column for `rdp-tcp` and `rdp-sxs` should be `Listen`. If those entries are missing or not listening, there is a stack problem.
 
 | What you see | Cause | Fix |
 |---|---|---|
@@ -273,24 +273,24 @@ On the VM, run `qwinsta` from a command prompt. If the stack is installed and en
 | `rdp-sxs` is missing even though the stack is installed | The VM runs Windows Pro or another system that is not supported. The stack installs but is not activated. | Create the hosts from a supported operating system: Windows Enterprise or a Windows Server edition. |
 | Event 3277 with `InstallationHealthCheckFailedException` | The stack listener is not working because the terminal server toggled the listener's registry key. | Check the listener. If it is not working, uninstall and reinstall the stack. |
 | Event 3277 with `InstallMsiException` | Another installer is running, or a group policy blocks `msiexec.exe`. | Run `rsop.msc`, go to **Computer Configuration**, **Administrative Templates**, **Windows Components**, **Windows Installer**, **Turn off Windows Installer**. If it is **Enabled**, ask your Active Directory team to allow `msiexec.exe`. |
-| `InstallMsiException` and the `DisableRegistryTools` registry value is 1 | That value prevents the agent from installing the stack. The documentation lists three places to check: under `HKU\DEFAULT`, under `HKU\S-1-5-18`, and under `HKCU`, all in `SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System`. | Remove the value from all three places, uninstall the affected stack from **Apps & Features**, remove its registry keys, restart the VM, then start the agent and let it install the stack again. |
+| `InstallMsiException` and the `DisableRegistryTools` registry value is 1 | That value prevents the agent from installing the stack. Check three places: under `HKU\DEFAULT`, under `HKU\S-1-5-18`, and under `HKCU`, all in `SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System`. | Remove the value from all three places, uninstall the affected stack from **Apps & Features**, remove its registry keys, restart the VM, then start the agent and let it install the stack again. |
 | Event 3277 with `DownloadMsiException` | Not enough disk space for the agent. | Free space or enlarge the VM disk. |
 
-If the status stays **Unavailable** or **Upgrading**, the agent or stack did not install correctly. The documentation says to reinstall the stack first: stop `RDAgentBootLoader`, uninstall **Remote Desktop Services SxS Network Stack**, install the newest `SxSStack*.msi` from `C:\Program Files\Microsoft RDInfra\` with `msiexec /i`, restart, and run `qwinsta` again. If `rdp-tcp` and `rdp-sxs` are still not `Listen`, register the VM again as described next.
+If the status stays **Unavailable** or **Upgrading**, the agent or stack did not install correctly. Reinstall the stack first: stop `RDAgentBootLoader`, uninstall **Remote Desktop Services SxS Network Stack**, install the newest `SxSStack*.msi` from `C:\Program Files\Microsoft RDInfra\` with `msiexec /i`, restart, and run `qwinsta` again. If `rdp-tcp` and `rdp-sxs` are still not `Listen`, register the VM again as described next.
 
-The registry settings behind the stack are worded slightly differently on two documentation pages. One gives `fEnableWinstation` under a key named `rds-sxs`, and `SessionDirectoryListener` set to `rdp-sxs`. The other, for a Windows 10 2004 host, gives `fReverseConnectMode` and `fEnableWinStation`, both 1, in the folder that matches the version `qwinsta` shows, and `SessionDirectoryListener` as `rdp-sxs` plus that version number. If you must edit the registry, use the page that matches your Windows version.
+The registry settings behind the stack depend on your Windows version. On a Windows 10 2004 host, `fReverseConnectMode` and `fEnableWinStation` must both be 1 in the folder that matches the version `qwinsta` shows, and `SessionDirectoryListener` must be `rdp-sxs` plus that version number. Check the setting against your Windows version before you edit the registry.
 
 ### 8. Start again: uninstall, remove, register
 
-The documentation says to do this when the host is stuck as **Unavailable** or **Upgrading**, you see `EXPIRED_REGISTRATION_TOKEN`, the host is not in the list, the **Remote Desktop Agent Loader** service is missing, or the earlier checks did not help.
+Do this when the host is stuck as **Unavailable** or **Upgrading**, you see `EXPIRED_REGISTRATION_TOKEN`, the host is not in the list, the **Remote Desktop Agent Loader** service is missing, or the earlier checks did not help.
 
 1. On the VM, sign in as administrator. In **Programs and Features** (or **Settings**, **Apps** on Windows 11), uninstall all four components listed in check 3, then restart. You may see several copies. Remove them all. If you are connected over RDP, when the SxS Network Stack uninstall asks to close Remote Desktop Services, choose **Do not close applications**. Otherwise your RDP connection drops.
-2. In the Azure portal, open the host pool, **Session hosts**, tick the host and select **Remove**. This resets the registration. In a personal host pool, note which user the host is assigned to first, so you can assign it again afterwards (this is a precaution, not a step from the agent page).
+2. In the Azure portal, open the host pool, **Session hosts**, tick the host and select **Remove**. This resets the registration. In a personal host pool, note which user the host is assigned to first, so you can assign it again afterwards.
 3. Generate a new registration key (check 4, step 1).
 4. On the VM, run the agent installer and paste the key, then run the boot loader installer. This also installs the stack and the monitoring agent. Restart the VM.
 5. In the host pool, **Session hosts**, the host should show **Available**.
 
-## Other fixes from the same pages
+## Other fixes
 
 | What you see | Fix |
 |---|---|
@@ -303,9 +303,9 @@ For a host that is registered but shows **Needs Assistance** or fails a health c
 
 Open a support case. Include what you tried and what happened. Collect:
 
-- The `CorrelationId` from `WVDErrors` or `WVDHostRegistrations` for the failure. If `ServiceError` is `true`, the documentation says to escalate to Microsoft and give the CorrelationId.
+- The `CorrelationId` from `WVDErrors` or `WVDHostRegistrations` for the failure. If `ServiceError` is `true`, escalate to Microsoft and give them the CorrelationId.
 - The text of the Application log events (event ID 3277, and 3703 or 3019 if they appear) and the contents of `C:\Windows\Temp\ScriptLog.log`.
-- For event ID 3019, network trace logs. The documentation says to attach them to the case.
+- For event ID 3019, collect network trace logs and attach them to the case.
 
 If the host registers but is not healthy, read [Troubleshoot an AVD Session Host That Is Unavailable or Needs Assistance](/azure-virtual-desktop/troubleshoot-session-host-unavailable-health-checks/).
 

@@ -5,7 +5,6 @@ slug: "management-and-monitoring"
 series: "Azure Landing Zone"
 part: ""
 post_number: 13
-status: draft
 preview_feature: false
 fictional_case: false
 learn_pages:
@@ -54,7 +53,6 @@ diagrams:
     based_on: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management and management-monitor (the monitor page has an alert-topology diagram, described in the post text and not redrawn; this picture is an own-layout summary of the whole design area. Deliberate exception to the follow-Learn-layout rule, because the Learn diagram covers only alert topology, not the design area)"
     icons: "Azure Public Service Icons V24 (Log Analytics Workspaces, Monitor, Policy, Update Management Center, Recovery Services Vaults, Alerts), unmodified. Update Manager uses the Update Management Center icon file; Site Recovery has no icon in the set"
     source: "../diagrams/post-13-management-and-monitoring.drawio"
-production_section_written_by_addy: true  # items confirmed by Addy 2026-10-15; wording drafted by Claude
 layout: post.njk
 permalink: "/azure-landing-zone/management-and-monitoring/"
 order: 13
@@ -187,7 +185,7 @@ Design recommendations:
 
 **Key Vault and disaster recovery.** The Key Vault behavior in zone and region failures is in [Security](/azure-landing-zone/security/), so it is not repeated here. Check your own vault and region in [Reliability in Azure Key Vault](https://learn.microsoft.com/azure/reliability/reliability-key-vault). What is new for disaster recovery planning:
 
-- If your recovery targets need more than Microsoft-managed failover, the documented custom approach is separate vaults in more than one region, backup and restore to keep their contents consistent, and application logic to fail over between vaults.
+- If your recovery targets need more than Microsoft-managed failover, the custom approach is separate vaults in more than one region, backup and restore to keep their contents consistent, and application logic to fail over between vaults.
 - Backups restore only within the same subscription and Azure geography (a group of regions that keeps data inside a country or area).
 - Soft delete (deleted items can be recovered for a set time) and purge protection (blocks permanent deletion during that time) guard against deletion. They do not recover you from a region failure.
 
@@ -203,7 +201,7 @@ To scale alerting, a framework solution called Azure Monitor baseline alerts (AM
 
 The default baseline can be changed, and you can write your own policies for other metrics. Alerts are only deployed when the matching resources are created, which avoids unnecessary cost and keeps alert settings current at deployment time. The solution is part of the Azure landing zone installation experience, so new deployments can set up baseline alerting at installation time.
 
-The monitor page has a diagram of this baseline alert topology, which I describe here instead of redrawing (the picture below shows only the three levels). The initiatives (groups of Azure Policy definitions that you assign together) for the platform management groups (connectivity, identity and management) apply to those groups. The landing zone initiative applies to the landing zones management group. The service health initiative and the notifications assets initiative apply at the intermediate root management group ([the resource organization post](/azure-landing-zone/resource-organization/)), so they reach all subscriptions.
+The monitor page has a diagram of this baseline alert topology, which is described here instead of redrawn (the picture below shows only the three levels). The initiatives (groups of Azure Policy definitions that you assign together) for the platform management groups (connectivity, identity and management) apply to those groups. The landing zone initiative applies to the landing zones management group. The service health initiative and the notifications assets initiative apply at the intermediate root management group ([the resource organization post](/azure-landing-zone/resource-organization/)), so they reach all subscriptions.
 
 If you use another way to deploy alerts, such as Azure Resource Manager, Bicep, Terraform or the portal, the guidance for alerts, severity and thresholds still applies.
 
@@ -223,9 +221,9 @@ Centralized logging in the reference architecture is mainly about platform opera
 
 ## Management and monitoring at a glance
 
-![Management and monitoring in the landing zone. Four stacked bands, each with a two-column grid of cards. Inventory and visibility: a central logging workspace, guardrails (Azure Policy, deny policies, resource locks), service and resource health events, Traffic Analytics, and the rule that data born in Azure stays in Azure. Operational compliance: Azure Update Manager for patching, and Azure Policy and Azure Machine Configuration for configuration drift. Protect and recover: Azure Site Recovery, Azure Backup, availability zones or sets, ExpressRoute in several regions and no overlapping IP ranges. Last, monitoring the platform landing zone: policy initiatives assigned at three management group levels (the intermediate root, then the platform and landing zones management groups) deploy alert rules, alert processing rules and action groups, with a list of components that have baseline alerts, the action group rule, an out-of-scope note, and a note on questions Microsoft asks about update management.](/diagrams/post-13-management-and-monitoring.svg)
+![Management design area in four bands: inventory and visibility, operational compliance, protect and recover, and baseline alerts for the platform landing zone deployed by Azure Policy.](/diagrams/post-13-management-and-monitoring.svg)
 
-*Simplified summary of the Management design area. The documentation has an alert-topology diagram, which the text describes instead of redrawing: [Monitor Azure platform landing zone components](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management-monitor). Icons are from the official [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/), unmodified.*
+*Simplified from [Monitor Azure platform landing zone components](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/management-monitor), Microsoft Learn. Icons: [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 
 ## Common mistakes
 
@@ -238,15 +236,6 @@ Centralized logging in the reference architecture is mainly about platform opera
 - **No recovery drill.** Site Recovery can run drills without affecting production.
 - **Overlapping IP ranges in production and DR.** This complicates and delays failover.
 - **Alerts never tested before production.** Test policies and alerting before a deployment to production.
-
-## From my own projects
-
-From the list above (judgement, not Microsoft guidance), these came up in my own work: alerts that nobody gets, patching gaps, and disaster recovery and backup. I leave out project details.
-
-## The files in my repo
-
-- Management for Azure environments: logging, patching, drift and alerts: [management.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/management.md)
-- Business continuity and disaster recovery questions for the platform: [business-continuity.md](https://github.com/AddySidd27/Azure_landing_zone/blob/main/docs/02-design-areas/business-continuity.md)
 
 Next: [Governance and Azure Policy](/azure-landing-zone/governance-and-azure-policy/).
 
