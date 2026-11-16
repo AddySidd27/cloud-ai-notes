@@ -29,7 +29,7 @@ By the end you will have run your first Azure commands in the browser, and you w
 
 ## What the lab builds
 
-![Diagram: Two ways to run Azure CLI commands.](/img/basics/cloud-shell-and-azure-cli.svg)
+![You sign in to the Azure portal with a test account that uses MFA, open Cloud Shell (Bash, no storage account) and run az commands against your test subscription. An optional dashed path runs Azure CLI on your PC after az login, for the Terraform lab.](/img/basics/cloud-shell-and-azure-cli.svg)
 
 *Source: Microsoft Learn pages listed under Sources.*
 

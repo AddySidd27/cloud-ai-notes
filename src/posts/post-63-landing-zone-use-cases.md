@@ -89,9 +89,9 @@ Earlier posts defined [landing zone and guardrail](/azure-landing-zone/what-is-a
 
 **Figure 1. Which situation are you in?**
 
-![Three questions, each with its list of use cases: where does this workload go, what shape is my company, and do special rules apply.](/diagrams/post-63-use-cases-finder.svg)
+![A question box, What are you deciding, branches to three columns: where a workload goes (eight cases, answered by a management group), what shape my company is (four cases, answered by tenants and groups) and special rules (sovereignty, on-premises servers, answered by sovereign design or Azure Arc).](/diagrams/post-63-use-cases-finder.svg)
 
-*Simplified overview diagram.*
+*Overview of the use cases covered in this post.*
 
 <div class="path-picker" data-path-picker>
 <p class="path-picker__label">You are deciding about</p>

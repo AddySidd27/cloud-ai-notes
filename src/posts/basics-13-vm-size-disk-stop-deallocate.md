@@ -34,7 +34,9 @@ State at the start: VM Stopped (deallocated), no RDP rule. At the end: VM Stoppe
 
 ## What the lab builds
 
-![Diagram: VM size, disk type and power states.](/img/basics/vm-size-disk-stop-deallocate.svg)
+![A running VM is stopped (deallocated), so compute is not billed; while deallocated you change the size and OS disk type, then start it. Shutting down inside Windows only stops it and compute is still billed. The OS disk and public IP are billed in every state.](/img/basics/vm-size-disk-stop-deallocate.svg)
+
+*Source: Microsoft Learn pages listed under Sources.*
 
 ## Steps in the Azure portal
 

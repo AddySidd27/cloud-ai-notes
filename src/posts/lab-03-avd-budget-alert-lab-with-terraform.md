@@ -31,7 +31,7 @@ Below is what the code does, how Microsoft describes the features it uses, and a
 
 ## What the lab builds
 
-![Diagram: How the budget lab raises a cost alert.](/img/avd/AVD-Terraform-Budget-Lab.svg)
+![A monthly budget on the resource group emails up to five addresses when actual cost reaches 50, 80 and 100 percent, or the forecast passes 100 percent. The alert does not stop or change any resource.](/img/avd/AVD-Terraform-Budget-Lab.svg)
 
 *Source: the lab's Terraform code and the page [Tutorial: Create and manage budgets](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets).*
 

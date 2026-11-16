@@ -31,7 +31,7 @@ By the end of this lab you will have one standard test user, one security group 
 
 ## What the lab builds
 
-![Diagram: Test user and emergency access accounts in one Entra tenant.](/img/basics/entra-users-groups-break-glass.svg)
+![In one Entra tenant, Test User 1 is a member of the group TestUsers. Two cloud-only Global Administrator accounts, Emergency Access 01 and 02, are members of the group EmergencyAccess, which is excluded from the sign-in rule. Your admin account is in neither group.](/img/basics/entra-users-groups-break-glass.svg)
 
 *Source: Microsoft Learn pages listed under Sources.*
 

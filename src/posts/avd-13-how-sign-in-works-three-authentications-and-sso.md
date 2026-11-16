@@ -56,7 +56,7 @@ An AVD connection has three separate authentication phases.
 | Remote session authentication | Signing in to the session host. | SSO, or a prompt, or saved credentials. |
 | In-session authentication | Signing in to applications and web sites inside the desktop. | Inside the session: passwordless sign-in through WebAuthn redirection, smart cards or passwords. |
 
-![Diagram: The three authentications and the single sign-on steps.](/img/avd/AVD-Post-13-Three-Authentications-v3.png)
+![Three boxes left to right: cloud service authentication with Entra ID, remote session authentication to the session host (single sign-on or a prompt), and in-session authentication to apps. A panel lists the five tasks to enable single sign-on.](/img/avd/AVD-Post-13-Three-Authentications-v3.png)
 
 *Source: [Supported identities and authentication methods](https://learn.microsoft.com/en-us/azure/virtual-desktop/authentication).*
 

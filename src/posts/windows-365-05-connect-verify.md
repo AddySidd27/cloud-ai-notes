@@ -13,7 +13,7 @@ The portal's **Provisioned** status is a milestone, but the pilot is not finishe
 
 There are two ways to connect to a Cloud PC. **Windows App** is Microsoft's app for connecting to a Cloud PC. The **web client** is the same kind of connection in a browser, at windows.cloud.microsoft. The next sections use these two names.
 
-![Diagram: How a user connects to a Cloud PC and how you check it.](/img/windows-365/windows-365-connect.svg)
+![The user signs in with the work account in Windows App or the web client; Entra ID handles sign-in. The connection goes through the AVD service, with the Cloud PC connecting outbound only. The administrator checks All Cloud PCs and All devices in Intune.](/img/windows-365/windows-365-connect.svg)
 
 *Source: [Windows 365 architecture](https://learn.microsoft.com/en-us/windows-365/enterprise/architecture) and [Access a Cloud PC](https://learn.microsoft.com/en-us/windows-365/end-user-access-cloud-pc).*
 

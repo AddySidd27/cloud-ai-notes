@@ -47,7 +47,9 @@ State at the start: no VM exists. At the end: the VM exists and is **Stopped (de
 
 ## What the lab builds
 
-![Diagram: A Windows VM with Microsoft Entra sign-in.](/img/basics/windows-vm-entra-sign-in.svg)
+![Your PC connects by RDP to the VM's temporary public IP; the NSG allows 3389 from your IP only. The VM in snet-vm checks the sign-in with Microsoft Entra ID over port 443. TestUsers, including testuser1, hold the role Virtual Machine User Login on rg-azb-lab.](/img/basics/windows-vm-entra-sign-in.svg)
+
+*Source: Microsoft Learn pages listed under Sources.*
 
 ## Steps in the Azure portal
 

@@ -127,7 +127,7 @@ The full table also covers compliance, deployment, development, reliability and 
 
 ## The three operating models at a glance
 
-![Three cloud operating models: centralized (one cloud team), shared management (a platform team sets guardrails, workload teams operate within them) and decentralized (each team runs its own governance).](/diagrams/post-04-cloud-operating-models.svg)
+![Three rows compare operating models. Centralized: one cloud team governs all workload subscriptions. Shared management: a platform team sets guardrails with Azure Policy and workload teams operate inside them. Decentralized: each team owns its landing zone. Each row says who it suits and what to watch for.](/diagrams/post-04-cloud-operating-models.svg)
 
 *Simplified from [Prepare your organization for the cloud](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/prepare-organization-for-cloud#choose-a-cloud-operating-model), Microsoft Learn. Icons: [Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/).*
 

@@ -69,7 +69,7 @@ Each topology fits different conditions. Which one fits you is a decision.
 | ExpressRoute is the main hybrid link and there are fewer than 100 VPN connections per VPN gateway ([Traditional Azure networking topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology#design-recommendations)). The [Define an Azure network topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/define-an-azure-network-topology) page says fewer than 30 IPsec site-to-site tunnels | You want to minimize network management work |
 | You depend on central network virtual appliances and granular routing | You use SD-WAN to bring branch offices into Azure, or need native IPsec for more than 30 branch sites ([Define an Azure network topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/define-an-azure-network-topology)) |
 
-![Diagram: Hub and spoke compared with Virtual WAN for an AVD spoke.](/img/avd/AVD-Post-17-Topology-Choice-v3.png)
+![Left: traditional hub and spoke, a hub with gateway and firewall peered to three spokes. Right: Virtual WAN with a managed hub per region, each linked to a workload network and a DNS spoke. Boxes below say when each fits and list address plan checks.](/img/avd/AVD-Post-17-Topology-Choice-v3.png)
 
 *Source: [Traditional Azure networking topology](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology).*
 

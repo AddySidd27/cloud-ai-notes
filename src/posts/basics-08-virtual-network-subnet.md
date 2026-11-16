@@ -29,7 +29,7 @@ By the end you will have a resource group called `rg-azb-lab`, a virtual network
 
 ## What the lab builds
 
-![Diagram: A virtual network and a subnet.](/img/basics/virtual-network-subnet.svg)
+![Nested boxes in resource group rg-azb-lab: the virtual network vnet-azb, 10.10.0.0/16 with 65,536 addresses, contains the subnet snet-vm, 10.10.1.0/24 with 251 usable addresses. A VM comes in a later lab and gets 10.10.1.4.](/img/basics/virtual-network-subnet.svg)
 
 *Source: Microsoft Learn pages listed under Sources.*
 

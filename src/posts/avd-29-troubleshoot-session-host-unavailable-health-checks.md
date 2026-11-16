@@ -55,7 +55,7 @@ A VM that shut down before its agent could report may show Unavailable instead o
 
 The picture shows the order of checks as a decision tree.
 
-![Diagram: Decision tree: session host is Unavailable or Needs Assistance.](/img/avd/troubleshoot-session-host-unavailable-health-checks.svg)
+![Six checks: is the VM running, status Needs Assistance, a failed domain, trust or stack check, agent errors in the Application log, stuck in Upgrading. Each yes names a fix; the last step is reinstalling, re-registering and opening a case.](/img/avd/troubleshoot-session-host-unavailable-health-checks.svg)
 
 *Source: [Session host statuses and health checks](https://learn.microsoft.com/en-us/azure/virtual-desktop/troubleshoot-statuses-checks) and [Troubleshoot common agent issues](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-agent).*
 

@@ -27,6 +27,6 @@ export default {
     { name: "AI and agentic AI", text: "MCP servers, RAG pipelines and diagnostic agents for Azure Virtual Desktop and Citrix. See the section below." },
     { name: "Automation with n8n", text: "Workflow automation, including a voice assistant that answers questions about Azure Virtual Desktop and Windows 365." },
   ],
-  bio: "I work on Azure landing zones and end-user computing platforms. Each article starts from the basics and explains its terms. Sources are listed at the end of each article.",
+  bio: "This site covers Azure landing zones and end-user computing platforms. Each article starts from the basics and explains its terms. Sources are listed at the end of each article.",
   year: new Date().getFullYear(),
 };

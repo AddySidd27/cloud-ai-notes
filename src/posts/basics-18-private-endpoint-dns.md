@@ -44,7 +44,9 @@ This lab is optional. Nothing later depends on it. It is the one lab in this ser
 
 ## What the lab builds
 
-![Diagram: Private endpoint and private DNS for Azure Files.](/img/basics/private-endpoint-dns.svg)
+![The VM in snet-vm asks the private DNS zone for the file share name, and the zone answers with a 10.10.2.x address. The VM mounts the share over SMB port 445 through the private endpoint in snet-pe, which links to the storage account. Public internet access is blocked.](/img/basics/private-endpoint-dns.svg)
+
+*Source: Microsoft Learn pages listed under Sources.*
 
 ## Steps in the Azure portal
 

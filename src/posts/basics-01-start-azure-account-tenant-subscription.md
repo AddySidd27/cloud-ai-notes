@@ -32,7 +32,7 @@ If you ever had an Azure subscription before, the free trial may not be availabl
 
 ## What the lab builds
 
-![Diagram: Subscription, tenant and resource providers.](/img/basics/start-azure-account-tenant-subscription.svg)
+![Your Free Trial subscription, where resources live and the bill goes, trusts one Entra tenant, the directory of users and groups; one tenant can serve many subscriptions. Resource providers are registered on the subscription. Check names and IDs before every lab.](/img/basics/start-azure-account-tenant-subscription.svg)
 
 *Source: Microsoft Learn pages listed under Sources.*
 

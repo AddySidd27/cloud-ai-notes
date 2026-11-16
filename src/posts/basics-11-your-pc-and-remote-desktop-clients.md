@@ -37,7 +37,9 @@ The virtual machine (VM) comes in the next lab, [Windows VM with Entra sign-in](
 
 ## What the lab builds
 
-![Diagram: Your PC and the ways to reach a Windows VM.](/img/basics/your-pc-and-remote-desktop-clients.svg)
+![From your Windows PC you can reach the VM with Remote Desktop Connection or the Windows App, both over RDP on TCP 3389. The web browser client does not work for a plain VM. The PC and the VM must be in the same Microsoft Entra directory.](/img/basics/your-pc-and-remote-desktop-clients.svg)
+
+*Source: Microsoft Learn pages listed under Sources.*
 
 ## Steps
 

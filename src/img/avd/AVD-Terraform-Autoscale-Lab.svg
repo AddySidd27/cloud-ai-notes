@@ -74,7 +74,7 @@
 <rect x="150.0" y="626" width="339.8" height="38" fill="#eceff3" stroke="#b4bcc7" stroke-width="1.5"/>
 <text x="319.9" y="650" font-size="14" text-anchor="middle" fill="#1f2933">Off-peak</text>
 <rect x="489.8" y="626" width="37.8" height="38" fill="#dff3e4" stroke="#8bcb9f" stroke-width="1.5"/>
-<text x="508.625" y="622" font-size="14" text-anchor="middle" fill="#1f2933">Ramp-up</text>
+<text x="508.625" y="616" font-size="14" text-anchor="middle" fill="#1f2933">Ramp-up</text>
 <text x="452.75" y="684" font-size="14" text-anchor="start" fill="#5f6b7a">09:00</text>
 <rect x="527.5" y="626" width="151.0" height="38" fill="#dbe9fb" stroke="#7ab0ee" stroke-width="1.5"/>
 <text x="603.0" y="650" font-size="14" text-anchor="middle" fill="#1f2933">Peak</text>
@@ -86,4 +86,5 @@
 <text x="942.8" y="650" font-size="14" text-anchor="middle" fill="#1f2933">Off-peak</text>
 <text x="825.5" y="684" font-size="14" text-anchor="start" fill="#5f6b7a">18:00</text>
 <text x="40" y="722" font-size="14" text-anchor="start" fill="#5f6b7a">Breadth First in ramp-up and peak, Depth First in ramp-down and off-peak. Minimum hosts: weekday ramp-up 50%, ramp-down 0%, weekend 0%.</text>
+<!--fx:auto2-->
 </svg>

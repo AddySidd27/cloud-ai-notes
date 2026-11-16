@@ -33,7 +33,7 @@ If a step fails, select the bell icon at the top right of the portal. The notifi
 
 ## What the lab builds
 
-![Diagram: Resource groups, tags, action group and budget.](/img/basics/resource-group-tags-budget.svg)
+![In your test subscription, rg-azb-core is kept and holds the action group ag-azb-email, which emails you. rg-azb-practice, with tags and a virtual network, is deleted at the end. The budget has four thresholds and can call the action group; it stops nothing.](/img/basics/resource-group-tags-budget.svg)
 
 *Source: Microsoft Learn pages listed under Sources.*
 

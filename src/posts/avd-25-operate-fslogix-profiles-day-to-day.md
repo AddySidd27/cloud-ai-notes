@@ -73,7 +73,7 @@ Pick standard containers first. Choose Cloud Cache only if you have a clear reas
 
 If you use standard containers, you can skip to "Keep containers from filling up". The picture below shows the parts. Then the steps in words:
 
-![Diagram: How FSLogix Cloud Cache moves data between the session host and storage providers.](/img/avd/AVD-FSLogix-Cloud-Cache.svg)
+![Six steps: the user signs in, a proxy file points to the local cache, the user works there, missing data is read from the first provider (hydrate), changes flush to all providers, and sign-out waits for providers to match. Up to four providers in CCDLocations.](/img/avd/AVD-FSLogix-Cloud-Cache.svg)
 
 *Source: [Cloud Cache overview](https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache).*
 

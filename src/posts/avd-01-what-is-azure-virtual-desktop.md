@@ -77,7 +77,7 @@ AVD has both Azure resource costs and licensing requirements. An estimate needs 
 
 ## Who manages each AVD component
 
-![Eight boxes in two groups. Microsoft manages the web, broker and gateway services, the resource directory, and the geographical and regional databases. You manage the session hosts and the user identities.](/img/avd/AVD-Post-01-Components-v3.png)
+![Eight boxes in two groups. Microsoft manages the web, broker and gateway services, the resource directory, and the geographical and regional databases. You manage the session hosts and the user identities.](/img/avd/AVD-Post-01-Who-Manages-What-v3.png)
 
 *Source: [Azure Virtual Desktop service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience) and [Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites).*
 

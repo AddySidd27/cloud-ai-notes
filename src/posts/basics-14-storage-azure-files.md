@@ -41,7 +41,9 @@ State at the start: VM Stopped (deallocated), no RDP rule. At the end: VM Stoppe
 
 ## What the lab builds
 
-![Diagram: Azure Files with Microsoft Entra sign-in.](/img/basics/storage-azure-files.svg)
+![testuser1 on vm-azb-win01 asks Microsoft Entra ID for a Kerberos ticket, gets it back, and mounts the file share azbshare over port 445. TestUsers hold Storage File Data SMB Share Contributor on the share. Conditional Access applies no MFA to the storage app.](/img/basics/storage-azure-files.svg)
+
+*Source: Microsoft Learn pages listed under Sources.*
 
 ## Steps in the Azure portal
 

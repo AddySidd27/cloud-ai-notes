@@ -42,7 +42,7 @@ This article explains those objects and the rules between them, shows which choi
 
 ## The four objects in one picture
 
-![Diagram: How host pools, application groups and workspaces relate.](/img/avd/AVD-Post-09-Object-Relationships-v3.png)
+![A workspace lists three application groups, one desktop and two RemoteApp. Each belongs to the one pooled host pool, which holds the session hosts. Entra users and groups are assigned to each application group. A panel lists the rules between these objects.](/img/avd/AVD-Post-09-Object-Relationships-v3.png)
 
 *Source: [Azure Virtual Desktop terminology](https://learn.microsoft.com/en-us/azure/virtual-desktop/terminology).*
 

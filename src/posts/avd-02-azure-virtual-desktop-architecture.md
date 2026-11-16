@@ -64,9 +64,9 @@ A partner can do this work for the customer. The work still needs an owner.
 
 ## A typical hybrid setup, box by box
 
-![Diagram: Azure Virtual Desktop in a hybrid environment.](/img/avd/AVD-Post-02-Hybrid-Architecture-v3.png)
+![The Microsoft-run AVD service and Entra ID sit at the top. Users connect over the internet; session hosts in your Azure spoke network connect outbound. A hub gateway links to on-premises domain controllers and Entra Connect by ExpressRoute or VPN.](/img/avd/AVD-Post-02-Hybrid-Architecture-v3.svg)
 
-*Figure 1. Sources: [Service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience) and [Virtual desktop architecture guidance](https://learn.microsoft.com/en-us/azure/architecture/virtual-desktop/virtual-desktop-get-started).*
+*Sources: [Service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience) and [Virtual desktop architecture guidance](https://learn.microsoft.com/en-us/azure/architecture/virtual-desktop/virtual-desktop-get-started).*
 
 This is one typical example, not a list of components every deployment must buy. ExpressRoute or VPN, on-premises Active Directory Domain Services (AD DS) and the hub-and-spoke layout reflect that example.
 
@@ -154,7 +154,7 @@ A workspace and a host pool are management objects. They do not replace the VMs 
 
 ## Understand identity before following sign-in
 
-Figure 1 uses a hybrid identity setup. Microsoft Entra Connect synchronizes identities from AD DS to Microsoft Entra ID. The domain controllers in the on-premises network support the domain-joined environment. Session hosts reach them through the hub network and the ExpressRoute or VPN link.
+The hybrid architecture diagram uses a hybrid identity setup. Microsoft Entra Connect synchronizes identities from AD DS to Microsoft Entra ID. The domain controllers in the on-premises network support the domain-joined environment. Session hosts reach them through the hub network and the ExpressRoute or VPN link.
 
 Azure Virtual Desktop also supports Microsoft Entra joined session hosts. AD DS is not compulsory for every Azure-hosted AVD deployment. The join model must fit the users, applications and storage authentication you intend to use.
 
@@ -182,9 +182,9 @@ The [identity model article](/azure-virtual-desktop/choose-the-right-identity-mo
 
 ## First, discover the desktops and apps
 
-![Diagram: Feed discovery in one Azure region, as drawn on Learn.](/img/avd/AVD-Post-02-Feed-Discovery-v3.png)
+![Inside Region 1 a client and the web service exchange requests, and the web service queries the resource directory; a dashed link joins the client to Azure Traffic Manager. Geographical and regional scopes each hold a broker and its database.](/img/avd/AVD-Post-02-Feed-Discovery-v3.png)
 
-*Figure 2. Source: [Azure Virtual Desktop service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience).*
+*Source: [Azure Virtual Desktop service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience).*
 
 The **feed** is the list of desktops and applications available to the user. Retrieving that list happens before a desktop session opens.
 
@@ -210,9 +210,9 @@ If the user already has an active or disconnected session, AVD reconnects them t
 
 ## Then, establish the remote connection
 
-![Diagram: The RDP connection.](/img/avd/AVD-Post-02-RDP-Connection-v3.png)
+![The client reaches the gateway service through Azure Front Door over TCP. In Region 1 the gateway, broker and session host are linked. A purple UDP line (RDP Shortpath) runs from the client straight to the session host, bypassing the gateway.](/img/avd/AVD-Post-02-RDP-Connection-v3.png)
 
-*Figure 3. Sources: [Service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience) and [RDP Shortpath](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-shortpath).*
+*Sources: [Service architecture and resilience](https://learn.microsoft.com/en-us/azure/virtual-desktop/service-architecture-resilience) and [RDP Shortpath](https://learn.microsoft.com/en-us/azure/virtual-desktop/rdp-shortpath).*
 
 Remote Desktop Protocol, or **RDP**, carries the remote display and user input. The broker arranges the connection; the session host runs Windows.
 

@@ -59,7 +59,7 @@ Some checks below use Log Analytics (Azure's log search tool), which returns not
 
 This grouping is a guide.
 
-![Diagram: Decision tree for AVD sign-in failures and Conditional Access.](/img/avd/troubleshoot-sign-in-and-conditional-access.svg)
+![From a user who cannot sign in or keeps being prompted: is the feed empty, does the Entra log show a failure, repeated prompts, then error codes 50058 or 50076, 530002 or 530032, 65001. Each yes leads to one fix; the end is a support request.](/img/avd/troubleshoot-sign-in-and-conditional-access.svg)
 
 *Source: Troubleshoot single sign-on and Conditional Access, Troubleshoot service connections, Log Analytics diagnostics, Enforce MFA with Conditional Access and Troubleshooting overview.*
 

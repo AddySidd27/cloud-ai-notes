@@ -27,7 +27,7 @@
     d.addEventListener('keydown',function(e){if(e.key!=='Tab')return;var f=[z,cl,box],i=f.indexOf(document.activeElement);
       if(e.shiftKey&&i<=0){e.preventDefault();f[f.length-1].focus()}else if(!e.shiftKey&&(i===f.length-1||i<0)){e.preventDefault();f[0].focus()}});
     imgs.forEach(function(i){i.tabIndex=0;i.setAttribute('role','button');i.title='Click to enlarge';
-      function open(){opener=i;setFit(false);var w=i.naturalWidth||1200;d.style.setProperty('--zoom-width',Math.max(w,Math.min(1200,w*2))+'px');big.src=i.currentSrc||i.src;big.alt=i.alt;box.setAttribute('aria-label',i.alt||'Enlarged diagram');box.scrollTop=0;box.scrollLeft=0;document.documentElement.style.overflow='hidden';d.showModal();cl.focus()}
+      function open(){opener=i;setFit(false);var w=Math.min(i.naturalWidth||1200,1600);d.style.setProperty('--zoom-width',Math.max(w,1200)+'px');big.src=i.currentSrc||i.src;big.alt=i.alt;box.setAttribute('aria-label',i.alt||'Enlarged diagram');box.scrollTop=0;box.scrollLeft=0;document.documentElement.style.overflow='hidden';d.showModal();cl.focus()}
       i.addEventListener('click',open);i.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open()}})});
   }
 

@@ -52,7 +52,7 @@ Work from the top. Stop at the first check that fails.
 7. Is the side-by-side stack listening?
 8. If all that passes and the host is still not **Available**, uninstall, remove the host, and register it again.
 
-![Diagram: Decision tree: a session host is missing from the host pool or never becomes Available.](/img/avd/troubleshoot-host-pool-registration-failures.svg)
+![Eight yes/no checks, from whether the VM deployment succeeded to whether the side-by-side stack is listening, covering domain join, agent install, registration key, unique VM name and broker access on 443. Each no names a fix; the end is a full re-register.](/img/avd/troubleshoot-host-pool-registration-failures.svg)
 
 *Source: [Troubleshoot host pool creation](https://learn.microsoft.com/en-us/azure/virtual-desktop/troubleshoot-set-up-issues), [Troubleshoot session host VM configuration](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-vm-configuration) and [Troubleshoot common Agent issues](https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-agent).*
 

@@ -49,7 +49,7 @@ Everything below describes what the code does. It is a lab, not a production des
 
 ## What the lab builds
 
-![Diagram: What the Terraform quick lab deploys: one resource group with an AVD workspace, desktop application group, host pool, two session hosts and an Azure Files profile share.](/img/avd/AVD-Terraform-Quick-Lab.svg)
+![Terraform deploys one resource group with a workspace, desktop application group and host pool, a network with two session hosts, and a storage account with a profiles share. An Entra group you supply gets three roles: user, VM sign-in and SMB share contributor.](/img/avd/AVD-Terraform-Quick-Lab.svg)
 
 *Source: the lab's Terraform code, in the [terraform-azure-avd](https://github.com/AddySidd27/terraform-azure-avd).*
 

@@ -61,30 +61,33 @@
 <text x="820.0" y="535" font-size="14" text-anchor="middle" fill="#1f2933">Steps 1 to 5 run for each batch</text>
 <line x1="327" y1="510" x2="353" y2="510" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
 <line x1="647" y1="510" x2="673" y2="510" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<polyline points="895,557 895,580 119,580 119,600" fill="none" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<rect x="35" y="602" width="168" height="88" rx="8" fill="#ffffff" stroke="#c45a10" stroke-width="1.5"/>
-<text x="119.0" y="628" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">1 Notify users</text>
-<text x="119.0" y="652" font-size="14" text-anchor="middle" fill="#1f2933">Wait, then sign out</text>
-<text x="119.0" y="670" font-size="14" text-anchor="middle" fill="#1f2933">remaining users</text>
-<line x1="205" y1="646" x2="233" y2="646" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<rect x="223" y="602" width="168" height="88" rx="8" fill="#ffffff" stroke="#c45a10" stroke-width="1.5"/>
-<text x="307.0" y="628" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">2 Drain mode on</text>
-<text x="307.0" y="652" font-size="14" text-anchor="middle" fill="#1f2933">Remove the old host</text>
-<text x="307.0" y="670" font-size="14" text-anchor="middle" fill="#1f2933">from the host pool</text>
-<line x1="393" y1="646" x2="421" y2="646" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<rect x="411" y="602" width="168" height="88" rx="8" fill="#ffffff" stroke="#c45a10" stroke-width="1.5"/>
-<text x="495.0" y="628" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">3 Create new hosts</text>
-<text x="495.0" y="652" font-size="14" text-anchor="middle" fill="#1f2933">from the updated</text>
-<text x="495.0" y="670" font-size="14" text-anchor="middle" fill="#1f2933">configuration</text>
-<line x1="581" y1="646" x2="609" y2="646" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<rect x="599" y="602" width="168" height="88" rx="8" fill="#ffffff" stroke="#c45a10" stroke-width="1.5"/>
-<text x="683.0" y="628" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">4 Join the host pool</text>
-<text x="683.0" y="652" font-size="14" text-anchor="middle" fill="#1f2933">Drain mode off, ready</text>
-<text x="683.0" y="670" font-size="14" text-anchor="middle" fill="#1f2933">for connections</text>
-<line x1="769" y1="646" x2="797" y2="646" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<rect x="787" y="602" width="168" height="88" rx="8" fill="#ffffff" stroke="#c45a10" stroke-width="1.5"/>
-<text x="871.0" y="628" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">5 Original VMs</text>
-<text x="871.0" y="652" font-size="14" text-anchor="middle" fill="#1f2933">deleted or deallocated</text>
+<polyline points="895,557 895,580 115,580 115,600" fill="none" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="35" y="602" width="160" height="90" rx="8" fill="#ffffff" stroke="#c45a10" stroke-width="1.5"/>
+<text x="115" y="628" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">1 Notify users</text>
+<text x="115" y="652" font-size="14" text-anchor="middle" fill="#1f2933">Wait, then sign out</text>
+<text x="115" y="670" font-size="14" text-anchor="middle" fill="#1f2933">remaining users</text>
+<rect x="225" y="602" width="160" height="90" rx="8" fill="#ffffff" stroke="#c45a10" stroke-width="1.5"/>
+<text x="305" y="628" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">2 Drain mode on</text>
+<text x="305" y="652" font-size="14" text-anchor="middle" fill="#1f2933">Remove the old host</text>
+<text x="305" y="670" font-size="14" text-anchor="middle" fill="#1f2933">from the host pool</text>
+<rect x="415" y="602" width="160" height="90" rx="8" fill="#ffffff" stroke="#c45a10" stroke-width="1.5"/>
+<text x="495" y="628" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">3 Create new hosts</text>
+<text x="495" y="652" font-size="14" text-anchor="middle" fill="#1f2933">from the updated</text>
+<text x="495" y="670" font-size="14" text-anchor="middle" fill="#1f2933">configuration</text>
+<rect x="605" y="602" width="160" height="90" rx="8" fill="#ffffff" stroke="#c45a10" stroke-width="1.5"/>
+<text x="685" y="628" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">4 Join the host pool</text>
+<text x="685" y="652" font-size="14" text-anchor="middle" fill="#1f2933">Drain mode off, ready</text>
+<text x="685" y="670" font-size="14" text-anchor="middle" fill="#1f2933">for connections</text>
+<rect x="795" y="602" width="160" height="90" rx="8" fill="#ffffff" stroke="#c45a10" stroke-width="1.5"/>
+<text x="875" y="628" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">5 Original VMs</text>
+<text x="875" y="652" font-size="14" text-anchor="middle" fill="#1f2933">deleted or</text>
+<text x="875" y="670" font-size="14" text-anchor="middle" fill="#1f2933">deallocated</text>
 <text x="38" y="721" font-size="14" text-anchor="start" fill="#1f2933">A host that fails to update is rolled back to the earlier configuration to keep capacity.</text>
 <text x="38" y="741" font-size="14" text-anchor="start" fill="#1f2933">Settings added by hand to the old hosts are not on the new ones: put them in the image or the configuration.</text>
+<line x1="197" y1="652" x2="223" y2="652" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<line x1="387" y1="652" x2="413" y2="652" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<line x1="577" y1="652" x2="603" y2="652" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<line x1="767" y1="652" x2="793" y2="652" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<!--fx:life1-->
+<!--fx:life2-->
 </svg>

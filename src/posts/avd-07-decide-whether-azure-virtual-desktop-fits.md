@@ -96,7 +96,7 @@ Which of these is cheaper depends on how many people use how much capacity, and 
 
 ## Questions to ask, in order
 
-![Diagram: Questions to ask when choosing a virtual desktop option.](/img/avd/AVD-Post-07-Decision-Questions-v3.png)
+![Four questions from top to bottom: do users need central Windows desktops, must hosts stay in your datacenter, do you need Citrix or Omnissa, is one Cloud PC per user enough. Answers point to AVD Hybrid or Azure Local, Citrix or Omnissa, Windows 365, or AVD multi-session.](/img/avd/AVD-Post-07-Decision-Questions-v3.png)
 
 *Source: [What is Azure Virtual Desktop?](https://learn.microsoft.com/en-us/azure/virtual-desktop/overview).*
 

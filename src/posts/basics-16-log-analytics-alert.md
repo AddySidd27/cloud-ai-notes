@@ -44,7 +44,9 @@ A Log Analytics workspace is a place in Azure where logs and performance data ar
 
 ## What the lab builds
 
-![Diagram: VM data goes to Log Analytics and raises a heartbeat alert.](/img/basics/log-analytics-alert.svg)
+![In rg-azb-lab, the data collection rule dcr-azb-lab is linked to the VM, whose agent sends data to the Log Analytics workspace. An alert rule queries the workspace every 5 minutes and, if the heartbeat stops, fires the action group in rg-azb-core, which emails you.](/img/basics/log-analytics-alert.svg)
+
+*Source: Microsoft Learn pages listed under Sources.*
 
 ## Steps in the Azure portal
 

@@ -62,7 +62,7 @@ One risk comes first. The documentation recommends Autoscale with VMs created by
 
 ## What is new compared with the quick lab
 
-![Diagram: How the autoscale lab turns session hosts on and off.](/img/avd/AVD-Terraform-Autoscale-Lab.svg)
+![A scaling plan assigned to the host pool starts and deallocates two session hosts, using two roles held by the AVD service principal. Weekdays run Off-peak, Ramp-up 07:00, Peak 09:00, Ramp-down 18:00, Off-peak 22:00; weekends ramp up at 09:00.](/img/avd/AVD-Terraform-Autoscale-Lab.svg)
 
 *Source: the lab's Terraform code, in the [terraform-azure-avd-autoscaling-cost-optimization](https://github.com/AddySidd27/terraform-azure-avd-autoscaling-cost-optimization) repository, and the page [Autoscale scaling plans and example scenarios](https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scenarios).*
 

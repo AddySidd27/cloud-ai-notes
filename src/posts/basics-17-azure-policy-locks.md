@@ -44,7 +44,9 @@ Everything in this lab happens inside one resource group that you create for it.
 
 ## What the lab builds
 
-![Diagram: Azure Policy and a lock in a sandbox resource group.](/img/basics/azure-policy-locks.svg)
+![In rg-azb-sandbox, Allowed locations refuses a storage account in the wrong region (403) and Require tag env refuses one without the tag. A valid account is created and protected by a CanNotDelete lock. Clean up: remove the lock, then the assignments, then the group.](/img/basics/azure-policy-locks.svg)
+
+*Source: Microsoft Learn pages listed under Sources.*
 
 ## Steps in the Azure portal
 

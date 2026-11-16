@@ -99,7 +99,7 @@ Any device that runs an AVD client app, such as the Remote Desktop client or Win
 
 ## Where each control sits
 
-![Diagram: Where the network controls sit on the connectivity path.](/img/avd/AVD-Post-16-Enforcement-Points-v3.png)
+![The client network and the session host subnet each have a firewall or proxy on the outbound path to the AVD service on TCP 443. An optional Private Link panel adds private endpoints. A red panel says 169.254.169.254 and 168.63.129.16 must not be proxied.](/img/avd/AVD-Post-16-Enforcement-Points-v3.png)
 
 *Source: [Required FQDNs and endpoints for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/required-fqdn-endpoint), [proxy server guidelines](https://learn.microsoft.com/en-us/azure/virtual-desktop/proxy-server-support), [Private Link with Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/private-link-overview) and [Azure fabric communication IPs](https://learn.microsoft.com/en-us/azure/virtual-desktop/azurecommunicationips).*
 

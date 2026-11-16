@@ -46,7 +46,9 @@ Azure Key Vault is a service that stores sensitive values, such as passwords and
 
 ## What the lab builds
 
-![Diagram: A VM reads a secret from Key Vault with a managed identity.](/img/basics/key-vault-managed-identity.svg)
+![Four steps: you create the secret in the key vault; the VM asks its local identity endpoint for a token; Microsoft Entra ID returns it; the VM reads the secret with the token, using the role Key Vault Secrets User. No password or key is stored on the VM.](/img/basics/key-vault-managed-identity.svg)
+
+*Source: Microsoft Learn pages listed under Sources.*
 
 ## Steps in the Azure portal
 

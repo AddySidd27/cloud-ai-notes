@@ -53,7 +53,7 @@ This table is a suggested mapping.
 
 The picture asks the sign-in question early because the user can answer it in seconds. The numbered checks below go deeper into each branch, in the order of the Insights tabs.
 
-![Diagram: Decision tree for AVD disconnects and slow sessions.](/img/avd/troubleshoot-disconnects-and-slow-sessions.svg)
+![From a session that drops, lags or is slow, seven questions run in order: one user or many, only at sign-in, high round-trip time, busy host, TCP instead of UDP, Shortpath errors, then collect the CorrelationId for a support request. Each yes names a check.](/img/avd/troubleshoot-disconnects-and-slow-sessions.svg)
 
 *Source: Troubleshooting overview, Insights use cases and glossary, Troubleshoot connection quality, Troubleshoot RDP Shortpath, RDP Shortpath and Proxy server guidelines.*
 

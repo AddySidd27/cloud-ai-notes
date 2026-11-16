@@ -68,7 +68,7 @@ A connection has twelve numbered steps. The table follows those steps. The third
 
 The diagram shows the same sequence with the same step numbers. The panel at the bottom says where a connection stops for each group of steps.
 
-![Diagram: The connection sequence, step by step.](/img/avd/AVD-Post-10-Connection-Steps-v3.png)
+![Twelve numbered steps: the client signs in to Entra ID, gets the feed, then connects through Azure Front Door to a gateway, which asks the broker. The session host connects outbound to the same gateway and RDP starts. A dashed line shows optional RDP Shortpath.](/img/avd/AVD-Post-10-Connection-Steps-v3.png)
 
 *Source: [Understanding Azure Virtual Desktop network connectivity](https://learn.microsoft.com/en-us/azure/virtual-desktop/network-connectivity).*
 

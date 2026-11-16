@@ -204,7 +204,7 @@ If the enterprise already uses Virtual WAN, follow its approved virtual-hub conn
 
 ## Read the hub-and-spoke diagram
 
-![Diagram: Hub and spoke network for the example deployment.](/img/avd/AVD-Post-05-Hub-Spoke-v3.png)
+![A hub network holds Azure Firewall, a VPN or ExpressRoute gateway and DNS Private Resolver, and links to the on-premises datacenter. Five peered spoke networks (operations, engineering, finance, development, test) each have a session host and a private endpoint subnet.](/img/avd/AVD-Post-05-Hub-Spoke-v3.png)
 
 *Sources: [Hub-spoke network topology in Azure](https://learn.microsoft.com/en-us/azure/architecture/networking/architecture/hub-spoke) and [Azure Virtual Desktop landing zone design guide](https://learn.microsoft.com/en-us/azure/architecture/landing-zones/azure-virtual-desktop/design-guide).*
 
@@ -397,7 +397,7 @@ These addresses are not a sizing recommendation: the /16 ranges are not the appr
 
 ## Understand the connection before opening ports
 
-![Diagram: Azure Virtual Desktop network connections.](/img/avd/AVD-Post-05-Connections-v3.png)
+![The client signs in with Entra ID and reaches the web and gateway services over the internet. The session host connects outbound to the gateway and broker and reaches AD DS. Entra Connect syncs AD DS to Entra ID.](/img/avd/AVD-Post-05-Connections-v3.png)
 
 *Source: [Azure Virtual Desktop network connectivity](https://learn.microsoft.com/en-us/azure/virtual-desktop/network-connectivity).*
 

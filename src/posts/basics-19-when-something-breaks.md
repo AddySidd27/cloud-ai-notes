@@ -66,7 +66,9 @@ Most Azure problems in this series come from a short list: a missing permission,
 
 ## What the lab builds
 
-![Diagram: When something breaks: where to look, then clean up.](/img/basics/when-something-breaks.svg)
+![Left: six symptoms, each pointing to where to look, such as Deployments, Activity log, Sign-in logs and Network Watcher. Right: keep rg-azb-core and the test accounts, then six ordered clean-up steps, from locks and policies to a next-day cost check.](/img/basics/when-something-breaks.svg)
+
+*Source: Microsoft Learn pages listed under Sources.*
 
 ## Steps in the Azure portal
 

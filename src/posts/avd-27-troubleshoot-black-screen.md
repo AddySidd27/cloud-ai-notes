@@ -53,7 +53,7 @@ Ask in this order. The first checks are the cheapest, and each one rules out a w
 | 5 | Is FSLogix 2210 (2.9.8361.52326) installed? | Known fixed issue. Update FSLogix. |
 | 6 | Are `explorer.exe` or `userinit.exe` not running? | Shell check, Event ID 1000, process exit codes. |
 
-![Diagram: Black screen after sign-in: decision tree.](/img/avd/troubleshoot-black-screen.svg)
+![Seven yes/no checks from black only in a Teams screen share to whether explorer.exe and userinit.exe are running. Each answer leads to one fix (screen capture protection, KB5124008, profile playbook, FSLogix update, Winlogon shell) or to capturing dumps for Support.](/img/avd/troubleshoot-black-screen.svg)
 
 *Source: [Black screen after you sign in](https://learn.microsoft.com/en-us/troubleshoot/windows-client/shell-experience/scenario-guide-black-screen-after-sign-in), [FSLogix known issues](https://learn.microsoft.com/en-us/fslogix/troubleshooting-known-issues) and [Screen capture protection](https://learn.microsoft.com/en-us/azure/virtual-desktop/screen-capture-protection).*
 

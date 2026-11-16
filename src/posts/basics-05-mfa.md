@@ -32,7 +32,7 @@ MFA means you prove who you are with more than a password. A password is somethi
 
 ## What the lab builds
 
-![Diagram: MFA: check what is on, register, sign in.](/img/basics/mfa.svg)
+![Three stages: look in the Entra admin center at what MFA is already on, without changing it; register Microsoft Authenticator for Test User 1 on the security info page; sign in to the Azure portal with a password and an approval, then check the log.](/img/basics/mfa.svg)
 
 *Source: Microsoft Learn pages listed under Sources.*
 

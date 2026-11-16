@@ -37,7 +37,7 @@ Write down these decisions before you start. The right column says what to recor
 | Image | Gallery image (a default image from Microsoft) or custom image (one you upload), with application requirement |
 | Success | Provisioned status, usable session and Intune check-in (the Cloud PC shows in Intune as enrolled and reporting) |
 
-![Diagram: What to confirm, decide and prove in a Cloud PC pilot.](/img/windows-365/windows-365-plan-the-pilot.svg)
+![Confirm four things before building: licenses, a narrow Entra pilot group, an administrator role and a supported region. Then decide identity, network and image, and write the success result: Provisioned, a usable session, reconnect, and an Intune check-in.](/img/windows-365/windows-365-plan-the-pilot.svg)
 
 *Source: [Windows 365 Enterprise requirements](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements).*
 

@@ -266,7 +266,7 @@ These four pictures follow the layout of the pictures on Microsoft Learn. They f
 
 **Figure 1. The landing zone governance design.**
 
-![Landing zone governance design. A landing zone subscription holds IAM, Policy, management and monitoring, shared services, networking and an application template, with roles, policy and cost tools around it.](/diagrams/post-14-governance-design.svg)
+![One landing zone subscription drawn as a box. Inside: IAM and Policy, management and monitoring, shared services, networking, and an application area with app resources. Around it, on the left: roles, subscription policy, shared services, Cost Management and Azure Monitor. On the right: metrics, logs and alerts, the application template, Network Watcher, Microsoft Defender for Cloud and networking notes.](/diagrams/post-14-governance-design.svg)
 
 *Source: [Design area: Azure governance](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/governance), Microsoft Learn. Icons: Azure architecture icons.*
 

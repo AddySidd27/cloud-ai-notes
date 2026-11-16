@@ -31,7 +31,7 @@ A network security group (NSG) is a list of allow and deny rules for network tra
 
 ## What the lab builds
 
-![Diagram: A network security group on a subnet.](/img/basics/network-security-group.svg)
+![Your PC, using your public IP, is allowed on TCP 3389 by a temporary rule at priority 1000. Everyone else hits DenyAllInBound at 65500. The NSG nsg-azb-vm is attached to subnet snet-vm in vnet-azb, in rg-azb-lab; no VM exists in the subnet yet.](/img/basics/network-security-group.svg)
 
 *Source: Microsoft Learn pages listed under Sources.*
 

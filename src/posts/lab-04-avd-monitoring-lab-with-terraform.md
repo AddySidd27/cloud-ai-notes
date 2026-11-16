@@ -38,7 +38,7 @@ Below is what the code does, how Microsoft describes the features it uses, and a
 
 ## What the lab builds
 
-![Diagram: How the monitoring lab collects data and raises an alert.](/img/avd/AVD-Terraform-Monitoring-Lab.svg)
+![The host pool, workspace and application group send logs to a Log Analytics workspace, and a data collection rule on each session host sends counters and events. An alert rule checks every 15 minutes for missing heartbeats and notifies an action group that emails you.](/img/avd/AVD-Terraform-Monitoring-Lab.svg)
 
 *Source: the lab's Terraform code and the pages [Enable Insights to monitor Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/insights) and [Send diagnostic data to Log Analytics for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/diagnostics-log-analytics).*
 

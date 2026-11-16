@@ -47,7 +47,7 @@ Copy each file exactly: a missing brace is the most common error. If `terraform 
 
 ## What the lab builds
 
-![Diagram: Terraform builds a resource group, network, subnet and NSG.](/img/basics/terraform-basics.svg)
+![Terraform on your PC reads the .tf files, uses your az login, and builds rg-azb-tf with a virtual network, subnet and NSG in your test subscription. It records what it built in a local terraform.tfstate file. Seven steps run from Sign in to Destroy.](/img/basics/terraform-basics.svg)
 
 *Source: Microsoft Learn pages listed under Sources.*
 

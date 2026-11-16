@@ -87,7 +87,7 @@ The page [Assign Azure RBAC roles or Microsoft Entra roles to the Azure Virtual 
 | Autoscale, dynamic | Power On Off Contributor and Desktop Virtualization Virtual Machine Contributor | Subscription. A lower scope stops autoscale from working properly. |
 | Start VM on Connect | Power On Contributor ([Configure Start VM on Connect](https://learn.microsoft.com/en-us/azure/virtual-desktop/start-virtual-machine-connect)) | Subscription is recommended for several host pools. A lower scope is allowed if it contains the target session hosts. |
 
-![Diagram: Which built-in role fits which task, and where to assign it.](/img/avd/AVD-Post-15-Role-Task-Scope-v3.png)
+![A table of nine AVD tasks, each with its built-in role and scope, from signing users out and managing host pools to viewing only and signing in to Entra joined VMs with Virtual Machine User Login.](/img/avd/AVD-Post-15-Role-Task-Scope-v3.png)
 
 *Source: [Built-in Azure RBAC roles for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/rbac).*
 

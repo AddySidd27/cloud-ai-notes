@@ -1,6 +1,6 @@
 # Who manages what (post 1)
 
-Files: `AVD-Post-01-Components-v3` (.png, .svg, .drawio) in `src/img/avd/`; generator `diagrams/scripts/comp_v3.py`.
+Files: `AVD-Post-01-Who-Manages-What-v3` (.png, .svg, .drawio) in `src/img/avd/`; generator `diagrams/scripts/comp_v3.py`.
 Type: Documented layout
 
 Method and limits: Redrawn on 18 October 2026 from Learn's own picture, viewed in a browser, with the Learn text fetched the same day. Names, links and arrowheads follow the picture. Observations of Learn's pictures are in `learn-diagram-notes.md`. This record is the author's check, not Microsoft verification or endorsement.

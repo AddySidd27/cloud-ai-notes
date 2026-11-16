@@ -69,7 +69,7 @@ Log data can arrive late. Azure Monitor can take up to 15 minutes to show log da
 
 ## What each table holds
 
-![Diagram: Where AVD writes its logs.](/img/avd/troubleshoot-avd-start-here.svg)
+![Where AVD writes its logs: the client connects to the AVD service, which writes WVD tables to a Log Analytics workspace once a diagnostic setting is on, and AVD Insights reads them. The session host reports agent health and keeps local Application and FSLogix logs.](/img/avd/troubleshoot-avd-start-here.svg)
 
 *Source: [Send diagnostics to Log Analytics](https://learn.microsoft.com/en-us/azure/virtual-desktop/diagnostics-log-analytics).*
 

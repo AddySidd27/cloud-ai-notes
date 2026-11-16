@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """AVD post 1: who manages what, following the stacked layout of components-and-responsibilities.png on the Learn page AVD service architecture and resilience."""
 from common3 import *
-NAME = "AVD-Post-01-Components-v3"
+NAME = "AVD-Post-01-Who-Manages-What-v3"
 W, H = 1000, 520
 d = D(W, H, "Who manages what in Azure Virtual Desktop",
  "A stack of eight labelled boxes with two braces, following the layout of the Learn diagram. Microsoft-managed, six boxes: web service, broker service, gateway service, resource directory, geographical database and regional database. Customer-managed, two boxes: session hosts and user identities. The right side adds notes taken from the text of the same Learn page about what the customer manages for session hosts and user identities. The diagram shows no connections between components.", marker=True)

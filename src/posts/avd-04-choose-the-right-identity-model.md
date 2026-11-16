@@ -147,7 +147,7 @@ Do not transfer the Azure Files cloud-only conclusion to Azure NetApp Files. The
 
 The diagram shows the Azure Files path for hybrid users. Cloud-only users follow a different setup; this diagram is for users synchronized from AD DS. The directory supplies the synchronized user identity. Entra supplies the Azure Files ticket. The profile share also needs permissions.
 
-![Diagram: Azure Files with Microsoft Entra Kerberos: hybrid users.](/img/avd/AVD-Post-04-Entra-Kerberos-v3.png)
+![On-premises AD DS syncs identities to Entra ID. Setup steps 1 to 4: enable Entra Kerberos on the storage account, assign a share role, set folder permissions, enable cloud Kerberos on hosts. At sign-in a host gets a ticket from Entra ID and reads the share over SMB.](/img/avd/AVD-Post-04-Entra-Kerberos-v3.png)
 
 *Source: [Enable Microsoft Entra Kerberos authentication for hybrid and cloud-only identities on Azure Files](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-auth-hybrid-identities-enable).*
 

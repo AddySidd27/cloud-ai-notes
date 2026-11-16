@@ -2,8 +2,7 @@
 <title id="t">Black screen after sign-in: decision tree</title><desc id="d">The first question is whether the screen is black only in a Teams screen share, which points to screen capture protection. If not, the next questions check whether the connection reached Connected, whether many users are hit after a Windows update, what the FSLogix profile log shows, which FSLogix version is installed, and whether explorer.exe and userinit.exe are running on the session host.</desc>
 <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
 <rect x="6" y="6" width="1088" height="998" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
-<rect x="24" y="24" width="1052" height="962" rx="8" fill="#ffffff" stroke="#6c7a89" stroke-width="1.8"/>
-<text x="240.0" y="56" font-size="15" font-weight="600" text-anchor="middle" fill="#1f2933">Black screen after sign-in</text>
+<text x="60" y="56" font-size="15" font-weight="600" text-anchor="start" fill="#1f2933">Black screen after sign-in</text>
 <rect x="60" y="85" width="360" height="76" rx="8" fill="#eaf2fb" stroke="#9bbbe0" stroke-width="1.5"/>
 <text x="240.0" y="111" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
 <text x="240.0" y="119.0" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Is it black only in a</text>
@@ -29,62 +28,55 @@
 <text x="240.0" y="769.0" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Are explorer.exe and userinit.exe</text>
 <text x="240.0" y="787.0" font-size="14" text-anchor="middle" fill="#1f2933">running (Task Manager, Details)?</text>
 <line x1="240.0" y1="161" x2="240.0" y2="215" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="246.0" y="194.0" font-size="14" font-weight="600" text-anchor="start" fill="#5f6b7a">No</text>
+<text x="246.0" y="194.0" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">No</text>
 <line x1="240.0" y1="291" x2="240.0" y2="345" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="246.0" y="324.0" font-size="14" font-weight="600" text-anchor="start" fill="#5f6b7a">Yes</text>
+<text x="246.0" y="324.0" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Yes</text>
 <line x1="240.0" y1="421" x2="240.0" y2="475" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="246.0" y="454.0" font-size="14" font-weight="600" text-anchor="start" fill="#5f6b7a">No</text>
+<text x="246.0" y="454.0" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">No</text>
 <line x1="240.0" y1="551" x2="240.0" y2="605" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="246.0" y="584.0" font-size="14" font-weight="600" text-anchor="start" fill="#5f6b7a">No</text>
+<text x="246.0" y="584.0" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">No</text>
 <line x1="240.0" y1="681" x2="240.0" y2="735" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="246.0" y="714.0" font-size="14" font-weight="600" text-anchor="start" fill="#5f6b7a">No</text>
+<text x="246.0" y="714.0" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">No</text>
 <line x1="422" y1="123" x2="558" y2="123" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="428" y="117" font-size="14" font-weight="600" text-anchor="start" fill="#5f6b7a">Yes</text>
+<text x="428" y="117" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Yes</text>
 <line x1="422" y1="253" x2="558" y2="253" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="428" y="247" font-size="14" font-weight="600" text-anchor="start" fill="#5f6b7a">No</text>
+<text x="428" y="247" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">No</text>
 <line x1="422" y1="383" x2="558" y2="383" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="428" y="377" font-size="14" font-weight="600" text-anchor="start" fill="#5f6b7a">Yes</text>
+<text x="428" y="377" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Yes</text>
 <line x1="422" y1="513" x2="558" y2="513" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="428" y="507" font-size="14" font-weight="600" text-anchor="start" fill="#5f6b7a">Yes</text>
+<text x="428" y="507" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Yes</text>
 <line x1="422" y1="643" x2="558" y2="643" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="428" y="637" font-size="14" font-weight="600" text-anchor="start" fill="#5f6b7a">Yes</text>
+<text x="428" y="637" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Yes</text>
 <line x1="422" y1="773" x2="558" y2="773" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="428" y="767" font-size="14" font-weight="600" text-anchor="start" fill="#5f6b7a">No</text>
+<text x="428" y="767" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">No</text>
 <rect x="560" y="81" width="480" height="84" rx="8" fill="#ffffff" stroke="#b4bcc7" stroke-width="1.5"/>
-<text x="800.0" y="107" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
-<text x="800.0" y="110.0" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Screen capture protection</text>
-<text x="800.0" y="128.0" font-size="14" text-anchor="middle" fill="#1f2933">Check the client setup for Teams sharing</text>
-<text x="800.0" y="146.0" font-size="14" text-anchor="middle" fill="#5f6b7a">Source: Screen capture protection</text>
+<text x="800.0" y="116" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
+<text x="800.0" y="119" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Screen capture protection</text>
+<text x="800.0" y="137" font-size="14" text-anchor="middle" fill="#1f2933">Check the client setup for Teams sharing</text>
 <rect x="560" y="211" width="480" height="84" rx="8" fill="#ffffff" stroke="#b4bcc7" stroke-width="1.5"/>
-<text x="800.0" y="237" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
-<text x="800.0" y="240.0" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Connection problem, not a black screen</text>
-<text x="800.0" y="258.0" font-size="14" text-anchor="middle" fill="#1f2933">Use the host or sign-in playbook</text>
-<text x="800.0" y="276.0" font-size="14" text-anchor="middle" fill="#5f6b7a">Source: Send diagnostics to Log Analytics</text>
+<text x="800.0" y="246" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
+<text x="800.0" y="249" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Connection problem, not a black screen</text>
+<text x="800.0" y="267" font-size="14" text-anchor="middle" fill="#1f2933">Use the host or sign-in playbook</text>
 <rect x="560" y="341" width="480" height="84" rx="8" fill="#ffffff" stroke="#b4bcc7" stroke-width="1.5"/>
-<text x="800.0" y="367" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
-<text x="800.0" y="370.0" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Known issue: KB5124008 and explorer.exe</text>
-<text x="800.0" y="388.0" font-size="14" text-anchor="middle" fill="#1f2933">Collect dumps and logs, then open a support request</text>
-<text x="800.0" y="406.0" font-size="14" text-anchor="middle" fill="#5f6b7a">Source: FSLogix known issues</text>
+<text x="800.0" y="376" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
+<text x="800.0" y="379" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Known issue: KB5124008 and explorer.exe</text>
+<text x="800.0" y="397" font-size="14" text-anchor="middle" fill="#1f2933">Collect dumps and logs, then open a support request</text>
 <rect x="560" y="471" width="480" height="84" rx="8" fill="#ffffff" stroke="#b4bcc7" stroke-width="1.5"/>
-<text x="800.0" y="497" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
-<text x="800.0" y="500.0" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Profile problem</text>
-<text x="800.0" y="518.0" font-size="14" text-anchor="middle" fill="#1f2933">Use the FSLogix profile playbook</text>
-<text x="800.0" y="536.0" font-size="14" text-anchor="middle" fill="#5f6b7a">Source: FSLogix logging and diagnostics</text>
+<text x="800.0" y="506" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
+<text x="800.0" y="509" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Profile problem</text>
+<text x="800.0" y="527" font-size="14" text-anchor="middle" fill="#1f2933">Use the FSLogix profile playbook</text>
 <rect x="560" y="601" width="480" height="84" rx="8" fill="#ffffff" stroke="#b4bcc7" stroke-width="1.5"/>
-<text x="800.0" y="627" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
-<text x="800.0" y="630.0" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Known issue, fixed</text>
-<text x="800.0" y="648.0" font-size="14" text-anchor="middle" fill="#1f2933">Install the latest FSLogix version</text>
-<text x="800.0" y="666.0" font-size="14" text-anchor="middle" fill="#5f6b7a">Source: FSLogix known issues</text>
+<text x="800.0" y="636" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
+<text x="800.0" y="639" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Known issue, fixed</text>
+<text x="800.0" y="657" font-size="14" text-anchor="middle" fill="#1f2933">Install the latest FSLogix version</text>
 <rect x="560" y="731" width="480" height="84" rx="8" fill="#ffffff" stroke="#b4bcc7" stroke-width="1.5"/>
-<text x="800.0" y="757" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
-<text x="800.0" y="760.0" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Check Winlogon Shell is explorer.exe, Event ID 1000,</text>
-<text x="800.0" y="778.0" font-size="14" text-anchor="middle" fill="#1f2933">process exit codes in ProcMon</text>
-<text x="800.0" y="796.0" font-size="14" text-anchor="middle" fill="#5f6b7a">Source: Black screen after you sign in</text>
+<text x="800.0" y="766" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
+<text x="800.0" y="769" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Check Winlogon Shell is explorer.exe, Event ID 1000,</text>
+<text x="800.0" y="787" font-size="14" text-anchor="middle" fill="#1f2933">process exit codes in ProcMon</text>
 <line x1="240.0" y1="811" x2="240.0" y2="865" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="246.0" y="841" font-size="14" font-weight="600" text-anchor="start" fill="#5f6b7a">Yes</text>
+<text x="246.0" y="841" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Yes</text>
 <rect x="60" y="867" width="360" height="100" rx="8" fill="#ffffff" stroke="#b4bcc7" stroke-width="1.5"/>
-<text x="240.0" y="893" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
-<text x="240.0" y="897" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Capture dumps with ProcDump</text>
-<text x="240.0" y="915" font-size="14" text-anchor="middle" fill="#1f2933">and give them to Microsoft Support</text>
-<text x="240.0" y="933" font-size="14" text-anchor="middle" fill="#5f6b7a">Source: Black screen after you sign in</text>
+<text x="240.0" y="902" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
+<text x="240.0" y="906" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Capture dumps with ProcDump</text>
+<text x="240.0" y="924" font-size="14" text-anchor="middle" fill="#1f2933">and give them to Microsoft Support</text>
 </svg>

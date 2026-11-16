@@ -68,7 +68,7 @@ Versions must be within the Microsoft lifecycle dates, so check the dates for th
 
 You can use different operating systems in different host pools. The images can come from the Azure Marketplace (Microsoft's catalog of ready-made images) or from your own images in an Azure Compute Gallery or as a managed image (a saved copy of a generalized VM).
 
-![Diagram: Questions that decide the session host operating system and license.](/img/avd/AVD-Post-11-OS-And-License-Choice-v3.png)
+![Four questions from top to bottom: do several users share a VM, are users internal or external, will Intune manage the hosts, and where do the hosts run. Answers lead to Windows 11 multi-session or single session, Windows Server, and licensing notes.](/img/avd/AVD-Post-11-OS-And-License-Choice-v3.png)
 
 *Source: [Prerequisites for Azure Virtual Desktop](https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites).*
 

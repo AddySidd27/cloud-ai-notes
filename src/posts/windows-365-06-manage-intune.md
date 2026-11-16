@@ -33,7 +33,7 @@ Terms used in this article:
 | Updates | Ring assignment and reporting | Windows Update history and build |
 | Restart | Action status and later Intune check-in | Reconnect, desktop and Edge policy |
 
-![Diagram: What Microsoft Intune manages on a Cloud PC.](/img/windows-365/windows-365-manage-intune.svg)
+![Four Intune tasks reach the Entra joined Cloud PC: a settings catalog profile, an assigned app, an update ring and a remote action. Each has a check on the Cloud PC, which reports status and last check-in back to Intune.](/img/windows-365/windows-365-manage-intune.svg)
 
 *Source: [Intune as the management plane for Windows 365](https://learn.microsoft.com/en-us/windows-365/enterprise/windows-365-deployment-guidance-management).*
 

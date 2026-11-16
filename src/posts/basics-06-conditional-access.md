@@ -44,7 +44,7 @@ A bad Conditional Access rule can lock every admin out of a tenant. That is why 
 
 ## What the lab builds
 
-![Diagram: One Conditional Access policy for a test group.](/img/basics/conditional-access.svg)
+![The group TestUsers is included in the policy CA-AVD-RequireMFA-TestUsers; EmergencyAccess and your admin account are excluded. The policy requires MFA for Azure Virtual Desktop and Windows Cloud Login. You test it with the What If tool and the sign-in log.](/img/basics/conditional-access.svg)
 
 *Source: Microsoft Learn pages listed under Sources.*
 
