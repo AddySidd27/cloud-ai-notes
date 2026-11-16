@@ -12,18 +12,18 @@ permalink: "/about/"
 </div></header>
 <div class="wrap sec"><div class="prose narrow">
   <h2>About the author</h2>
-  <p><strong>{{ site.author }}</strong> is a {{ site.role }}. He writes this site to explain cloud and infrastructure topics in plain language, starting from the basics.</p>
+  <p><strong>{{ site.author }}</strong> is a {{ site.role }} with 15 years in enterprise IT. He works as an architect, an engineer and an operator: he designs cloud and end-user computing platforms, builds them with Terraform and automation, and runs them day to day. His work covers Microsoft Azure, Citrix and AWS, and in recent years AI tools for IT operations.</p>
+  <p>He writes this site to explain that work in plain language, starting from the basics.</p>
+  <h2>Expertise</h2>
+  <ul>
+    {%- for a in site.workAreas %}
+    <li><strong>{{ a.name }}.</strong> {{ a.text }}</li>
+    {%- endfor %}
+  </ul>
   <h2>Certifications</h2>
   <ul>
     {%- for c in site.certifications %}
     <li><strong>{{ c.name }}</strong>, {{ c.issuer }}</li>
-    {%- endfor %}
-  </ul>
-  <h2>Topics covered</h2>
-  <p>These are the subjects the site covers. They are not certifications.</p>
-  <ul>
-    {%- for a in site.workAreas %}
-    <li><strong>{{ a.name }}.</strong> {{ a.text }}</li>
     {%- endfor %}
   </ul>
   <h2>Agentic AI for IT operations</h2>

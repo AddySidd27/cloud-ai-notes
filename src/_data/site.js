@@ -22,8 +22,11 @@ export default {
     { code: "NCE", name: "Nerdio Engineer", issuer: "Nerdio" },
   ],
   workAreas: [
-    { name: "Azure and hybrid infrastructure", text: "Azure landing zones, Azure Virtual Desktop, Windows 365, and Citrix environments that run in Azure and on-premises." },
-    { name: "AWS", text: "Hybrid Azure and AWS infrastructure." },
+    { name: "Microsoft Azure", text: "Azure landing zones, Azure Virtual Desktop, Windows 365 and FSLogix, designed and built with Terraform." },
+    { name: "Citrix", text: "Citrix DaaS and on-premises Delivery Controllers, NetScaler/ADC, and hybrid Citrix and Azure Virtual Desktop environments." },
+    { name: "Nerdio", text: "Nerdio Manager for Enterprise for managing Azure Virtual Desktop and Windows 365." },
+    { name: "AWS and multicloud", text: "Hybrid Azure and AWS infrastructure, and architecture that spans more than one cloud." },
+    { name: "Operations", text: "Daily health checks, troubleshooting and runbooks for end-user computing platforms." },
     { name: "AI and agentic AI", text: "MCP servers, RAG pipelines and diagnostic agents for Azure Virtual Desktop and Citrix. See the section below." },
     { name: "Automation with n8n", text: "Workflow automation, including a voice assistant that answers questions about Azure Virtual Desktop and Windows 365." },
   ],
