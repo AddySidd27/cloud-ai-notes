@@ -169,7 +169,7 @@ For example, Standard_D8s_v5 has 8 vCPUs and 32 GiB of memory ([sizing guideline
 
 ![A session-host VM with a managed OS disk, and an arrow to shared profile storage on Azure Files or Azure NetApp Files holding the user's FSLogix container](/img/avd/AVD-Post-06-storage-relationship.png)
 
-*Where the OS disk and the profile live.*
+*Source: Microsoft Learn pages listed under Sources.*
 
 The VM's **OS disk** holds Windows and applications installed on that host. Record disk type, capacity for applications and updates, and performance requirements. **FSLogix profile storage** is separate: it holds the user's profile container so their settings can follow them across pooled hosts. Azure Files and Azure NetApp Files (Azure's managed file shares) are supported options. See [the FSLogix post](/azure-virtual-desktop/how-fslogix-profile-containers-work/).
 
@@ -201,7 +201,7 @@ Azure Load Testing can test endpoints using JMeter or Locust. A web/API test doe
 
 ![Load-test loop: agreed test plan, test system, representative host pool, shared dependencies, measurements, business-owner review, then retest](/img/avd/AVD-Post-06-load-test-plan.png)
 
-*Example load-test plan.*
+*Source: Microsoft Learn pages listed under Sources.*
 
 Start with the proposed image and representative identity, profile-storage, network and backend paths. Include production-representative security and management components; the measured configuration must match the intended deployment.
 
@@ -319,7 +319,7 @@ The example therefore proposes **119 pooled hosts plus 1,000 personal hosts: 1,1
 
 ![Four personas for 5,000 users: call-center 1,800 users and 70 pooled hosts, business and mobile 2,200 users and 49 pooled hosts, developers 700 personal VMs, specialists 300 personal GPU-capable VMs, 1,119 production VMs in total](/img/avd/AVD-Post-06-company-pool-plan.png)
 
-*Worked example. The numbers are assumed.*
+*Source: Microsoft Learn pages listed under Sources.*
 
 ### Step 4: check the shared foundation and full cost
 

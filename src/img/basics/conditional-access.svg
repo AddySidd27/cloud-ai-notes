@@ -74,5 +74,6 @@
 <text x="452" y="396" font-size="14" text-anchor="start" fill="#5f6b7a">simulate</text>
 <line x1="640" y1="342" x2="640" y2="438" stroke="#5f6b7a" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#a)"/>
 <text x="650" y="396" font-size="14" text-anchor="start" fill="#5f6b7a">report-only result</text>
-<text x="550.0" y="606" font-size="14" text-anchor="middle" fill="#5f6b7a">Before this: licence assigned, security defaults off, emergency sign-in tested.</text>
+<text x="550.0" y="606" font-size="14" text-anchor="middle" fill="#5f6b7a">Before this: license assigned, security defaults off, emergency sign-in tested.</text>
+<!--fx:lic1-->
 </svg>

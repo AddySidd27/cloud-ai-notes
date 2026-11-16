@@ -4,79 +4,80 @@
 <rect x="6" y="6" width="1088" height="998" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
 <text x="60" y="56" font-size="15" font-weight="600" text-anchor="start" fill="#1f2933">Black screen after sign-in</text>
 <rect x="60" y="85" width="360" height="76" rx="8" fill="#eaf2fb" stroke="#9bbbe0" stroke-width="1.5"/>
-<text x="240.0" y="111" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
-<text x="240.0" y="119.0" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Is it black only in a</text>
-<text x="240.0" y="137.0" font-size="14" text-anchor="middle" fill="#1f2933">Teams screen share?</text>
+<text x="240" y="103" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
+<text x="240" y="123" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Is it black only in a</text>
+<text x="240" y="145" font-size="16" text-anchor="middle" fill="#1f2933">Teams screen share?</text>
 <rect x="60" y="215" width="360" height="76" rx="8" fill="#eaf2fb" stroke="#9bbbe0" stroke-width="1.5"/>
-<text x="240.0" y="241" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
-<text x="240.0" y="249.0" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Did the connection reach</text>
-<text x="240.0" y="267.0" font-size="14" text-anchor="middle" fill="#1f2933">State Connected in WVDConnections?</text>
+<text x="240" y="233" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
+<text x="240" y="253" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Did the connection reach</text>
+<text x="240" y="275" font-size="16" text-anchor="middle" fill="#1f2933">State Connected in WVDConnections?</text>
 <rect x="60" y="345" width="360" height="76" rx="8" fill="#eaf2fb" stroke="#9bbbe0" stroke-width="1.5"/>
-<text x="240.0" y="371" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
-<text x="240.0" y="379.0" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Many users, started after</text>
-<text x="240.0" y="397.0" font-size="14" text-anchor="middle" fill="#1f2933">a Windows update?</text>
+<text x="240" y="363" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
+<text x="240" y="383" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Many users, started after</text>
+<text x="240" y="405" font-size="16" text-anchor="middle" fill="#1f2933">a Windows update?</text>
 <rect x="60" y="475" width="360" height="76" rx="8" fill="#eaf2fb" stroke="#9bbbe0" stroke-width="1.5"/>
-<text x="240.0" y="501" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
-<text x="240.0" y="509.0" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Does the FSLogix profile log show an</text>
-<text x="240.0" y="527.0" font-size="14" text-anchor="middle" fill="#1f2933">error or a long loadProfile time?</text>
+<text x="240" y="493" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
+<text x="240" y="513" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Does the FSLogix profile log show an</text>
+<text x="240" y="535" font-size="16" text-anchor="middle" fill="#1f2933">error or a long loadProfile time?</text>
 <rect x="60" y="605" width="360" height="76" rx="8" fill="#eaf2fb" stroke="#9bbbe0" stroke-width="1.5"/>
-<text x="240.0" y="631" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
-<text x="240.0" y="639.0" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Is FSLogix 2210 (2.9.8361.52326)</text>
-<text x="240.0" y="657.0" font-size="14" text-anchor="middle" fill="#1f2933">installed on the host?</text>
+<text x="240" y="623" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
+<text x="240" y="643" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Is FSLogix 2210 (2.9.8361.52326)</text>
+<text x="240" y="665" font-size="16" text-anchor="middle" fill="#1f2933">installed on the host?</text>
 <rect x="60" y="735" width="360" height="76" rx="8" fill="#eaf2fb" stroke="#9bbbe0" stroke-width="1.5"/>
-<text x="240.0" y="761" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
-<text x="240.0" y="769.0" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Are explorer.exe and userinit.exe</text>
-<text x="240.0" y="787.0" font-size="14" text-anchor="middle" fill="#1f2933">running (Task Manager, Details)?</text>
+<text x="240" y="753" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
+<text x="240" y="773" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Are explorer.exe and userinit.exe</text>
+<text x="240" y="795" font-size="16" text-anchor="middle" fill="#1f2933">running (Task Manager, Details)?</text>
 <line x1="240.0" y1="161" x2="240.0" y2="215" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="246.0" y="194.0" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">No</text>
+<text x="246.0" y="194.0" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">No</text>
 <line x1="240.0" y1="291" x2="240.0" y2="345" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="246.0" y="324.0" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Yes</text>
+<text x="246.0" y="324.0" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Yes</text>
 <line x1="240.0" y1="421" x2="240.0" y2="475" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="246.0" y="454.0" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">No</text>
+<text x="246.0" y="454.0" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">No</text>
 <line x1="240.0" y1="551" x2="240.0" y2="605" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="246.0" y="584.0" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">No</text>
+<text x="246.0" y="584.0" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">No</text>
 <line x1="240.0" y1="681" x2="240.0" y2="735" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="246.0" y="714.0" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">No</text>
+<text x="246.0" y="714.0" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">No</text>
 <line x1="422" y1="123" x2="558" y2="123" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="428" y="117" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Yes</text>
+<text x="428" y="117" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Yes</text>
 <line x1="422" y1="253" x2="558" y2="253" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="428" y="247" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">No</text>
+<text x="428" y="247" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">No</text>
 <line x1="422" y1="383" x2="558" y2="383" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="428" y="377" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Yes</text>
+<text x="428" y="377" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Yes</text>
 <line x1="422" y1="513" x2="558" y2="513" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="428" y="507" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Yes</text>
+<text x="428" y="507" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Yes</text>
 <line x1="422" y1="643" x2="558" y2="643" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="428" y="637" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Yes</text>
+<text x="428" y="637" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Yes</text>
 <line x1="422" y1="773" x2="558" y2="773" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="428" y="767" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">No</text>
+<text x="428" y="767" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">No</text>
 <rect x="560" y="81" width="480" height="84" rx="8" fill="#ffffff" stroke="#b4bcc7" stroke-width="1.5"/>
-<text x="800.0" y="116" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
-<text x="800.0" y="119" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Screen capture protection</text>
-<text x="800.0" y="137" font-size="14" text-anchor="middle" fill="#1f2933">Check the client setup for Teams sharing</text>
+<text x="800" y="105.5" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
+<text x="800" y="125.5" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Screen capture protection</text>
+<text x="800" y="147.5" font-size="16" text-anchor="middle" fill="#1f2933">Check the client setup for Teams sharing</text>
 <rect x="560" y="211" width="480" height="84" rx="8" fill="#ffffff" stroke="#b4bcc7" stroke-width="1.5"/>
-<text x="800.0" y="246" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
-<text x="800.0" y="249" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Connection problem, not a black screen</text>
-<text x="800.0" y="267" font-size="14" text-anchor="middle" fill="#1f2933">Use the host or sign-in playbook</text>
+<text x="800" y="235.5" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
+<text x="800" y="255.5" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Connection problem, not a black screen</text>
+<text x="800" y="277.5" font-size="16" text-anchor="middle" fill="#1f2933">Use the host or sign-in playbook</text>
 <rect x="560" y="341" width="480" height="84" rx="8" fill="#ffffff" stroke="#b4bcc7" stroke-width="1.5"/>
-<text x="800.0" y="376" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
-<text x="800.0" y="379" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Known issue: KB5124008 and explorer.exe</text>
-<text x="800.0" y="397" font-size="14" text-anchor="middle" fill="#1f2933">Collect dumps and logs, then open a support request</text>
+<text x="800" y="365.5" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
+<text x="800" y="385.5" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Known issue: KB5124008 and explorer.exe</text>
+<text x="800" y="407.5" font-size="16" text-anchor="middle" fill="#1f2933">Collect dumps and logs, then open a support request</text>
 <rect x="560" y="471" width="480" height="84" rx="8" fill="#ffffff" stroke="#b4bcc7" stroke-width="1.5"/>
-<text x="800.0" y="506" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
-<text x="800.0" y="509" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Profile problem</text>
-<text x="800.0" y="527" font-size="14" text-anchor="middle" fill="#1f2933">Use the FSLogix profile playbook</text>
+<text x="800" y="495.5" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
+<text x="800" y="515.5" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Profile problem</text>
+<text x="800" y="537.5" font-size="16" text-anchor="middle" fill="#1f2933">Use the FSLogix profile playbook</text>
 <rect x="560" y="601" width="480" height="84" rx="8" fill="#ffffff" stroke="#b4bcc7" stroke-width="1.5"/>
-<text x="800.0" y="636" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
-<text x="800.0" y="639" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Known issue, fixed</text>
-<text x="800.0" y="657" font-size="14" text-anchor="middle" fill="#1f2933">Install the latest FSLogix version</text>
+<text x="800" y="625.5" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
+<text x="800" y="645.5" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Known issue, fixed</text>
+<text x="800" y="667.5" font-size="16" text-anchor="middle" fill="#1f2933">Install the latest FSLogix version</text>
 <rect x="560" y="731" width="480" height="84" rx="8" fill="#ffffff" stroke="#b4bcc7" stroke-width="1.5"/>
-<text x="800.0" y="766" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
-<text x="800.0" y="769" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Check Winlogon Shell is explorer.exe, Event ID 1000,</text>
-<text x="800.0" y="787" font-size="14" text-anchor="middle" fill="#1f2933">process exit codes in ProcMon</text>
+<text x="800" y="755.5" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
+<text x="800" y="775.5" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Check Winlogon Shell is explorer.exe, Event ID 1000,</text>
+<text x="800" y="797.5" font-size="16" text-anchor="middle" fill="#1f2933">process exit codes in ProcMon</text>
 <line x1="240.0" y1="811" x2="240.0" y2="865" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
-<text x="246.0" y="841" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Yes</text>
+<text x="246.0" y="841" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Yes</text>
 <rect x="60" y="867" width="360" height="100" rx="8" fill="#ffffff" stroke="#b4bcc7" stroke-width="1.5"/>
-<text x="240.0" y="902" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
-<text x="240.0" y="906" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Capture dumps with ProcDump</text>
-<text x="240.0" y="924" font-size="14" text-anchor="middle" fill="#1f2933">and give them to Microsoft Support</text>
+<text x="240" y="892" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933"></text>
+<text x="240" y="912" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Capture dumps with ProcDump</text>
+<text x="240" y="934" font-size="16" text-anchor="middle" fill="#1f2933">and give them to Microsoft Support</text>
+<!--fx:t16-->
 </svg>

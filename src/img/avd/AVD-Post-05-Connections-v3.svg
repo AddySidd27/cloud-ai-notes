@@ -38,8 +38,6 @@
 <polyline points="700,180 700,418" fill="none" stroke="#2f8a3c" stroke-width="2.5" marker-end="url(#m2f8a3c)"/>
 <defs><marker id="m2f8a3c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2f8a3c"/></marker></defs>
 <polyline points="792,130 898,130" fill="none" stroke="#2f8a3c" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#m2f8a3c)"/>
-<text x="845" y="102" font-size="14" text-anchor="middle" fill="#1f2933">Active Directory</text>
-<text x="845" y="118" font-size="14" text-anchor="middle" fill="#1f2933">connectivity</text>
 <defs><marker id="m6f4aa6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6f4aa6"/></marker></defs>
 <polyline points="40,130 22,130 22,670 538,670" fill="none" stroke="#6f4aa6" stroke-width="2.5" marker-end="url(#m6f4aa6)"/>
 <defs><marker id="m6fb37a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6fb37a"/></marker></defs>
@@ -72,4 +70,5 @@
 <defs><marker id="md19a1b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d19a1b"/></marker></defs>
 <polyline points="564,838 614,838" fill="none" stroke="#d19a1b" stroke-width="2.5" stroke-dasharray="3 4"/>
 <text x="628" y="843" font-size="15" text-anchor="start" fill="#1f2933">Internal service traffic</text>
+<!--fx:conn1-->
 </svg>

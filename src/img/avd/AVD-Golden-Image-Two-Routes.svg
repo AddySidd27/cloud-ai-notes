@@ -72,7 +72,6 @@
 <text x="912.5" y="401" font-size="14" text-anchor="middle" fill="#1f2933">Copy time varies</text>
 <text x="912.5" y="418" font-size="14" text-anchor="middle" fill="#1f2933">with image size</text>
 <text x="912.5" y="435" font-size="14" text-anchor="middle" fill="#1f2933">and regions.</text>
-<text x="912.5" y="452" font-size="14" text-anchor="middle" fill="#1f2933">Region status.</text>
 <line x1="912" y1="468" x2="912" y2="506" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
 <text x="700" y="484" font-size="14" text-anchor="middle" fill="#5f6b7a">session hosts are created from a version in their region</text>
 <rect x="25" y="490" width="570" height="95" rx="8" fill="#fdecea" stroke="#b3261e" stroke-width="1.8"/>
@@ -86,4 +85,5 @@
 <text x="807.5" y="560" font-size="14" text-anchor="middle" fill="#1f2933">Session hosts, all created from</text>
 <text x="807.5" y="578" font-size="14" text-anchor="middle" fill="#1f2933">the same image version.</text>
 <image x="650" y="516" width="28" height="28" href="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTcgMTciCgl4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNyIgaGVpZ2h0PSIxNyI+Cgk8ZGVmcz4KCQk8bGluZWFyR3JhZGllbnQgaWQ9IkEiIHgxPSI4LjUiIHkxPSIxNyIgeDI9IjguNSIgeTI9IjAiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KCQkJPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMDA1YmExIi8+CgkJCTxzdG9wIG9mZnNldD0iLjE2OCIgc3RvcC1jb2xvcj0iIzAwNjNhZSIvPgoJCQk8c3RvcCBvZmZzZXQ9Ii41NzciIHN0b3AtY29sb3I9IiMwMDcyY2EiLz4KCQkJPHN0b3Agb2Zmc2V0PSIuODE1IiBzdG9wLWNvbG9yPSIjMDA3OGQ0Ii8+CgkJPC9saW5lYXJHcmFkaWVudD4KCTwvZGVmcz4KCTxjaXJjbGUgY3g9IjguNSIgY3k9IjguNSIgcj0iOC41IiBmaWxsPSJ1cmwoI0EpIi8+Cgk8cGF0aCBkPSJNMTIuNTQ2IDYuMTM1djQuNzA5bC00LjA2MiAyLjM2M1Y4LjQ5MnoiIGZpbGw9IiMzMmJlZGQiLz4KCTxwYXRoIGQ9Ik0xMi41NDYgNi4xMzVMOC40OSA4LjUgNC40MjggNi4xMzUgOC40OSAzLjc3MnoiIGZpbGw9IiM5Y2ViZmYiLz4KCTxwYXRoIGQ9Ik04LjQ4NCA4LjV2NC43MDlsLTQuMDU2LTIuMzY1VjYuMTM1eiIgZmlsbD0iIzUwZTZmZiIvPgoJPHBhdGggZD0iTTQuNDI4IDEwLjg0NGw0LjA1Ni0yLjM1MnY0LjcxNXoiIGZpbGw9IiM5Y2ViZmYiLz4KCTxwYXRoIGQ9Ik0xMi41NDYgMTAuODQ0TDguNDg0IDguNDkydjQuNzE1eiIgZmlsbD0iIzUwZTZmZiIvPgo8L3N2Zz4="/>
+<!--fx:gold1-->
 </svg>

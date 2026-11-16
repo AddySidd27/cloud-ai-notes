@@ -27,6 +27,8 @@ export default function (eleventyConfig) {
       if (e.isDirectory() && e.name === "avd") continue;
       eleventyConfig.addPassthroughCopy({ [`src/img/${e.name}`]: `img/${e.name}` });
     }
+    // Every diagram's .drawio source is published next to its svg/png so the download links in posts resolve.
+    eleventyConfig.addPassthroughCopy("src/img/avd/**/*.drawio", { expand: false });
     for (const name of referenced) {
       if (fs.existsSync(path.join("src", "img", "avd", name))) eleventyConfig.addPassthroughCopy({ [`src/img/avd/${name}`]: `img/avd/${name}` });
     }
@@ -102,7 +104,7 @@ export default function (eleventyConfig) {
   const articleFigures = (html) => String(html).replace(/<p>\s*(<img[^>]*src="([^"]+)"[^>]*>)\s*<\/p>(?:\s*<p>((?:<em>[\s\S]*?<\/em>)|(?:Figure \d+\.[\s\S]*?))<\/p>)?/g, (_, image, src, caption) => {
     const alt = (image.match(/alt="([^"]*)"/) || [])[1] || "Article illustration";
     const compact = src.includes("AVD-Post-01-Components") ? " compact" : "";
-    return `<figure class="article-figure${compact}"><div class="fig-scroll">${image}</div>${compact ? "" : '<span class="fig-hint" aria-hidden="true">Swipe sideways to see the whole diagram.</span>'}<figcaption><span class="figure-caption">${caption || (src.startsWith("/diagrams/") ? "" : alt)}</span></figcaption><p class="figure-zoom">Tap or click the image to enlarge.${fullSize(src, alt)}</p></figure>`;
+    return `<figure class="article-figure${compact}">${compact ? "" : '<span class="fig-hint" aria-hidden="true">Swipe sideways to see the whole diagram</span>'}<div class="fig-box"><div class="fig-scroll">${image}</div></div><figcaption><span class="figure-caption">${caption || (src.startsWith("/diagrams/") ? "" : alt)}</span></figcaption><p class="figure-zoom">Tap or click the image to enlarge.${fullSize(src, alt)}</p></figure>`;
   });
   eleventyConfig.addFilter("articleFigures", articleFigures);
   eleventyConfig.addFilter("avdFigures", articleFigures);

@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" width="1000" height="640" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 540" width="1000" height="540" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
   <title id="t">The RDP connection</title>
   <desc id="d">A client has a two-way link to Azure Front Door, and Azure Front Door has a two-way TCP link to the gateway service. Inside a box labelled Region 1 are the gateway service, the broker service and the session host, with dotted two-way links from gateway to broker and from broker to session host, and a separate two-way TCP link between the gateway service and the session host. A purple two-way UDP line, labelled UDP (RDP Shortpath, if it works) for managed and public networks, runs from the client directly to the session host and does not pass through the gateway service.</desc>
   <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
-  <rect x="6" y="6" width="988" height="628" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
+  <rect x="6" y="6" width="988" height="528" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
   <text x="500" y="36" font-size="20" font-weight="600" text-anchor="middle" fill="#1f2933">The RDP connection: TCP through the gateway, and UDP RDP Shortpath</text>
   <rect x="330" y="90" width="640" height="420" rx="8" fill="#f7f9fc" stroke="#5f6b7a" stroke-width="1.6"/>
   <text x="650" y="114" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Region 1</text>
@@ -31,4 +31,5 @@
   <polyline points="89,295 89,190 870,190 870,300" fill="none" stroke="#7a3fa0" stroke-width="2.5" marker-start="url(#arr)" marker-end="url(#arr)"/>
   <text x="600" y="178" font-size="14" font-weight="600" text-anchor="middle" fill="#7a3fa0">UDP (RDP Shortpath, if it works)</text>
   <text x="600" y="212" font-size="14" text-anchor="middle" fill="#7a3fa0">for managed networks and public networks</text>
+<!--fx:trim1-->
 </svg>

@@ -46,7 +46,7 @@
 <text x="262" y="392" font-size="14" text-anchor="start" fill="#1f2933">Desktop Virtualization Power On Off Contributor (scaling plan)</text>
 <text x="262" y="414" font-size="14" text-anchor="start" fill="#1f2933">Desktop Virtualization Power On Contributor (Start VM on Connect)</text>
 <text x="262" y="436" font-size="14" text-anchor="start" fill="#5f6b7a">Two roles, both assigned on the subscription.</text>
-<polyline points="732,392 885,392 885,322" fill="none" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<polyline points="732,392 885,392 885,316" fill="none" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
 <text x="895" y="366" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">starts and deallocates</text>
 <text x="895" y="382" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">the session hosts</text>
 <line x1="176" y1="200" x2="210" y2="200" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
@@ -87,4 +87,5 @@
 <text x="825.5" y="684" font-size="14" text-anchor="start" fill="#5f6b7a">18:00</text>
 <text x="40" y="722" font-size="14" text-anchor="start" fill="#5f6b7a">Breadth First in ramp-up and peak, Depth First in ramp-down and off-peak. Minimum hosts: weekday ramp-up 50%, ramp-down 0%, weekend 0%.</text>
 <!--fx:auto2-->
+<!--fx:auto3-->
 </svg>

@@ -1,10 +1,10 @@
 <mxfile host="app.diagrams.net" version="24.0.0">
   <diagram id="avd-post02-rdp-v3" name="AVD RDP connection on Learn v3">
-    <mxGraphModel dx="1000" dy="640" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="640" math="0" shadow="0">
+    <mxGraphModel dx="1000" dy="540" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="540" math="0" shadow="0">
       <root>
         <mxCell id="0"/>
         <mxCell id="1" parent="0"/>
-        <mxCell id="c2" value="" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#5f6b7a;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="6" y="6" width="988" height="628" as="geometry"/></mxCell>
+        <mxCell id="c2" value="" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#5f6b7a;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="6" y="6" width="988" height="528" as="geometry"/></mxCell>
         <mxCell id="c11" value="The RDP connection: TCP through the gateway, and UDP RDP Shortpath" style="text;html=1;align=center;verticalAlign=middle;fontSize=20;fontColor=#1f2933;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="22" width="360" height="20" as="geometry"/></mxCell>
         <mxCell id="c12" value="" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#f7f9fc;strokeColor=#5f6b7a;strokeWidth=1.6;" vertex="1" parent="1"><mxGeometry x="330" y="90" width="640" height="420" as="geometry"/></mxCell>
         <mxCell id="c13" value="Region 1" style="text;html=1;align=center;verticalAlign=middle;fontSize=14;fontColor=#1f2933;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="470" y="100" width="360" height="20" as="geometry"/></mxCell>

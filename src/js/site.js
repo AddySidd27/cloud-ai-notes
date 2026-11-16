@@ -93,4 +93,32 @@
     q.addEventListener('input',apply);
     apply();
   })();
+
+  // diagram figures: pick a readable minimum width on narrow screens, show the swipe hint only where scrolling exists
+  (function(){
+    var figs=[].slice.call(document.querySelectorAll('.article-figure:not(.compact)'));
+    if(!figs.length)return;
+    function fit(){
+      var rem=parseFloat(getComputedStyle(document.documentElement).fontSize)||16,wide=innerWidth>=1024;
+      figs.forEach(function(f){
+        var img=f.querySelector('.fig-scroll img'),sc=f.querySelector('.fig-scroll'),box=f.querySelector('.fig-box'),hint=f.querySelector('.fig-hint');
+        if(!img||!sc)return;
+        var nat=img.naturalWidth||+img.getAttribute('width')||1100;
+        // source text is about 13px at natural width (PNG exports are 2x, so treated as a 1100px layout); keep it at or above 9.5px, within 44rem..60rem
+        var svg=/\.svg(\?|$)/i.test(img.currentSrc||img.src),min=Math.min(60*rem,Math.max(44*rem,0.73*(svg?nat:1100)));
+        img.style.setProperty('--fig-min',Math.round(min)+'px');
+        sc.style.setProperty('--fig-min',Math.round(min)+'px');
+        var more=!wide&&sc.scrollWidth>sc.clientWidth+2;
+        if(hint)hint.classList.toggle('is-off',!more);
+        if(box)box.classList.toggle('more-right',more&&sc.scrollLeft+sc.clientWidth<sc.scrollWidth-2);
+        f.classList.toggle('is-small',wide&&img.clientWidth/nat<0.85);
+      });
+    }
+    figs.forEach(function(f){
+      var sc=f.querySelector('.fig-scroll'),img=f.querySelector('img');
+      if(sc)sc.addEventListener('scroll',fit,{passive:true});
+      if(img&&!img.complete)img.addEventListener('load',fit);
+    });
+    addEventListener('resize',fit);fit();
+  })();
 })();

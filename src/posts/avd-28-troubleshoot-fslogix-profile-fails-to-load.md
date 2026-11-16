@@ -50,7 +50,7 @@ The AVD logs tell you whether the user connected and how long sign-in took. The 
 
 The picture shows the same order as a decision tree. Each leaf names its source.
 
-![Seven yes/no checks, from FSLogix enabled with VHDLocations set, through access denied, a locked container, SMB reachability, full storage and an empty profile. Each answer leads to a fix, or to collecting logs for a support case.](/img/avd/troubleshoot-fslogix-profile-fails-to-load.svg)
+![Six yes/no checks, from FSLogix enabled with VHDLocations set, through access denied, a locked container, SMB reachability, full storage and an empty profile. Each answer leads to a fix, or to collecting logs for a support case.](/img/avd/troubleshoot-fslogix-profile-fails-to-load.svg)
 
 *Source: [Old, temporary or local profiles](https://learn.microsoft.com/en-us/fslogix/troubleshooting-old-temp-local-profiles), [Container attach or detach](https://learn.microsoft.com/en-us/fslogix/troubleshooting-container-attach-detach) and [FSLogix codes](https://learn.microsoft.com/en-us/fslogix/troubleshooting-error-codes).*
 

@@ -41,7 +41,7 @@
 <text x="722" y="140" font-size="14" font-weight="600" text-anchor="middle" fill="#7a5bb5">TLS</text>
 <rect x="765" y="95" width="205" height="163" rx="8" fill="#fff4e5" stroke="#c45a10" stroke-width="1.5"/>
 <text x="867.5" y="153" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Azure Virtual Desktop</text>
-<text x="867.5" y="177" font-size="14" text-anchor="middle" fill="#1f2933">service (broker)</text>
+<text x="867.5" y="171" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">service (broker)</text>
 <text x="867.5" y="194" font-size="14" text-anchor="middle" fill="#1f2933">The host is listed in the</text>
 <text x="867.5" y="211" font-size="14" text-anchor="middle" fill="#1f2933">host pool. Status may</text>
 <text x="867.5" y="228" font-size="14" text-anchor="middle" fill="#1f2933">start as Unavailable,</text>
@@ -90,4 +90,6 @@
 <line x1="767" y1="652" x2="793" y2="652" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
 <!--fx:life1-->
 <!--fx:life2-->
+<!--fx:lifeT-->
+<!--fx:lifeT2-->
 </svg>
