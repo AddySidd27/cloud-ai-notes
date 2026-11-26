@@ -121,7 +121,7 @@ The **user connectivity history report** is under **View report** in the **Conne
 
 **Where:** **Reports** > **Cloud PC overview** > **Cloud PCs that aren't available**.
 
-**What it answers:** which Cloud PCs may be unavailable right now. The data is 5 to 15 minutes old. A Cloud PC in the list may have recovered already, and one that just failed may not be listed yet.
+**What it answers:** which Cloud PCs were recently unavailable. The data is 5 to 15 minutes old. A Cloud PC in the list may have recovered already, and one that just failed may not be listed yet.
 
 Columns include user name, host health (the most recent Cloud PC host health check error, if any), connection error, system status, region, device status, last event and issue details. An empty column means there is nothing to report in that area, so it is probably not the cause.
 
@@ -178,7 +178,7 @@ Three more tools help you decide where to look first.
 | What happened to one user or one Cloud PC? | User and devices | Same Monitor Cloud PCs page |
 | Do connections share a client, setting or version? | Configuration monitoring | Same Monitor Cloud PCs page |
 | Which Cloud PCs have a weak connection? | Connection quality | **Reports** > **Cloud PC overview** |
-| Which Cloud PCs are unavailable now? | Cloud PCs that aren't available | **Reports** > **Cloud PC overview** |
+| Which Cloud PCs were recently unavailable? | Cloud PCs that aren't available | **Reports** > **Cloud PC overview** |
 | Why can one Cloud PC not connect? | Connectivity health checks and connection history | **Devices** > **All Cloud PCs** > Cloud PC > **Overview** > **Performance** |
 | Is a Cloud PC short of CPU or RAM? | Resource performance | **Reports** > **Endpoint analytics** |
 | Who barely uses their Cloud PC? | Cloud PC utilization | **Devices** > **Cloud PC performance** |

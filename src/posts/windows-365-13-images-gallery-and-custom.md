@@ -174,7 +174,7 @@ Go to **Devices** > **Provision Cloud PCs** > **Custom images**, select the chec
 ## Common mistakes
 
 - Building the custom image from a machine that was joined to a domain or enrolled in Intune. The image must never have been joined or enrolled.
-- Choosing a Trusted Launch VM when building a managed image. Use the Standard security type for a managed image. Trusted Launch is for the Azure Compute Gallery image definition.
+- Choosing a Trusted Launch VM when building a managed image. Use the Standard security type for the VM you build the managed image on. Trusted Launch is for the Azure Compute Gallery image definition.
 - Forgetting the Compute Gallery Image Reader role for the Windows 365 service principal.
 - Leaving a data disk attached, a recovery partition in place, or FSLogix or Azure Virtual Desktop components in the image.
 - Using a multi-session, N or LTSC edition of Windows.
