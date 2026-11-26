@@ -13,7 +13,7 @@ A Cloud PC is a Windows desktop that Windows 365 gives to a user. Administrators
 
 This article is for administrators who run Windows 365 Enterprise. It covers Enterprise Cloud PCs that are managed in Intune. After reading it you can pick the right action, say what it keeps and what it deletes, check what must be true before you start, and explain what a grace period is.
 
-![A Cloud PC with the status Provisioned can follow three paths. Resize keeps data and changes the size. Reprovision deletes everything and builds a new Cloud PC. A Cloud PC in a grace period keeps working for seven days, then it is deprovisioned and its data is deleted.](/img/windows-365/windows-365-lifecycle.svg)
+![A Provisioned Cloud PC can be resized (data kept) or reprovisioned (data deleted, new Cloud PC). If its old license is removed and no new one is assigned, it enters a seven-day grace period, then is deprovisioned and its data deleted.](/img/windows-365/windows-365-lifecycle.svg)
 
 *Source: [Resize a single Cloud PC](https://learn.microsoft.com/en-us/windows-365/enterprise/resize-cloud-pc-single), [Reprovision a Cloud PC](https://learn.microsoft.com/en-us/windows-365/enterprise/reprovision-cloud-pc) and [Deprovision or end grace period for Cloud PCs](https://learn.microsoft.com/en-us/windows-365/enterprise/end-grace-period).*
 

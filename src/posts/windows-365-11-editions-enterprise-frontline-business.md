@@ -41,9 +41,9 @@ The rest of this series builds an Enterprise pilot. If you have not chosen an ed
 
 ## The editions at a glance
 
-![A comparison grid with four columns: Windows 365 Business, Windows 365 Enterprise, Windows 365 Flex in Dedicated mode and Flex in Shared mode. Rows cover who it is for, Cloud PCs per license, setup and management, and how users connect. Flex was formerly called Frontline.](/img/windows-365/windows-365-editions.svg)
+![A comparison grid with four columns: Windows 365 Business, Windows 365 Enterprise, Windows 365 Flex in Dedicated mode and Flex in Shared mode. Rows cover who it is for, Cloud PCs per license, setup, and how users connect. Shared mode deletes data on the Cloud PC at sign-out. Flex was formerly called Frontline.](/img/windows-365/windows-365-editions.svg)
 
-*Source: [Compare Windows 365 Business and Enterprise](https://learn.microsoft.com/en-us/windows-365/business-enterprise-comparison) and [What is Windows 365 Flex?](https://learn.microsoft.com/en-us/windows-365/enterprise/introduction-windows-365-flex).*
+*Source: [Compare Windows 365 Business and Enterprise](https://learn.microsoft.com/en-us/windows-365/business-enterprise-comparison), [What is Windows 365 Flex?](https://learn.microsoft.com/en-us/windows-365/enterprise/introduction-windows-365-flex), and [Access a Cloud PC](https://learn.microsoft.com/en-us/windows-365/end-user-access-cloud-pc).*
 
 Business and Enterprise are set up per user. Flex works differently. A Flex license covers one active session at a time. In Dedicated mode it can back up to three Cloud PCs, each assigned to one user. In Shared mode it backs one Cloud PC that a group takes turns using.
 
@@ -71,7 +71,7 @@ Enterprise is for organizations that want to manage Cloud PCs with Intune. It ha
 
 ## Windows 365 Flex
 
-Flex helps save cost by letting several users use Cloud PCs on one license. Dedicated mode is for workers who need their own Cloud PC but not 24/7 access. Shared mode is for short tasks where data does not need to stay.
+Flex helps save cost by letting several users use Cloud PCs on one license. Dedicated mode is for workers who need their own Cloud PC but not 24/7 access. Shared mode is for short tasks where data does not need to persist.
 
 A Flex license is not a seat for one user. Here is an example. Buy 10 licenses, and 10 users can be connected at the same time. In Dedicated mode you can create up to 30 Cloud PCs for those users, but only 10 can be active at once.
 

@@ -43,7 +43,7 @@
 <text x="518" y="441.5" font-size="14" text-anchor="start" fill="#1f2933">Connection quality</text>
 <line x1="388" y1="416" x2="502" y2="416" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
 <rect x="54" y="464" width="332" height="84" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.8"/>
-<text x="68" y="503.0" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Which Cloud PCs are unavailable now?</text>
+<text x="68" y="503.0" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Which Cloud PCs were recently unavailable?</text>
 <text x="68" y="522.0" font-size="14" text-anchor="start" fill="#1f2933">Host health, connection error, status</text>
 <rect x="504" y="464" width="402" height="84" rx="8" fill="#ffffff" stroke="#7fbf95" stroke-width="1.8"/>
 <text x="518" y="493.5" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Cloud PCs that aren&#x27;t available</text>
