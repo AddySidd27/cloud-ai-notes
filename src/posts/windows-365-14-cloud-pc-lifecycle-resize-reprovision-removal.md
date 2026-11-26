@@ -1,5 +1,5 @@
 ---
-title: "The life of a Cloud PC: resize, reprovision, grace period and removal"
+title: "The Life of a Cloud PC: Resize, Reprovision, Grace Period and Removal"
 seoTitle: "Windows 365 Cloud PC lifecycle: resize, reprovision, removal"
 layout: post.njk
 permalink: /windows-365/cloud-pc-lifecycle/
