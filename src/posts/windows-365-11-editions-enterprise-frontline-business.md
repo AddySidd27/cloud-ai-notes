@@ -104,9 +104,9 @@ Flex has two modes. Flex licenses can be used in either mode. How many sessions 
 - There is no concurrency buffer in Shared mode.
 - Shared mode is currently available only for Azure Global Cloud. The [requirements article](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements) lists the regions where Shared mode can be provisioned.
 
-### What Flex does not support yet
+### Resize and disaster recovery in Flex
 
-Flex does not yet support the resize remote action or cross-region disaster recovery.
+Flex does not support the resize remote action. Flex in Dedicated mode is resized through the provisioning policy, and Flex in Shared mode cannot be resized. [Cross region disaster recovery](https://learn.microsoft.com/en-us/windows-365/enterprise/cross-region-disaster-recovery) is available for Flex in Dedicated mode.
 
 ## Compare how you manage them
 

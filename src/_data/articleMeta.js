@@ -20,6 +20,8 @@ export default {
   216: { tags: ["Windows 365", "Licensing", "Groups"], published: "2026-11-26" },
   217: { tags: ["Windows 365", "Licensing", "Grace period"], published: "2026-11-26" },
   218: { tags: ["Windows 365", "Flex", "Licensing", "Reports"], published: "2026-11-26" },
+  219: { tags: ["Windows 365", "Disaster recovery", "Outages"], published: "2026-11-26" },
+  220: { tags: ["Windows 365", "Operations", "Remediation"], published: "2026-11-26" },
   101: { tags: ["AVD", "Fundamentals"], published: "2026-10-11" },
   102: { tags: ["AVD", "Architecture"], published: "2026-10-11" },
   103: { tags: ["AVD", "Deployment preparation"], published: "2026-10-11" },
