@@ -26,7 +26,7 @@ To see where VMs sit in the wider design, read [Compute Engine in a Google Cloud
 | POSIX account | The POSIX information that OS Login sets up for your Google account: a username, a user ID (UID), a group ID (GID) and a home directory. |
 | Identity-Aware Proxy (IAP) | The Google Cloud service whose TCP forwarding feature lets you reach VMs that do not have external IP addresses. |
 | IAP TCP forwarding | An encrypted tunnel over which you can forward SSH, RDP and other traffic to VMs, including VMs that have no external IP address or do not permit direct access over the internet. |
-| Firewall rule | A rule that applies to the VMs you want to reach through IAP and allows ingress (incoming) traffic from the IAP IP range. |
+| Firewall rule | A rule that applies to the VMs you want to reach through IAP and allows ingress (incoming) traffic from the IAP IP range. Firewall rules and policies are explained in [Firewalls and Internet Access](/google-cloud/firewalls-and-internet-access/). |
 
 ## What OS Login does
 
@@ -107,13 +107,13 @@ The arrows marked "request" show the path of the connection. The firewall rule i
 
 ### 1. A firewall rule that lets IAP in
 
-This is the same IAP rule that appears in the blueprint table in [Firewalls and Internet Access](/google-cloud/firewalls-and-internet-access/), not a second one. Create a firewall rule that:
+Check first whether your landing zone already has a rule that does this. Where firewall rules are kept is explained in [Firewalls and Internet Access](/google-cloud/firewalls-and-internet-access/), and who manages them in [Compute Engine in a Google Cloud Landing Zone: Where VMs Live](/google-cloud/compute-engine-in-a-landing-zone/). If there is none, you need a rule that:
 
 - applies to all VMs that you want to reach through IAP (in the console, set Target to "All instances in the network"),
 - allows incoming (ingress) traffic from the IP range `35.235.240.0/20` (for IPv6 VMs, `2600:2d00:1:7::/64`), and
 - allows connections to the ports you want to reach through IAP, for example port 22 for SSH and port 3389 for RDP. A port is the number after `tcp:` in a rule; it says which service on the VM the traffic is for.
 
-The `35.235.240.0/20` range is the IAP range. It contains all the IP addresses that IAP uses for TCP forwarding. An example rule is named `allow-ssh-ingress-from-iap` with `--direction=INGRESS`, `--action=allow`, `--rules=tcp:22` and `--source-ranges=35.235.240.0/20`.
+The `35.235.240.0/20` range is the IAP range. It contains all the IP addresses that IAP uses for TCP forwarding. As a VPC firewall rule, an example is named `allow-ssh-ingress-from-iap` with `--direction=INGRESS`, `--action=allow`, `--rules=tcp:22` and `--source-ranges=35.235.240.0/20`.
 
 The default rules `default-allow-ssh` and `default-allow-rdp` allow SSH and RDP from all IP addresses, not only from IAP. Consider disabling or deleting them if you want to prevent direct SSH or RDP access to your VMs.
 
@@ -176,14 +176,14 @@ You can also use the SSH button in the Google Cloud console. For other TCP-based
 
 1. Confirm OS Login is on: `enable-oslogin` is set to `TRUE` in instance metadata (the VM) or project metadata.
 2. For each engineer or group, confirm that you granted `roles/compute.osLogin` or `roles/compute.osAdminLogin` (on the project or instance; on the project if they use the console or gcloud), `roles/iap.tunnelResourceAccessor` on the project or the VM, and, if the VM has a service account, `roles/iam.serviceAccountUser` on that service account.
-3. Open the Firewall Rules page. Confirm that a rule allows ingress on `tcp:22` (and `tcp:3389` for RDP, if you use it) from `35.235.240.0/20`. Check whether `default-allow-ssh` and `default-allow-rdp` still exist.
+3. Find the firewall rule (see [Firewalls and Internet Access](/google-cloud/firewalls-and-internet-access/) for where rules are kept). Confirm that a rule allows ingress on `tcp:22` (and `tcp:3389` for RDP, if you use it) from `35.235.240.0/20`. Check whether `default-allow-ssh` and `default-allow-rdp` still exist.
 4. As an engineer with `roles/compute.osLogin` and `roles/iap.tunnelResourceAccessor` (plus `roles/iam.serviceAccountUser` if the VM has a service account), run `gcloud compute ssh INSTANCE_NAME --zone=ZONE --tunnel-through-iap`. Check that login works. On the VM, try a command with `sudo`. If the role does what its description says, you do not get administrator access.
 5. Repeat with a person who has `roles/compute.osAdminLogin`, `roles/iap.tunnelResourceAccessor` and, if needed, `roles/iam.serviceAccountUser`. On the VM, `sudo` is expected to work (administrator access).
 6. On the VM, run `whoami`. The username is expected to follow the `USERNAME_DOMAIN_SUFFIX` format, or start with `ext_` for a user from a different organization than the VM.
 7. Remove a role and try again. Google checks permissions for every login attempt, so the login should fail.
 8. Review the service account attached to each VM. Everyone who can log in can use its permissions.
 
-Next: [Seeing What VMs Do: Ops Agent, Audit Logs and Central Logs](/google-cloud/vm-logging-and-monitoring/).
+Next: [Seeing What VMs Do: Ops Agent and Audit Logs](/google-cloud/vm-logging-and-monitoring/).
 
 ## Sources
 

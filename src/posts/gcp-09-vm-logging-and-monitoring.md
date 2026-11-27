@@ -1,5 +1,5 @@
 ---
-title: "Seeing What VMs Do: Ops Agent, Audit Logs and Central Logs"
+title: "Seeing What VMs Do: Ops Agent and Audit Logs"
 layout: post.njk
 permalink: /google-cloud/vm-logging-and-monitoring/
 order: 409
@@ -10,7 +10,7 @@ deck: "Prepare a VM for the Ops Agent, and find out who created or changed a VM 
 
 This article is for people who run virtual machines (VMs) in a Google Cloud landing zone. After reading it you can prepare a VM so the Ops Agent is authorized and can access the logging and monitoring APIs, name the two roles it needs, say what each kind of audit log records, and find out who created or changed a VM. You will also know what happens to some audit logs that are routed to a different project.
 
-It does not cover dashboards or alerts, and it does not walk through installing the agent.
+It does not cover dashboards or alerts, it does not walk through installing the agent, and it does not cover how to route audit logs from many projects.
 
 Compute Engine VMs and their service accounts are covered in [Compute Engine in a Google Cloud Landing Zone: Where VMs Live](/google-cloud/compute-engine-in-a-landing-zone/). How to sign in to a VM is covered in [Reaching a Compute Engine VM: OS Login, IAM Roles and IAP](/google-cloud/reaching-a-vm-os-login-and-iap/). The folders and projects that hold logs are covered in [Google Cloud Organization, Folders and Projects](/google-cloud/organization-folders-and-projects/).
 
@@ -66,6 +66,8 @@ You can also configure it to collect file-based logs, journald (systemd) logs, a
 | Running | `oauth2.googleapis.com`, `monitoring.googleapis.com` and `logging.googleapis.com` |
 
 The agent also uses TCP ports 20201 and 20202 inside the VM. They must be available on the VM. They do not need to be open to the outside.
+
+The install addresses are DNS names that the VM must be able to reach. For how a VM gets internet access in a landing zone, see [Google Cloud Firewalls and Internet Access](/google-cloud/firewalls-and-internet-access/).
 
 ### Where not to install it
 

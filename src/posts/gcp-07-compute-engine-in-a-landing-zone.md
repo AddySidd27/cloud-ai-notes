@@ -19,7 +19,6 @@ It does not cover how people sign in to a VM. That is in [Reaching a Compute Eng
 | IAM role | Explained in [Who Can Sign In to Google Cloud: Identities, Groups and Roles](/google-cloud/identities-groups-and-roles/). |
 | Editor role | A basic role. Explained in [Who Can Sign In to Google Cloud: Identities, Groups and Roles](/google-cloud/identities-groups-and-roles/). |
 | Organization and project | Explained in [Organization, Folders and Projects](/google-cloud/organization-folders-and-projects/). |
-| Compute Engine | A Google Cloud infrastructure as a service (IaaS) product that offers self-managed virtual machine (VM) instances. |
 | Shared VPC | Allows an organization to connect resources from multiple projects to a common VPC network. |
 | Shared VPC network | A network defined in a host project and made available as a centrally shared network. |
 | Host project | A project that contains one or more Shared VPC networks. |
@@ -39,6 +38,8 @@ It does not cover how people sign in to a VM. That is in [Reaching a Compute Eng
 | `cloud-platform` scope | The full access scope. With it set, the IAM roles of the service account decide what the VM can do. |
 | Application Default Credentials | A way for your code to authenticate with the attached service account. |
 | Organization policy constraint | Explained in [Google Cloud Guardrails: Organization Policies and Security Decisions](/google-cloud/organization-policies-and-guardrails/). |
+| Managed constraint | Explained in [Google Cloud Guardrails: Organization Policies and Security Decisions](/google-cloud/organization-policies-and-guardrails/). |
+| OS Login | A way to control who can sign in to a Linux VM with IAM roles instead of SSH keys. Explained in [Reaching a Compute Engine VM: OS Login, IAM Roles and IAP](/google-cloud/reaching-a-vm-os-login-and-iap/). |
 
 ## A VM lives in a service project
 
@@ -91,7 +92,7 @@ Service agents are created and managed by Google Cloud. You cannot attach a serv
 
 ## Organization policies that touch a VM
 
-These three constraints can affect a VM. The wider set of guardrails is in [Google Cloud Guardrails: Organization Policies and Security Decisions](/google-cloud/organization-policies-and-guardrails/).
+These three constraints affect where a VM can attach and which permissions its default service account gets. Other constraints affect a new VM or its project; they follow the table. The wider set of guardrails is in [Google Cloud Guardrails: Organization Policies and Security Decisions](/google-cloud/organization-policies-and-guardrails/).
 
 | Constraint | What it does |
 |---|---|
@@ -101,9 +102,19 @@ These three constraints can affect a VM. The wider set of guardrails is in [Goog
 
 The two Shared VPC constraints apply to new attachments and new resources. Existing attachments, and existing VMs in a subnet that a policy now blocks, are not changed.
 
+These constraints can affect a new VM or its project:
+
+| Constraint | What it does |
+|---|---|
+| `compute.managed.vmExternalIpAccess` | Defines whether Compute Engine VM instances are allowed to use IPv4 external IP addresses. |
+| `compute.managed.requireOsLogin` | When enforced, requires OS Login on all newly created projects. On new and existing projects, it prevents metadata updates that disable OS Login. |
+| `compute.requireShieldedVm` | When enforced, requires that all new Compute Engine VM instances use the Shielded VM options (extra protection settings for a VM). Existing running instances continue to work as usual. |
+
+If a new VM is refused, or an update that disables OS Login fails, check these along with the Shared VPC constraints.
+
 ## What a VM needs, in one view
 
-![An organization contains a host project and a service project, which a Shared VPC Admin attaches to the host project. The host project holds a Shared VPC network with a shared subnet, and the firewall rules. The service project holds a VM instance that gets its internal IP from the subnet, is subject to the firewall rules and runs as an attached service account. Three organization policy constraints apply.](/img/google-cloud/google-cloud-compute-engine-in-a-landing-zone.svg)
+![An organization contains a host project and a service project, which a Shared VPC Admin attaches to the host project. The host project holds a Shared VPC network with a shared subnet, and the firewall rules. The service project holds a VM instance that gets its internal IP from the subnet, is subject to the firewall rules and runs as an attached service account. Three organization policy constraints that affect attachment and the default service account apply.](/img/google-cloud/google-cloud-compute-engine-in-a-landing-zone.svg)
 
 *Source: [Shared VPC](https://docs.cloud.google.com/vpc/docs/shared-vpc) and [Service accounts](https://docs.cloud.google.com/compute/docs/access/service-accounts).*
 
@@ -129,8 +140,6 @@ The two Shared VPC constraints apply to new attachments and new resources. Exist
 
 ## How to check this in your own project
 
-Compute Engine resources can be managed in the Google Cloud console, with the Google Cloud CLI or through the REST API.
-
 1. Find the project the VM is in. Check that it is attached to a host project as a service project.
 2. Find the subnet the VM uses. Check that it is a shared subnet from the host project, and that the VM is in the subnet's region.
 3. Check that the VM's internal IP address is from that subnet's address range.
@@ -140,11 +149,12 @@ Compute Engine resources can be managed in the Google Cloud console, with the Go
 7. Check the access scopes on the VM. The recommended setting is `cloud-platform`. If the scopes are narrower, the VM can be blocked even when its service account has the role.
 8. Look in the host project, or ask someone who has the Security Admin role there, which firewall rules apply to the VM's network.
 9. If a Shared VPC subnet is refused for a new VM, ask whether `compute.restrictSharedVpcSubnetworks` or `compute.restrictSharedVpcHostProjects` is set, and whether the Service Project Admin has the Network User role on the subnet.
+10. If a new VM is refused, check the constraints in the second table. Ask whether `compute.managed.vmExternalIpAccess`, `compute.managed.requireOsLogin` or `compute.requireShieldedVm` is set on the project.
 
-For the next steps, see [Reaching a Compute Engine VM: OS Login, IAM Roles and IAP](/google-cloud/reaching-a-vm-os-login-and-iap/) and [Seeing What VMs Do: Ops Agent, Audit Logs and Central Logs](/google-cloud/vm-logging-and-monitoring/).
+For the next steps, see [Reaching a Compute Engine VM: OS Login, IAM Roles and IAP](/google-cloud/reaching-a-vm-os-login-and-iap/) and [Seeing What VMs Do: Ops Agent and Audit Logs](/google-cloud/vm-logging-and-monitoring/).
 
 ## Sources
 
-- [Compute Engine overview](https://docs.cloud.google.com/compute/docs/how-to)
 - [Shared VPC](https://docs.cloud.google.com/vpc/docs/shared-vpc)
 - [Service accounts (Compute Engine)](https://docs.cloud.google.com/compute/docs/access/service-accounts)
+- [Organization policy constraints](https://docs.cloud.google.com/resource-manager/docs/organization-policy/org-policy-constraints)
