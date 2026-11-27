@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1464 971" width="1464" height="971" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+<title id="t">Example resource hierarchy from the enterprise foundations blueprint</title><desc id="d">An organization at the top with six folders below it: bootstrap, common, networking, production, nonproduction and development. An arrow runs from the organization to each folder, and from each folder to the projects it contains. Bootstrap holds two projects, common six, networking three, and each environment folder three.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
+<rect x="6" y="6" width="1452" height="959" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
+<text x="24" y="38" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Resource hierarchy: the blueprint&#x27;s example organization (example.com)</text>
+<rect x="24" y="62" width="1416" height="62" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="1.5"/>
+<text x="732.0" y="88" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Organization: example.com</text>
+<text x="732.0" y="110" font-size="14" text-anchor="middle" fill="#1f2933">Root node. Allow, deny and organization policies are inherited below it</text>
+<rect x="16" y="146" width="1432" height="146" rx="8" fill="#f6fbf7" stroke="#7fbf8e" stroke-width="1.8" stroke-dasharray="8 5"/>
+<text x="174" y="168" font-size="14" font-weight="600" text-anchor="start" fill="#1f2933">Blueprint folders</text>
+<rect x="24" y="198" width="226" height="80" rx="8" fill="#ffffff" stroke="#7fbf8e" stroke-width="1.5"/>
+<text x="137.0" y="224" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Folder: bootstrap</text>
+<text x="137.0" y="245" font-size="14" text-anchor="middle" fill="#1f2933">Projects that deploy</text>
+<text x="137.0" y="264" font-size="14" text-anchor="middle" fill="#1f2933">foundation components</text>
+<line x1="137.0" y1="124" x2="137.0" y2="198" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="24" y="322" width="226" height="178" rx="8" fill="#f4f8fd" stroke="#9bbbe0" stroke-width="1.8"/>
+<line x1="137.0" y1="278" x2="137.0" y2="322" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="30" y="330" width="214" height="75" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="42" y="354" font-size="14" font-weight="600" fill="#1f2933">prj-b-cicd</text>
+<text x="42" y="373" font-size="14" fill="#1f2933">Deployment pipeline that</text>
+<text x="42" y="392" font-size="14" fill="#1f2933">builds the foundation</text>
+<rect x="30" y="413" width="214" height="75" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="42" y="437" font-size="14" font-weight="600" fill="#1f2933">prj-b-seed</text>
+<text x="42" y="456" font-size="14" fill="#1f2933">Terraform state and</text>
+<text x="42" y="475" font-size="14" fill="#1f2933">Terraform service account</text>
+<rect x="262" y="198" width="226" height="80" rx="8" fill="#ffffff" stroke="#7fbf8e" stroke-width="1.5"/>
+<text x="375.0" y="224" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Folder: common</text>
+<text x="375.0" y="245" font-size="14" text-anchor="middle" fill="#1f2933">Projects shared by</text>
+<text x="375.0" y="264" font-size="14" text-anchor="middle" fill="#1f2933">all environments</text>
+<line x1="375.0" y1="124" x2="375.0" y2="198" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="262" y="322" width="226" height="529" rx="8" fill="#f4f8fd" stroke="#9bbbe0" stroke-width="1.8"/>
+<line x1="375.0" y1="278" x2="375.0" y2="322" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="268" y="330" width="214" height="56" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="280" y="354" font-size="14" font-weight="600" fill="#1f2933">prj-c-secrets</text>
+<text x="280" y="373" font-size="14" fill="#1f2933">Organization-level secrets</text>
+<rect x="268" y="394" width="214" height="75" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="280" y="418" font-size="14" font-weight="600" fill="#1f2933">prj-c-logging</text>
+<text x="280" y="437" font-size="14" fill="#1f2933">Aggregated log sources</text>
+<text x="280" y="456" font-size="14" fill="#1f2933">for audit logs</text>
+<rect x="268" y="477" width="214" height="94" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="280" y="501" font-size="14" font-weight="600" fill="#1f2933">prj-c-scc</text>
+<text x="280" y="520" font-size="14" fill="#1f2933">Security Command Center</text>
+<text x="280" y="539" font-size="14" fill="#1f2933">alerting and other custom</text>
+<text x="280" y="558" font-size="14" fill="#1f2933">security monitoring</text>
+<rect x="268" y="579" width="214" height="75" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="280" y="603" font-size="14" font-weight="600" fill="#1f2933">prj-c-billing-export</text>
+<text x="280" y="622" font-size="14" fill="#1f2933">BigQuery dataset with</text>
+<text x="280" y="641" font-size="14" fill="#1f2933">billing exports</text>
+<rect x="268" y="662" width="214" height="75" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="280" y="686" font-size="14" font-weight="600" fill="#1f2933">prj-c-infra-pipeline</text>
+<text x="280" y="705" font-size="14" fill="#1f2933">Pipeline for deploying</text>
+<text x="280" y="724" font-size="14" fill="#1f2933">VMs and databases</text>
+<rect x="268" y="745" width="214" height="94" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="280" y="769" font-size="14" font-weight="600" fill="#1f2933">prj-c-kms</text>
+<text x="280" y="788" font-size="14" fill="#1f2933">Encryption keys for shared</text>
+<text x="280" y="807" font-size="14" fill="#1f2933">services in the</text>
+<text x="280" y="826" font-size="14" fill="#1f2933">common folder</text>
+<rect x="500" y="198" width="226" height="80" rx="8" fill="#ffffff" stroke="#7fbf8e" stroke-width="1.5"/>
+<text x="613.0" y="224" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Folder: networking</text>
+<text x="613.0" y="245" font-size="14" text-anchor="middle" fill="#1f2933">Networking resources</text>
+<text x="613.0" y="264" font-size="14" text-anchor="middle" fill="#1f2933">shared by all environments</text>
+<line x1="613.0" y1="124" x2="613.0" y2="198" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="500" y="322" width="226" height="242" rx="8" fill="#f4f8fd" stroke="#9bbbe0" stroke-width="1.8"/>
+<line x1="613.0" y1="278" x2="613.0" y2="322" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="506" y="330" width="214" height="56" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="518" y="354" font-size="14" font-weight="600" fill="#1f2933">prj-net-{env}-svpc</text>
+<text x="518" y="373" font-size="14" fill="#1f2933">Shared VPC host project</text>
+<rect x="506" y="394" width="214" height="75" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="518" y="418" font-size="14" font-weight="600" fill="#1f2933">prj-net-hub</text>
+<text x="518" y="437" font-size="14" fill="#1f2933">Shared VPC hub, only in</text>
+<text x="518" y="456" font-size="14" fill="#1f2933">hub-and-spoke topology</text>
+<rect x="506" y="477" width="214" height="75" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="518" y="501" font-size="14" font-weight="600" fill="#1f2933">prj-net-interconnect</text>
+<text x="518" y="520" font-size="14" fill="#1f2933">Cloud Interconnect to</text>
+<text x="518" y="539" font-size="14" fill="#1f2933">on-premises</text>
+<rect x="738" y="198" width="226" height="80" rx="8" fill="#ffffff" stroke="#7fbf8e" stroke-width="1.5"/>
+<text x="851.0" y="224" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Folder: production</text>
+<text x="851.0" y="245" font-size="14" text-anchor="middle" fill="#1f2933">Projects with</text>
+<text x="851.0" y="264" font-size="14" text-anchor="middle" fill="#1f2933">production resources</text>
+<line x1="851.0" y1="124" x2="851.0" y2="198" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="738" y="322" width="226" height="261" rx="8" fill="#f4f8fd" stroke="#9bbbe0" stroke-width="1.8"/>
+<line x1="851.0" y1="278" x2="851.0" y2="322" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="744" y="330" width="214" height="75" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="756" y="354" font-size="14" font-weight="600" fill="#1f2933">prj-{env}-</text>
+<text x="756" y="373" font-size="14" font-weight="600" fill="#1f2933">{workload_name_or_id}</text>
+<text x="756" y="392" font-size="14" fill="#1f2933">Workload projects</text>
+<rect x="744" y="413" width="214" height="56" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="756" y="437" font-size="14" font-weight="600" fill="#1f2933">prj-{env}-secrets</text>
+<text x="756" y="456" font-size="14" fill="#1f2933">Folder-level secrets</text>
+<rect x="744" y="477" width="214" height="94" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="756" y="501" font-size="14" font-weight="600" fill="#1f2933">prj-{env}-kms</text>
+<text x="756" y="520" font-size="14" fill="#1f2933">Encryption keys for</text>
+<text x="756" y="539" font-size="14" fill="#1f2933">services in this</text>
+<text x="756" y="558" font-size="14" fill="#1f2933">environment folder</text>
+<rect x="976" y="198" width="226" height="80" rx="8" fill="#ffffff" stroke="#7fbf8e" stroke-width="1.5"/>
+<text x="1089.0" y="224" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Folder: nonproduction</text>
+<text x="1089.0" y="245" font-size="14" text-anchor="middle" fill="#1f2933">A copy of production</text>
+<text x="1089.0" y="264" font-size="14" text-anchor="middle" fill="#1f2933">to test workloads</text>
+<line x1="1089.0" y1="124" x2="1089.0" y2="198" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="976" y="322" width="226" height="261" rx="8" fill="#f4f8fd" stroke="#9bbbe0" stroke-width="1.8"/>
+<line x1="1089.0" y1="278" x2="1089.0" y2="322" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="982" y="330" width="214" height="75" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="994" y="354" font-size="14" font-weight="600" fill="#1f2933">prj-{env}-</text>
+<text x="994" y="373" font-size="14" font-weight="600" fill="#1f2933">{workload_name_or_id}</text>
+<text x="994" y="392" font-size="14" fill="#1f2933">Workload projects</text>
+<rect x="982" y="413" width="214" height="56" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="994" y="437" font-size="14" font-weight="600" fill="#1f2933">prj-{env}-secrets</text>
+<text x="994" y="456" font-size="14" fill="#1f2933">Folder-level secrets</text>
+<rect x="982" y="477" width="214" height="94" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="994" y="501" font-size="14" font-weight="600" fill="#1f2933">prj-{env}-kms</text>
+<text x="994" y="520" font-size="14" fill="#1f2933">Encryption keys for</text>
+<text x="994" y="539" font-size="14" fill="#1f2933">services in this</text>
+<text x="994" y="558" font-size="14" fill="#1f2933">environment folder</text>
+<rect x="1214" y="198" width="226" height="80" rx="8" fill="#ffffff" stroke="#7fbf8e" stroke-width="1.5"/>
+<text x="1327.0" y="224" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Folder: development</text>
+<text x="1327.0" y="245" font-size="14" text-anchor="middle" fill="#1f2933">Cloud resources used</text>
+<text x="1327.0" y="264" font-size="14" text-anchor="middle" fill="#1f2933">for development</text>
+<line x1="1327.0" y1="124" x2="1327.0" y2="198" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="1214" y="322" width="226" height="261" rx="8" fill="#f4f8fd" stroke="#9bbbe0" stroke-width="1.8"/>
+<line x1="1327.0" y1="278" x2="1327.0" y2="322" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="1220" y="330" width="214" height="75" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="1232" y="354" font-size="14" font-weight="600" fill="#1f2933">prj-{env}-</text>
+<text x="1232" y="373" font-size="14" font-weight="600" fill="#1f2933">{workload_name_or_id}</text>
+<text x="1232" y="392" font-size="14" fill="#1f2933">Workload projects</text>
+<rect x="1220" y="413" width="214" height="56" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="1232" y="437" font-size="14" font-weight="600" fill="#1f2933">prj-{env}-secrets</text>
+<text x="1232" y="456" font-size="14" fill="#1f2933">Folder-level secrets</text>
+<rect x="1220" y="477" width="214" height="94" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="1232" y="501" font-size="14" font-weight="600" fill="#1f2933">prj-{env}-kms</text>
+<text x="1232" y="520" font-size="14" fill="#1f2933">Encryption keys for</text>
+<text x="1232" y="539" font-size="14" fill="#1f2933">services in this</text>
+<text x="1232" y="558" font-size="14" fill="#1f2933">environment folder</text>
+<rect x="24" y="875" width="190" height="40" rx="8" fill="#ffffff" stroke="#7fbf8e" stroke-width="1.8"/>
+<text x="32" y="899" font-size="14" text-anchor="start" fill="#1f2933">Folder</text>
+<rect x="234" y="875" width="190" height="40" rx="8" fill="#f4f8fd" stroke="#9bbbe0" stroke-width="1.8"/>
+<text x="242" y="899" font-size="14" text-anchor="start" fill="#1f2933">Projects in a folder</text>
+<text x="444" y="899" font-size="14" text-anchor="start" fill="#1f2933">Arrows point from a parent to what it contains: organization to folders, folder to projects.</text>
+<text x="24" y="947" font-size="14" text-anchor="start" fill="#1f2933">{env} stands for development, non-production or production. prj-net-hub exists only in the hub-and-spoke topology.</text>
+</svg>

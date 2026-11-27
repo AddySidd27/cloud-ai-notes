@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 760 1018" width="760" height="1018" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+<title id="t">Security controls in a Google Cloud landing zone</title><desc id="d">Folders and projects inherit an organization policy. A perimeter surrounds sensitive resources, with exceptions for developer access. Two log sinks send audit logs to an Observability Analytics bucket and a Cloud Storage bucket.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
+<rect x="6" y="6" width="748" height="1006" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
+<rect x="24" y="24" width="712" height="970" rx="8" fill="#f4f8fd" stroke="#9bbbe0" stroke-width="1.8"/>
+<text x="44" y="50" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Organization</text>
+<rect x="44" y="68" width="672" height="110" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="58" y="98" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Organization policy</text>
+<text x="58" y="120" font-size="14" text-anchor="start" fill="#1f2933">Set on the organization, a folder or a project. Each policy sets one constraint.</text>
+<text x="58" y="142" font-size="14" text-anchor="start" fill="#1f2933">Examples: disable service account key creation, restrict external IPs for VM</text>
+<text x="58" y="164" font-size="14" text-anchor="start" fill="#1f2933">instances, require OS Login, restrict VM serial port access</text>
+<rect x="44" y="224" width="320" height="84" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="58" y="254" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Folders and projects</text>
+<text x="58" y="276" font-size="14" text-anchor="start" fill="#1f2933">Inherit each policy by default</text>
+<rect x="404" y="224" width="312" height="84" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="418" y="254" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Log sink: all projects</text>
+<text x="418" y="276" font-size="14" text-anchor="start" fill="#1f2933">Administrator activity audit</text>
+<text x="418" y="298" font-size="14" text-anchor="start" fill="#1f2933">logs from all projects</text>
+<line x1="204" y1="178" x2="204" y2="224" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="44" y="344" width="320" height="140" rx="8" fill="#fff9f0" stroke="#e0a96b" stroke-width="1.8" stroke-dasharray="8 5"/>
+<text x="58" y="366" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">VPC Service Controls perimeter</text>
+<rect x="58" y="392" width="292" height="80" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="72" y="422" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Sensitive resources</text>
+<text x="72" y="444" font-size="14" text-anchor="start" fill="#1f2933">Inside the perimeter</text>
+<rect x="44" y="520" width="320" height="80" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="58" y="550" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Exceptions to the perimeter</text>
+<text x="58" y="572" font-size="14" text-anchor="start" fill="#1f2933">For developer access</text>
+<line x1="204" y1="520" x2="204" y2="484" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<text x="218" y="506" font-size="14" text-anchor="start" fill="#1f2933">Configure exceptions</text>
+<rect x="404" y="344" width="312" height="84" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="418" y="374" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Observability Analytics bucket</text>
+<text x="418" y="396" font-size="14" text-anchor="start" fill="#1f2933">In a central project</text>
+<rect x="404" y="464" width="312" height="84" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="418" y="494" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Log sink: sensitive projects</text>
+<text x="418" y="516" font-size="14" text-anchor="start" fill="#1f2933">Data access audit logs from</text>
+<text x="418" y="538" font-size="14" text-anchor="start" fill="#1f2933">projects with sensitive workloads</text>
+<rect x="404" y="584" width="312" height="84" rx="8" fill="#ffffff" stroke="#7fbf8e" stroke-width="1.5"/>
+<text x="458" y="614" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Cloud Storage bucket</text>
+<text x="418" y="636" font-size="14" text-anchor="start" fill="#1f2933">For long-term retention</text>
+<image x="416" y="594" width="30" height="30" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiNhZWNiZmE7fS5jbHMtMntmaWxsOiM2NjlkZjY7fS5jbHMtM3tmaWxsOiM0Mjg1ZjQ7fS5jbHMtNHtmaWxsOiNmZmY7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5JY29uXzI0cHhfQ2xvdWRTdG9yYWdlX0NvbG9yPC90aXRsZT48ZyBkYXRhLW5hbWU9IlByb2R1Y3QgSWNvbnMiPjxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iMiIgeT0iNCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjciLz48cmVjdCBjbGFzcz0iY2xzLTIiIHg9IjIwIiB5PSI0IiB3aWR0aD0iMiIgaGVpZ2h0PSI3Ii8+PHBvbHlnb24gY2xhc3M9ImNscy0zIiBwb2ludHM9IjIyIDQgMjAgNCAyMCAxMSAyMiA0Ii8+PHJlY3QgY2xhc3M9ImNscy0yIiB4PSIyIiB5PSI0IiB3aWR0aD0iMiIgaGVpZ2h0PSI3Ii8+PHJlY3QgY2xhc3M9ImNscy00IiB4PSI2IiB5PSI3IiB3aWR0aD0iNiIgaGVpZ2h0PSIxIi8+PHJlY3QgY2xhc3M9ImNscy00IiB4PSIxNSIgeT0iNiIgd2lkdGg9IjMiIGhlaWdodD0iMyIgcng9IjEuNSIvPjxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iMiIgeT0iMTMiIHdpZHRoPSIyMCIgaGVpZ2h0PSI3Ii8+PHJlY3QgY2xhc3M9ImNscy0yIiB4PSIyMCIgeT0iMTMiIHdpZHRoPSIyIiBoZWlnaHQ9IjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTMiIHBvaW50cz0iMjIgMTMgMjAgMTMgMjAgMjAgMjIgMTMiLz48cmVjdCBjbGFzcz0iY2xzLTIiIHg9IjIiIHk9IjEzIiB3aWR0aD0iMiIgaGVpZ2h0PSI3Ii8+PHJlY3QgY2xhc3M9ImNscy00IiB4PSI2IiB5PSIxNiIgd2lkdGg9IjYiIGhlaWdodD0iMSIvPjxyZWN0IGNsYXNzPSJjbHMtNCIgeD0iMTUiIHk9IjE1IiB3aWR0aD0iMyIgaGVpZ2h0PSIzIiByeD0iMS41Ii8+PC9nPjwvc3ZnPg=="/>
+<line x1="552" y1="308" x2="552" y2="344" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<line x1="552" y1="548" x2="552" y2="584" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="44" y="704" width="672" height="100" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="98" y="734" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Security Command Center</text>
+<text x="58" y="756" font-size="14" text-anchor="start" fill="#1f2933">Activated at the organization level. Monitors the environment for</text>
+<text x="58" y="778" font-size="14" text-anchor="start" fill="#1f2933">insecure configurations and threats.</text>
+<image x="56" y="714" width="30" height="30" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiM0Mjg1ZjQ7fS5jbHMtMntmaWxsOiM2NjlkZjY7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5JY29uXzI0cHhfU2VjdXJpdHlDb21tYW5kQ2VudGVyX0NvbG9yPC90aXRsZT48ZyBkYXRhLW5hbWU9IlByb2R1Y3QgSWNvbnMiPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTEzLjMxLDYuODVhNS4yMyw1LjIzLDAsMCwxLDMuNzUsMy43NWgzLjUzVjUuMjRMMTMuMzEsMloiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik02LjkzLDEwLjYxYTUuMjIsNS4yMiwwLDAsMSwzLjc1LTMuNzVWMkwzLjQxLDUuMjR2NS4zN1oiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMC42OSwxN2E1LjIzLDUuMjMsMCwwLDEtMy43NS0zLjc1SDMuNjNBMTIsMTIsMCwwLDAsMTAuNjksMjJaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMTcuMDcsMTMuMjVBNS4yMyw1LjIzLDAsMCwxLDEzLjMyLDE3djVhMTIsMTIsMCwwLDAsNy4wNS04Ljc1WiIvPjxjaXJjbGUgaWQ9Ik92YWwiIGNsYXNzPSJjbHMtMiIgY3g9IjEyIiBjeT0iMTEuOTIiIHI9IjIuNjMiLz48L2c+PC9zdmc+"/>
+<rect x="44" y="840" width="320" height="130" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="58" y="870" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Default encryption</text>
+<text x="58" y="892" font-size="14" text-anchor="start" fill="#1f2933">At rest: encrypts all data that</text>
+<text x="58" y="914" font-size="14" text-anchor="start" fill="#1f2933">persists to disk.</text>
+<text x="58" y="936" font-size="14" text-anchor="start" fill="#1f2933">In transit: applies to layer 3</text>
+<text x="58" y="958" font-size="14" text-anchor="start" fill="#1f2933">and layer 4 network paths.</text>
+<rect x="404" y="840" width="312" height="130" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="418" y="870" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Access Transparency logs</text>
+<text x="418" y="892" font-size="14" text-anchor="start" fill="#1f2933">Record the actions taken by</text>
+<text x="418" y="914" font-size="14" text-anchor="start" fill="#1f2933">Google Cloud personnel in</text>
+<text x="418" y="936" font-size="14" text-anchor="start" fill="#1f2933">your environment</text>
+</svg>

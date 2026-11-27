@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1100 1190" width="1100" height="1190" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+<title id="t">The four core elements of a Google Cloud landing zone</title><desc id="d">Top to bottom: before you start, create an organization resource and a billing account. An existing identity provider synchronizes with Cloud Identity. The landing zone has four core elements. Identity provisioning: Cloud Identity and IAM. Resource hierarchy: organization, folders and projects (the organization resource itself is created before you start). Network: Shared VPC, service projects, firewall rules, Cloud NAT, Cloud Interconnect and Cloud DNS private zone. Security controls: organization policy, VPC Service Controls and Security Command Center. A dashed band lists additional elements. Below, the first application: build the landing zone before you deploy your first application. The contents of the landing zone are an example.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
+<rect x="6" y="6" width="1088" height="1178" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
+<rect x="560" y="26" width="500" height="64" rx="8" fill="#ffffff" stroke="#e0a96b" stroke-width="1.5"/>
+<text x="810" y="53" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Before you start</text><text x="810" y="76" font-size="14" text-anchor="middle" fill="#1f2933">Create an organization resource and a billing account</text>
+<rect x="202" y="26" width="312" height="64" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="358" y="53" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Existing identity provider</text><text x="358" y="76" font-size="14" text-anchor="middle" fill="#1f2933">On premises, in the example</text>
+<rect x="40" y="124" width="1020" height="938" rx="8" fill="#f7f8fa" stroke="#d5dae1" stroke-width="1.5"/>
+<text x="550" y="147" font-size="17" font-weight="600" text-anchor="middle" fill="#1f2933">Landing zone (example)</text>
+<line x1="810" y1="90" x2="810" y2="124" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="56" y="168" width="988" height="148" rx="8" fill="#ffffff" stroke="#d5dae1" stroke-width="1.5"/>
+<text x="143.0" y="236.0" font-size="17" font-weight="600" text-anchor="middle" fill="#1f2933">Identity</text>
+<text x="143.0" y="258.0" font-size="17" font-weight="600" text-anchor="middle" fill="#1f2933">provisioning</text>
+<rect x="230" y="180" width="256" height="124" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="244" y="211" font-size="15" font-weight="600" fill="#1f2933">Cloud Identity</text>
+<text x="244" y="244" font-size="14" fill="#1f2933">Users and group membership</text>
+<text x="244" y="264" font-size="14" fill="#1f2933">are synchronized from your</text>
+<text x="244" y="284" font-size="14" fill="#1f2933">existing identity provider</text>
+<rect x="502" y="180" width="256" height="124" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<image x="514" y="190" width="30" height="30" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiM2NjlkZjY7fS5jbHMtMSwuY2xzLTJ7ZmlsbC1ydWxlOmV2ZW5vZGQ7fS5jbHMtMntmaWxsOiM0Mjg1ZjQ7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5JY29uXzI0cHhfSUFNX0NvbG9yPC90aXRsZT48ZyBkYXRhLW5hbWU9IlByb2R1Y3QgSWNvbnMiPjxnID48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMiwyLDMuNzksNS40MnY1LjYzYzAsNS4wNiwzLjUsOS44LDguMjEsMTEsNC43MS0xLjE1LDguMjEtNS44OSw4LjIxLTEwLjk1VjUuNDJabTAsMy43OWEyLjYzLDIuNjMsMCwxLDEtMS44Ni43N0EyLjYzLDIuNjMsMCwwLDEsMTIsNS43OVptNC4xMSwxMS4xNUE4LjY0LDguNjQsMCwwLDEsMTIsMTkuODdhOC42NCw4LjY0LDAsMCwxLTQuMTEtMi45M1YxNC42OWMwLTEuNjcsMi43NC0yLjUyLDQuMTEtMi41MnM0LjExLjg1LDQuMTEsMi41MnYyLjI1WiIvPjxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTEyLDJWNS43OWEyLjYzLDIuNjMsMCwxLDEsMCw1LjI2djEuMTJjMS4zNywwLDQuMTEuODUsNC4xMSwyLjUydjIuMjVBOC42NCw4LjY0LDAsMCwxLDEyLDE5Ljg3VjIyYzQuNzEtMS4xNSw4LjIxLTUuODksOC4yMS0xMC45NVY1LjQyWiIvPjwvZz48L2c+PC9zdmc+"/>
+<text x="548" y="211" font-size="15" font-weight="600" fill="#1f2933">IAM</text>
+<text x="516" y="244" font-size="14" fill="#1f2933">Granular access to</text>
+<text x="516" y="264" font-size="14" fill="#1f2933">Google Cloud resources</text>
+<line x1="358" y1="90" x2="358" y2="180" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="56" y="326" width="988" height="148" rx="8" fill="#ffffff" stroke="#d5dae1" stroke-width="1.5"/>
+<text x="143.0" y="394.0" font-size="17" font-weight="600" text-anchor="middle" fill="#1f2933">Resource</text>
+<text x="143.0" y="416.0" font-size="17" font-weight="600" text-anchor="middle" fill="#1f2933">hierarchy</text>
+<rect x="230" y="338" width="250" height="124" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="244" y="369" font-size="15" font-weight="600" fill="#1f2933">Organization</text>
+<text x="244" y="402" font-size="14" fill="#1f2933">Created before you start</text>
+<text x="244" y="422" font-size="14" fill="#1f2933">The root node for managing</text>
+<text x="244" y="442" font-size="14" fill="#1f2933">resources in Google Cloud</text>
+<rect x="506" y="338" width="250" height="124" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="520" y="369" font-size="15" font-weight="600" fill="#1f2933">Folders</text>
+<text x="520" y="402" font-size="14" fill="#1f2933">Group projects based on</text>
+<text x="520" y="422" font-size="14" fill="#1f2933">their environment</text>
+<rect x="782" y="338" width="250" height="124" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="796" y="369" font-size="15" font-weight="600" fill="#1f2933">Projects</text>
+<text x="796" y="402" font-size="14" fill="#1f2933">Group resources based on their</text>
+<text x="796" y="422" font-size="14" fill="#1f2933">functionality and intended</text>
+<text x="796" y="442" font-size="14" fill="#1f2933">boundaries for access control</text>
+<line x1="480" y1="400.0" x2="506" y2="400.0" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<line x1="756" y1="400.0" x2="782" y2="400.0" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="56" y="484" width="988" height="284" rx="8" fill="#ffffff" stroke="#d5dae1" stroke-width="1.5"/>
+<text x="143.0" y="631.0" font-size="17" font-weight="600" text-anchor="middle" fill="#1f2933">Network</text>
+<rect x="230" y="496" width="256" height="124" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<image x="242" y="506" width="30" height="30" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiNhZWNiZmE7fS5jbHMtMntmaWxsOiM2NjlkZjY7fS5jbHMtM3tmaWxsOiM0Mjg1ZjQ7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5JY29uXzI0cHhfVmlydHVhbFByaXZhdGVDbG91ZF9Db2xvcjwvdGl0bGU+PGcgZGF0YS1uYW1lPSJQcm9kdWN0IEljb25zIj48cmVjdCBjbGFzcz0iY2xzLTEiIHg9IjE2IiB5PSIyIiB3aWR0aD0iNiIgaGVpZ2h0PSI2Ii8+PHJlY3QgY2xhc3M9ImNscy0yIiB4PSIxOSIgeT0iMiIgd2lkdGg9IjMiIGhlaWdodD0iNiIvPjxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iMTYiIHk9IjE2IiB3aWR0aD0iNiIgaGVpZ2h0PSI2Ii8+PHJlY3QgY2xhc3M9ImNscy0yIiB4PSIxOSIgeT0iMTYiIHdpZHRoPSIzIiBoZWlnaHQ9IjYiLz48cmVjdCBjbGFzcz0iY2xzLTEiIHg9IjIiIHk9IjIiIHdpZHRoPSI2IiBoZWlnaHQ9IjYiLz48cmVjdCBjbGFzcz0iY2xzLTIiIHg9IjUiIHk9IjIiIHdpZHRoPSIzIiBoZWlnaHQ9IjYiLz48cmVjdCBjbGFzcz0iY2xzLTEiIHg9IjIiIHk9IjE2IiB3aWR0aD0iNiIgaGVpZ2h0PSI2Ii8+PHJlY3QgY2xhc3M9ImNscy0yIiB4PSI1IiB5PSIxNiIgd2lkdGg9IjMiIGhlaWdodD0iNiIvPjxyZWN0IGNsYXNzPSJjbHMtMiIgeD0iOCIgeT0iNCIgd2lkdGg9IjgiIGhlaWdodD0iMiIvPjxyZWN0IGNsYXNzPSJjbHMtMiIgeD0iOCIgeT0iMTgiIHdpZHRoPSI4IiBoZWlnaHQ9IjIiLz48cmVjdCBjbGFzcz0iY2xzLTIiIHg9IjE4IiB5PSI4IiB3aWR0aD0iMiIgaGVpZ2h0PSI4Ii8+PHJlY3QgY2xhc3M9ImNscy0yIiB4PSI0IiB5PSI4IiB3aWR0aD0iMiIgaGVpZ2h0PSI4Ii8+PHJlY3QgY2xhc3M9ImNscy0zIiB4PSI0IiB5PSI4IiB3aWR0aD0iMiIgaGVpZ2h0PSIyIi8+PHJlY3QgY2xhc3M9ImNscy0zIiB4PSIxOCIgeT0iOCIgd2lkdGg9IjIiIGhlaWdodD0iMiIvPjxyZWN0IGNsYXNzPSJjbHMtMyIgeD0iOCIgeT0iNCIgd2lkdGg9IjIiIGhlaWdodD0iMiIvPjxyZWN0IGNsYXNzPSJjbHMtMyIgeD0iOCIgeT0iMTgiIHdpZHRoPSIyIiBoZWlnaHQ9IjIiLz48L2c+PC9zdmc+"/>
+<text x="276" y="527" font-size="15" font-weight="600" fill="#1f2933">Shared VPC</text>
+<text x="244" y="560" font-size="14" fill="#1f2933">One for each environment:</text>
+<text x="244" y="580" font-size="14" fill="#1f2933">production, development</text>
+<text x="244" y="600" font-size="14" fill="#1f2933">and testing</text>
+<rect x="502" y="496" width="256" height="124" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="516" y="527" font-size="15" font-weight="600" fill="#1f2933">Service projects</text>
+<text x="516" y="560" font-size="14" fill="#1f2933">Configured to use the</text>
+<text x="516" y="580" font-size="14" fill="#1f2933">Shared VPC networks; host</text>
+<text x="516" y="600" font-size="14" fill="#1f2933">your application resources</text>
+<rect x="774" y="496" width="256" height="124" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<image x="786" y="506" width="30" height="30" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiM0Mjg1ZjQ7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5JY29uXzI0cHhfRmlyZXdhbGxSdWxlc19Db2xvcjwvdGl0bGU+PGcgZGF0YS1uYW1lPSJQcm9kdWN0IEljb25zIj48ZyA+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSIxLjk4IiB5PSIyIiB3aWR0aD0iOC44OSIgaGVpZ2h0PSIyLjIyIi8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSIxLjk4IiB5PSIxOS43OCIgd2lkdGg9IjguODkiIGhlaWdodD0iMi4yMiIvPjxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iMS45OCIgeT0iMTAuODkiIHdpZHRoPSI4Ljg5IiBoZWlnaHQ9IjIuMjIiLz48cmVjdCBjbGFzcz0iY2xzLTEiIHg9IjEzLjA5IiB5PSIyIiB3aWR0aD0iOC44OSIgaGVpZ2h0PSIyLjIyIi8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSIxMy4wOSIgeT0iMTkuNzgiIHdpZHRoPSI4Ljg5IiBoZWlnaHQ9IjIuMjIiLz48cmVjdCBjbGFzcz0iY2xzLTEiIHg9IjEzLjA5IiB5PSIxMC44OSIgd2lkdGg9IjguODkiIGhlaWdodD0iMi4yMiIvPjxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iNy41MyIgeT0iNi40NCIgd2lkdGg9IjguODkiIGhlaWdodD0iMi4yMiIvPjxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iNy41MyIgeT0iMTUuMzMiIHdpZHRoPSI4Ljg5IiBoZWlnaHQ9IjIuMjIiLz48cmVjdCBjbGFzcz0iY2xzLTEiIHg9IjEuOTgiIHk9IjYuNDQiIHdpZHRoPSIzLjMzIiBoZWlnaHQ9IjIuMjIiLz48cmVjdCBjbGFzcz0iY2xzLTEiIHg9IjEuOTgiIHk9IjE1LjMzIiB3aWR0aD0iMy4zMyIgaGVpZ2h0PSIyLjIyIi8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSIxOC42NSIgeT0iNi40NCIgd2lkdGg9IjMuMzMiIGhlaWdodD0iMi4yMiIvPjxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iMTguNjUiIHk9IjE1LjMzIiB3aWR0aD0iMy4zMyIgaGVpZ2h0PSIyLjIyIi8+PC9nPjwvZz48L3N2Zz4="/>
+<text x="820" y="527" font-size="15" font-weight="600" fill="#1f2933">Firewall rules</text>
+<text x="788" y="560" font-size="14" fill="#1f2933">Control connectivity to and</text>
+<text x="788" y="580" font-size="14" fill="#1f2933">from workloads</text>
+<rect x="230" y="632" width="256" height="124" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<image x="242" y="642" width="30" height="30" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiM0Mjg1ZjQ7fS5jbHMtMntmaWxsOiM2NjlkZjY7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5JY29uXzI0cHhfQ2xvdWROQVRfQ29sb3I8L3RpdGxlPjxnIGRhdGEtbmFtZT0iUHJvZHVjdCBJY29ucyI+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMTUuMywxMS4xN2MwLC4yNywwLC41NCwwLC44M3MwLC41NiwwLC44M2g0LjVWMTEuMTdaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNOS44Niw1Ljg5SDdWNy41NmgzLjkzQTEwLDEwLDAsMCwwLDkuODYsNS44OVoiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMSwxNi40NEg3LjZ2MS42N0g5Ljg5QTEwLjcsMTAuNywwLDAsMCwxMSwxNi40NFoiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMiwxMmE3LjQ1LDcuNDUsMCwwLDAsMC0uODNINC41djEuNjZIMTJBNy40NSw3LjQ1LDAsMCwwLDEyLDEyWiIvPjxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTMuNjcsMTIuNDhBLjQ4LjQ4LDAsMSwxLDQuMTQsMTIsLjQ4LjQ4LDAsMCwxLDMuNjcsMTIuNDhabTAtMi4xNUExLjY3LDEuNjcsMCwxLDAsNS4zMywxMiwxLjY3LDEuNjcsMCwwLDAsMy42NywxMC4zM1oiLz48cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Ik02LjE3LDE3Ljc1YS40OC40OCwwLDEsMSwuNDctLjQ4QS40Ny40NywwLDAsMSw2LjE3LDE3Ljc1Wm0wLTIuMTRhMS42NywxLjY3LDAsMSwwLDEuNjYsMS42NkExLjY3LDEuNjcsMCwwLDAsNi4xNywxNS42MVoiLz48cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Ik02LjE3LDcuMmEuNDguNDgsMCwxLDEsLjQ3LS40N0EuNDcuNDcsMCwwLDEsNi4xNyw3LjJabTAtMi4xNGExLjY3LDEuNjcsMCwxLDAsMCwzLjMzLDEuNjcsMS42NywwLDAsMCwwLTMuMzNaIi8+PHBvbHlnb24gY2xhc3M9ImNscy0xIiBwb2ludHM9IjE4LjY3IDE0LjUgMTguNjcgOS41IDIyIDEyIDE4LjY3IDE0LjUiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik05LjUsMjJsLS44Ni0xLjVBMTAuNzMsMTAuNzMsMCwwLDAsMTIuODMsMTJhMTAuODksMTAuODksMCwwLDAtNC4yLTguNUw5LjUsMmExMi41MywxMi41MywwLDAsMSw1LDEwQTEyLjQ2LDEyLjQ2LDAsMCwxLDkuNSwyMloiLz48L2c+PC9zdmc+"/>
+<text x="276" y="663" font-size="15" font-weight="600" fill="#1f2933">Cloud NAT</text>
+<text x="244" y="696" font-size="14" fill="#1f2933">Outbound connections to the</text>
+<text x="244" y="716" font-size="14" fill="#1f2933">internet from resources in</text>
+<text x="244" y="736" font-size="14" fill="#1f2933">these networks</text>
+<rect x="502" y="632" width="256" height="124" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<image x="514" y="642" width="30" height="30" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiM0Mjg1ZjQ7fS5jbHMtMSwuY2xzLTIsLmNscy0ze2ZpbGwtcnVsZTpldmVub2RkO30uY2xzLTJ7ZmlsbDojYWVjYmZhO30uY2xzLTN7ZmlsbDojNjY5ZGY2O308L3N0eWxlPjwvZGVmcz48dGl0bGU+SWNvbl8yNHB4X0ludGVyY29ubmVjdF9Db2xvcjwvdGl0bGU+PGcgZGF0YS1uYW1lPSJQcm9kdWN0IEljb25zIj48ZyA+PHBvbHlnb24gaWQ9IkZpbGwtMyIgY2xhc3M9ImNscy0xIiBwb2ludHM9IjIgMTMgNiAxMyA2IDExIDIgMTEgMiAxMyIvPjxwb2x5Z29uIGlkPSJGaWxsLTYiIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxNSAxNyA1IDE3IDUgNyAxNSA3IDE1IDE3Ii8+PHBvbHlnb24gaWQ9IkZpbGwtMSIgY2xhc3M9ImNscy0xIiBwb2ludHM9IjE3LjMzIDEzIDIyIDEzIDIyIDExIDE3LjMzIDExIDE3LjMzIDEzIi8+PHBvbHlnb24gY2xhc3M9ImNscy0zIiBwb2ludHM9IjggMyA4IDUgMTcgNSAxNyAxOSA4IDE5IDggMjEgMTkgMjEgMTkgMTkgMTkgNSAxOSAzIDggMyIvPjxwb2x5Z29uIGlkPSJGaWxsLTciIGNsYXNzPSJjbHMtMyIgcG9pbnRzPSIxNSAxNyAxMCAxNyAxMCA3IDE1IDcgMTUgMTciLz48L2c+PC9nPjwvc3ZnPg=="/>
+<text x="548" y="663" font-size="15" font-weight="600" fill="#1f2933">Cloud Interconnect</text>
+<text x="516" y="696" font-size="14" fill="#1f2933">Connects on-premises</text>
+<text x="516" y="716" font-size="14" fill="#1f2933">applications and users</text>
+<rect x="774" y="632" width="256" height="124" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<image x="786" y="642" width="30" height="30" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiM0Mjg1ZjQ7fS5jbHMtMntmaWxsOiM2NjlkZjY7fS5jbHMtM3tmaWxsOiNhZWNiZmE7fS5jbHMtNHtmaWxsOiNmZmY7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5JY29uXzI0cHhfRE5TX0NvbG9yPC90aXRsZT48ZyBkYXRhLW5hbWU9IlByb2R1Y3QgSWNvbnMiPjxnIGRhdGEtbmFtZT0iY29sb3JlZC0zMi9kbnMiPjxnID48cG9seWdvbiBpZD0iRmlsbC0xIiBjbGFzcz0iY2xzLTEiIHBvaW50cz0iMTMgMTggMTEgMTggMTEgOCAxMyA4IDEzIDE4Ii8+PHBvbHlnb24gaWQ9IkZpbGwtMiIgY2xhc3M9ImNscy0yIiBwb2ludHM9IjIgMjEgMjIgMjEgMjIgMTkgMiAxOSAyIDIxIi8+PHBvbHlnb24gaWQ9IkZpbGwtMyIgY2xhc3M9ImNscy0zIiBwb2ludHM9IjEwIDIyIDE0IDIyIDE0IDE4IDEwIDE4IDEwIDIyIi8+PC9nPjwvZz48cmVjdCBjbGFzcz0iY2xzLTMiIHg9IjIiIHk9IjIiIHdpZHRoPSIyMCIgaGVpZ2h0PSI2Ii8+PHJlY3QgY2xhc3M9ImNscy0yIiB4PSIxMiIgeT0iMiIgd2lkdGg9IjEwIiBoZWlnaHQ9IjYiLz48cmVjdCBjbGFzcz0iY2xzLTQiIHg9IjQiIHk9IjQiIHdpZHRoPSIyIiBoZWlnaHQ9IjIiLz48cmVjdCBjbGFzcz0iY2xzLTMiIHg9IjIiIHk9IjEwIiB3aWR0aD0iMjAiIGhlaWdodD0iNiIvPjxyZWN0IGNsYXNzPSJjbHMtMiIgeD0iMTIiIHk9IjEwIiB3aWR0aD0iMTAiIGhlaWdodD0iNiIvPjxyZWN0IGNsYXNzPSJjbHMtNCIgeD0iNCIgeT0iMTIiIHdpZHRoPSIyIiBoZWlnaHQ9IjIiLz48L2c+PC9zdmc+"/>
+<text x="820" y="663" font-size="15" font-weight="600" fill="#1f2933">Cloud DNS private zone</text>
+<text x="788" y="696" font-size="14" fill="#1f2933">Hosts DNS records for your</text>
+<text x="788" y="716" font-size="14" fill="#1f2933">deployments in Google Cloud</text>
+<rect x="56" y="778" width="988" height="168" rx="8" fill="#ffffff" stroke="#d5dae1" stroke-width="1.5"/>
+<text x="143.0" y="856.0" font-size="17" font-weight="600" text-anchor="middle" fill="#1f2933">Security</text>
+<text x="143.0" y="878.0" font-size="17" font-weight="600" text-anchor="middle" fill="#1f2933">controls</text>
+<rect x="230" y="790" width="256" height="144" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="244" y="821" font-size="15" font-weight="600" fill="#1f2933">Organization policy</text>
+<text x="244" y="854" font-size="14" fill="#1f2933">Constraints configured to</text>
+<text x="244" y="874" font-size="14" fill="#1f2933">prevent various high-risk</text>
+<text x="244" y="894" font-size="14" fill="#1f2933">configurations</text>
+<rect x="502" y="790" width="256" height="144" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="516" y="821" font-size="15" font-weight="600" fill="#1f2933">VPC Service Controls</text>
+<text x="516" y="854" font-size="14" fill="#1f2933">A perimeter isolates services</text>
+<text x="516" y="874" font-size="14" fill="#1f2933">and resources, to mitigate data</text>
+<text x="516" y="894" font-size="14" fill="#1f2933">leaving to Google Cloud</text>
+<text x="516" y="914" font-size="14" fill="#1f2933">services outside the perimeter</text>
+<rect x="774" y="790" width="256" height="144" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<image x="786" y="800" width="30" height="30" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiM0Mjg1ZjQ7fS5jbHMtMntmaWxsOiM2NjlkZjY7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5JY29uXzI0cHhfU2VjdXJpdHlDb21tYW5kQ2VudGVyX0NvbG9yPC90aXRsZT48ZyBkYXRhLW5hbWU9IlByb2R1Y3QgSWNvbnMiPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTEzLjMxLDYuODVhNS4yMyw1LjIzLDAsMCwxLDMuNzUsMy43NWgzLjUzVjUuMjRMMTMuMzEsMloiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik02LjkzLDEwLjYxYTUuMjIsNS4yMiwwLDAsMSwzLjc1LTMuNzVWMkwzLjQxLDUuMjR2NS4zN1oiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMC42OSwxN2E1LjIzLDUuMjMsMCwwLDEtMy43NS0zLjc1SDMuNjNBMTIsMTIsMCwwLDAsMTAuNjksMjJaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMTcuMDcsMTMuMjVBNS4yMyw1LjIzLDAsMCwxLDEzLjMyLDE3djVhMTIsMTIsMCwwLDAsNy4wNS04Ljc1WiIvPjxjaXJjbGUgaWQ9Ik92YWwiIGNsYXNzPSJjbHMtMiIgY3g9IjEyIiBjeT0iMTEuOTIiIHI9IjIuNjMiLz48L2c+PC9zdmc+"/>
+<text x="820" y="821" font-size="15" font-weight="600" fill="#1f2933">Security Command Center</text>
+<text x="788" y="854" font-size="14" fill="#1f2933">From the blueprint: threat</text>
+<text x="788" y="874" font-size="14" fill="#1f2933">detection and monitoring</text>
+<rect x="56" y="956" width="988" height="96" rx="8" fill="#ffffff" stroke="#b9c0ca" stroke-width="1.5" stroke-dasharray="8 5"/>
+<text x="143.0" y="998.0" font-size="17" font-weight="600" text-anchor="middle" fill="#1f2933">Additional</text>
+<text x="143.0" y="1020.0" font-size="17" font-weight="600" text-anchor="middle" fill="#1f2933">elements</text>
+<text x="230" y="990" font-size="14" fill="#1f2933">Add as needed: monitoring and logging, backup and disaster recovery,</text><text x="230" y="1012" font-size="14" fill="#1f2933">compliance, cost efficiency and control, API management and</text><text x="230" y="1034" font-size="14" fill="#1f2933">cluster management</text>
+<rect x="200" y="1092" width="700" height="72" rx="8" fill="#ffffff" stroke="#7fbf8e" stroke-width="1.5"/>
+<text x="550" y="1120" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Your first application</text><text x="550" y="1144" font-size="14" text-anchor="middle" fill="#1f2933">Build the landing zone before you deploy your first application</text>
+<line x1="550" y1="1062" x2="550" y2="1092" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+</svg>

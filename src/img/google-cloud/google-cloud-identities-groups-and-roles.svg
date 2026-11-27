@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1100 640" width="1100" height="640" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+<title id="t">Federating Google Cloud sign-in with an external identity provider, and giving roles to groups</title><desc id="d">Option 2, federation, as in the blueprint example. Left, your identity provider: Active Directory, groups by job function whose membership is managed with the identity provider processes, Microsoft Entra ID and Ping Identity and Okta as other providers with setup guides, and multi-factor authentication enforced at the identity provider. Right, Google: Cloud Identity receives identities that Google Cloud Directory Sync provisions, and sign-in is redirected to the identity provider. IAM roles are granted to the groups. Super admin accounts authenticate directly to Cloud Identity with a password.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
+<rect x="6" y="6" width="1088" height="628" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
+<rect x="24" y="24" width="400" height="592" rx="8" fill="#f4f8fd" stroke="#9bbbe0" stroke-width="1.8"/>
+<text x="44" y="50" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Your identity provider</text>
+<rect x="44" y="76" width="360" height="110" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="224.0" y="104" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Active Directory</text>
+<text x="224.0" y="130" font-size="14" text-anchor="middle" fill="#1f2933">Used in the blueprint example</text>
+<rect x="44" y="206" width="360" height="100" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="224.0" y="234" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Groups by job function</text>
+<text x="224.0" y="260" font-size="14" text-anchor="middle" fill="#1f2933">Managed with identity provider processes</text>
+<text x="224.0" y="282" font-size="14" text-anchor="middle" fill="#1f2933">Example: grp-gcp-network-viewer</text>
+<rect x="44" y="326" width="360" height="70" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5" stroke-dasharray="8 5"/>
+<text x="106" y="354" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Microsoft Entra ID</text>
+<text x="106" y="380" font-size="14" text-anchor="start" fill="#1f2933">Setup guide listed in the blueprint</text>
+<image x="58" y="340" width="34" height="34" href="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTcuOTk5IDE2LjAwMSIKCXhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjE3Ljk5OSIgaGVpZ2h0PSIxNi4wMDEiPgoJPGRlZnM+CgkJPGxpbmVhckdyYWRpZW50IGlkPSJBIiB4MT0iNy42OTciIHkxPSIxMS40MDkiIHgyPSIxNC4wODIiIHkyPSIzLjk0NyIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgoJCQk8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMyMjUwODYiLz4KCQkJPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDA1NWM1Ii8+CgkJPC9saW5lYXJHcmFkaWVudD4KCQk8bGluZWFyR3JhZGllbnQgaWQ9IkIiIHgxPSI2LjM2MyIgeTE9IjEyLjQxMyIgeDI9IjYuMzYzIiB5Mj0iLTMuODM0IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CgkJCTxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZkZiIvPgoJCQk8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMwMjk0ZTQiLz4KCQk8L2xpbmVhckdyYWRpZW50PgoJCTxsaW5lYXJHcmFkaWVudCBpZD0iQyIgeDE9IjkiIHkxPSIxNS42MjEiIHgyPSI5IiB5Mj0iLTMuMjY3IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CgkJCTxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzQ0ZGJmOSIvPgoJCQk8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNjYmY4ZmYiLz4KCQk8L2xpbmVhckdyYWRpZW50PgoJCTxsaW5lYXJHcmFkaWVudCBpZD0iRCIgeDE9IjEzLjUiIHkxPSIxNS44NTYiIHgyPSIxMy41IiB5Mj0iLS4yMDQiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KCQkJPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMDQxNjQyIi8+CgkJCTxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzA0MTY0MiIgc3RvcC1vcGFjaXR5PSIuMjUiLz4KCQk8L2xpbmVhckdyYWRpZW50PgoJPC9kZWZzPgoJPHBhdGggZD0iTTE3LjY0NiA4Ljk2N2wtNy41LTguNDZjLS41OTktLjY3Ni0xLjY5NC0uNjc2LTIuMjk0IDBMLjM1MyA4Ljk2N2MtLjU3OS42NTQtLjQyOCAxLjY0MS4zMjMgMi4xMTFsNy40OTkgNC42ODhjLjUuMzEzIDEuMTQ4LjMxMyAxLjY0OCAwbDcuNDk5LTQuNjg4Yy43NTEtLjQ2OS45MDItMS40NTcuMzIzLTIuMTExeiIgZmlsbD0idXJsKCNBKSIvPgoJPHBhdGggZD0iTTEwLjE0Ny41MDdjLS41OTktLjY3Ni0xLjY5NC0uNjc2LTIuMjk0IDBMLjM1NCA4Ljk2N2MtLjU3OS42NTQtLjQyOCAxLjY0MS4zMjMgMi4xMTFsMy4xMjYgMS45NTRjLjM4OC4yNDIgMS4wMzMuNTExIDEuNzE1LjUxMS42MjEgMCAxLjE5Ny0uMTggMS42NzYtLjQ4N0w5IDExLjkyNyA0LjYzNiA5LjE5OSA5LjExIDQuMTUyYy41NS0uNjI3IDEuMzc3LTEuMDI2IDIuMzAyLTEuMDI2LjQ3MiAwIC45MTcuMTA3IDEuMzE0LjI5MkwxMC4xNDcuNTA5eiIgZmlsbD0idXJsKCNCKSIvPgoJPHBhdGggZmlsbD0idXJsKCNDKSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAtMSkiIGQ9Ik05IDEyLjkyN2gwbDQuMzY0LTIuNzI4aC4wMDEtLjAwMUw5IDUuMjc1bC00LjM2NCA0LjkyNC4wNTIuMDMyeiIvPgoJPHBhdGggZD0iTTkgMTZjLjI4NyAwIC41NzQtLjA3OC44MjQtLjIzNGw3LjQ5OS00LjY4OGMuNzUxLS40NjkuOTAyLTEuNDU3LjMyMy0yLjExMUwxMC4xNDcuNTA3QzkuODQ3LjE2OSA5LjQyNCAwIDkgMHoiIGZpbGw9InVybCgjRCkiIGZpbGwtb3BhY2l0eT0iLjUiIG9wYWNpdHk9Ii41Ii8+Cjwvc3ZnPg=="/>
+<rect x="44" y="416" width="360" height="70" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5" stroke-dasharray="8 5"/>
+<text x="60" y="444" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Ping Identity and Okta</text>
+<text x="60" y="470" font-size="14" text-anchor="start" fill="#1f2933">Setup guides listed in the blueprint</text>
+<rect x="44" y="506" width="360" height="90" rx="8" fill="#ffffff" stroke="#7fbf8e" stroke-width="1.5"/>
+<text x="224.0" y="534" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Multi-factor authentication</text>
+<text x="224.0" y="560" font-size="14" text-anchor="middle" fill="#1f2933">Enforce it at the identity provider,</text>
+<text x="224.0" y="582" font-size="14" text-anchor="middle" fill="#1f2933">with a phishing-resistant mechanism</text>
+<rect x="676" y="24" width="400" height="482" rx="8" fill="#f4f8fd" stroke="#9bbbe0" stroke-width="1.8"/>
+<text x="696" y="50" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Google</text>
+<rect x="696" y="76" width="360" height="110" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="876.0" y="104" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Cloud Identity</text>
+<text x="876.0" y="130" font-size="14" text-anchor="middle" fill="#1f2933">Receives the identities</text>
+<text x="876.0" y="152" font-size="14" text-anchor="middle" fill="#1f2933">No passwords are synchronized</text>
+<rect x="696" y="206" width="360" height="130" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="758" y="234" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">IAM</text>
+<text x="758" y="260" font-size="14" text-anchor="start" fill="#1f2933">Roles are granted to groups,</text>
+<text x="758" y="282" font-size="14" text-anchor="start" fill="#1f2933">not to individual users.</text>
+<text x="758" y="304" font-size="14" text-anchor="start" fill="#1f2933">Predefined roles, not basic roles.</text>
+<image x="710" y="220" width="34" height="34" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiM2NjlkZjY7fS5jbHMtMSwuY2xzLTJ7ZmlsbC1ydWxlOmV2ZW5vZGQ7fS5jbHMtMntmaWxsOiM0Mjg1ZjQ7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5JY29uXzI0cHhfSUFNX0NvbG9yPC90aXRsZT48ZyBkYXRhLW5hbWU9IlByb2R1Y3QgSWNvbnMiPjxnID48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMiwyLDMuNzksNS40MnY1LjYzYzAsNS4wNiwzLjUsOS44LDguMjEsMTEsNC43MS0xLjE1LDguMjEtNS44OSw4LjIxLTEwLjk1VjUuNDJabTAsMy43OWEyLjYzLDIuNjMsMCwxLDEtMS44Ni43N0EyLjYzLDIuNjMsMCwwLDEsMTIsNS43OVptNC4xMSwxMS4xNUE4LjY0LDguNjQsMCwwLDEsMTIsMTkuODdhOC42NCw4LjY0LDAsMCwxLTQuMTEtMi45M1YxNC42OWMwLTEuNjcsMi43NC0yLjUyLDQuMTEtMi41MnM0LjExLjg1LDQuMTEsMi41MnYyLjI1WiIvPjxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTEyLDJWNS43OWEyLjYzLDIuNjMsMCwxLDEsMCw1LjI2djEuMTJjMS4zNywwLDQuMTEuODUsNC4xMSwyLjUydjIuMjVBOC42NCw4LjY0LDAsMCwxLDEyLDE5Ljg3VjIyYzQuNzEtMS4xNSw4LjIxLTUuODksOC4yMS0xMC45NVY1LjQyWiIvPjwvZz48L2c+PC9zdmc+"/>
+<rect x="696" y="356" width="360" height="130" rx="8" fill="#ffffff" stroke="#e0a96b" stroke-width="1.5"/>
+<text x="876.0" y="384" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Super admin accounts</text>
+<text x="876.0" y="410" font-size="14" text-anchor="middle" fill="#1f2933">authenticate directly to</text>
+<text x="876.0" y="432" font-size="14" text-anchor="middle" fill="#1f2933">Cloud Identity,</text>
+<text x="876.0" y="454" font-size="14" text-anchor="middle" fill="#1f2933">with a password</text>
+<line x1="404" y1="116" x2="696" y2="116" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<text x="550.0" y="56" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Identities are provisioned</text>
+<text x="550.0" y="78" font-size="14" text-anchor="middle" fill="#1f2933">(Google Cloud Directory Sync)</text>
+<line x1="696" y1="160" x2="404" y2="160" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<text x="550.0" y="182" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">Sign-in is redirected to</text>
+<text x="550.0" y="204" font-size="14" text-anchor="middle" fill="#1f2933">the identity provider</text>
+<line x1="696" y1="256" x2="404" y2="256" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<text x="550.0" y="282" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">IAM roles are granted</text>
+<text x="550.0" y="304" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">to these groups</text>
+</svg>

@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1260 630" width="1260" height="630" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+<title id="t">How an engineer reaches a Compute Engine VM that has no external IP address</title><desc id="d">An engineer runs gcloud compute ssh. The request goes to Identity-Aware Proxy, which needs the IAP-secured Tunnel User role. The traffic is allowed by a firewall rule that admits ingress on tcp:22 from the IAP range 35.235.240.0/20. The VM has OS Login on, and the engineer needs an OS Login role, granted on the project, or with an extra project-level role that contains compute.projects.get for SSH from the console or gcloud. The VM needs no external IP address.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
+<rect x="6" y="6" width="1248" height="618" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
+<rect x="30" y="60" width="210" height="230" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="44" y="88" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Engineer</text>
+<text x="44" y="118" font-size="14" text-anchor="start" fill="#1f2933">Runs</text>
+<text x="44" y="138" font-size="14" text-anchor="start" fill="#1f2933">gcloud compute ssh</text>
+<text x="44" y="158" font-size="14" text-anchor="start" fill="#1f2933">INSTANCE_NAME</text>
+<text x="44" y="178" font-size="14" text-anchor="start" fill="#1f2933"></text>
+<text x="44" y="198" font-size="14" text-anchor="start" fill="#1f2933">No external IP:</text>
+<text x="44" y="218" font-size="14" text-anchor="start" fill="#1f2933">gcloud uses IAP TCP</text>
+<text x="44" y="238" font-size="14" text-anchor="start" fill="#1f2933">tunneling automatically</text>
+<rect x="313" y="60" width="260" height="230" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<image x="327" y="72" width="32" height="32" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiM0Mjg1ZjQ7fS5jbHMtMntmaWxsOiM2NjlkZjY7fS5jbHMtM3tmaWxsOiNhZWNiZmE7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5JY29uXzI0cHhfSWRlbnRpdHlBd2FyZVByb3h5X0NvbG9yPC90aXRsZT48ZyBkYXRhLW5hbWU9IlByb2R1Y3QgSWNvbnMiPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTExLjg1LDdhNS4xLDUuMSwwLDEsMCw1LjEsNS4xaDBBNS4xLDUuMSwwLDAsMCwxMS44NSw3Wm0wLDkuMDhhNCw0LDAsMSwxLDQtNGgwQTQsNCwwLDAsMSwxMS44NSwxNi4wOVoiLz48cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Ik0xMy43NywxMi43MWEyLjA5LDIuMDksMCwwLDAtLjI4LS4yMiwzLjExLDMuMTEsMCwwLDAtMi42MS0uMjgsMi4zMSwyLjMxLDAsMCwwLS44OS40Ny44Ni44NiwwLDAsMC0uMzcuNjV2MWg0LjQ3di0uODJBMSwxLDAsMCwwLDEzLjc3LDEyLjcxWiIvPjxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTExLjg1LDExLjUzYTEuMTYsMS4xNiwwLDEsMC0xLjE3LTEuMTVoMEExLjE3LDEuMTcsMCwwLDAsMTEuODUsMTEuNTNaIi8+PHBvbHlnb24gY2xhc3M9ImNscy0zIiBwb2ludHM9IjIwLjc4IDEwLjcyIDE5Ljc0IDEwLjcyIDIwLjUxIDExLjQ5IDE4LjMgMTEuNDkgMTguMyAxMi4zOSAyMC41MSAxMi4zOSAxOS43NCAxMy4xNyAyMC43OCAxMy4xNyAyMiAxMS45NCAyMC43OCAxMC43MiIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxNy41NCA4LjUgMTguMTggOS4xNCAxOS4xNiA4LjE3IDE5LjE2IDkuMjYgMTkuODkgOC41MiAxOS44OSA2Ljc5IDE4LjE2IDYuNzkgMTcuNDMgNy41MyAxOC41MiA3LjUzIDE3LjU0IDguNSIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxOS4xNiAxNS44MyAxOC4xOCAxNC44NiAxNy41NCAxNS40OSAxOC41MiAxNi40NyAxNy40MyAxNi40NyAxOC4xNiAxNy4yIDE5Ljg5IDE3LjIgMTkuODkgMTUuNDcgMTkuMTYgMTQuNzQgMTkuMTYgMTUuODMiLz48cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Ik0zLjM1LDEwLjY1QTEuMzUsMS4zNSwwLDEsMCw0LjcxLDEyYTEuMzUsMS4zNSwwLDAsMC0xLjM2LTEuMzVabTAsMi4xQS43Ni43NiwwLDEsMSw0LjExLDEyaDBhLjc2Ljc2LDAsMCwxLS43Ni43NVoiLz48L2c+PC9zdmc+"/>
+<text x="371" y="86" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Identity-Aware Proxy</text>
+<text x="371" y="106" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">(IAP TCP forwarding)</text>
+<text x="327" y="140" font-size="14" text-anchor="start" fill="#1f2933">Needs the IAP-secured</text>
+<text x="327" y="160" font-size="14" text-anchor="start" fill="#1f2933">Tunnel User role</text>
+<text x="327" y="180" font-size="14" text-anchor="start" fill="#1f2933"></text>
+<text x="327" y="200" font-size="14" text-anchor="start" fill="#1f2933">Connects to the primary</text>
+<text x="327" y="220" font-size="14" text-anchor="start" fill="#1f2933">internal IPv4 address</text>
+<text x="327" y="240" font-size="14" text-anchor="start" fill="#1f2933">of the VM</text>
+<rect x="646" y="60" width="240" height="230" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<image x="660" y="72" width="32" height="32" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiM0Mjg1ZjQ7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5JY29uXzI0cHhfRmlyZXdhbGxSdWxlc19Db2xvcjwvdGl0bGU+PGcgZGF0YS1uYW1lPSJQcm9kdWN0IEljb25zIj48ZyA+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSIxLjk4IiB5PSIyIiB3aWR0aD0iOC44OSIgaGVpZ2h0PSIyLjIyIi8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSIxLjk4IiB5PSIxOS43OCIgd2lkdGg9IjguODkiIGhlaWdodD0iMi4yMiIvPjxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iMS45OCIgeT0iMTAuODkiIHdpZHRoPSI4Ljg5IiBoZWlnaHQ9IjIuMjIiLz48cmVjdCBjbGFzcz0iY2xzLTEiIHg9IjEzLjA5IiB5PSIyIiB3aWR0aD0iOC44OSIgaGVpZ2h0PSIyLjIyIi8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSIxMy4wOSIgeT0iMTkuNzgiIHdpZHRoPSI4Ljg5IiBoZWlnaHQ9IjIuMjIiLz48cmVjdCBjbGFzcz0iY2xzLTEiIHg9IjEzLjA5IiB5PSIxMC44OSIgd2lkdGg9IjguODkiIGhlaWdodD0iMi4yMiIvPjxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iNy41MyIgeT0iNi40NCIgd2lkdGg9IjguODkiIGhlaWdodD0iMi4yMiIvPjxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iNy41MyIgeT0iMTUuMzMiIHdpZHRoPSI4Ljg5IiBoZWlnaHQ9IjIuMjIiLz48cmVjdCBjbGFzcz0iY2xzLTEiIHg9IjEuOTgiIHk9IjYuNDQiIHdpZHRoPSIzLjMzIiBoZWlnaHQ9IjIuMjIiLz48cmVjdCBjbGFzcz0iY2xzLTEiIHg9IjEuOTgiIHk9IjE1LjMzIiB3aWR0aD0iMy4zMyIgaGVpZ2h0PSIyLjIyIi8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSIxOC42NSIgeT0iNi40NCIgd2lkdGg9IjMuMzMiIGhlaWdodD0iMi4yMiIvPjxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iMTguNjUiIHk9IjE1LjMzIiB3aWR0aD0iMy4zMyIgaGVpZ2h0PSIyLjIyIi8+PC9nPjwvZz48L3N2Zz4="/>
+<text x="704" y="86" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Firewall rule</text>
+<text x="704" y="106" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">(allows IAP range)</text>
+<text x="660" y="140" font-size="14" text-anchor="start" fill="#1f2933">Example name:</text>
+<text x="660" y="160" font-size="14" text-anchor="start" fill="#1f2933">allow-ssh-ingress-from-iap</text>
+<text x="660" y="180" font-size="14" text-anchor="start" fill="#1f2933">Direction: ingress</text>
+<text x="660" y="200" font-size="14" text-anchor="start" fill="#1f2933">Allow: tcp:22</text>
+<text x="660" y="220" font-size="14" text-anchor="start" fill="#1f2933">Source range (IAP):</text>
+<text x="660" y="240" font-size="14" text-anchor="start" fill="#1f2933">35.235.240.0/20</text>
+<rect x="959" y="60" width="270" height="230" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<image x="973" y="72" width="32" height="32" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiNhZWNiZmE7fS5jbHMtMntmaWxsOiM2NjlkZjY7fS5jbHMtM3tmaWxsOiM0Mjg1ZjQ7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5JY29uXzI0cHhfQ29tcHV0ZUVuZ2luZV9Db2xvcjwvdGl0bGU+PGcgZGF0YS1uYW1lPSJQcm9kdWN0IEljb25zIj48cmVjdCBjbGFzcz0iY2xzLTEiIHg9IjkiIHk9IjkiIHdpZHRoPSI2IiBoZWlnaHQ9IjYiLz48cmVjdCBjbGFzcz0iY2xzLTIiIHg9IjExIiB5PSIyIiB3aWR0aD0iMiIgaGVpZ2h0PSI0Ii8+PHJlY3QgY2xhc3M9ImNscy0yIiB4PSI3IiB5PSIyIiB3aWR0aD0iMiIgaGVpZ2h0PSI0Ii8+PHJlY3QgY2xhc3M9ImNscy0yIiB4PSIxNSIgeT0iMiIgd2lkdGg9IjIiIGhlaWdodD0iNCIvPjxyZWN0IGNsYXNzPSJjbHMtMyIgeD0iMTEiIHk9IjE4IiB3aWR0aD0iMiIgaGVpZ2h0PSI0Ii8+PHJlY3QgY2xhc3M9ImNscy0zIiB4PSI3IiB5PSIxOCIgd2lkdGg9IjIiIGhlaWdodD0iNCIvPjxyZWN0IGNsYXNzPSJjbHMtMyIgeD0iMTUiIHk9IjE4IiB3aWR0aD0iMiIgaGVpZ2h0PSI0Ii8+PHJlY3QgY2xhc3M9ImNscy0zIiB4PSIxOSIgeT0iMTAiIHdpZHRoPSIyIiBoZWlnaHQ9IjQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDggMzIpIHJvdGF0ZSgtOTApIi8+PHJlY3QgY2xhc3M9ImNscy0zIiB4PSIxOSIgeT0iMTQiIHdpZHRoPSIyIiBoZWlnaHQ9IjQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQgMzYpIHJvdGF0ZSgtOTApIi8+PHJlY3QgY2xhc3M9ImNscy0zIiB4PSIxOSIgeT0iNiIgd2lkdGg9IjIiIGhlaWdodD0iNCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTIgMjgpIHJvdGF0ZSgtOTApIi8+PHJlY3QgY2xhc3M9ImNscy0yIiB4PSIzIiB5PSIxMCIgd2lkdGg9IjIiIGhlaWdodD0iNCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTggMTYpIHJvdGF0ZSgtOTApIi8+PHJlY3QgY2xhc3M9ImNscy0yIiB4PSIzIiB5PSIxNCIgd2lkdGg9IjIiIGhlaWdodD0iNCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTEyIDIwKSByb3RhdGUoLTkwKSIvPjxyZWN0IGNsYXNzPSJjbHMtMiIgeD0iMyIgeT0iNiIgd2lkdGg9IjIiIGhlaWdodD0iNCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTQgMTIpIHJvdGF0ZSgtOTApIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNNSw1VjE5SDE5VjVaTTE3LDE3SDdWN0gxN1oiLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iOSAxNSAxNSAxNSAxMiAxMiA5IDE1Ii8+PHBvbHlnb24gY2xhc3M9ImNscy0zIiBwb2ludHM9IjEyIDEyIDE1IDE1IDE1IDkgMTIgMTIiLz48L2c+PC9zdmc+"/>
+<text x="1017" y="86" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Compute Engine VM</text>
+<text x="1017" y="106" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">OS Login on</text>
+<text x="973" y="140" font-size="14" text-anchor="start" fill="#1f2933">No external IP address</text>
+<text x="973" y="160" font-size="14" text-anchor="start" fill="#1f2933">needed for IAP TCP forwarding</text>
+<text x="973" y="180" font-size="14" text-anchor="start" fill="#1f2933"></text>
+<text x="973" y="200" font-size="14" text-anchor="start" fill="#1f2933">Cannot use metadata-based</text>
+<text x="973" y="220" font-size="14" text-anchor="start" fill="#1f2933">SSH keys (stored in project</text>
+<text x="973" y="240" font-size="14" text-anchor="start" fill="#1f2933">or instance metadata)</text>
+<rect x="283" y="360" width="320" height="250" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<image x="297" y="372" width="32" height="32" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiM2NjlkZjY7fS5jbHMtMSwuY2xzLTJ7ZmlsbC1ydWxlOmV2ZW5vZGQ7fS5jbHMtMntmaWxsOiM0Mjg1ZjQ7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5JY29uXzI0cHhfSUFNX0NvbG9yPC90aXRsZT48ZyBkYXRhLW5hbWU9IlByb2R1Y3QgSWNvbnMiPjxnID48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMiwyLDMuNzksNS40MnY1LjYzYzAsNS4wNiwzLjUsOS44LDguMjEsMTEsNC43MS0xLjE1LDguMjEtNS44OSw4LjIxLTEwLjk1VjUuNDJabTAsMy43OWEyLjYzLDIuNjMsMCwxLDEtMS44Ni43N0EyLjYzLDIuNjMsMCwwLDEsMTIsNS43OVptNC4xMSwxMS4xNUE4LjY0LDguNjQsMCwwLDEsMTIsMTkuODdhOC42NCw4LjY0LDAsMCwxLTQuMTEtMi45M1YxNC42OWMwLTEuNjcsMi43NC0yLjUyLDQuMTEtMi41MnM0LjExLjg1LDQuMTEsMi41MnYyLjI1WiIvPjxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTEyLDJWNS43OWEyLjYzLDIuNjMsMCwxLDEsMCw1LjI2djEuMTJjMS4zNywwLDQuMTEuODUsNC4xMSwyLjUydjIuMjVBOC42NCw4LjY0LDAsMCwxLDEyLDE5Ljg3VjIyYzQuNzEtMS4xNSw4LjIxLTUuODksOC4yMS0xMC45NVY1LjQyWiIvPjwvZz48L2c+PC9zdmc+"/>
+<text x="341" y="386" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">IAM role</text>
+<text x="341" y="406" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">IAP-secured Tunnel User</text>
+<text x="297" y="440" font-size="14" text-anchor="start" fill="#1f2933">roles/iap.tunnelResourceAccessor</text>
+<text x="297" y="460" font-size="14" text-anchor="start" fill="#1f2933"></text>
+<text x="297" y="480" font-size="14" text-anchor="start" fill="#1f2933">Granted to a user or group</text>
+<text x="297" y="500" font-size="14" text-anchor="start" fill="#1f2933">on the project, or on one VM</text>
+<rect x="959" y="360" width="270" height="250" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<image x="973" y="372" width="32" height="32" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiM2NjlkZjY7fS5jbHMtMSwuY2xzLTJ7ZmlsbC1ydWxlOmV2ZW5vZGQ7fS5jbHMtMntmaWxsOiM0Mjg1ZjQ7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5JY29uXzI0cHhfSUFNX0NvbG9yPC90aXRsZT48ZyBkYXRhLW5hbWU9IlByb2R1Y3QgSWNvbnMiPjxnID48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMiwyLDMuNzksNS40MnY1LjYzYzAsNS4wNiwzLjUsOS44LDguMjEsMTEsNC43MS0xLjE1LDguMjEtNS44OSw4LjIxLTEwLjk1VjUuNDJabTAsMy43OWEyLjYzLDIuNjMsMCwxLDEtMS44Ni43N0EyLjYzLDIuNjMsMCwwLDEsMTIsNS43OVptNC4xMSwxMS4xNUE4LjY0LDguNjQsMCwwLDEsMTIsMTkuODdhOC42NCw4LjY0LDAsMCwxLTQuMTEtMi45M1YxNC42OWMwLTEuNjcsMi43NC0yLjUyLDQuMTEtMi41MnM0LjExLjg1LDQuMTEsMi41MnYyLjI1WiIvPjxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTEyLDJWNS43OWEyLjYzLDIuNjMsMCwxLDEsMCw1LjI2djEuMTJjMS4zNywwLDQuMTEuODUsNC4xMSwyLjUydjIuMjVBOC42NCw4LjY0LDAsMCwxLDEyLDE5Ljg3VjIyYzQuNzEtMS4xNSw4LjIxLTUuODksOC4yMS0xMC45NVY1LjQyWiIvPjwvZz48L2c+PC9zdmc+"/>
+<text x="1017" y="386" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">IAM roles for</text>
+<text x="1017" y="406" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">OS Login</text>
+<text x="973" y="440" font-size="14" text-anchor="start" fill="#1f2933">roles/compute.osLogin:</text>
+<text x="973" y="460" font-size="14" text-anchor="start" fill="#1f2933">login without admin (sudo)</text>
+<text x="973" y="480" font-size="14" text-anchor="start" fill="#1f2933">roles/compute.osAdminLogin:</text>
+<text x="973" y="500" font-size="14" text-anchor="start" fill="#1f2933">login with admin (sudo)</text>
+<text x="973" y="520" font-size="14" text-anchor="start" fill="#1f2933">For console or gcloud SSH:</text>
+<text x="973" y="540" font-size="14" text-anchor="start" fill="#1f2933">grant on the project, or</text>
+<text x="973" y="560" font-size="14" text-anchor="start" fill="#1f2933">also a project role with</text>
+<text x="973" y="580" font-size="14" text-anchor="start" fill="#1f2933">compute.projects.get</text>
+<line x1="240" y1="175" x2="313" y2="175" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<line x1="573" y1="175" x2="646" y2="175" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<line x1="886" y1="175" x2="959" y2="175" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<line x1="443" y1="360" x2="443" y2="290" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<line x1="1094" y1="360" x2="1094" y2="290" stroke="#5f6b7a" stroke-width="2.5" marker-end="url(#a)"/>
+<text x="276.5" y="164" font-size="14" text-anchor="middle" fill="#1f2933">request</text>
+<text x="922.5" y="164" font-size="14" text-anchor="middle" fill="#1f2933">request</text>
+<text x="609.5" y="142" font-size="14" text-anchor="middle" fill="#1f2933">allowed</text>
+<text x="609.5" y="160" font-size="14" text-anchor="middle" fill="#1f2933">by</text>
+<text x="453" y="329" font-size="14" text-anchor="start" fill="#1f2933">role needed</text>
+<text x="1104" y="329" font-size="14" text-anchor="start" fill="#1f2933">role needed</text>
+</svg>

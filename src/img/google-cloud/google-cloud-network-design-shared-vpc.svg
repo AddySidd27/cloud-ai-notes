@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1200 770" width="1200" height="770" role="img" aria-labelledby="t d" font-family="Segoe UI, Arial, sans-serif">
+<title id="t">Network design option 1: a Shared VPC network for each environment</title><desc id="d">An on-premises network in two locations connects through redundant Cloud Interconnect instances to two Shared VPC networks, one for production and one for development. Each Shared VPC network is in a host project, where firewall rules are managed. Service projects attached to each host project host the workloads. No traffic between environments by design.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker></defs>
+<rect x="6" y="6" width="1188" height="758" rx="8" fill="#ffffff" stroke="#5f6b7a" stroke-width="2"/>
+<rect x="24" y="40" width="230" height="670" rx="8" fill="#f4f8fd" stroke="#b8c0cc" stroke-width="1.8"/>
+<text x="44" y="66" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">On-premises network</text>
+<rect x="44" y="150" width="190" height="90" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="139.0" y="186" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Location 1</text>
+<text x="139.0" y="212" font-size="14" text-anchor="middle" fill="#1f2933">On-premises</text>
+<rect x="44" y="480" width="190" height="90" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="139.0" y="516" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Location 2</text>
+<text x="139.0" y="542" font-size="14" text-anchor="middle" fill="#1f2933">On-premises</text>
+<rect x="290" y="120" width="270" height="480" rx="8" fill="#f4f8fd" stroke="#b8c0cc" stroke-width="1.8"/>
+<text x="425.0" y="144" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Redundant Cloud</text>
+<text x="425.0" y="166" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Interconnect instances</text>
+<rect x="306" y="230" width="238" height="90" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="364" y="271.0" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Cloud Interconnect</text>
+<text x="364" y="293.0" font-size="14" text-anchor="start" fill="#1f2933">Instance 1</text>
+<image x="320" y="260.0" width="30" height="30" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiM0Mjg1ZjQ7fS5jbHMtMSwuY2xzLTIsLmNscy0ze2ZpbGwtcnVsZTpldmVub2RkO30uY2xzLTJ7ZmlsbDojYWVjYmZhO30uY2xzLTN7ZmlsbDojNjY5ZGY2O308L3N0eWxlPjwvZGVmcz48dGl0bGU+SWNvbl8yNHB4X0ludGVyY29ubmVjdF9Db2xvcjwvdGl0bGU+PGcgZGF0YS1uYW1lPSJQcm9kdWN0IEljb25zIj48ZyA+PHBvbHlnb24gaWQ9IkZpbGwtMyIgY2xhc3M9ImNscy0xIiBwb2ludHM9IjIgMTMgNiAxMyA2IDExIDIgMTEgMiAxMyIvPjxwb2x5Z29uIGlkPSJGaWxsLTYiIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxNSAxNyA1IDE3IDUgNyAxNSA3IDE1IDE3Ii8+PHBvbHlnb24gaWQ9IkZpbGwtMSIgY2xhc3M9ImNscy0xIiBwb2ludHM9IjE3LjMzIDEzIDIyIDEzIDIyIDExIDE3LjMzIDExIDE3LjMzIDEzIi8+PHBvbHlnb24gY2xhc3M9ImNscy0zIiBwb2ludHM9IjggMyA4IDUgMTcgNSAxNyAxOSA4IDE5IDggMjEgMTkgMjEgMTkgMTkgMTkgNSAxOSAzIDggMyIvPjxwb2x5Z29uIGlkPSJGaWxsLTciIGNsYXNzPSJjbHMtMyIgcG9pbnRzPSIxNSAxNyAxMCAxNyAxMCA3IDE1IDcgMTUgMTciLz48L2c+PC9nPjwvc3ZnPg=="/>
+<rect x="306" y="400" width="238" height="90" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="364" y="441.0" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Cloud Interconnect</text>
+<text x="364" y="463.0" font-size="14" text-anchor="start" fill="#1f2933">Instance 2</text>
+<image x="320" y="430.0" width="30" height="30" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiM0Mjg1ZjQ7fS5jbHMtMSwuY2xzLTIsLmNscy0ze2ZpbGwtcnVsZTpldmVub2RkO30uY2xzLTJ7ZmlsbDojYWVjYmZhO30uY2xzLTN7ZmlsbDojNjY5ZGY2O308L3N0eWxlPjwvZGVmcz48dGl0bGU+SWNvbl8yNHB4X0ludGVyY29ubmVjdF9Db2xvcjwvdGl0bGU+PGcgZGF0YS1uYW1lPSJQcm9kdWN0IEljb25zIj48ZyA+PHBvbHlnb24gaWQ9IkZpbGwtMyIgY2xhc3M9ImNscy0xIiBwb2ludHM9IjIgMTMgNiAxMyA2IDExIDIgMTEgMiAxMyIvPjxwb2x5Z29uIGlkPSJGaWxsLTYiIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxNSAxNyA1IDE3IDUgNyAxNSA3IDE1IDE3Ii8+PHBvbHlnb24gaWQ9IkZpbGwtMSIgY2xhc3M9ImNscy0xIiBwb2ludHM9IjE3LjMzIDEzIDIyIDEzIDIyIDExIDE3LjMzIDExIDE3LjMzIDEzIi8+PHBvbHlnb24gY2xhc3M9ImNscy0zIiBwb2ludHM9IjggMyA4IDUgMTcgNSAxNyAxOSA4IDE5IDggMjEgMTkgMjEgMTkgMTkgMTkgNSAxOSAzIDggMyIvPjxwb2x5Z29uIGlkPSJGaWxsLTciIGNsYXNzPSJjbHMtMyIgcG9pbnRzPSIxNSAxNyAxMCAxNyAxMCA3IDE1IDcgMTUgMTciLz48L2c+PC9nPjwvc3ZnPg=="/>
+<polyline points="254,360 290,360" fill="none" stroke="#5f6b7a" stroke-width="2.5" stroke-linejoin="round" marker-start="url(#a)" marker-end="url(#a)"/>
+<rect x="600" y="40" width="576" height="310" rx="8" fill="#f7faf5" stroke="#7fbf8e" stroke-width="1.8"/>
+<text x="620" y="64" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Production environment</text>
+<rect x="616" y="80" width="544" height="135" rx="8" fill="#ffffff" stroke="#b8c0cc" stroke-width="1.8"/>
+<text x="630" y="100" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Host project: firewall rules are managed here</text>
+<rect x="636" y="116" width="504" height="88" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="694" y="156.0" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Shared VPC network</text>
+<text x="694" y="178.0" font-size="14" text-anchor="start" fill="#1f2933">Shared with the service projects</text>
+<image x="650" y="145.0" width="30" height="30" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiNhZWNiZmE7fS5jbHMtMntmaWxsOiM2NjlkZjY7fS5jbHMtM3tmaWxsOiM0Mjg1ZjQ7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5JY29uXzI0cHhfVmlydHVhbFByaXZhdGVDbG91ZF9Db2xvcjwvdGl0bGU+PGcgZGF0YS1uYW1lPSJQcm9kdWN0IEljb25zIj48cmVjdCBjbGFzcz0iY2xzLTEiIHg9IjE2IiB5PSIyIiB3aWR0aD0iNiIgaGVpZ2h0PSI2Ii8+PHJlY3QgY2xhc3M9ImNscy0yIiB4PSIxOSIgeT0iMiIgd2lkdGg9IjMiIGhlaWdodD0iNiIvPjxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iMTYiIHk9IjE2IiB3aWR0aD0iNiIgaGVpZ2h0PSI2Ii8+PHJlY3QgY2xhc3M9ImNscy0yIiB4PSIxOSIgeT0iMTYiIHdpZHRoPSIzIiBoZWlnaHQ9IjYiLz48cmVjdCBjbGFzcz0iY2xzLTEiIHg9IjIiIHk9IjIiIHdpZHRoPSI2IiBoZWlnaHQ9IjYiLz48cmVjdCBjbGFzcz0iY2xzLTIiIHg9IjUiIHk9IjIiIHdpZHRoPSIzIiBoZWlnaHQ9IjYiLz48cmVjdCBjbGFzcz0iY2xzLTEiIHg9IjIiIHk9IjE2IiB3aWR0aD0iNiIgaGVpZ2h0PSI2Ii8+PHJlY3QgY2xhc3M9ImNscy0yIiB4PSI1IiB5PSIxNiIgd2lkdGg9IjMiIGhlaWdodD0iNiIvPjxyZWN0IGNsYXNzPSJjbHMtMiIgeD0iOCIgeT0iNCIgd2lkdGg9IjgiIGhlaWdodD0iMiIvPjxyZWN0IGNsYXNzPSJjbHMtMiIgeD0iOCIgeT0iMTgiIHdpZHRoPSI4IiBoZWlnaHQ9IjIiLz48cmVjdCBjbGFzcz0iY2xzLTIiIHg9IjE4IiB5PSI4IiB3aWR0aD0iMiIgaGVpZ2h0PSI4Ii8+PHJlY3QgY2xhc3M9ImNscy0yIiB4PSI0IiB5PSI4IiB3aWR0aD0iMiIgaGVpZ2h0PSI4Ii8+PHJlY3QgY2xhc3M9ImNscy0zIiB4PSI0IiB5PSI4IiB3aWR0aD0iMiIgaGVpZ2h0PSIyIi8+PHJlY3QgY2xhc3M9ImNscy0zIiB4PSIxOCIgeT0iOCIgd2lkdGg9IjIiIGhlaWdodD0iMiIvPjxyZWN0IGNsYXNzPSJjbHMtMyIgeD0iOCIgeT0iNCIgd2lkdGg9IjIiIGhlaWdodD0iMiIvPjxyZWN0IGNsYXNzPSJjbHMtMyIgeD0iOCIgeT0iMTgiIHdpZHRoPSIyIiBoZWlnaHQ9IjIiLz48L2c+PC9zdmc+"/>
+<rect x="626" y="255" width="254" height="80" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="753.0" y="291.0" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Service project</text>
+<text x="753.0" y="313.0" font-size="14" text-anchor="middle" fill="#1f2933">Hosts workloads</text>
+<rect x="896" y="255" width="254" height="80" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="1023.0" y="291.0" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Service project</text>
+<text x="1023.0" y="313.0" font-size="14" text-anchor="middle" fill="#1f2933">Hosts workloads</text>
+<text x="763" y="240" font-size="14" text-anchor="start" fill="#1f2933">Attached to</text>
+<text x="1033" y="240" font-size="14" text-anchor="start" fill="#1f2933">Attached to</text>
+<polyline points="753,255 753,215" fill="none" stroke="#5f6b7a" stroke-width="2.5" stroke-linejoin="round" marker-end="url(#a)"/>
+<polyline points="1023,255 1023,215" fill="none" stroke="#5f6b7a" stroke-width="2.5" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="600" y="400" width="576" height="310" rx="8" fill="#f4f8fd" stroke="#9bbbe0" stroke-width="1.8"/>
+<text x="620" y="424" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Development environment</text>
+<rect x="616" y="440" width="544" height="135" rx="8" fill="#ffffff" stroke="#b8c0cc" stroke-width="1.8"/>
+<text x="630" y="460" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Host project: firewall rules are managed here</text>
+<rect x="636" y="476" width="504" height="88" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="694" y="516.0" font-size="16" font-weight="600" text-anchor="start" fill="#1f2933">Shared VPC network</text>
+<text x="694" y="538.0" font-size="14" text-anchor="start" fill="#1f2933">Shared with the service projects</text>
+<image x="650" y="505.0" width="30" height="30" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiNhZWNiZmE7fS5jbHMtMntmaWxsOiM2NjlkZjY7fS5jbHMtM3tmaWxsOiM0Mjg1ZjQ7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5JY29uXzI0cHhfVmlydHVhbFByaXZhdGVDbG91ZF9Db2xvcjwvdGl0bGU+PGcgZGF0YS1uYW1lPSJQcm9kdWN0IEljb25zIj48cmVjdCBjbGFzcz0iY2xzLTEiIHg9IjE2IiB5PSIyIiB3aWR0aD0iNiIgaGVpZ2h0PSI2Ii8+PHJlY3QgY2xhc3M9ImNscy0yIiB4PSIxOSIgeT0iMiIgd2lkdGg9IjMiIGhlaWdodD0iNiIvPjxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iMTYiIHk9IjE2IiB3aWR0aD0iNiIgaGVpZ2h0PSI2Ii8+PHJlY3QgY2xhc3M9ImNscy0yIiB4PSIxOSIgeT0iMTYiIHdpZHRoPSIzIiBoZWlnaHQ9IjYiLz48cmVjdCBjbGFzcz0iY2xzLTEiIHg9IjIiIHk9IjIiIHdpZHRoPSI2IiBoZWlnaHQ9IjYiLz48cmVjdCBjbGFzcz0iY2xzLTIiIHg9IjUiIHk9IjIiIHdpZHRoPSIzIiBoZWlnaHQ9IjYiLz48cmVjdCBjbGFzcz0iY2xzLTEiIHg9IjIiIHk9IjE2IiB3aWR0aD0iNiIgaGVpZ2h0PSI2Ii8+PHJlY3QgY2xhc3M9ImNscy0yIiB4PSI1IiB5PSIxNiIgd2lkdGg9IjMiIGhlaWdodD0iNiIvPjxyZWN0IGNsYXNzPSJjbHMtMiIgeD0iOCIgeT0iNCIgd2lkdGg9IjgiIGhlaWdodD0iMiIvPjxyZWN0IGNsYXNzPSJjbHMtMiIgeD0iOCIgeT0iMTgiIHdpZHRoPSI4IiBoZWlnaHQ9IjIiLz48cmVjdCBjbGFzcz0iY2xzLTIiIHg9IjE4IiB5PSI4IiB3aWR0aD0iMiIgaGVpZ2h0PSI4Ii8+PHJlY3QgY2xhc3M9ImNscy0yIiB4PSI0IiB5PSI4IiB3aWR0aD0iMiIgaGVpZ2h0PSI4Ii8+PHJlY3QgY2xhc3M9ImNscy0zIiB4PSI0IiB5PSI4IiB3aWR0aD0iMiIgaGVpZ2h0PSIyIi8+PHJlY3QgY2xhc3M9ImNscy0zIiB4PSIxOCIgeT0iOCIgd2lkdGg9IjIiIGhlaWdodD0iMiIvPjxyZWN0IGNsYXNzPSJjbHMtMyIgeD0iOCIgeT0iNCIgd2lkdGg9IjIiIGhlaWdodD0iMiIvPjxyZWN0IGNsYXNzPSJjbHMtMyIgeD0iOCIgeT0iMTgiIHdpZHRoPSIyIiBoZWlnaHQ9IjIiLz48L2c+PC9zdmc+"/>
+<rect x="626" y="615" width="254" height="80" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="753.0" y="651.0" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Service project</text>
+<text x="753.0" y="673.0" font-size="14" text-anchor="middle" fill="#1f2933">Hosts workloads</text>
+<rect x="896" y="615" width="254" height="80" rx="8" fill="#ffffff" stroke="#9bbbe0" stroke-width="1.5"/>
+<text x="1023.0" y="651.0" font-size="16" font-weight="600" text-anchor="middle" fill="#1f2933">Service project</text>
+<text x="1023.0" y="673.0" font-size="14" text-anchor="middle" fill="#1f2933">Hosts workloads</text>
+<text x="763" y="600" font-size="14" text-anchor="start" fill="#1f2933">Attached to</text>
+<text x="1033" y="600" font-size="14" text-anchor="start" fill="#1f2933">Attached to</text>
+<polyline points="753,615 753,575" fill="none" stroke="#5f6b7a" stroke-width="2.5" stroke-linejoin="round" marker-end="url(#a)"/>
+<polyline points="1023,615 1023,575" fill="none" stroke="#5f6b7a" stroke-width="2.5" stroke-linejoin="round" marker-end="url(#a)"/>
+<text x="888.0" y="374" font-size="14" font-weight="600" text-anchor="middle" fill="#1f2933">No traffic between environments by design</text>
+<polyline points="560,160 636,160" fill="none" stroke="#5f6b7a" stroke-width="2.5" stroke-linejoin="round" marker-start="url(#a)" marker-end="url(#a)"/>
+<polyline points="560,520 636,520" fill="none" stroke="#5f6b7a" stroke-width="2.5" stroke-linejoin="round" marker-start="url(#a)" marker-end="url(#a)"/>
+<text x="600.0" y="738" font-size="14" text-anchor="middle" fill="#1f2933">Two-headed arrows are network connections. The Cloud Interconnect connections are redundant.</text>
+</svg>

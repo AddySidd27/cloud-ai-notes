@@ -13,4 +13,13 @@ export default [
   { slug: "windows-365-enterprise", tag: "w365-series", category: "windows-365", name: "Windows 365", title: "Windows 365 Enterprise Engineering Series", short: "A Windows 365 Cloud PC from licensing and network choices to Intune management, for a first pilot.", blurb: "This series follows a Windows 365 Cloud PC from licensing and network choices to setup, Intune management and daily operations. It is for admins planning a first pilot." },
   { slug: "terraform-labs", tag: "terraform-lab", category: "labs", name: "Terraform labs", title: "Terraform Labs for Azure Virtual Desktop", short: "Terraform projects that build Azure Virtual Desktop environments, with the code, a diagram and the steps to run and check each one.", blurb: "These labs build Azure Virtual Desktop environments from Terraform code. Each article explains what the code creates, how to run it, the steps you finish by hand, how to check the result, and what you would change before production use. The code is in the article or in a GitHub repository." },
   { slug: "azure-basics-labs", tag: "azure-basics-lab", category: "labs", name: "Azure basics labs", title: "Azure Basics Labs for Beginners", short: "Short hands-on labs on the Azure basics you need before Azure Virtual Desktop: accounts, identity, MFA, networking, virtual machines, storage and monitoring.", blurb: "These labs teach the Azure basics you need before you build Azure Virtual Desktop. Each lab is mostly steps: do it in the portal, repeat it with the Azure CLI, and use Terraform where it helps. Each one has a diagram, a check, a cleanup, and a note on where the same skill is used in Azure Virtual Desktop. Do them in order in a test tenant, not a work tenant." },
+  {
+    slug: "google-cloud-landing-zone",
+    tag: "gcp-lz",
+    category: "google-cloud",
+    name: "Google Cloud landing zone",
+    title: "Google Cloud Landing Zone Engineering Series",
+    short: "What a Google Cloud landing zone is and how to set up the base for Compute Engine, from identities and projects to networking, VM access and logging.",
+    blurb: "This series explains what a Google Cloud landing zone is and how to build the base that Compute Engine VMs run on. It covers identities and groups, the organization, folders and projects, organization policies, Shared VPC networking, firewalls, how to reach a VM and how to see what VMs do. It is for people who run or plan workloads on Google Cloud."
+  },
 ];
