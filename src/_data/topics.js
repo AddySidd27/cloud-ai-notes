@@ -5,6 +5,7 @@ export default [
   { slug: "windows-365", name: "Windows 365", blurb: "Windows 365 Cloud PC design, deployment and management: licensing, network paths, provisioning, Intune policy and recovery." },
   { slug: "labs", name: "Labs", blurb: "Hands-on projects you can run yourself. Each lab has its code on GitHub, a diagram, the steps to run it and a way to check the result." },
   { slug: "citrix", name: "Citrix", blurb: "Workspace and application delivery architecture." },
+  { slug: "google-cloud", name: "Google Cloud", blurb: "Google Cloud landing zone design and Compute Engine: identities, resource hierarchy, organization policies, networking, VM access and logging." },
   { slug: "aws", name: "AWS", blurb: "AWS cloud architecture and engineering." },
   { slug: "ai", name: "AI", blurb: "AI, automation and the architecture behind them." },
 ];
